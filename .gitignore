@@ -1,0 +1,8 @@
+# deps / build
+app/node_modules
+app/.next
+app/out
+# logs
+*.log
+# os
+.DS_Store
