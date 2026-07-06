@@ -2,3 +2,4 @@
 {"run":"2026-07-07-auto-r2","candidate":"a","won":true,"auto":true,"reason":"타이포 극대화: 심사20/20+perf84+토큰0+그라데이션無 (자동선택)","metrics":{"perf":84,"a11y":95,"lcp_ms":4500},"principle_delta":"Hero 비대칭 좌측정렬+초대형 스케일 대비 > 중앙정렬; accent 극소량 고정(확장 감점)"}
 {"run":"2026-07-07-auto-r3","candidate":"a","won":true,"auto":true,"reason":"매거진 12-col 비대칭 그리드: 심사20+perf83+토큰0 (자동선택)","metrics":{"perf":83,"a11y":95,"lcp_ms":null},"principle_delta":"에디토리얼 밀도>여백만; 라인아트 장식 감점; accent 정지상태 존재감 유지"}
 {"run":"2026-07-07-auto-r4","candidate":"c","won":true,"auto":true,"reason":"챔피언 정련: 심사20+perf84+토큰0 (자동선택)","metrics":{"perf":84,"a11y":95,"lcp_ms":null},"principle_delta":"에디토리얼 구조가 테마보다 지배적(라이트 19:20 근소차); 라이트도 유효 대안; 밀도가 승패 핵심"}
+{"run":"2026-07-07-auto-r5","candidate":"b","won":true,"auto":true,"reason":"다크 챔피언 정련(모바일clamp+focus링): 심사20+perf84+토큰0 (자동선택)","metrics":{"perf":84,"a11y":95,"lcp_ms":null},"principle_delta":"수렴 도달; focus-visible+모바일clamp 요건 승격; 헤드라인 Inter 유지(세리프 거부)"}

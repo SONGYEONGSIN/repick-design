@@ -21,6 +21,11 @@
 - 헤딩: Inter / 700 / letter-spacing -0.02em
 - 본문: Inter / 400 / line-height 1.6
 
+## 접근성/견고성 (R5 요건 승격)
+- 모든 인터랙티브 요소에 accent focus-visible 링 (다크 배경 기본 아웃라인 약함 보완).
+- 초대형 헤드라인은 모바일 375px에서 오버플로 방지 clamp 분리(<lg vs lg 별도), 데스크톱 룩 보존.
+- 헤드라인 폰트는 Inter 유지(세리프 도입은 R5 c에서 감점).
+
 ## Spacing
 - 섹션 상하 패딩 최소 96px (데스크톱)
 - 컨텐츠 최대폭 1120px
