@@ -3,3 +3,4 @@
 {"run":"2026-07-07-auto-r3","candidate":"a","won":true,"auto":true,"reason":"매거진 12-col 비대칭 그리드: 심사20+perf83+토큰0 (자동선택)","metrics":{"perf":83,"a11y":95,"lcp_ms":null},"principle_delta":"에디토리얼 밀도>여백만; 라인아트 장식 감점; accent 정지상태 존재감 유지"}
 {"run":"2026-07-07-auto-r4","candidate":"c","won":true,"auto":true,"reason":"챔피언 정련: 심사20+perf84+토큰0 (자동선택)","metrics":{"perf":84,"a11y":95,"lcp_ms":null},"principle_delta":"에디토리얼 구조가 테마보다 지배적(라이트 19:20 근소차); 라이트도 유효 대안; 밀도가 승패 핵심"}
 {"run":"2026-07-07-auto-r5","candidate":"b","won":true,"auto":true,"reason":"다크 챔피언 정련(모바일clamp+focus링): 심사20+perf84+토큰0 (자동선택)","metrics":{"perf":84,"a11y":95,"lcp_ms":null},"principle_delta":"수렴 도달; focus-visible+모바일clamp 요건 승격; 헤드라인 Inter 유지(세리프 거부)"}
+{"run":"2026-07-07-auto-r6","candidate":"b","won":true,"auto":true,"reason":"상품 프리뷰 카드 섹션이 전환 설득력으로 순수 타이포 챔피언 이김 (자동선택)","metrics":{"perf":83,"a11y":95,"lcp_ms":null},"principle_delta":"랜딩 구조에 제품 프리뷰 섹션 표준 편입; 브루탈리스트 거부(밀도 우선)"}
