@@ -6,3 +6,5 @@ app/out
 *.log
 # os
 .DS_Store
+# sdd scratch
+.superpowers/

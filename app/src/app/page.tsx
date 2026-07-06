@@ -1,4 +1,4 @@
-export default function LandingCandidateC() {
+export default function Landing() {
   return (
     <div className="min-h-screen bg-[#050505] text-white antialiased">
       <header className="sticky top-0 z-20 border-b border-white/10 bg-[#050505]/90 backdrop-blur">
