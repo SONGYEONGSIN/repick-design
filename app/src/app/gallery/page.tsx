@@ -9,11 +9,23 @@ const rounds = [
 ];
 const variants = ["a", "b", "c"];
 
+const divergent = {
+  run: "2026-07-07-divergent-r1",
+  items: [
+    { v: "a", name: "네오브루탈리즘", desc: "충돌 원색·두꺼운 보더·펑크 벼룩시장" },
+    { v: "b", name: "Y2K 레트로웹", desc: "크롬·블링·홀로그램 · 밀레니엄 웹" },
+    { v: "c", name: "터미널 CLI", desc: "$ repick --curate · 해커 콘솔" },
+    { v: "d", name: "소프트 오가닉", desc: "파스텔 블롭·말랑 · 친근한 중고 친구" },
+    { v: "e", name: "하이패션 세리프", desc: "Vogue풍 리세일 매거진 · 럭셔리" },
+    { v: "f", name: "바이퍼웨이브", desc: "네온 그라데이션·석양 그리드 · 미래 포털" },
+  ],
+};
+
 const dirLabel: Record<string, string> = {
   a: "A", b: "B", c: "C",
 };
 
-function Thumb({ run, v, win }: { run: string; v: string; win: boolean }) {
+function Thumb({ run, v, win, label }: { run: string; v: string; win: boolean; label?: string }) {
   return (
     <a
       href={`/candidates/${run}/${v}`}
@@ -34,7 +46,7 @@ function Thumb({ run, v, win }: { run: string; v: string; win: boolean }) {
       </div>
       <div className="flex items-center justify-between border-t border-white/10 px-3 py-2 text-xs">
         <span className="font-semibold tracking-[-0.01em]">
-          {dirLabel[v]}
+          {label ?? dirLabel[v]}
         </span>
         {win ? (
           <span className="rounded-full bg-[#6E56CF] px-2 py-0.5 text-[10px] font-semibold text-white">
@@ -77,6 +89,30 @@ export default function Gallery() {
           어떻게 진화했는지 보입니다.
         </p>
 
+        {/* 발산(Divergent) 섹션 */}
+        <section className="mb-16">
+          <div className="mb-4 flex flex-wrap items-baseline gap-x-3 gap-y-1 border-b border-[#6E56CF]/40 pb-3">
+            <span className="text-2xl font-extrabold tracking-[-0.02em]">발산 (Divergent)</span>
+            <span className="rounded-full bg-[#6E56CF] px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.1em] text-white">
+              파괴 모드
+            </span>
+            <span className="text-sm font-normal text-[#A1A1AA]">
+              기존·챔피언·DNA 전부 무시하고 극단적으로 다른 6개 — 승자 없음, 다양성이 목적
+            </span>
+          </div>
+          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {divergent.items.map((it) => (
+              <div key={it.v}>
+                <Thumb run={divergent.run} v={it.v} win={false} label={it.name} />
+                <p className="mt-1.5 px-1 text-xs text-[#A1A1AA]">{it.desc}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <div className="mb-4 text-sm font-semibold uppercase tracking-[0.2em] text-[#A1A1AA]">
+          ↓ 이전 수렴 라운드 (R1~R7)
+        </div>
         <div className="space-y-14">
           {rounds.map((rd) => (
             <section key={rd.run}>
