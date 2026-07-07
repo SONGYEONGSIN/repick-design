@@ -19,3 +19,9 @@
 | A | 78 | 95 | 6 | 15 |
 | B | 78 | 95 | 7 | 17 |
 | **C** | **92** | 95 | **1** | 15 |
+
+## 관련 노트
+- 다음: [[20-generations/2026-07-07-auto-r2/DECISION|R2 결정]]
+- 점수: [[20-generations/2026-07-06-landing/SCORES]]
+- 갱신한 DNA: [[design-principles]]
+- 학습 인덱스: [[MEMORY]] · 홈: [[🏠 Design Evolution]]

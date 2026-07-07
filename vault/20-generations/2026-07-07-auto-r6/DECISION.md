@@ -13,3 +13,10 @@
 ## 학습(principle_delta) — 탐색이 수렴을 깸
 - **핵심 진화**: 실제 상품 프리뷰(매칭%·가격·before/after 카드) 섹션이 순수 타이포 챔피언을 이김 → **랜딩 구조에 "제품 프리뷰" 섹션을 표준 편입**. "무엇을 골라주는가"의 시각 증명이 전환 설득력을 높임.
 - **브루탈리스트(a) 거부**: 굵은 룰·흑백 반전은 임팩트는 있으나 ghost 넘버/Fig/quote 밀도 상실 + 블루프린트 감 → 에디토리얼 밀도가 여전히 우선.
+
+## 관련 노트
+- 이전: [[20-generations/2026-07-07-auto-r5/DECISION|R5 결정]]
+- 다음: [[20-generations/2026-07-07-auto-r7/DECISION|R7 결정]]
+- 점수: [[20-generations/2026-07-07-auto-r6/SCORES]]
+- 갱신한 DNA: [[design-principles]]
+- 학습 인덱스: [[MEMORY]] · 홈: [[🏠 Design Evolution]]

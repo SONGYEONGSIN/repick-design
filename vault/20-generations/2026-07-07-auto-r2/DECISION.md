@@ -18,3 +18,10 @@
 ## 학습(principle_delta)
 - Hero는 **비대칭 좌측정렬 + clamp 초대형 스케일 대비**가 중앙정렬보다 강하다(a > c).
 - **accent는 극소량 유지** — 확장 시도(b)는 심사·원칙 모두에서 감점. 재확인.
+
+## 관련 노트
+- 이전: [[20-generations/2026-07-06-landing/DECISION|R1 (수동) 결정]]
+- 다음: [[20-generations/2026-07-07-auto-r3/DECISION|R3 결정]]
+- 점수: [[20-generations/2026-07-07-auto-r2/SCORES]]
+- 갱신한 DNA: [[design-principles]]
+- 학습 인덱스: [[MEMORY]] · 홈: [[🏠 Design Evolution]]

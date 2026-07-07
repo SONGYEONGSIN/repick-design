@@ -14,3 +14,10 @@
 - **핵심 발견**: 라이트 테마(a)가 다크 챔피언(c)에 19 vs 20으로 거의 동률 → **에디토리얼 구조·밀도가 테마(다크/라이트)보다 지배적**. 다크는 기본값으로 유지하되 **라이트도 유효한 대안**.
 - 스위스 극미니멀(b)은 ghost 넘버·Fig 캡션·quote mark 없이 밀도가 낮아 17 → **에디토리얼 밀도가 승패의 핵심**임을 재확인.
 - 챔피언 정련(넘버링 포맷 통일·트래킹 3단 스케일·accent 세로 틱)이 완성도를 끌어올림.
+
+## 관련 노트
+- 이전: [[20-generations/2026-07-07-auto-r3/DECISION|R3 결정]]
+- 다음: [[20-generations/2026-07-07-auto-r5/DECISION|R5 결정]]
+- 점수: [[20-generations/2026-07-07-auto-r4/SCORES]]
+- 갱신한 DNA: [[design-principles]]
+- 학습 인덱스: [[MEMORY]] · 홈: [[🏠 Design Evolution]]

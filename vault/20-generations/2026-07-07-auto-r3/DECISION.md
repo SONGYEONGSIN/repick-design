@@ -14,3 +14,10 @@
 - **에디토리얼 밀도가 이긴다**: ghost 넘버·Fig 캡션·quote mark 등 12-col 비대칭 장치가 풍부할수록 강함(a).
 - **라인아트/브래킷 장식(b)** 은 "블루프린트 감"으로 순수 타이포 위계서 살짝 이탈 — 장식보다 타이포·그리드로.
 - **여백만 극대화(c)** 는 요소가 너무 희소하면 감점 + accent를 hover로 숨기면 감점. **accent는 극소량이되 정지 상태에서 존재감 유지**.
+
+## 관련 노트
+- 이전: [[20-generations/2026-07-07-auto-r2/DECISION|R2 결정]]
+- 다음: [[20-generations/2026-07-07-auto-r4/DECISION|R4 결정]]
+- 점수: [[20-generations/2026-07-07-auto-r3/SCORES]]
+- 갱신한 DNA: [[design-principles]]
+- 학습 인덱스: [[MEMORY]] · 홈: [[🏠 Design Evolution]]

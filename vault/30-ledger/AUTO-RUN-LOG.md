@@ -15,3 +15,14 @@
 | — | (R6~) | — | 수렴 이후 탐색 편향 라운드 시작 (챔피언 정련은 baseline) | — |
 | 6 | 2026-07-07-auto-r6 | b | 심사19(제품설득력) | 제품 프리뷰 섹션 표준 편입; 브루탈리스트 거부 |
 | 7 | 2026-07-07-auto-r7 | a | 심사20+perf91 | 프리뷰 리치화(근거+신뢰)=표준; 라인아트 재감점 |
+
+## 라운드 노트 (백링크)
+- [[20-generations/2026-07-06-landing/DECISION|R1 (수동)]]
+- [[20-generations/2026-07-07-auto-r2/DECISION|R2]]
+- [[20-generations/2026-07-07-auto-r3/DECISION|R3]]
+- [[20-generations/2026-07-07-auto-r4/DECISION|R4]]
+- [[20-generations/2026-07-07-auto-r5/DECISION|R5]]
+- [[20-generations/2026-07-07-auto-r6/DECISION|R6]]
+- [[20-generations/2026-07-07-auto-r7/DECISION|R7]]
+
+홈: [[🏠 Design Evolution]] · DNA: [[design-principles]] · 인덱스: [[MEMORY]]

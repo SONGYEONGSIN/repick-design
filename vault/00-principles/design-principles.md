@@ -41,3 +41,7 @@
 - 의미 없는 그라데이션 남발 X
 - 3개 초과 폰트 웨이트 X
   - ⚠️ 다음 회차 정리 대상(1회차): 승자 C가 4종(light/400/semibold/bold) 사용. 타이포 위계는 살리되 웨이트는 3종으로 좁혀 재현할 것 — "타이포 위계 우선 ≠ 웨이트 남발".
+
+## 관련
+- 학습 인덱스: [[MEMORY]] · 홈: [[🏠 Design Evolution]] · 실행로그: [[AUTO-RUN-LOG]]
+- 이 DNA는 각 라운드 LEARN이 갱신 → 최근: [[20-generations/2026-07-07-auto-r7/DECISION|R7]]

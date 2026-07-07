@@ -14,3 +14,10 @@
 - **수렴 도달**: 챔피언(다크 에디토리얼)이 R4·R5 연속 "정련"으로 승리. 큰 방향은 확정, 이후는 완성도·견고성 경쟁.
 - **접근성 요건 승격**: focus-visible 링(다크 배경) + 모바일 375px 초대형 헤드라인 clamp 분리 = 승리 요인 → 원칙 요건으로 편입.
 - **세리프 도입(c) 거부**: heading serif는 Inter-한정 Typography 스펙 이탈 + 초대형 스케일 임팩트 약화로 감점 → **헤드라인은 Inter 유지**.
+
+## 관련 노트
+- 이전: [[20-generations/2026-07-07-auto-r4/DECISION|R4 결정]]
+- 다음: [[20-generations/2026-07-07-auto-r6/DECISION|R6 결정]]
+- 점수: [[20-generations/2026-07-07-auto-r5/SCORES]]
+- 갱신한 DNA: [[design-principles]]
+- 학습 인덱스: [[MEMORY]] · 홈: [[🏠 Design Evolution]]
