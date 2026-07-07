@@ -7,3 +7,4 @@
 - [R4 auto](../20-generations/2026-07-07-auto-r4/DECISION.md) — c(챔피언정련) 자동선택 → 구조가 테마보다 지배적, 라이트도 유효
 - [R5 auto](../20-generations/2026-07-07-auto-r5/DECISION.md) — b(다크 챔피언 정련) 자동선택 → 수렴 도달, 접근성 요건 승격
 - [R6 auto](../20-generations/2026-07-07-auto-r6/DECISION.md) — b(상품카드목업) 자동선택 → 제품 프리뷰 섹션이 전환 설득력↑, 구조 진화
+- [R7 auto](../20-generations/2026-07-07-auto-r7/DECISION.md) — a(프리뷰 리치화) 자동선택 → 근거·신뢰 정보가 전환 설득력↑

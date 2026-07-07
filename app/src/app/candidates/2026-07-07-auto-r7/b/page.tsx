@@ -1,5 +1,3 @@
-const categories = ["전체", "아우터", "가구", "전자기기", "오디오"];
-
 const products = [
   {
     category: "아우터",
@@ -8,8 +6,6 @@ const products = [
     price: 42000,
     original: 89000,
     mark: 4,
-    condition: "S",
-    tags: ["찜 이력 기반 매칭", "판매자 인증 4.9"],
   },
   {
     category: "가구",
@@ -18,8 +14,6 @@ const products = [
     price: 35000,
     original: 68000,
     mark: 7,
-    condition: "A",
-    tags: ["구매 이력 기반 매칭", "상태 검수 완료"],
   },
   {
     category: "전자기기",
@@ -28,8 +22,6 @@ const products = [
     price: 128000,
     original: 219000,
     mark: 2,
-    condition: "A",
-    tags: ["클릭 이력 기반 매칭", "정품 인증 확인"],
   },
   {
     category: "오디오",
@@ -38,8 +30,6 @@ const products = [
     price: 76000,
     original: 145000,
     mark: 11,
-    condition: "B",
-    tags: ["취향 그래프 상위 5%", "판매자 인증 4.7"],
   },
 ];
 
@@ -166,99 +156,43 @@ export default function Landing() {
             </p>
           </div>
 
-          {/* Static category tabs */}
-          <div
-            role="tablist"
-            aria-label="상품 카테고리"
-            className="mt-10 flex flex-wrap gap-2 border-b border-white/10 pb-8 lg:mt-14"
-          >
-            {categories.map((c, i) => (
-              <span
-                key={c}
-                role="tab"
-                aria-selected={i === 0}
-                className={`rounded-full border px-4 py-1.5 text-xs font-semibold tracking-[-0.01em] ${
-                  i === 0
-                    ? "border-white/20 bg-white/10 text-white"
-                    : "border-white/10 text-[#A1A1AA]"
-                }`}
+          <div className="mt-16 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:mt-24 lg:grid-cols-4 lg:gap-6">
+            {products.map((p) => (
+              <div
+                key={p.name}
+                className="overflow-hidden rounded-md border border-white/10 bg-white/[0.03]"
               >
-                {c}
-              </span>
-            ))}
-          </div>
-
-          <div className="mt-10 grid grid-cols-2 gap-5 lg:mt-14 lg:grid-cols-4 lg:gap-6">
-            {products.map((p) => {
-              const discount = Math.round((1 - p.price / p.original) * 100);
-              return (
-                <div
-                  key={p.name}
-                  className="overflow-hidden rounded-md border border-white/10 bg-white/[0.03]"
-                >
-                  <div className="grid grid-cols-4 gap-px bg-white/10">
-                    {Array.from({ length: 16 }).map((_, i) => (
-                      <div
-                        key={i}
-                        className={`aspect-square bg-[#0B0B0F] ${i === p.mark ? "bg-[#6E56CF]" : ""}`}
-                      />
-                    ))}
+                <div className="grid grid-cols-4 gap-px bg-white/10">
+                  {Array.from({ length: 16 }).map((_, i) => (
+                    <div
+                      key={i}
+                      className={`aspect-square bg-[#0B0B0F] ${i === p.mark ? "bg-[#6E56CF]" : ""}`}
+                    />
+                  ))}
+                </div>
+                <div className="p-5">
+                  <div className="flex items-center justify-between gap-2">
+                    <span className="text-[11px] font-normal uppercase tracking-[0.16em] text-[#A1A1AA]">
+                      {p.category}
+                    </span>
+                    <span className="text-[11px] font-semibold tracking-[-0.01em] text-[#6E56CF]">
+                      매칭 {p.match}%
+                    </span>
                   </div>
-                  <div className="p-5">
-                    <div className="flex items-center justify-between gap-2">
-                      <span className="text-[11px] font-normal uppercase tracking-[0.16em] text-[#A1A1AA]">
-                        {p.category}
-                      </span>
-                      <span className="text-[11px] font-semibold tracking-[-0.01em] text-[#6E56CF]">
-                        매칭 {p.match}%
-                      </span>
-                    </div>
-
-                    <h3 className="mt-3 text-sm font-semibold leading-[1.4] tracking-[-0.01em]">
-                      {p.name}
-                    </h3>
-
-                    {/* AI matching rationale tags + condition badge */}
-                    <div className="mt-3 flex flex-wrap items-center gap-1.5">
-                      <span className="rounded-sm border border-white/15 px-1.5 py-0.5 text-[10px] font-semibold tracking-[0.04em] text-white/70">
-                        {p.condition}등급
-                      </span>
-                      {p.tags.map((t) => (
-                        <span
-                          key={t}
-                          className="rounded-full border border-white/10 px-2 py-1 text-[10px] font-normal leading-none text-[#A1A1AA]"
-                        >
-                          {t}
-                        </span>
-                      ))}
-                    </div>
-
-                    {/* Before/after price + discount emphasis */}
-                    <div className="mt-4 flex items-end justify-between gap-2 border-t border-white/10 pt-4">
-                      <div>
-                        <div className="flex items-baseline gap-2">
-                          <span className="text-base font-extrabold tracking-[-0.02em]">
-                            {p.price.toLocaleString("ko-KR")}원
-                          </span>
-                          <span className="text-xs font-normal text-[#A1A1AA] line-through">
-                            {p.original.toLocaleString("ko-KR")}원
-                          </span>
-                        </div>
-                        <p className="mt-2 flex items-center gap-1.5 text-[10px] font-normal uppercase tracking-[0.12em] text-[#A1A1AA]">
-                          <span aria-hidden="true" className="text-[#6E56CF]">
-                            ✓
-                          </span>
-                          판매자 인증 완료
-                        </p>
-                      </div>
-                      <span className="shrink-0 rounded-sm border border-[#6E56CF]/40 px-1.5 py-0.5 text-[11px] font-semibold tracking-[-0.01em] text-[#6E56CF]">
-                        {discount}%↓
-                      </span>
-                    </div>
+                  <h3 className="mt-3 text-sm font-semibold leading-[1.4] tracking-[-0.01em]">
+                    {p.name}
+                  </h3>
+                  <div className="mt-4 flex items-baseline gap-2">
+                    <span className="text-base font-extrabold tracking-[-0.02em]">
+                      {p.price.toLocaleString("ko-KR")}원
+                    </span>
+                    <span className="text-xs font-normal text-[#A1A1AA] line-through">
+                      {p.original.toLocaleString("ko-KR")}원
+                    </span>
                   </div>
                 </div>
-              );
-            })}
+              </div>
+            ))}
           </div>
         </div>
       </section>
@@ -395,8 +329,8 @@ export default function Landing() {
               >
                 05
               </span>
-              <p className="mt-2 text-[11px] font-normal uppercase tracking-[0.16em] text-[#A1A1AA]">
-                Fig. 05 — 시작
+              <p className="mt-2 text-xs font-semibold uppercase tracking-[0.28em] text-[#A1A1AA]">
+                05 — 시작
               </p>
             </div>
 
