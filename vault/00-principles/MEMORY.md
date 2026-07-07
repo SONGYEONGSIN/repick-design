@@ -11,3 +11,4 @@
 
 ---
 홈: [[🏠 Design Evolution]] · DNA: [[design-principles]] · 로그: [[AUTO-RUN-LOG]]
+- [v1 정제](design-principles.md) — R1~R7 학습을 정제된 DNA로 압축(죽은 TODO 제거, 변경로그→원칙). 원본 이력은 ledger 보존
