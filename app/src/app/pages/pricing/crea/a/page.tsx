@@ -11,6 +11,26 @@ function won(amount: number): string {
   return `${sign}₩${Math.abs(Math.round(amount)).toLocaleString("ko-KR")}`;
 }
 
+function FeatureValue({ value }: { value: string }) {
+  if (value === "✓") {
+    return (
+      <>
+        <span aria-hidden="true">✓</span>
+        <span className="sr-only">포함</span>
+      </>
+    );
+  }
+  if (value === "—") {
+    return (
+      <>
+        <span aria-hidden="true">—</span>
+        <span className="sr-only">미포함</span>
+      </>
+    );
+  }
+  return <>{value}</>;
+}
+
 type Tier = {
   name: string;
   price: string;
@@ -108,6 +128,12 @@ export default function Landing() {
 
   return (
     <main className="min-h-screen bg-white text-zinc-900">
+      <a
+        href="#calculator"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:rounded-md focus:bg-zinc-900 focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-white focus:outline-2 focus:outline-offset-2 focus:outline-emerald-600"
+      >
+        본문으로 건너뛰기
+      </a>
       {/* 헤더 */}
       <header className="border-b border-zinc-100">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
@@ -134,7 +160,7 @@ export default function Landing() {
           </nav>
           <a
             href="/signup?plan=free"
-            className="rounded-full bg-zinc-900 px-4 py-2 text-sm font-semibold text-white outline-none transition-colors hover:bg-zinc-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600"
+            className="rounded-full bg-zinc-900 px-4 py-2 text-sm font-semibold text-white outline-none transition motion-reduce:transition-none hover:bg-zinc-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600 active:scale-[0.98] active:bg-zinc-800"
           >
             무료로 시작
           </a>
@@ -145,7 +171,7 @@ export default function Landing() {
       <section id="calculator" className="scroll-mt-16 px-4 py-14 sm:px-6 sm:py-20 lg:px-8">
         <div className="mx-auto max-w-6xl">
           <div className="max-w-2xl">
-            <p className="text-sm font-semibold text-emerald-600">
+            <p className="text-sm font-semibold text-emerald-700">
               repick 요금제
             </p>
             <h1 className="mt-2 text-3xl font-bold tracking-tight text-zinc-900 sm:text-4xl">
@@ -192,7 +218,7 @@ export default function Landing() {
                     className="mt-3 w-full accent-emerald-600 outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600"
                     aria-describedby="shops-hint"
                   />
-                  <p id="shops-hint" className="mt-1 text-xs text-zinc-400">
+                  <p id="shops-hint" className="mt-1 text-xs text-zinc-500">
                     1회 ~ 20회
                   </p>
                 </div>
@@ -220,7 +246,7 @@ export default function Landing() {
                     className="mt-3 w-full accent-emerald-600 outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600"
                     aria-describedby="spend-hint"
                   />
-                  <p id="spend-hint" className="mt-1 text-xs text-zinc-400">
+                  <p id="spend-hint" className="mt-1 text-xs text-zinc-500">
                     ₩10,000 ~ ₩300,000
                   </p>
                 </div>
@@ -230,10 +256,10 @@ export default function Landing() {
             {/* 영수증 */}
             <div className="rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm sm:p-8">
               <div className="flex items-center justify-between border-b border-dashed border-zinc-300 pb-3">
-                <span className="font-mono text-xs tracking-widest text-zinc-400">
+                <span className="font-mono text-xs tracking-widest text-zinc-500">
                   RECEIPT · REPICK
                 </span>
-                <span className="font-mono text-xs text-zinc-400">
+                <span className="font-mono text-xs text-zinc-500">
                   이번 달 예상
                 </span>
               </div>
@@ -249,7 +275,7 @@ export default function Landing() {
                   <dt>알림 없이 놓치는 금액</dt>
                   <dd className="tabular-nums">{won(-missed)}</dd>
                 </div>
-                <div className="flex justify-between gap-4 text-emerald-600">
+                <div className="flex justify-between gap-4 text-emerald-700">
                   <dt>Pro 알림으로 회수 가능</dt>
                   <dd className="tabular-nums">{won(recovered)}</dd>
                 </div>
@@ -266,7 +292,7 @@ export default function Landing() {
                 <span
                   aria-live="polite"
                   className={`font-mono text-2xl font-bold tabular-nums ${
-                    recommendPro ? "text-emerald-600" : "text-zinc-400"
+                    recommendPro ? "text-emerald-600" : "text-zinc-500"
                   }`}
                 >
                   {won(netSaving)}
@@ -291,7 +317,16 @@ export default function Landing() {
           <h2 className="text-2xl font-bold text-zinc-900">플랜 선택</h2>
           <p className="mt-2 text-sm text-zinc-500">
             위 계산기 결과에 맞춰{" "}
-            {recommendPro ? "Pro" : "Free"} 플랜을 표시해 드렸어요.
+            <span
+              className={
+                recommendPro
+                  ? "font-semibold text-emerald-700"
+                  : "font-semibold text-zinc-700"
+              }
+            >
+              {recommendPro ? "Pro" : "Free"}
+            </span>{" "}
+            플랜을 표시해 드렸어요.
           </p>
 
           <div className="mt-8 grid grid-cols-1 gap-6 md:grid-cols-3">
@@ -305,7 +340,7 @@ export default function Landing() {
                 }`}
               >
                 {tier.badge && (
-                  <span className="absolute -top-3 left-6 rounded-full bg-emerald-600 px-3 py-1 text-xs font-semibold text-white">
+                  <span className="absolute -top-3 left-6 rounded-full bg-emerald-700 px-3 py-1 text-xs font-semibold text-white">
                     {tier.badge}
                   </span>
                 )}
@@ -325,7 +360,7 @@ export default function Landing() {
                 {tier.name === "Pro" && (
                   <p
                     className={`mt-2 text-xs font-medium ${
-                      recommendPro ? "text-emerald-600" : "text-zinc-400"
+                      recommendPro ? "text-emerald-700" : "text-zinc-500"
                     }`}
                   >
                     {recommendPro
@@ -347,10 +382,10 @@ export default function Landing() {
 
                 <a
                   href={tier.href}
-                  className={`mt-8 inline-flex items-center justify-center rounded-full px-5 py-2.5 text-sm font-semibold outline-none transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600 ${
+                  className={`mt-8 inline-flex items-center justify-center rounded-full px-5 py-2.5 text-sm font-semibold outline-none transition motion-reduce:transition-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600 active:scale-[0.98] ${
                     tier.highlighted
-                      ? "bg-emerald-600 text-white hover:bg-emerald-700"
-                      : "border border-zinc-300 text-zinc-700 hover:bg-zinc-50"
+                      ? "bg-emerald-700 text-white hover:bg-emerald-800"
+                      : "border border-zinc-500 text-zinc-700 hover:bg-zinc-50 active:bg-zinc-100"
                   }`}
                 >
                   {tier.cta}
@@ -397,12 +432,14 @@ export default function Landing() {
                     >
                       {row.label}
                     </th>
-                    <td className="px-4 py-3 text-zinc-600">{row.free}</td>
+                    <td className="px-4 py-3 text-zinc-600">
+                      <FeatureValue value={row.free} />
+                    </td>
                     <td className="px-4 py-3 font-medium text-emerald-700">
-                      {row.pro}
+                      <FeatureValue value={row.pro} />
                     </td>
                     <td className="px-4 py-3 text-zinc-600">
-                      {row.business}
+                      <FeatureValue value={row.business} />
                     </td>
                   </tr>
                 ))}
@@ -422,11 +459,11 @@ export default function Landing() {
           <div className="mt-6 divide-y divide-zinc-100 rounded-2xl border border-zinc-200">
             {faqs.map((item) => (
               <details key={item.q} className="group p-5 sm:p-6">
-                <summary className="flex cursor-pointer list-none items-center justify-between gap-4 text-sm font-medium text-zinc-900 outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600">
+                <summary className="flex cursor-pointer list-none items-center justify-between gap-4 text-sm font-medium text-zinc-900 outline-none transition-colors hover:text-emerald-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600">
                   {item.q}
                   <span
                     aria-hidden="true"
-                    className="text-zinc-400 transition-transform group-open:rotate-45"
+                    className="text-zinc-500 transition-transform group-open:rotate-45"
                   >
                     +
                   </span>
@@ -452,13 +489,13 @@ export default function Landing() {
           <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
             <a
               href="/signup?plan=free"
-              className="inline-flex items-center justify-center rounded-full bg-emerald-600 px-6 py-3 text-sm font-semibold text-white outline-none transition-colors hover:bg-emerald-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+              className="inline-flex items-center justify-center rounded-full bg-emerald-700 px-6 py-3 text-sm font-semibold text-white outline-none transition motion-reduce:transition-none hover:bg-emerald-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white active:scale-[0.98]"
             >
               무료로 시작하기
             </a>
             <a
               href="mailto:business@repick.co.kr"
-              className="inline-flex items-center justify-center rounded-full border border-zinc-600 px-6 py-3 text-sm font-semibold text-white outline-none transition-colors hover:bg-zinc-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+              className="inline-flex items-center justify-center rounded-full border border-zinc-500 px-6 py-3 text-sm font-semibold text-white outline-none transition motion-reduce:transition-none hover:bg-zinc-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white active:scale-[0.98] active:bg-zinc-700"
             >
               영업팀에 문의하기
             </a>
@@ -468,7 +505,7 @@ export default function Landing() {
 
       {/* 푸터 */}
       <footer className="px-4 py-8 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-6xl text-sm text-zinc-400">
+        <div className="mx-auto max-w-6xl text-sm text-zinc-500">
           © 2026 repick. All rights reserved.
         </div>
       </footer>

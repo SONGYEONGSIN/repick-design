@@ -46,6 +46,12 @@ const products = [
 export default function Landing() {
   return (
     <div className="min-h-screen bg-[#0B0B0F] text-white antialiased">
+      <a
+        href="#main-content"
+        className="sr-only focus-visible:not-sr-only focus-visible:fixed focus-visible:top-4 focus-visible:left-4 focus-visible:z-[60] focus-visible:rounded-full focus-visible:bg-[#6E56CF] focus-visible:px-5 focus-visible:py-2.5 focus-visible:text-sm focus-visible:font-semibold focus-visible:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-[#0B0B0F]"
+      >
+        본문 바로가기
+      </a>
       {/* Nav */}
       <header className="sticky top-0 z-50 border-b border-white/10 bg-[#0B0B0F]/85 backdrop-blur">
         <div className="mx-auto flex max-w-[1320px] items-center justify-between px-6 py-5 lg:px-10">
@@ -80,13 +86,14 @@ export default function Landing() {
           </nav>
           <a
             href="#cta"
-            className="rounded-full border border-white/15 px-4 py-2 text-xs font-semibold tracking-[0.02em] text-white transition-colors hover:border-white/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6E56CF] focus-visible:ring-offset-2 focus-visible:ring-offset-[#0B0B0F]"
+            className="relative rounded-full border border-white/15 px-4 py-2 text-xs font-semibold tracking-[0.02em] text-white transition-colors after:absolute after:-inset-2.5 after:content-[''] hover:border-white/30 active:border-white/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6E56CF] focus-visible:ring-offset-2 focus-visible:ring-offset-[#0B0B0F]"
           >
             무료로 시작
           </a>
         </div>
       </header>
 
+      <main id="main-content">
       {/* Hero */}
       <section id="hero" className="relative overflow-hidden border-b border-white/10">
         <span
@@ -116,7 +123,7 @@ export default function Landing() {
           <div className="col-span-12 flex flex-wrap items-center gap-5 lg:col-span-6 lg:col-start-7">
             <a
               href="#cta"
-              className="rounded-full bg-[#6E56CF] px-7 py-3.5 text-sm font-semibold text-white transition-opacity hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6E56CF] focus-visible:ring-offset-2 focus-visible:ring-offset-[#0B0B0F]"
+              className="rounded-full bg-[#6E56CF] px-7 py-3.5 text-sm font-semibold text-white transition-colors hover:bg-[#7C69DB] active:bg-[#5D48BE] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6E56CF] focus-visible:ring-offset-2 focus-visible:ring-offset-[#0B0B0F]"
             >
               무료로 시작하기
             </a>
@@ -129,7 +136,10 @@ export default function Landing() {
           </div>
 
           <div className="col-span-12 lg:col-span-4 lg:col-start-9">
-            <div className="grid grid-cols-3 gap-px overflow-hidden rounded-md border border-white/10 bg-white/10">
+            <div
+              aria-hidden="true"
+              className="grid grid-cols-3 gap-px overflow-hidden rounded-md border border-white/10 bg-white/10"
+            >
               {Array.from({ length: 9 }).map((_, i) => (
                 <div
                   key={i}
@@ -168,15 +178,13 @@ export default function Landing() {
 
           {/* Static category tabs */}
           <div
-            role="tablist"
-            aria-label="상품 카테고리"
+            aria-label="상품 카테고리, 전체 표시 중"
             className="mt-10 flex flex-wrap gap-2 border-b border-white/10 pb-8 lg:mt-14"
           >
             {categories.map((c, i) => (
               <span
                 key={c}
-                role="tab"
-                aria-selected={i === 0}
+                aria-current={i === 0 ? "true" : undefined}
                 className={`rounded-full border px-4 py-1.5 text-xs font-semibold tracking-[-0.01em] ${
                   i === 0
                     ? "border-white/20 bg-white/10 text-white"
@@ -196,7 +204,7 @@ export default function Landing() {
                   key={p.name}
                   className="overflow-hidden rounded-md border border-white/10 bg-white/[0.03]"
                 >
-                  <div className="grid grid-cols-4 gap-px bg-white/10">
+                  <div aria-hidden="true" className="grid grid-cols-4 gap-px bg-white/10">
                     {Array.from({ length: 16 }).map((_, i) => (
                       <div
                         key={i}
@@ -209,7 +217,7 @@ export default function Landing() {
                       <span className="text-[11px] font-normal uppercase tracking-[0.16em] text-[#A1A1AA]">
                         {p.category}
                       </span>
-                      <span className="text-[11px] font-semibold tracking-[-0.01em] text-[#6E56CF]">
+                      <span className="rounded-full bg-[#6E56CF] px-2 py-0.5 text-[11px] font-semibold tracking-[-0.01em] text-white">
                         매칭 {p.match}%
                       </span>
                     </div>
@@ -251,7 +259,7 @@ export default function Landing() {
                           판매자 인증 완료
                         </p>
                       </div>
-                      <span className="shrink-0 rounded-sm border border-[#6E56CF]/40 px-1.5 py-0.5 text-[11px] font-semibold tracking-[-0.01em] text-[#6E56CF]">
+                      <span className="shrink-0 rounded-sm bg-[#6E56CF] px-1.5 py-0.5 text-[11px] font-semibold tracking-[-0.01em] text-white">
                         {discount}%↓
                       </span>
                     </div>
@@ -408,8 +416,8 @@ export default function Landing() {
               </h2>
               <div className="mt-10 flex flex-col items-start gap-4 lg:items-end">
                 <a
-                  href="#"
-                  className="rounded-full bg-[#6E56CF] px-9 py-4 text-sm font-semibold text-white transition-opacity hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6E56CF] focus-visible:ring-offset-2 focus-visible:ring-offset-[#0B0B0F]"
+                  href="#cta"
+                  className="rounded-full bg-[#6E56CF] px-9 py-4 text-sm font-semibold text-white transition-colors hover:bg-[#7C69DB] active:bg-[#5D48BE] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6E56CF] focus-visible:ring-offset-2 focus-visible:ring-offset-[#0B0B0F]"
                 >
                   무료로 시작하기
                 </a>
@@ -421,11 +429,12 @@ export default function Landing() {
           </div>
         </div>
       </section>
+      </main>
 
       <footer>
         <div className="mx-auto flex max-w-[1320px] flex-col items-center justify-between gap-4 px-6 py-10 text-xs font-normal text-[#A1A1AA] lg:flex-row lg:px-10">
           <span>© 2026 repick — Issue 01</span>
-          <div className="flex gap-6">
+          <nav aria-label="Footer" className="flex gap-6">
             <a
               href="#"
               className="rounded-sm transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6E56CF] focus-visible:ring-offset-2 focus-visible:ring-offset-[#0B0B0F]"
@@ -438,7 +447,7 @@ export default function Landing() {
             >
               개인정보처리방침
             </a>
-          </div>
+          </nav>
         </div>
       </footer>
     </div>

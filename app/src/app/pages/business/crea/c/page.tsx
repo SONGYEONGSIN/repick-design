@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useRef, useState, type KeyboardEvent } from 'react';
 
 type HotspotDef = {
   id: string;
@@ -154,12 +154,12 @@ function HotspotPin({
       onClick={onClick}
       aria-pressed={active}
       aria-label={`핫스팟 ${number}: ${label} 설명 보기`}
-      className={`absolute -top-2.5 -right-2.5 z-10 flex h-6 w-6 items-center justify-center rounded-full border-2 text-[11px] font-bold shadow-sm transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2 ${
+      className={`absolute -top-2.5 -right-2.5 z-10 flex h-6 w-6 items-center justify-center rounded-full border-2 text-[11px] font-bold shadow-sm transition-all before:absolute before:-inset-3 before:content-[''] active:scale-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-600 focus-visible:ring-offset-2 ${
         active
           ? 'scale-110 border-emerald-700 bg-emerald-700 text-white'
           : visited
-            ? 'border-emerald-300 bg-white text-emerald-600'
-            : 'animate-pulse border-emerald-500 bg-emerald-500 text-white'
+            ? 'border-emerald-300 bg-white text-emerald-700'
+            : 'animate-pulse border-emerald-700 bg-emerald-700 text-white'
       }`}
     >
       {number}
@@ -170,7 +170,7 @@ function HotspotPin({
 function statusTone(tone: 'amber' | 'sky' | 'emerald') {
   if (tone === 'amber') return 'bg-amber-50 text-amber-600';
   if (tone === 'sky') return 'bg-sky-50 text-sky-600';
-  return 'bg-emerald-50 text-emerald-600';
+  return 'bg-emerald-50 text-emerald-700';
 }
 
 function InventoryMockup({ hotspots, activeHotspot, visitedIds, onSelect }: MockupProps) {
@@ -186,15 +186,15 @@ function InventoryMockup({ hotspots, activeHotspot, visitedIds, onSelect }: Mock
       <div className="mb-5 flex flex-wrap items-center justify-between gap-4">
         <div className="flex gap-6 text-center sm:gap-8">
           <div>
-            <p className="text-[11px] text-slate-400">전체 재고</p>
+            <p className="text-[11px] text-slate-500">전체 재고</p>
             <p className="font-mono text-lg font-bold text-slate-900">128</p>
           </div>
           <div>
-            <p className="text-[11px] text-slate-400">신규 입고</p>
+            <p className="text-[11px] text-slate-500">신규 입고</p>
             <p className="font-mono text-lg font-bold text-slate-900">14</p>
           </div>
           <div>
-            <p className="text-[11px] text-slate-400">판매 대기</p>
+            <p className="text-[11px] text-slate-500">판매 대기</p>
             <p className="font-mono text-lg font-bold text-slate-900">32</p>
           </div>
         </div>
@@ -214,7 +214,7 @@ function InventoryMockup({ hotspots, activeHotspot, visitedIds, onSelect }: Mock
         </div>
       </div>
       <div className="overflow-hidden rounded-xl border border-slate-200">
-        <div className="grid grid-cols-[1fr_auto] gap-3 border-b border-slate-100 bg-slate-50 px-4 py-2 text-[11px] font-medium text-slate-400">
+        <div className="grid grid-cols-[1fr_auto] gap-3 border-b border-slate-100 bg-slate-50 px-4 py-2 text-[11px] font-medium text-slate-500">
           <span>상품 정보</span>
           <span>상태</span>
         </div>
@@ -224,7 +224,7 @@ function InventoryMockup({ hotspots, activeHotspot, visitedIds, onSelect }: Mock
             className="flex items-center justify-between gap-3 border-b border-slate-100 px-4 py-3 last:border-0"
           >
             <div className="flex min-w-0 items-center gap-3">
-              <span className="relative flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-emerald-50 text-xs font-bold text-emerald-600">
+              <span className="relative flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-emerald-50 text-xs font-bold text-emerald-700">
                 {it.name.slice(0, 1)}
                 {i === 0 && h1 && (
                   <HotspotPin
@@ -238,7 +238,7 @@ function InventoryMockup({ hotspots, activeHotspot, visitedIds, onSelect }: Mock
               </span>
               <div className="min-w-0">
                 <p className="truncate text-sm font-medium text-slate-900">{it.name}</p>
-                <p className="truncate text-xs text-slate-400">{it.category}</p>
+                <p className="truncate text-xs text-slate-500">{it.category}</p>
               </div>
             </div>
             <span className="relative shrink-0">
@@ -273,11 +273,11 @@ function PricingMockup({ hotspots, activeHotspot, visitedIds, onSelect }: Mockup
   return (
     <div>
       <div className="mb-5">
-        <p className="text-xs text-slate-400">AI 추천가</p>
+        <p className="text-xs text-slate-500">AI 추천가</p>
         <p className="font-mono text-3xl font-bold text-emerald-600">68,000원</p>
       </div>
       <div className="relative mb-4 rounded-xl border border-slate-200 p-4">
-        <p className="mb-3 text-xs font-medium text-slate-400">최근 90일 실거래가 추이</p>
+        <p className="mb-3 text-xs font-medium text-slate-500">최근 90일 실거래가 추이</p>
         <div className="flex h-24 items-end gap-2">
           {trend.map((v, i) => (
             <div
@@ -298,11 +298,11 @@ function PricingMockup({ hotspots, activeHotspot, visitedIds, onSelect }: Mockup
         )}
       </div>
       <div className="relative mb-4 rounded-xl border border-slate-200 p-4">
-        <p className="mb-2 text-xs font-medium text-slate-400">가격 시뮬레이션</p>
+        <p className="mb-2 text-xs font-medium text-slate-500">가격 시뮬레이션</p>
         <div className="h-2 w-full rounded-full bg-slate-100">
           <div className="h-2 w-2/3 rounded-full bg-emerald-500" />
         </div>
-        <div className="mt-1.5 flex justify-between font-mono text-[11px] text-slate-400">
+        <div className="mt-1.5 flex justify-between font-mono text-[11px] text-slate-500">
           <span>58,000</span>
           <span>78,000</span>
         </div>
@@ -317,7 +317,7 @@ function PricingMockup({ hotspots, activeHotspot, visitedIds, onSelect }: Mockup
         )}
       </div>
       <div className="relative rounded-xl border border-slate-200 p-4">
-        <p className="mb-2 text-xs font-medium text-slate-400">경쟁 매물 비교</p>
+        <p className="mb-2 text-xs font-medium text-slate-500">경쟁 매물 비교</p>
         <div className="space-y-1.5">
           {competitors.map((c) => (
             <div key={c.name} className="flex items-center justify-between text-sm">
@@ -353,7 +353,7 @@ function MatchingMockup({ hotspots, activeHotspot, visitedIds, onSelect }: Mocku
   return (
     <div>
       <div className="relative mb-4 rounded-xl border border-slate-200 p-4">
-        <p className="mb-3 text-xs font-medium text-slate-400">채널별 매칭 확률</p>
+        <p className="mb-3 text-xs font-medium text-slate-500">채널별 매칭 확률</p>
         <div className="space-y-2.5">
           {channels.map((c) => (
             <div key={c.name}>
@@ -386,7 +386,7 @@ function MatchingMockup({ hotspots, activeHotspot, visitedIds, onSelect }: Mocku
         </span>
         <div className="min-w-0">
           <p className="text-sm font-medium text-emerald-800">자사몰에서 매칭 성사 직전이에요</p>
-          <p className="mt-0.5 text-xs text-emerald-600">구매자가 결제 페이지에 진입했어요 · 방금 전</p>
+          <p className="mt-0.5 text-xs text-emerald-700">구매자가 결제 페이지에 진입했어요 · 방금 전</p>
         </div>
         {h2 && (
           <HotspotPin
@@ -399,14 +399,14 @@ function MatchingMockup({ hotspots, activeHotspot, visitedIds, onSelect }: Mocku
         )}
       </div>
       <div className="relative rounded-xl border border-slate-200 p-4">
-        <p className="mb-3 text-xs font-medium text-slate-400">매칭 이력</p>
+        <p className="mb-3 text-xs font-medium text-slate-500">매칭 이력</p>
         <div className="flex items-center">
           {timeline.map((t, i) => (
             <div key={t} className="flex flex-1 items-center last:flex-none">
               <div className="flex flex-col items-center gap-1.5">
                 <span
                   className={`flex h-6 w-6 items-center justify-center rounded-full text-[10px] font-bold ${
-                    i < 2 ? 'bg-emerald-600 text-white' : 'border-2 border-slate-200 text-slate-400'
+                    i < 2 ? 'bg-emerald-700 text-white' : 'border-2 border-slate-200 text-slate-500'
                   }`}
                 >
                   {i + 1}
@@ -455,7 +455,7 @@ function SettlementMockup({ hotspots, activeHotspot, visitedIds, onSelect }: Moc
         )}
       </div>
       <div className="mb-4 overflow-hidden rounded-xl border border-slate-200">
-        <div className="grid grid-cols-[auto_1fr_auto_auto] gap-3 border-b border-slate-100 bg-slate-50 px-4 py-2 text-[11px] font-medium text-slate-400">
+        <div className="grid grid-cols-[auto_1fr_auto_auto] gap-3 border-b border-slate-100 bg-slate-50 px-4 py-2 text-[11px] font-medium text-slate-500">
           <span>날짜</span>
           <span>상품</span>
           <span>금액</span>
@@ -466,12 +466,12 @@ function SettlementMockup({ hotspots, activeHotspot, visitedIds, onSelect }: Moc
             key={r.item}
             className="grid grid-cols-[auto_1fr_auto_auto] items-center gap-3 border-b border-slate-100 px-4 py-2.5 text-sm last:border-0"
           >
-            <span className="font-mono text-xs text-slate-400">{r.date}</span>
+            <span className="font-mono text-xs text-slate-500">{r.date}</span>
             <span className="truncate text-slate-700">{r.item}</span>
             <span className="font-mono text-slate-900">{r.amount.toLocaleString('ko-KR')}원</span>
             <span
               className={`justify-self-end rounded-full px-2 py-0.5 text-[10px] font-medium ${
-                r.status === '정산 완료' ? 'bg-emerald-50 text-emerald-600' : 'bg-amber-50 text-amber-600'
+                r.status === '정산 완료' ? 'bg-emerald-50 text-emerald-700' : 'bg-amber-50 text-amber-600'
               }`}
             >
               {r.status}
@@ -519,18 +519,20 @@ function FormField({
   type = 'text',
   placeholder,
   required,
+  autoComplete,
 }: {
   label: string;
   name: string;
   type?: string;
   placeholder?: string;
   required?: boolean;
+  autoComplete?: string;
 }) {
   return (
     <div>
       <label htmlFor={name} className="mb-1.5 block text-sm font-medium text-slate-700">
         {label}
-        {required && <span className="text-emerald-600"> *</span>}
+        {required && <span className="text-emerald-700"> *</span>}
       </label>
       <input
         id={name}
@@ -538,7 +540,8 @@ function FormField({
         type={type}
         placeholder={placeholder}
         required={required}
-        className="w-full rounded-lg border border-slate-300 px-3.5 py-2.5 text-sm text-slate-900 placeholder:text-slate-400 focus:border-emerald-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
+        autoComplete={autoComplete}
+        className="w-full rounded-lg border border-slate-300 px-3.5 py-2.5 text-sm text-slate-900 placeholder:text-slate-500 focus:border-emerald-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-600"
       />
     </div>
   );
@@ -548,6 +551,7 @@ export default function Landing() {
   const [activeStep, setActiveStep] = useState(0);
   const [activeHotspot, setActiveHotspot] = useState<string | null>(null);
   const [visited, setVisited] = useState<Record<string, string[]>>({});
+  const tabRefs = useRef<Array<HTMLButtonElement | null>>([]);
 
   const current = tourSteps[activeStep];
   const currentVisited = visited[current.id] ?? [];
@@ -569,6 +573,19 @@ export default function Landing() {
     });
   }
 
+  function handleTabKeyDown(event: KeyboardEvent<HTMLButtonElement>, index: number) {
+    let nextIndex: number | null = null;
+    if (event.key === 'ArrowRight') nextIndex = (index + 1) % tourSteps.length;
+    else if (event.key === 'ArrowLeft') nextIndex = (index - 1 + tourSteps.length) % tourSteps.length;
+    else if (event.key === 'Home') nextIndex = 0;
+    else if (event.key === 'End') nextIndex = tourSteps.length - 1;
+    if (nextIndex !== null) {
+      event.preventDefault();
+      goToStep(nextIndex);
+      tabRefs.current[nextIndex]?.focus();
+    }
+  }
+
   const mockupProps: MockupProps = {
     hotspots: current.hotspots,
     activeHotspot,
@@ -580,11 +597,19 @@ export default function Landing() {
     <div className="min-h-screen bg-white font-sans text-slate-900">
       <style>{`
         @keyframes tourFade { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+        @media (prefers-reduced-motion: reduce) {
+          *, *::before, *::after {
+            animation-duration: 0.01ms !important;
+            animation-iteration-count: 1 !important;
+            transition-duration: 0.01ms !important;
+            scroll-behavior: auto !important;
+          }
+        }
       `}</style>
 
       <a
         href="#main"
-        className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded-md focus:bg-emerald-600 focus:px-4 focus:py-2 focus:text-sm focus:font-medium focus:text-white"
+        className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded-md focus:bg-emerald-700 focus:px-4 focus:py-2 focus:text-sm focus:font-medium focus:text-white"
       >
         본문 바로가기
       </a>
@@ -596,23 +621,23 @@ export default function Landing() {
               r
             </span>
             <span className="text-base font-semibold tracking-tight">
-              repick <span className="font-normal text-slate-400">Business</span>
+              repick <span className="font-normal text-slate-500">Business</span>
             </span>
           </div>
           <nav aria-label="주요 메뉴" className="hidden items-center gap-6 text-sm font-medium text-slate-500 md:flex">
-            <a href="#tour" className="hover:text-emerald-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2 rounded">
+            <a href="#tour" className="hover:text-emerald-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-600 focus-visible:ring-offset-2 rounded">
               제품 둘러보기
             </a>
-            <a href="#roi" className="hover:text-emerald-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2 rounded">
+            <a href="#roi" className="hover:text-emerald-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-600 focus-visible:ring-offset-2 rounded">
               도입효과
             </a>
-            <a href="#demo" className="hover:text-emerald-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2 rounded">
+            <a href="#demo" className="hover:text-emerald-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-600 focus-visible:ring-offset-2 rounded">
               도입문의
             </a>
           </nav>
           <a
             href="#demo"
-            className="rounded-lg bg-emerald-600 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-emerald-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2"
+            className="rounded-lg bg-emerald-700 px-4 py-2 text-sm font-semibold text-white transition hover:bg-emerald-800 active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-600 focus-visible:ring-offset-2"
           >
             데모 요청
           </a>
@@ -644,18 +669,18 @@ export default function Landing() {
             <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
               <a
                 href="#tour"
-                className="rounded-lg bg-emerald-600 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-emerald-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2"
+                className="rounded-lg bg-emerald-700 px-6 py-3 text-sm font-semibold text-white transition hover:bg-emerald-800 active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-600 focus-visible:ring-offset-2"
               >
                 지금 둘러보기 ↓
               </a>
               <a
                 href="#demo"
-                className="rounded-lg border border-slate-300 bg-white px-6 py-3 text-sm font-semibold text-slate-700 transition-colors hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2"
+                className="rounded-lg border border-slate-300 bg-white px-6 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-50 active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-600 focus-visible:ring-offset-2"
               >
                 담당자와 상담하기
               </a>
             </div>
-            <p className="mt-4 text-xs text-slate-400">카드 등록 없이 · 핫스팟 12곳 · 클릭만으로 체험</p>
+            <p className="mt-4 text-xs text-slate-500">카드 등록 없이 · 핫스팟 12곳 · 클릭만으로 체험</p>
           </div>
         </section>
 
@@ -664,13 +689,13 @@ export default function Landing() {
           <div className="mx-auto max-w-6xl">
             <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
               <div>
-                <p className="text-xs font-semibold tracking-wide text-emerald-600">PRODUCT TOUR</p>
+                <p className="text-xs font-semibold tracking-wide text-emerald-700">PRODUCT TOUR</p>
                 <h2 id="tour-heading" className="mt-2 text-3xl font-black tracking-tight text-slate-900 sm:text-4xl">
                   화면을 눌러 기능을 확인하세요
                 </h2>
               </div>
               <div className="w-full sm:w-56">
-                <div className="flex items-center justify-between text-xs text-slate-400">
+                <div className="flex items-center justify-between text-xs text-slate-500">
                   <span>전체 진행률</span>
                   <span className="font-mono">
                     {totalVisited}/{totalHotspots}
@@ -691,19 +716,24 @@ export default function Landing() {
                 return (
                   <button
                     key={s.id}
+                    ref={(el) => {
+                      tabRefs.current[i] = el;
+                    }}
                     type="button"
                     role="tab"
                     id={`tab-${s.id}`}
                     aria-selected={activeStep === i}
                     aria-controls={`panel-${s.id}`}
+                    tabIndex={activeStep === i ? 0 : -1}
                     onClick={() => goToStep(i)}
-                    className={`flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2 ${
+                    onKeyDown={(e) => handleTabKeyDown(e, i)}
+                    className={`flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-medium transition active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-600 focus-visible:ring-offset-2 ${
                       activeStep === i
-                        ? 'border-emerald-600 bg-emerald-600 text-white'
-                        : 'border-slate-200 bg-white text-slate-500 hover:border-emerald-300 hover:text-emerald-600'
+                        ? 'border-emerald-700 bg-emerald-700 text-white'
+                        : 'border-slate-200 bg-white text-slate-500 hover:border-emerald-300 hover:text-emerald-700'
                     }`}
                   >
-                    <span className="font-mono text-xs opacity-70">{s.tabNumber}</span>
+                    <span className="font-mono text-xs">{s.tabNumber}</span>
                     {s.tabLabel}
                     {done && (
                       <span aria-hidden="true">✓</span>
@@ -720,7 +750,7 @@ export default function Landing() {
                   <span aria-hidden="true" className="h-2.5 w-2.5 rounded-full bg-slate-300" />
                   <span aria-hidden="true" className="h-2.5 w-2.5 rounded-full bg-slate-300" />
                   <span aria-hidden="true" className="h-2.5 w-2.5 rounded-full bg-slate-300" />
-                  <span className="ml-3 truncate rounded-md border border-slate-200 bg-white px-3 py-1 font-mono text-[11px] text-slate-400">
+                  <span className="ml-3 truncate rounded-md border border-slate-200 bg-white px-3 py-1 font-mono text-[11px] text-slate-500">
                     app.repick.co.kr/business/dashboard/{current.id}
                   </span>
                 </div>
@@ -742,10 +772,10 @@ export default function Landing() {
               {/* info panel */}
               <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
                 <div className="mb-4 flex items-center justify-between">
-                  <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">
+                  <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
                     이 화면에서 확인할 기능
                   </p>
-                  <span className="font-mono text-xs text-slate-400">
+                  <span className="font-mono text-xs text-slate-500">
                     {currentVisited.length}/{current.hotspots.length}
                   </span>
                 </div>
@@ -759,7 +789,7 @@ export default function Landing() {
                           type="button"
                           onClick={() => selectHotspot(current.id, h.id)}
                           aria-pressed={isActive}
-                          className={`flex w-full items-center gap-3 rounded-xl border px-3.5 py-2.5 text-left text-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 ${
+                          className={`flex w-full items-center gap-3 rounded-xl border px-3.5 py-2.5 text-left text-sm transition active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-600 ${
                             isActive
                               ? 'border-emerald-500 bg-emerald-50 text-emerald-700'
                               : 'border-slate-200 text-slate-600 hover:border-emerald-200 hover:bg-slate-50'
@@ -767,7 +797,7 @@ export default function Landing() {
                         >
                           <span
                             className={`flex h-5 w-5 shrink-0 items-center justify-center rounded-full text-[11px] font-bold ${
-                              isVisited ? 'bg-emerald-600 text-white' : 'bg-slate-100 text-slate-400'
+                              isVisited ? 'bg-emerald-700 text-white' : 'bg-slate-100 text-slate-500'
                             }`}
                           >
                             {isVisited ? '✓' : i + 1}
@@ -782,7 +812,7 @@ export default function Landing() {
                 <div key={activeHotspot ?? 'empty'} className="rounded-xl bg-slate-50 p-4 [animation:tourFade_0.25s_ease]">
                   {activeHotspotDef ? (
                     <>
-                      <p className="mb-1 text-xs font-semibold text-emerald-600">{activeHotspotDef.metric}</p>
+                      <p className="mb-1 text-xs font-semibold text-emerald-700">{activeHotspotDef.metric}</p>
                       <h3 className="mb-1.5 text-base font-bold text-slate-900">{activeHotspotDef.label}</h3>
                       <p className="text-sm leading-relaxed text-slate-600">{activeHotspotDef.desc}</p>
                     </>
@@ -801,7 +831,7 @@ export default function Landing() {
                 type="button"
                 onClick={() => goToStep(Math.max(0, activeStep - 1))}
                 disabled={activeStep === 0}
-                className="rounded-lg border border-slate-200 px-4 py-2 text-sm font-medium text-slate-600 transition-colors hover:bg-slate-50 disabled:pointer-events-none disabled:opacity-40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2"
+                className="rounded-lg border border-slate-200 px-4 py-2 text-sm font-medium text-slate-600 transition active:scale-[0.98] hover:bg-slate-50 disabled:pointer-events-none disabled:opacity-40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-600 focus-visible:ring-offset-2"
               >
                 ← 이전 화면
               </button>
@@ -813,8 +843,9 @@ export default function Landing() {
                     type="button"
                     onClick={() => goToStep(i)}
                     aria-label={`${i + 1}단계 ${s.tabLabel}로 이동`}
-                    className={`h-2 rounded-full transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 ${
-                      i === activeStep ? 'w-6 bg-emerald-600' : 'w-2 bg-slate-200 hover:bg-slate-300'
+                    aria-current={i === activeStep ? 'step' : undefined}
+                    className={`relative h-2 rounded-full transition-all before:absolute before:-inset-3 before:content-[''] active:scale-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-600 ${
+                      i === activeStep ? 'w-6 bg-emerald-700' : 'w-2 bg-slate-200 hover:bg-slate-300'
                     }`}
                   />
                 ))}
@@ -824,14 +855,14 @@ export default function Landing() {
                 <button
                   type="button"
                   onClick={() => goToStep(activeStep + 1)}
-                  className="rounded-lg bg-emerald-600 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-emerald-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2"
+                  className="rounded-lg bg-emerald-700 px-4 py-2 text-sm font-semibold text-white transition hover:bg-emerald-800 active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-600 focus-visible:ring-offset-2"
                 >
                   다음 화면 →
                 </button>
               ) : (
                 <a
                   href="#demo"
-                  className="rounded-lg bg-emerald-600 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-emerald-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2"
+                  className="rounded-lg bg-emerald-700 px-4 py-2 text-sm font-semibold text-white transition hover:bg-emerald-800 active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-600 focus-visible:ring-offset-2"
                 >
                   데모 요청하기 →
                 </a>
@@ -843,13 +874,13 @@ export default function Landing() {
         {/* ROI */}
         <section id="roi" aria-labelledby="roi-heading" className="border-t border-slate-200 bg-slate-50 px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
           <div className="mx-auto max-w-6xl">
-            <p className="text-xs font-semibold tracking-wide text-emerald-600">MEASURED RESULTS</p>
+            <p className="text-xs font-semibold tracking-wide text-emerald-700">MEASURED RESULTS</p>
             <h2 id="roi-heading" className="mt-2 text-3xl font-black tracking-tight text-slate-900 sm:text-4xl">
               방금 눌러본 기능이 만드는 숫자
             </h2>
             <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
               {roiStats.map((s) => (
-                <div key={s.label} className="rounded-2xl border border-slate-200 bg-white p-6">
+                <div key={s.label} className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
                   <p className="font-mono text-4xl font-black text-emerald-600">{s.value}</p>
                   <p className="mt-2 text-sm text-slate-500">{s.label}</p>
                 </div>
@@ -861,10 +892,10 @@ export default function Landing() {
         {/* CLIENTS */}
         <section aria-labelledby="clients-heading" className="border-t border-slate-200 px-4 py-14 sm:px-6 lg:px-8">
           <div className="mx-auto max-w-6xl">
-            <h2 id="clients-heading" className="text-center text-xs font-semibold tracking-wide text-slate-400">
+            <h2 id="clients-heading" className="text-center text-xs font-semibold tracking-wide text-slate-500">
               REFERENCE · 도입 기업 (일부)
             </h2>
-            <div className="mt-8 flex flex-wrap items-center justify-center gap-x-10 gap-y-6 text-sm font-semibold tracking-wide text-slate-400">
+            <div className="mt-8 flex flex-wrap items-center justify-center gap-x-10 gap-y-6 text-sm font-semibold tracking-wide text-slate-500">
               {clients.map((c) => (
                 <span key={c}>{c}</span>
               ))}
@@ -876,7 +907,7 @@ export default function Landing() {
         <section id="demo" aria-labelledby="demo-heading" className="border-t border-slate-200 bg-slate-50 px-4 py-16 sm:px-6 sm:py-24 lg:px-8">
           <div className="mx-auto max-w-2xl">
             <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-10">
-              <p className="text-xs font-semibold tracking-wide text-emerald-600">DEMO ACCESS</p>
+              <p className="text-xs font-semibold tracking-wide text-emerald-700">DEMO ACCESS</p>
               <h2 id="demo-heading" className="mt-2 text-3xl font-black tracking-tight text-slate-900 sm:text-4xl">
                 도입 상담 신청
               </h2>
@@ -887,10 +918,10 @@ export default function Landing() {
 
               <form className="mt-8 grid gap-5" action="#" method="post">
                 <div className="grid gap-5 sm:grid-cols-2">
-                  <FormField label="회사명" name="company" placeholder="주식회사 리픽" required />
-                  <FormField label="담당자명" name="name" placeholder="홍길동" required />
+                  <FormField label="회사명" name="company" placeholder="주식회사 리픽" required autoComplete="organization" />
+                  <FormField label="담당자명" name="name" placeholder="홍길동" required autoComplete="name" />
                 </div>
-                <FormField label="이메일" name="email" type="email" placeholder="you@company.com" required />
+                <FormField label="이메일" name="email" type="email" placeholder="you@company.com" required autoComplete="email" />
                 <div>
                   <label htmlFor="message" className="mb-1.5 block text-sm font-medium text-slate-700">
                     문의 내용
@@ -900,12 +931,12 @@ export default function Landing() {
                     name="message"
                     rows={4}
                     placeholder="현재 취급 재고 규모, 판매 채널, 궁금하신 점을 남겨주세요."
-                    className="w-full resize-none rounded-lg border border-slate-300 px-3.5 py-2.5 text-sm text-slate-900 placeholder:text-slate-400 focus:border-emerald-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
+                    className="w-full resize-none rounded-lg border border-slate-300 px-3.5 py-2.5 text-sm text-slate-900 placeholder:text-slate-500 focus:border-emerald-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-600"
                   />
                 </div>
                 <button
                   type="submit"
-                  className="mt-2 rounded-lg bg-emerald-600 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-emerald-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2"
+                  className="mt-2 rounded-lg bg-emerald-700 px-6 py-3 text-sm font-semibold text-white transition hover:bg-emerald-800 active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-600 focus-visible:ring-offset-2"
                 >
                   요청 제출 →
                 </button>
@@ -916,7 +947,7 @@ export default function Landing() {
       </main>
 
       <footer className="border-t border-slate-200 px-4 py-10 sm:px-6 lg:px-8">
-        <div className="mx-auto flex max-w-6xl flex-col gap-3 text-xs text-slate-400 sm:flex-row sm:items-center sm:justify-between">
+        <div className="mx-auto flex max-w-6xl flex-col gap-3 text-xs text-slate-500 sm:flex-row sm:items-center sm:justify-between">
           <span>repick Business © 2026</span>
           <span>가입 없이 체험할 수 있는 인터랙티브 셀러 대시보드 데모</span>
         </div>

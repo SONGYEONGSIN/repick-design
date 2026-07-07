@@ -13,7 +13,7 @@ type Tone = "warn" | "danger" | "muted";
 const TONE_CLASSES: Record<Tone, string> = {
   warn: "bg-amber-100 text-amber-700",
   danger: "bg-red-100 text-red-700",
-  muted: "bg-neutral-200 text-neutral-500",
+  muted: "bg-neutral-200 text-neutral-600",
 };
 
 const MANUAL_LISTINGS: { title: string; price: string; tag: string; tone: Tone }[] = [
@@ -99,6 +99,7 @@ function SplitCompare() {
   const containerRef = useRef<HTMLDivElement>(null);
   const draggingRef = useRef(false);
   const [pos, setPos] = useState(50);
+  const [isDragging, setIsDragging] = useState(false);
 
   const updateFromClientX = useCallback((clientX: number) => {
     const el = containerRef.current;
@@ -111,6 +112,7 @@ function SplitCompare() {
   const handlePointerDown = useCallback(
     (e: ReactPointerEvent<HTMLDivElement>) => {
       draggingRef.current = true;
+      setIsDragging(true);
       containerRef.current?.setPointerCapture(e.pointerId);
       updateFromClientX(e.clientX);
     },
@@ -127,16 +129,17 @@ function SplitCompare() {
 
   const stopDragging = useCallback((e: ReactPointerEvent<HTMLDivElement>) => {
     draggingRef.current = false;
+    setIsDragging(false);
     if (containerRef.current?.hasPointerCapture(e.pointerId)) {
       containerRef.current.releasePointerCapture(e.pointerId);
     }
   }, []);
 
   const handleKeyDown = useCallback((e: ReactKeyboardEvent<HTMLDivElement>) => {
-    if (e.key === "ArrowLeft") {
+    if (e.key === "ArrowLeft" || e.key === "ArrowDown") {
       setPos((p) => Math.max(0, p - 5));
       e.preventDefault();
-    } else if (e.key === "ArrowRight") {
+    } else if (e.key === "ArrowRight" || e.key === "ArrowUp") {
       setPos((p) => Math.min(100, p + 5));
       e.preventDefault();
     } else if (e.key === "Home") {
@@ -165,10 +168,10 @@ function SplitCompare() {
           </div>
           <div className="rounded-xl border border-emerald-200 bg-white p-4 shadow-sm sm:p-5">
             <div className="flex items-center justify-between">
-              <span className="rounded-full bg-emerald-600 px-2.5 py-1 text-xs font-bold text-white">
+              <span className="rounded-full bg-emerald-700 px-2.5 py-1 text-xs font-bold text-white">
                 매칭 94%
               </span>
-              <span className="font-mono text-xs text-neutral-400">3초 전</span>
+              <span className="font-mono text-xs text-neutral-500">3초 전</span>
             </div>
             <p className="mt-3 text-base font-semibold text-neutral-900 sm:text-lg">
               노이즈캔슬링 무선이어폰 A급
@@ -186,10 +189,10 @@ function SplitCompare() {
               </span>
             </div>
           </div>
-          <div className="hidden rounded-xl border border-emerald-100 bg-white/60 p-4 text-sm text-neutral-400 sm:block">
+          <div className="hidden rounded-xl border border-emerald-100 bg-white/60 p-4 text-sm text-neutral-500 sm:block">
             다음 추천은 새 매물이 올라오면 바로 알려드려요
           </div>
-          <div className="mt-auto flex flex-col gap-1 rounded-lg bg-emerald-600 px-4 py-3 text-sm font-medium text-white sm:flex-row sm:items-center sm:justify-between">
+          <div className="mt-auto flex flex-col gap-1 rounded-lg bg-emerald-700 px-4 py-3 text-sm font-medium text-white sm:flex-row sm:items-center sm:justify-between">
             <span className="font-mono">3초 매칭 · 매칭률 94%</span>
             <span>판매자 인증 완료</span>
           </div>
@@ -197,7 +200,9 @@ function SplitCompare() {
 
         {/* clipped layer: manual search */}
         <div
-          className="absolute inset-0 z-10 flex flex-col gap-2 bg-neutral-50 p-4 sm:p-6"
+          className={`absolute inset-0 z-10 flex flex-col gap-2 bg-neutral-50 p-4 sm:p-6 ${
+            isDragging ? "" : "transition-[clip-path] duration-150 ease-out motion-reduce:transition-none"
+          }`}
           style={{ clipPath: `inset(0 ${100 - pos}% 0 0)` }}
         >
           <div className="flex items-center gap-2 text-sm font-semibold text-neutral-500">
@@ -211,7 +216,7 @@ function SplitCompare() {
               >
                 <div className="min-w-0">
                   <p className="truncate font-medium text-neutral-700">{item.title}</p>
-                  <p className="text-neutral-400">{item.price}</p>
+                  <p className="text-neutral-500">{item.price}</p>
                 </div>
                 <span
                   className={`shrink-0 rounded-full px-2 py-0.5 font-medium whitespace-nowrap ${TONE_CLASSES[item.tone]}`}
@@ -229,7 +234,9 @@ function SplitCompare() {
 
         {/* divider + handle */}
         <div
-          className="pointer-events-none absolute inset-y-0 z-20 w-px bg-white shadow-[0_0_0_1px_rgba(0,0,0,0.12)]"
+          className={`pointer-events-none absolute inset-y-0 z-20 w-px bg-white shadow-[0_0_0_1px_rgba(0,0,0,0.12)] ${
+            isDragging ? "" : "transition-[left] duration-150 ease-out motion-reduce:transition-none"
+          }`}
           style={{ left: `${pos}%` }}
         >
           <div
@@ -240,8 +247,11 @@ function SplitCompare() {
             aria-valuenow={Math.round(pos)}
             aria-valuemin={0}
             aria-valuemax={100}
+            aria-valuetext={`직접 검색 ${Math.round(pos)}%, repick AI ${Math.round(100 - pos)}%`}
             onKeyDown={handleKeyDown}
-            className="pointer-events-auto absolute top-1/2 left-1/2 flex h-11 w-11 -translate-x-1/2 -translate-y-1/2 cursor-ew-resize items-center justify-center rounded-full border border-neutral-200 bg-white text-neutral-600 shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
+            className={`pointer-events-auto absolute top-1/2 left-1/2 flex h-11 w-11 -translate-x-1/2 -translate-y-1/2 cursor-ew-resize items-center justify-center rounded-full border bg-white text-neutral-600 shadow-md transition-[transform,box-shadow,border-color] duration-150 ease-out hover:border-emerald-300 hover:shadow-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-600 motion-reduce:transition-none ${
+              isDragging ? "scale-110 border-emerald-400 shadow-lg" : "border-neutral-200"
+            }`}
           >
             <span aria-hidden="true">◀▶</span>
           </div>
@@ -250,7 +260,7 @@ function SplitCompare() {
         <span className="pointer-events-none absolute top-3 left-3 z-30 rounded-full bg-neutral-900/80 px-3 py-1 text-xs font-medium text-white">
           직접 검색
         </span>
-        <span className="pointer-events-none absolute top-3 right-3 z-30 rounded-full bg-emerald-600/90 px-3 py-1 text-xs font-medium text-white">
+        <span className="pointer-events-none absolute top-3 right-3 z-30 rounded-full bg-emerald-700/90 px-3 py-1 text-xs font-medium text-white">
           repick AI
         </span>
       </div>
@@ -310,24 +320,32 @@ function MiniCompare({ manual, ai }: { manual: string[]; ai: string[] }) {
 export default function Landing() {
   return (
     <div className="flex min-h-screen flex-col bg-white text-neutral-900">
+      <a
+        href="#main-content"
+        className="sr-only focus-visible:not-sr-only focus-visible:fixed focus-visible:top-3 focus-visible:left-3 focus-visible:z-50 focus-visible:rounded-lg focus-visible:bg-neutral-900 focus-visible:px-4 focus-visible:py-2 focus-visible:text-sm focus-visible:font-medium focus-visible:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-600"
+      >
+        본문으로 건너뛰기
+      </a>
       <header className="sticky top-0 z-40 border-b border-neutral-200 bg-white/90 backdrop-blur">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-4 sm:px-6">
           <span className="text-lg font-bold tracking-tight">repick</span>
           <nav aria-label="주요" className="hidden items-center gap-6 text-sm text-neutral-500 sm:flex">
-            <span className="font-semibold text-neutral-900">기능</span>
+            <span aria-current="page" className="font-semibold text-neutral-900">
+              기능
+            </span>
             <span>요금제</span>
             <span>대시보드</span>
           </nav>
           <button
             type="button"
-            className="rounded-lg bg-neutral-900 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-neutral-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
+            className="inline-flex min-h-11 items-center justify-center rounded-lg bg-neutral-900 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-neutral-700 active:bg-neutral-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-600"
           >
             무료로 시작하기
           </button>
         </div>
       </header>
 
-      <main className="flex-1">
+      <main id="main-content" className="flex-1">
         {/* Hero */}
         <section className="mx-auto max-w-6xl px-4 pt-12 pb-16 sm:px-6 sm:pt-16 sm:pb-20">
           <div className="mx-auto max-w-2xl text-center">
@@ -384,13 +402,13 @@ export default function Landing() {
             <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
               <button
                 type="button"
-                className="w-full rounded-lg bg-emerald-500 px-6 py-3 text-sm font-semibold text-neutral-900 transition-colors hover:bg-emerald-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-300 sm:w-auto"
+                className="w-full rounded-lg bg-emerald-500 px-6 py-3 text-sm font-semibold text-neutral-900 transition-colors hover:bg-emerald-400 active:bg-emerald-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-300 sm:w-auto"
               >
                 무료로 시작하기
               </button>
               <button
                 type="button"
-                className="w-full rounded-lg border border-neutral-600 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-neutral-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-300 sm:w-auto"
+                className="w-full rounded-lg border border-neutral-600 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-neutral-800 active:bg-neutral-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-300 sm:w-auto"
               >
                 요금제 보기
               </button>
@@ -400,7 +418,7 @@ export default function Landing() {
       </main>
 
       <footer className="border-t border-neutral-200 bg-white">
-        <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-2 px-4 py-6 text-xs text-neutral-400 sm:flex-row sm:px-6">
+        <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-2 px-4 py-6 text-xs text-neutral-500 sm:flex-row sm:px-6">
           <span>© 2026 repick</span>
           <span>AI가 고른 중고, 사람이 확인한 신뢰</span>
         </div>
