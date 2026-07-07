@@ -22,6 +22,12 @@ const pages = [
     div: names(["브루탈 데이터", "네오모피즘", "다크 프로", "컬러 맥시멀", "TUI 터미널", "신문 1면"]),
     crea: names(["아침 브리핑", "채팅형 AI", "취향 별자리", "SNS 피드", "위젯 조립", "게임 던전"]),
   },
+  {
+    key: "business",
+    label: "Business (B2B 랜딩)",
+    div: names(["블루프린트", "다크 럭셔리", "브루탈 코퍼레이트", "그라디언트 SaaS", "스칸디 미니멀", "인포그래픽"]),
+    crea: names(["ROI 계산기", "케이스 스터디", "제품 투어", "vs 비교 슬라이더", "라이브 지표", "온보딩 여정"]),
+  },
 ];
 
 function Thumb({ path, name, kind }: { path: string; name: string; kind: "div" | "crea" }) {
