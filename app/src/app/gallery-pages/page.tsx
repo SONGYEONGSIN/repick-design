@@ -16,6 +16,12 @@ const pages = [
     div: names(["Bauhaus", "구성주의", "아르데코", "사이버펑크 HUD", "리소그래프", "웹1.0"]),
     crea: names(["만져보는 데모", "AI 파이프라인", "수동 vs AI 분할", "라이브 매칭 피드", "상품 여정 스토리", "고민 Q&A"]),
   },
+  {
+    key: "dashboard",
+    label: "Dashboard (앱 화면)",
+    div: names(["브루탈 데이터", "네오모피즘", "다크 프로", "컬러 맥시멀", "TUI 터미널", "신문 1면"]),
+    crea: names(["아침 브리핑", "채팅형 AI", "취향 별자리", "SNS 피드", "위젯 조립", "게임 던전"]),
+  },
 ];
 
 function Thumb({ path, name, kind }: { path: string; name: string; kind: "div" | "crea" }) {
