@@ -8,3 +8,8 @@ app/out
 .DS_Store
 # sdd scratch
 .superpowers/
+
+# obsidian 개인 상태
+vault/.obsidian/workspace.json
+# agent scratch
+.claude/agent-memory/
