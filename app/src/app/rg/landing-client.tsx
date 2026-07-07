@@ -301,11 +301,11 @@ export default function LandingClient() {
               <motion.h1
                 variants={heroItem}
                 id="hero-heading"
-                className="mt-6 text-balance text-[clamp(2.5rem,6vw,4.5rem)] font-[family-name:var(--font-display)] leading-[1.05] tracking-[-0.03em] text-stone-900"
+                className="mt-6 text-balance text-[clamp(2.5rem,6vw,4.5rem)] font-sans leading-[1.05] tracking-[-0.01em] text-stone-900"
               >
                 당신의 취향을,
                 <br className="hidden sm:block" />
-                AI가 <em className="text-orange-700">다시</em> 골라드립니다
+                AI가 <em className="text-orange-700 not-italic font-semibold">다시</em> 골라드립니다
               </motion.h1>
               <motion.p
                 variants={heroItem}
@@ -411,7 +411,7 @@ export default function LandingClient() {
               {TRUST_LOGOS.map((name) => (
                 <li
                   key={name}
-                  className="text-lg font-semibold tracking-tight text-stone-500 font-[family-name:var(--font-display)]"
+                  className="text-lg font-semibold text-stone-500 font-sans"
                 >
                   {name}
                 </li>
@@ -432,7 +432,7 @@ export default function LandingClient() {
             <p className="text-xs font-semibold uppercase tracking-[0.14em] text-orange-700">작동 방식</p>
             <h2
               id="how-heading"
-              className="mt-3 text-balance text-[clamp(2rem,4vw,3rem)] font-[family-name:var(--font-display)] leading-[1.1] tracking-[-0.02em] text-stone-900"
+              className="mt-3 text-balance text-[clamp(2rem,4vw,3rem)] font-sans leading-[1.1] tracking-[-0.01em] text-stone-900"
             >
               세 단계면 충분합니다
             </h2>
@@ -458,7 +458,7 @@ export default function LandingClient() {
               >
                 <span
                   aria-hidden="true"
-                  className="block text-sm font-semibold tabular-nums text-stone-300 font-[family-name:var(--font-display)]"
+                  className="block text-sm font-semibold tabular-nums text-stone-300 font-sans"
                 >
                   0{index + 1}
                 </span>
@@ -485,7 +485,7 @@ export default function LandingClient() {
               <p className="text-xs font-semibold uppercase tracking-[0.14em] text-orange-700">기능</p>
               <h2
                 id="features-heading"
-                className="mt-3 text-balance text-[clamp(2rem,4vw,3rem)] font-[family-name:var(--font-display)] leading-[1.1] tracking-[-0.02em] text-stone-900"
+                className="mt-3 text-balance text-[clamp(2rem,4vw,3rem)] font-sans leading-[1.1] tracking-[-0.01em] text-stone-900"
               >
                 레퍼런스처럼 정교하게, 한 사람을 위해
               </h2>
@@ -631,7 +631,7 @@ export default function LandingClient() {
               <p className="text-xs font-semibold uppercase tracking-[0.14em] text-orange-700">쇼케이스</p>
               <h2
                 id="showcase-heading"
-                className="mt-3 text-balance text-[clamp(2rem,4vw,3rem)] font-[family-name:var(--font-display)] leading-[1.1] tracking-[-0.02em] text-stone-900"
+                className="mt-3 text-balance text-[clamp(2rem,4vw,3rem)] font-sans leading-[1.1] tracking-[-0.01em] text-stone-900"
               >
                 지금, 당신을 위해 다시 골랐어요
               </h2>
@@ -707,7 +707,7 @@ export default function LandingClient() {
               <p className="text-xs font-semibold uppercase tracking-[0.14em] text-orange-700">후기</p>
               <h2
                 id="testimonials-heading"
-                className="mt-3 text-balance text-[clamp(2rem,4vw,3rem)] font-[family-name:var(--font-display)] leading-[1.1] tracking-[-0.02em] text-stone-900"
+                className="mt-3 text-balance text-[clamp(2rem,4vw,3rem)] font-sans leading-[1.1] tracking-[-0.01em] text-stone-900"
               >
                 안목 있는 사람들이 먼저 씁니다
               </h2>
@@ -723,7 +723,7 @@ export default function LandingClient() {
               {STATS.map((stat) => (
                 <motion.div key={stat.label} variants={fadeUp}>
                   <dt className="text-sm text-stone-500">{stat.label}</dt>
-                  <dd className="mt-2 text-3xl font-semibold tabular-nums tracking-[-0.02em] text-stone-900 font-[family-name:var(--font-display)]">
+                  <dd className="mt-2 text-3xl font-semibold tabular-nums tracking-[-0.02em] text-stone-900 font-sans">
                     {stat.value}
                   </dd>
                 </motion.div>
@@ -746,7 +746,7 @@ export default function LandingClient() {
                   className="rounded-3xl border border-stone-200 bg-stone-50 p-8"
                 >
                   <Quote className="h-6 w-6 text-orange-700" aria-hidden="true" />
-                  <blockquote className="mt-4 font-[family-name:var(--font-display)] text-xl italic leading-snug tracking-[-0.01em] text-stone-800">&ldquo;{t.quote}&rdquo;</blockquote>
+                  <blockquote className="mt-4 font-sans text-xl leading-snug tracking-[-0.01em] text-stone-800">&ldquo;{t.quote}&rdquo;</blockquote>
                   <figure className="mt-6 flex items-center gap-3">
                     <Image
                       src={t.avatar}
@@ -788,11 +788,11 @@ export default function LandingClient() {
             >
               <h2
                 id="cta-heading"
-                className="text-balance text-[clamp(2rem,4vw,3rem)] font-[family-name:var(--font-display)] leading-[1.1] tracking-[-0.02em] text-stone-50"
+                className="text-balance text-[clamp(2rem,4vw,3rem)] font-sans leading-[1.1] tracking-[-0.01em] text-stone-50"
               >
                 지금 취향을 등록하고
                 <br />
-                AI가 <em className="text-orange-300">다시</em> 고른 첫 매물을 받아보세요
+                AI가 <em className="text-orange-300 not-italic font-semibold">다시</em> 고른 첫 매물을 받아보세요
               </h2>
               <p className="mt-4 text-lg leading-relaxed tracking-[-0.01em] text-stone-300">가입은 1분이면 충분해요. 언제든 해지할 수 있어요.</p>
               <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
