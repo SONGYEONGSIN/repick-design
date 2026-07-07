@@ -301,7 +301,7 @@ export default function LandingClient() {
               <motion.h1
                 variants={heroItem}
                 id="hero-heading"
-                className="mt-6 text-balance text-[clamp(2.5rem,6vw,4.5rem)] font-[family-name:var(--font-display)] leading-[1.05] tracking-tight text-stone-900"
+                className="mt-6 text-balance text-[clamp(2.5rem,6vw,4.5rem)] font-[family-name:var(--font-display)] leading-[1.05] tracking-[-0.03em] text-stone-900"
               >
                 당신의 취향을,
                 <br className="hidden sm:block" />
@@ -309,7 +309,7 @@ export default function LandingClient() {
               </motion.h1>
               <motion.p
                 variants={heroItem}
-                className="mx-auto mt-6 max-w-xl text-balance text-lg text-stone-600"
+                className="mx-auto mt-6 max-w-xl text-balance text-lg leading-relaxed tracking-[-0.01em] text-stone-600"
               >
                 수만 개의 중고 매물 속에서 스타일, 사이즈, 예산까지 학습한 AI가
                 지금 당신에게 꼭 맞는 상품만 골라 보여드립니다.
@@ -369,7 +369,7 @@ export default function LandingClient() {
                   <Sparkles className="h-5 w-5" aria-hidden="true" />
                 </span>
                 <span className="text-sm leading-tight">
-                  <span className="block font-semibold text-stone-900">AI 매칭 96%</span>
+                  <span className="block font-semibold tabular-nums text-stone-900">AI 매칭 96%</span>
                   <span className="text-stone-500">당신의 취향과 일치해요</span>
                 </span>
               </motion.div>
@@ -403,7 +403,7 @@ export default function LandingClient() {
           >
             <h2
               id="trust-heading"
-              className="text-center text-xs font-semibold uppercase tracking-widest text-stone-600"
+              className="text-center text-xs font-semibold uppercase tracking-[0.14em] text-stone-600"
             >
               이런 곳에서 repick을 주목했습니다
             </h2>
@@ -429,14 +429,14 @@ export default function LandingClient() {
             whileInView="show"
             viewport={VIEWPORT}
           >
-            <p className="text-sm font-semibold uppercase tracking-widest text-orange-700">작동 방식</p>
+            <p className="text-xs font-semibold uppercase tracking-[0.14em] text-orange-700">작동 방식</p>
             <h2
               id="how-heading"
-              className="mt-3 text-balance text-[clamp(2rem,4vw,3rem)] font-[family-name:var(--font-display)] tracking-tight text-stone-900"
+              className="mt-3 text-balance text-[clamp(2rem,4vw,3rem)] font-[family-name:var(--font-display)] leading-[1.1] tracking-[-0.02em] text-stone-900"
             >
               세 단계면 충분합니다
             </h2>
-            <p className="mt-4 text-lg text-stone-600">
+            <p className="mt-4 text-lg leading-relaxed tracking-[-0.01em] text-stone-600">
               복잡한 검색과 필터링은 AI에게 맡기고, 마음에 드는 것만 골라 받으세요.
             </p>
           </motion.div>
@@ -458,7 +458,7 @@ export default function LandingClient() {
               >
                 <span
                   aria-hidden="true"
-                  className="block text-sm font-semibold text-stone-300 font-[family-name:var(--font-display)]"
+                  className="block text-sm font-semibold tabular-nums text-stone-300 font-[family-name:var(--font-display)]"
                 >
                   0{index + 1}
                 </span>
@@ -482,10 +482,10 @@ export default function LandingClient() {
               whileInView="show"
               viewport={VIEWPORT}
             >
-              <p className="text-sm font-semibold uppercase tracking-widest text-orange-700">기능</p>
+              <p className="text-xs font-semibold uppercase tracking-[0.14em] text-orange-700">기능</p>
               <h2
                 id="features-heading"
-                className="mt-3 text-balance text-[clamp(2rem,4vw,3rem)] font-[family-name:var(--font-display)] tracking-tight text-stone-900"
+                className="mt-3 text-balance text-[clamp(2rem,4vw,3rem)] font-[family-name:var(--font-display)] leading-[1.1] tracking-[-0.02em] text-stone-900"
               >
                 레퍼런스처럼 정교하게, 한 사람을 위해
               </h2>
@@ -504,10 +504,10 @@ export default function LandingClient() {
                   <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-orange-50 text-orange-700">
                     <Sparkles className="h-5 w-5" aria-hidden="true" />
                   </span>
-                  <h3 className="mt-6 text-2xl font-semibold tracking-tight text-stone-900 sm:text-3xl">
+                  <h3 className="mt-6 text-2xl font-semibold leading-tight tracking-tight text-stone-900 sm:text-3xl">
                     취향을 읽는 AI
                   </h3>
-                  <p className="mt-4 text-lg text-stone-600">
+                  <p className="mt-4 text-lg leading-relaxed tracking-[-0.01em] text-stone-600">
                     좋아요, 스킵, 구매 데이터를 실시간으로 학습해 취향 프로필을
                     계속 정교하게 다듬습니다. 볼수록 더 정확해져요.
                   </p>
@@ -554,10 +554,10 @@ export default function LandingClient() {
                   <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-orange-50 text-orange-700">
                     <SlidersHorizontal className="h-5 w-5" aria-hidden="true" />
                   </span>
-                  <h3 className="mt-6 text-2xl font-semibold tracking-tight text-stone-900 sm:text-3xl">
+                  <h3 className="mt-6 text-2xl font-semibold leading-tight tracking-tight text-stone-900 sm:text-3xl">
                     불필요한 탐색은 걷어내요
                   </h3>
-                  <p className="mt-4 text-lg text-stone-600">
+                  <p className="mt-4 text-lg leading-relaxed tracking-[-0.01em] text-stone-600">
                     수만 개 매물 중 조건에 맞지 않는 상품은 자동으로 걸러내고,
                     진짜 필요한 것만 큐레이션해서 보여드립니다.
                   </p>
@@ -586,10 +586,10 @@ export default function LandingClient() {
                   <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-orange-50 text-orange-700">
                     <ShieldCheck className="h-5 w-5" aria-hidden="true" />
                   </span>
-                  <h3 className="mt-6 text-2xl font-semibold tracking-tight text-stone-900 sm:text-3xl">
+                  <h3 className="mt-6 text-2xl font-semibold leading-tight tracking-tight text-stone-900 sm:text-3xl">
                     검증된 상태, 투명한 가격
                   </h3>
-                  <p className="mt-4 text-lg text-stone-600">
+                  <p className="mt-4 text-lg leading-relaxed tracking-[-0.01em] text-stone-600">
                     전문 검수팀이 확인한 상태 등급과 시세 데이터 기반 가격으로,
                     실물을 보지 않고도 안심하고 구매할 수 있어요.
                   </p>
@@ -628,14 +628,14 @@ export default function LandingClient() {
               whileInView="show"
               viewport={VIEWPORT}
             >
-              <p className="text-sm font-semibold uppercase tracking-widest text-orange-700">쇼케이스</p>
+              <p className="text-xs font-semibold uppercase tracking-[0.14em] text-orange-700">쇼케이스</p>
               <h2
                 id="showcase-heading"
-                className="mt-3 text-balance text-[clamp(2rem,4vw,3rem)] font-[family-name:var(--font-display)] tracking-tight text-stone-900"
+                className="mt-3 text-balance text-[clamp(2rem,4vw,3rem)] font-[family-name:var(--font-display)] leading-[1.1] tracking-[-0.02em] text-stone-900"
               >
                 지금, 당신을 위해 다시 골랐어요
               </h2>
-              <p className="mt-4 text-lg text-stone-600">이번 주 AI가 매칭한 추천 상품이에요.</p>
+              <p className="mt-4 text-lg leading-relaxed tracking-[-0.01em] text-stone-600">이번 주 AI가 매칭한 추천 상품이에요.</p>
             </motion.div>
 
             <motion.ul
@@ -663,7 +663,7 @@ export default function LandingClient() {
                       sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"
                       className="object-cover transition-transform duration-700 ease-out motion-safe:group-hover:scale-105"
                     />
-                    <span className="absolute left-3 top-3 inline-flex items-center gap-1 rounded-full bg-white/95 px-2.5 py-1 text-xs font-semibold text-stone-900 shadow-sm backdrop-blur">
+                    <span className="absolute left-3 top-3 inline-flex items-center gap-1 rounded-full bg-white/95 px-2.5 py-1 text-xs font-semibold tabular-nums text-stone-900 shadow-sm backdrop-blur">
                       <Sparkles className="h-3.5 w-3.5 text-orange-700" aria-hidden="true" />
                       AI 매칭 {product.match}%
                     </span>
@@ -679,9 +679,9 @@ export default function LandingClient() {
                     </motion.button>
                   </div>
                   <div className="p-5">
-                    <p className="text-xs font-medium uppercase tracking-wide text-stone-600">{product.brand}</p>
+                    <p className="text-xs font-medium uppercase tracking-[0.1em] text-stone-600">{product.brand}</p>
                     <h3 className="mt-1 text-base font-semibold text-stone-900">{product.title}</h3>
-                    <div className="mt-3 flex flex-wrap items-baseline gap-2">
+                    <div className="mt-3 flex flex-wrap items-baseline gap-2 tabular-nums">
                       <span className="text-lg font-semibold text-stone-900">{product.price}</span>
                       <span className="text-sm text-stone-500 line-through">{product.original}</span>
                       <span className="text-sm font-semibold text-orange-700">-{product.discount}%</span>
@@ -704,10 +704,10 @@ export default function LandingClient() {
               whileInView="show"
               viewport={VIEWPORT}
             >
-              <p className="text-sm font-semibold uppercase tracking-widest text-orange-700">후기</p>
+              <p className="text-xs font-semibold uppercase tracking-[0.14em] text-orange-700">후기</p>
               <h2
                 id="testimonials-heading"
-                className="mt-3 text-balance text-[clamp(2rem,4vw,3rem)] font-[family-name:var(--font-display)] tracking-tight text-stone-900"
+                className="mt-3 text-balance text-[clamp(2rem,4vw,3rem)] font-[family-name:var(--font-display)] leading-[1.1] tracking-[-0.02em] text-stone-900"
               >
                 안목 있는 사람들이 먼저 씁니다
               </h2>
@@ -723,7 +723,7 @@ export default function LandingClient() {
               {STATS.map((stat) => (
                 <motion.div key={stat.label} variants={fadeUp}>
                   <dt className="text-sm text-stone-500">{stat.label}</dt>
-                  <dd className="mt-2 text-3xl font-semibold text-stone-900 font-[family-name:var(--font-display)]">
+                  <dd className="mt-2 text-3xl font-semibold tabular-nums tracking-[-0.02em] text-stone-900 font-[family-name:var(--font-display)]">
                     {stat.value}
                   </dd>
                 </motion.div>
@@ -746,7 +746,7 @@ export default function LandingClient() {
                   className="rounded-3xl border border-stone-200 bg-stone-50 p-8"
                 >
                   <Quote className="h-6 w-6 text-orange-700" aria-hidden="true" />
-                  <blockquote className="mt-4 text-lg text-stone-800">&ldquo;{t.quote}&rdquo;</blockquote>
+                  <blockquote className="mt-4 font-[family-name:var(--font-display)] text-xl italic leading-snug tracking-[-0.01em] text-stone-800">&ldquo;{t.quote}&rdquo;</blockquote>
                   <figure className="mt-6 flex items-center gap-3">
                     <Image
                       src={t.avatar}
@@ -788,13 +788,13 @@ export default function LandingClient() {
             >
               <h2
                 id="cta-heading"
-                className="text-balance text-[clamp(2rem,4vw,3rem)] font-[family-name:var(--font-display)] tracking-tight text-stone-50"
+                className="text-balance text-[clamp(2rem,4vw,3rem)] font-[family-name:var(--font-display)] leading-[1.1] tracking-[-0.02em] text-stone-50"
               >
                 지금 취향을 등록하고
                 <br />
                 AI가 <em className="text-orange-300">다시</em> 고른 첫 매물을 받아보세요
               </h2>
-              <p className="mt-4 text-lg text-stone-300">가입은 1분이면 충분해요. 언제든 해지할 수 있어요.</p>
+              <p className="mt-4 text-lg leading-relaxed tracking-[-0.01em] text-stone-300">가입은 1분이면 충분해요. 언제든 해지할 수 있어요.</p>
               <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
                 <motion.a
                   href="/signup"
@@ -826,7 +826,7 @@ export default function LandingClient() {
         <div className="mx-auto max-w-7xl px-6 py-16 lg:px-8">
           <div className="grid grid-cols-2 gap-10 sm:grid-cols-4">
             <div className="col-span-2 sm:col-span-1">
-              <p className="text-2xl font-semibold text-stone-50 font-[family-name:var(--font-display)]">repick</p>
+              <p className="text-2xl font-semibold tracking-[-0.02em] text-stone-50 font-[family-name:var(--font-display)]">repick</p>
               <p className="mt-3 max-w-xs text-sm text-stone-400">
                 AI가 취향을 학습해 당신에게 맞는 중고만 다시 골라주는 리커머스.
               </p>
