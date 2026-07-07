@@ -257,7 +257,7 @@ export default function LandingClient() {
         <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4 lg:px-8">
           <a
             href="#main-content"
-            className={`rounded-md text-2xl font-semibold tracking-tight text-stone-900 font-[family-name:var(--font-display)] ${focusRing}`}
+            className={`rounded-md text-2xl font-semibold tracking-[0.05em] text-stone-900 font-[family-name:var(--font-display)] ${focusRing}`}
           >
             repick
           </a>
@@ -826,7 +826,7 @@ export default function LandingClient() {
         <div className="mx-auto max-w-7xl px-6 py-16 lg:px-8">
           <div className="grid grid-cols-2 gap-10 sm:grid-cols-4">
             <div className="col-span-2 sm:col-span-1">
-              <p className="text-2xl font-semibold tracking-[-0.02em] text-stone-50 font-[family-name:var(--font-display)]">repick</p>
+              <p className="text-2xl font-semibold tracking-[0.05em] text-stone-50 font-[family-name:var(--font-display)]">repick</p>
               <p className="mt-3 max-w-xs text-sm text-stone-400">
                 AI가 취향을 학습해 당신에게 맞는 중고만 다시 골라주는 리커머스.
               </p>
