@@ -1,23 +1,21 @@
-const div = [
-  { v: "a", name: "Memphis" },
-  { v: "b", name: "스위스펑크" },
-  { v: "c", name: "콜라주" },
-  { v: "d", name: "잡지브루탈" },
-  { v: "e", name: "클레이모피즘" },
-  { v: "f", name: "모노타이포" },
-];
-const crea = [
-  { v: "a", name: "절약 계산기" },
-  { v: "b", name: "before/after 서사" },
-  { v: "c", name: "플랜 추천 문답" },
-  { v: "d", name: "게임화 레벨업" },
-  { v: "e", name: "여정 타임라인" },
-  { v: "f", name: "지표 대시보드" },
-];
+function names(list: string[]) {
+  return ["a", "b", "c", "d", "e", "f"].map((v, i) => ({ v, name: list[i] }));
+}
 
 // 완료된 페이지만 등록 (자율 로테이션 진행에 따라 추가)
 const pages = [
-  { key: "pricing", label: "Pricing (요금제)", div, crea },
+  {
+    key: "pricing",
+    label: "Pricing (요금제)",
+    div: names(["Memphis", "스위스펑크", "콜라주", "잡지브루탈", "클레이모피즘", "모노타이포"]),
+    crea: names(["절약 계산기", "before/after 서사", "플랜 추천 문답", "게임화 레벨업", "여정 타임라인", "지표 대시보드"]),
+  },
+  {
+    key: "features",
+    label: "Features (기능 소개)",
+    div: names(["Bauhaus", "구성주의", "아르데코", "사이버펑크 HUD", "리소그래프", "웹1.0"]),
+    crea: names(["만져보는 데모", "AI 파이프라인", "수동 vs AI 분할", "라이브 매칭 피드", "상품 여정 스토리", "고민 Q&A"]),
+  },
 ];
 
 function Thumb({ path, name, kind }: { path: string; name: string; kind: "div" | "crea" }) {
