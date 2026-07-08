@@ -109,7 +109,7 @@ const STATS = [
 const TESTIMONIALS = [
   {
     quote:
-      "찜만 누적 300개였는데, repick을 쓰고 나서는 진짜 살 것만 보여요.",
+      "찜만 누적 300개였는데, RE:픽을 쓰고 나서는 진짜 살 것만 보여요.",
     name: "김도윤",
     role: "프리랜서 디자이너",
     avatar:
@@ -257,9 +257,13 @@ export default function LandingClient() {
         <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4 lg:px-8">
           <a
             href="#main-content"
-            className={`rounded-md text-2xl font-semibold tracking-[0.05em] text-stone-900 font-[family-name:var(--font-display)] ${focusRing}`}
+            aria-label="RE:픽 홈"
+            className={`inline-flex items-center gap-1.5 rounded-md text-xl font-bold tracking-tight text-stone-900 ${focusRing}`}
           >
-            repick
+            <span className="rounded-md bg-orange-700 px-1.5 py-0.5 text-base font-semibold text-white font-[family-name:var(--font-geist-mono)]">
+              RE:
+            </span>
+            픽
           </a>
           <nav aria-label="주요 메뉴" className="hidden items-center gap-8 md:flex">
             {NAV_LINKS.map((link) => (
@@ -405,7 +409,7 @@ export default function LandingClient() {
               id="trust-heading"
               className="text-center text-xs font-semibold uppercase tracking-[0.14em] text-stone-600"
             >
-              이런 곳에서 repick을 주목했습니다
+              이런 곳에서 RE:픽을 주목했습니다
             </h2>
             <ul className="mt-6 flex flex-wrap items-center justify-center gap-x-10 gap-y-4">
               {TRUST_LOGOS.map((name) => (
@@ -826,7 +830,12 @@ export default function LandingClient() {
         <div className="mx-auto max-w-7xl px-6 py-16 lg:px-8">
           <div className="grid grid-cols-2 gap-10 sm:grid-cols-4">
             <div className="col-span-2 sm:col-span-1">
-              <p className="text-2xl font-semibold tracking-[0.05em] text-stone-50 font-[family-name:var(--font-display)]">repick</p>
+              <p className="inline-flex items-center gap-1.5 text-2xl font-bold tracking-tight text-stone-50">
+                <span className="rounded-md bg-orange-700 px-2 py-0.5 text-lg font-semibold text-white font-[family-name:var(--font-geist-mono)]">
+                  RE:
+                </span>
+                픽
+              </p>
               <p className="mt-3 max-w-xs text-sm text-stone-400">
                 AI가 취향을 학습해 당신에게 맞는 중고만 다시 골라주는 리커머스.
               </p>
@@ -878,7 +887,7 @@ export default function LandingClient() {
           </div>
 
           <div className="mt-16 flex flex-col items-center justify-between gap-4 border-t border-stone-800 pt-8 text-sm text-stone-400 sm:flex-row">
-            <p>© 2026 repick Inc. All rights reserved.</p>
+            <p>© 2026 RE:픽. All rights reserved.</p>
             <ul className="flex gap-6">
               <li>
                 <a href="/terms" className={`rounded-md hover:text-stone-300 ${focusRingOnDark}`}>
