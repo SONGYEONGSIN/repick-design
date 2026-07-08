@@ -258,9 +258,9 @@ export default function LandingClient() {
           <a
             href="#main-content"
             aria-label="RE:픽 홈"
-            className={`inline-flex items-center gap-1.5 rounded-md text-xl font-bold tracking-tight text-stone-900 ${focusRing}`}
+            className={`inline-flex items-center gap-1.5 rounded-md text-2xl font-bold tracking-tight text-stone-900 ${focusRing}`}
           >
-            <span className="rounded-md bg-orange-700 px-1.5 py-0.5 text-base font-semibold text-white font-[family-name:var(--font-geist-mono)]">
+            <span className="rounded-md bg-orange-700 px-2 py-0.5 text-lg font-semibold text-white font-[family-name:var(--font-geist-mono)]">
               RE:
             </span>
             픽
