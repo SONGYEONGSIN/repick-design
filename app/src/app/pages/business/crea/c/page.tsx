@@ -1,6 +1,26 @@
 'use client';
 
+import Image from 'next/image';
 import { useRef, useState, type KeyboardEvent } from 'react';
+import {
+  motion,
+  useReducedMotion,
+  useScroll,
+  useTransform,
+  type Variants,
+} from 'framer-motion';
+import {
+  ArrowDown,
+  ArrowLeft,
+  ArrowRight,
+  Bell,
+  Building2,
+  CheckCircle2,
+  Download,
+  MousePointerClick,
+  Receipt,
+  Sparkles,
+} from 'lucide-react';
 
 type HotspotDef = {
   id: string;
@@ -128,6 +148,27 @@ const roiStats = [
 
 const clients = ['CIRCLE MARKET', '루프스토어', '리씨클컴퍼니', '빈티지웍스', '그린클로짓', '셀렉트인벤토리'];
 
+const inventoryShowcase = [
+  {
+    src: 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=800&q=80',
+    alt: '다양한 색상의 의류가 옷걸이에 걸려 정리된 재고 랙',
+    caption: '패션 의류',
+  },
+  {
+    src: 'https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&w=800&q=80',
+    alt: '가죽 크로스백과 액세서리를 가까이서 촬영한 사진',
+    caption: '가방 · 액세서리',
+  },
+  {
+    src: 'https://images.unsplash.com/photo-1543076447-215ad9ba6923?auto=format&fit=crop&w=800&q=80',
+    alt: '화이트 톤의 클래식 스니커즈 한 켤레',
+    caption: '신발',
+  },
+];
+
+const EASE = [0.16, 1, 0.3, 1] as const;
+const VIEWPORT = { once: true, margin: '-100px' } as const;
+
 type MockupProps = {
   hotspots: HotspotDef[];
   activeHotspot: string | null;
@@ -159,7 +200,7 @@ function HotspotPin({
           ? 'scale-110 border-emerald-700 bg-emerald-700 text-white'
           : visited
             ? 'border-emerald-300 bg-white text-emerald-700'
-            : 'animate-pulse border-emerald-700 bg-emerald-700 text-white'
+            : 'motion-safe:animate-pulse border-emerald-700 bg-emerald-700 text-white'
       }`}
     >
       {number}
@@ -187,15 +228,15 @@ function InventoryMockup({ hotspots, activeHotspot, visitedIds, onSelect }: Mock
         <div className="flex gap-6 text-center sm:gap-8">
           <div>
             <p className="text-[11px] text-slate-500">전체 재고</p>
-            <p className="font-mono text-lg font-bold text-slate-900">128</p>
+            <p className="font-mono text-lg font-bold tabular-nums text-slate-900">128</p>
           </div>
           <div>
             <p className="text-[11px] text-slate-500">신규 입고</p>
-            <p className="font-mono text-lg font-bold text-slate-900">14</p>
+            <p className="font-mono text-lg font-bold tabular-nums text-slate-900">14</p>
           </div>
           <div>
             <p className="text-[11px] text-slate-500">판매 대기</p>
-            <p className="font-mono text-lg font-bold text-slate-900">32</p>
+            <p className="font-mono text-lg font-bold tabular-nums text-slate-900">32</p>
           </div>
         </div>
         <div className="relative">
@@ -274,7 +315,7 @@ function PricingMockup({ hotspots, activeHotspot, visitedIds, onSelect }: Mockup
     <div>
       <div className="mb-5">
         <p className="text-xs text-slate-500">AI 추천가</p>
-        <p className="font-mono text-3xl font-bold text-emerald-600">68,000원</p>
+        <p className="font-mono text-3xl font-bold tabular-nums text-emerald-600">68,000원</p>
       </div>
       <div className="relative mb-4 rounded-xl border border-slate-200 p-4">
         <p className="mb-3 text-xs font-medium text-slate-500">최근 90일 실거래가 추이</p>
@@ -302,7 +343,7 @@ function PricingMockup({ hotspots, activeHotspot, visitedIds, onSelect }: Mockup
         <div className="h-2 w-full rounded-full bg-slate-100">
           <div className="h-2 w-2/3 rounded-full bg-emerald-500" />
         </div>
-        <div className="mt-1.5 flex justify-between font-mono text-[11px] text-slate-500">
+        <div className="mt-1.5 flex justify-between font-mono text-[11px] tabular-nums text-slate-500">
           <span>58,000</span>
           <span>78,000</span>
         </div>
@@ -322,7 +363,7 @@ function PricingMockup({ hotspots, activeHotspot, visitedIds, onSelect }: Mockup
           {competitors.map((c) => (
             <div key={c.name} className="flex items-center justify-between text-sm">
               <span className="text-slate-500">{c.name}</span>
-              <span className="font-mono text-slate-700">{c.price}</span>
+              <span className="font-mono tabular-nums text-slate-700">{c.price}</span>
             </div>
           ))}
         </div>
@@ -359,7 +400,7 @@ function MatchingMockup({ hotspots, activeHotspot, visitedIds, onSelect }: Mocku
             <div key={c.name}>
               <div className="mb-1 flex items-center justify-between text-xs">
                 <span className="text-slate-600">{c.name}</span>
-                <span className="font-mono font-semibold text-slate-700">{c.pct}%</span>
+                <span className="font-mono font-semibold tabular-nums text-slate-700">{c.pct}%</span>
               </div>
               <div className="h-1.5 w-full rounded-full bg-slate-100">
                 <div
@@ -381,8 +422,8 @@ function MatchingMockup({ hotspots, activeHotspot, visitedIds, onSelect }: Mocku
         )}
       </div>
       <div className="relative mb-4 flex items-start gap-3 rounded-xl border border-emerald-200 bg-emerald-50 p-4">
-        <span aria-hidden="true" className="mt-0.5 text-base">
-          🔔
+        <span aria-hidden="true" className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center text-emerald-700">
+          <Bell className="h-4 w-4" aria-hidden="true" />
         </span>
         <div className="min-w-0">
           <p className="text-sm font-medium text-emerald-800">자사몰에서 매칭 성사 직전이에요</p>
@@ -443,7 +484,7 @@ function SettlementMockup({ hotspots, activeHotspot, visitedIds, onSelect }: Moc
     <div>
       <div className="relative mb-4 rounded-xl border border-emerald-200 bg-emerald-50 p-4">
         <p className="text-xs text-emerald-700">이번 달 정산 예정 금액</p>
-        <p className="mt-1 font-mono text-2xl font-bold text-emerald-700">219,000원</p>
+        <p className="mt-1 font-mono text-2xl font-bold tabular-nums text-emerald-700">219,000원</p>
         {h1 && (
           <HotspotPin
             number={1}
@@ -466,9 +507,9 @@ function SettlementMockup({ hotspots, activeHotspot, visitedIds, onSelect }: Moc
             key={r.item}
             className="grid grid-cols-[auto_1fr_auto_auto] items-center gap-3 border-b border-slate-100 px-4 py-2.5 text-sm last:border-0"
           >
-            <span className="font-mono text-xs text-slate-500">{r.date}</span>
+            <span className="font-mono text-xs tabular-nums text-slate-500">{r.date}</span>
             <span className="truncate text-slate-700">{r.item}</span>
-            <span className="font-mono text-slate-900">{r.amount.toLocaleString('ko-KR')}원</span>
+            <span className="font-mono tabular-nums text-slate-900">{r.amount.toLocaleString('ko-KR')}원</span>
             <span
               className={`justify-self-end rounded-full px-2 py-0.5 text-[10px] font-medium ${
                 r.status === '정산 완료' ? 'bg-emerald-50 text-emerald-700' : 'bg-amber-50 text-amber-600'
@@ -481,8 +522,8 @@ function SettlementMockup({ hotspots, activeHotspot, visitedIds, onSelect }: Moc
       </div>
       <div className="flex flex-wrap items-center gap-3">
         <span className="relative">
-          <span className="rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-xs font-medium text-slate-500">
-            ⬇ 월별 리포트
+          <span className="inline-flex items-center gap-1.5 rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-xs font-medium text-slate-500">
+            <Download className="h-3.5 w-3.5" aria-hidden="true" /> 월별 리포트
           </span>
           {h2 && (
             <HotspotPin
@@ -495,8 +536,8 @@ function SettlementMockup({ hotspots, activeHotspot, visitedIds, onSelect }: Moc
           )}
         </span>
         <span className="relative">
-          <span className="rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-xs font-medium text-slate-500">
-            🧾 세금계산서 발행
+          <span className="inline-flex items-center gap-1.5 rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-xs font-medium text-slate-500">
+            <Receipt className="h-3.5 w-3.5" aria-hidden="true" /> 세금계산서 발행
           </span>
           {h3 && (
             <HotspotPin
@@ -548,10 +589,18 @@ function FormField({
 }
 
 export default function Landing() {
+  const prefersReducedMotion = useReducedMotion();
   const [activeStep, setActiveStep] = useState(0);
   const [activeHotspot, setActiveHotspot] = useState<string | null>(null);
   const [visited, setVisited] = useState<Record<string, string[]>>({});
   const tabRefs = useRef<Array<HTMLButtonElement | null>>([]);
+  const heroImageRef = useRef<HTMLDivElement>(null);
+
+  const { scrollYProgress: heroScrollProgress } = useScroll({
+    target: heroImageRef,
+    offset: ['start start', 'end start'],
+  });
+  const heroParallaxY = useTransform(heroScrollProgress, [0, 1], [0, 32]);
 
   const current = tourSteps[activeStep];
   const currentVisited = visited[current.id] ?? [];
@@ -593,6 +642,63 @@ export default function Landing() {
     onSelect: (id) => selectHotspot(current.id, id),
   };
 
+  // Motion variants — all durations/offsets collapse to instant when reduced motion is preferred.
+  const heroContainer: Variants = {
+    hidden: {},
+    show: {
+      transition: {
+        staggerChildren: prefersReducedMotion ? 0 : 0.1,
+        delayChildren: prefersReducedMotion ? 0 : 0.1,
+      },
+    },
+  };
+  const heroItem: Variants = {
+    hidden: { opacity: prefersReducedMotion ? 1 : 0, y: prefersReducedMotion ? 0 : 18 },
+    show: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: prefersReducedMotion ? 0 : 0.6, ease: EASE },
+    },
+  };
+  const heroImageVariant: Variants = {
+    hidden: { opacity: prefersReducedMotion ? 1 : 0, scale: prefersReducedMotion ? 1 : 0.96 },
+    show: {
+      opacity: 1,
+      scale: 1,
+      transition: { duration: prefersReducedMotion ? 0 : 0.8, ease: EASE, delay: prefersReducedMotion ? 0 : 0.2 },
+    },
+  };
+  const badgeVariant: Variants = {
+    hidden: { opacity: prefersReducedMotion ? 1 : 0, y: prefersReducedMotion ? 0 : 14, scale: prefersReducedMotion ? 1 : 0.95 },
+    show: {
+      opacity: 1,
+      y: 0,
+      scale: 1,
+      transition: { duration: prefersReducedMotion ? 0 : 0.5, ease: EASE, delay: prefersReducedMotion ? 0 : 0.55 },
+    },
+  };
+  const fadeUp: Variants = {
+    hidden: { opacity: prefersReducedMotion ? 1 : 0, y: prefersReducedMotion ? 0 : 24 },
+    show: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: prefersReducedMotion ? 0 : 0.6, ease: EASE },
+    },
+  };
+  const staggerContainer = (stagger = 0.1): Variants => ({
+    hidden: {},
+    show: {
+      transition: {
+        staggerChildren: prefersReducedMotion ? 0 : stagger,
+        delayChildren: prefersReducedMotion ? 0 : 0.05,
+      },
+    },
+  });
+
+  const hoverLift = prefersReducedMotion ? undefined : { y: -4 };
+  const hoverButton = prefersReducedMotion ? undefined : { y: -2, scale: 1.02 };
+  const tapButton = prefersReducedMotion ? undefined : { scale: 0.97 };
+
   return (
     <div className="min-h-screen bg-white font-sans text-slate-900">
       <style>{`
@@ -616,78 +722,190 @@ export default function Landing() {
 
       <header className="sticky top-0 z-40 border-b border-slate-200 bg-white/90 backdrop-blur">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3.5 sm:px-6 lg:px-8">
-          <div className="flex items-center gap-2">
-            <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-emerald-600 text-sm font-bold text-white">
-              r
+          <a
+            href="#main"
+            aria-label="RE:픽 Business 홈"
+            className="inline-flex items-center gap-2 rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-600 focus-visible:ring-offset-2"
+          >
+            <span className="inline-flex items-center gap-1.5 text-xl font-bold tracking-tight text-stone-900 sm:text-2xl">
+              <span className="rounded-md bg-orange-700 px-2 py-0.5 text-base font-semibold text-white font-[family-name:var(--font-geist-mono)] sm:text-lg">
+                RE:
+              </span>
+              픽
             </span>
-            <span className="text-base font-semibold tracking-tight">
-              repick <span className="font-normal text-slate-500">Business</span>
-            </span>
-          </div>
+            <span className="hidden text-sm font-medium text-slate-400 sm:inline">Business</span>
+          </a>
           <nav aria-label="주요 메뉴" className="hidden items-center gap-6 text-sm font-medium text-slate-500 md:flex">
-            <a href="#tour" className="hover:text-emerald-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-600 focus-visible:ring-offset-2 rounded">
+            <a href="#tour" className="rounded text-sm hover:text-emerald-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-600 focus-visible:ring-offset-2">
               제품 둘러보기
             </a>
-            <a href="#roi" className="hover:text-emerald-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-600 focus-visible:ring-offset-2 rounded">
+            <a href="#roi" className="rounded text-sm hover:text-emerald-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-600 focus-visible:ring-offset-2">
               도입효과
             </a>
-            <a href="#demo" className="hover:text-emerald-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-600 focus-visible:ring-offset-2 rounded">
+            <a href="#demo" className="rounded text-sm hover:text-emerald-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-600 focus-visible:ring-offset-2">
               도입문의
             </a>
           </nav>
-          <a
+          <motion.a
             href="#demo"
-            className="rounded-lg bg-emerald-700 px-4 py-2 text-sm font-semibold text-white transition hover:bg-emerald-800 active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-600 focus-visible:ring-offset-2"
+            whileHover={hoverButton}
+            whileTap={tapButton}
+            className="inline-flex min-h-11 items-center rounded-lg bg-emerald-700 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-emerald-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-600 focus-visible:ring-offset-2"
           >
             데모 요청
-          </a>
+          </motion.a>
         </div>
       </header>
 
       <main id="main">
         {/* HERO */}
         <section
-          className="relative overflow-hidden px-4 py-16 sm:px-6 sm:py-24 lg:px-8"
+          aria-labelledby="hero-heading"
+          className="relative overflow-hidden border-b border-slate-200 px-4 py-16 sm:px-6 sm:py-24 lg:px-8"
           style={{
-            backgroundImage:
-              'radial-gradient(oklch(85% 0.05 165 / 0.5) 1px, transparent 1px)',
+            backgroundImage: 'radial-gradient(oklch(85% 0.05 165 / 0.5) 1px, transparent 1px)',
             backgroundSize: '22px 22px',
           }}
         >
-          <div className="mx-auto max-w-3xl text-center">
-            <span className="mb-5 inline-flex items-center gap-1.5 rounded-full border border-emerald-200 bg-emerald-50 px-3.5 py-1.5 text-xs font-semibold text-emerald-700">
-              <span aria-hidden="true">🖱️</span> 인터랙티브 데모 · 약 3분 소요
-            </span>
-            <h1 className="text-4xl font-black leading-[1.15] tracking-tight text-slate-900 sm:text-5xl">
-              가입 없이,
-              <br className="sm:hidden" /> 지금 대시보드를 눌러보세요
-            </h1>
-            <p className="mx-auto mt-5 max-w-xl text-base leading-relaxed text-slate-500 sm:text-lg">
-              셀러 대시보드가 재고를 어떻게 팔리는 가격, 팔리는 채널로 연결하는지 — AI가 만든 실제
-              화면을 아래에서 직접 클릭하며 확인해보세요.
-            </p>
-            <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-              <a
-                href="#tour"
-                className="rounded-lg bg-emerald-700 px-6 py-3 text-sm font-semibold text-white transition hover:bg-emerald-800 active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-600 focus-visible:ring-offset-2"
+          <div className="mx-auto grid max-w-6xl gap-16 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
+            <motion.div
+              variants={heroContainer}
+              initial="hidden"
+              animate="show"
+              className="text-center lg:text-left"
+            >
+              <motion.span
+                variants={heroItem}
+                className="inline-flex items-center gap-2 rounded-full border border-emerald-200 bg-emerald-50 px-3.5 py-1.5 text-xs font-semibold text-emerald-700"
               >
-                지금 둘러보기 ↓
-              </a>
-              <a
-                href="#demo"
-                className="rounded-lg border border-slate-300 bg-white px-6 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-50 active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-600 focus-visible:ring-offset-2"
+                <MousePointerClick className="h-3.5 w-3.5" aria-hidden="true" /> 인터랙티브 데모 · 약 3분 소요
+              </motion.span>
+              <motion.h1
+                variants={heroItem}
+                id="hero-heading"
+                className="mt-6 text-balance text-[clamp(2.25rem,5.5vw,3.75rem)] font-black leading-[1.12] tracking-[-0.01em] text-slate-900"
               >
-                담당자와 상담하기
-              </a>
+                가입 없이,
+                <br className="hidden sm:block" /> 지금 대시보드를 눌러보세요
+              </motion.h1>
+              <motion.p
+                variants={heroItem}
+                className="mx-auto mt-5 max-w-xl text-balance text-base leading-relaxed tracking-[-0.01em] text-slate-600 sm:text-lg lg:mx-0"
+              >
+                셀러 대시보드가 재고를 어떻게 팔리는 가격, 팔리는 채널로 연결하는지 — AI가 만든 실제
+                화면을 아래에서 직접 클릭하며 확인해보세요.
+              </motion.p>
+              <motion.div
+                variants={heroItem}
+                className="mt-8 flex flex-wrap items-center justify-center gap-3 lg:justify-start"
+              >
+                <motion.a
+                  href="#tour"
+                  whileHover={hoverButton}
+                  whileTap={tapButton}
+                  className="inline-flex min-h-11 items-center gap-1.5 rounded-lg bg-emerald-700 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-emerald-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-600 focus-visible:ring-offset-2"
+                >
+                  지금 둘러보기
+                  <ArrowDown className="h-4 w-4" aria-hidden="true" />
+                </motion.a>
+                <motion.a
+                  href="#demo"
+                  whileHover={hoverButton}
+                  whileTap={tapButton}
+                  className="inline-flex min-h-11 items-center rounded-lg border border-slate-300 bg-white px-6 py-3 text-sm font-semibold text-slate-700 transition-colors hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-600 focus-visible:ring-offset-2"
+                >
+                  담당자와 상담하기
+                </motion.a>
+              </motion.div>
+              <motion.p variants={heroItem} className="mt-4 text-xs text-slate-500">
+                카드 등록 없이 · 핫스팟 12곳 · 클릭만으로 체험
+              </motion.p>
+            </motion.div>
+
+            <div ref={heroImageRef} className="relative mx-auto w-full max-w-md lg:max-w-none">
+              <motion.div
+                variants={heroImageVariant}
+                initial="hidden"
+                animate="show"
+                style={prefersReducedMotion ? undefined : { y: heroParallaxY }}
+                className="relative aspect-[4/5] w-full overflow-hidden rounded-[2rem] border border-slate-200 shadow-2xl shadow-slate-900/10 sm:aspect-[5/4]"
+              >
+                <Image
+                  src="https://images.unsplash.com/photo-1523381210434-271e8be1f52b?auto=format&fit=crop&w=1200&q=80"
+                  alt="옷걸이에 걸린 다양한 색상의 의류가 줄지어 있는 재고 랙"
+                  fill
+                  sizes="(min-width: 1024px) 45vw, 90vw"
+                  preload
+                  className="object-cover"
+                />
+              </motion.div>
+              <motion.div
+                variants={badgeVariant}
+                initial="hidden"
+                animate="show"
+                className="absolute -bottom-6 -left-4 hidden items-center gap-3 rounded-2xl border border-slate-200 bg-white/95 px-4 py-3 shadow-xl backdrop-blur sm:flex"
+              >
+                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-emerald-50 text-emerald-700">
+                  <Sparkles className="h-5 w-5" aria-hidden="true" />
+                </span>
+                <span className="text-sm leading-tight">
+                  <span className="block font-mono font-semibold tabular-nums text-slate-900">AI 매칭 정확도 94%</span>
+                  <span className="text-slate-500">실거래 데이터 기반</span>
+                </span>
+              </motion.div>
             </div>
-            <p className="mt-4 text-xs text-slate-500">카드 등록 없이 · 핫스팟 12곳 · 클릭만으로 체험</p>
           </div>
         </section>
 
-        {/* TOUR */}
-        <section id="tour" aria-labelledby="tour-heading" className="border-t border-slate-200 px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
+        {/* INVENTORY CATEGORIES — supporting real imagery, mockups untouched below */}
+        <section aria-labelledby="categories-heading" className="border-b border-slate-200 px-4 py-14 sm:px-6 lg:px-8">
           <div className="mx-auto max-w-6xl">
-            <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+            <div className="text-center sm:text-left">
+              <p className="text-xs font-semibold tracking-wide text-emerald-700">INVENTORY CATEGORIES</p>
+              <h2 id="categories-heading" className="mt-2 text-2xl font-black tracking-tight text-slate-900 sm:text-3xl">
+                다양한 카테고리의 재고를 한 화면에서 관리해요
+              </h2>
+            </div>
+            <motion.div
+              variants={staggerContainer(0.12)}
+              initial="hidden"
+              whileInView="show"
+              viewport={VIEWPORT}
+              className="mt-8 grid grid-cols-1 gap-5 sm:grid-cols-3"
+            >
+              {inventoryShowcase.map((item) => (
+                <motion.figure
+                  key={item.caption}
+                  variants={fadeUp}
+                  whileHover={hoverLift}
+                  className="group overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition-shadow hover:shadow-md"
+                >
+                  <div className="relative aspect-[4/3] w-full overflow-hidden">
+                    <Image
+                      src={item.src}
+                      alt={item.alt}
+                      fill
+                      sizes="(min-width: 640px) 33vw, 100vw"
+                      className="object-cover transition-transform duration-500 motion-safe:group-hover:scale-105"
+                    />
+                  </div>
+                  <figcaption className="px-4 py-3 text-sm font-medium text-slate-700">{item.caption}</figcaption>
+                </motion.figure>
+              ))}
+            </motion.div>
+          </div>
+        </section>
+
+        {/* TOUR — tabs/hotspot concept + accessibility contract unchanged */}
+        <section id="tour" aria-labelledby="tour-heading" className="border-b border-slate-200 px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
+          <div className="mx-auto max-w-6xl">
+            <motion.div
+              variants={fadeUp}
+              initial="hidden"
+              whileInView="show"
+              viewport={VIEWPORT}
+              className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between"
+            >
               <div>
                 <p className="text-xs font-semibold tracking-wide text-emerald-700">PRODUCT TOUR</p>
                 <h2 id="tour-heading" className="mt-2 text-3xl font-black tracking-tight text-slate-900 sm:text-4xl">
@@ -697,7 +915,7 @@ export default function Landing() {
               <div className="w-full sm:w-56">
                 <div className="flex items-center justify-between text-xs text-slate-500">
                   <span>전체 진행률</span>
-                  <span className="font-mono">
+                  <span className="font-mono tabular-nums">
                     {totalVisited}/{totalHotspots}
                   </span>
                 </div>
@@ -708,14 +926,23 @@ export default function Landing() {
                   />
                 </div>
               </div>
-            </div>
+            </motion.div>
 
-            <div role="tablist" aria-label="대시보드 투어 단계" className="mt-8 flex flex-wrap gap-2 sm:gap-3">
+            <motion.div
+              role="tablist"
+              aria-label="대시보드 투어 단계"
+              variants={staggerContainer(0.06)}
+              initial="hidden"
+              whileInView="show"
+              viewport={VIEWPORT}
+              className="mt-8 flex flex-wrap gap-2 sm:gap-3"
+            >
               {tourSteps.map((s, i) => {
                 const done = (visited[s.id]?.length ?? 0) === s.hotspots.length;
                 return (
-                  <button
+                  <motion.button
                     key={s.id}
+                    variants={fadeUp}
                     ref={(el) => {
                       tabRefs.current[i] = el;
                     }}
@@ -727,23 +954,29 @@ export default function Landing() {
                     tabIndex={activeStep === i ? 0 : -1}
                     onClick={() => goToStep(i)}
                     onKeyDown={(e) => handleTabKeyDown(e, i)}
-                    className={`flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-medium transition active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-600 focus-visible:ring-offset-2 ${
+                    whileHover={hoverLift}
+                    whileTap={tapButton}
+                    className={`flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-600 focus-visible:ring-offset-2 ${
                       activeStep === i
                         ? 'border-emerald-700 bg-emerald-700 text-white'
                         : 'border-slate-200 bg-white text-slate-500 hover:border-emerald-300 hover:text-emerald-700'
                     }`}
                   >
-                    <span className="font-mono text-xs">{s.tabNumber}</span>
+                    <span className="font-mono text-xs tabular-nums">{s.tabNumber}</span>
                     {s.tabLabel}
-                    {done && (
-                      <span aria-hidden="true">✓</span>
-                    )}
-                  </button>
+                    {done && <CheckCircle2 className="h-3.5 w-3.5" aria-hidden="true" />}
+                  </motion.button>
                 );
               })}
-            </div>
+            </motion.div>
 
-            <div className="mt-8 grid gap-6 lg:grid-cols-[1.4fr_1fr] lg:items-start">
+            <motion.div
+              variants={fadeUp}
+              initial="hidden"
+              whileInView="show"
+              viewport={VIEWPORT}
+              className="mt-8 grid gap-6 lg:grid-cols-[1.4fr_1fr] lg:items-start"
+            >
               {/* mockup */}
               <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
                 <div className="flex items-center gap-1.5 border-b border-slate-200 bg-slate-50 px-4 py-2.5">
@@ -775,7 +1008,7 @@ export default function Landing() {
                   <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
                     이 화면에서 확인할 기능
                   </p>
-                  <span className="font-mono text-xs text-slate-500">
+                  <span className="font-mono text-xs tabular-nums text-slate-500">
                     {currentVisited.length}/{current.hotspots.length}
                   </span>
                 </div>
@@ -800,7 +1033,7 @@ export default function Landing() {
                               isVisited ? 'bg-emerald-700 text-white' : 'bg-slate-100 text-slate-500'
                             }`}
                           >
-                            {isVisited ? '✓' : i + 1}
+                            {isVisited ? <CheckCircle2 className="h-3.5 w-3.5" aria-hidden="true" /> : i + 1}
                           </span>
                           <span className="min-w-0 flex-1 truncate font-medium">{h.label}</span>
                         </button>
@@ -824,16 +1057,16 @@ export default function Landing() {
                   )}
                 </div>
               </div>
-            </div>
+            </motion.div>
 
             <div className="mt-8 flex items-center justify-between gap-4">
               <button
                 type="button"
                 onClick={() => goToStep(Math.max(0, activeStep - 1))}
                 disabled={activeStep === 0}
-                className="rounded-lg border border-slate-200 px-4 py-2 text-sm font-medium text-slate-600 transition active:scale-[0.98] hover:bg-slate-50 disabled:pointer-events-none disabled:opacity-40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-600 focus-visible:ring-offset-2"
+                className="inline-flex min-h-11 items-center gap-1.5 rounded-lg border border-slate-200 px-4 py-2 text-sm font-medium text-slate-600 transition hover:bg-slate-50 disabled:pointer-events-none disabled:opacity-40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-600 focus-visible:ring-offset-2"
               >
-                ← 이전 화면
+                <ArrowLeft className="h-4 w-4" aria-hidden="true" /> 이전 화면
               </button>
 
               <nav aria-label="투어 단계 바로가기" className="flex items-center gap-2">
@@ -855,16 +1088,16 @@ export default function Landing() {
                 <button
                   type="button"
                   onClick={() => goToStep(activeStep + 1)}
-                  className="rounded-lg bg-emerald-700 px-4 py-2 text-sm font-semibold text-white transition hover:bg-emerald-800 active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-600 focus-visible:ring-offset-2"
+                  className="inline-flex min-h-11 items-center gap-1.5 rounded-lg bg-emerald-700 px-4 py-2 text-sm font-semibold text-white transition hover:bg-emerald-800 active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-600 focus-visible:ring-offset-2"
                 >
-                  다음 화면 →
+                  다음 화면 <ArrowRight className="h-4 w-4" aria-hidden="true" />
                 </button>
               ) : (
                 <a
                   href="#demo"
-                  className="rounded-lg bg-emerald-700 px-4 py-2 text-sm font-semibold text-white transition hover:bg-emerald-800 active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-600 focus-visible:ring-offset-2"
+                  className="inline-flex min-h-11 items-center gap-1.5 rounded-lg bg-emerald-700 px-4 py-2 text-sm font-semibold text-white transition hover:bg-emerald-800 active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-600 focus-visible:ring-offset-2"
                 >
-                  데모 요청하기 →
+                  데모 요청하기 <ArrowRight className="h-4 w-4" aria-hidden="true" />
                 </a>
               )}
             </div>
@@ -872,43 +1105,136 @@ export default function Landing() {
         </section>
 
         {/* ROI */}
-        <section id="roi" aria-labelledby="roi-heading" className="border-t border-slate-200 bg-slate-50 px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
-          <div className="mx-auto max-w-6xl">
-            <p className="text-xs font-semibold tracking-wide text-emerald-700">MEASURED RESULTS</p>
-            <h2 id="roi-heading" className="mt-2 text-3xl font-black tracking-tight text-slate-900 sm:text-4xl">
-              방금 눌러본 기능이 만드는 숫자
-            </h2>
-            <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-              {roiStats.map((s) => (
-                <div key={s.label} className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-                  <p className="font-mono text-4xl font-black text-emerald-600">{s.value}</p>
-                  <p className="mt-2 text-sm text-slate-500">{s.label}</p>
-                </div>
-              ))}
-            </div>
+        <section id="roi" aria-labelledby="roi-heading" className="border-b border-slate-200 bg-slate-50 px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
+          <div className="mx-auto grid max-w-6xl gap-10 lg:grid-cols-[0.85fr_1.15fr] lg:items-center">
+            <motion.div
+              variants={fadeUp}
+              initial="hidden"
+              whileInView="show"
+              viewport={VIEWPORT}
+              className="relative aspect-[4/3] w-full overflow-hidden rounded-3xl border border-slate-200 shadow-lg shadow-slate-900/5 lg:aspect-auto lg:h-full lg:min-h-[22rem]"
+            >
+              <Image
+                src="https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1000&q=80"
+                alt="파스텔 톤 빈티지 의류가 걸려 있는 옷걸이 랙"
+                fill
+                sizes="(min-width: 1024px) 40vw, 100vw"
+                className="object-cover"
+              />
+            </motion.div>
+            <motion.div
+              variants={staggerContainer(0.1)}
+              initial="hidden"
+              whileInView="show"
+              viewport={VIEWPORT}
+            >
+              <motion.p variants={fadeUp} className="text-xs font-semibold tracking-wide text-emerald-700">
+                MEASURED RESULTS
+              </motion.p>
+              <motion.h2
+                variants={fadeUp}
+                id="roi-heading"
+                className="mt-2 text-[clamp(1.75rem,4vw,2.5rem)] font-black tracking-tight text-slate-900"
+              >
+                방금 눌러본 기능이 만드는 숫자
+              </motion.h2>
+              <motion.div variants={staggerContainer(0.1)} className="mt-10 grid gap-4 sm:grid-cols-2">
+                {roiStats.map((s) => (
+                  <motion.div
+                    key={s.label}
+                    variants={fadeUp}
+                    whileHover={hoverLift}
+                    className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition-shadow hover:shadow-md"
+                  >
+                    <p className="font-mono text-4xl font-black tabular-nums text-emerald-600">{s.value}</p>
+                    <p className="mt-2 text-sm text-slate-500">{s.label}</p>
+                  </motion.div>
+                ))}
+              </motion.div>
+            </motion.div>
           </div>
         </section>
 
         {/* CLIENTS */}
-        <section aria-labelledby="clients-heading" className="border-t border-slate-200 px-4 py-14 sm:px-6 lg:px-8">
+        <section aria-labelledby="clients-heading" className="px-4 py-14 sm:px-6 lg:px-8">
           <div className="mx-auto max-w-6xl">
-            <h2 id="clients-heading" className="text-center text-xs font-semibold tracking-wide text-slate-500">
-              REFERENCE · 도입 기업 (일부)
-            </h2>
-            <div className="mt-8 flex flex-wrap items-center justify-center gap-x-10 gap-y-6 text-sm font-semibold tracking-wide text-slate-500">
-              {clients.map((c) => (
-                <span key={c}>{c}</span>
-              ))}
-            </div>
+            <motion.div
+              variants={fadeUp}
+              initial="hidden"
+              whileInView="show"
+              viewport={VIEWPORT}
+              className="relative isolate overflow-hidden rounded-3xl border border-slate-200"
+            >
+              <div className="absolute inset-0 -z-10">
+                <Image
+                  src="https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?auto=format&fit=crop&w=1600&q=80"
+                  alt="빈티지 의류 매장 내부, 옷걸이 랙이 늘어선 모습"
+                  fill
+                  sizes="100vw"
+                  className="object-cover"
+                />
+                <div className="absolute inset-0 bg-slate-900/80" />
+              </div>
+              <div className="px-6 py-14 text-center sm:px-10">
+                <p className="text-xs font-semibold tracking-wide text-emerald-300">REFERENCE</p>
+                <h2 id="clients-heading" className="mt-2 text-2xl font-black tracking-tight text-white sm:text-3xl">
+                  이미 여러 셀러가 RE:픽과 함께하고 있어요
+                </h2>
+                <motion.div
+                  variants={staggerContainer(0.06)}
+                  initial="hidden"
+                  whileInView="show"
+                  viewport={VIEWPORT}
+                  className="mt-8 flex flex-wrap items-center justify-center gap-x-6 gap-y-3"
+                >
+                  {clients.map((c) => (
+                    <motion.span
+                      key={c}
+                      variants={fadeUp}
+                      className="inline-flex items-center gap-1.5 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-sm font-semibold tracking-wide text-white backdrop-blur-sm"
+                    >
+                      <Building2 className="h-3.5 w-3.5 text-emerald-300" aria-hidden="true" />
+                      {c}
+                    </motion.span>
+                  ))}
+                </motion.div>
+              </div>
+            </motion.div>
           </div>
         </section>
 
         {/* DEMO FORM */}
         <section id="demo" aria-labelledby="demo-heading" className="border-t border-slate-200 bg-slate-50 px-4 py-16 sm:px-6 sm:py-24 lg:px-8">
-          <div className="mx-auto max-w-2xl">
-            <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-10">
+          <div className="mx-auto grid max-w-5xl gap-6 lg:grid-cols-[0.85fr_1.15fr] lg:items-stretch">
+            <motion.div
+              variants={fadeUp}
+              initial="hidden"
+              whileInView="show"
+              viewport={VIEWPORT}
+              className="relative hidden overflow-hidden rounded-2xl border border-slate-200 shadow-sm lg:block"
+            >
+              <Image
+                src="https://images.unsplash.com/photo-1445205170230-053b83016050?auto=format&fit=crop&w=900&q=80"
+                alt="옷걸이에 가지런히 걸린 코트들"
+                fill
+                sizes="(min-width: 1024px) 35vw, 0vw"
+                className="object-cover"
+              />
+              <div aria-hidden="true" className="absolute inset-0 bg-gradient-to-t from-slate-900/75 via-slate-900/10 to-transparent" />
+              <p className="absolute inset-x-0 bottom-0 p-6 text-sm font-medium text-white">
+                6개 유통 채널, 128건의 재고를 매일 이렇게 관리하고 있어요.
+              </p>
+            </motion.div>
+
+            <motion.div
+              variants={fadeUp}
+              initial="hidden"
+              whileInView="show"
+              viewport={VIEWPORT}
+              className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-10"
+            >
               <p className="text-xs font-semibold tracking-wide text-emerald-700">DEMO ACCESS</p>
-              <h2 id="demo-heading" className="mt-2 text-3xl font-black tracking-tight text-slate-900 sm:text-4xl">
+              <h2 id="demo-heading" className="mt-2 text-[clamp(1.75rem,4vw,2.5rem)] font-black tracking-tight text-slate-900">
                 도입 상담 신청
               </h2>
               <p className="mt-3 text-sm text-slate-500">
@@ -934,21 +1260,28 @@ export default function Landing() {
                     className="w-full resize-none rounded-lg border border-slate-300 px-3.5 py-2.5 text-sm text-slate-900 placeholder:text-slate-500 focus:border-emerald-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-600"
                   />
                 </div>
-                <button
+                <motion.button
                   type="submit"
-                  className="mt-2 rounded-lg bg-emerald-700 px-6 py-3 text-sm font-semibold text-white transition hover:bg-emerald-800 active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-600 focus-visible:ring-offset-2"
+                  whileHover={hoverButton}
+                  whileTap={tapButton}
+                  className="mt-2 inline-flex min-h-11 items-center justify-center gap-1.5 rounded-lg bg-emerald-700 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-emerald-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-600 focus-visible:ring-offset-2"
                 >
-                  요청 제출 →
-                </button>
+                  요청 제출 <ArrowRight className="h-4 w-4" aria-hidden="true" />
+                </motion.button>
               </form>
-            </div>
+            </motion.div>
           </div>
         </section>
       </main>
 
-      <footer className="border-t border-slate-200 px-4 py-10 sm:px-6 lg:px-8">
+      <footer className="border-t border-slate-200 bg-white px-4 py-10 sm:px-6 lg:px-8">
         <div className="mx-auto flex max-w-6xl flex-col gap-3 text-xs text-slate-500 sm:flex-row sm:items-center sm:justify-between">
-          <span>repick Business © 2026</span>
+          <span className="inline-flex items-center gap-1.5 text-base font-bold tracking-tight text-stone-900">
+            <span className="rounded-md bg-orange-700 px-1.5 py-0.5 text-sm font-semibold text-white font-[family-name:var(--font-geist-mono)]">
+              RE:
+            </span>
+            픽 <span className="font-normal text-slate-400">Business © 2026</span>
+          </span>
           <span>가입 없이 체험할 수 있는 인터랙티브 셀러 대시보드 데모</span>
         </div>
       </footer>
