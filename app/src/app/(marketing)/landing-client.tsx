@@ -1,8 +1,10 @@
 "use client";
 
 import Image from "next/image";
-import { useRef, useState } from "react";
+import Link from "next/link";
+import { useEffect, useRef, useState } from "react";
 import {
+  AnimatePresence,
   motion,
   useReducedMotion,
   useScroll,
@@ -16,7 +18,13 @@ import {
   ArrowRight,
   Heart,
   Quote,
+  Menu,
+  X,
+  Check,
+  ChevronDown,
 } from "lucide-react";
+
+const MotionLink = motion.create(Link);
 
 const focusRing =
   "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-stone-50 focus-visible:ring-orange-700";
@@ -31,6 +39,7 @@ const NAV_LINKS = [
   { href: "#features", label: "기능" },
   { href: "#showcase", label: "쇼케이스" },
   { href: "#testimonials", label: "후기" },
+  { href: "#faq", label: "FAQ" },
 ];
 
 const TRUST_LOGOS = ["요즘IT", "아웃스탠딩", "커리어리", "월간 디자인", "리멤버"];
@@ -50,6 +59,62 @@ const STEPS = [
     icon: ShieldCheck,
     title: "안심하고 받아보세요",
     desc: "전문 검수와 실측 사진으로 확인된 상품만 매칭해서 보여드려요.",
+  },
+];
+
+const COMPARISON_ROWS = [
+  {
+    label: "검색 시간",
+    direct: "여러 앱을 오가며 수십 개씩 직접 뒤져야 해요",
+    repick: "AI가 취향에 맞는 상품만 먼저 추려드려요",
+  },
+  {
+    label: "상태 확인",
+    direct: "사진만 보고 판단, 실물은 받아봐야 알아요",
+    repick: "전문 검수팀의 실측 사진과 등급을 먼저 확인해요",
+  },
+  {
+    label: "가격 신뢰",
+    direct: "판매자마다 부르는 값이 제각각이에요",
+    repick: "시세 데이터를 기반으로 투명하게 책정돼요",
+  },
+  {
+    label: "사이즈 매칭",
+    direct: "실측 없이 사이즈만 보고 추측해요",
+    repick: "내 사이즈 데이터와 자동으로 비교해드려요",
+  },
+  {
+    label: "구매 후 만족",
+    direct: "안 맞으면 되팔거나 서랍에 넣어둬요",
+    repick: "검수된 상품이라 후회할 확률이 낮아요",
+  },
+];
+
+const FAQS = [
+  {
+    question: "RE:픽은 다른 중고 플랫폼과 뭐가 다른가요?",
+    answer:
+      "직접 검색하지 않아도 됩니다. AI가 취향, 사이즈, 예산을 학습해 지금 살 만한 상품만 추려서 보여드려요. 스크롤은 줄고, 살 확률은 올라갑니다.",
+  },
+  {
+    question: "가격은 어떻게 책정되나요?",
+    answer:
+      "시세 데이터와 실측 상태 등급을 기반으로 산정합니다. 원가와 할인율을 매물마다 투명하게 함께 표기해요.",
+  },
+  {
+    question: "상품 상태는 어떻게 확인할 수 있나요?",
+    answer:
+      "전문 검수팀이 실측 사이즈와 하자 여부를 직접 확인한 뒤, 등급과 실측 사진을 함께 제공합니다. 실물을 보지 않아도 상태를 가늠할 수 있어요.",
+  },
+  {
+    question: "취향 학습은 어떻게 이뤄지나요?",
+    answer:
+      "찜, 스킵, 구매 이력을 실시간으로 반영해 취향 프로필을 계속 업데이트합니다. 쓸수록 추천이 정확해져요.",
+  },
+  {
+    question: "반품이나 환불도 가능한가요?",
+    answer:
+      "상품 설명과 실물 상태가 다르면 반품 및 환불을 지원합니다. 자세한 절차는 마이페이지 고객센터에서 바로 안내받을 수 있어요.",
   },
 ];
 
@@ -136,27 +201,27 @@ const FOOTER_COLUMNS = [
     title: "제품",
     links: [
       { label: "기능", href: "#features" },
-      { label: "요금제", href: "/pricing" },
+      { label: "작동 방식", href: "#how-it-works" },
       { label: "쇼케이스", href: "#showcase" },
-      { label: "앱 다운로드", href: "/app" },
+      { label: "앱 다운로드", href: "#" },
     ],
   },
   {
     title: "회사",
     links: [
-      { label: "소개", href: "/about" },
-      { label: "블로그", href: "/blog" },
-      { label: "채용", href: "/careers" },
-      { label: "뉴스룸", href: "/press" },
+      { label: "소개", href: "#" },
+      { label: "블로그", href: "#" },
+      { label: "채용", href: "#" },
+      { label: "뉴스룸", href: "#" },
     ],
   },
   {
     title: "지원",
     links: [
-      { label: "고객센터", href: "/support" },
-      { label: "FAQ", href: "/faq" },
-      { label: "이용약관", href: "/terms" },
-      { label: "개인정보처리방침", href: "/privacy" },
+      { label: "고객센터", href: "#" },
+      { label: "FAQ", href: "#faq" },
+      { label: "이용약관", href: "#" },
+      { label: "개인정보처리방침", href: "#" },
     ],
   },
 ];
@@ -167,6 +232,38 @@ export default function LandingClient() {
   const toggleLike = (title: string) => {
     setLikedProducts((prev) => ({ ...prev, [title]: !prev[title] }));
   };
+
+  // Mobile navigation drawer
+  const [mobileNavOpen, setMobileNavOpen] = useState(false);
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
+  const isFirstRender = useRef(true);
+
+  useEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
+    if (mobileNavOpen) {
+      closeButtonRef.current?.focus();
+    } else {
+      menuButtonRef.current?.focus();
+    }
+  }, [mobileNavOpen]);
+
+  useEffect(() => {
+    if (!mobileNavOpen) return;
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setMobileNavOpen(false);
+    };
+    document.addEventListener("keydown", handleKeyDown);
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [mobileNavOpen]);
 
   const heroRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
@@ -276,14 +373,89 @@ export default function LandingClient() {
               </a>
             ))}
           </nav>
-          <a
-            href="/signup"
-            className={`hidden min-h-11 items-center justify-center rounded-full bg-stone-900 px-5 py-2.5 text-sm font-semibold text-stone-50 shadow-sm transition motion-safe:hover:-translate-y-0.5 hover:bg-stone-800 active:translate-y-0 active:bg-stone-950 sm:inline-flex ${focusRing}`}
-          >
-            무료로 시작
-          </a>
+          <div className="flex items-center gap-2">
+            <Link
+              href="/dashboard"
+              className={`hidden min-h-11 items-center justify-center rounded-full bg-stone-900 px-5 py-2.5 text-sm font-semibold text-stone-50 shadow-sm transition motion-safe:hover:-translate-y-0.5 hover:bg-stone-800 active:translate-y-0 active:bg-stone-950 md:inline-flex ${focusRing}`}
+            >
+              무료로 시작
+            </Link>
+            <button
+              ref={menuButtonRef}
+              type="button"
+              aria-expanded={mobileNavOpen}
+              aria-controls="mobile-nav-drawer"
+              aria-label={mobileNavOpen ? "메뉴 닫기" : "메뉴 열기"}
+              onClick={() => setMobileNavOpen((prev) => !prev)}
+              className={`inline-flex h-11 w-11 items-center justify-center rounded-full text-stone-700 transition-colors hover:bg-stone-100 md:hidden ${focusRing}`}
+            >
+              <Menu className="h-5 w-5" aria-hidden="true" />
+            </button>
+          </div>
         </div>
       </header>
+
+      <AnimatePresence>
+        {mobileNavOpen && (
+          <>
+            <motion.button
+              key="mobile-nav-overlay"
+              type="button"
+              aria-label="메뉴 닫기"
+              onClick={() => setMobileNavOpen(false)}
+              className="fixed inset-0 z-40 bg-stone-900/50 md:hidden"
+              initial={{ opacity: prefersReducedMotion ? 1 : 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: prefersReducedMotion ? 1 : 0 }}
+              transition={{ duration: prefersReducedMotion ? 0 : 0.2 }}
+            />
+            <motion.div
+              key="mobile-nav-drawer"
+              id="mobile-nav-drawer"
+              role="dialog"
+              aria-modal="true"
+              aria-label="주요 메뉴"
+              className="fixed inset-y-0 right-0 z-50 flex w-full max-w-xs flex-col gap-8 border-l border-stone-200 bg-stone-50 px-6 py-6 shadow-2xl md:hidden"
+              initial={{ x: prefersReducedMotion ? 0 : "100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: prefersReducedMotion ? 0 : "100%" }}
+              transition={{ duration: prefersReducedMotion ? 0 : 0.32, ease: EASE }}
+            >
+              <div className="flex items-center justify-between">
+                <span className="text-lg font-semibold text-stone-900">메뉴</span>
+                <button
+                  ref={closeButtonRef}
+                  type="button"
+                  onClick={() => setMobileNavOpen(false)}
+                  aria-label="메뉴 닫기"
+                  className={`inline-flex h-11 w-11 items-center justify-center rounded-full text-stone-700 transition-colors hover:bg-stone-100 ${focusRing}`}
+                >
+                  <X className="h-5 w-5" aria-hidden="true" />
+                </button>
+              </div>
+              <nav aria-label="모바일 주요 메뉴" className="flex flex-col gap-1">
+                {NAV_LINKS.map((link) => (
+                  <a
+                    key={link.href}
+                    href={link.href}
+                    onClick={() => setMobileNavOpen(false)}
+                    className={`rounded-md px-2 py-3 text-base font-medium text-stone-700 transition-colors hover:bg-stone-100 hover:text-stone-900 ${focusRing}`}
+                  >
+                    {link.label}
+                  </a>
+                ))}
+              </nav>
+              <Link
+                href="/dashboard"
+                onClick={() => setMobileNavOpen(false)}
+                className={`mt-auto inline-flex min-h-11 items-center justify-center rounded-full bg-stone-900 px-5 py-3 text-sm font-semibold text-stone-50 shadow-sm transition-colors hover:bg-stone-800 ${focusRing}`}
+              >
+                무료로 시작
+              </Link>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
 
       <main id="main-content" className="bg-stone-50">
         {/* Hero */}
@@ -315,15 +487,16 @@ export default function LandingClient() {
                 variants={heroItem}
                 className="mx-auto mt-6 max-w-xl text-balance text-lg leading-relaxed tracking-[-0.01em] text-stone-600"
               >
-                수만 개의 중고 매물 속에서 스타일, 사이즈, 예산까지 학습한 AI가
-                지금 당신에게 꼭 맞는 상품만 골라 보여드립니다.
+                수만 개 매물 속에서 스타일, 사이즈, 예산을 학습한 AI가 지금
+                당신에게 맞는 것만 선별합니다. 무한 스크롤은 끝, 확신 있는
+                선택만 남습니다.
               </motion.p>
               <motion.div
                 variants={heroItem}
                 className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row"
               >
-                <motion.a
-                  href="/signup"
+                <MotionLink
+                  href="/dashboard"
                   whileHover={hoverButton}
                   whileTap={tapButton}
                   className={`group inline-flex min-h-11 items-center justify-center gap-2 rounded-full bg-stone-900 px-7 py-3 text-sm font-semibold text-stone-50 shadow-sm transition-colors hover:bg-stone-800 ${focusRing}`}
@@ -333,7 +506,7 @@ export default function LandingClient() {
                     className="h-4 w-4 transition-transform motion-safe:group-hover:translate-x-1"
                     aria-hidden="true"
                   />
-                </motion.a>
+                </MotionLink>
                 <motion.a
                   href="#showcase"
                   whileHover={hoverButton}
@@ -441,7 +614,7 @@ export default function LandingClient() {
               세 단계면 충분합니다
             </h2>
             <p className="mt-4 text-lg leading-relaxed tracking-[-0.01em] text-stone-600">
-              복잡한 검색과 필터링은 AI에게 맡기고, 마음에 드는 것만 골라 받으세요.
+              검색과 필터링은 AI에게 맡기세요. 당신은 마음에 드는 것만 받으면 됩니다.
             </p>
           </motion.div>
 
@@ -474,6 +647,76 @@ export default function LandingClient() {
               </motion.li>
             ))}
           </motion.ol>
+        </section>
+
+        {/* Comparison: direct buying vs RE:픽 */}
+        <section id="comparison" aria-labelledby="comparison-heading" className="border-t border-stone-200 bg-stone-100/70">
+          <div className="mx-auto max-w-7xl px-6 py-24 lg:px-8">
+            <motion.div
+              className="mx-auto max-w-2xl text-center"
+              variants={fadeUp}
+              initial="hidden"
+              whileInView="show"
+              viewport={VIEWPORT}
+            >
+              <p className="text-xs font-semibold uppercase tracking-[0.14em] text-orange-700">직접 사기 vs RE:픽</p>
+              <h2
+                id="comparison-heading"
+                className="mt-3 text-balance text-[clamp(2rem,4vw,3rem)] font-sans leading-[1.1] tracking-[-0.01em] text-stone-900"
+              >
+                같은 중고, 다른 경험
+              </h2>
+              <p className="mt-4 text-lg leading-relaxed tracking-[-0.01em] text-stone-600">
+                허탕 치던 검색을 끝내고, 검증된 선택으로 바꿔보세요.
+              </p>
+            </motion.div>
+
+            <motion.div
+              className="mx-auto mt-16 max-w-4xl overflow-x-auto rounded-3xl border border-stone-200 bg-white shadow-sm"
+              variants={fadeUp}
+              initial="hidden"
+              whileInView="show"
+              viewport={VIEWPORT}
+            >
+              <table className="w-full min-w-[640px] border-collapse text-left">
+                <caption className="sr-only">중고 직접 구매와 RE:픽 이용 비교</caption>
+                <thead>
+                  <tr className="border-b border-stone-200">
+                    <th scope="col" className="w-1/3 px-6 py-5 text-sm font-semibold text-stone-500">
+                      비교 항목
+                    </th>
+                    <th scope="col" className="px-6 py-5 text-sm font-semibold text-stone-500">
+                      직접 사기
+                    </th>
+                    <th scope="col" className="bg-orange-50/60 px-6 py-5 text-sm font-semibold text-orange-800">
+                      RE:픽으로 사기
+                    </th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-stone-200">
+                  {COMPARISON_ROWS.map((row) => (
+                    <tr key={row.label}>
+                      <th scope="row" className="px-6 py-5 text-sm font-semibold text-stone-900">
+                        {row.label}
+                      </th>
+                      <td className="px-6 py-5 text-sm text-stone-600">
+                        <span className="flex items-start gap-2">
+                          <X className="mt-0.5 h-4 w-4 shrink-0 text-stone-400" aria-hidden="true" />
+                          {row.direct}
+                        </span>
+                      </td>
+                      <td className="bg-orange-50/40 px-6 py-5 text-sm text-stone-800">
+                        <span className="flex items-start gap-2">
+                          <Check className="mt-0.5 h-4 w-4 shrink-0 text-orange-700" aria-hidden="true" />
+                          {row.repick}
+                        </span>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </motion.div>
+          </div>
         </section>
 
         {/* Features */}
@@ -513,7 +756,7 @@ export default function LandingClient() {
                   </h3>
                   <p className="mt-4 text-lg leading-relaxed tracking-[-0.01em] text-stone-600">
                     좋아요, 스킵, 구매 데이터를 실시간으로 학습해 취향 프로필을
-                    계속 정교하게 다듬습니다. 볼수록 더 정확해져요.
+                    계속 정교하게 다듬습니다. 쓸수록 정확해져요.
                   </p>
                   <a
                     href="#how-it-works"
@@ -563,7 +806,7 @@ export default function LandingClient() {
                   </h3>
                   <p className="mt-4 text-lg leading-relaxed tracking-[-0.01em] text-stone-600">
                     수만 개 매물 중 조건에 맞지 않는 상품은 자동으로 걸러내고,
-                    진짜 필요한 것만 큐레이션해서 보여드립니다.
+                    필요한 것만 큐레이션해서 보여드립니다.
                   </p>
                   <a
                     href="#showcase"
@@ -594,8 +837,8 @@ export default function LandingClient() {
                     검증된 상태, 투명한 가격
                   </h3>
                   <p className="mt-4 text-lg leading-relaxed tracking-[-0.01em] text-stone-600">
-                    전문 검수팀이 확인한 상태 등급과 시세 데이터 기반 가격으로,
-                    실물을 보지 않고도 안심하고 구매할 수 있어요.
+                    전문 검수팀이 확인한 상태 등급과 시세 기반 가격으로,
+                    실물을 직접 보지 않아도 안심하고 구매할 수 있어요.
                   </p>
                   <a
                     href="#testimonials"
@@ -770,6 +1013,55 @@ export default function LandingClient() {
           </div>
         </section>
 
+        {/* FAQ */}
+        <section id="faq" aria-labelledby="faq-heading" className="border-t border-stone-200 bg-stone-100/70">
+          <div className="mx-auto max-w-7xl px-6 py-24 lg:px-8">
+            <motion.div
+              className="mx-auto max-w-2xl text-center"
+              variants={fadeUp}
+              initial="hidden"
+              whileInView="show"
+              viewport={VIEWPORT}
+            >
+              <p className="text-xs font-semibold uppercase tracking-[0.14em] text-orange-700">FAQ</p>
+              <h2
+                id="faq-heading"
+                className="mt-3 text-balance text-[clamp(2rem,4vw,3rem)] font-sans leading-[1.1] tracking-[-0.01em] text-stone-900"
+              >
+                궁금한 점, 먼저 답해드릴게요
+              </h2>
+              <p className="mt-4 text-lg leading-relaxed tracking-[-0.01em] text-stone-600">
+                더 궁금하신 내용은 고객센터에서 바로 확인하실 수 있어요.
+              </p>
+            </motion.div>
+
+            <motion.div
+              className="mx-auto mt-16 max-w-3xl divide-y divide-stone-200 overflow-hidden rounded-3xl border border-stone-200 bg-white"
+              variants={staggerContainer(0.06)}
+              initial="hidden"
+              whileInView="show"
+              viewport={VIEWPORT}
+            >
+              {FAQS.map((item) => (
+                <motion.div key={item.question} variants={fadeUp}>
+                  <details className="group px-6 py-5 sm:px-8">
+                    <summary
+                      className={`flex cursor-pointer list-none items-center justify-between gap-4 rounded-md text-left text-base font-semibold text-stone-900 marker:hidden [&::-webkit-details-marker]:hidden ${focusRing}`}
+                    >
+                      {item.question}
+                      <ChevronDown
+                        className="h-5 w-5 shrink-0 text-stone-400 transition-transform duration-300 motion-safe:group-open:rotate-180"
+                        aria-hidden="true"
+                      />
+                    </summary>
+                    <p className="mt-3 text-base leading-relaxed text-stone-600">{item.answer}</p>
+                  </details>
+                </motion.div>
+              ))}
+            </motion.div>
+          </div>
+        </section>
+
         {/* Final CTA */}
         <section id="cta" aria-labelledby="cta-heading" className="mx-6 my-24 lg:mx-8">
           <div className="relative isolate overflow-hidden rounded-[2.5rem]">
@@ -800,8 +1092,8 @@ export default function LandingClient() {
               </h2>
               <p className="mt-4 text-lg leading-relaxed tracking-[-0.01em] text-stone-300">가입은 1분이면 충분해요. 언제든 해지할 수 있어요.</p>
               <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
-                <motion.a
-                  href="/signup"
+                <MotionLink
+                  href="/dashboard"
                   whileHover={hoverButton}
                   whileTap={tapButton}
                   className={`group inline-flex min-h-11 items-center justify-center gap-2 rounded-full bg-stone-50 px-7 py-3 text-sm font-semibold text-stone-900 shadow-sm transition-colors hover:bg-white ${focusRingOnDark}`}
@@ -811,7 +1103,7 @@ export default function LandingClient() {
                     className="h-4 w-4 transition-transform motion-safe:group-hover:translate-x-1"
                     aria-hidden="true"
                   />
-                </motion.a>
+                </MotionLink>
                 <motion.a
                   href="#features"
                   whileHover={hoverButton}
@@ -890,12 +1182,12 @@ export default function LandingClient() {
             <p>© 2026 RE:픽. All rights reserved.</p>
             <ul className="flex gap-6">
               <li>
-                <a href="/terms" className={`rounded-md hover:text-stone-300 ${focusRingOnDark}`}>
+                <a href="#" className={`rounded-md hover:text-stone-300 ${focusRingOnDark}`}>
                   이용약관
                 </a>
               </li>
               <li>
-                <a href="/privacy" className={`rounded-md hover:text-stone-300 ${focusRingOnDark}`}>
+                <a href="#" className={`rounded-md hover:text-stone-300 ${focusRingOnDark}`}>
                   개인정보처리방침
                 </a>
               </li>
