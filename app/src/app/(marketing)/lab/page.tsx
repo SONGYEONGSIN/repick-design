@@ -5,6 +5,10 @@ export const metadata: Metadata = { title: "랜딩 랩 — RE:픽" };
 const forms = [
   { id: "v0", route: "/", label: "에디토리얼 스플릿 히어로", note: "기준선 · 제품 쇼케이스 중심" },
   { id: "v1", route: "/v1", label: "전면 이미지 몰입형", note: "시네마틱 · 스크롤 연동 Ken-Burns" },
+  { id: "v2", route: "/v2", label: "벤토 그리드 / 제품 중심", note: "타일 문법 · 포인터 spotlight" },
+  { id: "v3", route: "/v3", label: "에디토리얼 매거진 / 롱폼", note: "목차→챕터→룩북 · 드롭캡" },
+  { id: "v4", route: "/v4", label: "대화형·인터랙티브 우선", note: "퀴즈 히어로 · 실시간 매칭" },
+  { id: "v5", route: "/v5", label: "미니멀 타이포 중심", note: "헤어라인 · 이미지 절제 · 스위스" },
 ];
 
 function Thumb({ route, id, label, note }: { route: string; id: string; label: string; note: string }) {
