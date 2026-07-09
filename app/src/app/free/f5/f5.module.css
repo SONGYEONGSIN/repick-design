@@ -1,0 +1,128 @@
+/*
+  TIMBRE — 우아한 규칙 파괴, 하이엔드 에디토리얼
+  이 페이지 전용 스코프 CSS. 전역 테마(globals.css)는 건드리지 않는다.
+*/
+
+.page {
+  /* 이 스프레드는 "종이" 위에서만 존재한다 — 의도적으로 라이트 전용 색상 체계 */
+  color-scheme: light;
+
+  --ink: #17130f;
+  --ink-soft: #56493a;
+  --ink-faint: #8a7c68;
+  --paper: #f4eee1;
+  --paper-deep: #e7dcc3;
+  --paper-line: #d8c9a8;
+  --red: #b5281c;
+  --red-soft: #c9503f;
+  --gold: #93672f;
+
+  background-color: var(--paper);
+  color: var(--ink);
+  position: relative;
+}
+
+/* 은은한 종이 결 — 이미지 없이 그라디언트만으로 */
+.paperTexture {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image:
+    radial-gradient(ellipse 80% 50% at 15% 0%, rgba(181, 40, 28, 0.05), transparent 60%),
+    radial-gradient(ellipse 60% 40% at 100% 30%, rgba(147, 103, 47, 0.07), transparent 55%),
+    repeating-linear-gradient(
+      178deg,
+      rgba(23, 19, 15, 0.015) 0px,
+      rgba(23, 19, 15, 0.015) 1px,
+      transparent 1px,
+      transparent 3px
+    );
+}
+
+.focusRing {
+  outline: none;
+}
+.focusRing:focus-visible {
+  outline: 2px solid var(--red);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* 세로 폴리오 넘버 — 잡지 책등 스타일 */
+.folio {
+  writing-mode: vertical-rl;
+  letter-spacing: 0.35em;
+}
+
+/* 교정지 삭선 — 초안 카피를 붉은 펜으로 그은 표시 */
+.redline {
+  position: relative;
+  text-decoration: line-through;
+  text-decoration-color: var(--red);
+  text-decoration-thickness: 1.5px;
+  color: var(--ink-faint);
+}
+
+/* 드롭캡 */
+.dropCap::first-letter {
+  float: left;
+  font-family: var(--font-fraunces), serif;
+  font-size: 4.5rem;
+  line-height: 0.8;
+  padding-right: 0.15em;
+  padding-top: 0.05em;
+  color: var(--red);
+  font-style: italic;
+}
+
+/* 회전된 풀 쿼트 */
+.pullQuote {
+  transform: rotate(-2deg);
+}
+
+/* 목차 스타일 점선 리더 */
+.dotLeader {
+  flex: 1 1 auto;
+  border-bottom: 2px dotted var(--paper-line);
+  margin: 0 0.75rem;
+  min-width: 1.5rem;
+  transform: translateY(-0.35em);
+}
+
+/* 잘라내는 선 — 쿠폰 모티프 */
+.cutLine {
+  border-top: 2px dashed var(--ink-faint);
+}
+
+/* 향 노트 마퀴 */
+.marqueeViewport {
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(90deg, transparent, black 6%, black 94%, transparent);
+  mask-image: linear-gradient(90deg, transparent, black 6%, black 94%, transparent);
+}
+
+.marqueeTrack {
+  display: flex;
+  width: max-content;
+  animation: marquee-scroll 34s linear infinite;
+}
+
+.marqueeTrack.paused {
+  animation-play-state: paused;
+}
+
+@keyframes marquee-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marqueeTrack {
+    animation: none;
+  }
+}
