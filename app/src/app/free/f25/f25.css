@@ -1,0 +1,314 @@
+/*
+ * 몬스터파킹(MonsterParking) — 침대 밑 괴물 전용 주차장 브랜드 테마 토큰.
+ * 전역 globals.css를 건드리지 않고 /free/f25 라우트에만 스코프한다.
+ */
+
+.monsterparking-theme {
+  color-scheme: light;
+
+  --mp-cream: #fff7e8;
+  --mp-cream-alt: #ffefd2;
+  --mp-paper: #fffdf7;
+  --mp-ink: #241c15;
+  --mp-ink-soft: #5b4c3b;
+
+  --mp-red: #ff5a4e;
+  --mp-red-deep: #b8291d;
+  --mp-yellow: #ffc93c;
+  --mp-yellow-deep: #8a5a00;
+  --mp-blue: #3d8bfd;
+  --mp-blue-deep: #1a4faf;
+  --mp-green: #06b67b;
+  --mp-green-deep: #0a6e4b;
+  --mp-purple: #8b5cf6;
+  --mp-purple-deep: #5b2fc2;
+  --mp-pink: #ff6fa5;
+  --mp-pink-deep: #ad2c62;
+  --mp-orange: #ff9f45;
+  --mp-orange-deep: #a25200;
+
+  --mp-line: rgba(36, 28, 21, 0.16);
+  --mp-shadow: 0 18px 40px -18px rgba(36, 28, 21, 0.35);
+  --mp-shadow-sm: 0 8px 18px -10px rgba(36, 28, 21, 0.3);
+
+  background: var(--mp-cream);
+  color: var(--mp-ink);
+}
+
+/* next/font 변수를 유틸리티 클래스로 노출 */
+.mp-font-hand {
+  font-family: var(--font-mp-hand), "Pretendard Variable", cursive, sans-serif;
+}
+.mp-font-ticket {
+  font-family: var(--font-mp-ticket), "Pretendard Variable", sans-serif;
+}
+
+/* ---------- 종이 질감 ---------- */
+
+.mp-grain {
+  background-image: radial-gradient(circle at 12% 18%, rgba(255, 90, 78, 0.07), transparent 40%),
+    radial-gradient(circle at 88% 8%, rgba(61, 139, 253, 0.07), transparent 38%),
+    radial-gradient(circle at 50% 92%, rgba(6, 182, 123, 0.06), transparent 42%);
+}
+
+/* ---------- 포커스 ---------- */
+
+.monsterparking-theme :focus-visible {
+  outline: 3px solid var(--mp-blue);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+/* ---------- 헤더 ---------- */
+
+.mp-header {
+  background: rgba(255, 247, 232, 0.86);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 2px dashed var(--mp-line);
+}
+
+/* ---------- 버튼: 크레용 손그림 블롭 라운드 ---------- */
+
+.mp-btn {
+  border-radius: 255px 15px 225px 15px/15px 225px 15px 255px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+}
+.mp-btn-primary {
+  background: var(--mp-ink);
+  color: var(--mp-cream);
+  border: 2.5px solid var(--mp-ink);
+}
+.mp-btn-primary:hover {
+  transform: translateY(-3px) rotate(-1deg);
+  box-shadow: var(--mp-shadow);
+  background: #382a1e;
+}
+.mp-btn-primary:active {
+  transform: translateY(0) rotate(0deg);
+}
+.mp-btn-secondary {
+  background: var(--mp-paper);
+  color: var(--mp-ink);
+  border: 2.5px solid var(--mp-ink);
+}
+.mp-btn-secondary:hover {
+  transform: translateY(-3px) rotate(1deg);
+  box-shadow: var(--mp-shadow-sm);
+  background: var(--mp-yellow);
+}
+.mp-btn-secondary:active {
+  transform: translateY(0) rotate(0deg);
+}
+
+/* ---------- 뱃지 ---------- */
+
+.mp-badge {
+  border: 2px dashed var(--mp-ink-soft);
+  background: var(--mp-paper);
+  color: var(--mp-ink-soft);
+}
+
+/* ---------- 카드 & 손그림 테두리 ---------- */
+
+.mp-card {
+  background: var(--mp-paper);
+  border: 2.5px solid var(--mp-ink);
+  box-shadow: var(--mp-shadow-sm);
+}
+
+.mp-dashed-top {
+  border-top: 2px dashed var(--mp-line);
+}
+
+/* ---------- 주차권 티켓 카드 ---------- */
+
+.mp-ticket {
+  position: relative;
+  background: var(--mp-paper);
+  border: 2.5px solid var(--mp-ink);
+  box-shadow: var(--mp-shadow);
+}
+.mp-ticket::before,
+.mp-ticket::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  width: 28px;
+  height: 28px;
+  background: var(--mp-cream);
+  border: 2.5px solid var(--mp-ink);
+  border-radius: 50%;
+  transform: translateY(-50%);
+}
+.mp-ticket::before {
+  left: -15px;
+}
+.mp-ticket::after {
+  right: -15px;
+}
+
+.mp-ticket-divider {
+  border-left: 2px dashed var(--mp-ink);
+}
+
+/* ---------- 톤별 악센트(질감 배지 · 갤러리 카드) ---------- */
+
+.mp-accent-red {
+  background: linear-gradient(150deg, #ffe4e0, #ffcfc8);
+  color: var(--mp-red-deep);
+  border-color: rgba(255, 90, 78, 0.45);
+}
+.mp-accent-blue {
+  background: linear-gradient(150deg, #e2eeff, #c9deff);
+  color: var(--mp-blue-deep);
+  border-color: rgba(61, 139, 253, 0.4);
+}
+.mp-accent-green {
+  background: linear-gradient(150deg, #dcf7ec, #bdf0d9);
+  color: var(--mp-green-deep);
+  border-color: rgba(6, 182, 123, 0.4);
+}
+.mp-accent-purple {
+  background: linear-gradient(150deg, #ece2ff, #d9c7ff);
+  color: var(--mp-purple-deep);
+  border-color: rgba(139, 92, 246, 0.4);
+}
+.mp-accent-pink {
+  background: linear-gradient(150deg, #ffe3ee, #ffc9dd);
+  color: var(--mp-pink-deep);
+  border-color: rgba(255, 111, 165, 0.4);
+}
+.mp-accent-orange {
+  background: linear-gradient(150deg, #ffead6, #ffd7ac);
+  color: var(--mp-orange-deep);
+  border-color: rgba(255, 159, 69, 0.45);
+}
+.mp-accent-yellow {
+  background: linear-gradient(150deg, #fff3cf, #ffe49b);
+  color: var(--mp-yellow-deep);
+  border-color: rgba(255, 201, 60, 0.5);
+}
+
+/* 아바타 원 (후기 이니셜) — 진한 톤 + 흰 글자, 큰 굵은 텍스트로 3:1 대비 확보 */
+.mp-avatar-red {
+  background: var(--mp-red-deep);
+}
+.mp-avatar-blue {
+  background: var(--mp-blue-deep);
+}
+.mp-avatar-purple {
+  background: var(--mp-purple-deep);
+}
+
+/* ---------- 스캘럽(우표 절취선) 전환대 ---------- */
+
+.mp-scallop-into-ink {
+  height: 22px;
+  background-color: var(--mp-ink);
+  background-image: radial-gradient(circle at 11px 0px, var(--mp-cream) 11px, transparent 11.5px);
+  background-size: 22px 22px;
+  background-repeat: repeat-x;
+  background-position: top;
+}
+.mp-scallop-into-paper {
+  height: 22px;
+  background-color: var(--mp-paper);
+  background-image: radial-gradient(circle at 11px 22px, var(--mp-ink) 11px, transparent 11.5px);
+  background-size: 22px 22px;
+  background-repeat: repeat-x;
+  background-position: bottom;
+}
+
+/* ---------- 밤 배너(티커 · 최종 CTA · 푸터) ---------- */
+
+.mp-night {
+  background: var(--mp-ink);
+  color: var(--mp-cream);
+}
+
+/* ---------- 티커 마퀴 ---------- */
+
+@keyframes mp-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+.mp-marquee-track {
+  animation: mp-marquee 26s linear infinite;
+}
+
+/* ---------- 둥둥 떠다니는 낙서(장식) ---------- */
+
+@keyframes mp-float-a {
+  0%,
+  100% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+  50% {
+    transform: translate(6px, -14px) rotate(8deg);
+  }
+}
+@keyframes mp-float-b {
+  0%,
+  100% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+  50% {
+    transform: translate(-8px, 10px) rotate(-6deg);
+  }
+}
+@keyframes mp-float-c {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    transform: translate(4px, -8px) scale(1.08);
+  }
+}
+.mp-float-a {
+  animation: mp-float-a 5.2s ease-in-out infinite;
+}
+.mp-float-b {
+  animation: mp-float-b 4.6s ease-in-out infinite;
+}
+.mp-float-c {
+  animation: mp-float-c 3.8s ease-in-out infinite;
+}
+
+/* ---------- 손그림 밑줄(꾸불꾸불) 색상 ---------- */
+
+.mp-squiggle-red {
+  color: var(--mp-red);
+}
+.mp-squiggle-blue {
+  color: var(--mp-blue);
+}
+
+/* ---------- FAQ 아코디언 ---------- */
+
+.mp-faq-item {
+  border: 2px dashed var(--mp-line);
+  background: var(--mp-paper);
+}
+.mp-faq-item summary::-webkit-details-marker {
+  display: none;
+}
+.mp-faq-item[open] {
+  border-color: var(--mp-ink);
+}
+
+/* ---------- 접근성: 모션 축소 ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .mp-marquee-track,
+  .mp-float-a,
+  .mp-float-b,
+  .mp-float-c {
+    animation: none;
+  }
+}

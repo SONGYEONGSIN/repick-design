@@ -24,6 +24,10 @@ const works = [
   { id: "f20", route: "/free/f20", brand: "FLORA CODEX", desc: "식물 표본을 채집·기록하고 향을 눌러 담는 허바리움 향수 구독 · 19세기 식물도감" },
   { id: "f21", route: "/free/f21", brand: "SURGE", desc: "스프린트·점프의 폭발력을 와트로 측정하는 파워 트래커 · 스포츠 다이나믹" },
   { id: "f22", route: "/free/f22", brand: "DOSSIER.", desc: "커핑 노트로 원산지를 추리하는 미제사건 커피 구독 · 느와르·수사파일" },
+  { id: "f23", route: "/free/f23", brand: "PARALLAX", desc: "향의 강도를 천문학적 거리로 재는 향수 · 코스믹 럭셔리" },
+  { id: "f24", route: "/free/f24", brand: "극미클럽 GEUKMI", desc: "뜯기 전까진 모르는 블라인드 극한맛 구독 · 맥시멀 미식 카오스" },
+  { id: "f25", route: "/free/f25", brand: "몬스터파킹", desc: "침대 밑 괴물을 그려 '주차'시키는 잠자리 의식 · 키즈 그림책 위트" },
+  { id: "f26", route: "/free/f26", brand: "여백 YEOBAEK", desc: "침묵 명상 타이머 + 실물 세트 · 젠 미니멀, 3초 롱프레스 CTA" },
 ];
 
 function Card({ route, id, brand, desc }: { route: string; id: string; brand: string; desc: string }) {
