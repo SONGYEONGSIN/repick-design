@@ -1,0 +1,221 @@
+.page {
+  --nl-ink: #0a0a0a;
+  --nl-paper: #f7f4ea;
+  --nl-paper-2: #ffffff;
+  --nl-warn: #ffe600;
+  --nl-danger: #b91c1c;
+  --nl-go: #15803d;
+  --nl-muted: #4a4a42;
+  --nl-line: rgba(10, 10, 10, 0.12);
+  color-scheme: light;
+  background: var(--nl-paper);
+  color: var(--nl-ink);
+}
+
+/* ---------- skip link ---------- */
+.skipLink {
+  position: fixed;
+  left: 1rem;
+  top: -5rem;
+  z-index: 100;
+  background: var(--nl-warn);
+  color: var(--nl-ink);
+  padding: 0.85rem 1.25rem;
+  font-weight: 800;
+  border: 3px solid var(--nl-ink);
+  transition: top 0.15s linear;
+}
+.skipLink:focus {
+  top: 1rem;
+}
+
+/* ---------- decorative tag labels ---------- */
+.tagLabel {
+  display: inline-block;
+  font-family: var(--font-jetbrains), ui-monospace, monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.02em;
+  color: var(--nl-muted);
+  opacity: 0.7;
+}
+
+/* ---------- hard shadows (neo-brutalist signature) ---------- */
+.hardShadowSm {
+  box-shadow: 4px 4px 0 0 var(--nl-ink);
+}
+.hardShadow {
+  box-shadow: 7px 7px 0 0 var(--nl-ink);
+}
+.hardShadowLg {
+  box-shadow: 12px 12px 0 0 var(--nl-ink);
+}
+
+/* ---------- graph paper texture ---------- */
+.gridBg {
+  background-image: linear-gradient(var(--nl-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--nl-line) 1px, transparent 1px);
+  background-size: 34px 34px;
+}
+
+/* ---------- fluid type ---------- */
+.heroTitle {
+  font-size: clamp(2.75rem, 9vw, 6.75rem);
+  line-height: 0.94;
+  letter-spacing: -0.02em;
+}
+.sectionTitle {
+  font-size: clamp(1.85rem, 4.6vw, 3.1rem);
+  line-height: 1.04;
+  letter-spacing: -0.01em;
+}
+
+/* ---------- buttons ---------- */
+.btnPrimary,
+.btnGhost,
+.btnDark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 3.25rem;
+  padding: 0.9rem 1.75rem;
+  font-weight: 800;
+  border: 3px solid var(--nl-ink);
+  text-decoration: none;
+  transition: transform 0.12s linear, background-color 0.12s linear, color 0.12s linear, box-shadow 0.12s linear;
+}
+.btnPrimary {
+  background: var(--nl-warn);
+  color: var(--nl-ink);
+}
+.btnPrimary:hover {
+  background: var(--nl-ink);
+  color: var(--nl-warn);
+}
+.btnGhost {
+  background: transparent;
+  color: var(--nl-ink);
+}
+.btnGhost:hover {
+  background: var(--nl-ink);
+  color: var(--nl-paper);
+}
+.btnDark {
+  background: var(--nl-ink);
+  color: var(--nl-warn);
+}
+.btnDark:hover {
+  background: var(--nl-paper);
+  color: var(--nl-ink);
+}
+.btnPrimary:active,
+.btnGhost:active,
+.btnDark:active {
+  transform: translate(4px, 4px);
+  box-shadow: none;
+}
+.page a:focus-visible,
+.page button:focus-visible {
+  outline: 4px solid var(--nl-ink);
+  outline-offset: 3px;
+}
+
+/* ---------- blinking cursor ---------- */
+.blinkCursor {
+  display: inline-block;
+  width: 0.5em;
+  height: 1em;
+  background: var(--nl-ink);
+  margin-left: 3px;
+  vertical-align: text-bottom;
+  animation: blink 1s steps(1, start) infinite;
+}
+@keyframes blink {
+  0%,
+  49% {
+    opacity: 1;
+  }
+  50%,
+  100% {
+    opacity: 0;
+  }
+}
+
+/* ---------- hazard marquee ---------- */
+.marqueeWrap {
+  overflow: hidden;
+  border-top: 3px solid var(--nl-ink);
+  border-bottom: 3px solid var(--nl-ink);
+  background: repeating-linear-gradient(
+    -45deg,
+    var(--nl-warn),
+    var(--nl-warn) 22px,
+    var(--nl-ink) 22px,
+    var(--nl-ink) 44px
+  );
+}
+.marqueeTrack {
+  display: flex;
+  width: max-content;
+  animation: marquee 22s linear infinite;
+}
+.marqueeWrap:hover .marqueeTrack,
+.marqueeWrap:focus-within .marqueeTrack {
+  animation-play-state: paused;
+}
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* ---------- tombstone crossout ---------- */
+.tombstone {
+  position: relative;
+}
+.tombstone::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top right,
+    transparent calc(50% - 2px),
+    var(--nl-danger) calc(50% - 2px),
+    var(--nl-danger) calc(50% + 2px),
+    transparent calc(50% + 2px)
+  );
+  pointer-events: none;
+}
+
+/* ---------- diff lines ---------- */
+.diffMinus {
+  border-left: 4px solid var(--nl-danger);
+  background: color-mix(in srgb, var(--nl-danger) 8%, transparent);
+  color: var(--nl-danger);
+}
+.diffPlus {
+  border-left: 4px solid var(--nl-go);
+  background: color-mix(in srgb, var(--nl-go) 8%, transparent);
+  color: var(--nl-go);
+}
+
+/* ---------- reduced motion safety net ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .blinkCursor {
+    animation: none;
+    opacity: 1;
+  }
+  .marqueeTrack {
+    animation: none;
+  }
+  .skipLink {
+    transition: none;
+  }
+  .btnPrimary,
+  .btnGhost {
+    transition: none;
+  }
+}

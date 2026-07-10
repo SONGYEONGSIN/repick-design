@@ -8,6 +8,10 @@ const works = [
   { id: "f3", route: "/free/f3", brand: "타래 (Tarae)", desc: "목소리를 실 무늬로 짜는 방직 스튜디오 · 종이·공예·손글씨" },
   { id: "f4", route: "/free/f4", brand: "LUCID//OS", desc: "꿈에서 스킬을 컴파일하는 수면 OS · 레트로퓨처, 셸 로그 카피" },
   { id: "f5", route: "/free/f5", brand: "TIMBRE", desc: "목소리 지문 향수 아틀리에 · 하이엔드 매거진, 삭선 검열 카피" },
+  { id: "f6", route: "/free/f6", brand: "날것", desc: "정리 없이 그냥 쏟아내는 날것 기록 · 브루탈리즘 anti-design" },
+  { id: "f7", route: "/free/f7", brand: "SPORE", desc: "90일 후 퇴비화되는 반그로스 오디오 소셜 · 유기체·블롭" },
+  { id: "f9", route: "/free/f9", brand: "VOLATILE", desc: "향수를 휘발 곡선 데이터로 만드는 계측 조향 · 사진 0장" },
+  { id: "f10", route: "/free/f10", brand: "결 GYEOL", desc: "소리를 만지는 공감각 웨어러블 · 감각 번역" },
 ];
 
 function Card({ route, id, brand, desc }: { route: string; id: string; brand: string; desc: string }) {
