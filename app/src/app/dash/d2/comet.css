@@ -1,0 +1,56 @@
+/* Comet dashboard — scoped decorative animations only. Loaded by dashboard-client.tsx for /dash/d2. */
+
+@keyframes comet-drift-a {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    transform: translate(2%, 4%) scale(1.06);
+  }
+}
+
+@keyframes comet-drift-b {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    transform: translate(-3%, -2%) scale(1.08);
+  }
+}
+
+@keyframes comet-trail-draw {
+  from {
+    stroke-dashoffset: 420;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.d2-blob-a {
+  animation: comet-drift-a 18s ease-in-out infinite;
+}
+
+.d2-blob-b {
+  animation: comet-drift-b 22s ease-in-out infinite;
+}
+
+.d2-trail-line {
+  stroke-dasharray: 420;
+  animation: comet-trail-draw 1.4s ease-out forwards;
+}
+
+/* WCAG 2.3.3 / M01: honor reduced-motion by disabling decorative motion entirely. */
+@media (prefers-reduced-motion: reduce) {
+  .d2-blob-a,
+  .d2-blob-b {
+    animation: none;
+  }
+
+  .d2-trail-line {
+    stroke-dasharray: none;
+    animation: none;
+  }
+}
