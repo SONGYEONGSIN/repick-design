@@ -33,11 +33,13 @@ import { BORDER, FOCUS_RING, HOVER_ACTIVE_BG, TEXT_PRIMARY, TEXT_SECONDARY, TRAN
 
 export function BrandMark({ compact = false }: { compact?: boolean }) {
   return (
-    <a href="#top" className={cx("flex items-center gap-2 rounded-lg", FOCUS_RING)}>
-      <span className="grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-indigo-600 text-white">
-        <Mountain size={18} aria-hidden="true" />
+    <a href="#top" className={cx("flex items-center gap-2.5 rounded-lg", FOCUS_RING)}>
+      <span className="grid h-8 w-8 shrink-0 place-items-center rounded-[10px] bg-indigo-600 text-white">
+        <Mountain size={18} aria-hidden="true" strokeWidth={2.25} />
       </span>
-      {!compact && <span className={cx("text-base font-semibold tracking-tight", TEXT_PRIMARY)}>{BRAND.wordmark}</span>}
+      {!compact && (
+        <span className={cx("text-[17px] font-semibold leading-none tracking-tight", TEXT_PRIMARY)}>{BRAND.wordmark}</span>
+      )}
     </a>
   );
 }
@@ -405,7 +407,7 @@ export function GlobalSearch({
   triggerRef?: RefObject<HTMLButtonElement | null>;
 }) {
   return (
-    <div className="relative w-full max-w-md">
+    <div className="relative w-full max-w-md xl:max-w-lg 2xl:max-w-xl">
       <Search
         size={16}
         aria-hidden="true"
@@ -417,7 +419,7 @@ export function GlobalSearch({
         onClick={onOpen}
         aria-haspopup="dialog"
         className={cx(
-          "flex h-10 w-full items-center rounded-lg border pl-9 pr-14 text-left text-sm",
+          "flex h-11 w-full items-center rounded-lg border pl-9 pr-14 text-left text-sm",
           BORDER,
           "bg-zinc-50 dark:bg-zinc-900",
           "hover:bg-zinc-100 dark:hover:bg-zinc-800",

@@ -59,7 +59,7 @@ import {
   cx,
   type SortDir,
 } from "./primitives";
-import { BORDER, DIVIDE, FOCUS_RING, NUM, TEXT_PRIMARY, TEXT_SECONDARY, TRANSITION } from "./tokens";
+import { BORDER, DIVIDE, FOCUS_RING, FOCUS_RING_INSET, NUM, TEXT_PRIMARY, TEXT_SECONDARY, TRANSITION } from "./tokens";
 import { useReducedMotion } from "./use-reduced-motion";
 
 /* ---------------------------------------------------------------------- */
@@ -427,14 +427,14 @@ export default function DashboardClient() {
             id="main-content"
             tabIndex={-1}
             className={cx(
-              "outline-none",
+              FOCUS_RING_INSET,
               "transition-[opacity,transform] duration-500 ease-out motion-reduce:transition-none",
               reducedMotion || mounted ? "translate-y-0 opacity-100" : "translate-y-2 opacity-0",
             )}
           >
             <div className="mx-auto flex w-full max-w-[2400px] flex-col gap-8 px-4 py-6 sm:px-6 sm:py-8 lg:px-8 2xl:gap-10 2xl:px-12">
             {/* 인사 + 기간 선택 */}
-            <section id="top" aria-labelledby="page-title" tabIndex={-1} className="scroll-mt-24 outline-none">
+            <section id="top" aria-labelledby="page-title" tabIndex={-1} className={cx("scroll-mt-24", FOCUS_RING_INSET)}>
               <div className="flex flex-wrap items-end justify-between gap-4">
                 <div>
                   <p className={cx("text-sm", TEXT_SECONDARY)}>{formatDateFull(TODAY)} 기준</p>
@@ -691,7 +691,7 @@ export default function DashboardClient() {
                 })}
               </Card>
 
-              <div id="accounts" tabIndex={-1} className="min-w-0 scroll-mt-24 outline-none lg:col-span-4">
+              <div id="accounts" tabIndex={-1} className={cx("min-w-0 scroll-mt-24 lg:col-span-4", FOCUS_RING_INSET)}>
                 <Card className="h-full min-w-0">
                   <CardHeader titleId="accounts-heading" title="계좌" description={`${ACCOUNTS.length}개 연결된 계좌`} />
                   <ul className={cx("mt-3 divide-y", DIVIDE)}>
@@ -733,7 +733,7 @@ export default function DashboardClient() {
 
             {/* 예산 + 거래 내역 */}
             <div className="grid min-w-0 gap-6 lg:grid-cols-12 xl:gap-7 2xl:gap-8">
-              <div id="budgets" tabIndex={-1} className="min-w-0 scroll-mt-24 outline-none lg:col-span-4">
+              <div id="budgets" tabIndex={-1} className={cx("min-w-0 scroll-mt-24 lg:col-span-4", FOCUS_RING_INSET)}>
                 <Card className="h-full min-w-0">
                   <CardHeader titleId="budgets-heading" title="이번 달 예산" description={`${BUDGETS.length}개 카테고리`} />
                   <ul className="mt-4 flex flex-col gap-4">
@@ -764,7 +764,7 @@ export default function DashboardClient() {
                 </Card>
               </div>
 
-              <div id="transactions" tabIndex={-1} className="min-w-0 scroll-mt-24 outline-none lg:col-span-8">
+              <div id="transactions" tabIndex={-1} className={cx("min-w-0 scroll-mt-24 lg:col-span-8", FOCUS_RING_INSET)}>
                 <Card padded={false} className="h-full min-w-0">
                   <div className={cx("p-5 sm:p-6", "pb-0 sm:pb-0")}>
                     <div className="flex flex-wrap items-center justify-between gap-3">
@@ -861,7 +861,7 @@ export default function DashboardClient() {
 
             {/* 최근 활동 + 다가오는 청구서 */}
             <div className="grid min-w-0 gap-6 lg:grid-cols-2 xl:gap-7 2xl:gap-8">
-              <div id="activity" tabIndex={-1} className="min-w-0 scroll-mt-24 outline-none">
+              <div id="activity" tabIndex={-1} className={cx("min-w-0 scroll-mt-24", FOCUS_RING_INSET)}>
                 <Card className="h-full min-w-0">
                   <CardHeader titleId="activity-heading" title="최근 활동" description="팀의 최근 작업 내역" />
                   <ul className="mt-4 flex flex-col gap-4">
@@ -891,7 +891,7 @@ export default function DashboardClient() {
                 </Card>
               </div>
 
-              <div id="invoices" tabIndex={-1} className="min-w-0 scroll-mt-24 outline-none">
+              <div id="invoices" tabIndex={-1} className={cx("min-w-0 scroll-mt-24", FOCUS_RING_INSET)}>
                 <Card className="h-full min-w-0">
                   <CardHeader
                     titleId="invoices-heading"
