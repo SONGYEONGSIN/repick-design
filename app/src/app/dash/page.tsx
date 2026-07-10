@@ -12,6 +12,10 @@ const works = [
   { id: "d22", route: "/dash/d22", brand: "HADAL", desc: "심해 ROV 플릿 관제 · 수심 단면+소나 스윕 히어로, 다이브 선택→7모듈 동기화, 다크 발광" },
   { id: "d23", route: "/dash/d23", brand: "DATUM", desc: "건축 시공 관제 · 도면 시트 프레이밍(타이틀블록·REV), 클릭형 조닝 플랜+해칭 공정 단면, 라이트 제도판" },
   { id: "d24", route: "/dash/d24", brand: "ASPECT", desc: "철도 CTC 관제 · 선로 계통도+시간-거리 운행선도, 신호현시 램프 발광, 다크 계전기 패널" },
+  { id: "d25", route: "/dash/d25", brand: "ROSTRUM", desc: "미술품 경매 세일플로어 · 추정가 밴드×낙찰가 스프레드, 티켓 스텁 로트 보드, 라이트 카탈로그" },
+  { id: "d26", route: "/dash/d26", brand: "60HZ", desc: "전력 계통 급전 콘솔 · 단선 결선도+급전 스택+오리곡선, 통전 도체만 앰버 글로우, 다크 미믹보드" },
+  { id: "d27", route: "/dash/d27", brand: "AS-RUN", desc: "방송 편성 트래픽 로그 · EPG 테이블 자체가 히어로, 카본카피 로그 시트 프레이밍, 라이트 서식" },
+  { id: "d28", route: "/dash/d28", brand: "HOLDFIRE", desc: "로켓 발사 관제 · T-타임라인+Go/No-Go 롤콜 보드, 제논 서치라이트 빛 문법, 다크 홀드 스냅샷" },
 ];
 
 function Card({ route, id, brand, desc }: { route: string; id: string; brand: string; desc: string }) {

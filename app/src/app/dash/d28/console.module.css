@@ -1,0 +1,151 @@
+/* HOLDFIRE — Launch Operations Console
+   Light grammar: xenon ground-searchlight shafts raking across a matte
+   instrument housing (not neon bloom, not CRT phosphor, not signal lamps). */
+
+.consoleRoot {
+  --hf-bg: #0a0c10;
+  --hf-panel: #12151c;
+  --hf-panel-2: #171b23;
+  --hf-border: rgba(255, 255, 255, 0.08);
+  --hf-border-strong: rgba(255, 255, 255, 0.16);
+  --hf-text: #e8ecf1;
+  --hf-text-2: #9aa5b4;
+  --hf-text-3: #7c8697;
+  --hf-accent: #bfe8ff;
+  --hf-accent-2: #7fd4ff;
+  --hf-go: #34d399;
+  --hf-hold: #ffb020;
+  --hf-nogo: #ff5c66;
+  --hf-scrub: #8b93a7;
+  color-scheme: dark;
+  background: var(--hf-bg);
+  color: var(--hf-text);
+  isolation: isolate;
+}
+
+/* Fixed decorative housing light — never intercepts pointer events, never
+   reads as content, purely atmospheric and fully static. */
+.lightRig {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.beamA {
+  position: absolute;
+  top: -35%;
+  left: -25%;
+  width: 95%;
+  height: 170%;
+  transform: rotate(-16deg);
+  background: linear-gradient(
+    100deg,
+    transparent 42%,
+    rgba(191, 232, 255, 0.05) 47%,
+    rgba(191, 232, 255, 0.08) 50%,
+    rgba(191, 232, 255, 0.03) 53%,
+    transparent 58%
+  );
+}
+
+.beamB {
+  position: absolute;
+  top: -45%;
+  right: -30%;
+  width: 85%;
+  height: 180%;
+  transform: rotate(14deg);
+  background: linear-gradient(
+    260deg,
+    transparent 40%,
+    rgba(191, 232, 255, 0.04) 46%,
+    rgba(191, 232, 255, 0.065) 50%,
+    rgba(191, 232, 255, 0.025) 54%,
+    transparent 60%
+  );
+}
+
+.vignette {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(120% 70% at 50% -10%, rgba(255, 255, 255, 0.05), transparent 60%),
+    radial-gradient(140% 120% at 50% 130%, rgba(0, 0, 0, 0.6), transparent 55%);
+}
+
+.panel {
+  position: relative;
+  background: var(--hf-panel);
+  border: 1px solid var(--hf-border);
+  border-radius: 8px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+.panelRaised {
+  background: var(--hf-panel-2);
+  border: 1px solid var(--hf-border-strong);
+  border-radius: 6px;
+}
+
+/* Corner bracket — HUD reticle framing device, restrained to hero elements only. */
+.bracket {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  pointer-events: none;
+  border-color: var(--hf-accent-2);
+  opacity: 0.7;
+}
+.bracketTl { top: -1px; left: -1px; border-top: 2px solid; border-left: 2px solid; border-top-left-radius: 6px; }
+.bracketTr { top: -1px; right: -1px; border-top: 2px solid; border-right: 2px solid; border-top-right-radius: 6px; }
+.bracketBl { bottom: -1px; left: -1px; border-bottom: 2px solid; border-left: 2px solid; border-bottom-left-radius: 6px; }
+.bracketBr { bottom: -1px; right: -1px; border-bottom: 2px solid; border-right: 2px solid; border-bottom-right-radius: 6px; }
+
+.scrollX {
+  overflow-x: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--hf-border-strong) transparent;
+}
+.scrollX::-webkit-scrollbar {
+  height: 6px;
+}
+.scrollX::-webkit-scrollbar-thumb {
+  background: var(--hf-border-strong);
+  border-radius: 3px;
+}
+
+.holdPulse {
+  opacity: 1;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .holdPulse {
+    animation: hfPulse 2.4s ease-in-out infinite;
+  }
+}
+@keyframes hfPulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.focusRing:focus-visible {
+  outline: 2px solid var(--hf-accent);
+  outline-offset: 2px;
+}
+
+/* Diagonal hatch fill for CH4 tank bars — differentiates propellant type by
+   texture, not hue, so LOX/CH4 never rely on color alone. */
+.hatch {
+  background-image: repeating-linear-gradient(
+    45deg,
+    rgba(191, 232, 255, 0.9),
+    rgba(191, 232, 255, 0.9) 3px,
+    rgba(191, 232, 255, 0.55) 3px,
+    rgba(191, 232, 255, 0.55) 6px
+  );
+}
+
+.solidFill {
+  background: linear-gradient(180deg, var(--hf-accent) 0%, var(--hf-accent-2) 100%);
+}
