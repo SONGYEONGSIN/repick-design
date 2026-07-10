@@ -19,6 +19,7 @@ const works = [
   { id: "f15", route: "/free/f15", brand: "MAISON LACUNE", desc: "가격이 안 나오는 초프레스티지 향수 하우스 · 침묵의 사치" },
   { id: "f16", route: "/free/f16", brand: "몽상은행", desc: "잠·백일몽을 예치하면 몽상이자를 주는 가상 저축은행 · 파스텔 초현실" },
   { id: "f17", route: "/free/f17", brand: "QUARTER WASH", desc: "코인 빨래방을 오락실로 재발명 · CSS 픽셀아트·8비트" },
+  { id: "f18", route: "/free/f18", brand: "새김 SAEGIM", desc: "한 문장을 화강암에 새겨 340m 지하에 1000년 봉인 · 모뉴멘탈·제의" },
 ];
 
 function Card({ route, id, brand, desc }: { route: string; id: string; brand: string; desc: string }) {
