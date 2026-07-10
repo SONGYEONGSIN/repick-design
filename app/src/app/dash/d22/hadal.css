@@ -1,0 +1,112 @@
+/* HADAL — Subsea Fleet Console
+   로컬 스코프 토큰 (.hadal 루트에만 적용, 전역 globals.css 변경 없음) */
+
+.hadal {
+  --ink-0: #060b10;
+  --ink-1: #0a131a;
+  --ink-2: #101d26;
+  --ink-3: #16232c;
+  --line: rgba(255, 255, 255, 0.08);
+  --line-strong: rgba(255, 255, 255, 0.16);
+  --text-hi: #eaf3f3;
+  --text-mid: #9fb4b8;
+  --text-low: #7b9095;
+  --accent: #5eead4;
+  --accent-dim: #2dd4bf;
+  --accent-glow: rgba(94, 234, 212, 0.55);
+  --warn: #fbbf24;
+  --warn-glow: rgba(251, 191, 36, 0.45);
+  --crit: #fca5a5;
+  color-scheme: dark;
+}
+
+.hadal-mono {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1;
+}
+
+/* 코너 브래킷 — HUD 계기 프레이밍 (CRT/스캔라인과 다른 문법) */
+.hadal-bracket {
+  position: relative;
+}
+.hadal-bracket::before,
+.hadal-bracket::after {
+  content: "";
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border-color: var(--accent-dim);
+  opacity: 0.9;
+  pointer-events: none;
+}
+.hadal-bracket::before {
+  top: -1px;
+  left: -1px;
+  border-top: 2px solid var(--accent-dim);
+  border-left: 2px solid var(--accent-dim);
+}
+.hadal-bracket::after {
+  bottom: -1px;
+  right: -1px;
+  border-bottom: 2px solid var(--accent-dim);
+  border-right: 2px solid var(--accent-dim);
+}
+
+@keyframes hadal-sweep-rotate {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes hadal-pulse-ring {
+  0% {
+    opacity: 0.7;
+    transform: scale(0.85);
+  }
+  70% {
+    opacity: 0;
+    transform: scale(1.9);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.9);
+  }
+}
+
+@keyframes hadal-glow-breathe {
+  0%,
+  100% {
+    filter: drop-shadow(0 0 3px var(--accent-glow));
+  }
+  50% {
+    filter: drop-shadow(0 0 9px var(--accent-glow));
+  }
+}
+
+.hadal-sweep-beam {
+  animation: hadal-sweep-rotate 6s linear infinite;
+  transform-origin: 150px 150px;
+}
+
+.hadal-pulse-ring {
+  animation: hadal-pulse-ring 2.6s ease-out infinite;
+}
+
+.hadal-glow-breathe {
+  animation: hadal-glow-breathe 3s ease-in-out infinite;
+}
+
+/* prefers-reduced-motion: 뒤에 배치되어 동일 시퀀스에서 우선 적용 (source order, !important 불사용) */
+@media (prefers-reduced-motion: reduce) {
+  .hadal-sweep-beam {
+    animation: none;
+  }
+  .hadal-pulse-ring {
+    animation: none;
+    opacity: 0;
+  }
+  .hadal-glow-breathe {
+    animation: none;
+    filter: drop-shadow(0 0 5px var(--accent-glow));
+  }
+}
