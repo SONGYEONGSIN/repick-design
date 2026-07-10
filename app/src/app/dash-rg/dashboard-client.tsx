@@ -337,12 +337,12 @@ export default function DashboardClient() {
         본문으로 건너뛰기
       </a>
 
-      <div className="mx-auto flex w-full max-w-[1440px]">
+      <div className="flex w-full">
         {/* 데스크톱 사이드바 */}
         <aside
           aria-label="사이드바"
           className={cx(
-            "sticky top-0 hidden h-screen w-64 shrink-0 flex-col overflow-y-auto border-r p-4 md:flex",
+            "sticky top-0 hidden h-screen w-64 shrink-0 flex-col overflow-y-auto border-r p-4 lg:flex xl:w-72 xl:p-5",
             BORDER,
             "bg-white dark:bg-zinc-950",
           )}
@@ -373,51 +373,53 @@ export default function DashboardClient() {
           {/* 상단 바 */}
           <header
             className={cx(
-              "sticky top-0 z-30 flex items-center gap-3 border-b px-4 py-3 backdrop-blur sm:px-6 lg:px-8",
+              "sticky top-0 z-30 border-b backdrop-blur",
               BORDER,
               "bg-white/90 dark:bg-zinc-950/90",
             )}
           >
-            <button
-              type="button"
-              onClick={openDrawer}
-              aria-haspopup="dialog"
-              className={cx("grid h-11 w-11 shrink-0 place-items-center rounded-full border md:hidden", BORDER, FOCUS_RING)}
-            >
-              <Menu size={20} aria-hidden="true" />
-              <span className="sr-only">메뉴 열기</span>
-            </button>
-            <div className="md:hidden">
-              <BrandMark compact />
-            </div>
-
-            <div className="hidden flex-1 md:block">
-              <GlobalSearch onOpen={openPalette} />
-            </div>
-
-            <div className="ml-auto flex items-center gap-2 sm:gap-3">
+            <div className="mx-auto flex w-full max-w-[2400px] items-center gap-3 px-4 py-3 sm:px-6 lg:px-8 2xl:px-12">
               <button
                 type="button"
-                onClick={openPalette}
+                onClick={openDrawer}
                 aria-haspopup="dialog"
-                className={cx("grid h-11 w-11 shrink-0 place-items-center rounded-full border md:hidden", BORDER, FOCUS_RING)}
+                className={cx("grid h-11 w-11 shrink-0 place-items-center rounded-full border lg:hidden", BORDER, FOCUS_RING)}
               >
-                <Search size={18} aria-hidden="true" className={TEXT_SECONDARY} />
-                <span className="sr-only">검색 열기</span>
+                <Menu size={20} aria-hidden="true" />
+                <span className="sr-only">메뉴 열기</span>
               </button>
-              <button
-                type="button"
-                className={cx(
-                  "hidden min-h-11 items-center gap-1.5 rounded-lg bg-indigo-600 px-3.5 text-sm font-semibold text-white hover:bg-indigo-500 sm:inline-flex",
-                  TRANSITION,
-                  FOCUS_RING,
-                )}
-              >
-                <Plus size={16} aria-hidden="true" />
-                송금하기
-              </button>
-              <NotificationsPopover />
-              <UserMenu />
+              <div className="lg:hidden">
+                <BrandMark compact />
+              </div>
+
+              <div className="hidden flex-1 lg:block">
+                <GlobalSearch onOpen={openPalette} />
+              </div>
+
+              <div className="ml-auto flex items-center gap-2 sm:gap-3">
+                <button
+                  type="button"
+                  onClick={openPalette}
+                  aria-haspopup="dialog"
+                  className={cx("grid h-11 w-11 shrink-0 place-items-center rounded-full border lg:hidden", BORDER, FOCUS_RING)}
+                >
+                  <Search size={18} aria-hidden="true" className={TEXT_SECONDARY} />
+                  <span className="sr-only">검색 열기</span>
+                </button>
+                <button
+                  type="button"
+                  className={cx(
+                    "hidden min-h-11 items-center gap-1.5 rounded-lg bg-indigo-600 px-3.5 text-sm font-semibold text-white hover:bg-indigo-500 sm:inline-flex",
+                    TRANSITION,
+                    FOCUS_RING,
+                  )}
+                >
+                  <Plus size={16} aria-hidden="true" />
+                  송금하기
+                </button>
+                <NotificationsPopover />
+                <UserMenu />
+              </div>
             </div>
           </header>
 
@@ -425,11 +427,12 @@ export default function DashboardClient() {
             id="main-content"
             tabIndex={-1}
             className={cx(
-              "flex flex-col gap-8 px-4 py-6 outline-none sm:px-6 sm:py-8 lg:px-8",
+              "outline-none",
               "transition-[opacity,transform] duration-500 ease-out motion-reduce:transition-none",
               reducedMotion || mounted ? "translate-y-0 opacity-100" : "translate-y-2 opacity-0",
             )}
           >
+            <div className="mx-auto flex w-full max-w-[2400px] flex-col gap-8 px-4 py-6 sm:px-6 sm:py-8 lg:px-8 2xl:gap-10 2xl:px-12">
             {/* 인사 + 기간 선택 */}
             <section id="top" aria-labelledby="page-title" tabIndex={-1} className="scroll-mt-24 outline-none">
               <div className="flex flex-wrap items-end justify-between gap-4">
@@ -460,7 +463,7 @@ export default function DashboardClient() {
               <h2 id="kpi-heading" className="sr-only">
                 핵심 지표
               </h2>
-              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+              <div className="grid min-w-0 grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4 xl:gap-5 2xl:gap-6">
                 {stats.map((stat) => (
                   <StatCard key={stat.id} stat={stat} reducedMotion={reducedMotion} />
                 ))}
@@ -468,8 +471,8 @@ export default function DashboardClient() {
             </section>
 
             {/* 현금 흐름 + 계좌 */}
-            <div className="grid gap-6 lg:grid-cols-3">
-              <Card className="lg:col-span-2">
+            <div className="grid min-w-0 gap-6 lg:grid-cols-12 xl:gap-7 2xl:gap-8">
+              <Card className="min-w-0 lg:col-span-8">
                 <CardHeader
                   titleId="cashflow-heading"
                   title="현금 흐름"
@@ -688,8 +691,8 @@ export default function DashboardClient() {
                 })}
               </Card>
 
-              <div id="accounts" tabIndex={-1} className="scroll-mt-24 outline-none">
-                <Card className="h-full">
+              <div id="accounts" tabIndex={-1} className="min-w-0 scroll-mt-24 outline-none lg:col-span-4">
+                <Card className="h-full min-w-0">
                   <CardHeader titleId="accounts-heading" title="계좌" description={`${ACCOUNTS.length}개 연결된 계좌`} />
                   <ul className={cx("mt-3 divide-y", DIVIDE)}>
                     {ACCOUNTS.map((acc) => (
@@ -729,9 +732,9 @@ export default function DashboardClient() {
             </div>
 
             {/* 예산 + 거래 내역 */}
-            <div className="grid gap-6 lg:grid-cols-3">
-              <div id="budgets" tabIndex={-1} className="scroll-mt-24 outline-none lg:col-span-1">
-                <Card className="h-full">
+            <div className="grid min-w-0 gap-6 lg:grid-cols-12 xl:gap-7 2xl:gap-8">
+              <div id="budgets" tabIndex={-1} className="min-w-0 scroll-mt-24 outline-none lg:col-span-4">
+                <Card className="h-full min-w-0">
                   <CardHeader titleId="budgets-heading" title="이번 달 예산" description={`${BUDGETS.length}개 카테고리`} />
                   <ul className="mt-4 flex flex-col gap-4">
                     {BUDGETS.map((b) => {
@@ -761,8 +764,8 @@ export default function DashboardClient() {
                 </Card>
               </div>
 
-              <div id="transactions" tabIndex={-1} className="scroll-mt-24 outline-none lg:col-span-2">
-                <Card padded={false} className="h-full">
+              <div id="transactions" tabIndex={-1} className="min-w-0 scroll-mt-24 outline-none lg:col-span-8">
+                <Card padded={false} className="h-full min-w-0">
                   <div className={cx("p-5 sm:p-6", "pb-0 sm:pb-0")}>
                     <div className="flex flex-wrap items-center justify-between gap-3">
                       <CardHeader titleId="transactions-heading" title="최근 거래" description={`${transactions.length}건`} />
@@ -790,7 +793,7 @@ export default function DashboardClient() {
                     </div>
                   </div>
 
-                  <div className="mt-4 overflow-x-auto">
+                  <div className="mt-4 min-w-0 overflow-x-auto">
                     <table className="w-full min-w-[560px] border-collapse text-sm">
                       <caption className="sr-only">
                         최근 거래 내역. 거래처, 카테고리, 날짜, 금액 열 머리글을 눌러 정렬할 수 있습니다.
@@ -857,9 +860,9 @@ export default function DashboardClient() {
             </div>
 
             {/* 최근 활동 + 다가오는 청구서 */}
-            <div className="grid gap-6 lg:grid-cols-2">
-              <div id="activity" tabIndex={-1} className="scroll-mt-24 outline-none">
-                <Card className="h-full">
+            <div className="grid min-w-0 gap-6 lg:grid-cols-2 xl:gap-7 2xl:gap-8">
+              <div id="activity" tabIndex={-1} className="min-w-0 scroll-mt-24 outline-none">
+                <Card className="h-full min-w-0">
                   <CardHeader titleId="activity-heading" title="최근 활동" description="팀의 최근 작업 내역" />
                   <ul className="mt-4 flex flex-col gap-4">
                     {ACTIVITY.map((item) => {
@@ -888,8 +891,8 @@ export default function DashboardClient() {
                 </Card>
               </div>
 
-              <div id="invoices" tabIndex={-1} className="scroll-mt-24 outline-none">
-                <Card className="h-full">
+              <div id="invoices" tabIndex={-1} className="min-w-0 scroll-mt-24 outline-none">
+                <Card className="h-full min-w-0">
                   <CardHeader
                     titleId="invoices-heading"
                     title="다가오는 청구서"
@@ -920,10 +923,13 @@ export default function DashboardClient() {
                 </Card>
               </div>
             </div>
+            </div>
           </main>
 
-          <footer className={cx("border-t px-4 py-6 text-xs sm:px-6 lg:px-8", BORDER, TEXT_SECONDARY)}>
-            <p>화면의 모든 수치는 예시 데이터입니다 · 마지막 동기화 오후 2:12</p>
+          <footer className={cx("border-t", BORDER, TEXT_SECONDARY)}>
+            <div className="mx-auto max-w-[2400px] px-4 py-6 text-xs sm:px-6 lg:px-8 2xl:px-12">
+              <p>화면의 모든 수치는 예시 데이터입니다 · 마지막 동기화 오후 2:12</p>
+            </div>
           </footer>
         </div>
       </div>

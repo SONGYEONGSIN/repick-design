@@ -466,7 +466,7 @@ export function MobileDrawer({
       aria-label="대시보드 메뉴"
       onClick={handleBackdropClick}
       className={cx(
-        "fixed inset-y-0 left-0 m-0 h-full max-h-none w-80 max-w-[85vw] border-none p-0 backdrop:bg-black/40 md:hidden",
+        "fixed inset-y-0 left-0 m-0 h-full max-h-none w-80 max-w-[85vw] border-none p-0 backdrop:bg-black/40 lg:hidden",
         "bg-white text-zinc-900 dark:bg-zinc-950 dark:text-zinc-50",
       )}
     >
