@@ -28,6 +28,8 @@ const works = [
   { id: "f24", route: "/free/f24", brand: "극미클럽 GEUKMI", desc: "뜯기 전까진 모르는 블라인드 극한맛 구독 · 맥시멀 미식 카오스" },
   { id: "f25", route: "/free/f25", brand: "몬스터파킹", desc: "침대 밑 괴물을 그려 '주차'시키는 잠자리 의식 · 키즈 그림책 위트" },
   { id: "f26", route: "/free/f26", brand: "여백 YEOBAEK", desc: "침묵 명상 타이머 + 실물 세트 · 젠 미니멀, 3초 롱프레스 CTA" },
+  { id: "f28", route: "/free/f28", brand: "REMNANT", desc: "목소리는 사라지지 않는다 · 호러·언캐니" },
+  { id: "f30", route: "/free/f30", brand: "호외 Hoveh", desc: "매칭=취재·요금제=광고단수인 신문형 데이팅 앱 · 타블로이드" },
 ];
 
 function Card({ route, id, brand, desc }: { route: string; id: string; brand: string; desc: string }) {
