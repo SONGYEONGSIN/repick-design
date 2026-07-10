@@ -1,0 +1,232 @@
+/* =========================================================================
+   DOSSIER. — 미제사건 원두 수사국
+   전부 .f22 스코프 하위에서만 동작한다. html/body/전역 선택자 절대 건드리지 않음
+   (다른 라우트에 새는 사이드이펙트 차단 — surgical scope).
+   ========================================================================= */
+
+.f22 {
+  --ink: #0e0d0b;
+  --ink-2: #17130e;
+  --ink-3: #221c14;
+  --paper: #ede3c8;
+  --paper-dim: #c9bd9d;
+  --blood: #b32020;
+  --blood-dark: #7a1616;
+  --blood-light: #e2574c;
+  --sepia: #a9895b;
+  --line: rgba(237, 227, 200, 0.14);
+
+  position: relative;
+  overflow-x: clip;
+  background-color: var(--ink);
+  color: var(--paper);
+  font-family: var(--font-gothic), "Apple SD Gothic Neo", sans-serif;
+  color-scheme: dark;
+}
+
+.f22-display {
+  font-family: var(--font-bebas), sans-serif;
+  letter-spacing: 0.03em;
+}
+
+.f22-type {
+  font-family: var(--font-elite), "Courier New", monospace;
+}
+
+/* 스크롤 시 고정 헤더에 포커스/앵커가 가려지지 않도록 (WCAG 2.4.11) */
+.f22-section {
+  scroll-margin-top: 6.5rem;
+}
+
+/* ---- 필름 그레인 오버레이 (장식, 클릭 통과) ---------------------------- */
+.f22::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 30;
+  pointer-events: none;
+  opacity: 0.045;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 180px 180px;
+  animation: f22Grain 1.6s steps(2) infinite;
+}
+
+.f22::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 29;
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse at 50% 40%,
+    transparent 35%,
+    rgba(0, 0, 0, 0.5) 100%
+  );
+}
+
+@keyframes f22Grain {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  25% {
+    transform: translate(-2%, 1%);
+  }
+  50% {
+    transform: translate(1%, -2%);
+  }
+  75% {
+    transform: translate(-1%, 2%);
+  }
+}
+
+/* ---- 포커스 표시 — outline:none 대체 없이 절대 사용하지 않는다 --------- */
+.f22 a:focus-visible,
+.f22 button:focus-visible,
+.f22 summary:focus-visible,
+.f22 input:focus-visible,
+.f22 textarea:focus-visible {
+  outline: 2px solid var(--blood-light);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* ---- 헤드라인 스탬프 (붉은 회전 도장) ----------------------------------- */
+.f22-stamp {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4em;
+  border: 2px solid currentColor;
+  padding: 0.25em 0.7em;
+  border-radius: 3px;
+  transform: rotate(-4deg);
+  text-transform: uppercase;
+}
+
+/* ---- 증거 카드 상단 찢어진 종이 모서리 --------------------------------- */
+.f22-torn-top {
+  position: relative;
+}
+.f22-torn-top::before {
+  content: "";
+  position: absolute;
+  top: -9px;
+  left: 0;
+  right: 0;
+  height: 9px;
+  background-color: inherit;
+  clip-path: polygon(
+    0% 100%,
+    5% 20%,
+    10% 100%,
+    15% 30%,
+    20% 100%,
+    25% 15%,
+    30% 100%,
+    35% 25%,
+    40% 100%,
+    45% 10%,
+    50% 100%,
+    55% 30%,
+    60% 100%,
+    65% 20%,
+    70% 100%,
+    75% 15%,
+    80% 100%,
+    85% 25%,
+    90% 100%,
+    95% 15%,
+    100% 100%
+  );
+}
+
+/* ---- 압정 (코르크보드용 장식, aria-hidden 요소에만 부착) --------------- */
+.f22-pin::before {
+  content: "";
+  position: absolute;
+  top: -7px;
+  left: 50%;
+  translate: -50% 0;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #ff8a7a, var(--blood) 65%, var(--blood-dark) 100%);
+  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.6);
+}
+
+/* ---- 용의자 카드 신장 눈금 배경 ----------------------------------------- */
+.f22-ruler-bg {
+  background-image: repeating-linear-gradient(
+    to bottom,
+    rgba(237, 227, 200, 0.09) 0,
+    rgba(237, 227, 200, 0.09) 1px,
+    transparent 1px,
+    transparent 18px
+  );
+}
+
+/* ---- 속보 티커 ---------------------------------------------------------- */
+.f22-ticker-viewport {
+  overflow: hidden;
+}
+.f22-ticker-track {
+  display: inline-flex;
+  width: max-content;
+  animation: f22Marquee 26s linear infinite;
+}
+.f22-ticker[data-paused="true"] .f22-ticker-track {
+  animation-play-state: paused;
+}
+@keyframes f22Marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* ---- 봉인된 증거(details/summary) — 네이티브 disclosure, 키보드 기본 지원 */
+.f22-evidence summary {
+  cursor: pointer;
+  list-style: none;
+}
+.f22-evidence summary::-webkit-details-marker {
+  display: none;
+}
+.f22-evidence summary::after {
+  content: "· 열람하려면 클릭 / Enter";
+}
+.f22-evidence[open] summary::after {
+  content: "· 봉인 해제됨";
+}
+.f22-evidence .f22-reveal {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.35s ease;
+}
+.f22-evidence[open] .f22-reveal {
+  grid-template-rows: 1fr;
+}
+.f22-evidence .f22-reveal-inner {
+  overflow: hidden;
+}
+
+/* ---- 붉은 실 SVG는 장식(aria-hidden)이며 stroke-dashoffset 하나만 애니메이션 */
+.f22-string path {
+  vector-effect: non-scaling-stroke;
+}
+
+/* ---- 접근성 최소 동작 존중 ------------------------------------------------ */
+@media (prefers-reduced-motion: reduce) {
+  .f22::before {
+    animation: none;
+  }
+  .f22-ticker-track {
+    animation: none;
+  }
+  .f22-evidence .f22-reveal {
+    transition: none;
+  }
+}

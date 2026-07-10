@@ -20,6 +20,8 @@ const works = [
   { id: "f16", route: "/free/f16", brand: "몽상은행", desc: "잠·백일몽을 예치하면 몽상이자를 주는 가상 저축은행 · 파스텔 초현실" },
   { id: "f17", route: "/free/f17", brand: "QUARTER WASH", desc: "코인 빨래방을 오락실로 재발명 · CSS 픽셀아트·8비트" },
   { id: "f18", route: "/free/f18", brand: "새김 SAEGIM", desc: "한 문장을 화강암에 새겨 340m 지하에 1000년 봉인 · 모뉴멘탈·제의" },
+  { id: "f19", route: "/free/f19", brand: "BITROT", desc: "완벽한 사진을 의도적으로 부수는 데이터 부식 스튜디오 · 글리치·디지털붕괴" },
+  { id: "f22", route: "/free/f22", brand: "DOSSIER.", desc: "커핑 노트로 원산지를 추리하는 미제사건 커피 구독 · 느와르·수사파일" },
 ];
 
 function Card({ route, id, brand, desc }: { route: string; id: string; brand: string; desc: string }) {
