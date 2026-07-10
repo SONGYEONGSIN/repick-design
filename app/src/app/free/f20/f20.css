@@ -1,0 +1,150 @@
+/* =========================================================================
+   FLORA CODEX — herbarium / botanical-atlas design system
+   All selectors scoped under .f20-page so nothing bleeds into sibling
+   /free/fXX routes. Single archival "parchment" theme is a deliberate
+   editorial choice (museum specimen-sheet aesthetic), not a missed
+   dark-mode case — color-scheme is pinned to light on purpose.
+   Looping/decorative motion is gated behind
+   @media (prefers-reduced-motion: no-preference); scroll-reveals below
+   (in client.tsx) only ever animate transform, never opacity, so content
+   can never get stuck invisible even if JS motion-detection is wrong.
+   ========================================================================= */
+
+.f20-page {
+  --f20-paper: #f2ead6;
+  --f20-paper-raised: #ece0c3;
+  --f20-paper-deep: #e2d2ab;
+  --f20-ink: #202f1c;
+  --f20-ink-soft: #47563c;
+  --f20-forest: #1f3a26;
+  --f20-forest-deep: #12261a;
+  --f20-rust: #a3552c;
+  --f20-rust-deep: #7c3d1c;
+  --f20-gold: #8a6a34;
+  --f20-line: #c7b990;
+  color-scheme: light;
+  background: var(--f20-paper);
+  color: var(--f20-ink);
+  position: relative;
+  isolation: isolate;
+}
+
+.f20-page ::selection {
+  background: var(--f20-rust);
+  color: var(--f20-paper);
+}
+
+.f20-page :focus-visible {
+  outline: 2px solid var(--f20-forest);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+.f20-serif {
+  font-family: var(--font-f20-serif-kr), serif;
+}
+
+.f20-latin {
+  font-family: var(--font-f20-latin), serif;
+  font-style: italic;
+}
+
+.f20-label {
+  font-family: var(--font-f20-label), monospace;
+  letter-spacing: 0.06em;
+}
+
+/* -------------------------------------------------------------------
+   Paper grain — fixed, low-opacity SVG turbulence overlay. Decorative
+   only; aria-hidden + pointer-events:none in markup.
+   ------------------------------------------------------------------- */
+.f20-grain {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  pointer-events: none;
+  opacity: 0.05;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 160px 160px;
+}
+
+/* -------------------------------------------------------------------
+   Deckle / torn-paper edges — section seams.
+   ------------------------------------------------------------------- */
+.f20-torn-bottom {
+  clip-path: polygon(
+    0% 0%, 100% 0%, 100% 92%,
+    100% 100%, 97.5% 92%, 95% 100%, 92.5% 92%, 90% 100%, 87.5% 92%, 85% 100%,
+    82.5% 92%, 80% 100%, 77.5% 92%, 75% 100%, 72.5% 92%, 70% 100%, 67.5% 92%,
+    65% 100%, 62.5% 92%, 60% 100%, 57.5% 92%, 55% 100%, 52.5% 92%, 50% 100%,
+    47.5% 92%, 45% 100%, 42.5% 92%, 40% 100%, 37.5% 92%, 35% 100%, 32.5% 92%,
+    30% 100%, 27.5% 92%, 25% 100%, 22.5% 92%, 20% 100%, 17.5% 92%, 15% 100%,
+    12.5% 92%, 10% 100%, 7.5% 92%, 5% 100%, 2.5% 92%, 0% 100%
+  );
+}
+
+.f20-deckle {
+  display: block;
+  height: 14px;
+  width: 100%;
+  background-image:
+    linear-gradient(135deg, var(--f20-paper) 50%, transparent 50%),
+    linear-gradient(45deg, var(--f20-paper) 50%, transparent 50%);
+  background-size: 18px 18px;
+  background-position: top left, top left;
+  background-repeat: repeat-x;
+}
+
+/* -------------------------------------------------------------------
+   Specimen card — herbarium mounting sheet.
+   ------------------------------------------------------------------- */
+.f20-card {
+  background: var(--f20-paper-raised);
+  border: 1px solid var(--f20-line);
+  box-shadow: 0 1px 0 var(--f20-line), 0 14px 30px -18px rgba(18, 26, 15, 0.45);
+}
+
+.f20-card:nth-child(odd) {
+  transform: rotate(-0.6deg);
+}
+.f20-card:nth-child(even) {
+  transform: rotate(0.5deg);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .f20-card {
+    transition: transform 0.35s ease, box-shadow 0.35s ease;
+  }
+  .f20-card:hover,
+  .f20-card:focus-within {
+    transform: rotate(0deg) translateY(-4px);
+    box-shadow: 0 1px 0 var(--f20-line), 0 24px 40px -20px rgba(18, 26, 15, 0.55);
+  }
+}
+
+/* Stamp badge — accession number seal */
+.f20-stamp {
+  border: 1.5px dashed var(--f20-rust-deep);
+  border-radius: 9999px;
+  transform: rotate(-8deg);
+  color: var(--f20-rust-deep);
+  background: color-mix(in srgb, var(--f20-paper) 88%, var(--f20-rust) 12%);
+}
+
+.f20-annotate {
+  transform: rotate(-2.5deg);
+}
+
+/* -------------------------------------------------------------------
+   Hairline rule used between definition rows / footer columns.
+   ------------------------------------------------------------------- */
+.f20-hairline {
+  border-color: var(--f20-line);
+}
+
+/* Reduced motion: the .f20-card hover lift/rotate transition above is
+   already scoped inside @media (prefers-reduced-motion: no-preference),
+   so it simply does not exist when the user prefers reduced motion —
+   no override needed. All framer-motion reveals in client.tsx are
+   driven by the same matchMedia check and animate transform only. */

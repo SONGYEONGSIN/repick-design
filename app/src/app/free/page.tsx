@@ -21,6 +21,8 @@ const works = [
   { id: "f17", route: "/free/f17", brand: "QUARTER WASH", desc: "코인 빨래방을 오락실로 재발명 · CSS 픽셀아트·8비트" },
   { id: "f18", route: "/free/f18", brand: "새김 SAEGIM", desc: "한 문장을 화강암에 새겨 340m 지하에 1000년 봉인 · 모뉴멘탈·제의" },
   { id: "f19", route: "/free/f19", brand: "BITROT", desc: "완벽한 사진을 의도적으로 부수는 데이터 부식 스튜디오 · 글리치·디지털붕괴" },
+  { id: "f20", route: "/free/f20", brand: "FLORA CODEX", desc: "식물 표본을 채집·기록하고 향을 눌러 담는 허바리움 향수 구독 · 19세기 식물도감" },
+  { id: "f21", route: "/free/f21", brand: "SURGE", desc: "스프린트·점프의 폭발력을 와트로 측정하는 파워 트래커 · 스포츠 다이나믹" },
   { id: "f22", route: "/free/f22", brand: "DOSSIER.", desc: "커핑 노트로 원산지를 추리하는 미제사건 커피 구독 · 느와르·수사파일" },
 ];
 
