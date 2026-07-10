@@ -24,7 +24,10 @@ export const CARD_PAD = "p-5 sm:p-6";
 export const TEXT_PRIMARY = "text-zinc-900 dark:text-zinc-50";
 export const TEXT_SECONDARY = "text-zinc-600 dark:text-zinc-400";
 export const TEXT_MUTED = "text-zinc-500 dark:text-zinc-500";
-export const NUM = "font-mono tabular-nums";
+/* 숫자: 원화 기호(₩)와 숫자를 동일 폰트(Pretendard, 전역 font-sans)로 통일 —
+   Geist Mono엔 ₩ 글리프가 없어 폴백되며 기호만 크게 보이던 문제 해결.
+   tabular-nums로 자릿수 정렬은 유지. */
+export const NUM = "tabular-nums [font-feature-settings:'tnum']";
 
 /* accent */
 export const ACCENT_TEXT = "text-indigo-600 dark:text-indigo-400";
