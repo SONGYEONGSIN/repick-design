@@ -1,0 +1,109 @@
+/* LINEAGE — scoped botanical-plate theme. Class-scoped to .lineage so it
+   never leaks into other /dash pages. */
+
+.lineage {
+  --lin-bg: #f7f1e4;
+  --lin-bg-rail: #f1e9d6;
+  --lin-card: #fffdf6;
+  --lin-ink: #231c13;
+  --lin-ink-muted: #5b5142;
+  --lin-sage: #3f5b44;
+  --lin-sage-deep: #2c4130;
+  --lin-sepia: #6b4a2b;
+  --lin-brick: #7a2e22;
+  --lin-border: #d9cba9;
+  --lin-border-strong: #c9bb9c;
+  color-scheme: light;
+  background-color: var(--lin-bg);
+  color: var(--lin-ink);
+}
+
+/* Aged-paper texture: layered low-contrast radial gradients, deterministic. */
+.lin-paper {
+  background-image: radial-gradient(circle at 12% 8%, rgba(107, 74, 43, 0.05), transparent 40%),
+    radial-gradient(circle at 88% 22%, rgba(63, 91, 68, 0.05), transparent 38%),
+    radial-gradient(circle at 30% 92%, rgba(107, 74, 43, 0.04), transparent 42%),
+    radial-gradient(circle at 75% 80%, rgba(35, 28, 19, 0.03), transparent 45%);
+}
+
+.lin-plate-frame {
+  border: 1px solid var(--lin-border-strong);
+  padding: 4px;
+}
+
+.lin-plate-frame-inner {
+  border: 1px solid var(--lin-border);
+}
+
+.lin-card {
+  background-color: var(--lin-card);
+  border: 1px solid var(--lin-border);
+}
+
+/* Focus-visible ring, consistent across all interactive elements in scope. */
+.lin-focus:focus-visible {
+  outline: 2px solid var(--lin-sage-deep);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+.plate-serif {
+  font-family: var(--font-fraunces), "Iowan Old Style", Georgia, serif;
+}
+
+/* Native <progress> skin, kept simple and high-contrast. */
+.lin-progress {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 100%;
+  height: 8px;
+  border: 1px solid var(--lin-border-strong);
+  background-color: var(--lin-bg-rail);
+}
+.lin-progress::-webkit-progress-bar {
+  background-color: var(--lin-bg-rail);
+}
+.lin-progress::-webkit-progress-value {
+  background-color: var(--lin-sage);
+}
+.lin-progress::-moz-progress-bar {
+  background-color: var(--lin-sage);
+}
+
+/* Reveal-on-load: base state is fully visible. Only when the OS allows
+   motion do we animate from a transparent/offset starting point, so
+   reduced-motion users never get stuck at opacity:0. */
+.reveal {
+  opacity: 1;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .reveal {
+    opacity: 0;
+    animation: lin-reveal 0.6s ease-out forwards;
+    animation-delay: var(--reveal-delay, 0s);
+  }
+  @keyframes lin-reveal {
+    from {
+      opacity: 0;
+      transform: translateY(6px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
+
+/* Thin, low-key scrollbar for the horizontal mobile index rail. */
+.lin-scroll-x {
+  scrollbar-width: thin;
+  scrollbar-color: var(--lin-border-strong) transparent;
+}
+
+/* Staggered reveal delays for grid items (avoids inline style attrs). */
+.lin-delay-0 { --reveal-delay: 0s; }
+.lin-delay-1 { --reveal-delay: 0.05s; }
+.lin-delay-2 { --reveal-delay: 0.1s; }
+.lin-delay-3 { --reveal-delay: 0.15s; }
+.lin-delay-4 { --reveal-delay: 0.2s; }
+.lin-delay-5 { --reveal-delay: 0.25s; }

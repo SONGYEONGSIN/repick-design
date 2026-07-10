@@ -1,0 +1,72 @@
+/*
+  BOXOUT 브랜드 토큰 — 이 폴더(dash/d15) 전용 스코프.
+  전역 globals.css는 다른 대시보드가 공유하므로 건드리지 않고,
+  CSS Module 클래스에 커스텀 프로퍼티를 선언해 하위 트리에만 캐스케이드시킨다.
+*/
+
+.theme {
+  --bo-ink: #0b0a08;
+  --bo-cream: #f3ede0;
+  --bo-cream-dim: #e6dcc3;
+  --bo-orange: #ff5b1f;
+  --bo-red: #e21b3c;
+  /* 크림 배경 위 소형 텍스트용 (WCAG AA 4.5:1 확보를 위해 --bo-red보다 어둡게) */
+  --bo-red-text: #b3122c;
+  color-scheme: light;
+}
+
+.halftone {
+  background-image: radial-gradient(var(--bo-ink) 1.3px, transparent 1.3px);
+  background-size: 9px 9px;
+  background-position: -2px -2px;
+}
+
+/* 각진 셰브론 배지 (nav 활성 표시, 태그 등) */
+.chevron {
+  clip-path: polygon(0 0, 88% 0, 100% 50%, 88% 100%, 0 100%, 12% 50%);
+}
+
+.tag {
+  clip-path: polygon(8% 0, 100% 0, 92% 100%, 0% 100%);
+}
+
+.enter {
+  animation: bo-enter 420ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes bo-enter {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.livePulse {
+  animation: bo-pulse 1.7s ease-in-out infinite;
+}
+
+@keyframes bo-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.35;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .enter {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+  .livePulse {
+    animation: none;
+    opacity: 1;
+  }
+}
