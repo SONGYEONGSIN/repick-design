@@ -1,0 +1,134 @@
+/* CALDERA/OS — brutalist control-room console styling.
+   Scoped under .d5-scope; a plain CSS file (matches existing dash/d2, dash/d3
+   pattern in this codebase) rather than inline styles or arbitrary Tailwind. */
+
+.d5-scope {
+  --cal-bg: #07080a;
+  --cal-bg-raised: #0e1012;
+  --cal-bg-panel: #121416;
+  --cal-border: #2c2f2a;
+  --cal-border-strong: #eeece2;
+  --cal-text: #eeece2;
+  --cal-text-dim: #b7bbb0;
+  --cal-amber: #ffab3d;
+  --cal-red: #ff5b4c;
+  --cal-green: #3ddc91;
+  --cal-yellow: #ffd23d;
+  --cal-cyan: #74d8ff;
+  font-variant-numeric: tabular-nums;
+  color-scheme: dark;
+}
+
+/* faint blueprint grid, decorative only, sits behind opaque panels */
+.d5-grid-bg {
+  background-image:
+    linear-gradient(var(--cal-border) 1px, transparent 1px),
+    linear-gradient(90deg, var(--cal-border) 1px, transparent 1px);
+  background-size: 28px 28px;
+  opacity: 0.5;
+}
+
+/* subtle static CRT scanline texture on the header — no animation */
+.d5-scanline {
+  background-image: repeating-linear-gradient(
+    0deg,
+    rgba(238, 236, 226, 0.025) 0px,
+    rgba(238, 236, 226, 0.025) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+}
+
+/* status LEDs — color paired with visible text elsewhere, never color-only */
+.d5-led {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 9999px;
+  flex-shrink: 0;
+}
+.d5-led--green {
+  background: var(--cal-green);
+  box-shadow: 0 0 6px 1px rgba(61, 220, 145, 0.55);
+}
+.d5-led--yellow {
+  background: var(--cal-yellow);
+  box-shadow: 0 0 6px 1px rgba(255, 210, 61, 0.5);
+}
+.d5-led--orange {
+  background: var(--cal-amber);
+  box-shadow: 0 0 6px 1px rgba(255, 171, 61, 0.5);
+}
+.d5-led--red {
+  background: var(--cal-red);
+  box-shadow: 0 0 8px 2px rgba(255, 91, 76, 0.6);
+}
+
+/* bento control grid — mobile-first stack, expands into an asymmetric
+   brutalist grid at wider breakpoints. gap doubles as hairline seams. */
+.d5-bento {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 3px;
+  background: var(--cal-border);
+  border: 2px solid var(--cal-border);
+  grid-template-areas:
+    "alert"
+    "seismic"
+    "thermal"
+    "gas"
+    "deform"
+    "plume"
+    "log";
+}
+
+.d5-panel {
+  background: var(--cal-bg-panel);
+  padding: 1rem;
+  min-width: 0;
+}
+
+.d5-area-alert { grid-area: alert; }
+.d5-area-seismic { grid-area: seismic; }
+.d5-area-thermal { grid-area: thermal; }
+.d5-area-gas { grid-area: gas; }
+.d5-area-deform { grid-area: deform; }
+.d5-area-plume { grid-area: plume; }
+.d5-area-log { grid-area: log; }
+
+@media (min-width: 768px) {
+  .d5-bento {
+    grid-template-columns: repeat(6, 1fr);
+    grid-template-areas:
+      "alert alert thermal thermal gas gas"
+      "alert alert deform deform plume plume"
+      "seismic seismic seismic seismic seismic seismic"
+      "log log log log log log";
+  }
+}
+
+@media (min-width: 1180px) {
+  .d5-bento {
+    grid-template-columns: repeat(12, 1fr);
+    grid-auto-rows: minmax(150px, auto);
+    grid-template-areas:
+      "alert alert alert seismic seismic seismic seismic thermal thermal gas gas gas"
+      "alert alert alert seismic seismic seismic seismic deform deform plume plume plume"
+      "log log log log log log log log log log log log";
+  }
+}
+
+/* log table severity rail — color paired with visible CRIT/WARN/INFO text */
+.d5-log-row[data-level="CRIT"] { border-inline-start: 3px solid var(--cal-red); }
+.d5-log-row[data-level="WARN"] { border-inline-start: 3px solid var(--cal-amber); }
+.d5-log-row[data-level="INFO"] { border-inline-start: 3px solid var(--cal-border); }
+
+/* reduced motion: neutralize any transition/animation globally within scope */
+@media (prefers-reduced-motion: reduce) {
+  .d5-scope, .d5-scope * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

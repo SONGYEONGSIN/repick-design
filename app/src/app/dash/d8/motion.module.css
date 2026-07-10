@@ -1,0 +1,36 @@
+/* BEEACON — 진입 모션. transform/opacity만 사용, prefers-reduced-motion에서
+   즉시 정지 상태로 표시(영구 opacity:0 방지). 순수 CSS 미디어쿼리라
+   OS 설정 변경을 프레임워크 훅보다 안정적으로 반영한다. */
+
+.enter {
+  animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.enterDelay1 {
+  animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.08s both;
+}
+
+.enterDelay2 {
+  animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.16s both;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .enter,
+  .enterDelay1,
+  .enterDelay2 {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+}

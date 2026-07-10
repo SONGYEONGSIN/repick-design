@@ -7,6 +7,10 @@ const works = [
   { id: "d2", route: "/dash/d2", brand: "Comet", desc: "멀티 SNS 크리에이터 성장 OS · 혜성 궤적 모티프, 컬러풀 벤토" },
   { id: "d3", route: "/dash/d3", brand: "MANIFEST — Ops Control", desc: "물류 관제탑 · SVG 허브 네트워크 스키매틱, 레트로퓨처 관제실" },
   { id: "d4", route: "/dash/d4", brand: "solace", desc: "바이오리듬 웰니스 · 24시간 원형 링에 하루를 엮음, 오가닉 소프트" },
+  { id: "d5", route: "/dash/d5", brand: "CALDERA/OS", desc: "활화산 관제 콘솔 · 관측소 탭=스파크라인 상태카드, 항공 색상코드 반원 게이지, 브루탈 관제실" },
+  { id: "d6", route: "/dash/d6", brand: "결 GYEOL", desc: "감정·관계 저널 · 해바라기 씨앗 나선(phyllotaxis)으로 무드 시각화, 소프트 오가닉 에디토리얼" },
+  { id: "d7", route: "/dash/d7", brand: "CASSANDRA", desc: "예측시장 확률 터미널 · 켜진 CRT 기기 프레이밍(베젤·스캔라인), 오실로스코프·캘리브레이션" },
+  { id: "d8", route: "/dash/d8", brand: "BEEACON", desc: "도시 루프탑 양봉 관제 · 벌집 지그재그 육각 그리드, 채집방향 나침반, 맥시멀 플레이풀" },
 ];
 
 function Card({ route, id, brand, desc }: { route: string; id: string; brand: string; desc: string }) {
