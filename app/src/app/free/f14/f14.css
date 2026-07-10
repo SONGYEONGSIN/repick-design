@@ -1,0 +1,118 @@
+/*
+  VERTEX — spatial audio brand landing (f14)
+  Scoped tokens + keyframes only. Namespaced under .f14-scope so nothing
+  leaks into global styles or other /free/* landings.
+*/
+
+.f14-scope {
+  --f14-bg: #05050b;
+  --f14-bg-raised: #0c0c18;
+  --f14-bg-raised-2: #121224;
+  --f14-fg: #f5f4f9;
+  --f14-fg-muted: #a9a7bd;
+  --f14-fg-dim: #7d7b93;
+  --f14-line: rgba(245, 244, 249, 0.09);
+  --f14-line-strong: rgba(245, 244, 249, 0.18);
+  --f14-violet: #8c6bff;
+  --f14-violet-soft: rgba(140, 107, 255, 0.16);
+  --f14-cyan: #57f3d0;
+  --f14-magenta: #ff4d8d;
+  --f14-ink: #08070f;
+
+  color-scheme: dark;
+  background: var(--f14-bg);
+  color: var(--f14-fg);
+  isolation: isolate;
+}
+
+.f14-scope ::selection {
+  background: var(--f14-violet);
+  color: var(--f14-ink);
+}
+
+/* Focus ring — always visible, never removed without a replacement */
+.f14-scope :focus-visible {
+  outline: 2px solid var(--f14-cyan);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+.f14-bg-field {
+  background:
+    radial-gradient(60% 50% at 50% 0%, rgba(140, 107, 255, 0.16), transparent 70%),
+    radial-gradient(40% 40% at 85% 20%, rgba(87, 243, 208, 0.08), transparent 70%),
+    var(--f14-bg);
+}
+
+.f14-grid-floor {
+  background-image:
+    linear-gradient(var(--f14-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--f14-line) 1px, transparent 1px);
+  background-size: 64px 64px;
+}
+
+.f14-noise-fade {
+  background: linear-gradient(180deg, var(--f14-bg) 0%, transparent 12%, transparent 88%, var(--f14-bg) 100%);
+}
+
+@keyframes f14-float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-14px); }
+}
+
+@keyframes f14-float-sm {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-8px); }
+}
+
+@keyframes f14-spin-cw {
+  from { transform: rotateX(72deg) rotateZ(0deg); }
+  to { transform: rotateX(72deg) rotateZ(360deg); }
+}
+
+@keyframes f14-spin-ccw {
+  from { transform: rotateX(20deg) rotateZ(360deg); }
+  to { transform: rotateX(20deg) rotateZ(0deg); }
+}
+
+@keyframes f14-pulse-glow {
+  0%, 100% { opacity: 0.55; }
+  50% { opacity: 1; }
+}
+
+@keyframes f14-blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.25; }
+}
+
+.f14-idle-float { animation: f14-float 7s ease-in-out infinite; }
+.f14-idle-float-sm { animation: f14-float-sm 5.5s ease-in-out infinite; }
+.f14-idle-spin-cw { animation: f14-spin-cw 22s linear infinite; }
+.f14-idle-spin-ccw { animation: f14-spin-ccw 26s linear infinite; }
+.f14-idle-pulse { animation: f14-pulse-glow 3.4s ease-in-out infinite; }
+.f14-idle-blink { animation: f14-blink 1.8s ease-in-out infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  .f14-idle-float,
+  .f14-idle-float-sm,
+  .f14-idle-spin-cw,
+  .f14-idle-spin-ccw,
+  .f14-idle-pulse,
+  .f14-idle-blink {
+    animation: none;
+  }
+}
+
+/* "Smoked glass": deliberately dark-tinted (not light-frosted) so text
+   drawn on top keeps AA contrast even when a bright photograph sits
+   behind the blur. */
+.f14-glass {
+  background: linear-gradient(160deg, rgba(8, 7, 15, 0.9), rgba(8, 7, 15, 0.78));
+  border: 1px solid var(--f14-line-strong);
+  backdrop-filter: blur(16px);
+}
+
+.f14-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: var(--f14-line-strong) transparent;
+}

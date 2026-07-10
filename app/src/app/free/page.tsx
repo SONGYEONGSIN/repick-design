@@ -12,6 +12,10 @@ const works = [
   { id: "f7", route: "/free/f7", brand: "SPORE", desc: "90일 후 퇴비화되는 반그로스 오디오 소셜 · 유기체·블롭" },
   { id: "f9", route: "/free/f9", brand: "VOLATILE", desc: "향수를 휘발 곡선 데이터로 만드는 계측 조향 · 사진 0장" },
   { id: "f10", route: "/free/f10", brand: "결 GYEOL", desc: "소리를 만지는 공감각 웨어러블 · 감각 번역" },
+  { id: "f11", route: "/free/f11", brand: "KINETYPE", desc: "글자에 물리엔진을 이식하는 카이네틱 타이포 엔진 · 움직이는 타입" },
+  { id: "f12", route: "/free/f12", brand: "덕지 DEOKJI", desc: "콜라주 재료를 실물 배송하는 아날로그 다이어리 구독 · 맥시멀 자인" },
+  { id: "f13", route: "/free/f13", brand: "VANISH.", desc: "당신의 실종을 영화처럼 기획하는 프로덕션 · 필름 누아르" },
+  { id: "f14", route: "/free/f14", brand: "VERTEX", desc: "소리에 3D 좌표를 부여하는 공간 오디오 이어폰 · 진짜 3D·아나글리프" },
 ];
 
 function Card({ route, id, brand, desc }: { route: string; id: string; brand: string; desc: string }) {
