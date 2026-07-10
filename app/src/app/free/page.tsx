@@ -16,6 +16,9 @@ const works = [
   { id: "f12", route: "/free/f12", brand: "덕지 DEOKJI", desc: "콜라주 재료를 실물 배송하는 아날로그 다이어리 구독 · 맥시멀 자인" },
   { id: "f13", route: "/free/f13", brand: "VANISH.", desc: "당신의 실종을 영화처럼 기획하는 프로덕션 · 필름 누아르" },
   { id: "f14", route: "/free/f14", brand: "VERTEX", desc: "소리에 3D 좌표를 부여하는 공간 오디오 이어폰 · 진짜 3D·아나글리프" },
+  { id: "f15", route: "/free/f15", brand: "MAISON LACUNE", desc: "가격이 안 나오는 초프레스티지 향수 하우스 · 침묵의 사치" },
+  { id: "f16", route: "/free/f16", brand: "몽상은행", desc: "잠·백일몽을 예치하면 몽상이자를 주는 가상 저축은행 · 파스텔 초현실" },
+  { id: "f17", route: "/free/f17", brand: "QUARTER WASH", desc: "코인 빨래방을 오락실로 재발명 · CSS 픽셀아트·8비트" },
 ];
 
 function Card({ route, id, brand, desc }: { route: string; id: string; brand: string; desc: string }) {

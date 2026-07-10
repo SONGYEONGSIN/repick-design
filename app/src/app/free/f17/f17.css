@@ -1,0 +1,136 @@
+.qw {
+  --qw-bg: #0a0714;
+  --qw-bg-2: #130b24;
+  --qw-panel: #1c1436;
+  --qw-panel-2: #241a44;
+  --qw-line: rgba(255, 255, 255, 0.14);
+  --qw-line-soft: rgba(255, 255, 255, 0.07);
+  --qw-ink: #f5f2ff;
+  --qw-ink-dim: #c7bfe6;
+  --qw-magenta: #ff3fb5;
+  --qw-magenta-soft: #ffa6df;
+  --qw-cyan: #31f1ff;
+  --qw-cyan-soft: #a8f7ff;
+  --qw-gold: #ffd23f;
+  --qw-red: #ff4d67;
+  --qw-green: #33ffb0;
+  color-scheme: dark;
+  background: var(--qw-bg);
+  color: var(--qw-ink);
+}
+
+/* Pixel-cut corners: replaces border-radius across the whole page.
+   Sharp stair-step notches are the single strongest signature of the
+   8-bit art direction, so no element in this page uses border-radius. */
+.qw-pixel-corners {
+  clip-path: polygon(
+    0 10px, 10px 10px, 10px 0,
+    calc(100% - 10px) 0, calc(100% - 10px) 10px, 100% 10px,
+    100% calc(100% - 10px), calc(100% - 10px) calc(100% - 10px), calc(100% - 10px) 100%,
+    10px 100%, 10px calc(100% - 10px), 0 calc(100% - 10px)
+  );
+}
+
+.qw-pixel-corners-sm {
+  clip-path: polygon(
+    0 5px, 5px 5px, 5px 0,
+    calc(100% - 5px) 0, calc(100% - 5px) 5px, 100% 5px,
+    100% calc(100% - 5px), calc(100% - 5px) calc(100% - 5px), calc(100% - 5px) 100%,
+    5px 100%, 5px calc(100% - 5px), 0 calc(100% - 5px)
+  );
+}
+
+/* CRT scanline + vignette overlay for the hero cabinet screen */
+.qw-crt {
+  position: relative;
+  isolation: isolate;
+}
+
+.qw-crt::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background-image: repeating-linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.35) 0px,
+    rgba(0, 0, 0, 0.35) 1px,
+    transparent 2px,
+    transparent 4px
+  );
+  mix-blend-mode: multiply;
+}
+
+.qw-crt::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background: radial-gradient(ellipse at center, transparent 45%, rgba(0, 0, 0, 0.55) 100%);
+}
+
+@keyframes qw-flicker {
+  0%, 100% { opacity: 1; }
+  45% { opacity: 1; }
+  46% { opacity: 0.82; }
+  47% { opacity: 1; }
+  72% { opacity: 1; }
+  73% { opacity: 0.88; }
+  74% { opacity: 1; }
+}
+.qw-flicker {
+  animation: qw-flicker 5s infinite steps(1);
+}
+
+@keyframes qw-blink {
+  0%, 55% { opacity: 1; }
+  56%, 100% { opacity: 0; }
+}
+.qw-blink {
+  animation: qw-blink 1.1s steps(1) infinite;
+}
+
+@keyframes qw-bob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+.qw-bob {
+  animation: qw-bob 2.4s ease-in-out infinite;
+}
+
+@keyframes qw-coin-flip {
+  0%, 78%, 100% { transform: scaleX(1); }
+  89% { transform: scaleX(0.15); }
+}
+.qw-coin-flip {
+  animation: qw-coin-flip 3.6s ease-in-out infinite;
+}
+
+@keyframes qw-bulb {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.25; }
+}
+.qw-bulb {
+  animation: qw-bulb 1.6s steps(1) infinite;
+}
+
+@keyframes qw-glow-pulse {
+  0%, 100% { text-shadow: 0 0 6px var(--qw-magenta), 0 0 14px rgba(255, 63, 181, 0.5); }
+  50% { text-shadow: 0 0 10px var(--qw-cyan), 0 0 22px rgba(49, 241, 255, 0.55); }
+}
+.qw-glow-pulse {
+  animation: qw-glow-pulse 3.2s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .qw-flicker,
+  .qw-blink,
+  .qw-bob,
+  .qw-coin-flip,
+  .qw-bulb,
+  .qw-glow-pulse {
+    animation: none;
+  }
+}
