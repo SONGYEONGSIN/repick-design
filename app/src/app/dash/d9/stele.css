@@ -1,0 +1,93 @@
+/* STELE — Swiss International Typographic system for an endangered-language archive console. */
+
+.stele {
+  --paper: #f5f3ec;
+  --paper-raised: #fbfaf6;
+  --ink: #15140f;
+  --ink-70: rgba(21, 20, 15, 0.72);
+  --ink-45: rgba(21, 20, 15, 0.45);
+  --ink-20: rgba(21, 20, 15, 0.16);
+  --ink-10: rgba(21, 20, 15, 0.08);
+  --accent: #a8320f;
+  --accent-10: rgba(168, 50, 15, 0.1);
+  --accent-20: rgba(168, 50, 15, 0.2);
+  --focus-ring: #1d4ed8;
+
+  background: var(--paper);
+  color: var(--ink);
+  min-height: 100vh;
+  color-scheme: light;
+}
+
+/* Baseline hairline grid — the recurring Swiss "ruled page" motif. */
+.stele-rule {
+  border-color: var(--ink-20);
+}
+
+.stele-rule-strong {
+  border-color: var(--ink);
+}
+
+/* Tabular index numerals used throughout (01 — 02 — 03...) */
+.stele-index {
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.02em;
+}
+
+/* Focus visibility — never removed, always redrawn with a distinct ring. */
+.stele :is(a, button, input, [tabindex]):focus-visible {
+  outline: 3px solid var(--focus-ring);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+.stele ::selection {
+  background: var(--accent);
+  color: var(--paper);
+}
+
+/* Tab panel entrance — pure CSS, always resolves to full visibility even if
+   the animation never runs (no JS-driven opacity:0 that can get stuck). */
+@keyframes stele-panel-in {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.stele-panel {
+  animation: stele-panel-in 260ms ease-out both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stele-panel {
+    animation: none;
+  }
+  .stele * {
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Funnel stage connector chevrons. */
+.stele-chevron {
+  clip-path: polygon(0% 0%, 60% 0%, 100% 50%, 60% 100%, 0% 100%, 40% 50%);
+}
+
+/* Custom scrollbar for the horizontally-scrolling queue table on small viewports. */
+.stele-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: var(--ink-45) transparent;
+}
+
+.stele-scroll::-webkit-scrollbar {
+  height: 6px;
+}
+
+.stele-scroll::-webkit-scrollbar-thumb {
+  background: var(--ink-45);
+  border-radius: 3px;
+}

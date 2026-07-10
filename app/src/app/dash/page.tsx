@@ -11,6 +11,10 @@ const works = [
   { id: "d6", route: "/dash/d6", brand: "결 GYEOL", desc: "감정·관계 저널 · 해바라기 씨앗 나선(phyllotaxis)으로 무드 시각화, 소프트 오가닉 에디토리얼" },
   { id: "d7", route: "/dash/d7", brand: "CASSANDRA", desc: "예측시장 확률 터미널 · 켜진 CRT 기기 프레이밍(베젤·스캔라인), 오실로스코프·캘리브레이션" },
   { id: "d8", route: "/dash/d8", brand: "BEEACON", desc: "도시 루프탑 양봉 관제 · 벌집 지그재그 육각 그리드, 채집방향 나침반, 맥시멀 플레이풀" },
+  { id: "d9", route: "/dash/d9", brand: "STELE", desc: "소멸위기 언어 아카이빙 콘솔 · 거대 활자 KPI, 타이포그래픽 퍼널, 스위스 인터내셔널" },
+  { id: "d10", route: "/dash/d10", brand: "VELA", desc: "딥스페이스 안테나망 관제 · 궤도 레이더 크로스싱크, 글래스모피즘 HUD, 딥인디고" },
+  { id: "d11", route: "/dash/d11", brand: "옹기 ONGGI", desc: "장독 발효 배양 관제 · 회전 바늘 아날로그 계기판, 밀랍 스탬프 KPI, 빈티지 웜 레시피북" },
+  { id: "d12", route: "/dash/d12", brand: "QUARTERDECK", desc: "라이브서비스 게임 라이브옵스 · 서버탭 연동 갱신, 32섹터 헥스 영토전, 사이버펑크 아케이드" },
 ];
 
 function Card({ route, id, brand, desc }: { route: string; id: string; brand: string; desc: string }) {
