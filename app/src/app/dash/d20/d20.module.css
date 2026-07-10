@@ -1,0 +1,107 @@
+/*
+  DAILIES — 렌더팜 & 샷 파이프라인 관제 데스크
+  시네마틱 다크 컬러그레이드: 딥 차콜 배경, 앰버/틸 듀오톤, 미세 필름그레인.
+  대비는 --dg-bg(#0b0c0e) 위 기준으로 검증됨 (AA 4.5:1 이상):
+    --dg-text      21:1
+    --dg-text-dim   7.19:1
+    --dg-text-faint 4.97:1 (14px 이상 텍스트에만 사용)
+    --dg-amber      8.26:1
+    --dg-teal       8.08:1
+    --dg-red        5.25:1
+*/
+
+.theme {
+  --dg-bg: #0b0c0e;
+  --dg-panel: #131519;
+  --dg-panel-raised: #191c21;
+  --dg-border: #24272d;
+  --dg-border-strong: #34393f;
+  --dg-text: #e8e6e1;
+  --dg-text-dim: #9a9da3;
+  --dg-text-faint: #83868c;
+  --dg-amber: #e8963c;
+  --dg-amber-soft: rgb(232 150 60 / 0.14);
+  --dg-teal: #3fb8ac;
+  --dg-teal-soft: rgb(63 184 172 / 0.14);
+  --dg-red: #e2554a;
+  --dg-red-soft: rgb(226 85 74 / 0.14);
+  color-scheme: dark;
+  background: var(--dg-bg);
+  position: relative;
+}
+
+/* 필름 그레인 오버레이 — 정적 SVG feTurbulence, 애니메이션 없음(발작 위험/성능 무관) */
+.grain {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.05;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 140px 140px;
+}
+
+.content {
+  position: relative;
+  z-index: 1;
+}
+
+/* 슬레이트 클래퍼 스트라이프 — 앰버/차콜 대각선 (장식용) */
+.clapperStripes {
+  background-image: repeating-linear-gradient(
+    135deg,
+    var(--dg-amber) 0,
+    var(--dg-amber) 18px,
+    #17181b 18px,
+    #17181b 36px
+  );
+}
+
+/* 게이지 아크: 마운트 시 부드러운 진입, reduced-motion에선 즉시 표시 */
+.gaugeArc {
+  transition: stroke-dashoffset 700ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* 카드 진입 애니메이션 — transform/opacity만 사용 */
+.enter {
+  animation: enter-fade 480ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes enter-fade {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .enter {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+  .gaugeArc {
+    transition: none;
+  }
+}
+
+/* 타임라인 가로 스크롤 트랙 커스텀 스크롤바 (장식) */
+.timelineScroll {
+  scrollbar-color: var(--dg-border-strong) transparent;
+  scrollbar-width: thin;
+}
+.timelineScroll::-webkit-scrollbar {
+  height: 6px;
+}
+.timelineScroll::-webkit-scrollbar-thumb {
+  background: var(--dg-border-strong);
+  border-radius: 999px;
+}
+.timelineScroll::-webkit-scrollbar-track {
+  background: transparent;
+}

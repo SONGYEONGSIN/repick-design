@@ -1,0 +1,75 @@
+/* PLANCHE — 하이패션 에디토리얼 모노크롬 토큰 */
+
+.root {
+  --paper: #f7f5f0;
+  --paper-panel: #eeebe3;
+  --ink: #111111;
+  --ink-soft: #4a4a46;
+  --line: #d8d4c9;
+  --invert-bg: #111111;
+  --invert-line: #3a3a37;
+  --invert-ink: #f7f5f0;
+  --invert-soft: #b8b6ae;
+  --accent: #b3001b;
+  --accent-invert: #ff4438;
+
+  background: var(--paper);
+  color: var(--ink);
+  color-scheme: light;
+}
+
+.body {
+  font-family: var(--font-ui), var(--font-sans), system-ui, sans-serif;
+}
+
+.display {
+  font-family: var(--font-display), Georgia, serif;
+}
+
+.dataFont {
+  font-family: var(--font-mono-data), var(--font-mono), monospace;
+}
+
+/* 진입 리빌 — reduced-motion 미선호 시에만 동작, 기본값은 항상 opacity:1 */
+.reveal {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .reveal {
+    animation: revealUp 0.55s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  .revealGrid > *:nth-child(1) { animation-delay: 0.02s; }
+  .revealGrid > *:nth-child(2) { animation-delay: 0.05s; }
+  .revealGrid > *:nth-child(3) { animation-delay: 0.08s; }
+  .revealGrid > *:nth-child(4) { animation-delay: 0.11s; }
+  .revealGrid > *:nth-child(5) { animation-delay: 0.14s; }
+  .revealGrid > *:nth-child(6) { animation-delay: 0.17s; }
+  .revealGrid > *:nth-child(7) { animation-delay: 0.2s; }
+  .revealGrid > *:nth-child(8) { animation-delay: 0.23s; }
+  .revealGrid > *:nth-child(9) { animation-delay: 0.26s; }
+  .revealGrid > *:nth-child(10) { animation-delay: 0.29s; }
+  .revealGrid > *:nth-child(11) { animation-delay: 0.32s; }
+  .revealGrid > *:nth-child(12) { animation-delay: 0.35s; }
+}
+
+@keyframes revealUp {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.hideScrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.hideScrollbar::-webkit-scrollbar {
+  display: none;
+}

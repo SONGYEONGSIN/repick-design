@@ -19,6 +19,10 @@ const works = [
   { id: "d14", route: "/dash/d14", brand: "SEAL 봉인", desc: "로펌 IP 자산 관제 · 기한을 시계 문자반으로 재해석한 방사형 도킷 휠, 아르데코 골드" },
   { id: "d15", route: "/dash/d15", brand: "BOXOUT", desc: "농구 코칭 실시간 매치 콘솔 · SVG 하프코트 슛차트, 부하 경고 스트립, 네오브루탈 스포츠" },
   { id: "d16", route: "/dash/d16", brand: "LINEAGE", desc: "희귀 원예종 온실·교배 계보 · 번호매긴 도감 플레이트, SVG 교배 계보도, 식물학 세밀화" },
+  { id: "d17", route: "/dash/d17", brand: "AquaChart", desc: "인디 레이블 스트리밍 로열티 · macOS Aqua 독 내비, 수족관형 스택 웨이브, Y2K 프루티거 에어로" },
+  { id: "d18", route: "/dash/d18", brand: "APRON", desc: "공항 지상운영 관제 · 필터 시 문자별 순차 플립하는 스플릿플랩 안내판, 게이트맵" },
+  { id: "d19", route: "/dash/d19", brand: "Planche", desc: "럭셔리 메종 컬렉션 MD · dl 스펙시트 KPI, RUNWAY→RETAIL 밸류체인 타임라인, 에디토리얼 모노크롬" },
+  { id: "d20", route: "/dash/d20", brand: "DAILIES", desc: "VFX 렌더팜·샷 파이프라인 · NLE 편집 타임라인 플레이헤드, 필터→컷 디밍 동기화, 시네마틱 다크" },
 ];
 
 function Card({ route, id, brand, desc }: { route: string; id: string; brand: string; desc: string }) {
