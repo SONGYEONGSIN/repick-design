@@ -9,8 +9,8 @@ export function WeatherPanel({ rows }: { rows: WeatherRow[] }) {
         06 — Weather Constraints
       </h2>
       <div className={`${styles.panel} p-4 sm:p-6`}>
-        <div className={styles.scrollX}>
-          <table className="w-full min-w-[560px] border-collapse text-left text-sm">
+        <div className={`${styles.scrollX} ${styles.scrollFade}`}>
+          <table className="w-full min-w-[480px] border-collapse text-left text-sm">
             <caption className="sr-only">Current weather launch constraints and margins</caption>
             <thead>
               <tr className="border-b" style={{ borderColor: "var(--hf-border)" }}>

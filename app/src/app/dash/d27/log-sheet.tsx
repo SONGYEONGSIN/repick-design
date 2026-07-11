@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useMemo, useRef } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Ban, Pin } from "lucide-react";
 import {
   formatBroadcastTime,
@@ -39,6 +39,24 @@ interface LogSheetProps {
 
 export function LogSheet({ day, selectedId, onSelect, showNow, nowRaw }: LogSheetProps) {
   const scrollRef = useRef<HTMLDivElement>(null);
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(false);
+
+  const updateScrollFade = useCallback(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+    setCanScrollLeft(el.scrollLeft > 4);
+    setCanScrollRight(el.scrollLeft + el.clientWidth < el.scrollWidth - 4);
+  }, []);
+
+  useEffect(() => {
+    updateScrollFade();
+    const el = scrollRef.current;
+    if (!el || typeof ResizeObserver === "undefined") return;
+    const ro = new ResizeObserver(updateScrollFade);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, [updateScrollFade, day]);
 
   const starts = useMemo(() => {
     const arr: number[] = [];
@@ -95,96 +113,108 @@ export function LogSheet({ day, selectedId, onSelect, showNow, nowRaw }: LogShee
       </div>
 
       {/* 스크롤 시트 본문 */}
-      <div
-        ref={scrollRef}
-        className="min-h-0 flex-1 overflow-auto"
-      >
-        <div className="relative w-max">
-          <table className="table-fixed border-separate border-spacing-0">
-            <caption className="sr-only">
-              {day.dayIndex}요일 아우로라방송 8개 채널 편성표. 06:00부터 다음날 02:00까지, 채널별
-              프로그램을 선택하면 상세 정보와 시청률, 광고 슬롯이 오른쪽 패널에 표시됩니다.
-            </caption>
-            <colgroup>
-              <col style={{ width: CHANNEL_COL_PX }} />
-              {day.durations.map((d, i) => (
-                <col key={i} style={{ width: pxFor(d) }} />
-              ))}
-            </colgroup>
-            <thead>
-              <tr>
-                <th
-                  scope="col"
-                  className="sticky left-0 top-0 z-30 border-b border-r border-[var(--rule-strong)] bg-[var(--paper-alt)] px-3 py-2 text-left align-middle font-mono text-[10px] font-bold uppercase tracking-widest text-[var(--ink-soft)]"
-                >
-                  채널
-                </th>
-                {starts.map((offset, i) => {
-                  const startRaw = 360 + offset;
-                  const isHour = startRaw % 60 === 0;
-                  return (
-                    <th
-                      key={i}
-                      scope="col"
-                      className="sticky top-0 z-20 border-b border-r border-[var(--rule-strong)] bg-[var(--paper-alt)] px-1 py-2 text-center align-bottom"
-                    >
-                      {isHour ? (
-                        <span className="font-mono text-[11px] font-bold tabular-nums text-[var(--ink)]">
-                          {formatBroadcastTime(startRaw)}
-                        </span>
-                      ) : (
-                        <span aria-hidden="true" className="mx-auto block h-2 w-px bg-[var(--rule-strong)]" />
-                      )}
-                      <span className="sr-only">{formatBroadcastTime(startRaw)}부터 {day.durations[i]}분</span>
-                    </th>
-                  );
-                })}
-              </tr>
-            </thead>
-            <tbody>
-              {day.rows.map((row) => (
-                <tr key={row.channel.id}>
+      <div className="relative min-h-0 flex-1">
+        <div ref={scrollRef} onScroll={updateScrollFade} className="h-full overflow-auto">
+          <div className="relative w-max">
+            <table className="table-fixed border-separate border-spacing-0">
+              <caption className="sr-only">
+                {day.dayIndex}요일 아우로라방송 8개 채널 편성표. 06:00부터 다음날 02:00까지, 채널별
+                프로그램을 선택하면 상세 정보와 시청률, 광고 슬롯이 오른쪽 패널에 표시됩니다.
+              </caption>
+              <colgroup>
+                <col style={{ width: CHANNEL_COL_PX }} />
+                {day.durations.map((d, i) => (
+                  <col key={i} style={{ width: pxFor(d) }} />
+                ))}
+              </colgroup>
+              <thead>
+                <tr>
                   <th
-                    scope="row"
-                    className="sticky left-0 z-10 border-b border-r border-[var(--rule-strong)] bg-[var(--paper-alt)] px-3 py-2 text-left align-middle"
+                    scope="col"
+                    className="sticky left-0 top-0 z-30 border-b border-r border-[var(--rule-strong)] bg-[var(--paper-alt)] px-3 py-2 text-left align-middle font-mono text-[10px] font-bold uppercase tracking-widest text-[var(--ink-soft)]"
                   >
-                    <span className="flex items-center gap-2">
-                      <GenreIcon genre={row.channel.focus} className="h-4 w-4 shrink-0 text-[var(--ink-soft)]" />
-                      <span className="flex flex-col leading-tight">
-                        <span className="font-mono text-[10px] tabular-nums text-[var(--ink-soft)]">
-                          CH.{row.channel.no}
-                        </span>
-                        <span className="text-[13px] font-semibold text-[var(--ink)]">{row.channel.name}</span>
-                      </span>
-                    </span>
+                    채널
                   </th>
-                  {row.programs.map((program) => (
-                    <ProgramCell
-                      key={program.id}
-                      program={program}
-                      channelName={row.channel.name}
-                      selected={selectedId === program.id}
-                      onSelect={onSelect}
-                    />
-                  ))}
+                  {starts.map((offset, i) => {
+                    const startRaw = 360 + offset;
+                    const isHour = startRaw % 60 === 0;
+                    return (
+                      <th
+                        key={i}
+                        scope="col"
+                        className="sticky top-0 z-20 border-b border-r border-[var(--rule-strong)] bg-[var(--paper-alt)] px-1 py-2 text-center align-bottom"
+                      >
+                        {isHour ? (
+                          <span className="font-mono text-[11px] font-bold tabular-nums text-[var(--ink)]">
+                            {formatBroadcastTime(startRaw)}
+                          </span>
+                        ) : (
+                          <span aria-hidden="true" className="mx-auto block h-2 w-px bg-[var(--rule-strong)]" />
+                        )}
+                        <span className="sr-only">{formatBroadcastTime(startRaw)}부터 {day.durations[i]}분</span>
+                      </th>
+                    );
+                  })}
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {day.rows.map((row) => (
+                  <tr key={row.channel.id}>
+                    <th
+                      scope="row"
+                      className="sticky left-0 z-10 border-b border-r border-[var(--rule-strong)] bg-[var(--paper-alt)] px-3 py-2 text-left align-middle"
+                    >
+                      <span className="flex items-center gap-2">
+                        <GenreIcon genre={row.channel.focus} className="h-4 w-4 shrink-0 text-[var(--ink-soft)]" />
+                        <span className="flex flex-col leading-tight">
+                          <span className="font-mono text-[10px] tabular-nums text-[var(--ink-soft)]">
+                            CH.{row.channel.no}
+                          </span>
+                          <span className="text-[13px] font-semibold text-[var(--ink)]">{row.channel.name}</span>
+                        </span>
+                      </span>
+                    </th>
+                    {row.programs.map((program) => (
+                      <ProgramCell
+                        key={program.id}
+                        program={program}
+                        channelName={row.channel.name}
+                        selected={selectedId === program.id}
+                        onSelect={onSelect}
+                      />
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
 
-          {showNow ? (
-            <div
-              aria-hidden="true"
-              className="pointer-events-none absolute inset-y-0 z-40"
-              style={{ left: CHANNEL_COL_PX + nowLeft }}
-            >
-              <div className="h-full w-px bg-[var(--stamp)]" />
-              <div className="sticky top-6 -ml-2.5 flex w-5 flex-col items-center">
-                <Pin className="h-3.5 w-3.5 -rotate-45 text-[var(--stamp)]" aria-hidden="true" />
+            {showNow ? (
+              <div
+                aria-hidden="true"
+                className="pointer-events-none absolute inset-y-0 z-40"
+                style={{ left: CHANNEL_COL_PX + nowLeft }}
+              >
+                <div className="h-full w-px bg-[var(--stamp)]" />
+                <div className="sticky top-6 -ml-2.5 flex w-5 flex-col items-center">
+                  <Pin className="h-3.5 w-3.5 -rotate-45 text-[var(--stamp)]" aria-hidden="true" />
+                </div>
               </div>
-            </div>
-          ) : null}
+            ) : null}
+          </div>
         </div>
+        {canScrollRight ? (
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-y-0 right-0 z-50 w-8 bg-gradient-to-l from-[var(--paper)] to-transparent"
+          />
+        ) : null}
+        {canScrollLeft ? (
+          <div
+            aria-hidden="true"
+            style={{ left: CHANNEL_COL_PX }}
+            className="pointer-events-none absolute inset-y-0 z-50 w-8 bg-gradient-to-r from-[var(--paper)] to-transparent"
+          />
+        ) : null}
       </div>
 
       {/* 범례 */}

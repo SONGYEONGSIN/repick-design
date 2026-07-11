@@ -1,6 +1,6 @@
 "use client";
 
-import type { CSSProperties } from "react";
+import { useEffect, useRef, type CSSProperties } from "react";
 import type { Milestone } from "../data";
 import { StatusChip, toneForMilestone } from "./StatusChip";
 import { CornerBracket } from "./CornerBracket";
@@ -35,6 +35,15 @@ export function TTimeline({
   selectedId: string;
   onSelect: (id: string) => void;
 }) {
+  const activeRef = useRef<HTMLLIElement>(null);
+
+  // Bring the active milestone fully into view on mount — without this, the
+  // strip opens scrolled to T-04:00:00 and the current/highlighted milestone
+  // (typically mid-strip) sits half-cut at the scrollable edge.
+  useEffect(() => {
+    activeRef.current?.scrollIntoView({ inline: "center", block: "nearest" });
+  }, []);
+
   return (
     <section aria-labelledby="timeline-heading" id="timeline" className="scroll-mt-20">
       <div className="mb-3 flex flex-wrap items-baseline justify-between gap-2">
@@ -42,18 +51,23 @@ export function TTimeline({
           02 — T-Timeline
         </h2>
         <p className="text-xs" style={{ color: "var(--hf-text-3)" }}>
-          Select a milestone to sync checklist, propellant load, and station poll below.
+          Select a milestone to sync checklist, propellant load, and station poll below. Scrollable — more milestones
+          may be off-screen.
         </p>
       </div>
 
       <div className={`${styles.panel} relative p-4 sm:p-6`}>
         <CornerBracket />
-        <ol className={`${styles.scrollX} flex list-none gap-0 pb-2`}>
+        <ol className={`${styles.scrollX} ${styles.scrollFade} flex list-none gap-0 pb-2`}>
           {milestones.map((m, i) => {
             const selected = m.id === selectedId;
             const tone = toneForMilestone(m.status);
             return (
-              <li key={m.id} className="relative w-40 flex-none">
+              <li
+                key={m.id}
+                ref={selected ? activeRef : undefined}
+                className={`relative w-40 flex-none ${styles.snapItem}`}
+              >
                 {i > 0 && (
                   <span
                     aria-hidden="true"

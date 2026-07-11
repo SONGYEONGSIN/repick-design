@@ -130,29 +130,33 @@ export default function DailyMixCurve({ activeHour, activeLabel }: DailyMixCurve
         </li>
       </ul>
 
-      <table className="sr-only">
-        <caption>24시간 수급 데이터 표</caption>
-        <thead>
-          <tr>
-            <th scope="col">시각</th>
-            <th scope="col">총수요(MW)</th>
-            <th scope="col">재생에너지(MW)</th>
-            <th scope="col">원자력(MW)</th>
-            <th scope="col">화력·ESS순(MW)</th>
-          </tr>
-        </thead>
-        <tbody>
-          {points.map((p) => (
-            <tr key={p.hour}>
-              <td>{String(p.hour).padStart(2, "0")}:00</td>
-              <td>{p.demandMW}</td>
-              <td>{p.renewableMW}</td>
-              <td>{p.nuclearMW}</td>
-              <td>{p.thermalMW}</td>
+      {/* sr-only는 div에만 적용 — table에 직접 적용 시 auto table-layout의 콘텐츠 기반 최소폭이
+          클리핑을 무시하고 조상 카드의 scrollWidth를 밀어내(뷰포트 밖 유령 스크롤 유발) */}
+      <div className="sr-only">
+        <table>
+          <caption>24시간 수급 데이터 표</caption>
+          <thead>
+            <tr>
+              <th scope="col">시각</th>
+              <th scope="col">총수요(MW)</th>
+              <th scope="col">재생에너지(MW)</th>
+              <th scope="col">원자력(MW)</th>
+              <th scope="col">화력·ESS순(MW)</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {points.map((p) => (
+              <tr key={p.hour}>
+                <td>{String(p.hour).padStart(2, "0")}:00</td>
+                <td>{p.demandMW}</td>
+                <td>{p.renewableMW}</td>
+                <td>{p.nuclearMW}</td>
+                <td>{p.thermalMW}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }

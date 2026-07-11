@@ -19,7 +19,7 @@ const TIER_BAR_COLOR: Record<string, string> = {
 export default function SubstationTable({ snapshot, selectedId, onSelect }: SubstationTableProps) {
   return (
     <div className={`${styles.scrollX} overflow-x-auto`}>
-      <table className="w-full min-w-[560px] border-collapse text-sm">
+      <table className="w-full min-w-max border-collapse text-sm">
         <caption className="sr-only">변전소별 부하 현황</caption>
         <thead>
           <tr className="border-b border-[var(--hair)] text-left">

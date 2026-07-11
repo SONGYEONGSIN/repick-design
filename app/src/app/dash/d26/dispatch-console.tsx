@@ -194,6 +194,7 @@ export default function DispatchConsole() {
                   delta={isCharging ? "충전 중" : "방전 중"}
                   deltaTone={isCharging ? "down" : "up"}
                   icon={<BatteryCharging aria-hidden size={13} />}
+                  className="col-span-2 sm:col-span-1"
                 />
               </div>
             </section>

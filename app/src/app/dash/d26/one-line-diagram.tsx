@@ -309,43 +309,47 @@ export default function OneLineDiagram({ snapshot, selectedId, onSelect, filter 
         <li>도형: □ 차단기 · ○○ 변압기</li>
       </ul>
 
-      <table className="sr-only">
-        <caption>단선 결선도 데이터 표 (스크린 리더 대체 표)</caption>
-        <thead>
-          <tr>
-            <th scope="col">설비명</th>
-            <th scope="col">구분</th>
-            <th scope="col">상태</th>
-            <th scope="col">출력/부하(MW)</th>
-          </tr>
-        </thead>
-        <tbody>
-          {GEN_SOURCES.map((gen) => {
-            const state = genState(gen.id);
-            if (!state) return null;
-            return (
-              <tr key={gen.id}>
-                <td>{gen.name}</td>
-                <td>{GEN_TYPE_LABEL[gen.type]} 발전기</td>
-                <td>{state.breaker === "open" ? "차단기 개방" : "차단기 폐로"}</td>
-                <td>{state.outputMW}</td>
-              </tr>
-            );
-          })}
-          {SUBSTATIONS.map((sub) => {
-            const state = subState(sub.id);
-            if (!state) return null;
-            return (
-              <tr key={sub.id}>
-                <td>{sub.name}</td>
-                <td>변전소 {sub.voltage}</td>
-                <td>{LOAD_TIER_LABEL[loadTier((state.loadMW / sub.capacityMW) * 100)]}</td>
-                <td>{state.loadMW}</td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
+      {/* sr-only는 div에만 적용 — table에 직접 적용 시 auto table-layout의 콘텐츠 기반 최소폭이
+          클리핑을 무시하고 조상 카드의 scrollWidth를 밀어내(뷰포트 밖 유령 스크롤 유발) */}
+      <div className="sr-only">
+        <table>
+          <caption>단선 결선도 데이터 표 (스크린 리더 대체 표)</caption>
+          <thead>
+            <tr>
+              <th scope="col">설비명</th>
+              <th scope="col">구분</th>
+              <th scope="col">상태</th>
+              <th scope="col">출력/부하(MW)</th>
+            </tr>
+          </thead>
+          <tbody>
+            {GEN_SOURCES.map((gen) => {
+              const state = genState(gen.id);
+              if (!state) return null;
+              return (
+                <tr key={gen.id}>
+                  <td>{gen.name}</td>
+                  <td>{GEN_TYPE_LABEL[gen.type]} 발전기</td>
+                  <td>{state.breaker === "open" ? "차단기 개방" : "차단기 폐로"}</td>
+                  <td>{state.outputMW}</td>
+                </tr>
+              );
+            })}
+            {SUBSTATIONS.map((sub) => {
+              const state = subState(sub.id);
+              if (!state) return null;
+              return (
+                <tr key={sub.id}>
+                  <td>{sub.name}</td>
+                  <td>변전소 {sub.voltage}</td>
+                  <td>{LOAD_TIER_LABEL[loadTier((state.loadMW / sub.capacityMW) * 100)]}</td>
+                  <td>{state.loadMW}</td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }

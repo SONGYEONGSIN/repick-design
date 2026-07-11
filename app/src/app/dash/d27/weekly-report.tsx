@@ -78,7 +78,7 @@ export function WeeklyReport({ summary, reviewQueue, selectedDay, selectedProgra
           </table>
         </section>
 
-        <section aria-labelledby="wk-review-h" className="min-w-0 overflow-x-auto border border-[var(--rule-strong)] p-3 lg:basis-[58%]">
+        <section aria-labelledby="wk-review-h" className="min-w-0 overflow-x-auto border border-[var(--rule-strong)] p-3 [contain:paint] lg:basis-[58%]">
           <h2 id="wk-review-h" className="mb-2 font-mono text-[10px] font-bold uppercase tracking-widest text-[var(--ink-soft)]">
             심의 일정
           </h2>

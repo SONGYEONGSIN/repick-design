@@ -58,7 +58,7 @@ export function SonarSweep({ dive }: { dive: Dive }) {
         role="img"
         aria-label={`소나 스윕: ${dive.site} 반경 400m 내 접촉 ${dive.sonarContacts.length}건`}
         viewBox="0 0 300 300"
-        className="mx-auto aspect-square w-full max-w-[300px]"
+        className="mx-auto aspect-square w-full max-w-[300px] shrink-0"
       >
         {RING_STEPS.map((step) => (
           <circle key={step} cx={CX} cy={CY} r={r2((R_MAX / 4) * step)} fill="none" stroke="var(--line)" strokeWidth={1} />
@@ -106,7 +106,7 @@ export function SonarSweep({ dive }: { dive: Dive }) {
         })}
       </svg>
 
-      <ul className="flex flex-wrap gap-x-4 gap-y-1.5 border-t border-[var(--line)] pt-3" aria-label="접촉 유형 범례">
+      <ul className="flex shrink-0 flex-wrap gap-x-4 gap-y-1.5 border-t border-[var(--line)] pt-3" aria-label="접촉 유형 범례">
         {SHAPE_LEGEND.map((item) => (
           <li key={item.type} className="flex items-center gap-1.5 text-[10px] uppercase tracking-[0.08em] text-[var(--text-mid)]">
             <span aria-hidden className="font-mono text-[var(--accent-dim)]">
@@ -117,13 +117,21 @@ export function SonarSweep({ dive }: { dive: Dive }) {
         ))}
       </ul>
 
-      <ul className="sr-only">
-        {dive.sonarContacts.map((c) => (
-          <li key={c.label}>
-            {c.label}: {CONTACT_TYPE_LABEL[c.type]}, 방위 {c.angle}도, 거리 {c.range}m
-          </li>
-        ))}
-      </ul>
+      <div className="flex min-h-0 flex-1 flex-col border-t border-[var(--line)] pt-3">
+        <p className="shrink-0 font-mono text-[10px] uppercase tracking-[0.1em] text-[var(--text-low)]">
+          접촉 로그 · {dive.sonarContacts.length}건
+        </p>
+        <ul className="flex flex-1 flex-col justify-around gap-1.5 py-1.5">
+          {dive.sonarContacts.map((c) => (
+            <li key={c.label} className="flex items-center justify-between gap-3 font-mono text-[10px]">
+              <span className="truncate text-[var(--text-hi)]">{c.label}</span>
+              <span className="shrink-0 text-[var(--text-low)]">
+                {CONTACT_TYPE_LABEL[c.type]} · {c.angle}° · {c.range}m
+              </span>
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 }

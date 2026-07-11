@@ -29,8 +29,8 @@ export function KpiStrip({ kpis, snapshotAt }: { kpis: KpiTile[]; snapshotAt: st
               {kpi.label}
             </p>
             <p
-              className={`mt-2 truncate font-mono font-bold tabular-nums ${
-                i === 0 ? "text-4xl sm:text-5xl lg:text-6xl" : "text-3xl sm:text-4xl"
+              className={`mt-2 break-words font-mono leading-tight font-bold tabular-nums ${
+                i === 0 ? "text-4xl lg:text-5xl xl:text-6xl" : "text-3xl sm:text-4xl lg:text-lg xl:text-2xl"
               }`}
               style={{ color: TONE_COLOR[kpi.tone] }}
             >

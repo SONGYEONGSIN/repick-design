@@ -107,6 +107,7 @@
   overflow-x: auto;
   scrollbar-width: thin;
   scrollbar-color: var(--hf-border-strong) transparent;
+  scroll-snap-type: x proximity;
 }
 .scrollX::-webkit-scrollbar {
   height: 6px;
@@ -114,6 +115,27 @@
 .scrollX::-webkit-scrollbar-thumb {
   background: var(--hf-border-strong);
   border-radius: 3px;
+}
+
+.snapItem {
+  scroll-snap-align: start;
+}
+
+/* Edge fade — signals more content is scrollable without depending on a
+   visible scrollbar (OS scrollbars are often auto-hidden). Four-layer
+   technique: two "cover" gradients travel with the content (local) and sit
+   exactly over the true start/end, masking the two "shadow" gradients
+   beneath, which stay pinned to the visible edges (scroll). Net effect: the
+   shadow only shows on a side that still has more content to reveal — pure
+   CSS, no JS scroll-position tracking. */
+.scrollFade {
+  background:
+    linear-gradient(to right, var(--hf-panel) 40%, transparent) left / 32px 100% no-repeat local,
+    linear-gradient(to left, var(--hf-panel) 40%, transparent) right / 32px 100% no-repeat local,
+    radial-gradient(farthest-side at left, rgba(127, 212, 255, 0.28), transparent) left / 18px 100% no-repeat
+      scroll,
+    radial-gradient(farthest-side at right, rgba(127, 212, 255, 0.28), transparent) right / 18px 100% no-repeat
+      scroll;
 }
 
 .holdPulse {

@@ -9,7 +9,7 @@ export function HistoryLog({ entries }: { entries: HistoryEntry[] }) {
         07 — Hold / Recycle Log
       </h2>
       <div className={`${styles.panel} p-4 sm:p-6`}>
-        <div className={styles.scrollX}>
+        <div className={`${styles.scrollX} ${styles.scrollFade}`}>
           <table className="w-full min-w-[280px] border-collapse text-left text-sm">
             <caption className="sr-only">Log of holds and recycles called during this count</caption>
             <thead>

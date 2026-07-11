@@ -78,8 +78,8 @@ function DiveStatusBadge({ status }: { status: DiveStatus }) {
   }[status];
   const Icon = cfg.icon;
   return (
-    <span className={`inline-flex items-center gap-1.5 rounded-sm border border-[var(--line-strong)] bg-[var(--ink-2)] px-2 py-1 text-[10px] font-semibold uppercase tracking-[0.08em] ${cfg.colorClass}`}>
-      <Icon aria-hidden className={`h-3 w-3 ${cfg.pulse ? "hadal-glow-breathe" : ""}`} />
+    <span className={`inline-flex items-center gap-1.5 whitespace-nowrap rounded-sm border border-[var(--line-strong)] bg-[var(--ink-2)] px-2 py-1 text-[10px] font-semibold uppercase tracking-[0.08em] ${cfg.colorClass}`}>
+      <Icon aria-hidden className={`h-3 w-3 shrink-0 ${cfg.pulse ? "hadal-glow-breathe" : ""}`} />
       {STATUS_LABEL[status]}
     </span>
   );
@@ -326,7 +326,7 @@ export default function DashboardClient() {
             {/* 03 텔레메트리 */}
             <section aria-labelledby="panel-telemetry" className="flex min-w-0 flex-col rounded-sm border border-[var(--line)] bg-[var(--ink-1)] xl:col-span-4 xl:row-span-2">
               <SectionHeader id="panel-telemetry" index="03" title="Telemetry" icon={Gauge} />
-              <ul className="flex flex-1 flex-col divide-y divide-[var(--line)]">
+              <ul className="flex flex-1 flex-col justify-around divide-y divide-[var(--line)]">
                 {kpis.map((k) => (
                   <li key={k.key} className="flex items-center justify-between gap-3 px-4 py-3.5">
                     <div className="flex min-w-0 items-center gap-2.5">
@@ -348,7 +348,7 @@ export default function DashboardClient() {
             {/* 04 다이브 로그 */}
             <section aria-labelledby="panel-log" className="flex min-w-0 flex-col rounded-sm border border-[var(--line)] bg-[var(--ink-1)] xl:col-span-7">
               <SectionHeader id="panel-log" index="04" title="Dive Log" icon={Route} />
-              <div className="flex flex-col gap-3 p-4">
+              <div className="flex min-w-0 flex-col gap-3 p-4">
                 <div role="group" aria-label="다이브 상태 필터" className="flex flex-wrap gap-2">
                   {STATUS_FILTERS.map((f) => {
                     const active = statusFilter === f.key;
@@ -371,8 +371,16 @@ export default function DashboardClient() {
                   })}
                 </div>
 
-                <div className="min-w-0 overflow-x-auto">
-                  <table className="w-full min-w-[640px] border-collapse text-left">
+                <div className="relative min-w-0 overflow-x-auto">
+                  <table className="w-full min-w-[560px] border-collapse text-left sm:min-w-0 sm:table-fixed">
+                    <colgroup>
+                      <col className="sm:w-[15%]" />
+                      <col className="sm:w-[19%]" />
+                      <col className="sm:w-[20%]" />
+                      <col className="sm:w-[15%]" />
+                      <col className="sm:w-[18%]" />
+                      <col className="sm:w-[13%]" />
+                    </colgroup>
                     <thead>
                       <tr className="border-b border-[var(--line)] font-mono text-[10px] uppercase tracking-[0.08em] text-[var(--text-low)]">
                         <th scope="col" className="py-2 pr-3 font-medium">
@@ -408,15 +416,17 @@ export default function DashboardClient() {
                               isSelected ? "bg-[var(--ink-2)]" : "hover:bg-[var(--ink-2)]/60"
                             }`}
                           >
-                            <td className={`py-2.5 pr-3 font-mono ${isSelected ? "text-[var(--accent)]" : "text-[var(--text-hi)]"}`}>
+                            <td className={`truncate py-2.5 pr-3 font-mono ${isSelected ? "text-[var(--accent)]" : "text-[var(--text-hi)]"}`}>
                               {isSelected && <span className="mr-1.5 inline-block h-1.5 w-1.5 rounded-full bg-[var(--accent)]" aria-hidden />}
                               {dive.id}
                             </td>
-                            <td className="py-2.5 pr-3 text-[var(--text-mid)]">{vehicle?.name}</td>
-                            <td className="max-w-[220px] truncate py-2.5 pr-3 text-[var(--text-mid)]" title={dive.site}>
+                            <td className="truncate py-2.5 pr-3 text-[var(--text-mid)]" title={vehicle?.name}>
+                              {vehicle?.name}
+                            </td>
+                            <td className="truncate py-2.5 pr-3 text-[var(--text-mid)]" title={dive.site}>
                               {dive.site}
                             </td>
-                            <td className="hadal-mono py-2.5 pr-3 text-right font-mono text-[var(--text-hi)]">{nf.format(dive.maxDepth)} m</td>
+                            <td className="hadal-mono whitespace-nowrap py-2.5 pr-3 text-right font-mono text-[var(--text-hi)]">{nf.format(dive.maxDepth)} m</td>
                             <td className="py-2.5 pr-3">
                               <DiveStatusBadge status={dive.status} />
                             </td>
@@ -450,7 +460,13 @@ export default function DashboardClient() {
               <SectionHeader id="panel-samples" index="05" title="Sample Manifest" icon={Layers} />
               <div className="min-w-0 flex-1 overflow-x-auto p-4">
                 {samplesForDive.length > 0 ? (
-                  <table className="w-full min-w-[380px] border-collapse text-left text-[12px]">
+                  <table className="w-full table-fixed border-collapse text-left text-[12px]">
+                    <colgroup>
+                      <col className="w-[22%]" />
+                      <col className="w-[38%]" />
+                      <col className="w-[20%]" />
+                      <col className="w-[20%]" />
+                    </colgroup>
                     <thead>
                       <tr className="border-b border-[var(--line)] font-mono text-[10px] uppercase tracking-[0.08em] text-[var(--text-low)]">
                         <th scope="col" className="py-2 pr-2 font-medium">
@@ -470,13 +486,17 @@ export default function DashboardClient() {
                     <tbody>
                       {samplesForDive.map((s) => (
                         <tr key={s.id} className="border-b border-[var(--line)] last:border-0">
-                          <td className="hadal-mono py-2 pr-2 font-mono text-[var(--text-hi)]">{s.id}</td>
+                          <td className="hadal-mono truncate py-2 pr-2 font-mono text-[var(--text-hi)]">{s.id}</td>
                           <td className="py-2 pr-2 text-[var(--text-mid)]">
-                            <span className="mr-1.5 rounded-sm border border-[var(--line-strong)] px-1.5 py-0.5 font-mono text-[9px] uppercase text-[var(--accent-dim)]">{s.tag}</span>
-                            {s.label}
+                            <div className="flex min-w-0 items-center gap-1.5">
+                              <span className="shrink-0 rounded-sm border border-[var(--line-strong)] px-1.5 py-0.5 font-mono text-[9px] uppercase text-[var(--accent-dim)]">{s.tag}</span>
+                              <span className="truncate" title={s.label}>
+                                {s.label}
+                              </span>
+                            </div>
                           </td>
-                          <td className="hadal-mono py-2 pr-2 text-right font-mono text-[var(--text-hi)]">{nf.format(s.depth)} m</td>
-                          <td className="hadal-mono py-2 pr-2 text-right font-mono text-[var(--text-mid)]">{s.qty}</td>
+                          <td className="hadal-mono whitespace-nowrap py-2 pr-2 text-right font-mono text-[var(--text-hi)]">{nf.format(s.depth)} m</td>
+                          <td className="hadal-mono whitespace-nowrap py-2 pr-2 text-right font-mono text-[var(--text-mid)]">{s.qty}</td>
                         </tr>
                       ))}
                     </tbody>

@@ -58,7 +58,7 @@ export function Panel({
             {title}
           </h2>
         </div>
-        {action ? <div className="shrink-0">{action}</div> : null}
+        {action ? <div className="min-w-0 max-w-full shrink">{action}</div> : null}
       </header>
       <div className={bodyClassName}>{children}</div>
     </section>
@@ -105,6 +105,7 @@ export function KpiCard({
   delta,
   deltaTone = "normal",
   icon,
+  className = "",
 }: {
   label: string;
   value: string;
@@ -112,6 +113,7 @@ export function KpiCard({
   delta?: string;
   deltaTone?: "up" | "down" | "normal";
   icon?: ReactNode;
+  className?: string;
 }) {
   const deltaColor =
     deltaTone === "up"
@@ -120,7 +122,7 @@ export function KpiCard({
         ? "text-[var(--cyan)]"
         : "text-[var(--ink-2)]";
   return (
-    <div className="min-w-0 bg-[var(--bg-1)] px-4 py-4 md:px-5">
+    <div className={`min-w-0 bg-[var(--bg-1)] px-4 py-4 md:px-5 ${className}`}>
       <div className="flex items-center gap-1.5 text-[var(--ink-2)]">
         {icon}
         <p className={styles.eyebrow}>{label}</p>

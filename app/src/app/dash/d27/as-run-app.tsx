@@ -177,7 +177,7 @@ export function AsRunApp({ week, summary, reviewQueue, defaultProgramId }: AsRun
             nowRaw={NOW_RAW}
           />
         </div>
-        <div className="min-w-0 w-full shrink-0 lg:h-[640px] lg:w-[380px] lg:overflow-y-auto">
+        <div className="min-w-0 w-full shrink-0 lg:w-[380px]">
           <DetailRail program={selectedProgram} />
         </div>
       </main>
