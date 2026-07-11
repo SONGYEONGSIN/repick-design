@@ -16,6 +16,7 @@ const works = [
   { id: "d26", route: "/dash/d26", brand: "60HZ", desc: "전력 계통 급전 콘솔 · 단선 결선도+급전 스택+오리곡선, 통전 도체만 앰버 글로우, 다크 미믹보드" },
   { id: "d27", route: "/dash/d27", brand: "AS-RUN", desc: "방송 편성 트래픽 로그 · EPG 테이블 자체가 히어로, 카본카피 로그 시트 프레이밍, 라이트 서식" },
   { id: "d28", route: "/dash/d28", brand: "HOLDFIRE", desc: "로켓 발사 관제 · T-타임라인+Go/No-Go 롤콜 보드, 제논 서치라이트 빛 문법, 다크 홀드 스냅샷" },
+  { id: "d30", route: "/dash/d30", brand: "Slotted", desc: "예약·미팅 스케줄링(Calendly급) · 순백 라이트, 이벤트타입 선택→히트맵·미팅목록 동기화, ⌘K·정렬 테이블" },
 ];
 
 function Card({ route, id, brand, desc }: { route: string; id: string; brand: string; desc: string }) {
