@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 import { Minus, TrendingDown, TrendingUp } from "lucide-react";
 import { cn } from "./utils";
-import { formatPercent } from "./data";
+import { formatPercent, round2 } from "./data";
 
 export function Card({
   id,
@@ -99,6 +99,7 @@ export function AssetIcon({
 }
 
 export function StatusBadge({ status }: { status: "completed" | "pending" }) {
+  const label = status === "completed" ? "완료" : "대기중";
   return (
     <span
       className={cn(
@@ -110,11 +111,54 @@ export function StatusBadge({ status }: { status: "completed" | "pending" }) {
         aria-hidden="true"
         className={cn("size-1.5 rounded-full", status === "completed" ? "bg-emerald-400" : "bg-amber-400")}
       />
-      {status === "completed" ? "완료" : "대기중"}
+      {/* Text hides below sm to keep the transactions table clipping-free on narrow screens;
+          it stays in the accessibility tree via sr-only so status is never color-only. */}
+      <span className="sr-only sm:not-sr-only">{label}</span>
     </span>
   );
 }
 
 export function SectionLabel({ children }: { children: ReactNode }) {
   return <p className="text-[11px] font-medium uppercase tracking-wider text-zinc-500">{children}</p>;
+}
+
+/**
+ * Small decorative trend line for rail rows. Purely presentational — the
+ * numeric % change next to it is the real, screen-reader-accessible signal
+ * (this stays aria-hidden so it never becomes a color-only data channel).
+ */
+export function Sparkline({
+  values,
+  color,
+  width = 48,
+  height = 20,
+}: {
+  values: number[];
+  color: string;
+  width?: number;
+  height?: number;
+}) {
+  const max = Math.max(...values);
+  const min = Math.min(...values);
+  const range = max - min || Math.max(max * 0.01, 1);
+  const points = values
+    .map((v, i) => {
+      const x = round2((i / (values.length - 1)) * width);
+      const y = round2(height - ((v - min) / range) * height);
+      return `${x},${y}`;
+    })
+    .join(" ");
+
+  return (
+    <svg
+      width={width}
+      height={height}
+      viewBox={`0 0 ${width} ${height}`}
+      role="presentation"
+      aria-hidden="true"
+      className="shrink-0 overflow-visible"
+    >
+      <polyline points={points} fill="none" stroke={color} strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
 }

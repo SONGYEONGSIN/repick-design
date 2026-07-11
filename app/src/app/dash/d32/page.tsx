@@ -1,35 +1,36 @@
 import type { Metadata } from "next";
 import { PortfolioProvider } from "./context";
 import { Shell } from "./shell";
-import KpiRow from "./kpi-row";
+import AssetRail from "./asset-rail";
 import PortfolioChartCard from "./portfolio-chart";
 import AssetDetailPanel from "./asset-detail-panel";
-import HoldingsTable from "./holdings-table";
-import AllocationDonut from "./allocation-donut";
+import PortfolioSummary from "./portfolio-summary";
 import RecentTransactions from "./recent-transactions";
 
 export const metadata: Metadata = {
-  title: "Meridian — 포트폴리오 개요",
-  description: "디지털 자산 보유 현황, 가격 추이, 거래 내역을 한눈에 확인하는 포트폴리오 대시보드",
+  title: "Meridian — 포트폴리오 터미널",
+  description: "보유 자산과 워치리스트를 선택해 가격 추이, 거래 내역, 상세 지표를 한 화면에서 확인하는 마켓 터미널",
 };
 
 export default function Page() {
   return (
     <PortfolioProvider defaultAssetId="portfolio">
       <Shell>
-        <div className="mx-auto flex w-full max-w-[1600px] flex-col">
-          <div className="mb-6">
-            <h1 className="text-xl font-semibold tracking-tight text-zinc-50 sm:text-2xl">포트폴리오 개요</h1>
-            <p className="mt-1 text-sm text-zinc-500">보유 자산 현황과 시장 동향을 한눈에 확인하세요.</p>
+        {/* Visually silent — the selected asset name inside the chart panel
+            functions as this page's visible headline (single h1, no skipped levels). */}
+        <h1 className="sr-only">Meridian 포트폴리오 터미널</h1>
+
+        <div className="mx-auto flex w-full max-w-[1920px] flex-col gap-4 lg:flex-row lg:items-stretch lg:gap-4">
+          <AssetRail />
+
+          <div className="flex min-w-0 flex-1 flex-col gap-4">
+            <PortfolioChartCard />
+            <RecentTransactions />
           </div>
 
-          <div className="grid grid-cols-12 gap-4 sm:gap-5">
-            <KpiRow />
-            <PortfolioChartCard />
+          <div className="flex w-full shrink-0 flex-col gap-4 lg:w-64 xl:w-80">
+            <PortfolioSummary />
             <AssetDetailPanel />
-            <HoldingsTable />
-            <AllocationDonut />
-            <RecentTransactions />
           </div>
         </div>
       </Shell>

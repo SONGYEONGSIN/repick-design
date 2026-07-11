@@ -102,27 +102,27 @@ function periodStart(price: number, changePct: number): number {
 export const HOLDINGS: Holding[] = [
   {
     id: "btc", symbol: "BTC", name: "Bitcoin", color: "#F7931A", decimals: 4,
-    price: 67842.15, qty: 1.284, change24h: 2.34, changeWeek: 6.1, changeMonth: 14.2, changeYear: 38.5,
+    price: 67842.15, qty: 1.284, avgCost: 52340.00, change24h: 2.34, changeWeek: 6.1, changeMonth: 14.2, changeYear: 38.5,
   },
   {
     id: "eth", symbol: "ETH", name: "Ethereum", color: "#8CA6FF", decimals: 3,
-    price: 3412.80, qty: 18.5, change24h: -1.12, changeWeek: -3.4, changeMonth: 2.1, changeYear: 21.75,
+    price: 3412.80, qty: 18.5, avgCost: 3800.00, change24h: -1.12, changeWeek: -3.4, changeMonth: 2.1, changeYear: 21.75,
   },
   {
     id: "sol", symbol: "SOL", name: "Solana", color: "#B084FF", decimals: 2,
-    price: 164.27, qty: 320.4, change24h: 5.67, changeWeek: 12.8, changeMonth: 25.3, changeYear: 64.0,
+    price: 164.27, qty: 320.4, avgCost: 98.50, change24h: 5.67, changeWeek: 12.8, changeMonth: 25.3, changeYear: 64.0,
   },
   {
     id: "usdc", symbol: "USDC", name: "USD Coin", color: "#4C9CE8", decimals: 2,
-    price: 1.00, qty: 42500, change24h: 0.0, changeWeek: 0.02, changeMonth: -0.01, changeYear: 0.03,
+    price: 1.00, qty: 42500, avgCost: 1.00, change24h: 0.0, changeWeek: 0.02, changeMonth: -0.01, changeYear: 0.03,
   },
   {
     id: "link", symbol: "LINK", name: "Chainlink", color: "#4DC8E8", decimals: 2,
-    price: 14.82, qty: 2100, change24h: -0.45, changeWeek: -2.15, changeMonth: 4.6, changeYear: 9.8,
+    price: 14.82, qty: 2100, avgCost: 16.40, change24h: -0.45, changeWeek: -2.15, changeMonth: 4.6, changeYear: 9.8,
   },
   {
     id: "avax", symbol: "AVAX", name: "Avalanche", color: "#E8555A", decimals: 2,
-    price: 36.94, qty: 850, change24h: 3.21, changeWeek: 8.9, changeMonth: -5.2, changeYear: 12.4,
+    price: 36.94, qty: 850, avgCost: 29.80, change24h: 3.21, changeWeek: 8.9, changeMonth: -5.2, changeYear: 12.4,
   },
 ];
 
@@ -240,6 +240,37 @@ export const WORST_PERFORMER = HOLDINGS.reduce((worst, h) => (h.change24h < wors
 
 export function getHoldingValue(h: Holding): number {
   return round2(h.price * h.qty);
+}
+
+/** Unrealized return since average cost basis, as a percentage (수익률). */
+export function getReturnPct(h: Holding): number {
+  return round2(((h.price - h.avgCost) / h.avgCost) * 100);
+}
+
+function downsample(points: SeriesPoint[]): number[] {
+  const step = 3;
+  const sampled: number[] = [];
+  for (let i = 0; i < points.length; i += step) {
+    sampled.push(points[i].value);
+  }
+  const last = points[points.length - 1].value;
+  if (sampled[sampled.length - 1] !== last) {
+    sampled.push(last);
+  }
+  return sampled;
+}
+
+/**
+ * Deterministic downsampled series for compact rail sparklines.
+ * Reuses the 1-week series so trend direction matches the asset's actual weekly change.
+ */
+export function getSparklineValues(id: Exclude<AssetId, "portfolio">): number[] {
+  return downsample(getAssetSeries(id, "1W"));
+}
+
+/** Same downsampling applied to the aggregate portfolio series, for the rail's master row. */
+export function getPortfolioSparklineValues(): number[] {
+  return downsample(getPortfolioSeries("1W"));
 }
 
 export function getAllocation(): { holding: Holding; pct: number }[] {

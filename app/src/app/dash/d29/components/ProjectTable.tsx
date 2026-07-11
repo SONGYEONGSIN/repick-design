@@ -57,7 +57,7 @@ export function ProjectTable() {
         description={`총 ${projects.length}개 프로젝트 · 열 제목을 클릭하면 정렬됩니다`}
       />
       <div className="overflow-x-auto">
-        <table className="w-full min-w-[560px] border-collapse text-sm">
+        <table className="w-full min-w-[480px] border-collapse text-sm">
           <caption className="sr-only">프로젝트별 담당자, 우선순위, 진행률, 마감일 목록</caption>
           <thead>
             <tr className="border-b border-zinc-100">
@@ -140,7 +140,7 @@ export function ProjectTable() {
                       </span>
                     </div>
                   </td>
-                  <td className="px-5 py-3 text-right text-sm tabular-nums text-zinc-600">
+                  <td className="px-5 py-3 text-right text-sm whitespace-nowrap tabular-nums text-zinc-600">
                     {formatDate(project.dueDate)}
                   </td>
                   <td className="px-5 py-3 text-right">

@@ -111,20 +111,6 @@ export const PERIOD_SERIES: Record<Period, PeriodPoint[]> = {
   "30d": daily30d,
 };
 
-/** 기간별 평균 실행 소요시간(ms) — 표시용 대표값. */
-export const PERIOD_AVG_DURATION_MS: Record<Period, number> = {
-  "24h": 588,
-  "7d": 642,
-  "30d": 615,
-};
-
-/** 이전 기간 대비 증감률(%) — KPI 카드 보조 지표. */
-export const PERIOD_DELTA: Record<Period, { executions: number; successRate: number; failed: number; avgDuration: number }> = {
-  "24h": { executions: 8.2, successRate: -1.4, failed: 42.0, avgDuration: -3.1 },
-  "7d": { executions: 5.6, successRate: -0.6, failed: 18.9, avgDuration: 1.2 },
-  "30d": { executions: 12.4, successRate: 0.3, failed: -6.5, avgDuration: -4.8 },
-};
-
 export function periodTotals(period: Period) {
   const series = PERIOD_SERIES[period];
   const success = series.reduce((a, p) => a + p.success, 0);
@@ -250,6 +236,47 @@ export const WORKFLOWS: Workflow[] = [
 ];
 
 export const WORKFLOW_BY_ID = new Map(WORKFLOWS.map((w) => [w.id, w]));
+
+const TOTAL_WORKFLOW_EXECUTIONS = WORKFLOWS.reduce((sum, w) => sum + w.executions, 0);
+
+export function workflowSuccessRate(workflow: Workflow): number {
+  return workflow.executions === 0 ? 0 : ((workflow.executions - workflow.failed) / workflow.executions) * 100;
+}
+
+/** 7일 스파크라인 패턴을 목표 길이만큼 순환시켜 지점별 형태 가중치를 만든다 (0 가중치는 1로 보정). */
+function tileShape(shape: number[], length: number): number[] {
+  return Array.from({ length }, (_, i) => shape[i % shape.length] || 1);
+}
+
+/**
+ * 워크플로별 실행 추이 시계열 — 전역 기간 합계에서 해당 워크플로의 실행 점유율만큼 배분하고,
+ * 워크플로 고유 스파크라인 패턴으로 지점별 형태를 만든다 (지점 합계 = 배분된 워크플로 합계 보장).
+ * Stripe 웹훅(wf_b84c0e)의 24시간 뷰는 전역 실패 급증 구간 형태를 그대로 반영해 알림 카드와 정합을 맞춘다.
+ */
+export function workflowPeriodSeries(workflowId: string, period: Period): PeriodPoint[] {
+  const workflow = WORKFLOW_BY_ID.get(workflowId);
+  if (!workflow) throw new Error(`unknown workflow: ${workflowId}`);
+
+  const globalSeries = PERIOD_SERIES[period];
+  const n = globalSeries.length;
+  const share = workflow.executions / TOTAL_WORKFLOW_EXECUTIONS;
+  const workflowTotal = Math.round(periodTotals(period).total * share);
+  const successRate = workflowSuccessRate(workflow) / 100;
+  const workflowFailed = Math.min(workflowTotal, Math.round(workflowTotal * (1 - successRate)));
+  const workflowSuccess = workflowTotal - workflowFailed;
+
+  const shape = tileShape(workflow.sparkline, n);
+  const failedShape = workflowId === "wf_b84c0e" && period === "24h" ? FAILED_24H : shape;
+
+  const successCounts = distribute(workflowSuccess, shape);
+  const failedCounts = distribute(workflowFailed, failedShape);
+
+  return globalSeries.map((p, i) => ({
+    label: p.label,
+    success: successCounts[i],
+    failed: failedCounts[i],
+  }));
+}
 
 // ---------------------------------------------------------------------------
 // 최근 실행 로그 (분 단위 오프셋 → NOW 기준 절대시각으로 환산, 결정론적)

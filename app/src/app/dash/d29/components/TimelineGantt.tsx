@@ -73,36 +73,48 @@ export function TimelineGantt() {
                       {project.name}
                     </span>
                     <span className="relative h-6 flex-1">
-                      <HoverTooltip
-                        id={tooltipId}
-                        content={
-                          <span>
-                            {formatDate(project.startDate)} – {formatDate(project.dueDate)} ·{" "}
-                            {statusMeta[project.status].label} · {project.progress}% 진행
-                          </span>
-                        }
+                      {/*
+                        left/width(%)는 이 span(진짜 크기를 가진 flex-1 컨테이너)을 기준으로
+                        계산되어야 한다. HoverTooltip의 내부 wrapper는 자식이 absolute라
+                        자체 크기가 0으로 붕괴하므로, %기반 위치 지정은 반드시 이 바깥 span의
+                        직계 자식에서 수행하고 HoverTooltip은 이미 크기가 정해진 박스를
+                        h-full/w-full로 채우기만 하게 한다.
+                      */}
+                      <span
+                        className="absolute top-0 h-6"
+                        style={{ left: `${left}%`, width: `${width}%` }}
                       >
-                        <button
-                          type="button"
-                          tabIndex={0}
-                          aria-describedby={tooltipId}
-                          onMouseEnter={() => setHoveredId(project.id)}
-                          onMouseLeave={() => setHoveredId(null)}
-                          className="absolute top-0 flex h-6 items-center rounded-full focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-1 focus-visible:outline-none"
-                          style={{ left: `${left}%`, width: `${width}%` }}
+                        <HoverTooltip
+                          id={tooltipId}
+                          content={
+                            <span>
+                              {formatDate(project.startDate)} – {formatDate(project.dueDate)} ·{" "}
+                              {statusMeta[project.status].label} · {project.progress}% 진행
+                            </span>
+                          }
+                          className="block h-full w-full"
                         >
-                          <span
-                            className={`h-4 w-full rounded-full ${BAR_COLOR[project.status]} ${
-                              hoveredId === project.id ? "opacity-100" : "opacity-90"
-                            }`}
-                            aria-hidden="true"
-                          />
-                          <span className="sr-only">
-                            {project.name}: {formatDate(project.startDate)}부터 {formatDate(project.dueDate)}까지,
-                            진행률 {project.progress}%, {statusMeta[project.status].label}
-                          </span>
-                        </button>
-                      </HoverTooltip>
+                          <button
+                            type="button"
+                            tabIndex={0}
+                            aria-describedby={tooltipId}
+                            onMouseEnter={() => setHoveredId(project.id)}
+                            onMouseLeave={() => setHoveredId(null)}
+                            className="flex h-full w-full items-center rounded-full focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-1 focus-visible:outline-none"
+                          >
+                            <span
+                              className={`h-4 w-full rounded-full ${BAR_COLOR[project.status]} ${
+                                hoveredId === project.id ? "opacity-100" : "opacity-90"
+                              }`}
+                              aria-hidden="true"
+                            />
+                            <span className="sr-only">
+                              {project.name}: {formatDate(project.startDate)}부터 {formatDate(project.dueDate)}까지,
+                              진행률 {project.progress}%, {statusMeta[project.status].label}
+                            </span>
+                          </button>
+                        </HoverTooltip>
+                      </span>
                     </span>
                   </li>
                 );

@@ -1,13 +1,11 @@
 "use client";
 
-import { ArrowDownLeft, ArrowUpRight, Layers } from "lucide-react";
+import type { ReactNode } from "react";
+import { ArrowDownLeft, ArrowUpRight } from "lucide-react";
 import { usePortfolio } from "./context";
 import {
   BEST_PERFORMER,
   HOLDINGS,
-  PORTFOLIO_CHANGE_24H_PCT,
-  PORTFOLIO_CHANGE_24H_USD,
-  TOTAL_BALANCE,
   WATCHLIST,
   WORST_PERFORMER,
   formatPrice,
@@ -15,10 +13,11 @@ import {
   formatUSD,
   formatUSDCompact,
   getMarketStats,
+  getReturnPct,
 } from "./data";
 import { AssetIcon, Card, ChangeBadge } from "./ui";
 
-function StatRow({ label, value }: { label: string; value: string }) {
+function StatRow({ label, value }: { label: string; value: ReactNode }) {
   return (
     <div className="flex items-center justify-between border-b border-white/5 py-2.5 text-sm last:border-b-0">
       <dt className="text-zinc-500">{label}</dt>
@@ -27,35 +26,18 @@ function StatRow({ label, value }: { label: string; value: string }) {
   );
 }
 
+/**
+ * Selected-asset detail stats for the right rail. When the master selection
+ * is "portfolio" itself, shows lightweight performance highlights instead of
+ * repeating totals already shown in PortfolioSummary above it.
+ */
 export default function AssetDetailPanel() {
   const { selectedAssetId } = usePortfolio();
 
   if (selectedAssetId === "portfolio") {
     return (
-      <Card
-        id="asset-detail"
-        title="포트폴리오 요약"
-        description="전체 보유 자산 기준"
-        className="col-span-12 xl:col-span-4"
-        bodyClassName="px-5 pb-5"
-      >
-        <div className="mt-3 flex items-center gap-3">
-          <span className="inline-flex size-11 shrink-0 items-center justify-center rounded-full bg-indigo-500/15 text-indigo-300">
-            <Layers aria-hidden="true" className="size-5" />
-          </span>
-          <div>
-            <p className="text-2xl font-semibold tabular-nums text-zinc-50">{formatUSD(TOTAL_BALANCE)}</p>
-            <div className="mt-1 flex items-center gap-2">
-              <ChangeBadge value={PORTFOLIO_CHANGE_24H_PCT} size="sm" />
-              <span className="text-[11px] tabular-nums text-zinc-500">
-                {PORTFOLIO_CHANGE_24H_USD >= 0 ? "+" : ""}
-                {formatUSD(PORTFOLIO_CHANGE_24H_USD)} (24시간)
-              </span>
-            </div>
-          </div>
-        </div>
-
-        <dl className="mt-4">
+      <Card id="asset-detail" title="퍼포먼스 하이라이트" description="24시간 기준 최고·최저 변동" bodyClassName="px-5 pb-5">
+        <dl className="mt-3">
           <StatRow label="보유 자산 수" value={`${HOLDINGS.length}종`} />
           <StatRow label="워치리스트" value={`${WATCHLIST.length}종`} />
         </dl>
@@ -84,15 +66,10 @@ export default function AssetDetailPanel() {
   const watch = WATCHLIST.find((w) => w.id === selectedAssetId);
   const asset = holding ?? watch!;
   const stats = getMarketStats(selectedAssetId);
+  const returnPct = holding ? getReturnPct(holding) : 0;
 
   return (
-    <Card
-      id="asset-detail"
-      title={asset.name}
-      description={holding ? "보유 중" : "워치리스트"}
-      className="col-span-12 xl:col-span-4"
-      bodyClassName="px-5 pb-5"
-    >
+    <Card id="asset-detail" title={asset.name} description={holding ? "보유 중" : "워치리스트"} bodyClassName="px-5 pb-5">
       <div className="mt-3 flex items-center gap-3">
         <AssetIcon symbol={asset.symbol} color={asset.color} size="lg" />
         <div>
@@ -106,7 +83,9 @@ export default function AssetDetailPanel() {
       {holding && (
         <dl className="mt-4">
           <StatRow label="보유 수량" value={`${formatQty(holding.qty, holding.decimals)} ${holding.symbol}`} />
+          <StatRow label="평단 매입가" value={formatPrice(holding.avgCost)} />
           <StatRow label="평가 금액" value={formatUSD(holding.price * holding.qty)} />
+          <StatRow label="수익률" value={<ChangeBadge value={returnPct} size="sm" />} />
         </dl>
       )}
 

@@ -24,6 +24,8 @@ export interface AssetMeta {
 export interface Holding extends AssetMeta {
   price: number;
   qty: number;
+  /** average cost basis per unit (평단 매입가) */
+  avgCost: number;
   change24h: number;
   changeWeek: number;
   changeMonth: number;

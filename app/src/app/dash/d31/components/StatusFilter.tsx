@@ -23,7 +23,7 @@ export default function StatusFilter({ value, onChange, counts }: StatusFilterPr
   return (
     <div
       role="group"
-      aria-label="상태로 필터링 — 워크플로 표와 실행 로그에 동시 적용"
+      aria-label="상태로 워크플로 목록 필터링"
       className="flex flex-wrap items-center gap-2"
     >
       {OPTIONS.map((opt) => {

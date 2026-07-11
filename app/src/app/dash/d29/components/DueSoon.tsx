@@ -26,36 +26,45 @@ export function DueSoon() {
           임박한 마감이 없습니다.
         </p>
       ) : (
-        <ul className="divide-y divide-zinc-50">
-          {dueSoonTasks.map((task) => {
-            const assignee = getMember(task.assigneeId);
-            const project = getProject(task.projectId);
-            const priority = priorityMeta[task.priority];
-            const dday = formatDday(TODAY_ISO, task.dueDate);
-            const urgent = dday === "D-DAY" || dday === "D-1";
-            return (
-              <li key={task.id} className="flex min-h-[44px] items-center gap-3 px-5 py-3">
-                <Avatar src={assignee.avatarUrl} name={assignee.name} size="sm" />
-                <div className="min-w-0 flex-1">
-                  <p className="truncate text-sm font-medium text-zinc-900">{task.title}</p>
-                  <p className="truncate text-xs text-zinc-500">
-                    {project.name} · {assignee.name}
-                  </p>
-                </div>
-                <Badge className={`hidden sm:inline-flex ${priority.className}`}>{priority.label}</Badge>
-                <Badge
-                  className={
-                    urgent
-                      ? "border-rose-200 bg-rose-50 text-rose-700"
-                      : "border-zinc-200 bg-zinc-100 text-zinc-600"
-                  }
-                >
-                  {dday}
-                </Badge>
-              </li>
-            );
-          })}
-        </ul>
+        <div
+          className="max-h-80 overflow-y-auto rounded-b-xl focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-inset focus-visible:outline-none"
+          tabIndex={0}
+          role="group"
+          aria-label={`마감 임박 작업 ${dueSoonTasks.length}건 · 스크롤하여 더 보기`}
+        >
+          <ul className="divide-y divide-zinc-50">
+            {dueSoonTasks.map((task) => {
+              const assignee = getMember(task.assigneeId);
+              const project = getProject(task.projectId);
+              const priority = priorityMeta[task.priority];
+              const dday = formatDday(TODAY_ISO, task.dueDate);
+              const urgent = dday === "D-DAY" || dday === "D-1";
+              return (
+                <li key={task.id} className="flex min-h-[44px] items-center gap-3 px-5 py-3">
+                  <Avatar src={assignee.avatarUrl} name={assignee.name} size="sm" />
+                  <div className="min-w-0 flex-1">
+                    <p className="line-clamp-2 text-sm font-medium text-zinc-900">{task.title}</p>
+                    <p className="truncate text-xs text-zinc-500">
+                      {project.name} · {assignee.name}
+                    </p>
+                  </div>
+                  <Badge className={`hidden shrink-0 sm:inline-flex ${priority.className}`}>
+                    {priority.label}
+                  </Badge>
+                  <Badge
+                    className={
+                      urgent
+                        ? "shrink-0 border-rose-200 bg-rose-50 text-rose-700"
+                        : "shrink-0 border-zinc-200 bg-zinc-100 text-zinc-600"
+                    }
+                  >
+                    {dday}
+                  </Badge>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
       )}
     </Card>
   );

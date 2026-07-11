@@ -1,7 +1,7 @@
 "use client";
 
 import { useId, useRef, useState, type KeyboardEvent, type PointerEvent } from "react";
-import { getAllocation, getAssetSeries, getPortfolioSeries, formatPercent, formatPrice, formatUSD } from "./data";
+import { getAllocation, getAssetSeries, getPortfolioSeries, formatPrice, formatUSD } from "./data";
 import { usePortfolio } from "./context";
 import { Card, ChangeBadge } from "./ui";
 import { cn } from "./utils";
@@ -156,7 +156,7 @@ function LineChart({
         onKeyDown={handleKeyDown}
         onBlur={() => setHoverIndex(null)}
         className={cn(
-          "relative h-56 w-full cursor-crosshair rounded-lg outline-none sm:h-64",
+          "relative h-64 w-full cursor-crosshair rounded-lg outline-none sm:h-80 lg:h-96",
           "focus-visible:ring-2 focus-visible:ring-indigo-400 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950",
         )}
       >
@@ -266,21 +266,20 @@ export default function PortfolioChartCard() {
       title={label}
       description={isPortfolio ? "총 자산 가치 추이" : "자산 가격 추이"}
       action={<PeriodTabs period={period} onChange={setPeriod} panelId={panelId} />}
-      className="col-span-12 xl:col-span-8"
       bodyClassName="px-5 pb-5"
     >
       <div className="mt-3 flex flex-wrap items-end gap-3">
-        <p className="text-3xl font-semibold tabular-nums text-zinc-50">{formatUSD(current)}</p>
-        <div className="mb-1 flex items-center gap-2">
+        <p className="text-4xl font-semibold tabular-nums text-zinc-50 sm:text-5xl">{formatUSD(current)}</p>
+        <div className="mb-1.5 flex items-center gap-2">
           <ChangeBadge value={changePct} />
           <span className="text-xs tabular-nums text-zinc-500">
             {changeUsd >= 0 ? "+" : ""}
-            {formatUSD(changeUsd)}
+            {formatUSD(changeUsd)} · {PERIOD_LABEL[period]}
           </span>
         </div>
       </div>
 
-      <div id={panelId} role="tabpanel" aria-labelledby={`period-tab-${period}`} className="mt-4">
+      <div id={panelId} role="tabpanel" aria-labelledby={`period-tab-${period}`} className="mt-5">
         <LineChart series={series} color={color} period={period} assetLabel={label} />
       </div>
     </Card>
