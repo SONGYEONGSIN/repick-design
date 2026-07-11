@@ -29,16 +29,24 @@ export function Card({
       )}
     >
       {(title || action) && (
-        <div className="flex items-center justify-between gap-3 px-5 pt-5">
+        <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-2 px-5 pt-5">
           <div className="min-w-0">
             {title && (
-              <h2 id={id ? `${id}-title` : undefined} className="text-sm font-semibold text-zinc-100">
+              <h2
+                id={id ? `${id}-title` : undefined}
+                title={title}
+                className="truncate text-sm font-semibold text-zinc-100"
+              >
                 {title}
               </h2>
             )}
-            {description && <p className="mt-0.5 text-xs text-zinc-500">{description}</p>}
+            {description && (
+              <p title={description} className="mt-0.5 truncate text-xs text-zinc-500">
+                {description}
+              </p>
+            )}
           </div>
-          {action}
+          {action && <div className="shrink-0">{action}</div>}
         </div>
       )}
       <div className={cn("flex-1", bodyClassName)}>{children}</div>

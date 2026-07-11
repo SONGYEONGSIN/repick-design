@@ -7,6 +7,7 @@ import DetailHeader from "./components/DetailHeader";
 import ExecutionChart from "./components/ExecutionChart";
 import ExecutionLogTable from "./components/ExecutionLogTable";
 import HeroStats from "./components/HeroStats";
+import scrollStyles from "./components/scroll.module.css";
 import WorkflowListRail from "./components/WorkflowListRail";
 import { WORKFLOW_BY_ID, WORKFLOWS, workflowPeriodSeries, type Period } from "./lib/data";
 
@@ -43,7 +44,7 @@ export default function DashboardClient() {
           onClose={() => setMobileListOpen(false)}
         />
 
-        <div className="min-h-0 min-w-0 flex-1 overflow-y-auto">
+        <div className={`min-h-0 min-w-0 flex-1 overflow-y-auto ${scrollStyles.thinScroll}`}>
           <DetailHeader
             workflow={workflow}
             period={period}

@@ -6,6 +6,7 @@ import { WORKFLOWS, lastRunAt, periodTotals, workflowSuccessRate } from "../lib/
 import { formatNumber, formatPercent } from "../lib/format";
 import AlertCard from "./AlertCard";
 import CreditsCard from "./CreditsCard";
+import scrollStyles from "./scroll.module.css";
 import StatusFilter, { type StatusFilterValue } from "./StatusFilter";
 import WorkflowListItem from "./WorkflowListItem";
 
@@ -66,7 +67,7 @@ export default function WorkflowListRail({ selectedId, onSelect, open, onClose }
         />
       )}
       <div
-        className={`flex-col overflow-hidden bg-zinc-950 lg:static lg:inset-auto lg:top-auto lg:z-auto lg:flex lg:h-full lg:w-[340px] lg:shrink-0 lg:max-h-none lg:rounded-none lg:border-b-0 lg:border-r lg:border-white/10 lg:shadow-none ${
+        className={`flex-col overflow-hidden bg-zinc-950 lg:static lg:inset-auto lg:top-auto lg:z-auto lg:flex lg:h-full lg:w-[320px] lg:shrink-0 lg:max-h-none lg:rounded-none lg:border-b-0 lg:border-r lg:border-white/10 lg:shadow-none ${
           open
             ? "fixed inset-x-0 top-16 z-40 flex max-h-[calc(100dvh-4rem)] rounded-b-2xl border-b border-white/10 shadow-2xl"
             : "hidden"
@@ -138,7 +139,10 @@ export default function WorkflowListRail({ selectedId, onSelect, open, onClose }
           </div>
         </div>
 
-        <nav aria-label="워크플로 목록" className="min-h-0 flex-1 overflow-y-auto px-2 pb-2 sm:px-3">
+        <nav
+          aria-label="워크플로 목록"
+          className={`min-h-0 flex-1 overflow-y-auto px-2 pb-2 sm:px-3 ${scrollStyles.thinScroll}`}
+        >
           {filteredSorted.length === 0 ? (
             <p className="px-2.5 py-8 text-center text-sm text-zinc-500">조건에 맞는 워크플로가 없습니다.</p>
           ) : (

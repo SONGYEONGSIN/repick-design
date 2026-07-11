@@ -1,0 +1,27 @@
+/*
+ * 레일(워크플로 목록)·디테일(선택된 워크플로) 두 내부 스크롤 컬럼 전용.
+ * 페이지 자체는 AppShell에서 스크롤을 잠가 두므로(html/body overflow: hidden),
+ * 사용자가 실제로 보게 되는 스크롤바는 이 두 컬럼뿐이다 — 클래식(항상-표시)
+ * 스크롤바 환경에서 그 시각적 존재감을 최소화하기 위해 얇고 테마에 맞는 색으로 조정한다.
+ */
+.thinScroll {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.16) transparent;
+}
+
+.thinScroll::-webkit-scrollbar {
+  width: 8px;
+}
+
+.thinScroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.thinScroll::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.16);
+  border-radius: 9999px;
+}
+
+.thinScroll::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.28);
+}

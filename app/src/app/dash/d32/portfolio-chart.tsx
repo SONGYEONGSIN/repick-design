@@ -269,7 +269,9 @@ export default function PortfolioChartCard() {
       bodyClassName="px-5 pb-5"
     >
       <div className="mt-3 flex flex-wrap items-end gap-3">
-        <p className="text-4xl font-semibold tabular-nums text-zinc-50 sm:text-5xl">{formatUSD(current)}</p>
+        <p className="min-w-0 break-words text-3xl font-semibold tabular-nums text-zinc-50 sm:text-4xl 2xl:text-5xl">
+          {formatUSD(current)}
+        </p>
         <div className="mb-1.5 flex items-center gap-2">
           <ChangeBadge value={changePct} />
           <span className="text-xs tabular-nums text-zinc-500">

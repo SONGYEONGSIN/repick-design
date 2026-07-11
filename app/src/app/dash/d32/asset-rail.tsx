@@ -155,7 +155,7 @@ export default function AssetRail() {
   const portfolioTrendColor = PORTFOLIO_CHANGE_24H_PCT >= 0 ? "#34d399" : "#f87171";
 
   return (
-    <aside aria-label="자산 목록" className="flex w-full shrink-0 flex-col border-b border-white/5 lg:w-64 lg:border-b-0 lg:border-r xl:w-80">
+    <aside aria-label="자산 목록" className="flex w-full shrink-0 flex-col border-b border-white/5 lg:w-56 lg:border-b-0 lg:border-r xl:w-72 2xl:w-80">
       <div className="p-3">
         <div role="search" className="flex h-11 items-center gap-2 rounded-lg border border-white/10 bg-white/5 px-3">
           <Search aria-hidden="true" className="size-4 shrink-0 text-zinc-500" />

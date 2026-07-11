@@ -28,7 +28,7 @@ export default function Page() {
             <RecentTransactions />
           </div>
 
-          <div className="flex w-full shrink-0 flex-col gap-4 lg:w-64 xl:w-80">
+          <div className="flex w-full shrink-0 flex-col gap-4 lg:w-56 xl:w-72 2xl:w-80">
             <PortfolioSummary />
             <AssetDetailPanel />
           </div>
