@@ -8,7 +8,6 @@ const works = [
   { id: "d12", route: "/dash/d12", brand: "QUARTERDECK", desc: "라이브서비스 게임 라이브옵스 · 서버탭 연동 갱신, 32섹터 헥스 영토전, 사이버펑크 아케이드" },
   { id: "d16", route: "/dash/d16", brand: "LINEAGE", desc: "희귀 원예종 온실·교배 계보 · 번호매긴 도감 플레이트, SVG 교배 계보도, 식물학 세밀화" },
   { id: "d20", route: "/dash/d20", brand: "DAILIES", desc: "VFX 렌더팜·샷 파이프라인 · NLE 편집 타임라인 플레이헤드, 필터→컷 디밍 동기화, 시네마틱 다크" },
-  { id: "d21", route: "/dash/d21", brand: "FORME", desc: "신문 편집국 조판 데스크 · 1면 지면 배치도(플랫플랜) 히어로, 논-리프로 블루 가이드·재단선, 라이트 지면" },
   { id: "d22", route: "/dash/d22", brand: "HADAL", desc: "심해 ROV 플릿 관제 · 수심 단면+소나 스윕 히어로, 다이브 선택→7모듈 동기화, 다크 발광" },
   { id: "d23", route: "/dash/d23", brand: "DATUM", desc: "건축 시공 관제 · 도면 시트 프레이밍(타이틀블록·REV), 클릭형 조닝 플랜+해칭 공정 단면, 라이트 제도판" },
   { id: "d24", route: "/dash/d24", brand: "ASPECT", desc: "철도 CTC 관제 · 선로 계통도+시간-거리 운행선도, 신호현시 램프 발광, 다크 계전기 패널" },
