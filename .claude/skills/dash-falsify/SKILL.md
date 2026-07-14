@@ -23,7 +23,7 @@ description: dash 자율 진화 주간 반증 — evolve/dash 누적분으로 �
 ## apply 모드 (로컬 세션 — 사람 리뷰 완료 후)
 입력: PR 코멘트(`gh pr view <num> --comments`) 또는 대화로 받은 ① 후보 킵/드롭 ② delta 승인/기각 ③ 질문 답변. 셋 중 입력이 없는 항목은 그 항목만 건너뛴다.
 1. **delta 승인** → `dash-brief-v3.md`에 surgical 편입(있으면 강화, 없으면 추가 — 무관 부분 수정 금지) + provisional에 `{...원본, status:'promoted', supersedes:'<round>'}` append.
-2. **delta 기각** → provisional에 `{...원본, status:'refuted', supersedes:'<round>'}` append + auto-ledger 해당 라운드에 `{round, date, refuted:true, refute_reason:'<사유>'}` append. **refute rate**(이번 리뷰에서 기각된 judge 승자 수 / 전체 승자 판정 수)를 계산해 40% 초과면 "judge 렌즈 개선 필요" finding을 사용자에게 보고.
+2. **delta 기각** → provisional에 `{...원본, status:'refuted', supersedes:'<round>'}` append + auto-ledger에 해당 라운드 원본 entry 전체를 spread한 `{...원본, refuted:true, refute_reason:'<사유>'}를 append(자기완결 줄 유지 — 같은 round의 최신 줄이 유효). **refute rate**(이번 리뷰에서 기각된 judge 승자 수 / 전체 승자 판정 수)를 계산해 40% 초과면 "judge 렌즈 개선 필요" finding을 사용자에게 보고.
 3. **질문 답변** → 답변에서 재사용 가능한 정제 기준을 추출해 curation-criteria.md "축적된 기준"에 append, 해당 질문은 questions-queue.md 아카이브로 이동.
 4. **후보 킵** → `git mv app/src/app/dash-evolve/r<N>/<v> app/src/app/dash/d<다음 번호>` + `/dash` 갤러리 page.tsx에 카드 등록. **드롭** → 해당 후보 디렉토리 삭제.
 5. 반영 커밋(evolve/dash) → `cd app && npx next build` 통과 확인 → `gh pr merge <num> --squash` (PR 제목이 conventional 형식인지 확인).
