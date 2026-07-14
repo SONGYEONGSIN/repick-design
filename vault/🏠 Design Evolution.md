@@ -11,6 +11,8 @@ repick 랜딩 디자인의 **AI 자기개선 루프** 지식 허브. 디자인 �
 - [[MEMORY]] — 학습 인덱스
 - [[AUTO-RUN-LOG]] — 자율 라운드 실행 로그
 - [[README]] — 참조(씨앗) 인덱스
+- [[curation-criteria]] — 지식 정제 meta-기준 (dash 자율 진화)
+- [[questions-queue]] — 정제 게이트 질문 큐
 
 ## 라운드별 결정 (진화 체인)
 - [[2026-07-06-landing/DECISION|R1 — C 승자 (수동)]]
