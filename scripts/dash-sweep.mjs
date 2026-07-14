@@ -64,9 +64,11 @@ export async function runSweep(baseUrl, routes, widths = sweepWidths()) {
 const isMain = process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href;
 if (isMain) {
   const args = process.argv.slice(2);
-  const base = args[args.indexOf('--base') + 1];
-  const routes = args.slice(args.indexOf('--routes') + 1);
-  if (!base || routes.length === 0) {
+  const baseIdx = args.indexOf('--base');
+  const routesIdx = args.indexOf('--routes');
+  const base = baseIdx !== -1 ? args[baseIdx + 1] : undefined;
+  const routes = routesIdx !== -1 ? args.slice(routesIdx + 1) : [];
+  if (!base || base.startsWith('--') || routes.length === 0) {
     console.error('usage: node scripts/dash-sweep.mjs --base <url> --routes <route...>');
     process.exit(2);
   }
