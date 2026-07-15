@@ -11,8 +11,9 @@ export const RULES = [
 export function checkSource(src) {
   const violations = [];
   src.split('\n').forEach((line, i) => {
+    const stripped = line.replace(/\{\/\*.*?\*\/\}/g, '').replace(/\/\*.*?\*\//g, '').replace(/(?<!:)\/\/.*$/u, '');
     for (const r of RULES) {
-      if (r.re.test(line)) {
+      if (r.re.test(stripped)) {
         violations.push({ rule: r.id, line: i + 1, text: line.trim().slice(0, 80), why: r.why });
       }
     }

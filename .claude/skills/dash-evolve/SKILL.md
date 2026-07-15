@@ -29,7 +29,7 @@ description: dash 루프 자율 진화 1라운드 — brief v3+격리 delta로 �
 - dev 서버: 3100 응답 확인(`curl -s -o /dev/null -w '%{http_code}' http://localhost:3100/`), 없으면 `cd app && npm run dev -- -p 3100` 백그라운드 기동(이 라운드가 띄웠으면 마지막에 종료).
 - **정적**: `node scripts/dash-static-check.mjs app/src/app/dash-evolve/r<N>/<v>/*.tsx` — 위반 JSON을 해당 designer에 전달해 1회 수정.
 - **sweep**: `node scripts/dash-sweep.mjs --base http://localhost:3100 --routes /dash-evolve/r<N>/a /dash-evolve/r<N>/b /dash-evolve/r<N>/c` — 실패 후보만 failures JSON을 전달해 1회 수정 후 해당 route만 재sweep.
-- **Lighthouse**: `npx lighthouse http://localhost:3100/dash-evolve/r<N>/<v> --only-categories=performance,accessibility --preset=desktop --output=json --output-path=stdout --chrome-flags="--headless" 2>/dev/null` → perf ≥80, a11y ≥95. 명령 자체가 실패(미설치·chrome 부재)하면 게이트 skip하고 ledger hardgate에 `"lighthouse":"unavailable"` 기록.
+- **Lighthouse**: `npx lighthouse http://localhost:3100/dash-evolve/r<N>/<v> --only-categories=performance,accessibility --preset=desktop --output=json --output-path=stdout --chrome-flags="--headless" 2>/dev/null` → a11y ≥95(하드게이트). perf는 기록만 — dev 서버 측정치는 참고용이며 탈락 사유로 쓰지 않는다(ledger hardgate.lighthouse에 수치 기록). 명령 자체가 실패(미설치·chrome 부재)하면 게이트 skip하고 ledger hardgate에 `"lighthouse":"unavailable"` 기록.
 - 게이트 결과를 `vault/20-generations/<run>/SCORES.md`에 표로 기록.
 
 ## 4. JUDGE 패널 (생존 후보 2개 이상일 때; 1개면 그 후보를 단독 심사해 승자/no-winner만 판정)
@@ -38,6 +38,7 @@ description: dash 루프 자율 진화 1라운드 — brief v3+격리 delta로 �
   1. **brief**: brief v3 전문 대조 — 규칙 위반·완성도 기준 미달 지적
   2. **visual**: Mercury/Asana/n8n/Coinbase 대비 상용 서비스급인가 — 스크린샷 중심
   3. **archetype**: 기존 아키타입 목록 대비 구조 차별성
+- judge가 응답 없이 정지하면 1회 재디스패치, 재실패 시 해당 렌즈 기권 — 잔여 2렌즈 다수결(동률이면 brief 렌즈 우선). 기권 렌즈는 DECISION.md에 명시.
 - 각 judge 출력: 후보 랭킹 + 후보별 한 줄 사유 + (전원 미달이면) no-winner 표.
 - 집계: 1위 표 다수결. 동률이면 brief 렌즈의 1위. **no-winner 표 2개 이상이면 라운드 no-winner** — 억지 승자 금지.
 - 판정 전문을 `vault/20-generations/<run>/DECISION.md`에 기록.
