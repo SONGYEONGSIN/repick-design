@@ -28,11 +28,11 @@ export default function Topbar({
       <button
         type="button"
         onClick={onSearchClick}
-        className="flex h-[44px] w-full max-w-[360px] items-center gap-2 rounded-lg border border-zinc-200 bg-zinc-50 px-3 text-left text-sm text-zinc-400 transition-colors motion-reduce:transition-none hover:bg-zinc-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
+        className="flex h-[44px] w-full min-w-0 max-w-[360px] items-center gap-2 rounded-lg border border-zinc-200 bg-zinc-50 px-3 text-left text-sm text-zinc-400 transition-colors motion-reduce:transition-none hover:bg-zinc-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
       >
         <Search className="size-4 shrink-0" aria-hidden="true" />
-        <span className="flex-1 truncate">캠페인, 세그먼트 검색…</span>
-        <span className="inline-flex shrink-0 items-center gap-0.5 rounded border border-zinc-300 bg-white px-1.5 py-0.5 text-[11px] font-medium text-zinc-500">
+        <span className="min-w-0 flex-1 truncate">캠페인, 세그먼트 검색…</span>
+        <span className="hidden shrink-0 items-center gap-0.5 rounded border border-zinc-300 bg-white px-1.5 py-0.5 text-[11px] font-medium text-zinc-500 sm:inline-flex">
           <Command className="size-3" aria-hidden="true" />K
         </span>
       </button>

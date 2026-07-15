@@ -12,8 +12,8 @@ type SortDir = "asc" | "desc";
 type StatusFilter = "all" | CampaignStatus;
 
 const COLUMNS: { key: SortKey; label: string; widthPct: number }[] = [
-  { key: "name", label: "캠페인", widthPct: 26 },
-  { key: "segment", label: "세그먼트", widthPct: 17 },
+  { key: "name", label: "캠페인", widthPct: 24 },
+  { key: "segment", label: "세그먼트", widthPct: 15 },
   { key: "date", label: "발송일", widthPct: 12 },
   { key: "recipients", label: "수신자", widthPct: 13 },
   { key: "openRate", label: "오픈율", widthPct: 12 },
@@ -104,7 +104,7 @@ export default function HistoryTable() {
             {COLUMNS.map((col) => (
               <col key={col.key} style={{ width: `${col.widthPct}%` }} />
             ))}
-            <col style={{ width: "8%" }} />
+            <col style={{ width: "12%" }} />
           </colgroup>
           <thead>
             <tr className="border-b border-zinc-200 bg-zinc-50">
