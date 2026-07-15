@@ -244,7 +244,14 @@ export function Sparkline({
     })
     .join(" ");
   return (
-    <svg viewBox={`0 0 ${width} ${height}`} className={className} role="img" aria-label={label} preserveAspectRatio="none">
+    <svg
+      viewBox={`0 0 ${width} ${height}`}
+      className={className}
+      style={{ width, height }}
+      role="img"
+      aria-label={label}
+      preserveAspectRatio="none"
+    >
       <polyline points={points} fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" vectorEffect="non-scaling-stroke" />
     </svg>
   );
