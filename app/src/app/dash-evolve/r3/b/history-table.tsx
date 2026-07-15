@@ -101,7 +101,7 @@ export function HistoryTable({
                   scope="col"
                   aria-sort={ariaSort}
                   className={cn(
-                    "px-3 py-2 text-[11px] font-medium uppercase tracking-wider text-zinc-400",
+                    "min-w-0 px-2 py-2 text-[11px] font-medium uppercase tracking-wide text-zinc-400 sm:px-3",
                     col.align === "right" ? "text-right" : "text-left",
                   )}
                 >
@@ -110,13 +110,16 @@ export function HistoryTable({
                     onClick={() => handleSort(col.key)}
                     className={cn(
                       FOCUS_RING,
-                      "inline-flex items-center gap-1 rounded hover:text-zinc-200",
-                      col.align === "right" && "flex-row-reverse",
+                      "flex w-full min-w-0 items-center gap-0.5 rounded hover:text-zinc-200",
+                      col.align === "right" ? "flex-row-reverse justify-end" : "justify-start",
                       active && "text-zinc-200",
                     )}
                   >
-                    {col.label}
-                    <Icon aria-hidden="true" className={cn("size-3", active ? "text-cyan-300" : "text-zinc-500")} />
+                    <span className="truncate">{col.label}</span>
+                    <Icon
+                      aria-hidden="true"
+                      className={cn("size-3 shrink-0", active ? "text-cyan-300" : "text-zinc-500")}
+                    />
                   </button>
                 </th>
               );
@@ -160,14 +163,16 @@ export function HistoryTable({
                 <td className="px-3 py-2.5">
                   <Badge meta={meta} />
                 </td>
-                <td className="whitespace-nowrap px-3 py-2.5 text-left tabular-nums text-zinc-300">
-                  {row.scheduled}
+                <td className="px-3 py-2.5 text-left tabular-nums text-zinc-300">
+                  <span className="block truncate">{row.scheduled}</span>
                 </td>
-                <td className="whitespace-nowrap px-3 py-2.5 text-right tabular-nums text-zinc-300">
-                  {row.durationMin !== null ? `${row.durationMin} min` : "—"}
+                <td className="px-3 py-2.5 text-right tabular-nums text-zinc-300">
+                  <span className="block truncate">
+                    {row.durationMin !== null ? `${row.durationMin} min` : "—"}
+                  </span>
                 </td>
-                <td className="whitespace-nowrap px-3 py-2.5 text-right tabular-nums text-zinc-300">
-                  {row.distanceKm.toFixed(1)} km
+                <td className="px-3 py-2.5 text-right tabular-nums text-zinc-300">
+                  <span className="block truncate">{row.distanceKm.toFixed(1)} km</span>
                 </td>
               </tr>
             );

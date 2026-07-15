@@ -49,7 +49,7 @@ export function Topbar({
         onClick={onOpenPalette}
         className={cn(
           FOCUS_RING,
-          "flex h-[44px] w-full max-w-sm items-center gap-2 rounded-lg border border-white/10 bg-white/5 px-3 text-sm text-zinc-400 transition-colors hover:bg-white/10",
+          "flex h-[44px] w-full min-w-0 max-w-sm items-center gap-2 rounded-lg border border-white/10 bg-white/5 px-3 text-sm text-zinc-400 transition-colors hover:bg-white/10",
         )}
       >
         <Search aria-hidden="true" className="size-4 shrink-0" />

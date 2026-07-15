@@ -54,7 +54,7 @@ export default function DashboardClient() {
         <Topbar onMenuClick={() => setSidebarOpen(true)} onSearchClick={() => setPaletteOpen(true)} />
 
         <main className="flex-1 px-4 py-6 sm:px-6 lg:px-8">
-          <div className="mx-auto flex max-w-[1680px] flex-col gap-5">
+          <div className="mx-auto flex min-w-0 max-w-[1680px] flex-col gap-5">
             <div>
               <h1 className="text-xl font-semibold tracking-tight text-zinc-900">딜 파이프라인</h1>
               <p className="mt-1 text-sm text-zinc-500">

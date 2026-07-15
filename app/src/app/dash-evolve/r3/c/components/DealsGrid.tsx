@@ -120,7 +120,7 @@ export default function DealsGrid({
   const totalVisibleRows = visibleGroups.reduce((sum, g) => sum + g.rows.length, 0);
 
   return (
-    <Card as="section" className="flex flex-col">
+    <Card as="section" className="flex min-w-0 flex-col">
       <div className="flex flex-col gap-3 p-4 sm:p-5">
         <div className="flex flex-wrap items-start justify-between gap-3">
           <div>
@@ -176,7 +176,7 @@ export default function DealsGrid({
         </div>
       </div>
 
-      <div className="overflow-x-auto border-t border-zinc-200 lg:overflow-visible">
+      <div className="min-w-0 overflow-x-auto contain-layout border-t border-zinc-200 lg:overflow-visible">
         <table className="w-full min-w-[900px] border-collapse text-sm lg:min-w-0 lg:table-fixed">
           <caption className="sr-only">
             딜 파이프라인 테이블 — 상태별로 그룹화되어 있으며 거래처, 금액, 성사 확률, 마감 예정일 기준으로 정렬할 수 있습니다.
