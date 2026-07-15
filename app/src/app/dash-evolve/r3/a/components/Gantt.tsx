@@ -131,7 +131,7 @@ export default function Gantt({
                     </span>
                   ))}
               <span
-                className="absolute -top-0.5 -translate-x-1/2 whitespace-nowrap rounded-b-md bg-indigo-500 px-1.5 py-0.5 text-[10px] font-semibold text-white"
+                className="absolute -top-0.5 -translate-x-1/2 whitespace-nowrap rounded-b-md bg-indigo-700 px-1.5 py-0.5 text-[10px] font-semibold text-white"
                 style={{ left: `${todayPct}%` }}
               >
                 Today · Jul 15

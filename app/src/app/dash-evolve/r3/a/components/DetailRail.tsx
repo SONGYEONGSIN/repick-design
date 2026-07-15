@@ -117,7 +117,11 @@ function TaskDetail({ task, member }: { task: Task; member: Member }) {
           </span>
         </div>
         <div className="mt-1.5">
-          <ProgressBar value={task.progress} className={meta.barClass} />
+          <ProgressBar
+            value={task.progress}
+            className={meta.barClass}
+            ariaLabel={`${task.title} progress: ${task.progress}%`}
+          />
         </div>
       </div>
 

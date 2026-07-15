@@ -44,16 +44,19 @@ export function ProgressBar({
   value,
   className = "",
   trackClassName = "bg-zinc-100",
+  ariaLabel,
 }: {
   value: number;
   className?: string;
   trackClassName?: string;
+  ariaLabel: string;
 }) {
   const clamped = Math.min(100, Math.max(0, value));
   return (
     <div
       className={`h-1.5 w-full overflow-hidden rounded-full ${trackClassName}`}
       role="progressbar"
+      aria-label={ariaLabel}
       aria-valuenow={clamped}
       aria-valuemin={0}
       aria-valuemax={100}

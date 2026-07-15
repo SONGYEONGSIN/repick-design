@@ -212,28 +212,29 @@ export const STATUS_META: Record<
     label: "On track",
     swatch: "bg-indigo-500",
     badgeClass: "bg-indigo-50 text-indigo-700 border-indigo-200",
-    barClass: "bg-indigo-500",
+    // 700, not 500: white 11px labels on the Gantt bars need >=4.5:1 contrast.
+    barClass: "bg-indigo-700",
     iconLabel: "On track",
   },
   "at-risk": {
     label: "At risk",
     swatch: "bg-amber-500",
     badgeClass: "bg-amber-50 text-amber-800 border-amber-200",
-    barClass: "bg-amber-500",
+    barClass: "bg-amber-700",
     iconLabel: "At risk",
   },
   blocked: {
     label: "Blocked",
     swatch: "bg-rose-500",
     badgeClass: "bg-rose-50 text-rose-700 border-rose-200",
-    barClass: "bg-rose-500",
+    barClass: "bg-rose-700",
     iconLabel: "Blocked",
   },
   done: {
     label: "Done",
     swatch: "bg-emerald-500",
     badgeClass: "bg-emerald-50 text-emerald-700 border-emerald-200",
-    barClass: "bg-emerald-500",
+    barClass: "bg-emerald-700",
     iconLabel: "Done",
   },
 };
