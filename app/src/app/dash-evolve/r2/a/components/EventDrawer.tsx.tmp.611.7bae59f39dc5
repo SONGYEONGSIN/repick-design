@@ -1,0 +1,188 @@
+"use client";
+
+import { ArrowLeft, CalendarX2, Star, X } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { eventsForDate } from "../lib/calendar";
+import { CALENDAR_DAYS, POSTS, WEEKDAY_LABELS } from "../lib/data";
+import { formatDateKo, formatNumber } from "../lib/format";
+import { Avatar, CHANNEL_META, STATUS_META, StatusBadge } from "./ui";
+
+const FORMAT_LABELS: Record<string, string> = {
+  image: "이미지",
+  video: "영상",
+  carousel: "캐러셀",
+  text: "텍스트",
+};
+
+interface EventDrawerProps {
+  date: string | null;
+  eventId: string | null;
+  onClose: () => void;
+  onSelectEvent: (id: string) => void;
+  onBack: () => void;
+}
+
+export default function EventDrawer({ date, eventId, onClose, onSelectEvent, onBack }: EventDrawerProps) {
+  const closeRef = useRef<HTMLButtonElement>(null);
+  const [pinned, setPinned] = useState<Record<string, boolean>>({});
+  const open = date !== null || eventId !== null;
+
+  useEffect(() => {
+    if (open) closeRef.current?.focus();
+  }, [open]);
+
+  useEffect(() => {
+    function onKeyDown(e: KeyboardEvent) {
+      if (e.key === "Escape" && open) onClose();
+    }
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [open, onClose]);
+
+  if (!open) return null;
+
+  const post = eventId ? POSTS.find((p) => p.id === eventId) : undefined;
+  const agenda = !post && date ? eventsForDate(POSTS, date) : [];
+  const weekdayLabel = date ? WEEKDAY_LABELS[new Date(`${date}T00:00:00+09:00`).getDay()] : "";
+
+  return (
+    <div className="fixed inset-0 z-50" role="presentation">
+      <button type="button" aria-label="상세 패널 닫기" onClick={onClose} className="absolute inset-0 bg-zinc-900/40 backdrop-blur-sm" />
+      <div
+        role="dialog"
+        aria-modal="true"
+        aria-label={post ? "게시물 상세" : "일별 게시물 목록"}
+        className="absolute inset-y-0 right-0 flex w-full max-w-md flex-col border-l border-zinc-200 bg-white shadow-2xl"
+      >
+        <div className="flex shrink-0 items-center gap-2 border-b border-zinc-200 px-4 py-3">
+          {post && date ? (
+            <button
+              type="button"
+              onClick={onBack}
+              aria-label="날짜별 목록으로 돌아가기"
+              className="flex size-9 items-center justify-center rounded-lg text-zinc-500 hover:bg-zinc-100 hover:text-zinc-900 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
+            >
+              <ArrowLeft className="size-4.5" aria-hidden="true" />
+            </button>
+          ) : null}
+          <h2 className="min-w-0 flex-1 truncate text-sm font-semibold text-zinc-900">
+            {post ? "게시물 상세" : date ? `${formatDateKo(date)} (${weekdayLabel}) 게시물` : ""}
+          </h2>
+          <button
+            ref={closeRef}
+            type="button"
+            onClick={onClose}
+            aria-label="상세 패널 닫기"
+            className="flex size-9 items-center justify-center rounded-lg text-zinc-500 hover:bg-zinc-100 hover:text-zinc-900 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
+          >
+            <X className="size-4.5" aria-hidden="true" />
+          </button>
+        </div>
+
+        <div className="min-h-0 flex-1 overflow-y-auto p-5">
+          {post ? (
+            <>
+              <div className="flex items-center gap-1.5">
+                <span className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-xs font-medium ${CHANNEL_META[post.channel].chip}`}>
+                  {(() => {
+                    const Icon = CHANNEL_META[post.channel].Icon;
+                    return <Icon className="size-3" aria-hidden="true" />;
+                  })()}
+                  {CHANNEL_META[post.channel].label}
+                </span>
+                <StatusBadge status={post.status} />
+                <button
+                  type="button"
+                  onClick={() => setPinned((p) => ({ ...p, [post.id]: !p[post.id] }))}
+                  aria-pressed={!!pinned[post.id]}
+                  className="ml-auto flex size-8 items-center justify-center rounded-lg text-zinc-400 transition-colors motion-reduce:transition-none hover:bg-zinc-100 hover:text-zinc-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
+                >
+                  <Star className={`size-4 ${pinned[post.id] ? "fill-amber-400 text-amber-400" : ""}`} aria-hidden="true" />
+                  <span className="sr-only">{pinned[post.id] ? "즐겨찾기 해제" : "즐겨찾기에 추가"}</span>
+                </button>
+              </div>
+
+              <h3 className="mt-3 text-lg leading-snug font-semibold text-zinc-900">{post.title}</h3>
+
+              <dl className="mt-4 grid grid-cols-2 gap-x-4 gap-y-3 border-t border-zinc-100 pt-4 text-sm">
+                <div>
+                  <dt className="text-[11px] font-semibold tracking-wider text-zinc-400 uppercase">예정일시</dt>
+                  <dd className="mt-0.5 tabular-nums text-zinc-800">
+                    {post.date} · {post.timeLabel}
+                  </dd>
+                </div>
+                <div>
+                  <dt className="text-[11px] font-semibold tracking-wider text-zinc-400 uppercase">포맷</dt>
+                  <dd className="mt-0.5 text-zinc-800">{FORMAT_LABELS[post.format]}</dd>
+                </div>
+                <div>
+                  <dt className="text-[11px] font-semibold tracking-wider text-zinc-400 uppercase">담당자</dt>
+                  <dd className="mt-1 flex items-center gap-1.5 text-zinc-800">
+                    <Avatar name={post.author} className="size-5" />
+                    {post.author}
+                  </dd>
+                </div>
+                <div>
+                  <dt className="text-[11px] font-semibold tracking-wider text-zinc-400 uppercase">채널 핸들</dt>
+                  <dd className="mt-0.5 truncate text-zinc-800">{CHANNEL_META[post.channel].label}</dd>
+                </div>
+              </dl>
+
+              <div className="mt-4 border-t border-zinc-100 pt-4">
+                <p className="text-[11px] font-semibold tracking-wider text-zinc-400 uppercase">본문 미리보기</p>
+                <p className="mt-1.5 text-sm leading-relaxed text-zinc-600">{post.caption}</p>
+              </div>
+
+              <div className="mt-4 border-t border-zinc-100 pt-4">
+                <p className="text-[11px] font-semibold tracking-wider text-zinc-400 uppercase">성과</p>
+                {post.reach !== null && post.engagementRate !== null ? (
+                  <div className="mt-2 grid grid-cols-2 gap-3">
+                    <div className="rounded-lg bg-zinc-50 px-3 py-2.5">
+                      <p className="text-[11px] text-zinc-500">도달</p>
+                      <p className="text-base font-semibold tabular-nums text-zinc-900">{formatNumber(post.reach)}</p>
+                    </div>
+                    <div className="rounded-lg bg-zinc-50 px-3 py-2.5">
+                      <p className="text-[11px] text-zinc-500">참여율</p>
+                      <p className="text-base font-semibold tabular-nums text-zinc-900">{post.engagementRate}%</p>
+                    </div>
+                  </div>
+                ) : (
+                  <p className="mt-2 rounded-lg bg-zinc-50 px-3 py-3 text-xs text-zinc-500">발행 후 도달·참여율 지표가 표시됩니다.</p>
+                )}
+              </div>
+            </>
+          ) : (
+            <>
+              {agenda.length === 0 ? (
+                <div className="flex flex-col items-center gap-2 py-10 text-center">
+                  <CalendarX2 className="size-8 text-zinc-300" aria-hidden="true" />
+                  <p className="text-sm text-zinc-500">이 날짜에 예약된 게시물이 없습니다.</p>
+                </div>
+              ) : (
+                <ul className="space-y-2">
+                  {agenda.map((p) => {
+                    const meta = CHANNEL_META[p.channel];
+                    return (
+                      <li key={p.id}>
+                        <button
+                          type="button"
+                          onClick={() => onSelectEvent(p.id)}
+                          className={`flex w-full min-w-0 items-center gap-3 rounded-lg border-l-2 bg-zinc-50 px-3 py-2.5 text-left transition-colors motion-reduce:transition-none hover:bg-zinc-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500 ${meta.accent}`}
+                        >
+                          <span className="shrink-0 text-xs font-medium tabular-nums text-zinc-500">{p.timeLabel}</span>
+                          <meta.Icon className={`size-4 shrink-0 ${meta.text}`} aria-hidden="true" />
+                          <span className="min-w-0 flex-1 truncate text-sm text-zinc-800">{p.title}</span>
+                          <StatusBadge status={p.status} />
+                        </button>
+                      </li>
+                    );
+                  })}
+                </ul>
+              )}
+            </>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
