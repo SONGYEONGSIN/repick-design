@@ -17,6 +17,7 @@ export function Card({
   children: ReactNode;
   className?: string;
   as?: "div" | "section";
+  id?: string;
   "aria-labelledby"?: string;
 }) {
   const Comp = as;

@@ -25,7 +25,10 @@ export function EscalationsCard({
     [channel]
   );
 
-  const { sorted, sortKey, direction, toggle } = useSortable(
+  const { sorted, sortKey, direction, toggle } = useSortable<
+    (typeof filtered)[number],
+    "subject" | "age" | "priority"
+  >(
     filtered,
     {
       subject: (r) => r.subject,

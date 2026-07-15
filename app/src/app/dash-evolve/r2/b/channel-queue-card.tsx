@@ -32,7 +32,10 @@ export function ChannelQueueCard({
     [channel]
   );
 
-  const { sorted, sortKey, direction, toggle } = useSortable(
+  const { sorted, sortKey, direction, toggle } = useSortable<
+    (typeof filteredRows)[number],
+    "subject" | "channel" | "wait" | "priority"
+  >(
     filteredRows,
     {
       subject: (r) => r.subject,

@@ -3,9 +3,9 @@
 import { ArrowLeft, CalendarX2, Star, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { eventsForDate } from "../lib/calendar";
-import { CALENDAR_DAYS, POSTS, WEEKDAY_LABELS } from "../lib/data";
+import { CALENDAR_DAYS, CHANNELS, POSTS, WEEKDAY_LABELS } from "../lib/data";
 import { formatDateKo, formatNumber } from "../lib/format";
-import { Avatar, CHANNEL_META, STATUS_META, StatusBadge } from "./ui";
+import { Avatar, CHANNEL_META, StatusBadge } from "./ui";
 
 const FORMAT_LABELS: Record<string, string> = {
   image: "이미지",
@@ -124,7 +124,7 @@ export default function EventDrawer({ date, eventId, onClose, onSelectEvent, onB
                 </div>
                 <div>
                   <dt className="text-[11px] font-semibold tracking-wider text-zinc-400 uppercase">채널 핸들</dt>
-                  <dd className="mt-0.5 truncate text-zinc-800">{CHANNEL_META[post.channel].label}</dd>
+                  <dd className="mt-0.5 truncate text-zinc-800">{CHANNELS.find((c) => c.id === post.channel)?.handle}</dd>
                 </div>
               </dl>
 

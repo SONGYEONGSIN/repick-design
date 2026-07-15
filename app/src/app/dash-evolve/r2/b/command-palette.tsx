@@ -29,6 +29,7 @@ export function CommandPalette({
   const [query, setQuery] = useState("");
   const [highlight, setHighlight] = useState(0);
   const inputRef = useRef<HTMLInputElement>(null);
+  const dialogRef = useRef<HTMLDivElement>(null);
 
   const commands: Command[] = useMemo(
     () => [
@@ -109,6 +110,20 @@ export function CommandPalette({
         cmd.run();
         onClose();
       }
+    } else if (e.key === "Tab") {
+      const focusable = dialogRef.current?.querySelectorAll<HTMLElement>(
+        'input, button:not([tabindex="-1"])'
+      );
+      if (!focusable || focusable.length === 0) return;
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
     }
   }
 
@@ -116,12 +131,13 @@ export function CommandPalette({
     <div className="fixed inset-0 z-50 flex items-start justify-center px-4 pt-24" onKeyDown={handleKeyDown}>
       <button type="button" aria-label="닫기" onClick={onClose} className="absolute inset-0 bg-zinc-950/70" />
       <div
+        ref={dialogRef}
         role="dialog"
         aria-modal="true"
         aria-label="명령 팔레트"
         className="relative w-full max-w-lg overflow-hidden rounded-xl border border-white/10 bg-zinc-900 shadow-2xl"
       >
-        <div className="flex h-12 items-center gap-2 border-b border-white/10 px-3.5">
+        <div className="flex h-12 items-center gap-2 rounded-t-xl border-b border-white/10 px-3.5 focus-within:ring-2 focus-within:ring-sky-400 focus-within:ring-inset">
           <Search className="h-4 w-4 shrink-0 text-zinc-500" aria-hidden="true" />
           <input
             ref={inputRef}

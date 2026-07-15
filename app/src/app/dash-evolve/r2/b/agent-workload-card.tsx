@@ -26,7 +26,10 @@ export function AgentWorkloadCard({
   );
   const activeCount = filteredAgents.filter((a) => a.status !== "offline").length;
 
-  const { sorted, sortKey, direction, toggle } = useSortable(
+  const { sorted, sortKey, direction, toggle } = useSortable<
+    (typeof filteredAgents)[number],
+    "name" | "team" | "load" | "csat"
+  >(
     filteredAgents,
     {
       name: (a) => a.name,

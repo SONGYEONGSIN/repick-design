@@ -42,6 +42,8 @@ export function Hero({
 
   const deltaSeconds = points[points.length - 1].value - points[0].value;
   const improved = deltaSeconds <= 0;
+  const deltaAbs = Math.abs(deltaSeconds);
+  const deltaLabel = deltaAbs < 60 ? `${deltaAbs}초` : formatDuration(deltaAbs);
 
   const totalTickets = channel === "all" ? stat.totalHandled : stat.channelHandled[channel];
   const activeAgents =
@@ -101,7 +103,7 @@ export function Hero({
               }`}
             >
               {improved ? <ArrowDown className="h-3 w-3" aria-hidden="true" /> : <ArrowUp className="h-3 w-3" aria-hidden="true" />}
-              {formatDuration(Math.abs(deltaSeconds))} {improved ? "개선" : "증가"}
+              {deltaLabel} {improved ? "개선" : "증가"}
             </span>
           </div>
 

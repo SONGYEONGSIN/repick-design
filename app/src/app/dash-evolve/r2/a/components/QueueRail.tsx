@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowDown, ArrowUp, ArrowUpDown, Inbox } from "lucide-react";
+import { ArrowDown, ArrowUp, Inbox } from "lucide-react";
 import { useMemo, useState } from "react";
 import { CHANNELS, TODAY_ISO, WEEKLY_REACH_LABELS, type ChannelId, type Post } from "../lib/data";
 import { formatCompact, formatDateShort, formatNumber } from "../lib/format";
