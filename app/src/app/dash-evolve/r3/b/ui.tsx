@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useId, useRef, useState, type ComponentType, type ReactNode } from "react";
+import Image from "next/image";
 import { ChevronDown } from "lucide-react";
 import { cn, FOCUS_RING } from "./cn";
 import type { StatusMeta } from "./status-meta";
@@ -248,9 +249,8 @@ export function Avatar({
     .join("")
     .toUpperCase();
   if (src) {
-    // eslint-disable-next-line @next/next/no-img-element
     return (
-      <img
+      <Image
         src={src}
         alt=""
         width={size}

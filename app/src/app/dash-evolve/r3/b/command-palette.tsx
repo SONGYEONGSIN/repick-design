@@ -25,18 +25,32 @@ export function CommandPalette({
   onSelectVehicle: (id: string) => void;
   onSelectDelivery: (id: string) => void;
 }) {
+  // Mounting/unmounting the dialog (rather than resetting its state in an
+  // effect) gives it fresh `query`/`activeIndex` state every time it opens.
+  if (!open) return null;
+  return (
+    <PaletteDialog onClose={onClose} onSelectVehicle={onSelectVehicle} onSelectDelivery={onSelectDelivery} />
+  );
+}
+
+function PaletteDialog({
+  onClose,
+  onSelectVehicle,
+  onSelectDelivery,
+}: {
+  onClose: () => void;
+  onSelectVehicle: (id: string) => void;
+  onSelectDelivery: (id: string) => void;
+}) {
   const [query, setQuery] = useState("");
   const [activeIndex, setActiveIndex] = useState(0);
+  const [prevQuery, setPrevQuery] = useState(query);
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    if (open) {
-      setQuery("");
-      setActiveIndex(0);
-      const frame = requestAnimationFrame(() => inputRef.current?.focus());
-      return () => cancelAnimationFrame(frame);
-    }
-  }, [open]);
+    const frame = requestAnimationFrame(() => inputRef.current?.focus());
+    return () => cancelAnimationFrame(frame);
+  }, []);
 
   const results = useMemo<ResultItem[]>(() => {
     const q = query.trim().toLowerCase();
@@ -59,9 +73,12 @@ export function CommandPalette({
     return [...vehicleResults, ...deliveryResults].slice(0, 8);
   }, [query]);
 
-  useEffect(() => {
+  // Reset the highlighted row whenever the query changes — adjusted during
+  // render (React's recommended pattern) instead of in a separate effect.
+  if (query !== prevQuery) {
+    setPrevQuery(query);
     setActiveIndex(0);
-  }, [query]);
+  }
 
   function commit(item: ResultItem) {
     if (item.kind === "vehicle") onSelectVehicle(item.id);
@@ -84,8 +101,6 @@ export function CommandPalette({
       onClose();
     }
   }
-
-  if (!open) return null;
 
   return (
     <div
