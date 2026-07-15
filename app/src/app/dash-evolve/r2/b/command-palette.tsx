@@ -138,7 +138,7 @@ export function CommandPalette({
         className="relative w-full max-w-lg overflow-hidden rounded-xl border border-white/10 bg-zinc-900 shadow-2xl"
       >
         <div className="flex h-12 items-center gap-2 rounded-t-xl border-b border-white/10 px-3.5 focus-within:ring-2 focus-within:ring-sky-400 focus-within:ring-inset">
-          <Search className="h-4 w-4 shrink-0 text-zinc-500" aria-hidden="true" />
+          <Search className="h-4 w-4 shrink-0 text-zinc-400" aria-hidden="true" />
           <input
             ref={inputRef}
             type="text"
@@ -151,11 +151,11 @@ export function CommandPalette({
             aria-expanded="true"
             aria-controls="command-list"
             autoComplete="off"
-            className="h-full min-w-0 flex-1 bg-transparent text-[14px] text-zinc-100 placeholder:text-zinc-500 focus:outline-none"
+            className="h-full min-w-0 flex-1 bg-transparent text-[14px] text-zinc-100 placeholder:text-zinc-400 focus:outline-none"
           />
         </div>
         <ul id="command-list" role="listbox" aria-label="명령 목록" className="max-h-72 overflow-y-auto py-1.5">
-          {filtered.length === 0 && <li className="px-3.5 py-6 text-center text-[13px] text-zinc-500">일치하는 명령이 없습니다.</li>}
+          {filtered.length === 0 && <li className="px-3.5 py-6 text-center text-[13px] text-zinc-400">일치하는 명령이 없습니다.</li>}
           {filtered.map((cmd, i) => {
             const Icon = cmd.icon;
             const active = i === highlight;
@@ -172,9 +172,9 @@ export function CommandPalette({
                     active ? "bg-sky-500/15 text-sky-200" : "text-zinc-300"
                   }`}
                 >
-                  <Icon className="h-4 w-4 shrink-0 text-zinc-500" aria-hidden="true" />
+                  <Icon className="h-4 w-4 shrink-0 text-zinc-400" aria-hidden="true" />
                   <span className="min-w-0 flex-1 truncate">{cmd.label}</span>
-                  <span className="shrink-0 text-[11px] text-zinc-500">{cmd.hint}</span>
+                  <span className="shrink-0 text-[11px] text-zinc-400">{cmd.hint}</span>
                 </button>
               </li>
             );

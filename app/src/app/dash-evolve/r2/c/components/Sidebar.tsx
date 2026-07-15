@@ -91,7 +91,7 @@ export default function Sidebar({ open, onClose }: { open: boolean; onClose: () 
 
         {/* 섹션 구분 nav */}
         <nav aria-label="주요 메뉴" className="flex-1 overflow-y-auto px-3 py-4">
-          <p className="px-2.5 pb-1.5 text-[11px] font-semibold uppercase tracking-wide text-zinc-400">워크스페이스</p>
+          <p className="px-2.5 pb-1.5 text-[11px] font-semibold uppercase tracking-wide text-zinc-500">워크스페이스</p>
           <ul className="flex flex-col gap-0.5">
             {NAV_ITEMS.map((item) => (
               <li key={item.label}>

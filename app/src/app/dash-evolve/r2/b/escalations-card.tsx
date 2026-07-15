@@ -63,14 +63,14 @@ export function EscalationsCard({
             </span>
             <div className="min-w-0 flex-1">
               <p className="truncate text-[13px] font-medium text-zinc-100">{t.subject}</p>
-              <p className="truncate text-[11px] text-zinc-500">{t.reason}</p>
+              <p className="truncate text-[11px] text-zinc-400">{t.reason}</p>
             </div>
-            <span className="shrink-0 text-[11px] whitespace-nowrap text-zinc-500 tabular-nums">
+            <span className="shrink-0 text-[11px] whitespace-nowrap text-zinc-400 tabular-nums">
               {formatWaitMinutes(t.ageMinutes)}
             </span>
           </div>
         ))}
-        {filtered.length === 0 && <p className="text-[13px] text-zinc-500">선택한 채널에 에스컬레이션이 없습니다.</p>}
+        {filtered.length === 0 && <p className="text-[13px] text-zinc-400">선택한 채널에 에스컬레이션이 없습니다.</p>}
       </div>
 
       {expanded && (
@@ -112,7 +112,7 @@ export function EscalationsCard({
                     <tr key={t.id} className="border-b border-white/5 last:border-0 hover:bg-white/[0.03]">
                       <td className="px-3 py-2.5">
                         <span className="block truncate font-medium text-zinc-100">{t.subject}</span>
-                        <span className="block truncate text-[11px] text-zinc-500">{t.reason}</span>
+                        <span className="block truncate text-[11px] text-zinc-400">{t.reason}</span>
                       </td>
                       <td className="px-3 py-2.5">
                         <div className="flex items-center gap-1.5 truncate">
@@ -130,7 +130,7 @@ export function EscalationsCard({
                   ))}
                   {sorted.length === 0 && (
                     <tr>
-                      <td colSpan={4} className="px-3 py-6 text-center text-zinc-500">
+                      <td colSpan={4} className="px-3 py-6 text-center text-zinc-400">
                         선택한 채널에 에스컬레이션이 없습니다.
                       </td>
                     </tr>

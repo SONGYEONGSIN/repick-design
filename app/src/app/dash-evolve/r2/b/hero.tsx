@@ -122,7 +122,7 @@ export function Hero({
               <span className="text-[11px] font-semibold tracking-wide text-zinc-400 uppercase">{item.label}</span>
               <span className="text-xl font-semibold whitespace-nowrap text-zinc-50 tabular-nums">
                 {item.value}
-                {item.unit && <span className="ml-1 text-[13px] font-normal text-zinc-500">{item.unit}</span>}
+                {item.unit && <span className="ml-1 text-[13px] font-normal text-zinc-400">{item.unit}</span>}
               </span>
             </div>
           ))}

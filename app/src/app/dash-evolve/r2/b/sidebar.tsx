@@ -45,9 +45,9 @@ function SidebarContent() {
         </span>
         <span className="min-w-0 flex-1">
           <span className="block truncate text-[13px] font-medium text-zinc-100">{WORKSPACE_NAME}</span>
-          <span className="block text-[11px] text-zinc-500">워크스페이스</span>
+          <span className="block text-[11px] text-zinc-400">워크스페이스</span>
         </span>
-        <ChevronsUpDown className="h-3.5 w-3.5 shrink-0 text-zinc-500" aria-hidden="true" />
+        <ChevronsUpDown className="h-3.5 w-3.5 shrink-0 text-zinc-400" aria-hidden="true" />
       </button>
 
       <nav aria-label="주요" className="flex-1 space-y-0.5 px-3 py-4">
@@ -79,9 +79,9 @@ function SidebarContent() {
           <Avatar name="최지우" size={28} />
           <span className="min-w-0 flex-1">
             <span className="block truncate text-[13px] font-medium text-zinc-100">최지우</span>
-            <span className="block truncate text-[11px] text-zinc-500">운영 매니저</span>
+            <span className="block truncate text-[11px] text-zinc-400">운영 매니저</span>
           </span>
-          <LogOut className="h-4 w-4 shrink-0 text-zinc-500" aria-hidden="true" />
+          <LogOut className="h-4 w-4 shrink-0 text-zinc-400" aria-hidden="true" />
         </button>
       </div>
     </div>

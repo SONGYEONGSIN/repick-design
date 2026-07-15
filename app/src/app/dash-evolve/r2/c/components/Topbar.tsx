@@ -28,7 +28,7 @@ export default function Topbar({
       <button
         type="button"
         onClick={onSearchClick}
-        className="flex h-[44px] w-full min-w-0 max-w-[360px] items-center gap-2 rounded-lg border border-zinc-200 bg-zinc-50 px-3 text-left text-sm text-zinc-400 transition-colors motion-reduce:transition-none hover:bg-zinc-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
+        className="flex h-[44px] w-full min-w-0 max-w-[360px] items-center gap-2 rounded-lg border border-zinc-200 bg-zinc-50 px-3 text-left text-sm text-zinc-500 transition-colors motion-reduce:transition-none hover:bg-zinc-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
       >
         <Search className="size-4 shrink-0" aria-hidden="true" />
         <span className="min-w-0 flex-1 truncate">캠페인, 세그먼트 검색…</span>
@@ -67,7 +67,7 @@ export default function Topbar({
               aria-label="알림"
               className="absolute right-0 top-[calc(100%+6px)] w-72 overflow-hidden rounded-xl border border-zinc-200 bg-white py-1.5 shadow-lg"
             >
-              <p className="px-3 py-1.5 text-[11px] font-semibold uppercase tracking-wide text-zinc-400">알림 3건</p>
+              <p className="px-3 py-1.5 text-[11px] font-semibold uppercase tracking-wide text-zinc-500">알림 3건</p>
               <div role="menuitem" tabIndex={0} className="px-3 py-2 text-sm text-zinc-700 hover:bg-zinc-50 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-indigo-500">
                 &ldquo;7월 웨비나 초대&rdquo; 오픈율 목표 초과 달성
               </div>
@@ -86,6 +86,7 @@ export default function Topbar({
             type="button"
             aria-haspopup="true"
             aria-expanded={userOpen}
+            aria-label="계정 메뉴"
             onClick={() => {
               setUserOpen((v) => !v);
               setNotifOpen(false);

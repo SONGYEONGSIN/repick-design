@@ -55,21 +55,21 @@ export default function PreviewPanel({
           <div className="overflow-hidden rounded-lg border border-zinc-200">
             <div className="space-y-1 border-b border-zinc-200 bg-zinc-50 px-4 py-3 text-xs text-zinc-500">
               <p className="truncate">
-                <span className="text-zinc-400">보낸사람 </span>
+                <span className="text-zinc-500">보낸사람 </span>
                 <span className="font-medium text-zinc-700">
                   {draft.fromName || "이름 없음"} &lt;{draft.fromEmail || "no-reply@relay.app"}&gt;
                 </span>
               </p>
               <p className="truncate">
-                <span className="text-zinc-400">받는사람 </span>
+                <span className="text-zinc-500">받는사람 </span>
                 <span className="font-medium text-zinc-700">{segment.name}</span>
                 <span className="tabular-nums"> ({formatNumber(segment.size)}명)</span>
               </p>
               <p className="truncate">
-                <span className="text-zinc-400">제목 </span>
+                <span className="text-zinc-500">제목 </span>
                 <span className="font-medium text-zinc-800">{draft.subject || "(제목 없음)"}</span>
               </p>
-              {draft.preheader ? <p className="truncate text-zinc-400">{draft.preheader}</p> : null}
+              {draft.preheader ? <p className="truncate text-zinc-500">{draft.preheader}</p> : null}
             </div>
 
             <div className="px-5 py-6 sm:px-7 sm:py-8">
@@ -87,11 +87,11 @@ export default function PreviewPanel({
                   {draft.ctaLabel}
                 </div>
               ) : null}
-              <p className="mt-6 truncate text-xs text-zinc-400">{draft.ctaUrl}</p>
+              <p className="mt-6 truncate text-xs text-zinc-500">{draft.ctaUrl}</p>
             </div>
           </div>
 
-          <p className="mt-3 text-center text-xs text-zinc-400">
+          <p className="mt-3 text-center text-xs text-zinc-500">
             {draft.sendType === "scheduled"
               ? `${formatDateLong(draft.date)} ${draft.time} 발송 예약 · ${draft.timezone}`
               : "저장 즉시 발송됩니다"}

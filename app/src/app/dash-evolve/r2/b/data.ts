@@ -51,7 +51,7 @@ export const STATUS_META: Record<
   available: { label: "여유", dotClass: "bg-emerald-400", textClass: "text-emerald-300" },
   busy: { label: "응대중", dotClass: "bg-amber-400", textClass: "text-amber-300" },
   away: { label: "자리비움", dotClass: "bg-zinc-400", textClass: "text-zinc-400" },
-  offline: { label: "오프라인", dotClass: "bg-zinc-600", textClass: "text-zinc-500" },
+  offline: { label: "오프라인", dotClass: "bg-zinc-600", textClass: "text-zinc-400" },
 };
 
 export const PERIODS: Period[] = ["24h", "7d", "30d"];

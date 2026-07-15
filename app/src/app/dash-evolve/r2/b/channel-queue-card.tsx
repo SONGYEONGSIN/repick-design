@@ -128,7 +128,7 @@ export function ChannelQueueCard({
                     <tr key={t.id} className="border-b border-white/5 last:border-0 hover:bg-white/[0.03]">
                       <td className="px-3 py-2.5">
                         <span className="block truncate font-medium text-zinc-100">{t.subject}</span>
-                        <span className="block truncate text-[11px] text-zinc-500">
+                        <span className="block truncate text-[11px] text-zinc-400">
                           {t.id} · {t.requester}
                         </span>
                       </td>
@@ -145,7 +145,7 @@ export function ChannelQueueCard({
                   ))}
                   {sorted.length === 0 && (
                     <tr>
-                      <td colSpan={4} className="px-3 py-6 text-center text-zinc-500">
+                      <td colSpan={4} className="px-3 py-6 text-center text-zinc-400">
                         선택한 채널에 대기 중인 티켓이 없습니다.
                       </td>
                     </tr>

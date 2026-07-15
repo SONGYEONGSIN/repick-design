@@ -82,9 +82,9 @@ export default function CommandPalette({
             role="combobox"
             aria-expanded="true"
             aria-controls="command-list"
-            className="h-12 w-full bg-transparent text-sm text-zinc-900 placeholder:text-zinc-400 focus:outline-none"
+            className="h-12 w-full bg-transparent text-sm text-zinc-900 placeholder:text-zinc-500 focus:outline-none"
           />
-          <span className="hidden shrink-0 items-center gap-0.5 rounded border border-zinc-200 px-1.5 py-0.5 text-[11px] text-zinc-400 sm:inline-flex">
+          <span className="hidden shrink-0 items-center gap-0.5 rounded border border-zinc-200 px-1.5 py-0.5 text-[11px] text-zinc-500 sm:inline-flex">
             Esc
           </span>
         </div>
@@ -104,7 +104,7 @@ export default function CommandPalette({
                 >
                   <span>
                     {cmd.label}
-                    {cmd.hint ? <span className="ml-2 text-xs text-zinc-400">{cmd.hint}</span> : null}
+                    {cmd.hint ? <span className="ml-2 text-xs text-zinc-500">{cmd.hint}</span> : null}
                   </span>
                   {index === safeHighlight ? <CornerDownLeft className="size-3.5 shrink-0" aria-hidden="true" /> : null}
                 </button>

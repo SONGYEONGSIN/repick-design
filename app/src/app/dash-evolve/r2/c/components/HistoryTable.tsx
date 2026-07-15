@@ -81,7 +81,7 @@ export default function HistoryTable() {
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="캠페인 이름 검색"
-            className="w-full rounded-lg border border-zinc-200 bg-white py-1.5 pl-8 pr-2.5 text-sm text-zinc-900 shadow-sm placeholder:text-zinc-400 focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-indigo-500"
+            className="w-full rounded-lg border border-zinc-200 bg-white py-1.5 pl-8 pr-2.5 text-sm text-zinc-900 shadow-sm placeholder:text-zinc-500 focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-indigo-500"
           />
         </label>
         <Segmented<StatusFilter>
@@ -141,10 +141,10 @@ export default function HistoryTable() {
                     {formatNumber(row.recipients)}
                   </td>
                   <td className="whitespace-nowrap px-3 py-2.5 text-right tabular-nums text-zinc-800">
-                    {row.openRate === null ? <span className="text-zinc-400">—</span> : formatPercent(row.openRate)}
+                    {row.openRate === null ? <span className="text-zinc-500">—</span> : formatPercent(row.openRate)}
                   </td>
                   <td className="whitespace-nowrap px-3 py-2.5 text-right tabular-nums text-zinc-800">
-                    {row.clickRate === null ? <span className="text-zinc-400">—</span> : formatPercent(row.clickRate)}
+                    {row.clickRate === null ? <span className="text-zinc-500">—</span> : formatPercent(row.clickRate)}
                   </td>
                   <td className="whitespace-nowrap px-3 py-2.5">
                     <StatusBadge status={row.status} />

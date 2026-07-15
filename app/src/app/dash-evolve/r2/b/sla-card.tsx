@@ -29,7 +29,7 @@ export function SlaComplianceCard({ period }: { period: Period }) {
             <span className="h-1.5 w-1.5 rounded-full bg-rose-400" aria-hidden="true" />
             위반
           </span>
-          <span className="ml-auto whitespace-nowrap text-zinc-500">{stat.shortLabel} · 전체 채널 기준</span>
+          <span className="ml-auto whitespace-nowrap text-zinc-400">{stat.shortLabel} · 전체 채널 기준</span>
         </div>
 
         <div className="space-y-3.5">

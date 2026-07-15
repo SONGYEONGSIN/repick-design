@@ -128,8 +128,8 @@ export function CrosshairChart({
         {activePoint.label} {formatValue(activePoint.value)}
       </p>
       <div className={`mt-1 flex items-center justify-between text-[11px] tabular-nums ${accentClass}`}>
-        <span className="text-zinc-500">최저 {formatValue(min)}</span>
-        <span className="text-zinc-500">최고 {formatValue(max)}</span>
+        <span className="text-zinc-400">최저 {formatValue(min)}</span>
+        <span className="text-zinc-400">최고 {formatValue(max)}</span>
       </div>
     </div>
   );

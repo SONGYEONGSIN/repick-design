@@ -18,7 +18,7 @@ export function AutomationCard({ period }: { period: Period }) {
           <span className="text-3xl font-bold whitespace-nowrap text-zinc-50 tabular-nums">
             {formatPercent(stat.automationDeflectionPct)}
           </span>
-          <p className="mt-1 text-[12px] text-zinc-500">상담원 개입 없이 챗봇·매크로가 해결한 비율 · {stat.shortLabel}</p>
+          <p className="mt-1 text-[12px] text-zinc-400">상담원 개입 없이 챗봇·매크로가 해결한 비율 · {stat.shortLabel}</p>
         </div>
         <div className="h-10 w-full">
           <MiniSparkline values={stat.automationSparkline} strokeColor="rgb(129 140 248)" />
@@ -38,9 +38,9 @@ export function CsatCard({ period }: { period: Period }) {
         <div>
           <span className="text-3xl font-bold whitespace-nowrap text-zinc-50 tabular-nums">
             {stat.csatScore.toFixed(1)}
-            <span className="text-base font-normal text-zinc-500"> / 5.0</span>
+            <span className="text-base font-normal text-zinc-400"> / 5.0</span>
           </span>
-          <p className="mt-1 text-[12px] text-zinc-500">티켓 종료 후 설문 평균 · {stat.shortLabel}</p>
+          <p className="mt-1 text-[12px] text-zinc-400">티켓 종료 후 설문 평균 · {stat.shortLabel}</p>
         </div>
         <div className="h-10 w-full">
           <MiniSparkline values={stat.csatSparkline} strokeColor="rgb(52 211 153)" />
@@ -60,7 +60,7 @@ export function CoverageCard() {
           <div key={shift.shift} className="min-w-0">
             <div className="flex items-baseline justify-between gap-2">
               <span className="text-[13px] font-medium text-zinc-100">{shift.shift}</span>
-              <span className="shrink-0 text-[11px] whitespace-nowrap text-zinc-500 tabular-nums">{shift.hours}</span>
+              <span className="shrink-0 text-[11px] whitespace-nowrap text-zinc-400 tabular-nums">{shift.hours}</span>
             </div>
             <p className="mt-0.5 text-[12px] whitespace-nowrap text-zinc-400 tabular-nums">
               에이전트 {shift.agents}명 · 가동률 {shift.utilizationPct}%

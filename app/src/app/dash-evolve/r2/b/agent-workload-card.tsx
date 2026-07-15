@@ -79,7 +79,7 @@ export function AgentWorkloadCard({
             </div>
           );
         })}
-        {filteredAgents.length === 0 && <p className="text-[13px] text-zinc-500">해당 채널 전담 에이전트가 없습니다.</p>}
+        {filteredAgents.length === 0 && <p className="text-[13px] text-zinc-400">해당 채널 전담 에이전트가 없습니다.</p>}
       </div>
 
       {expanded && (
@@ -150,7 +150,7 @@ export function AgentWorkloadCard({
                   ))}
                   {sorted.length === 0 && (
                     <tr>
-                      <td colSpan={6} className="px-3 py-6 text-center text-zinc-500">
+                      <td colSpan={6} className="px-3 py-6 text-center text-zinc-400">
                         해당 채널 전담 에이전트가 없습니다.
                       </td>
                     </tr>
