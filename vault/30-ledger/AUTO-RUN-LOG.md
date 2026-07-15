@@ -26,3 +26,11 @@
 - [[20-generations/2026-07-07-auto-r7/DECISION|R7]]
 
 홈: [[🏠 Design Evolution]] · DNA: [[design-principles]] · 인덱스: [[MEMORY]]
+
+---
+
+# dash 자율 진화 가동 (2026-07-15~)
+- 모드: 클라우드 routine — 매일 03:00 KST 1라운드(/dash-evolve, repick-dash-evolve-nightly), 일요일 06:00 KST 반증 PR(/dash-falsify open, repick-dash-falsify-weekly)
+- 격리: delta는 dash-deltas-provisional.jsonl, 정본 brief v3는 주간 apply에서만 갱신
+- 사람: 주 1회 PR 리뷰(킵/드롭·delta 승인/기각·질문 답변) 후 /dash-falsify apply
+- 스모크(r1, 로컬): 승자 b Keel — 게이트 조정: Lighthouse perf는 dev 서버 상한(73)으로 기록 전용, a11y ≥95만 하드게이트
