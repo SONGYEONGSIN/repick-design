@@ -107,7 +107,7 @@ export function Topbar({
         </Popover>
 
         <Popover
-          label={<Avatar name="Yuna Song" size={28} />}
+          label={<Avatar name="Maya Torres" size={28} />}
           triggerLabel="Account menu"
           showChevron={false}
           align="right"
@@ -116,8 +116,8 @@ export function Topbar({
           {(close) => (
             <div className="py-1">
               <div className="px-2 pb-2 pt-1">
-                <p className="text-sm font-medium text-zinc-100">Yuna Song</p>
-                <p className="text-xs text-zinc-400">ysong2526@gmail.com</p>
+                <p className="text-sm font-medium text-zinc-100">Maya Torres</p>
+                <p className="text-xs text-zinc-400">maya.torres@northline.io</p>
               </div>
               <div className="border-t border-white/10 pt-1">
                 <button

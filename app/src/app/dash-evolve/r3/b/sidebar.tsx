@@ -111,9 +111,9 @@ export function Sidebar({ open, onClose }: { open: boolean; onClose: () => void 
           <Popover
             label={
               <span className="flex min-w-0 items-center gap-2.5">
-                <Avatar name="Yuna Song" size={28} />
+                <Avatar name="Maya Torres" size={28} />
                 <span className="flex min-w-0 flex-col items-start leading-tight">
-                  <span className="truncate text-sm font-medium text-zinc-100">Yuna Song</span>
+                  <span className="truncate text-sm font-medium text-zinc-100">Maya Torres</span>
                   <span className="truncate text-xs text-zinc-400">Dispatch lead</span>
                 </span>
               </span>
