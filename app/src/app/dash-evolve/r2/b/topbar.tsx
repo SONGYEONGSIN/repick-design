@@ -24,11 +24,11 @@ export function Topbar({
       <button
         type="button"
         onClick={onOpenCommandPalette}
-        className="flex h-11 min-w-0 flex-1 items-center gap-2 rounded-lg border border-white/10 bg-zinc-900 px-3 text-left text-zinc-500 transition-colors hover:border-white/20 hover:text-zinc-400 focus-visible:ring-2 focus-visible:ring-sky-400 focus-visible:outline-none sm:max-w-sm"
+        className="flex h-11 min-w-0 flex-1 items-center gap-2 rounded-lg border border-white/10 bg-zinc-900 px-3 text-left text-zinc-400 transition-colors hover:border-white/20 hover:text-zinc-400 focus-visible:ring-2 focus-visible:ring-sky-400 focus-visible:outline-none sm:max-w-sm"
       >
         <Search className="h-4 w-4 shrink-0" aria-hidden="true" />
         <span className="min-w-0 flex-1 truncate text-[13px]">티켓·에이전트·명령 검색</span>
-        <span className="hidden shrink-0 items-center gap-0.5 rounded border border-white/10 bg-zinc-950 px-1.5 py-0.5 text-[11px] text-zinc-500 sm:inline-flex">
+        <span className="hidden shrink-0 items-center gap-0.5 rounded border border-white/10 bg-zinc-950 px-1.5 py-0.5 text-[11px] text-zinc-400 sm:inline-flex">
           <Command className="h-3 w-3" aria-hidden="true" />K
         </span>
       </button>
@@ -56,6 +56,7 @@ export function Topbar({
         </button>
         <button
           type="button"
+          aria-label="최지우 계정 메뉴 열기"
           className="flex h-11 items-center gap-2 rounded-lg px-1.5 transition-colors hover:bg-white/5 focus-visible:ring-2 focus-visible:ring-sky-400 focus-visible:outline-none"
         >
           <Avatar name="최지우" size={30} />
