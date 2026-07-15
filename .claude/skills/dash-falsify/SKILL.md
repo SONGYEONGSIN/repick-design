@@ -26,7 +26,7 @@ description: dash 자율 진화 주간 반증 — evolve/dash 누적분으로 �
 2. **delta 기각** → provisional에 `{...원본, status:'refuted', supersedes:'<round>'}` append + auto-ledger에 해당 라운드 원본 entry 전체를 spread한 `{...원본, refuted:true, refute_reason:'<사유>'}`를 append(자기완결 줄 유지 — 같은 round의 최신 줄이 유효). **refute rate**(이번 리뷰에서 기각된 judge 승자 수 / 전체 승자 판정 수)를 계산해 40% 초과면 "judge 렌즈 개선 필요" finding을 사용자에게 보고.
 3. **질문 답변** → 답변에서 재사용 가능한 정제 기준을 추출해 curation-criteria.md "축적된 기준"에 append, 해당 질문은 questions-queue.md 아카이브로 이동.
 4. **후보 킵** → `git mv app/src/app/dash-evolve/r<N>/<v> app/src/app/dash/d<다음 번호>` + `/dash` 갤러리 page.tsx에 카드 등록. **드롭** → 해당 후보 디렉토리 삭제.
-5. 반영 커밋(evolve/dash) → `cd app && npx next build` 통과 확인 → `gh pr merge <num> --squash` (PR 제목이 conventional 형식인지 확인). 머지 후 `git checkout evolve/dash && git rebase main && git push --force-with-lease` — reset이 아닌 rebase(PR open 이후 착지한 야간 라운드 커밋 보존). 이걸 빼먹으면 다음 주 open 모드의 merge-base가 과거에 고정돼 이미 리뷰된 라운드가 매주 재표시된다.
+5. 반영 커밋(evolve/dash) → `cd app && npx next build` 통과 확인 → `gh pr merge <num> --squash` (PR 제목이 conventional 형식인지 확인). 머지 후 `git fetch origin && git checkout -B evolve/dash origin/evolve/dash && git rebase main && git push --force-with-lease origin evolve/dash` — 반드시 **origin/evolve/dash 기준으로 로컬 브랜치를 재설정한 뒤** rebase(낡은 로컬 브랜치를 rebase하면 그 사이 착지한 야간 라운드 커밋이 force-push로 유실된다 — 2026-07-15 실사고). reset --hard main이 아닌 rebase(PR open 이후 커밋 보존). 이걸 빼먹으면 다음 주 open 모드의 merge-base가 과거에 고정돼 이미 리뷰된 라운드가 매주 재표시된다.
 
 ## 금지
 - open 모드에서 어떤 파일도 수정하지 않는다 (PR 생성/갱신만).
