@@ -3,7 +3,7 @@
 import { ArrowLeft, CalendarX2, Star, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { eventsForDate } from "../lib/calendar";
-import { POSTS, WEEKDAY_LABELS } from "../lib/data";
+import { CALENDAR_DAYS, POSTS, WEEKDAY_LABELS } from "../lib/data";
 import { formatDateKo, formatNumber } from "../lib/format";
 import { Avatar, CHANNEL_META, STATUS_META, StatusBadge } from "./ui";
 
@@ -43,7 +43,7 @@ export default function EventDrawer({ date, eventId, onClose, onSelectEvent, onB
 
   const post = eventId ? POSTS.find((p) => p.id === eventId) : undefined;
   const agenda = !post && date ? eventsForDate(POSTS, date) : [];
-  const weekdayLabel = date ? WEEKDAY_LABELS[new Date(`${date}T00:00:00+09:00`).getDay()] : "";
+  const weekdayLabel = date ? WEEKDAY_LABELS[CALENDAR_DAYS.find((d) => d.date === date)?.weekday ?? 0] : "";
 
   return (
     <div className="fixed inset-0 z-50" role="presentation">
