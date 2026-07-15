@@ -50,8 +50,8 @@ RETRIEVE → GENERATE(3) → HARD GATE          반증 PR 리뷰:
 
 ### 4.3 HARD GATE (자동 탈락 — 하나라도 실패 시 심사 진출 불가)
 1. **그리드 sweep** (`scripts/dash-sweep.mjs`): playwright로 1280/1366/1440/1536/1680/1920 + 모바일 390 폭에서 pageOverflow/tableOverflow 실측, 여유 ≥16px. 실패 후보는 **1회 자체 수정 기회** 후 재실패 시 탈락.
-2. **정적 검사**: Pretendard 단일 폰트(+ tabular-nums, mono는 코드성 데이터만), 순백 라이트, brief 팔레트 준수 (벗어난 hex 개수 0).
-3. **Lighthouse**: 후보 route perf ≥80, a11y ≥95 (R2~R7 실측 분포 perf 83~91 / a11y 95 기반). 클라우드에서 Lighthouse 불가 시 playwright 기반 대체 지표(§7)로 폴백.
+2. **정적 검사**: Pretendard 단일 폰트(+ tabular-nums, mono는 코드성 데이터만), 순백 라이트, brief 팔레트 준수 (벗어난 hex 개수 0). *(구현 이탈 기록: 팔레트 hex 허용목록 게이트는 미구현 — brief v3 팔레트가 tailwind 클래스 기반이라 고정 hex 목록이 정의되지 않음. 팔레트/순백 준수는 brief-렌즈 judge가 담당. 기계 게이트는 폰트·비결정론·이모지 3종.)*
+3. **Lighthouse**: 후보 route perf ≥80, a11y ≥95 (R2~R7 실측 분포 perf 83~91 / a11y 95 기반). 클라우드에서 Lighthouse 불가 시 playwright 기반 대체 지표(§7)로 폴백. *(구현 이탈 기록: perf ≥80은 기록 전용으로 완화 — dev 서버 측정 상한(로컬 73, 클라우드 94~96로 환경차 큼)이라 하드게이트 부적합. a11y ≥95만 하드게이트. 근거: 스모크 r1 실측.)*
 
 ### 4.4 JUDGE 패널
 - 생존 후보의 다중 폭 스크린샷을 캡처, 파일명·순서를 익명화(a/b/c)해 편향 차단.

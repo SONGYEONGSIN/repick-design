@@ -18,7 +18,7 @@ description: dash 루프 자율 진화 1라운드 — brief v3+격리 delta로 �
 - `vault/00-principles/dash-deltas-provisional.jsonl` 전체 (격리 delta — status가 refuted가 아닌 최신 entry들)
 - `vault/00-principles/curation-criteria.md` (meta-기준 — judge·정제 프롬프트에 주입)
 - `vault/30-ledger/dash-auto-ledger.jsonl` 최근 5개 (직전 승자·no-winner 탈락 사유)
-- 기존 아키타입 목록: `/dash` 갤러리 14종 + `app/src/app/dash-evolve/` 하위 기존 라운드의 아키타입 — 중복 금지 목록으로 정리
+- 기존 아키타입 목록: `/dash` 갤러리 등록분 전부 + `app/src/app/dash-evolve/` 하위 기존 라운드의 아키타입 — 중복 금지 목록으로 정리
 
 ## 2. GENERATE — 3병렬
 - designer(또는 frontend-design-specialist) 에이전트 3개 병렬 호출. 각자에게: RETRIEVE 컨텍스트 + 서로 다른 레이아웃 아키타입 명시 지정(중복 금지 목록 포함) + 산출 경로.
@@ -38,7 +38,7 @@ description: dash 루프 자율 진화 1라운드 — brief v3+격리 delta로 �
   1. **brief**: brief v3 전문 대조 — 규칙 위반·완성도 기준 미달 지적
   2. **visual**: Mercury/Asana/n8n/Coinbase 대비 상용 서비스급인가 — 스크린샷 중심
   3. **archetype**: 기존 아키타입 목록 대비 구조 차별성
-- judge가 응답 없이 정지하면 1회 재디스패치, 재실패 시 해당 렌즈 기권 — 잔여 2렌즈 다수결(동률이면 brief 렌즈 우선). 기권 렌즈는 DECISION.md에 명시.
+- judge가 응답 없이 정지하면 1회 재디스패치, 재실패 시 해당 렌즈 기권 — 잔여 2렌즈 다수결(동률이면 brief 렌즈 우선). 기권 렌즈는 DECISION.md에 명시. 기권 렌즈가 brief면 동률 우선권은 visual로 넘어간다.
 - 각 judge 출력: 후보 랭킹 + 후보별 한 줄 사유 + (전원 미달이면) no-winner 표.
 - 집계: 1위 표 다수결. 동률이면 brief 렌즈의 1위. **no-winner 표 2개 이상이면 라운드 no-winner** — 억지 승자 금지.
 - 판정 전문을 `vault/20-generations/<run>/DECISION.md`에 기록.
