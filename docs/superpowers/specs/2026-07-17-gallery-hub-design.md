@@ -38,6 +38,13 @@
 - **타이포 규율**: Pretendard 단일(전역 font-sans), 레이블 11px uppercase tracking 통일, 숫자 tabular-nums. 세리프·장식 폰트 금지.
 - **그리드 크래프트**: 12-col 리듬, 카드 그리드 아이템 `min-w-0`, 390~1920 전 폭 오버플로 금지(여유 ≥16px) — brief v3 검증 룰 준수.
 
+### 완성도 기준 — 상용 서비스 출시급 (필수)
+이 페이지는 내부 인덱스가 아니라 **누가 봐도 출시된 서비스로 보이는 완성도**를 목표로 한다. brief v3의 완성도 문법을 갤러리에 준용:
+- **컴포넌트 정밀함**: radius/border/shadow/spacing 4/8px 리듬 일관, 캡션·배지·카운트의 광학 정렬, 컨트롤(탭) 높이 44px 통일.
+- **인터랙션 디테일 (최소 3종 실동작)**: ① 탭 전환 시 콘텐츠 크로스페이드(reduced-motion 미디어쿼리 게이팅, 진입 opacity:0 잔존 금지) ② 카드 hover 마이크로 인터랙션(보더·캡션·미리보기 미세 확대) ③ iframe 로드 전 스켈레톤 플레이스홀더(도록 지면 질감) ④ 탭 키보드 내비(←→ 이동, role=tablist 완전 구현) 중 3개 이상.
+- **접근성**: 단일 h1, 헤딩 위계, 포커스 가시(outline-none 단독 금지), 대비 AA, iframe title 부여, Lighthouse a11y ≥95.
+- **폴리시 패스**: 구현 완료 후 `/design-polish` 4-검토 병렬 폴리시를 1회 적용해 프로덕션 마감(단, 도록 방향의 의도된 미학은 존중).
+
 ## 4. 자율 루프 후보 탭 (동적)
 
 - `/gallery/page.tsx`는 **서버 컴포넌트**: `fs`로 `src/app/dash-evolve/` 하위 `r*/<variant>/page.tsx` 존재를 열거해 entry를 런타임 생성(라벨 `r<N>/<v>`, desc 없음 — vault 메타는 비범위).
@@ -60,6 +67,8 @@
 3. `node scripts/dash-static-check.mjs app/src/app/gallery/*.tsx app/src/lib/works.ts` — 위반 0.
 4. 회귀: `/dash`·`/free` 200 + 카드 수 불변(레지스트리 이전 전후 동일).
 5. 탭 전환 시 미선택 카테고리 iframe이 DOM에 없음(개발자 도구/HTML 확인) — 부하 제어 검증.
+6. Lighthouse `/gallery` a11y ≥95 (perf는 기록만 — dev 측정 한계, 자율 루프와 동일 정책).
+7. `/design-polish` 폴리시 패스 1회 완료 (§3 완성도 기준의 마감 게이트).
 
 ## 7. 비범위
 
