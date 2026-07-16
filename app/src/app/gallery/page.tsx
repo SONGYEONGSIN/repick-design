@@ -11,7 +11,7 @@ function evolveWorks(): Work[] {
   const base = join(process.cwd(), "src/app/dash-evolve");
   if (!existsSync(base)) return [];
   const out: Work[] = [];
-  for (const round of readdirSync(base).filter((d) => /^r\d+$/.test(d)).sort()) {
+  for (const round of readdirSync(base).filter((d) => /^r\d+$/.test(d)).sort((a, b) => parseInt(a.slice(1)) - parseInt(b.slice(1)))) {
     for (const v of readdirSync(join(base, round)).sort()) {
       if (existsSync(join(base, round, v, "page.tsx"))) {
         out.push({ id: `${round}/${v}`, route: `/dash-evolve/${round}/${v}`, brand: `${round.toUpperCase()} · ${v.toUpperCase()}`, desc: "자율 진화 라운드 후보 — 주간 반증 대기 (미승격)" });
