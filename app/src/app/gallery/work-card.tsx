@@ -9,11 +9,11 @@ export function WorkCard({ work, numeral }: { work: Work; numeral: string }) {
   return (
     <a
       href={work.route}
-      className="group block min-w-0 overflow-hidden rounded-xl border border-zinc-200 bg-white transition-all hover:-translate-y-0.5 hover:border-zinc-400 hover:shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-900 focus-visible:ring-offset-2 motion-reduce:hover:translate-y-0"
+      className="group block min-w-0 overflow-hidden rounded-xl border border-zinc-200 bg-white transition duration-200 hover:-translate-y-0.5 hover:border-zinc-400 hover:shadow-sm active:translate-y-0 active:shadow-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-900 focus-visible:ring-offset-2 motion-reduce:hover:translate-y-0"
     >
-      <div className="relative w-full overflow-hidden border-b border-zinc-100 bg-zinc-50" style={{ height: h }}>
+      <div aria-hidden="true" className="relative w-full overflow-hidden border-b border-zinc-100 bg-zinc-50" style={{ height: h }}>
         {!loaded && (
-          <div aria-hidden className="absolute inset-0 animate-pulse bg-gradient-to-b from-zinc-100 to-zinc-50 motion-reduce:animate-none" />
+          <div className="absolute inset-0 animate-pulse bg-gradient-to-b from-zinc-100 to-zinc-50 motion-reduce:animate-none" />
         )}
         <iframe
           src={work.route}
@@ -29,7 +29,7 @@ export function WorkCard({ work, numeral }: { work: Work; numeral: string }) {
       <div className="flex items-start justify-between gap-3 px-4 py-3">
         <div className="min-w-0">
           <p className="truncate text-sm font-bold">{work.brand}</p>
-          <p className="mt-0.5 line-clamp-1 text-xs leading-relaxed text-zinc-500 transition-all group-hover:line-clamp-3">{work.desc}</p>
+          <p className="mt-0.5 line-clamp-1 text-xs leading-relaxed text-zinc-500 group-hover:line-clamp-3 group-focus-visible:line-clamp-3">{work.desc}</p>
         </div>
         <span className="shrink-0 rounded-md bg-zinc-100 px-2 py-1 font-mono text-[11px] font-semibold tabular-nums text-zinc-600">
           {numeral}·{work.id}
