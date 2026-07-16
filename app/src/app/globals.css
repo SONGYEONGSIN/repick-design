@@ -30,3 +30,8 @@ body {
 html {
   scroll-padding-top: 88px;
 }
+
+@keyframes gallery-fade {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: none; }
+}
