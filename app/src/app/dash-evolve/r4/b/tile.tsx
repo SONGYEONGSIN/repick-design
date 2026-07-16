@@ -43,7 +43,7 @@ export function ServiceTile({
       aria-label={`${service.name}, ${meta.label}, latency ${service.latencyP50Ms} milliseconds, error rate ${service.errorRatePct} percent. Open detail drawer.`}
       className={cn(
         FOCUS_RING,
-        "flex h-full min-w-0 flex-col gap-2.5 rounded-xl border border-white/10 bg-zinc-900/60 p-3.5 text-left shadow-[0_1px_0_0_rgba(255,255,255,0.04)_inset] transition-colors hover:border-white/20 hover:bg-zinc-900",
+        "flex h-full w-full min-w-0 flex-col gap-2.5 rounded-xl border border-white/10 bg-zinc-900/60 p-3.5 text-left shadow-[0_1px_0_0_rgba(255,255,255,0.04)_inset] transition-colors hover:border-white/20 hover:bg-zinc-900",
       )}
     >
       <div className="flex items-start justify-between gap-2">

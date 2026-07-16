@@ -103,75 +103,72 @@ export default function ListRail({
         const StatusIcon = STATUS_ICON[status];
 
         return (
-          <div key={status}>
+          <div key={status} role="group" aria-label={`${meta.label} (${groupIssues.length})`}>
             <div className="sticky top-0 z-10 flex items-center gap-1.5 border-b border-zinc-100 bg-zinc-50/95 px-3 py-1.5 backdrop-blur">
               <StatusIcon className="h-3.5 w-3.5 text-zinc-500" aria-hidden="true" />
               <span className="text-xs font-semibold text-zinc-700">{meta.label}</span>
               <span className="text-xs tabular-nums text-zinc-500">{groupIssues.length}</span>
             </div>
-            <ul>
-              {groupIssues.map((issue) => {
-                const idx = rowIndexById.get(issue.id) ?? 0;
-                const PriorityIcon = PRIORITY_ICON[issue.priority];
-                const priorityMeta = issue.priority;
-                const assignee = memberById(issue.assigneeId ?? undefined);
-                const selected = issue.id === selectedId;
+            {groupIssues.map((issue) => {
+              const idx = rowIndexById.get(issue.id) ?? 0;
+              const PriorityIcon = PRIORITY_ICON[issue.priority];
+              const priorityMeta = issue.priority;
+              const assignee = memberById(issue.assigneeId ?? undefined);
+              const selected = issue.id === selectedId;
 
-                return (
-                  <li key={issue.id} role="presentation">
-                    <button
-                      type="button"
-                      ref={(el) => {
-                        rowRefs.current[idx] = el;
-                      }}
-                      role="option"
-                      aria-selected={selected}
-                      onClick={() => onSelect(issue.id)}
-                      onKeyDown={(e) => {
-                        if (e.key === "ArrowDown") {
-                          e.preventDefault();
-                          focusRow(idx + 1);
-                        } else if (e.key === "ArrowUp") {
-                          e.preventDefault();
-                          focusRow(idx - 1);
-                        }
-                      }}
-                      className={`block w-full border-b border-zinc-100 px-3 py-2.5 text-left outline-none transition-colors motion-reduce:transition-none focus-visible:z-10 focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-indigo-500 ${
-                        selected ? "bg-indigo-50" : "hover:bg-zinc-50"
+              return (
+                <button
+                  key={issue.id}
+                  type="button"
+                  ref={(el) => {
+                    rowRefs.current[idx] = el;
+                  }}
+                  role="option"
+                  aria-selected={selected}
+                  onClick={() => onSelect(issue.id)}
+                  onKeyDown={(e) => {
+                    if (e.key === "ArrowDown") {
+                      e.preventDefault();
+                      focusRow(idx + 1);
+                    } else if (e.key === "ArrowUp") {
+                      e.preventDefault();
+                      focusRow(idx - 1);
+                    }
+                  }}
+                  className={`block w-full border-b border-zinc-100 px-3 py-2.5 text-left outline-none transition-colors motion-reduce:transition-none focus-visible:z-10 focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-indigo-500 ${
+                    selected ? "bg-indigo-50" : "hover:bg-zinc-50"
+                  }`}
+                >
+                  <div className="flex items-center gap-2">
+                    <PriorityIcon
+                      className={`h-3.5 w-3.5 shrink-0 ${
+                        priorityMeta === "urgent" ? "text-rose-600" : "text-zinc-400"
                       }`}
-                    >
-                      <div className="flex items-center gap-2">
-                        <PriorityIcon
-                          className={`h-3.5 w-3.5 shrink-0 ${
-                            priorityMeta === "urgent" ? "text-rose-600" : "text-zinc-400"
-                          }`}
-                          aria-hidden="true"
-                        />
-                        <span className="w-16 shrink-0 text-[11px] tabular-nums text-zinc-500">
-                          {issue.id}
-                        </span>
-                        <span className="min-w-0 flex-1 truncate text-[13px] font-medium text-zinc-900">
-                          {issue.title}
-                        </span>
-                        {assignee ? (
-                          <Avatar src={assignee.avatar} name={assignee.name} size={20} />
-                        ) : (
-                          <UnassignedAvatar size={20} />
-                        )}
-                      </div>
-                      <div className="mt-1 flex items-center gap-1.5 pl-5 text-[11px] text-zinc-500">
-                        {issue.labels.slice(0, 2).map((label) => (
-                          <Badge key={label} className={`${LABEL_META[label]?.badgeClass ?? ""} px-1.5 py-0`}>
-                            {label}
-                          </Badge>
-                        ))}
-                        <span className="truncate">{issue.updatedLabel}</span>
-                      </div>
-                    </button>
-                  </li>
-                );
-              })}
-            </ul>
+                      aria-hidden="true"
+                    />
+                    <span className="w-16 shrink-0 text-[11px] tabular-nums text-zinc-600">
+                      {issue.id}
+                    </span>
+                    <span className="min-w-0 flex-1 truncate text-[13px] font-medium text-zinc-900">
+                      {issue.title}
+                    </span>
+                    {assignee ? (
+                      <Avatar src={assignee.avatar} name={assignee.name} size={20} />
+                    ) : (
+                      <UnassignedAvatar size={20} />
+                    )}
+                  </div>
+                  <div className="mt-1 flex items-center gap-1.5 pl-5 text-[11px] text-zinc-600">
+                    {issue.labels.slice(0, 2).map((label) => (
+                      <Badge key={label} className={`${LABEL_META[label]?.badgeClass ?? ""} px-1.5 py-0`}>
+                        {label}
+                      </Badge>
+                    ))}
+                    <span className="truncate">{issue.updatedLabel}</span>
+                  </div>
+                </button>
+              );
+            })}
           </div>
         );
       })}

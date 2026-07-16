@@ -180,7 +180,7 @@ export default function DetailPane({
                       onChange={() => onToggleSubIssue(issue.id, sub.id)}
                       className="h-3.5 w-3.5 shrink-0 rounded border-zinc-300 accent-indigo-600"
                     />
-                    <span className={`text-sm ${sub.done ? "text-zinc-400 line-through" : "text-zinc-700"}`}>
+                    <span className={`text-sm ${sub.done ? "text-zinc-500 line-through" : "text-zinc-700"}`}>
                       {sub.title}
                     </span>
                   </label>

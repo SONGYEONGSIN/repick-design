@@ -48,13 +48,13 @@ export function DetailDrawer({
   }, [open, onClose]);
 
   return (
-    <>
+    <div className="fixed inset-0 z-40 overflow-hidden" style={{ pointerEvents: open ? "auto" : "none" }}>
       <div
         aria-hidden={!open}
         onClick={onClose}
         className={cn(
-          "fixed inset-0 z-40 bg-black/60 transition-opacity motion-reduce:transition-none",
-          open ? "pointer-events-auto opacity-100" : "pointer-events-none opacity-0",
+          "absolute inset-0 bg-black/60 transition-opacity motion-reduce:transition-none",
+          open ? "opacity-100" : "opacity-0",
         )}
       />
       <div
@@ -64,7 +64,7 @@ export function DetailDrawer({
         aria-hidden={!open}
         inert={!open}
         className={cn(
-          "fixed inset-y-0 right-0 z-50 flex w-full max-w-full flex-col border-l border-white/10 bg-zinc-950 shadow-2xl shadow-black/50 transition-transform duration-200 ease-out motion-reduce:transition-none sm:w-[480px] lg:w-[560px]",
+          "absolute inset-y-0 right-0 z-50 flex w-full max-w-full flex-col border-l border-white/10 bg-zinc-950 shadow-2xl shadow-black/50 transition-transform duration-200 ease-out motion-reduce:transition-none sm:w-[480px] lg:w-[560px]",
           open ? "translate-x-0" : "translate-x-full",
         )}
       >
@@ -146,6 +146,6 @@ export function DetailDrawer({
           </>
         ) : null}
       </div>
-    </>
+    </div>
   );
 }
