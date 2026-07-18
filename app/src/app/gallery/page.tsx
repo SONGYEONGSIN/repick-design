@@ -8,13 +8,26 @@ export const metadata: Metadata = { title: "RE:PICK 전작 도록 — Collected 
 
 /** evolve/dash 브랜치 체크아웃에서만 존재하는 자율 루프 후보를 열거 (main/프로덕션 = 자동 숨김) */
 function evolveWorks(): Work[] {
-  const base = join(process.cwd(), "src/app/dash-evolve");
-  if (!existsSync(base)) return [];
   const out: Work[] = [];
-  for (const round of readdirSync(base).filter((d) => /^r\d+$/.test(d)).sort((a, b) => parseInt(a.slice(1)) - parseInt(b.slice(1)))) {
-    for (const v of readdirSync(join(base, round)).sort()) {
-      if (existsSync(join(base, round, v, "page.tsx"))) {
-        out.push({ id: `${round}/${v}`, route: `/dash-evolve/${round}/${v}`, brand: `${round.toUpperCase()} · ${v.toUpperCase()}`, desc: "자율 진화 라운드 후보 — 주간 반증 대기 (미승격)" });
+  for (const [dir, label] of [
+    ["dash-evolve", "DASH"],
+    ["landing-evolve", "LANDING"],
+  ] as const) {
+    const base = join(process.cwd(), "src/app", dir);
+    if (!existsSync(base)) continue;
+    const rounds = readdirSync(base)
+      .filter((d) => /^r\d+$/.test(d))
+      .sort((a, b) => parseInt(a.slice(1)) - parseInt(b.slice(1)));
+    for (const round of rounds) {
+      for (const v of readdirSync(join(base, round)).sort()) {
+        if (existsSync(join(base, round, v, "page.tsx"))) {
+          out.push({
+            id: `${label.toLowerCase()}-${round}/${v}`,
+            route: `/${dir}/${round}/${v}`,
+            brand: `${label} ${round.toUpperCase()} · ${v.toUpperCase()}`,
+            desc: "자율 진화 라운드 후보 — 주간 반증 대기 (미승격)",
+          });
+        }
       }
     }
   }
