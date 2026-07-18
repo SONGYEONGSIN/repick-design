@@ -34,3 +34,5 @@
 - 격리: delta는 dash-deltas-provisional.jsonl, 정본 brief v3는 주간 apply에서만 갱신
 - 사람: 주 1회 PR 리뷰(킵/드롭·delta 승인/기각·질문 답변) 후 /dash-falsify apply
 - 스모크(r1, 로컬): 승자 b Keel — 게이트 조정: Lighthouse perf는 dev 서버 상한(73)으로 기록 전용, a11y ≥95만 하드게이트
+
+- 2026-07-18: 이중 타깃 가동 — 야간 라운드가 dash/landing 무작위 50/50, ledger 통합(auto-ledger.jsonl, target 필드), 위키 lint 게이트(scripts/wiki-lint.mjs) 추가. LLM Wiki(Karpathy) 정렬: index.md 전수 카탈로그·기계 lint·ingest 파급 규칙. 랜딩 스모크 auto-landing-r1 승자 SCANLINE(evolve/dash).
