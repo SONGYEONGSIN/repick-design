@@ -50,4 +50,4 @@
 
 ## 관련
 - 학습 인덱스: [[MEMORY]] · 홈: [[🏠 Design Evolution]] · 실행로그: [[AUTO-RUN-LOG]]
-- 이 DNA는 각 라운드 LEARN이 갱신 → 최근: [[20-generations/2026-07-07-auto-r7/DECISION|R7]]
+- 이 DNA는 각 라운드 LEARN이 갱신 → 최근: R7 *(기록: design-ledger.jsonl — 원 노트는 정리됨)*
