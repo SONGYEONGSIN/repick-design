@@ -35,3 +35,4 @@ tags: [index]
 
 ## 세대 기록 (20-generations — 라운드별 DECISION, evolve 브랜치에서 누적)
 _(main 기준 없음 — 라운드 커밋이 DECISION 등재를 추가한다)_
+- [[20-generations/2026-07-18-auto-landing-r1/DECISION|auto-landing-r1]]
