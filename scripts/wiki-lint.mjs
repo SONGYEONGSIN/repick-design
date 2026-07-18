@@ -10,17 +10,20 @@ export function extractLinks(md) {
 
 const stem = (p) => basename(p).replace(/\.md$/, '');
 const isHome = (p) => basename(p).startsWith('🏠');
+// 20-generations는 라운드마다 basename이 겹치는 DECISION.md가 쌓이므로
+// 상대경로(확장자 제외)로 식별한다. 그 외 카테고리는 고유 basename 전제로 stem 유지.
+const key = (p) => (p.startsWith('20-generations/') ? p.replace(/\.md$/, '') : stem(p));
 
 export function lintVault(files) {
   const paths = Object.keys(files);
-  const stems = new Set(paths.map(stem));
+  const keys = new Set(paths.map(key));
 
   const broken = [];
   const inbound = new Set();
   for (const [path, content] of Object.entries(files)) {
     for (const target of extractLinks(content)) {
-      const t = stem(target);
-      if (!stems.has(t)) broken.push(`${path}: [[${target}]]`);
+      const t = key(target);
+      if (!keys.has(t)) broken.push(`${path}: [[${target}]]`);
       else if (path !== 'index.md') inbound.add(t);
     }
   }
@@ -32,13 +35,13 @@ export function lintVault(files) {
   const orphans = noteTargets.filter((p) => !inbound.has(stem(p)));
 
   const indexContent = files['index.md'] ?? '';
-  const indexed = new Set(extractLinks(indexContent).map(stem));
+  const indexed = new Set(extractLinks(indexContent).map(key));
   const indexTargets = [
     ...noteTargets,
     ...paths.filter((p) => /^20-generations\/[^/]+\/DECISION\.md$/.test(p)),
     ...paths.filter((p) => p === '10-references/README.md'),
   ];
-  const unindexed = indexTargets.filter((p) => !indexed.has(stem(p)));
+  const unindexed = indexTargets.filter((p) => !indexed.has(key(p)));
 
   return { orphans, broken, unindexed };
 }

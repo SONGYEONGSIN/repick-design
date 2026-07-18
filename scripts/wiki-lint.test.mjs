@@ -46,6 +46,28 @@ test('unindexed: index.md 미등재를 잡고, 10-references는 README만 요구
   assert.deepEqual(r.unindexed.sort(), ['10-references/README.md', '20-generations/2026-07-15-auto-dash-r1/DECISION.md']);
 });
 
+test('20-generations DECISION은 경로 기준 해석 — 다중 라운드 미등재를 각각 잡는다', () => {
+  const files = {
+    '🏠 홈.md': '[[a]] [[README]] [[20-generations/r1/DECISION]] [[20-generations/r2/DECISION]]',
+    '00-principles/a.md': '',
+    '10-references/README.md': '',
+    '20-generations/r1/DECISION.md': '',
+    '20-generations/r2/DECISION.md': '',
+    'index.md': '- [[a]]\n- [[README]]\n- [[20-generations/r1/DECISION]]',
+  };
+  const r = lintVault(files);
+  assert.deepEqual(r.unindexed, ['20-generations/r2/DECISION.md']); // r1 등재됨, r2 미등재만
+  assert.deepEqual(r.broken, []); // 두 링크 다 실존 파일로 해석
+});
+
+test('20-generations 죽은 DECISION 링크를 broken으로 잡는다', () => {
+  const files = {
+    '🏠 홈.md': '[[20-generations/GHOST/DECISION]]',
+    'index.md': '',
+  };
+  assert.deepEqual(lintVault(files).broken, ['🏠 홈.md: [[20-generations/GHOST/DECISION]]']);
+});
+
 test('클린 vault는 위반 0', () => {
   const files = {
     '🏠 홈.md': '[[a]] [[README]]',

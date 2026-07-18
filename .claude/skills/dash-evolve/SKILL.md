@@ -24,6 +24,8 @@ description: 자율 진화 1라운드 (이중 타깃 — SaaS 대시보드 또�
 | 중복 금지 | `/dash` 갤러리 등록분 + dash-evolve 누적 아키타입 | `/v1~v5` + landing-evolve 누적 형태(landing-forms.jsonl 용어) |
 | judge 렌즈 | brief 준수 / 상용 SaaS 완성도(Mercury·Asana·n8n·Coinbase) / 아키타입 차별성 | DNA 준수 / 상용 랜딩 완성도(Linear·Stripe·Vercel급) / 형태 차별성 |
 
+> URL 라우트 = ROUTES에서 `app/src/app` 접두를 제거한 경로 (예: ROUTES `app/src/app/landing-evolve/r1/` → URL `/landing-evolve/r1/<v>`). §3 sweep/Lighthouse·§4 스크린샷의 <라우트>는 이 URL을 쓴다.
+
 ## 1. RETRIEVE
 다음을 전부 읽어 생성 컨텍스트를 구성한다:
 - BRIEF 전문 (정본 — 읽기 전용)

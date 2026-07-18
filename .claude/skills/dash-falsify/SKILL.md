@@ -10,7 +10,7 @@ description: 자율 진화 주간 반증 (이중 타깃) — evolve/dash 누적�
 ## open 모드 (무인 — 주간 routine)
 1. `git fetch && git log origin/main..origin/evolve/dash --oneline` — 누적 커밋이 없으면 "반증할 산출물 없음" 로그만 남기고 종료. 누적 커밋이 있으면 이후 모든 파일 읽기(auto-ledger·provisional·questions-queue·DECISION.md·index.md)는 evolve/dash 컨텍스트에서 한다 — `git checkout evolve/dash` 또는 `git show origin/evolve/dash:<경로>` (main 워킹트리에서 읽으면 본문이 빈 채 조립된다).
 2. PR 본문 조립 — **타깃별 섹션**:
-   - `## 대시보드` / `## 랜딩` 각각: 주간 라운드 표(auto-ledger에서 해당 target entry), L3 delta 편입 제안(해당 DELTAS의 최신 level=L3 & status=provisional), L1/L2 잔류 요약, 라운드별 DECISION.md 상대경로 링크 + 대표 스크린샷 경로. 해당 타깃 라운드가 없던 주면 섹션에 "이번 주 라운드 없음" 1줄.
+   - `## 대시보드` / `## 랜딩` 각각: 주간 라운드 표(auto-ledger에서 해당 target entry(target 필드 없는 레거시 entry는 round id `auto-<t>-r*`에서 유추)), L3 delta 편입 제안(해당 DELTAS의 최신 level=L3 & status=provisional), L1/L2 잔류 요약, 라운드별 DECISION.md 상대경로 링크 + 대표 스크린샷 경로. 해당 타깃 라운드가 없던 주면 섹션에 "이번 주 라운드 없음" 1줄.
    - `## 질문 큐`: questions-queue.md "대기 중" 전문 (target 표기 포함).
    - `## 위키 건전성`: ① 기계 — `node scripts/wiki-lint.mjs` 실행 결과 JSON(위반 0이면 "clean") ② 판단 — 페이지 간 모순·stale 주장(최신 delta가 정본과 충돌하는 사례) 스캔 결과를 2~3줄로.
    - `## 리뷰 방법`: "후보 킵/드롭·delta 승인/기각·질문 답변을 PR 코멘트로 남기고 로컬에서 /dash-falsify apply 실행".
