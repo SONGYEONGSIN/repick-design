@@ -44,3 +44,4 @@ _(main 기준 없음 — 라운드 커밋이 DECISION 등재를 추가한다)_
 - [[20-generations/2026-07-18-auto-dash-r6/DECISION|auto-dash-r6]] (no-winner)
 - [[20-generations/2026-07-19-auto-dash-r7/DECISION|auto-dash-r7]] (승자 b — Tessera 트리맵 콕핏)
 - [[20-generations/2026-07-19-auto-landing-r2/DECISION|auto-landing-r2]] (승자 a — Before/After 리빌)
+- [[20-generations/2026-07-19-auto-dash-r8/DECISION|auto-dash-r8]] (승자 a — Chute 체크아웃 퍼널 인텔리전스)
