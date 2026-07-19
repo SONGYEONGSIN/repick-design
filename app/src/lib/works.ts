@@ -5,6 +5,10 @@ export type Work = {
   brand: string;
   desc: string;
   previewH?: number; // 카드 미리보기 높이(px), 기본 300
+  status?: "winner" | "dropped" | "pending";
+  round?: string;
+  target?: "dash" | "landing";
+  date?: string;
 };
 
 export const LAST_UPDATED = "2026-07-17"; // 결정론 규칙: 동적 Date 호출 금지, 갱신 시 수동 수정
