@@ -108,7 +108,7 @@ export function GalleryClient({ categories, lastUpdated }: { categories: Categor
               <div className="space-y-10">
                 {groupByRound(shown).map((g) => (
                   <div key={g.key}>
-                    <h2 className="mb-4 font-mono text-[11px] font-semibold uppercase tracking-[0.2em] text-zinc-400">
+                    <h2 className="mb-4 font-mono text-[11px] font-semibold uppercase tracking-[0.2em] text-zinc-500">
                       {g.header} · <span className="tabular-nums">{g.works.length}</span>
                     </h2>
                     <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-3">
