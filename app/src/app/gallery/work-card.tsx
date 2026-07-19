@@ -49,5 +49,5 @@ function StatusBadge({ status }: { status: NonNullable<Work["status"]> }) {
   if (status === "dropped") {
     return <span className="rounded-md border border-zinc-200 px-2 py-0.5 text-[11px] font-semibold text-zinc-500">탈락</span>;
   }
-  return <span className="rounded-md border border-dashed border-zinc-300 px-2 py-0.5 text-[11px] font-semibold text-zinc-400">심사 대기</span>;
+  return <span className="rounded-md border border-dashed border-zinc-300 px-2 py-0.5 text-[11px] font-semibold text-zinc-600">심사 대기</span>;
 }
