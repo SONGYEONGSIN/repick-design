@@ -23,6 +23,7 @@ description: 자율 진화 1라운드 (이중 타깃 — SaaS 대시보드 또�
 | ROUTES | `app/src/app/dash-evolve/r<N>/` | `app/src/app/landing-evolve/r<N>/` |
 | 중복 금지 | `/dash` 갤러리 등록분 + dash-evolve 누적 아키타입 | `/v1~v5` + landing-evolve 누적 형태(landing-forms.jsonl 용어) |
 | judge 렌즈 | brief 준수 / 상용 SaaS 완성도(Mercury·Asana·n8n·Coinbase) / 아키타입 차별성 | DNA 준수 / 상용 랜딩 완성도(Linear·Stripe·Vercel급) / 형태 차별성 |
+| 에셋·인터랙션 | 서비스급 절제 유지 + 도메인 생성형 시각화 밀도↑, 인터랙션 4종+ (연출·발광 금지) | 표현 상한 없음 — 히어로 이미지·framer-motion·스크롤 연출, 인터랙션 4종+ |
 
 > URL 라우트 = ROUTES에서 `app/src/app` 접두를 제거한 경로 (예: ROUTES `app/src/app/landing-evolve/r1/` → URL `/landing-evolve/r1/<v>`). §3 sweep/Lighthouse·§4 스크린샷의 <라우트>는 이 URL을 쓴다.
 
@@ -41,7 +42,7 @@ description: 자율 진화 1라운드 (이중 타깃 — SaaS 대시보드 또�
 
 ## 3. HARD GATE (하나라도 실패 → 1회 수정 기회 → 재실패 시 탈락)
 - dev 서버: 3100 응답 확인(`curl -s -o /dev/null -w '%{http_code}' http://localhost:3100/`), 없으면 `cd app && npm run dev` 백그라운드 기동(이 라운드가 띄웠으면 마지막에 종료).
-- **정적**: `node scripts/dash-static-check.mjs <ROUTES-루트 상대경로>/<v>/*.tsx` — 위반 JSON을 해당 designer에 전달해 1회 수정.
+- **정적**: `node scripts/dash-static-check.mjs <ROUTES-루트 상대경로>/<v>/*.tsx` — 위반 JSON을 해당 designer에 전달해 1회 수정(이미지 규칙 포함 — 원시 img·alt 누락·unoptimized 자동 검출).
 - **sweep**: `node scripts/dash-sweep.mjs --base http://localhost:3100 --routes <라우트 a b c>` — 실패 후보만 failures JSON 전달해 1회 수정 후 재sweep. (랜딩도 동일한 그리드 룰 — 전 폭 오버플로 금지.)
 - **Lighthouse**: `npx lighthouse http://localhost:3100<라우트> --only-categories=performance,accessibility --preset=desktop --output=json --output-path=stdout --chrome-flags="--headless" 2>/dev/null` → a11y ≥95(하드게이트). perf는 기록만 — dev 서버 측정치는 탈락 사유로 쓰지 않는다. 명령 자체 실패 시 skip + `"lighthouse":"unavailable"` 기록.
 - 게이트 결과를 `vault/20-generations/<run>/SCORES.md`에 표로 기록.
@@ -49,6 +50,7 @@ description: 자율 진화 1라운드 (이중 타깃 — SaaS 대시보드 또�
 ## 4. JUDGE 패널 (생존 후보 2개 이상일 때; 1개면 단독 심사로 승자/no-winner만 판정)
 - 스크린샷: 후보별 4폭 캡처 → `npx playwright screenshot --viewport-size=<w>,900 http://localhost:3100<라우트> vault/20-generations/<run>/shots/<v>-<w>.png` (w ∈ 1280, 1440, 1920, 390).
 - judge 3개 병렬(Agent 도구, comparator 계열). 공통 입력: 스크린샷 + 소스 경로 (컨셉·순서 비공개 — 블라인드). 렌즈는 타깃 파라미터 표를 따른다 (렌즈 1=정본 대조, 렌즈 2=상용 완성도, 렌즈 3=구조 차별성).
+- 렌즈2 심사 축(에셋·인터랙션 풍부도): 생성형/이미지 에셋을 의미있게 썼는가, 인터랙션이 데코가 아니라 정보·전환에 기여하는가, 타깃 절제선(dash=서비스급 / landing=표현적)을 지켰는가. **장식 과잉·의미없는 모션은 감점**(v2세대 탈락 사유 재발 방지).
 - judge가 응답 없이 정지하면 1회 재디스패치, 재실패 시 해당 렌즈 기권 — 잔여 2렌즈 다수결(동률이면 렌즈 1 우선, 렌즈 1 기권 시 렌즈 2 우선). 기권은 DECISION.md에 명시.
 - 각 judge 출력: 랭킹 + 후보별 한 줄 사유 + (전원 미달 시) no-winner 표.
 - 집계: 1위 표 다수결. **no-winner 표 2개 이상이면 라운드 no-winner** — 억지 승자 금지.
