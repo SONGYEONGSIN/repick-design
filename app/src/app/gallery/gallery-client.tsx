@@ -3,6 +3,7 @@
 import { useRef, useState } from "react";
 import type { Work } from "@/lib/works";
 import { WorkCard } from "./work-card";
+import { CollectionMark } from "./collection-mark";
 
 type Category = { key: string; numeral: string; label: string; works: Work[] };
 
@@ -11,6 +12,9 @@ export function GalleryClient({ categories, lastUpdated }: { categories: Categor
   const tabRefs = useRef<(HTMLButtonElement | null)[]>([]);
   const current = categories.find((c) => c.key === active) ?? categories[0];
   const total = categories.reduce((n, c) => n + c.works.length, 0);
+  const [winnersOnly, setWinnersOnly] = useState(false);
+  const isEvolve = current.key === "evolve";
+  const shown = isEvolve && winnersOnly ? current.works.filter((w) => w.status === "winner") : current.works;
 
   function onTabKeyDown(e: React.KeyboardEvent, idx: number) {
     let next: number;
@@ -44,6 +48,7 @@ export function GalleryClient({ categories, lastUpdated }: { categories: Categor
             랜딩·SaaS 대시보드·자유 창작 — 진화 루프가 축적한 모든 페이지를 한 지면에 수록한 카탈로그.
             카드는 실제 페이지의 라이브 미리보기입니다.
           </p>
+          <CollectionMark sections={categories.map((c) => ({ label: c.label, count: c.works.length }))} />
         </header>
 
         {/* 목차 (탭) */}
@@ -83,11 +88,46 @@ export function GalleryClient({ categories, lastUpdated }: { categories: Categor
           aria-labelledby={`tab-${current.key}`}
           className="mt-10 animate-[gallery-fade_240ms_ease-out] motion-reduce:animate-none"
         >
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-3">
-            {current.works.map((w) => (
-              <WorkCard key={w.id} work={w} numeral={current.numeral} />
-            ))}
-          </div>
+          {isEvolve ? (
+            <>
+              <div role="group" aria-label="후보 필터" className="mb-6 inline-flex rounded-lg border border-zinc-200 p-0.5">
+                {([["전체", false], ["승자만", true]] as const).map(([label, val]) => (
+                  <button
+                    key={label}
+                    type="button"
+                    aria-pressed={winnersOnly === val}
+                    onClick={() => setWinnersOnly(val)}
+                    className={`h-8 rounded-md px-3 text-xs font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-900 ${
+                      winnersOnly === val ? "bg-zinc-900 text-white" : "text-zinc-500 hover:text-zinc-800"
+                    }`}
+                  >
+                    {label}
+                  </button>
+                ))}
+              </div>
+              <div className="space-y-10">
+                {groupByRound(shown).map((g) => (
+                  <div key={g.key}>
+                    <h2 className="mb-4 font-mono text-[11px] font-semibold uppercase tracking-[0.2em] text-zinc-400">
+                      {g.header} · <span className="tabular-nums">{g.works.length}</span>
+                    </h2>
+                    <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-3">
+                      {g.works.map((w) => (
+                        <WorkCard key={w.id} work={w} numeral={current.numeral} />
+                      ))}
+                    </div>
+                  </div>
+                ))}
+                {shown.length === 0 && <p className="text-sm text-zinc-500">승자가 아직 없습니다.</p>}
+              </div>
+            </>
+          ) : (
+            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-3">
+              {current.works.map((w) => (
+                <WorkCard key={w.id} work={w} numeral={current.numeral} />
+              ))}
+            </div>
+          )}
         </section>
 
         <footer className="mt-16 border-t border-zinc-200 pt-5">
@@ -98,4 +138,20 @@ export function GalleryClient({ categories, lastUpdated }: { categories: Categor
       </main>
     </div>
   );
+}
+
+function groupByRound(works: Work[]): { key: string; header: string; works: Work[] }[] {
+  const groups: { key: string; header: string; works: Work[] }[] = [];
+  for (const w of works) {
+    const key = w.round ?? "기타";
+    let g = groups.find((x) => x.key === key);
+    if (!g) {
+      const rn = w.round?.split("-r")[1] ?? "";
+      const head = `${(w.target ?? "").toUpperCase()} · R${rn}${w.date ? " · " + w.date : ""}`.replace(/^ · /, "");
+      g = { key, header: head, works: [] };
+      groups.push(g);
+    }
+    g.works.push(w);
+  }
+  return groups;
 }

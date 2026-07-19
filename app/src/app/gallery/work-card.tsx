@@ -31,10 +31,23 @@ export function WorkCard({ work, numeral }: { work: Work; numeral: string }) {
           <p className="truncate text-sm font-bold">{work.brand}</p>
           <p className="mt-0.5 line-clamp-1 text-xs leading-relaxed text-zinc-500 group-hover:line-clamp-3 group-focus-visible:line-clamp-3">{work.desc}</p>
         </div>
-        <span className="shrink-0 rounded-md bg-zinc-100 px-2 py-1 font-mono text-[11px] font-semibold tabular-nums text-zinc-600">
-          {numeral}·{work.id}
-        </span>
+        <div className="flex shrink-0 flex-col items-end gap-1">
+          {work.status && <StatusBadge status={work.status} />}
+          <span className="rounded-md bg-zinc-100 px-2 py-1 font-mono text-[11px] font-semibold tabular-nums text-zinc-600">
+            {numeral}·{work.id}
+          </span>
+        </div>
       </div>
     </a>
   );
+}
+
+function StatusBadge({ status }: { status: NonNullable<Work["status"]> }) {
+  if (status === "winner") {
+    return <span className="rounded-md bg-zinc-900 px-2 py-0.5 text-[11px] font-semibold text-white">채택</span>;
+  }
+  if (status === "dropped") {
+    return <span className="rounded-md border border-zinc-200 px-2 py-0.5 text-[11px] font-semibold text-zinc-500">탈락</span>;
+  }
+  return <span className="rounded-md border border-dashed border-zinc-300 px-2 py-0.5 text-[11px] font-semibold text-zinc-400">심사 대기</span>;
 }
