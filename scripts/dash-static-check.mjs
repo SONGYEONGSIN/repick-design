@@ -45,7 +45,7 @@ export function checkSource(src) {
   while ((m = tagRe.exec(clean)) !== null) {
     const end = tagSpanEnd(clean, m.index);
     const span = clean.slice(m.index, end + 1);
-    if (!/\balt\s*=/.test(span)) {
+    if (!/(?:^|[\s{])alt\s*=/.test(span)) {
       violations.push({
         rule: 'img-needs-alt',
         line: clean.slice(0, m.index).split('\n').length,
