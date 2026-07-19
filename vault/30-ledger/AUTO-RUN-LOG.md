@@ -36,3 +36,5 @@
 - 스모크(r1, 로컬): 승자 b Keel — 게이트 조정: Lighthouse perf는 dev 서버 상한(73)으로 기록 전용, a11y ≥95만 하드게이트
 
 - 2026-07-18: 이중 타깃 가동 — 야간 라운드가 dash/landing 무작위 50/50, ledger 통합(auto-ledger.jsonl, target 필드), 위키 lint 게이트(scripts/wiki-lint.mjs) 추가. LLM Wiki(Karpathy) 정렬: index.md 전수 카탈로그·기계 lint·ingest 파급 규칙. 랜딩 스모크 auto-landing-r1 승자 SCANLINE(evolve/dash).
+
+- 2026-07-19: 에셋·인터랙션 상향 — 이원 에셋 엔진(생성형 SVG/CSS + 외부 이미지), 타깃 차등(landing 표현적·dash 절제+밀도↑), static-check 이미지 규칙 3종(no-raw-img·img-needs-alt·no-next-image-unopt), judge 렌즈2 풍부도 축. 스모크 실증: dash r7 Tessera(트리맵)·landing r2 REVEAL(before/after 슬라이더, framer-motion·next/image 4장).
