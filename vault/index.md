@@ -35,5 +35,12 @@ tags: [index]
 
 ## 세대 기록 (20-generations — 라운드별 DECISION, evolve 브랜치에서 누적)
 _(main 기준 없음 — 라운드 커밋이 DECISION 등재를 추가한다)_
+- [[20-generations/2026-07-15-auto-dash-r1/DECISION|auto-dash-r1]]
+- [[20-generations/2026-07-15-auto-dash-r2/DECISION|auto-dash-r2]]
+- [[20-generations/2026-07-15-auto-dash-r3/DECISION|auto-dash-r3]]
+- [[20-generations/2026-07-16-auto-dash-r4/DECISION|auto-dash-r4]]
+- [[20-generations/2026-07-17-auto-dash-r5/DECISION|auto-dash-r5]]
 - [[20-generations/2026-07-18-auto-landing-r1/DECISION|auto-landing-r1]]
 - [[20-generations/2026-07-18-auto-dash-r6/DECISION|auto-dash-r6]] (no-winner)
+- [[20-generations/2026-07-19-auto-dash-r7/DECISION|auto-dash-r7]] (승자 b — Tessera 트리맵 콕핏)
+- [[20-generations/2026-07-19-auto-landing-r2/DECISION|auto-landing-r2]] (승자 a — Before/After 리빌)
