@@ -1,7 +1,6 @@
 import { View, Text, Pressable, FlatList, StyleSheet } from "react-native";
 import { MATCHES, type Match } from "./data";
-
-const ACCENT = "#4f46e5"; // 단일 액센트 (indigo-600)
+import { tokens } from "./tokens";
 
 function Card({ item }: { item: Match }) {
   return (
@@ -32,14 +31,14 @@ export function MatchList() {
 }
 
 const styles = StyleSheet.create({
-  root: { flex: 1, backgroundColor: "#ffffff", paddingHorizontal: 20, paddingTop: 56 },
-  h1: { fontSize: 28, fontWeight: "800", color: "#18181b", letterSpacing: -0.5 },
-  sub: { marginTop: 6, fontSize: 13, color: "#71717a" },
-  list: { paddingVertical: 20, gap: 12 },
-  card: { borderWidth: 1, borderColor: "#e4e4e7", borderRadius: 12, padding: 16, backgroundColor: "#ffffff" },
+  root: { flex: 1, backgroundColor: tokens.color.bg, paddingHorizontal: tokens.space(5), paddingTop: tokens.space(14) },
+  h1: { fontSize: 28, fontWeight: "800", color: tokens.color.ink, letterSpacing: -0.5 },
+  sub: { marginTop: 6, fontSize: 13, color: tokens.color.faint },
+  list: { paddingVertical: 20, gap: tokens.space(3) },
+  card: { borderWidth: 1, borderColor: tokens.color.border, borderRadius: tokens.radius.md, padding: tokens.space(4), backgroundColor: tokens.color.bg },
   cardHead: { flexDirection: "row", justifyContent: "space-between", alignItems: "center" },
-  grade: { fontSize: 12, fontWeight: "700", color: "#ffffff", backgroundColor: ACCENT, paddingHorizontal: 8, paddingVertical: 2, borderRadius: 6, overflow: "hidden" },
-  score: { fontSize: 20, fontWeight: "800", color: "#18181b", fontVariant: ["tabular-nums"] },
-  title: { marginTop: 12, fontSize: 15, fontWeight: "600", color: "#27272a", lineHeight: 21 },
-  price: { marginTop: 6, fontSize: 14, color: "#52525b", fontVariant: ["tabular-nums"] },
+  grade: { fontSize: 12, fontWeight: "700", color: tokens.color.onAccent, backgroundColor: tokens.color.accent, paddingHorizontal: tokens.space(2), paddingVertical: 2, borderRadius: tokens.radius.sm, overflow: "hidden" },
+  score: { fontSize: 20, fontWeight: "800", color: tokens.color.ink, fontVariant: ["tabular-nums"] },
+  title: { marginTop: 12, fontSize: 15, fontWeight: "600", color: tokens.color.ink2, lineHeight: 21 },
+  price: { marginTop: 6, fontSize: 14, color: tokens.color.muted, fontVariant: ["tabular-nums"] },
 });
