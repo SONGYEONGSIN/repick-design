@@ -4,7 +4,7 @@
 
 react-native-web(Expo Web)이 이 저장소 환경(Node 22 / npm 10, Mac + 클라우드 무관)에서 생성 → 타입체크 → 렌더 → 갤러리 iframe 미리보기까지 전부 성립함을 실증했다. 스택 재선택(Flutter web 등) escalate는 발생하지 않았다.
 
-관련 문서: `docs/superpowers/specs/2026-07-21-native-loop-s0-expo-poc-design.md`(설계) · `.claude/plans/2026-07-21-native-loop-s0-expo-poc.md`(5태스크 계획) · `.superpowers/sdd/task-1~5-report.md`(태스크별 실행 기록).
+관련 문서: `docs/superpowers/specs/2026-07-21-native-loop-s0-expo-poc-design.md`(설계) · `docs/superpowers/plans/2026-07-21-native-loop-s0-expo-poc.md`(5태스크 계획) · `.superpowers/sdd/task-1~5-report.md`(태스크별 실행 기록).
 
 ---
 
