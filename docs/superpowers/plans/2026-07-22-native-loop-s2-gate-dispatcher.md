@@ -470,7 +470,9 @@ echo "[1/4] tsc"
 echo "GATE_STEP:tsc:ok"
 
 echo "[2/4] expo export (web)"
-( cd "$NATIVE" && EXPO_PUBLIC_SCREEN="$SCREEN" npx expo export --platform web --output-dir dist >/dev/null 2>&1 )
+# --clear 필수: Metro 번들러 캐시는 파일 내용만으로 키를 잡아 EXPO_PUBLIC_SCREEN 변경을
+# 반영하지 않는다 → --clear 없으면 화면별 연속 export가 stale 번들을 재사용해 잘못된 화면을 서빙(M1 거짓통과).
+( cd "$NATIVE" && EXPO_PUBLIC_SCREEN="$SCREEN" npx expo export --platform web --output-dir dist --clear >/dev/null 2>&1 )
 echo "GATE_STEP:export:ok"
 
 echo "[3/4] serve + render"
