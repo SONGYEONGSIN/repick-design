@@ -6,6 +6,7 @@ app/out
 native/node_modules
 native/.expo
 native/dist
+native/dist-render.png
 native/web-build
 # logs
 *.log
