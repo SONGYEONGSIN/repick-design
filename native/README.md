@@ -147,6 +147,81 @@ S1(생성 계층 일반화: designer가 타깃별 코드 생성)의 입력으로
 
 ---
 
-## 배포 무영향
+## 배포 무영향 (S0)
 
 `native/`는 Vercel 프로젝트 rootDirectory(`app`) 밖에 위치 — Vercel 빌드는 `app/`만 참조하므로 이 커밋은 프로덕션 빌드에 관여하지 않는다. push 후 `https://repick-design.vercel.app/` 200 유지를 실측 확인함(본 태스크 보고서 참조).
+
+---
+
+# S1: designer 온디맨드 네이티브 생성 (2026-07-22)
+
+**S1 판정: ✅ 통과**
+
+바로 위 "S1 인계" 절이 요구한 5개 항목(RN 관용구·토큰·접근성·결정론·검증훅)을 전부 구현하고, designer 에이전트가 그 입력만으로 MatchList와 다른 도메인(관심목록/watchlist)의 새 RN 화면을 실제로 설계·생성해 4게이트를 1회 dispatch로 통과시켰다 — "생성 계층이 화면 하나에 특화되지 않고 일반화됨"의 증명.
+
+## S1 산출물 3종 + 각 역할
+
+| 파일 | 역할 |
+|---|---|
+| `native/src/tokens.ts` | repick DNA(색·간격·radius)를 RN `StyleSheet` 값으로 추출한 단일 소스. designer가 매 생성마다 색상값을 재추론하지 않고 import해서 참조(웹 루프 디자인 토큰 파일의 네이티브 대응) |
+| `native/GENERATION.md` | designer가 네이티브 화면을 생성할 때 따르는 규약 문서(RN 관용구 금지 목록·토큰 사용 강제·DNA 절제 원칙·접근성 매핑·결정론 규칙·산출 구조·검증 명령) — 웹 `dash-brief-v3`의 네이티브 대응 |
+| `native/scripts/validate.sh` | 생성 후 게이트 4종(tsc→expo export→serve+Playwright 렌더→iframe) 단일 스크립트화. `validate.sh "<검사 문자열>"` 형태로 화면 무관 재사용 가능 |
+
+## designer 생성 화면 — watchlist가 MatchList와 무엇이 다른가
+
+designer가 복붙이 아닌 새 도메인 설계를 수행했음을 보이는 차이(Task 4 실행 기록 기준):
+
+| 항목 | MatchList (기존) | WatchList (신규, designer 생성) |
+|---|---|---|
+| 카드 축 | 세로 스택(등급배지+점수 → 제목 → 가격) | 가로 2컬럼(좌: 정보 블록 / 우: 알림 컬럼), `flexDirection: row` |
+| 데이터 표현 | 단일 가격 | 원가↔현재가 취소선 비교(`textDecorationLine: line-through`) |
+| 배지 의미 | 항상 액센트인 등급 배지 | 조건부 가격변동 배지 — 인하만 액센트 채움(`badgeDrop`), 인상/변동없음은 절제된 아웃라인(`badgeQuiet`) |
+| 인터랙션 | 카드 전체 1개 Pressable | 2개 sibling Pressable — 정보영역(`role=button`) + 알림 스위치(`role=switch`), button-in-button 회피 |
+| 상태 | 무상태 | 로컬 상태 스위치(`useState`, `AlertToggle`) — 초기값은 결정론 고정값(`item.alertOn`) |
+| 데이터 계약 | `Match{grade, price, score}` | `WatchItem{original, current, alertOn}` + 순수함수 `formatKRW`/`priceChange` |
+
+파일: `native/src/watchlist/WatchList.tsx`(152줄) · `native/src/watchlist/data.ts`(36줄) · `native/App.tsx`(WatchList 렌더로 배선, 2줄).
+
+## 종합 재검증 (본 태스크, 2026-07-22 재실행)
+
+### 1) 현재 렌더 화면(WatchList) — `validate.sh` 4게이트
+
+```
+$ bash native/scripts/validate.sh "관심목록"; echo "EXIT=$?"
+[1/4] tsc
+[2/4] expo export (web)
+[3/4] serve + render
+render OK
+[4/4] iframe
+IFRAME_LOADED: true | RENDERS_HEADING: true
+✅ validate 4/4 통과
+EXIT=0
+```
+
+App.tsx를 손대지 않고 재실행한 결과 여전히 4/4 — designer 산출물(watchlist)이 회귀하지 않았다.
+
+### 2) tokens 회귀(MatchList) — App.tsx 비변경 격리 확인
+
+Task 1에서 이미 확인된 MatchList 회귀를 App.tsx를 건드리지 않는 별도 절차로 재확인: App.tsx를 임시로 `MatchList` 렌더로 바꿔 대체 포트(8093)에서 export·서빙·Playwright 검사 후 `git checkout -- native/App.tsx`로 즉시 원복(diff 0 확인).
+
+```
+tsc_exit=0
+export_exit=0
+http=200
+HEADING: true | CARD: true
+```
+
+`git status --porcelain native/` → 빈 출력(원복 확인). tokens.ts 참조로 리팩터된 MatchList가 여전히 정상 렌더됨 — 두 화면(MatchList·WatchList) 모두 동일 tokens.ts 위에서 회귀 없음.
+
+**종합 판정: 두 재검증 모두 1차 시도 통과 → S1 = ✅ 통과.** (하나라도 실패 시 이 절을 S1=❌로 갱신하고 escalate하는 것이 원래 계획이었으나 해당 경로는 발생하지 않았다.)
+
+## S2 인계
+
+- `native/scripts/validate.sh`의 4게이트(tsc·export·serve+render·iframe)를 **웹↔네이티브 타깃 분기의 네이티브 브랜치**로 그대로 흡수한다 — S2는 "타깃이 웹이면 기존 웹 게이트, 네이티브면 이 스크립트"로 분기하는 상위 검증 레이어만 설계하면 된다(게이트 내부 재구현 불필요).
+- `native/scripts/iframe-check.mjs`의 이식성(루트 `node_modules`를 `createRequire`로 상대 해석)은 Task 3에서 이미 해결됨 — S2가 별도 경로 문제를 안 다뤄도 됨.
+- S4(자율 라운드)가 타깃 분기 시 호출할 단일 진입점은 `bash native/scripts/validate.sh "<렌더 검사 문자열>"` — 인자 1개(검사 문자열)만 받으면 되므로 자율 루프의 화면별 오케스트레이션과 자연 결합.
+- 비범위로 남는 것(S1 이후에도 미해결): NativeWind 채택 여부, iOS 시뮬레이터 실렌더/실기기 빌드, 카탈로그 192색/98UX 패턴의 RN 대응표(S5).
+
+## 배포 무영향 (S1)
+
+`native/scripts/validate.sh`·`GENERATION.md`·`native/src/watchlist/*`·README 갱신 전부 `native/` 내부 — Vercel rootDirectory(`app`) 밖. push 후 `https://repick-design.vercel.app/` 200 유지 및 `git diff d38dfcb..HEAD --stat -- app/ vault/` 빈 출력(웹 루프 diff 0)으로 이중 확인(본 태스크 보고서 참조).
