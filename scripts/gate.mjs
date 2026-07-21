@@ -1,3 +1,5 @@
+import { readFileSync, readdirSync } from 'node:fs';
+import { spawnSync } from 'node:child_process';
 import { pathToFileURL } from 'node:url';
 
 /* ───────── 순수 정규화 ───────── */
@@ -59,4 +61,63 @@ export function parseArgs(argv) {
     else if (a === '--screens') while (argv[i + 1] && !argv[i + 1].startsWith('--')) out.screens.push(argv[++i]);
   }
   return out;
+}
+
+/* ───────── 웹 브랜치 (IO) ───────── */
+
+export function filesForRoute(route, appRoot = 'app/src/app') {
+  const dir = appRoot + route;
+  return readdirSync(dir, { recursive: true })
+    .filter((f) => typeof f === 'string' && f.endsWith('.tsx'))
+    .map((f) => `${dir}/${f}`);
+}
+
+function runLighthouse(url) {
+  const r = spawnSync('npx', ['lighthouse', url,
+    '--only-categories=performance,accessibility', '--preset=desktop',
+    '--output=json', '--output-path=stdout', '--chrome-flags=--headless'],
+    { encoding: 'utf8', maxBuffer: 64 * 1024 * 1024 });
+  if (r.status !== 0 || !r.stdout) return 'unavailable';
+  try {
+    const j = JSON.parse(r.stdout);
+    return {
+      a11y: Math.round((j.categories.accessibility.score ?? 0) * 100),
+      perf: Math.round((j.categories.performance.score ?? 0) * 100),
+    };
+  } catch {
+    return 'unavailable';
+  }
+}
+
+export async function runWeb({ routes, files, base }) {
+  const { checkSource } = await import('./dash-static-check.mjs');
+  const { runSweep, evaluateSweep } = await import('./dash-sweep.mjs');
+  const tsxFiles = files.length ? files : routes.flatMap((r) => filesForRoute(r));
+  const staticViolations = tsxFiles.flatMap((f) =>
+    checkSource(readFileSync(f, 'utf8')).map((v) => ({ file: f, ...v })));
+  const sweep = evaluateSweep(await runSweep(base, routes));
+  const lh = runLighthouse(base + routes[0]);
+  const gates = [
+    normalizeStatic(staticViolations),
+    normalizeSweep(sweep),
+    normalizeA11y(lh === 'unavailable' ? 'unavailable' : lh.a11y),
+    normalizePerf(lh === 'unavailable' ? 'unavailable' : lh.perf),
+  ];
+  return buildVerdict('web', gates);
+}
+
+/* ───────── CLI ───────── */
+
+const isMain = process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href;
+if (isMain) {
+  const opts = parseArgs(process.argv.slice(2));
+  let verdict;
+  if (opts.target === 'web') {
+    verdict = await runWeb(opts);
+  } else {
+    console.error('usage: node scripts/gate.mjs --target web --routes <route...> [--files <f...>]');
+    process.exit(2);
+  }
+  console.log(JSON.stringify(verdict, null, 2));
+  process.exit(verdict.pass ? 0 : 1);
 }

@@ -2,7 +2,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import {
   normalizeStatic, normalizeSweep, normalizeA11y, normalizePerf,
-  normalizeNativeRun, buildVerdict, parseArgs,
+  normalizeNativeRun, buildVerdict, parseArgs, filesForRoute,
 } from './gate.mjs';
 
 test('normalizeStatic — 위반 0이면 pass', () => {
@@ -93,4 +93,12 @@ test('parseArgs — target/routes/screens 파싱', () => {
     { target: 'web', routes: ['/dash/d29'], files: [], screens: [], base: 'http://localhost:3100' });
   const n = parseArgs(['--target', 'native', '--screens', 'watchlist', 'match']);
   assert.deepEqual(n.screens, ['watchlist', 'match']);
+});
+
+test('filesForRoute — d29 라우트에서 tsx 파일을 모은다', () => {
+  const files = filesForRoute('/dash/d29');
+  assert.ok(files.length > 0);
+  assert.ok(files.every((f) => f.endsWith('.tsx')));
+  assert.ok(files.some((f) => f.endsWith('page.tsx')));
+  assert.ok(files.every((f) => f.startsWith('app/src/app/dash/d29/')));
 });
