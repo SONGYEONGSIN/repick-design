@@ -1,10 +1,10 @@
 import { SafeAreaView, StyleSheet } from "react-native";
-import { MatchList } from "./src/MatchList";
+import { WatchList } from "./src/watchlist/WatchList";
 
 export default function App() {
   return (
     <SafeAreaView style={styles.safe}>
-      <MatchList />
+      <WatchList />
     </SafeAreaView>
   );
 }
