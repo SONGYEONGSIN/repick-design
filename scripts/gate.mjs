@@ -106,6 +106,25 @@ export async function runWeb({ routes, files, base }) {
   return buildVerdict('web', gates);
 }
 
+/* ───────── 네이티브 브랜치 (IO) ───────── */
+
+export function runNative({ screens }) {
+  const registry = JSON.parse(readFileSync('native/screens.json', 'utf8'));
+  let gates = [];
+  for (const screen of screens) {
+    const entry = registry[screen];
+    if (!entry) throw new Error(`unknown screen: ${screen} (native/screens.json에 없음)`);
+    const r = spawnSync('bash', ['native/scripts/validate.sh', entry.check, screen], {
+      encoding: 'utf8',
+      env: { ...process.env, EXPO_PUBLIC_SCREEN: screen },
+      maxBuffer: 64 * 1024 * 1024,
+    });
+    const stdout = (r.stdout ?? '') + (r.stderr ?? '');
+    gates = gates.concat(normalizeNativeRun(screen, stdout, r.status === 0));
+  }
+  return buildVerdict('native', gates);
+}
+
 /* ───────── CLI ───────── */
 
 const isMain = process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href;
@@ -114,8 +133,10 @@ if (isMain) {
   let verdict;
   if (opts.target === 'web') {
     verdict = await runWeb(opts);
+  } else if (opts.target === 'native') {
+    verdict = runNative(opts);
   } else {
-    console.error('usage: node scripts/gate.mjs --target web --routes <route...> [--files <f...>]');
+    console.error('usage: node scripts/gate.mjs --target web|native ...');
     process.exit(2);
   }
   console.log(JSON.stringify(verdict, null, 2));
