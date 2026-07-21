@@ -55,7 +55,7 @@
 
 ### 4.2 native 브랜치 (`--target native --screens <s...>`)
 각 화면에 validate.sh 실행 후 공통 항목으로 정규화. **S1 이월 3건 해소**:
-- **M1 (복수 화면 게이트)**: Expo 엔트리를 `SCREEN` 환경변수로 파라미터화 — `native/App.tsx`가 `process.env.SCREEN`(또는 Expo 공개 env)을 읽어 렌더 화면 선택(screen 레지스트리). gate.mjs가 화면별로 `SCREEN=<s>` 세팅해 export·검증 → MatchList·watchlist 모두 게이트 대상(현재는 App.tsx 렌더 1개만).
+- **M1 (복수 화면 게이트)**: Expo 엔트리를 `EXPO_PUBLIC_SCREEN` 환경변수로 파라미터화 — `native/App.tsx`가 `process.env.EXPO_PUBLIC_SCREEN`을 읽어 렌더 화면 선택(screen 레지스트리, 미지정 시 기본 화면). **접두사 `EXPO_PUBLIC_` 필수** — Expo Web 정적 export는 이 접두사 env만 클라이언트 번들에 인라인한다(그냥 `SCREEN`은 번들에 안 들어감). gate.mjs가 화면별로 `EXPO_PUBLIC_SCREEN=<s>` 세팅해 export·검증 → MatchList·watchlist 모두 게이트 대상(현재는 App.tsx 렌더 1개만).
 - **#3 (검사문자열 하드닝)**: validate.sh의 render 게이트가 `$CHECK`를 node -e 문자열 보간 대신 `CHECK=<s> node -e '…process.env.CHECK…'` **env 전달**(따옴표·특수문자 안전).
 - **공통 계약**: validate.sh 4단계(tsc·export·render·iframe) 결과를 gate.mjs가 JSON으로 정규화.
 
@@ -64,9 +64,9 @@
 | 파일 | 변경 |
 |---|---|
 | `scripts/gate.mjs` (+`scripts/gate.test.mjs`) | 신설 — 디스패처 + 서브게이트 출력→공통 판정 정규화(순수함수 TDD) |
-| `native/App.tsx` | `SCREEN` env로 렌더 화면 선택(screen 스위처, 기본값 유지) |
+| `native/App.tsx` | `EXPO_PUBLIC_SCREEN` env로 렌더 화면 선택(screen 스위처, 기본값 유지) |
 | `native/src/screens.ts` (신규) | screen 레지스트리(slug→컴포넌트·검사문자열) — App.tsx·gate가 공유 |
-| `native/scripts/validate.sh` | 검사문자열 env 전달(#3) + SCREEN 반영(M1) |
+| `native/scripts/validate.sh` | 검사문자열 env 전달(#3) + `EXPO_PUBLIC_SCREEN` 반영(M1) |
 | `scripts/dash-static-check.mjs`·`dash-sweep.mjs` | **무변경** (gate.mjs가 감쌈) |
 | `.claude/skills/dash-evolve/SKILL.md` | **무변경** (S4가 gate.mjs 채택) |
 
