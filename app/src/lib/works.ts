@@ -7,7 +7,7 @@ export type Work = {
   previewH?: number; // 카드 미리보기 높이(px), 기본 300
   status?: "winner" | "dropped" | "pending";
   round?: string;
-  target?: "dash" | "landing";
+  target?: "dash" | "landing" | "native";
   date?: string;
 };
 
