@@ -1,6 +1,6 @@
 ---
 name: dash-evolve
-description: 자율 진화 1라운드 (이중 타깃 — SaaS 대시보드 또는 랜딩페이지를 무작위 선택) — 정본 brief+격리 delta로 후보 3개 생성 → 하드게이트(정적·sweep·a11y) → 3렌즈 judge 다수결 → delta 격리 적재 → 정제 게이트 → evolve/dash 커밋. "/dash-evolve", "자율 라운드" 시 사용. 무인 실행 전제 — 사람 확인 없이 완주하며 no-winner 라운드를 허용한다.
+description: 자율 진화 1라운드 (이중 타깃 — SaaS 대시보드 또는 랜딩페이지를 무작위 선택) — 정본 brief+격리 delta로 후보 3개 생성 → 하드게이트(gate.mjs --target web: 정적·sweep·a11y·perf) → 3렌즈 judge 다수결 → delta 격리 적재 → 정제 게이트 → evolve/dash 커밋. "/dash-evolve", "자율 라운드" 시 사용. 무인 실행 전제 — 사람 확인 없이 완주하며 no-winner 라운드를 허용한다.
 ---
 
 # dash-evolve — 자율 라운드 (무인, 이중 타깃)
@@ -25,7 +25,7 @@ description: 자율 진화 1라운드 (이중 타깃 — SaaS 대시보드 또�
 | judge 렌즈 | brief 준수 / 상용 SaaS 완성도(Mercury·Asana·n8n·Coinbase) / 아키타입 차별성 | DNA 준수 / 상용 랜딩 완성도(Linear·Stripe·Vercel급) / 형태 차별성 |
 | 에셋·인터랙션 | 서비스급 절제 유지 + 도메인 생성형 시각화 밀도↑, 인터랙션 4종+ (연출·발광 금지) | 표현 상한 없음 — 히어로 이미지·framer-motion·스크롤 연출, 인터랙션 4종+ |
 
-> URL 라우트 = ROUTES에서 `app/src/app` 접두를 제거한 경로 (예: ROUTES `app/src/app/landing-evolve/r1/` → URL `/landing-evolve/r1/<v>`). §3 sweep/Lighthouse·§4 스크린샷의 <라우트>는 이 URL을 쓴다.
+> URL 라우트 = ROUTES에서 `app/src/app` 접두를 제거한 경로 (예: ROUTES `app/src/app/landing-evolve/r1/` → URL `/landing-evolve/r1/<v>`). §3 gate.mjs `--routes`·§4 스크린샷의 <라우트>는 이 URL을 쓴다.
 
 ## 1. RETRIEVE
 다음을 전부 읽어 생성 컨텍스트를 구성한다:
@@ -41,11 +41,11 @@ description: 자율 진화 1라운드 (이중 타깃 — SaaS 대시보드 또�
 - 각 후보의 한 줄 컨셉을 `vault/20-generations/<run>/candidates/<v>.md`에 기록.
 
 ## 3. HARD GATE (하나라도 실패 → 1회 수정 기회 → 재실패 시 탈락)
-- dev 서버: 3100 응답 확인(`curl -s -o /dev/null -w '%{http_code}' http://localhost:3100/`), 없으면 `cd app && npm run dev` 백그라운드 기동(이 라운드가 띄웠으면 마지막에 종료).
-- **정적**: `node scripts/dash-static-check.mjs <ROUTES-루트 상대경로>/<v>/*.tsx` — 위반 JSON을 해당 designer에 전달해 1회 수정(이미지 규칙 포함 — 원시 img·alt 누락·unoptimized 자동 검출).
-- **sweep**: `node scripts/dash-sweep.mjs --base http://localhost:3100 --routes <라우트 a b c>` — 실패 후보만 failures JSON 전달해 1회 수정 후 재sweep. (랜딩도 동일한 그리드 룰 — 전 폭 오버플로 금지.)
-- **Lighthouse**: `npx lighthouse http://localhost:3100<라우트> --only-categories=performance,accessibility --preset=desktop --output=json --output-path=stdout --chrome-flags="--headless" 2>/dev/null` → a11y ≥95(하드게이트). perf는 기록만 — dev 서버 측정치는 탈락 사유로 쓰지 않는다. 명령 자체 실패 시 skip + `"lighthouse":"unavailable"` 기록.
-- 게이트 결과를 `vault/20-generations/<run>/SCORES.md`에 표로 기록.
+- dev 서버: 3100 응답 확인(`curl -s -o /dev/null -w '%{http_code}' http://localhost:3100/`), 없으면 `cd app && npm run dev` 백그라운드 기동(이 라운드가 띄웠으면 마지막에 종료). gate.mjs 웹 브랜치가 sweep·Lighthouse 대상으로 3100을 쓴다.
+- **후보별 게이트**: 각 후보 v ∈ {a,b,c}에 대해 `node scripts/gate.mjs --target web --routes /<TARGET>-evolve/r<N>/<v>` 실행 → 공통 판정 verdict `{pass, gates:[{name:'static',…},{name:'sweep',…},{name:'a11y',…},{name:'perf',…}], violations}`. 디스패처가 정적(이미지 규칙 3종 포함 — 원시 img·alt 누락·unoptimized)·sweep(전 폭 오버플로, 랜딩도 동일 그리드 룰)·a11y·perf를 전부 실행·판정한다.
+- **1-fix 루프**: `pass:false`면 `verdict.violations`(위반 상세 — `gate`명 + file/route/line 태그)를 해당 designer v에 전달해 **1회 수정** 후 같은 명령 재실행. 재통과 → 생존, 재실패 → 탈락. (후보별 단일 라우트라 violations가 전부 그 후보 소속 — demux 불필요.)
+- **게이트 기준**(디스패처 강제, SKILL 별도 규칙 불요): a11y < 95 = 하드페일 / Lighthouse 실행 불가 = `unavailable`(하드페일 아님) / perf = 항상 통과(기록만 — dev 서버 측정치 탈락 미적용).
+- 각 후보 `verdict.gates`를 `vault/20-generations/<run>/SCORES.md`에 표로 기록.
 
 ## 4. JUDGE 패널 (생존 후보 2개 이상일 때; 1개면 단독 심사로 승자/no-winner만 판정)
 - 스크린샷: 후보별 4폭 캡처 → `npx playwright screenshot --viewport-size=<w>,900 http://localhost:3100<라우트> vault/20-generations/<run>/shots/<v>-<w>.png` (w ∈ 1280, 1440, 1920, 390).
@@ -69,7 +69,7 @@ level은 L1로 — 상승은 정제 게이트가 판단.
 - **질문 강제 생성**: ① 충돌 쌍 ② meta-기준으로 정당화 불가 — `questions-queue.md` "대기 중"에 append(질문에 target 표기 + 배경 + 잠정 가설). 동일 유형 중복 금지.
 
 ## 7. 기록 + 커밋
-- auto-ledger append: `{target:'<TARGET>', round:'auto-<TARGET>-r<N>', date:'<YYYY-MM-DD>', winner:'<v>'|null, no_winner:<bool>, hardgate:{sweep:'...', static:'...', lighthouse:'...'}, judges:{lens1:'<v>',lens2:'<v>',lens3:'<v>'}, refuted:null}` → `vault/30-ledger/auto-ledger.jsonl`
+- auto-ledger append: `{target:'<TARGET>', round:'auto-<TARGET>-r<N>', date:'<YYYY-MM-DD>', winner:'<v>'|null, no_winner:<bool>, hardgate:{sweep:'...', static:'...', lighthouse:'...'}, judges:{lens1:'<v>',lens2:'<v>',lens3:'<v>'}, refuted:null}` → `vault/30-ledger/auto-ledger.jsonl`. **hardgate 3키는 §3 후보별 verdict.gates에서 소싱**한다(스키마 불변): `static`←static gate detail 요약, `sweep`←sweep gate detail 요약, `lighthouse`←a11y gate detail(+ perf gate detail 기록) 요약.
 - **index.md 갱신**: `vault/index.md`의 "세대 기록" 섹션에 `- [[DECISION]]` 형태로 이번 run의 DECISION을 등재 (경로 포함형: `[[20-generations/<run>/DECISION|<run>]]`).
 - no-winner면 사유를 DECISION.md에 남기고 후보 route 유지(주간 반증에서 일괄 드롭).
 - `git add -A && git commit -m "feat(dash-evolve): <TARGET> r<N> <승자 v — 아키타입/형태 | no-winner>"` (+ Co-Authored-By 푸터) → `git push origin evolve/dash`.
