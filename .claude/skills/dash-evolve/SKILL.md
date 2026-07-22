@@ -27,12 +27,12 @@ description: 자율 진화 1라운드 (이중 타깃 — SaaS 대시보드 또�
 
 ### native 타깃 파라미터 (RN 라운드 — 웹과 구조 상이)
 
-native는 웹 라우트가 아니라 RN 화면이라 아래 규약을 따른다. **§5 LEARN·§6 정제 게이트는 native에서 건너뛴다(S4c 전까지 승자 기록까지만).**
+native는 웹 라우트가 아니라 RN 화면이라 아래 규약을 따른다. §5 LEARN·§6 정제 게이트도 native에서 수행한다(웹과 동형 — DELTAS만 native 파일).
 
 | 변수 | native |
 |---|---|
 | BRIEF | `native/GENERATION.md`(7절) + `native/src/tokens.ts`(DNA 토큰) — 읽기 전용 정본 |
-| DELTAS | N/A (S4c) |
+| DELTAS | `vault/00-principles/native-deltas-provisional.jsonl` |
 | ROUTES(코드) | `native/src/evolve/r<N>/{a,b,c}/` |
 | 등록 | 각 후보를 `native/screens.ts`(import + `COMPONENTS["evolve-r<N>-<v>"] = <컴포넌트>`)·`native/screens.json`(`"evolve-r<N>-<v>": {"check": "<화면 대표 헤딩 텍스트>"}`)에 등재 (evolve/dash에만 — main 무변경) |
 | 게이트 slug | `evolve-r<N>-a evolve-r<N>-b evolve-r<N>-c` |
@@ -75,8 +75,6 @@ native는 웹 라우트가 아니라 RN 화면이라 아래 규약을 따른다.
 - 판정 전문을 `vault/20-generations/<run>/DECISION.md`에 기록.
 
 ## 5. LEARN — 격리 적재
-> **native 타깃은 §5·§6을 건너뛴다** (S4c 전까지 delta 미추출·정제 미수행 — 승자 기록까지만). 이하 §5·§6은 dash/landing에만 적용.
-
 승자가 있으면 판정 사유에서 재사용 가능한 delta **1개**를 추출해 DELTAS에 append:
 ```bash
 node -e "import('./scripts/design-loop.mjs').then(m=>m.appendLedger({round:'auto-<TARGET>-r<N>',variant:'<v>',delta:'<한 줄>',evidence:'<judge 사유 인용>',judge_votes:{lens1:'<v>',lens2:'<v>',lens3:'<v>'},confidence:'<high|low>',level:'L1',status:'provisional'},'<DELTAS>'))"
