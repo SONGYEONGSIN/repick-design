@@ -29,9 +29,13 @@ export default function CommandPalette({
     return pool.slice(0, 9);
   }, [query, accounts]);
 
-  useEffect(() => {
+  // Reset the highlighted row whenever the query changes — adjusted during render (React's
+  // recommended pattern for derived state), not inside an effect, to avoid a cascading re-render.
+  const [prevQuery, setPrevQuery] = useState(query);
+  if (query !== prevQuery) {
+    setPrevQuery(query);
     setActive(0);
-  }, [query]);
+  }
 
   function choose(idx: number) {
     const it = results[idx];

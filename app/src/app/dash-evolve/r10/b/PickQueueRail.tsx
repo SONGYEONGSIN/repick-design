@@ -1,7 +1,8 @@
 "use client";
 
+import { ArrowDown, ArrowUp, ArrowUpDown } from "lucide-react";
 import Image from "next/image";
-import { useMemo, useState } from "react";
+import { useMemo, useState, type ReactNode } from "react";
 import {
   formatSla,
   formatUnits,
@@ -12,7 +13,7 @@ import {
   ZONE_MAP,
   type TaskStatus,
 } from "./data";
-import { BORDER, DIVIDE, NUM, TEXT_CAPTION, TEXT_PRIMARY, TEXT_SECONDARY, cx } from "./tokens";
+import { BORDER, DIVIDE, FOCUS_RING, NUM, TEXT_CAPTION, TEXT_PRIMARY, TEXT_SECONDARY, TRANSITION, cx } from "./tokens";
 import { Card, CardHeader, Listbox, SortTrigger, StatusBadge } from "./ui";
 
 type SortKey = "sla" | "picker" | "status";
@@ -54,6 +55,15 @@ export default function PickQueueRail({ selectedZoneId }: { selectedZoneId: stri
     return list;
   }, [selectedZoneId, statusFilter, sortKey, sortDir]);
 
+  function onSortHeader(key: SortKey) {
+    if (key === sortKey) {
+      setSortDir((d) => (d === "asc" ? "desc" : "asc"));
+    } else {
+      setSortKey(key);
+      setSortDir("asc");
+    }
+  }
+
   return (
     <Card padded={false} className="flex h-full min-h-0 flex-col">
       <div className={cx("border-b p-3.5 sm:p-4", BORDER)}>
@@ -83,12 +93,12 @@ export default function PickQueueRail({ selectedZoneId }: { selectedZoneId: stri
               <th scope="col" className={cx("py-2 pl-3 text-left text-[11px] font-semibold uppercase tracking-wide", TEXT_CAPTION)}>
                 작업
               </th>
-              <th scope="col" className={cx("py-2 text-right text-[11px] font-semibold uppercase tracking-wide", TEXT_CAPTION)}>
+              <SortableColHeader columnKey="sla" activeKey={sortKey} dir={sortDir} onSort={onSortHeader}>
                 SLA
-              </th>
-              <th scope="col" className={cx("py-2 pr-3 text-right text-[11px] font-semibold uppercase tracking-wide", TEXT_CAPTION)}>
+              </SortableColHeader>
+              <SortableColHeader columnKey="status" activeKey={sortKey} dir={sortDir} onSort={onSortHeader} last>
                 상태
-              </th>
+              </SortableColHeader>
             </tr>
           </thead>
           <tbody className={cx("divide-y", DIVIDE)}>
@@ -135,5 +145,45 @@ export default function PickQueueRail({ selectedZoneId }: { selectedZoneId: stri
         </table>
       </div>
     </Card>
+  );
+}
+
+function SortableColHeader({
+  columnKey,
+  activeKey,
+  dir,
+  onSort,
+  last = false,
+  children,
+}: {
+  columnKey: SortKey;
+  activeKey: SortKey;
+  dir: "asc" | "desc";
+  onSort: (key: SortKey) => void;
+  last?: boolean;
+  children: ReactNode;
+}) {
+  const active = columnKey === activeKey;
+  const ariaSort = active ? (dir === "asc" ? "ascending" : "descending") : "none";
+  return (
+    <th scope="col" aria-sort={ariaSort} className={cx("py-2 text-right", last && "pr-3")}>
+      <button
+        type="button"
+        onClick={() => onSort(columnKey)}
+        className={cx(
+          "inline-flex items-center gap-1 rounded py-1 text-[11px] font-semibold uppercase tracking-wide",
+          TEXT_CAPTION,
+          "hover:text-zinc-900 dark:hover:text-zinc-100",
+          TRANSITION,
+          FOCUS_RING,
+          "flex-row-reverse",
+        )}
+      >
+        {children}
+        <span aria-hidden="true" className={active ? "opacity-100" : "opacity-30"}>
+          {active ? dir === "asc" ? <ArrowUp className="size-3" strokeWidth={2.5} /> : <ArrowDown className="size-3" strokeWidth={2.5} /> : <ArrowUpDown className="size-3" strokeWidth={2.5} />}
+        </span>
+      </button>
+    </th>
   );
 }

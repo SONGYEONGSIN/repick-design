@@ -238,7 +238,7 @@ function genSeriesEndingAt(seed: number, n: number, endValue: number, amp: numbe
     out.push(round2(clamp(endValue - drift + m * (amp / 24), 0, endValue * 3)));
   }
   out[n - 1] = round2(endValue);
-  return out.map((v, i) => ({ label: "", value: v }));
+  return out.map((v) => ({ label: "", value: v }));
 }
 
 export function heroSeries(range: RangeId, atRiskArrTotal: number): SeriesPoint[] {
