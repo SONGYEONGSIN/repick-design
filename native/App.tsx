@@ -1,10 +1,12 @@
 import { SafeAreaView, StyleSheet } from "react-native";
-import { WatchList } from "./src/watchlist/WatchList";
+import { resolveScreen } from "./src/screens";
+
+const Screen = resolveScreen(process.env.EXPO_PUBLIC_SCREEN);
 
 export default function App() {
   return (
     <SafeAreaView style={styles.safe}>
-      <WatchList />
+      <Screen />
     </SafeAreaView>
   );
 }

@@ -225,3 +225,14 @@ HEADING: true | CARD: true
 ## 배포 무영향 (S1)
 
 `native/scripts/validate.sh`·`GENERATION.md`·`native/src/watchlist/*`·README 갱신 전부 `native/` 내부 — Vercel rootDirectory(`app`) 밖. push 후 `https://repick-design.vercel.app/` 200 유지 및 `git diff d38dfcb..HEAD --stat -- app/ vault/` 빈 출력(웹 루프 diff 0)으로 이중 확인(본 태스크 보고서 참조).
+
+## S2 — 게이트 디스패처 (2026-07-22)
+
+단일 디스패처 `scripts/gate.mjs`가 웹·네이티브 검증을 공통 판정 JSON으로 통일한다.
+
+- 공통 계약: `{ target, pass, gates:[{name,pass,detail}], violations }` + exit 0/1.
+- 웹: `node scripts/gate.mjs --target web --routes /dash/d29` (dev 서버 3100 전제) — dash-static-check·dash-sweep·Lighthouse 정규화.
+- 네이티브: `node scripts/gate.mjs --target native --screens watchlist match` — 화면별 `EXPO_PUBLIC_SCREEN`+검사문자열로 validate.sh 실행, `GATE_STEP:*:ok` 마커 정규화.
+- 화면 추가: `native/screens.json`(검사문자열) + `native/src/screens.ts`(컴포넌트) 두 곳에 slug 등록.
+- S1 이월 해소: M1(복수 화면 게이트=EXPO_PUBLIC_SCREEN 스위처)·#3(검사문자열 env 전달)·공통 계약.
+- 비범위: SKILL HARD GATE의 gate.mjs 채택·ledger·타깃 선택 = S4. 갤러리 통합 = S3.
