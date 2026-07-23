@@ -24,7 +24,7 @@
 | 결정 | 선택 |
 |---|---|
 | native 미리보기 | **정적 스크린샷 이미지** (Expo 서버 불요, judge shots 재사용) |
-| 이미지 컴포넌트 | next/image (프로젝트 관례 — Next 16 API는 `node_modules/next/dist/docs` 확인) |
+| 이미지 컴포넌트 | plain `<img>` (alt·명시 치수·object-contain) — Next 16 Image API 랜드마인 회피, `/gallery`는 나이틀리 게이트(dash-static-check) 대상 아님(후보 라우트만) |
 | S3a 범위 | 갤러리 표시 + 스모크 승자 1개 seed. **falsify 자동 승격 = S3b** |
 | 카테고리 | native = permanent 카테고리 Ⅳ (landing Ⅰ·dash Ⅱ·free Ⅲ·native Ⅳ·evolve Ⅴ조건부) |
 
@@ -35,7 +35,7 @@
 ## 4. WorkCard native 분기
 
 `app/src/app/gallery/work-card.tsx`:
-- `work.image`가 있으면 프리뷰 영역에 iframe 대신 **스크린샷 이미지**(next/image)를 모바일 세로 프레임에 `object-contain`으로 렌더. 프리뷰 래퍼는 기존대로 `aria-hidden`, 이미지 `alt=""`(장식 — 정보는 메타 행).
+- `work.image`가 있으면 프리뷰 영역에 iframe 대신 **스크린샷 이미지**(plain `<img>`, 명시 width/height, `object-contain`)를 모바일 세로 프레임에 렌더. 프리뷰 래퍼는 기존대로 `aria-hidden`, 이미지 `alt=""`(장식 — 정보는 메타 행).
 - `work.image`가 없으면 기존 iframe(웹) 경로 그대로 — **웹 카드 무변경**.
 - `href={work.route}` 공용(native는 route=이미지 경로 → 클릭 시 전체 스크린샷 보기). 메타 행(brand/desc)·StatusBadge(채택/탈락/심사 대기) 공용.
 
