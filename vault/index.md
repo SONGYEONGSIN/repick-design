@@ -48,3 +48,4 @@ _(main 기준 없음 — 라운드 커밋이 DECISION 등재를 추가한다)_
 - [[20-generations/2026-07-20-auto-landing-r3/DECISION|auto-landing-r3]] (승자 c — 절약 계산기 히어로)
 - [[20-generations/2026-07-21-auto-dash-r9/DECISION|auto-dash-r9]] (승자 c — Currents Sankey 수익귀속 흐름도)
 - [[20-generations/2026-07-22-auto-dash-r10/DECISION|auto-dash-r10]] (승자 a — Wavelength 온콜 로테이션 링·인시던트 대응 콘솔)
+- [[20-generations/2026-07-23-auto-landing-r4/DECISION|auto-landing-r4]] (승자 c — AI 매칭 대조표 인터랙티브 비교 테이블 히어로, 3렌즈 만장일치)
