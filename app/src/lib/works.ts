@@ -9,6 +9,7 @@ export type Work = {
   round?: string;
   target?: "dash" | "landing" | "native";
   date?: string;
+  image?: string; // 정적 스크린샷 경로(native 등 이미지 미리보기 work). 있으면 WorkCard가 iframe 대신 <img> 렌더
 };
 
 export const LAST_UPDATED = "2026-07-17"; // 결정론 규칙: 동적 Date 호출 금지, 갱신 시 수동 수정
