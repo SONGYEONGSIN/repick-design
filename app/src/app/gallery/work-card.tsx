@@ -15,16 +15,28 @@ export function WorkCard({ work, numeral }: { work: Work; numeral: string }) {
         {!loaded && (
           <div className="absolute inset-0 animate-pulse bg-gradient-to-b from-zinc-100 to-zinc-50 motion-reduce:animate-none" />
         )}
-        <iframe
-          src={work.route}
-          loading="lazy"
-          title={`${work.brand} 미리보기`}
-          tabIndex={-1}
-          scrolling="no"
-          onLoad={() => setLoaded(true)}
-          className={`pointer-events-none absolute left-0 top-0 origin-top-left transition-opacity duration-300 ${loaded ? "opacity-100" : "opacity-0"}`}
-          style={{ width: "1440px", height: "1100px", transform: "scale(0.34)", border: 0 }}
-        />
+        {work.image ? (
+          <img
+            src={work.image}
+            alt=""
+            width={390}
+            height={844}
+            loading="lazy"
+            onLoad={() => setLoaded(true)}
+            className={`absolute left-1/2 top-1/2 max-h-full w-auto -translate-x-1/2 -translate-y-1/2 object-contain transition-opacity duration-300 ${loaded ? "opacity-100" : "opacity-0"}`}
+          />
+        ) : (
+          <iframe
+            src={work.route}
+            loading="lazy"
+            title={`${work.brand} 미리보기`}
+            tabIndex={-1}
+            scrolling="no"
+            onLoad={() => setLoaded(true)}
+            className={`pointer-events-none absolute left-0 top-0 origin-top-left transition-opacity duration-300 ${loaded ? "opacity-100" : "opacity-0"}`}
+            style={{ width: "1440px", height: "1100px", transform: "scale(0.34)", border: 0 }}
+          />
+        )}
       </div>
       <div className="flex items-start justify-between gap-3 px-4 py-3">
         <div className="min-w-0">

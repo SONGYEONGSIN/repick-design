@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
-import { DASH_WORKS, FREE_WORKS, LANDING_WORKS, LAST_UPDATED, type Work } from "@/lib/works";
+import { DASH_WORKS, FREE_WORKS, LANDING_WORKS, NATIVE_WORKS, LAST_UPDATED, type Work } from "@/lib/works";
 import { parseLedger, candidateStatus } from "@/lib/evolve-status";
 import { GalleryClient } from "./gallery-client";
 
@@ -49,7 +49,8 @@ export default function GalleryPage() {
     { key: "landing", numeral: "Ⅰ", label: "랜딩", works: LANDING_WORKS },
     { key: "dash", numeral: "Ⅱ", label: "SaaS 대시보드", works: DASH_WORKS },
     { key: "free", numeral: "Ⅲ", label: "자유 창작", works: FREE_WORKS },
-    ...(evolve.length > 0 ? [{ key: "evolve", numeral: "Ⅳ", label: "자율 루프 후보", works: evolve }] : []),
+    { key: "native", numeral: "Ⅳ", label: "네이티브", works: NATIVE_WORKS },
+    ...(evolve.length > 0 ? [{ key: "evolve", numeral: "Ⅴ", label: "자율 루프 후보", works: evolve }] : []),
   ];
   return <GalleryClient categories={categories} lastUpdated={LAST_UPDATED} />;
 }
