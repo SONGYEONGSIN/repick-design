@@ -12,7 +12,21 @@ export type Work = {
   image?: string; // 정적 스크린샷 경로(native 등 이미지 미리보기 work). 있으면 WorkCard가 iframe 대신 <img> 렌더
 };
 
-export const LAST_UPDATED = "2026-07-17"; // 결정론 규칙: 동적 Date 호출 금지, 갱신 시 수동 수정
+export const LAST_UPDATED = "2026-07-23"; // 결정론 규칙: 동적 Date 호출 금지, 갱신 시 수동 수정
+
+export const NATIVE_WORKS: Work[] = [
+  {
+    id: "n1",
+    route: "/native/notification-center.png",
+    brand: "알림센터",
+    desc: "알림 피드 · 날짜 그룹핑 · 미읽음 단일 액센트 (자동 native 라운드 auto-native-r1 승자)",
+    target: "native",
+    image: "/native/notification-center.png",
+    status: "winner",
+    round: "auto-native-r1",
+    previewH: 420,
+  },
+];
 
 // Ⅰ 랜딩 — 챔피언 + 진화 계보 v1~v5. (/lab 은 자체가 인덱스 페이지라 작품 아님 — 제외)
 export const LANDING_WORKS: Work[] = [
