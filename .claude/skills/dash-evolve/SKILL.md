@@ -48,9 +48,9 @@ native는 웹 라우트가 아니라 RN 화면이라 아래 규약을 따른다.
 - DELTAS 전체 (격리 delta — status가 refuted가 아닌 최신 entry들)
 - `vault/00-principles/curation-criteria.md` (meta-기준 — judge·정제 프롬프트에 주입)
 - **참조 카탈로그** (`vault/20-catalog/` — 정량 결정 규칙층; BRIEF가 `[[링크]]`로 가리키는 실체를 여기서 **실제로 읽어 컨텍스트에 싣는다**. 링크만 두면 designer가 로드 못 함):
-  - **dash**: `vault/20-catalog/charts.catalog.md`(데이터 타입→차트+a11y등급+SVG↔Canvas 볼륨임계) · `colors.catalog.md`(AA 보정 shadcn 토큰 뱅크) · `ux-guidelines.catalog.md`(Plat=web/both 행)
-  - **native**: `vault/20-catalog/ux-guidelines.catalog.md`의 **Native/Mobile 섹션 + Plat=both 행**만 (색=tokens.ts·차트=후속이라 제외)
-  - **landing**: `vault/20-catalog/ux-guidelines.catalog.md`(Plat=web/both)만 선택 참고 — 색/차트는 dash 전용
+  - **dash**: `vault/20-catalog/charts.catalog.md`(데이터 타입→차트+a11y등급+SVG↔Canvas 볼륨임계) · `colors.catalog.md`(AA 보정 shadcn 토큰 뱅크) · `ux-guidelines.catalog.md`(Plat=web/both 행) · `motion.catalog.md`(dash 열 ✅/△만 — 연출·시차 ❌)
+  - **native**: `vault/20-catalog/ux-guidelines.catalog.md`의 **Native/Mobile 섹션 + Plat=both 행**만 (색=tokens.ts·차트=후속이라 제외, 모션=Reanimated 후속이라 제외)
+  - **landing**: `vault/20-catalog/ux-guidelines.catalog.md`(Plat=web/both) + `motion.catalog.md`(landing 열 — framer-motion 연출 적극) — 색/차트는 dash 전용
   - **anti-slop 필터 우선**: 카탈로그 추천이 BRIEF·`curation-criteria`와 충돌하면 BRIEF·DNA가 이긴다
 - `vault/30-ledger/auto-ledger.jsonl`에서 해당 타깃 최근 5개 (직전 승자·no-winner 사유)
 - 중복 금지 목록 (타깃 파라미터 참조) 정리
