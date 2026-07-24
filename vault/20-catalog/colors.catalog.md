@@ -4,6 +4,7 @@ source: ui-ux-pro-max (github.com/nextlevelbuilder/ui-ux-pro-max-skill)
 license: MIT
 attribution: Next Level Builder
 fetched: 2026-07-21
+platform: web(dash) — native 색은 native/src/tokens.ts(단일 indigo DNA)로 고정, 팔레트 선택 대상 아님.
 note: 원본 193 팔레트 중 repick DNA(near-monochrome·단일 액센트·진짜 라이트) 정합 12종만 큐레이션. 비비드·네온·크림 제외.
 ---
 
