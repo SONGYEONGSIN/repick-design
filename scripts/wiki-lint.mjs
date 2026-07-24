@@ -14,7 +14,12 @@ const isHome = (p) => basename(p).startsWith('🏠');
 // 상대경로(확장자 제외)로 식별한다. 그 외 카테고리는 고유 basename 전제로 stem 유지.
 const key = (p) => (p.startsWith('20-generations/') ? p.replace(/\.md$/, '') : stem(p));
 
-export function lintVault(files) {
+export function lintVault(rawFiles) {
+  // 크로스플랫폼: readVault가 Windows에서 path.join으로 백슬래시 키를 만들 수 있으므로
+  // forward-slash로 정규화한다 (startsWith('00-principles/')·includes('/') 검사가 빗나가지 않게).
+  const files = Object.fromEntries(
+    Object.entries(rawFiles).map(([p, c]) => [p.replaceAll('\\', '/'), c]),
+  );
   const paths = Object.keys(files);
   const keys = new Set(paths.map(key));
 
