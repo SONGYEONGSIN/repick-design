@@ -35,6 +35,7 @@
 - **금지 유지**: 연극적 발광·스캔라인·그레인·글로시 장식은 여전히 금지(서비스급). 모션은 정보·전환에 기여할 때만 — 의미없는 데코는 감점.
 
 ## 하드 제약
+- **카피 언어: 영문 전용** — 모든 UI 텍스트·헤딩·브랜드·라벨·더미 데이터는 영어. 한글·혼합 금지(글로벌 SaaS 벤치마크 정합). 한 페이지 내 한/영 혼용은 결함.
 - Next.js 16 App Router, Tailwind v4, TS. 배정 경로 page.tsx(+client 컴포넌트 분리), default export.
 - 접근성: 단일 h1, 헤딩 스킵 금지, 시맨틱 테이블(caption/scope), 포커스 가시(outline-none 단독 금지), 대비 AA, 색+텍스트 병행, 키보드, reduced-motion(CSS 미디어쿼리 게이팅, 진입 opacity:0 잔존 금지).
 - `cd app && npx next build` 통과. 자기 폴더만 작업.
