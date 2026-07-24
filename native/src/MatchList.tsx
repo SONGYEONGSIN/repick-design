@@ -1,5 +1,6 @@
 import { View, Text, Pressable, FlatList, StyleSheet } from "react-native";
 import { MATCHES, type Match } from "./data";
+import { BarBreakdown } from "./charts/BarBreakdown";
 import { tokens } from "./tokens";
 
 function Card({ item }: { item: Match }) {
@@ -11,6 +12,11 @@ function Card({ item }: { item: Match }) {
       </View>
       <Text style={styles.title} numberOfLines={2}>{item.title}</Text>
       <Text style={styles.price}>{item.price}</Text>
+      <Text style={styles.factorCaption}>매칭 근거</Text>
+      <BarBreakdown
+        data={item.factors}
+        accessibilityLabel={`${item.title} 매칭 근거: ${item.factors.map((f) => `${f.label} ${f.value}`).join(", ")}`}
+      />
     </Pressable>
   );
 }
@@ -41,4 +47,5 @@ const styles = StyleSheet.create({
   score: { fontSize: 20, fontWeight: "800", color: tokens.color.ink, fontVariant: ["tabular-nums"] },
   title: { marginTop: 12, fontSize: 15, fontWeight: "600", color: tokens.color.ink2, lineHeight: 21 },
   price: { marginTop: 6, fontSize: 14, color: tokens.color.muted, fontVariant: ["tabular-nums"] },
+  factorCaption: { marginTop: 14, fontSize: 11, fontWeight: "700", color: tokens.color.faint, letterSpacing: 0.4, textTransform: "uppercase" },
 });
