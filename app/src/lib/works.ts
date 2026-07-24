@@ -12,7 +12,7 @@ export type Work = {
   image?: string; // 정적 스크린샷 경로(native 등 이미지 미리보기 work). 있으면 WorkCard가 iframe 대신 <img> 렌더
 };
 
-export const LAST_UPDATED = "2026-07-23"; // 결정론 규칙: 동적 Date 호출 금지, 갱신 시 수동 수정
+export const LAST_UPDATED = "2026-07-25"; // 결정론 규칙: 동적 Date 호출 금지, 갱신 시 수동 수정
 
 export const NATIVE_WORKS: Work[] = [
   {
@@ -36,6 +36,9 @@ export const LANDING_WORKS: Work[] = [
   { id: "v3", route: "/v3", brand: "V3 매거진", desc: "에디토리얼 매거진 · 롱폼 그리드", previewH: 340 },
   { id: "v4", route: "/v4", brand: "V4 대화형", desc: "히어로 3문항 퀴즈 — 사용자 입력이 콘텐츠·전환장치가 되는 인터랙티브 우선", previewH: 340 },
   { id: "v5", route: "/v5", brand: "V5 미니멀", desc: "미니멀 타이포 중심 · '적을수록 프리미엄', 헤어라인 그리드", previewH: 340 },
+  { id: "v6", route: "/v6", brand: "V6 리빌", desc: "비포/애프터 드래그 리빌 히어로 · 실제 제품사진 슬라이더(role=slider)·스프링 물리, 감각 축 차별 (자동 landing r2 승자)", previewH: 340 },
+  { id: "v7", route: "/v7", brand: "V7 대조표", desc: "AI 매칭 대조표 히어로 · 실 table+탭+아코디언 비교 위젯, 폼 계열 최초 표 기반 (자동 landing r4 승자)", previewH: 340 },
+  { id: "v8", route: "/v8", brand: "V8 다이얼", desc: "매칭 정확도 다이얼 히어로 · 원형 SVG 게이지 결과 시각화, 형태 신규성 (자동 landing r5 승자)", previewH: 340 },
 ];
 
 // Ⅱ SaaS 대시보드 — /dash 갤러리 16종(d7~d32, 아래 Step 2에서 원본 이전) + 기준작/제품
@@ -56,6 +59,12 @@ export const DASH_LAB_WORKS: Work[] = [
   { id: "d30", route: "/dash/d30", brand: "Slotted", desc: "예약·미팅 스케줄링(Calendly급) · 순백 라이트, 이벤트타입 선택→히트맵·미팅목록 동기화, ⌘K·정렬 테이블" },
   { id: "d31", route: "/dash/d31", brand: "Conduit", desc: "워크플로 자동화(n8n급) · 프로덕트 다크, 크로스헤어 차트·상태 필터→테이블·로그 동기화, 에러 급증 알림" },
   { id: "d32", route: "/dash/d32", brand: "Meridian", desc: "자산 포트폴리오(Coinbase급) · 프로덕트 다크, 기간 토글 가격 차트·자산 선택→차트·상세 동기화, 배분 도넛" },
+  { id: "d33", route: "/dash/d33", brand: "Keel", desc: "협업 칸반 파이프라인 · 뷰포트락 보드+컬럼 내부 스크롤, 딜 카드 드래그, 예측 차트 (자동 dash r1 승자)" },
+  { id: "d34", route: "/dash/d34", brand: "Pulse", desc: "SLA 라이브옵스 콘솔 · 다크 히어로+벤토, 레일 없는 밀도형 (자동 dash r2 승자)" },
+  { id: "d35", route: "/dash/d35", brand: "Tessera", desc: "자산배분 트리맵 콕핏 · 중첩 사각 비중 시각화, 즉시 가독 (자동 dash r7 승자)" },
+  { id: "d36", route: "/dash/d36", brand: "Chute", desc: "전환 퍼널 전용 페이지 · 트라페조이드 퍼널이 페이지 축, 단계 드롭오프 (자동 dash r8 승자)" },
+  { id: "d37", route: "/dash/d37", brand: "Currents", desc: "수익귀속 생키 흐름도 · 흐름보존 다단 리본 콘솔 (자동 dash r9 승자)" },
+  { id: "d38", route: "/dash/d38", brand: "Wavelength", desc: "온콜 로테이션 콘솔 · 24h 레이디얼 다이얼 지배 시각화, 인시던트 대응 (자동 dash r10 승자)" },
 ];
 
 export const DASH_WORKS: Work[] = [

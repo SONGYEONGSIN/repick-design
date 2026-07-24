@@ -7,7 +7,7 @@ tags: [ledger, questions]
 > 생성 조건: ① delta 간 충돌 감지 ② 병합/랭킹 판단을 [[curation-criteria]]로 정당화 불가.
 > 형식: 질문 + 배경(충돌 delta 인용) + AI의 잠정 가설. 답변되면 meta-기준 추출 후 아카이브로 이동.
 
-## 대기 중
+## 아카이브 (답변 완료 — 2026-07-25 주간 반증; 답변 요지는 [[curation-criteria]] "축적된 기준" 반영)
 
 ### Q1. archetype judge는 브리프가 전 후보에 강제하는 앱 셸 좌 사이드바를, 후보 자체의 "레일 없음" 차별점 주장과 대조해 감점해야 하는가?
 - **배경**: `auto-dash-r2` archetype 렌즈가 후보 b(Pulse, 히어로+벤토 아키타입)를 3위로 내리며 근거로 "`sidebar.tsx`의 `lg:fixed ... lg:w-60` 고정 좌 nav가 이 아키타입이 피하려던 '고정 레일' DNA와 구조적으로 구분되지 않음"을 들었다. 그러나 [[dash-brief-v3]] "완성도 기준"은 **전 후보**에 "좌측 사이드바(브랜드 락업+워크스페이스 스위처+nav+하단 유저)"를 하드 요구사항으로 명시한다 — a·c도 동일한 좌 사이드바를 갖고 있으나 archetype 렌즈는 그 둘에게는 이 요소로 감점하지 않았다(a는 우측 QueueRail 추가만 지적, c는 사이드바 보유를 "부차적"으로만 언급). [[curation-criteria]]에는 이 판단을 정당화할 기준이 없다 — "메인 콘텐츠 레일"과 "브리프 필수 앱 셸 사이드바"를 archetype 판정에서 구분해야 하는지 불명확.
@@ -30,5 +30,5 @@ tags: [ledger, questions]
 - **배경(target: dash)**: `auto-dash-r10` 렌즈1(브리프 준수)이 c(Quorum)의 `data.ts`에서 `new Date(...)` 호출을 발견하고 "결정론적 데이터 규칙 위반"으로 명시 지적했다. 그러나 재검증 결과 이는 오탐이다 — `scripts/dash-static-check.mjs`의 `no-random` 규칙은 정규식 `/Math\.random\(|Date\.now\(|new Date\(\)/`(주의: `new Date` 뒤에 **빈 괄호**만 매치)이며, c의 호출은 전부 `new Date(\`${iso}T00:00:00Z\`)`처럼 고정 ISO 문자열을 인자로 받아 결정론을 유지한다 — `node scripts/dash-static-check.mjs`를 c의 `.ts` 파일까지 포함해 재실행해도 위반 0건이다. judge가 규칙을 "new Date를 쓰면 안 된다"는 산문으로 오독해 실제로는 통과하는 코드를 위반으로 판정한 사례 — 이번엔 최종 다수결(a 2표 vs c 1표)에 영향을 주지 않았지만, 근소한 표차 라운드였다면 오탐이 승패를 뒤집었을 수 있다. [[curation-criteria]]에는 judge가 "하드 제약 위반" 주장을 할 때 산문 규칙 설명이 아니라 실제 게이트 스크립트(정규식/실행 결과)를 근거로 인용해야 하는지에 대한 기준이 없다.
 - **잠정 가설**: judge 프롬프트(브리프 준수 렌즈)에 "정적 검사류 위반을 주장할 때는 해당 규칙의 실제 정규식(scripts/dash-static-check.mjs의 RULES)을 직접 확인하거나 `node scripts/dash-static-check.mjs <file>`을 실행한 결과를 근거로 인용하라 — 소스에 규칙 키워드 문자열이 보인다는 것만으로 위반 판정하지 말 것"을 명시하는 방향이 합리적이라고 본다. 다만 이는 judge 프롬프트 템플릿 수정(정본 편입 여부)이라 사람 판단이 필요하다 — 유사 오탐이 재발하면 L2 후보로 재검토.
 
-## 아카이브 (답변 완료)
+## 대기 중
 _(없음)_

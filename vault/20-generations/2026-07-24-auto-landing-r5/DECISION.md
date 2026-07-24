@@ -8,7 +8,7 @@ target: landing · round: auto-landing-r5 · date: 2026-07-24
 - **c** — 라이브 서치 인덱스(Query-chip) 히어로: 프리셋 검색의도 칩 선택 시 매물 인덱스(매칭 근거·매칭%·컨디션·인증·할인율)가 즉시 재필터/재랭크.
 
 ## 하드게이트
-전 후보 정적 1차 통과. sweep: a/c 1차 통과, **b는 1회 수정** — 드래그 트랙(`overflow-x-auto`)이 데스크톱 전 폭에서 의도된 캐러셀 오버플로 1114px로 table-overflow 하드게이트 위반 → `overflow-hidden` + 프로그래매틱 `scrollLeft`(포인터/터치 드래그, 수동 `centerItem` 계산)로 전환해 재sweep 통과(사용자 경험 변화 없음, CSS 오버플로 스펙상 `overflow:hidden`도 유효한 스크롤 컨테이너). Lighthouse a11y 100/100/100(하드게이트 통과), perf 95/95/96(기록만). 상세: [[SCORES]].
+전 후보 정적 1차 통과. sweep: a/c 1차 통과, **b는 1회 수정** — 드래그 트랙(`overflow-x-auto`)이 데스크톱 전 폭에서 의도된 캐러셀 오버플로 1114px로 table-overflow 하드게이트 위반 → `overflow-hidden` + 프로그래매틱 `scrollLeft`(포인터/터치 드래그, 수동 `centerItem` 계산)로 전환해 재sweep 통과(사용자 경험 변화 없음, CSS 오버플로 스펙상 `overflow:hidden`도 유효한 스크롤 컨테이너). Lighthouse a11y 100/100/100(하드게이트 통과), perf 95/95/96(기록만). 상세: [[20-generations/2026-07-24-auto-landing-r5/SCORES|SCORES]].
 
 ## JUDGE 패널 (블라인드 — 스크린샷 4폭 + 소스, 컨셉 비공개)
 
