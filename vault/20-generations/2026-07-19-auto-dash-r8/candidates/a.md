@@ -1,0 +1,19 @@
+# Candidate a — Chute (Checkout Funnel Intelligence)
+
+**Product/brand**: Chute — a checkout-funnel analytics dashboard for e-commerce teams (fictional store "Fernwell Outfitters"). Route: `/dash-evolve/r8/a`.
+
+**Funnel archetype implementation**: The screen-owning visualization is a 7-stage stepped conversion funnel (Site Visit → Product View → Add to Cart → Checkout Started → Shipping Info → Payment Info → Order Placed) rendered full-width as the dominant card. Each stage is a horizontal band whose visual bar is an SVG trapezoid tapering from the previous stage's width fraction to its own (linear interpolation only, no trig, all coordinates rounded to 2 decimals) — producing a genuine "stepped funnel" silhouette rather than a bar chart. Between every pair of stages, a drop-off connector shows the exact count/percentage lost plus the single top abandonment reason inline (no hover required for the primary read). Selecting a band (click or arrow-key roving `listbox`/`option`) syncs a "Stage detail" rail below with full ranked drop reasons, retention rate, and a 12-week trend, plus highlights the relevant row in a segment table. Deterministic hand-authored + largest-remainder-rounded counts guarantee subtotals equal totals throughout (segment session counts sum exactly to the funnel's top-of-funnel count for every period/device combination).
+
+**Interactions (6 implemented, ≥4 required, all `'use client'`, `motion-reduce`-gated)**:
+1. Crosshair hover/keyboard tooltip on the stage-detail trend chart (`TrendChart.tsx`) — 12 focusable point buttons, arrow-key roving, live crosshair line + tooltip.
+2. Real table sort (`aria-sort`, all 5 columns) + real device filter (All/Desktop/Mobile) recomputing sessions and rates in `SegmentTable.tsx`.
+3. Period toggle (7D/30D/90D) that swaps the entire funnel, KPI strip, and trend data via precomputed deterministic datasets.
+4. Selection sync: clicking a funnel stage updates the detail rail; clicking/command-paletting a segment highlights its table row.
+5. ⌘K command palette searching stages + segments with arrow/enter keyboard flow.
+6. Live-updating KPI strip (overall conversion, biggest drop-off, avg time-to-purchase) driven by the same period state.
+
+**Font/typography**: Global `font-sans` (Pretendard) only, no `next/font` import, no serif/display fonts — confirmed via `dash-static-check.mjs` (empty violation array). All counts/percentages use `tabular-nums` + `Intl.NumberFormat`.
+
+**Structural difference from exclusion list**: No persistent list+detail split, no kanban/calendar/map, no tile-wall, no multi-widget BI canvas, no trading-terminal 3-pane, no leaderboard/heatmap-matrix/treemap/radial layout, and not the generic "sidebar + 4 KPI cards + 8/4 chart+sidebar + full-width table" shape — the KPI row is a single inline-stat card (not 4 tiles), the funnel is a full-width dominant stack (not an 8/4 split), and the secondary row (detail rail + segment table) only appears below the funnel, never competing with it for primary attention.
+
+**Verification**: `dash-static-check.mjs` → `[]`; `dash-sweep.mjs` across 1280–1920px (± the 16px slack variants) and 390px mobile → `{"pass": true, "failures": []}` (no desktop table/page horizontal overflow, mobile-only `min-w-[640px] lg:min-w-0 lg:table-fixed` + `colgroup` % on the segment table); route returns HTTP 200; `tsc --noEmit` clean; all header controls (⌘K trigger, mobile menu, export button, notification/avatar buttons, workspace switcher) individually `h-11`/44px; contrast tokens follow `zinc-500`+ on light / `zinc-400`+ on dark in every state (default, sorted, filtered-to-Mobile, filtered-to-Desktop, disabled nav item) — manually audited, not just default-view Lighthouse; `CURRENT_USER` is a fictional persona (Priya Nakamura, `priya.nakamura@chutehq.io`) unrelated to session context.
