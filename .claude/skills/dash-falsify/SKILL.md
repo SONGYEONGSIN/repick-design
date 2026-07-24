@@ -9,9 +9,9 @@ description: 자율 진화 주간 반증 (다중 타깃) — evolve/dash 누적�
 
 ## open 모드 (무인 — 주간 routine)
 1. `git fetch && git log origin/main..origin/evolve/dash --oneline` — 누적 커밋이 없으면 "반증할 산출물 없음" 로그만 남기고 종료. 누적 커밋이 있으면 이후 모든 파일 읽기(auto-ledger·provisional·questions-queue·DECISION.md·index.md)는 evolve/dash 컨텍스트에서 한다 — `git checkout evolve/dash` 또는 `git show origin/evolve/dash:<경로>` (main 워킹트리에서 읽으면 본문이 빈 채 조립된다).
-2. PR 본문 조립 — **타깃별 섹션**:
-   - `## 대시보드` / `## 랜딩` 각각: 주간 라운드 표(auto-ledger에서 해당 target entry(target 필드 없는 레거시 entry는 round id `auto-<t>-r*`에서 유추)), L3 delta 편입 제안(해당 DELTAS의 최신 level=L3 & status=provisional), L1/L2 잔류 요약, 라운드별 DECISION.md 상대경로 링크 + 대표 스크린샷 경로. 해당 타깃 라운드가 없던 주면 섹션에 "이번 주 라운드 없음" 1줄.
-   - `## 네이티브`: 위와 동형 — 라운드 표(`auto-native-r*`, 후보별 status 승자/탈락/대기), L3 delta 편입 제안(`vault/00-principles/native-deltas-provisional.jsonl`의 최신 level=L3 & status=provisional), L1/L2 잔류, DECISION.md 링크 + 스크린샷 경로(`shots/<v>-390.png` 모바일). delta·질문·**후보 킵/드롭** 전부 반증 대상.
+2. PR 본문 조립 — **타깃별 섹션**. **링크는 반드시 클릭 가능한 GitHub URL로 생성** — evolve/dash 브랜치 파일은 PR 화면에서 경로 텍스트로는 안 보이므로 판정/스크린샷을 사람이 못 본다. 형식: DECISION·개별 PNG = `https://github.com/<owner>/<repo>/blob/evolve/dash/<경로>`, 샷 폴더 = `https://github.com/<owner>/<repo>/tree/evolve/dash/<경로>` (owner/repo는 `gh repo view --json owner,name`로 확인). 라운드별로 세 링크를 표에 넣는다: [DECISION](blob DECISION.md) · [승자 대표샷](blob `shots/<승자v>-1440.png`, 모바일 타깃은 `-390.png`) · [전체샷](tree `shots/` 폴더).
+   - `## 대시보드` / `## 랜딩` 각각: 주간 라운드 표(auto-ledger에서 해당 target entry(target 필드 없는 레거시 entry는 round id `auto-<t>-r*`에서 유추)), L3 delta 편입 제안(해당 DELTAS의 최신 level=L3 & status=provisional), L1/L2 잔류 요약, 라운드별 위 3-링크(DECISION·승자샷·전체샷). 해당 타깃 라운드가 없던 주면 섹션에 "이번 주 라운드 없음" 1줄.
+   - `## 네이티브`: 위와 동형 — 라운드 표(`auto-native-r*`, 후보별 status 승자/탈락/대기), L3 delta 편입 제안(`vault/00-principles/native-deltas-provisional.jsonl`의 최신 level=L3 & status=provisional), L1/L2 잔류, 라운드별 3-링크(승자샷은 `shots/<v>-390.png` 모바일). delta·질문·**후보 킵/드롭** 전부 반증 대상.
    - `## 질문 큐`: questions-queue.md "대기 중" 전문 (target 표기 포함).
    - `## 위키 건전성`: ① 기계 — `node scripts/wiki-lint.mjs` 실행 결과 JSON(위반 0이면 "clean") ② 판단 — 페이지 간 모순·stale 주장(최신 delta가 정본과 충돌하는 사례) 스캔 결과를 2~3줄로.
    - `## 리뷰 방법`: "후보 킵/드롭·delta 승인/기각·질문 답변을 PR 코멘트로 남기고 로컬에서 /dash-falsify apply 실행".
