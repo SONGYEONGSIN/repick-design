@@ -68,6 +68,18 @@ test('20-generations 죽은 DECISION 링크를 broken으로 잡는다', () => {
   assert.deepEqual(lintVault(files).broken, ['🏠 홈.md: [[20-generations/GHOST/DECISION]]']);
 });
 
+test('Windows 백슬래시 경로 키를 forward-slash처럼 정규화한다 (readVault 크로스플랫폼)', () => {
+  // readVault가 Windows에서 path.join으로 백슬래시 키를 만들어도 lintVault가 동일 판정해야 한다.
+  // 정규화 전: 10-references\* 가 !includes('/')로 root 노트 오취급 → orphan·unindexed 오탐.
+  const files = {
+    '🏠 홈.md': '[[README]]',
+    '10-references\\README.md': '',
+    '10-references\\mercury.design.md': '',
+    'index.md': '- [[README]]',
+  };
+  assert.deepEqual(lintVault(files), { orphans: [], broken: [], unindexed: [] });
+});
+
 test('클린 vault는 위반 0', () => {
   const files = {
     '🏠 홈.md': '[[a]] [[README]]',
