@@ -33,7 +33,7 @@ export function evaluateSweep(measurements) {
 
 export async function runSweep(baseUrl, routes, widths = sweepWidths()) {
   const { chromium } = await import('playwright');
-  const browser = await chromium.launch();
+  const browser = await chromium.launch({ executablePath: process.env.PW_CHROMIUM_PATH || undefined });
   const page = await browser.newPage();
   const measurements = [];
   for (const route of routes) {

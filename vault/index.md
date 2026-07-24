@@ -35,3 +35,18 @@ tags: [index]
 
 ## 세대 기록 (20-generations — 라운드별 DECISION, evolve 브랜치에서 누적)
 _(main 기준 없음 — 라운드 커밋이 DECISION 등재를 추가한다)_
+- [[20-generations/2026-07-15-auto-dash-r1/DECISION|auto-dash-r1]]
+- [[20-generations/2026-07-15-auto-dash-r2/DECISION|auto-dash-r2]]
+- [[20-generations/2026-07-15-auto-dash-r3/DECISION|auto-dash-r3]]
+- [[20-generations/2026-07-16-auto-dash-r4/DECISION|auto-dash-r4]]
+- [[20-generations/2026-07-17-auto-dash-r5/DECISION|auto-dash-r5]]
+- [[20-generations/2026-07-18-auto-landing-r1/DECISION|auto-landing-r1]]
+- [[20-generations/2026-07-18-auto-dash-r6/DECISION|auto-dash-r6]] (no-winner)
+- [[20-generations/2026-07-19-auto-dash-r7/DECISION|auto-dash-r7]] (승자 b — Tessera 트리맵 콕핏)
+- [[20-generations/2026-07-19-auto-landing-r2/DECISION|auto-landing-r2]] (승자 a — Before/After 리빌)
+- [[20-generations/2026-07-19-auto-dash-r8/DECISION|auto-dash-r8]] (승자 a — Chute 체크아웃 퍼널 인텔리전스)
+- [[20-generations/2026-07-20-auto-landing-r3/DECISION|auto-landing-r3]] (승자 c — 절약 계산기 히어로)
+- [[20-generations/2026-07-21-auto-dash-r9/DECISION|auto-dash-r9]] (승자 c — Currents Sankey 수익귀속 흐름도)
+- [[20-generations/2026-07-22-auto-dash-r10/DECISION|auto-dash-r10]] (승자 a — Wavelength 온콜 로테이션 링·인시던트 대응 콘솔)
+- [[20-generations/2026-07-23-auto-landing-r4/DECISION|auto-landing-r4]] (승자 c — AI 매칭 대조표 인터랙티브 비교 테이블 히어로, 3렌즈 만장일치)
+- [[20-generations/2026-07-24-auto-landing-r5/DECISION|auto-landing-r5]] (승자 a — 매칭 정확도 다이얼 Radial Gauge 히어로, 2:1)
