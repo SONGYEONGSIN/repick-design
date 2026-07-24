@@ -27,5 +27,10 @@ tags: [index]
 ## 참조 (10-references — raw 불변층)
 - [[README]] — Refero 캐시 45종 인덱스 (개별 파일은 README가 대표)
 
+## 카탈로그 (20-catalog — 결정 규칙층, 외부 흡수 · ui-ux-pro-max MIT)
+- [[charts.catalog]] — 데이터 타입별 차트 선택 + a11y 등급 + 볼륨 임계 (생성형 SVG 우선)
+- [[colors.catalog]] — AA 검증 토큰 팔레트 뱅크 (shadcn 18슬롯, 큐레이션 12종)
+- [[ux-guidelines.catalog]] — web+native UX do/don't 체크리스트 + severity + platform 열 (native/GENERATION.md §8 참조)
+
 ## 세대 기록 (20-generations — 라운드별 DECISION, evolve 브랜치에서 누적)
 _(main 기준 없음 — 라운드 커밋이 DECISION 등재를 추가한다)_

@@ -28,3 +28,8 @@ repick 자율 루프가 네이티브 타깃 화면을 생성할 때 designer가 
 
 ## 7. 검증 (생성 후 반드시 통과)
 - `bash native/scripts/validate.sh "<화면의 대표 텍스트>"` 4-게이트(tsc·export·렌더·iframe) 통과.
+
+## 8. 참조 카탈로그 (결정 규칙 — 복사 금지·경로 참조)
+생성 시 아래 카탈로그를 씨앗으로 읽는다. 웹 brief(dash-brief-v3)가 카탈로그를 참조하는 것과 같되, `native/`는 vault 위키 그래프 밖이라 **경로 참조**(`[[wikilink]]` 아님).
+- `vault/20-catalog/ux-guidelines.catalog.md` → **## Native / Mobile 섹션**(터치 타겟·SafeArea·FlatList·네이티브 a11y 관용구·제스처·결정론) + `Plat=both` 공통 항목(a11y 대비·헤딩 위계·모션 민감 등).
+- **anti-slop 필터 우선**: 카탈로그 항목이 §1~5(RN 관용구·토큰·DNA·a11y·결정론)와 충돌하면 이 문서가 이긴다.
