@@ -31,6 +31,7 @@ tags: [index]
 - [[charts.catalog]] — 데이터 타입별 차트 선택 + a11y 등급 + 볼륨 임계 (생성형 SVG 우선)
 - [[colors.catalog]] — AA 검증 토큰 팔레트 뱅크 (shadcn 18슬롯, 큐레이션 12종)
 - [[ux-guidelines.catalog]] — web+native UX do/don't 체크리스트 + severity + platform 열 (native/GENERATION.md §8 참조)
+- [[motion.catalog]] — 모션 패턴 16종 강도 티어 (dash 절제 / landing 적극, framer-motion·CSS 재해석)
 
 ## 세대 기록 (20-generations — 라운드별 DECISION, evolve 브랜치에서 누적)
 _(main 기준 없음 — 라운드 커밋이 DECISION 등재를 추가한다)_

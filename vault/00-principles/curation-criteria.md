@@ -21,4 +21,4 @@ tags: [principles, meta]
 - 루프 공통 지식은 00-principles 공용 노트 1곳에만 두고 각 brief가 `［［링크］］`로 참조 (복사 금지).
 
 ## 축적된 기준 (질문 답변에서 추출 — append만)
-- **외부 카탈로그 취급** (2026-07-21, ui-ux-pro-max 흡수): 20-catalog 노트([[charts.catalog]]·[[colors.catalog]]·[[ux-guidelines.catalog]])는 **L2(기계·규칙 검증 가능)로 취급**한다. brief 편입 전 **anti-slop 필터**([[design-principles]] 금지 항목·[[dash-brief-v3]] 사용자 피드백)를 반드시 통과. 원본의 스타일/색 추천값은 그대로 쓰지 말고 **무채색 위계 + 단일 액센트 DNA로 재해석**한다(비비드·네온·크림 배경 제외). 출처 표기(MIT, Next Level Builder) 유지.
+- **외부 카탈로그 취급** (2026-07-21, ui-ux-pro-max 흡수): 20-catalog 노트([[charts.catalog]]·[[colors.catalog]]·[[ux-guidelines.catalog]]·[[motion.catalog]])는 **L2(기계·규칙 검증 가능)로 취급**한다. brief 편입 전 **anti-slop 필터**([[design-principles]] 금지 항목·[[dash-brief-v3]] 사용자 피드백)를 반드시 통과. 원본의 스타일/색 추천값은 그대로 쓰지 말고 **무채색 위계 + 단일 액센트 DNA로 재해석**한다(비비드·네온·크림 배경 제외). 출처 표기(MIT, Next Level Builder) 유지.
