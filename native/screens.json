@@ -1,4 +1,5 @@
 {
   "watchlist": { "check": "관심목록" },
-  "match": { "check": "AI 매칭 결과" }
+  "match": { "check": "AI 매칭 결과" },
+  "detail": { "check": "가격 히스토리" }
 }
