@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { View, Text, Pressable, FlatList, StyleSheet } from "react-native";
-import { WATCHLIST, formatKRW, priceChange, type WatchItem } from "./data";
+import { WATCHLIST, formatKRW, priceChange, pctLabel, type WatchItem } from "./data";
+import { Sparkline } from "../charts/Sparkline";
 import { tokens } from "../tokens";
 
 // 가격 알림 토글 — 로컬 상태(초기값은 데이터의 결정론 고정값).
@@ -50,6 +51,15 @@ function WatchRow({ item }: { item: WatchItem }) {
         <View style={styles.priceRow}>
           <Text style={styles.current}>{formatKRW(item.current)}</Text>
           <Text style={styles.original}>{formatKRW(item.original)}</Text>
+          <View style={styles.trend}>
+            <Sparkline
+              data={item.priceSeries}
+              width={60}
+              height={22}
+              accessibilityLabel={`${item.title} 가격 추세, 최근 ${item.priceSeries.length}일, 등락 ${pctLabel(item.priceSeries)}`}
+            />
+            <Text style={styles.trendPct}>{pctLabel(item.priceSeries)}</Text>
+          </View>
         </View>
         <View style={styles.badgeWrap}>
           <PriceBadge item={item} />
@@ -118,6 +128,10 @@ const styles = StyleSheet.create({
     textDecorationLine: "line-through",
     fontVariant: ["tabular-nums"],
   },
+
+  // 가격 추세: 우측 정렬 스파크라인 + 등락% 텍스트(색 아닌 부호로 방향 — 단일 액센트 DNA).
+  trend: { marginLeft: "auto", alignSelf: "center", flexDirection: "row", alignItems: "center", gap: tokens.space(2) },
+  trendPct: { fontSize: 12, fontWeight: "600", color: tokens.color.muted, fontVariant: ["tabular-nums"] },
 
   badgeWrap: { flexDirection: "row", marginTop: 10 },
   badge: { paddingHorizontal: tokens.space(2), paddingVertical: 3, borderRadius: tokens.radius.sm },

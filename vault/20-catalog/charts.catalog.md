@@ -4,7 +4,7 @@ source: ui-ux-pro-max (github.com/nextlevelbuilder/ui-ux-pro-max-skill)
 license: MIT
 attribution: Next Level Builder
 fetched: 2026-07-21
-platform: web(dash) — native 차트는 후속(react-native-svg 미도입). 아래 규칙은 웹 생성형 SVG 기준.
+platform: web(dash) + native(스파크라인만, S6) — native는 react-native-svg 도입(관심목록 스파크라인). 축·툴팁 정식 차트는 후속. 아래 규칙은 웹 생성형 SVG 기준.
 note: 외부 카탈로그를 repick DNA(생성형 SVG·결정론·접근성)에 맞게 재해석한 결정 규칙층
 ---
 
