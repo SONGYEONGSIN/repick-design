@@ -3,9 +3,9 @@ import assert from "node:assert/strict";
 import { SUBSET_IDS, validateSpec } from "./specimen-spec-schema.mjs";
 import data from "../app/src/lib/specimen-specs.data.json" with { type: "json" };
 
-test("SUBSET_IDS is exactly the 15 approved ids", () => {
-  assert.equal(SUBSET_IDS.length, 15);
-  assert.ok(SUBSET_IDS.includes("d29") && SUBSET_IDS.includes("v0") && SUBSET_IDS.includes("n1"));
+test("SUBSET_IDS is exactly the 14 approved web works", () => {
+  assert.equal(SUBSET_IDS.length, 14);
+  assert.ok(SUBSET_IDS.includes("d29") && SUBSET_IDS.includes("v0") && SUBSET_IDS.includes("v8"));
 });
 
 test("validateSpec rejects an incomplete spec", () => {
