@@ -105,3 +105,13 @@ export const FREE_WORKS: Work[] = [
   { id: "f30", route: "/free/f30", brand: "호외 Hoveh", desc: { ko: "매칭=취재·요금제=광고단수인 신문형 데이팅 앱 · 타블로이드", en: "A newspaper-styled dating app where matching is reporting and pricing is ad rates · tabloid design" } },
 ];
 // 인벤토리 제외 기록: /lab(랜딩 인덱스), app/src/app/pages/(main에 부재 — evolve 브랜치 잔재)
+
+/** 정적 카탈로그(진화 후보 제외) — 갤러리 그리드 + 상세 라우트 공용. category 태깅 단일 출처. */
+export function catalogWorks(): Work[] {
+  return [
+    ...LANDING_WORKS.map((w) => ({ ...w, category: "landing" as const })),
+    ...DASH_WORKS.map((w) => ({ ...w, category: "dashboard" as const })),
+    ...FREE_WORKS.map((w) => ({ ...w, category: "free" as const })),
+    ...NATIVE_WORKS.map((w) => ({ ...w, category: "native" as const })),
+  ];
+}
