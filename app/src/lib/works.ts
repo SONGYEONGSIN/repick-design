@@ -52,44 +52,6 @@ export const DASH_LAB_WORKS: Work[] = [
   { id: "d38", route: "/dash/d38", brand: "Wavelength", desc: { ko: "온콜 로테이션 콘솔 · 24h 레이디얼 다이얼 지배 시각화, 인시던트 대응 (자동 dash r10 승자)", en: "On-call rotation console · dominated by a 24h radial-dial visualization, built for incident response (auto dash r10 winner)" }, category: "ops" },
 ];
 
-export const DASH_WORKS: Work[] = [
-  ...DASH_LAB_WORKS,
-  { id: "rg", route: "/dash-rg", brand: "Ridge", desc: { ko: "레퍼런스급 금융 대시보드 · 앱 셸·컴포넌트 시스템·⌘K — 서비스급 문법의 검증 기준작", en: "Reference-grade financial dashboard · app shell, component system, ⌘K — the benchmark for service-grade craft" } },
-  { id: "app", route: "/dashboard", brand: "App — Dashboard", desc: { ko: "제품 대시보드 · 브랜드 다크 사이드바/헤더", en: "Product dashboard · brand-dark sidebar and header" } },
-];
-
-// Ⅲ 자유 창작 — /free 인덱스 27종 (아래 Step 2에서 원본 이전)
-export const FREE_WORKS: Work[] = [
-  { id: "f1", route: "/free/f1", brand: "여운 (YEOUN)", desc: { ko: "성층권에서 편지를 태우는 애도 의식 · ritual-tech, 웜블랙+앰버골드", en: "A mourning ritual that burns letters into the stratosphere · ritual-tech, warm black and amber gold" } },
-  { id: "f2", route: "/free/f2", brand: "PIGMENT RIOT", desc: { ko: "매번 다시 섞는 무규칙 안료 랩 · 네온 색블록 맥시멀 카오스", en: "A pigment lab that remixes its own rules every batch · neon color-block maximalism" } },
-  { id: "f3", route: "/free/f3", brand: "타래 (Tarae)", desc: { ko: "목소리를 실 무늬로 짜는 방직 스튜디오 · 종이·공예·손글씨", en: "A weaving studio that turns voices into thread patterns · paper, craft, handwriting" } },
-  { id: "f4", route: "/free/f4", brand: "LUCID//OS", desc: { ko: "꿈에서 스킬을 컴파일하는 수면 OS · 레트로퓨처, 셸 로그 카피", en: "A sleep OS that compiles skills inside your dreams · retro-futurist, shell-log copy" } },
-  { id: "f5", route: "/free/f5", brand: "TIMBRE", desc: { ko: "목소리 지문 향수 아틀리에 · 하이엔드 매거진, 삭선 검열 카피", en: "A perfume atelier built on your voiceprint · high-end magazine feel, strikethrough-censored copy" } },
-  { id: "f6", route: "/free/f6", brand: "날것", desc: { ko: "정리 없이 그냥 쏟아내는 날것 기록 · 브루탈리즘 anti-design", en: "Raw, unedited outpouring with zero cleanup · brutalist anti-design" } },
-  { id: "f7", route: "/free/f7", brand: "SPORE", desc: { ko: "90일 후 퇴비화되는 반그로스 오디오 소셜 · 유기체·블롭", en: "An anti-growth audio social network that composts itself after 90 days · organic, blob forms" } },
-  { id: "f9", route: "/free/f9", brand: "VOLATILE", desc: { ko: "향수를 휘발 곡선 데이터로 만드는 계측 조향 · 사진 0장", en: "Instrument-led perfumery that renders scent as a volatility curve · zero photography" } },
-  { id: "f10", route: "/free/f10", brand: "결 GYEOL", desc: { ko: "소리를 만지는 공감각 웨어러블 · 감각 번역", en: "A synesthetic wearable that lets you touch sound · sensory translation" } },
-  { id: "f11", route: "/free/f11", brand: "KINETYPE", desc: { ko: "글자에 물리엔진을 이식하는 카이네틱 타이포 엔진 · 움직이는 타입", en: "A kinetic type engine that implants a physics engine into letterforms · type in motion" } },
-  { id: "f12", route: "/free/f12", brand: "덕지 DEOKJI", desc: { ko: "콜라주 재료를 실물 배송하는 아날로그 다이어리 구독 · 맥시멀 자인", en: "An analog diary subscription that ships physical collage materials · maximalist zine design" } },
-  { id: "f13", route: "/free/f13", brand: "VANISH.", desc: { ko: "당신의 실종을 영화처럼 기획하는 프로덕션 · 필름 누아르", en: "A production house that scripts your disappearance like a film · film noir" } },
-  { id: "f14", route: "/free/f14", brand: "VERTEX", desc: { ko: "소리에 3D 좌표를 부여하는 공간 오디오 이어폰 · 진짜 3D·아나글리프", en: "Spatial-audio earphones that give sound 3D coordinates · true 3D, anaglyph styling" } },
-  { id: "f15", route: "/free/f15", brand: "MAISON LACUNE", desc: { ko: "가격이 안 나오는 초프레스티지 향수 하우스 · 침묵의 사치", en: "An ultra-prestige perfume house with no listed price · the luxury of silence" } },
-  { id: "f16", route: "/free/f16", brand: "몽상은행", desc: { ko: "잠·백일몽을 예치하면 몽상이자를 주는 가상 저축은행 · 파스텔 초현실", en: "A virtual savings bank that pays daydream interest on deposited sleep · pastel surrealism" } },
-  { id: "f17", route: "/free/f17", brand: "QUARTER WASH", desc: { ko: "코인 빨래방을 오락실로 재발명 · CSS 픽셀아트·8비트", en: "Reinventing the coin laundromat as an arcade · CSS pixel art, 8-bit" } },
-  { id: "f18", route: "/free/f18", brand: "새김 SAEGIM", desc: { ko: "한 문장을 화강암에 새겨 340m 지하에 1000년 봉인 · 모뉴멘탈·제의", en: "Carves one sentence into granite and seals it 340m underground for 1,000 years · monumental, ritualistic" } },
-  { id: "f19", route: "/free/f19", brand: "BITROT", desc: { ko: "완벽한 사진을 의도적으로 부수는 데이터 부식 스튜디오 · 글리치·디지털붕괴", en: "A data-decay studio that deliberately corrupts perfect photos · glitch, digital collapse" } },
-  { id: "f20", route: "/free/f20", brand: "FLORA CODEX", desc: { ko: "식물 표본을 채집·기록하고 향을 눌러 담는 허바리움 향수 구독 · 19세기 식물도감", en: "A herbarium perfume subscription that collects, records, and presses botanical scent · 19th-century field-guide aesthetic" } },
-  { id: "f21", route: "/free/f21", brand: "SURGE", desc: { ko: "스프린트·점프의 폭발력을 와트로 측정하는 파워 트래커 · 스포츠 다이나믹", en: "A power tracker that measures sprint and jump explosiveness in watts · dynamic sports energy" } },
-  { id: "f22", route: "/free/f22", brand: "DOSSIER.", desc: { ko: "커핑 노트로 원산지를 추리하는 미제사건 커피 구독 · 느와르·수사파일", en: "A cold-case coffee subscription where you deduce origin from cupping notes · noir case-file styling" } },
-  { id: "f23", route: "/free/f23", brand: "PARALLAX", desc: { ko: "향의 강도를 천문학적 거리로 재는 향수 · 코스믹 럭셔리", en: "A perfume that measures scent intensity in astronomical distance · cosmic luxury" } },
-  { id: "f24", route: "/free/f24", brand: "극미클럽 GEUKMI", desc: { ko: "뜯기 전까진 모르는 블라인드 극한맛 구독 · 맥시멀 미식 카오스", en: "A blind extreme-flavor subscription you can't identify until you tear it open · maximalist gourmet chaos" } },
-  { id: "f25", route: "/free/f25", brand: "몬스터파킹", desc: { ko: "침대 밑 괴물을 그려 '주차'시키는 잠자리 의식 · 키즈 그림책 위트", en: "A bedtime ritual where you draw the monster under the bed and 'park' it · kids'-picture-book wit" } },
-  { id: "f26", route: "/free/f26", brand: "여백 YEOBAEK", desc: { ko: "침묵 명상 타이머 + 실물 세트 · 젠 미니멀, 3초 롱프레스 CTA", en: "A silent-meditation timer paired with a physical object set · zen minimalism, 3-second long-press CTA" } },
-  { id: "f28", route: "/free/f28", brand: "REMNANT", desc: { ko: "목소리는 사라지지 않는다 · 호러·언캐니", en: "Your voice never disappears · horror, uncanny" } },
-  { id: "f30", route: "/free/f30", brand: "호외 Hoveh", desc: { ko: "매칭=취재·요금제=광고단수인 신문형 데이팅 앱 · 타블로이드", en: "A newspaper-styled dating app where matching is reporting and pricing is ad rates · tabloid design" } },
-];
-// 인벤토리 제외 기록: /lab(랜딩 인덱스), app/src/app/pages/(main에 부재 — evolve 브랜치 잔재)
-
 /** 정적 카탈로그(진화 후보 제외) — 갤러리 그리드 + 상세 라우트 공용. 각 entry가 자기 도메인 category 보유. */
 export function catalogWorks(): Work[] {
   return [...LANDING_WORKS, ...DASH_LAB_WORKS, ...NATIVE_WORKS];
