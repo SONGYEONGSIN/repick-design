@@ -4,7 +4,7 @@ import type { Work } from "@/lib/works";
 export type Lang = "en" | "ko";
 export const DEFAULT_LANG: Lang = "en";
 
-type FilterKey = "all" | "dashboard" | "landing" | "free" | "native" | "winners";
+type FilterKey = "all" | "project" | "scheduling" | "ops" | "finance" | "analytics" | "landing" | "mobile";
 type Strings = {
   worksLabel: string; tagline: string; langLabel: string;
   searchLabel: string; searchPlaceholder: string; filterLabel: string;
@@ -25,7 +25,7 @@ export const STRINGS: Record<Lang, Strings> = {
     tagline: "Interface design systems, auto-evolved for AI agents.",
     langLabel: "Language", searchLabel: "Search works", searchPlaceholder: "Search designs…",
     filterLabel: "Filter",
-    filters: { all: "All", dashboard: "Dashboard", landing: "Landing", free: "Free", native: "Native", winners: "Winners" },
+    filters: { all: "All", project: "Project", scheduling: "Scheduling", ops: "Ops", finance: "Finance", analytics: "Analytics", landing: "Landing", mobile: "Mobile" },
     resultsLabel: "results", empty: "No designs match.",
     footer: "An auto-evolving gallery of interface design systems.",
     status: { winner: "Selected", dropped: "Cut", pending: "In review" },
@@ -42,7 +42,7 @@ export const STRINGS: Record<Lang, Strings> = {
     tagline: "AI 에이전트를 위한 인터페이스 디자인 시스템 — 매일 스스로 진화.",
     langLabel: "언어", searchLabel: "작품 검색", searchPlaceholder: "디자인 검색…",
     filterLabel: "필터",
-    filters: { all: "전체", dashboard: "대시보드", landing: "랜딩", free: "자유 창작", native: "네이티브", winners: "채택작" },
+    filters: { all: "전체", project: "프로젝트", scheduling: "일정", ops: "운영", finance: "금융", analytics: "분석", landing: "랜딩", mobile: "모바일" },
     resultsLabel: "개", empty: "해당하는 디자인이 없습니다.",
     footer: "스스로 진화하는 인터페이스 디자인 시스템 갤러리.",
     status: { winner: "채택", dropped: "탈락", pending: "심사 대기" },
