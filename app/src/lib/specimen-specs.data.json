@@ -1,1 +1,23 @@
-{}
+{
+  "d29": {
+    "id": "d29",
+    "palette": [
+      { "token": "zinc-900", "hex": "#18181b", "role": "Ink", "usage": "Primary text, KPI numerals, table row titles, command-palette input" },
+      { "token": "indigo-500", "hex": "#615fff", "role": "Accent", "usage": "Focus rings on every interactive control and the 'on-track' timeline bar — the interface's single interactive accent (paired with indigo-600 for solid primary-button fills)" },
+      { "token": "zinc-500", "hex": "#71717b", "role": "Muted", "usage": "Secondary labels, metadata, uppercase section eyebrows" },
+      { "token": "zinc-200", "hex": "#e4e4e7", "role": "Border", "usage": "Card borders, table hairlines, sidebar/topbar dividers" },
+      { "token": "zinc-50", "hex": "#fafafa", "role": "Surface", "usage": "Page canvas background, row hover, search-field fill, gantt track background" }
+    ],
+    "typography": "Pretendard Variable throughout (--font-sans); tabular-nums on every count, percentage, and date — KPI values, progress %, due dates, workload %. Semibold 20–24px numerals in the KPI row, 13–14px regular body elsewhere. Hierarchy comes from weight and size, never a display face.",
+    "spacing": "4/8px spacing rhythm (gap-2/3/4, p-3/5/6). 12px card radius (rounded-xl) on every Card, 8px control radius (rounded-lg) on buttons and nav items, full pill radius on filter chips, avatars, and status dots. 44px minimum touch target on every interactive element. Hairline zinc-200/zinc-100 borders carry most separation; shadow-sm is reserved for elevated cards and popovers.",
+    "philosophy": "Pure-white, service-grade calm modeled on Asana. A near-white zinc-50 page canvas holds white rounded-xl cards bordered in a single hairline zinc-200 rule. One project-filter bar drives every widget below it — KPIs, project table, gantt, workload, due-soon, activity — in sync, so the surface reads as one instrument rather than a set of disconnected panels. Indigo is the sole interactive accent (focus rings, on-track timeline color, primary actions); amber/rose/emerald are reserved strictly for status semantics — at-risk, delayed, over-capacity — never used decoratively.",
+    "dosDonts": [
+      { "do": "Reserve indigo for focus rings, the 'on-track' status, and primary actions.", "dont": "Introduce a second saturated hue as a competing interactive accent." },
+      { "do": "Keep the page canvas zinc-50 with white (bg-white) cards bordered in zinc-200.", "dont": "Flatten cards onto the same zinc-50 background as the page — the bg-white + border is what reads as a 'card'." },
+      { "do": "Use tabular-nums on every count, percentage, and date column.", "dont": "Let numeric columns reflow or misalign when a table is re-sorted." },
+      { "do": "Drive every widget (KPIs, table, gantt, workload) off the shared project filter.", "dont": "Let a widget hold its own independent, unsynced project selection." },
+      { "do": "Reserve amber/rose/emerald strictly for status semantics (at-risk/delayed/on-track/over-capacity).", "dont": "Reuse those hues for decoration or emphasis unrelated to status." }
+    ],
+    "agentPrompt": "# Recreate: Waypoint (Asana-grade project collaboration)\n\nBuild a near-white project-collaboration dashboard.\n\n**Palette:** zinc neutrals (`zinc-900` ink, `zinc-500` muted labels, `zinc-200` borders, `zinc-50` page canvas/hover) with white (`#ffffff`) cards sitting on the zinc-50 canvas, and `indigo-500` as the *only* interactive accent — focus rings on every control plus the 'on-track' timeline color (paired with `indigo-600` for solid primary-button fills). Status semantics (amber = at risk, rose = delayed/over-capacity, emerald = on-track/under-capacity) are reserved strictly for state, never decoration.\n\n**Type:** Pretendard Variable, `tabular-nums` on every count, percentage, and date. Hierarchy via weight + size only — no display face.\n\n**Layout:** a sidebar (workspace switcher + nav sections), a sticky top bar (⌘K search, primary action, notifications, user menu), a shared project-filter bar that drives every widget below it, a 4-up KPI row, a sortable fixed-layout project table, a team-workload panel, a gantt-style timeline, a due-soon list, a task list, and an activity feed.\n\n**Feel:** dense but breathable — 4/8 spacing, 12px card radius (`rounded-xl`), 8px control radius (`rounded-lg`), pill-shaped chips/avatars/status dots, 44px minimum touch targets, hairline borders over shadows. Service-grade restraint: one accent, everything aligned, everything synced to the filter."
+  }
+}

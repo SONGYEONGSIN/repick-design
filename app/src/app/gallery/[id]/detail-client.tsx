@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import type { Work } from "@/lib/works";
-import type { WorkSpec } from "@/lib/specimen-specs";
+import type { WorkSpec, Swatch } from "@/lib/specimen-specs";
 import { STRINGS, DEFAULT_LANG, categoryLabel, type Lang } from "../gallery-i18n";
 import { WorkCard } from "../work-card";
 
@@ -88,7 +88,70 @@ function HeroPreview({ work }: { work: Work }) {
   );
 }
 
-// Placeholder — replaced with the full implementation in Task 5.
+function CopyButton({ text, d }: { text: string; d: (typeof STRINGS)["en"]["detail"] }) {
+  const [done, setDone] = useState(false);
+  return (
+    <button type="button"
+      onClick={() => { navigator.clipboard?.writeText(text); setDone(true); setTimeout(() => setDone(false), 1200); }}
+      className="rounded-md border border-zinc-200 px-2 py-0.5 text-[11px] font-semibold text-zinc-600 transition-colors hover:border-zinc-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-900">
+      {done ? d.copied : d.copy}
+    </button>
+  );
+}
+
 function RichSpec({ spec, d }: { spec: WorkSpec; d: (typeof STRINGS)["en"]["detail"] }) {
-  return <section className="mt-12" data-spec-id={spec.id} data-agent-prompt-label={d.agentPrompt} />;
+  return (
+    <div className="mt-14 space-y-14">
+      <section>
+        <h2 className="text-sm font-bold uppercase tracking-wide text-zinc-500">{d.palette}</h2>
+        <p className="mt-3 max-w-2xl text-sm leading-relaxed text-zinc-600">{spec.philosophy}</p>
+        <ul className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2">
+          {spec.palette.map((s: Swatch) => (
+            <li key={s.token} className="flex items-center gap-3 rounded-lg border border-zinc-200 p-3">
+              <span aria-hidden="true" className="h-10 w-10 shrink-0 rounded-md border border-zinc-200" style={{ background: s.hex }} />
+              <div className="min-w-0 flex-1">
+                <div className="flex items-center justify-between gap-2">
+                  <p className="truncate text-sm font-bold">{s.role}</p>
+                  <CopyButton text={s.hex} d={d} />
+                </div>
+                <p className="font-mono text-[11px] text-zinc-500">{s.hex} · {s.token}</p>
+                <p className="mt-0.5 text-xs text-zinc-500">{s.usage}</p>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <div className="grid grid-cols-1 gap-8 sm:grid-cols-2">
+        <section>
+          <h2 className="text-sm font-bold uppercase tracking-wide text-zinc-500">{d.typography}</h2>
+          <p className="mt-3 text-sm leading-relaxed text-zinc-600">{spec.typography}</p>
+        </section>
+        <section>
+          <h2 className="text-sm font-bold uppercase tracking-wide text-zinc-500">{d.spacing}</h2>
+          <p className="mt-3 text-sm leading-relaxed text-zinc-600">{spec.spacing}</p>
+        </section>
+      </div>
+
+      <section>
+        <h2 className="text-sm font-bold uppercase tracking-wide text-zinc-500">{d.guidelines}</h2>
+        <ul className="mt-5 grid grid-cols-1 gap-3 sm:grid-cols-2">
+          {spec.dosDonts.map((g, i) => (
+            <li key={i} className="rounded-lg border border-zinc-200 p-4">
+              <p className="text-sm text-zinc-800"><span className="mr-2 font-bold text-emerald-600">{d.do}</span>{g.do}</p>
+              <p className="mt-2 text-sm text-zinc-800"><span className="mr-2 font-bold text-rose-500">{d.dont}</span>{g.dont}</p>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <section>
+        <div className="flex items-center justify-between gap-3">
+          <h2 className="text-sm font-bold uppercase tracking-wide text-zinc-500">{d.agentPrompt}</h2>
+          <CopyButton text={spec.agentPrompt} d={d} />
+        </div>
+        <pre className="mt-4 overflow-x-auto rounded-xl border border-zinc-200 bg-zinc-50 p-5 font-mono text-xs leading-relaxed text-zinc-700 whitespace-pre-wrap">{spec.agentPrompt}</pre>
+      </section>
+    </div>
+  );
 }
