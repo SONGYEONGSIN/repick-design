@@ -1,19 +1,19 @@
-// app/src/lib/works.ts — 전 작품 메타 단일 출처 (통합 갤러리 + 개별 갤러리 공용)
+// app/src/lib/works.ts — single source of truth for all work metadata (shared by the unified gallery + individual galleries)
 export type Work = {
   id: string;
   route: string;
   brand: string;
-  desc: { en: string; ko: string }; // 카드 태그라인(이중언어)
-  previewH?: number; // 카드 미리보기 높이(px), 기본 300
+  desc: { en: string; ko: string }; // card tagline (bilingual)
+  previewH?: number; // card preview height (px), default 300
   status?: "winner" | "dropped" | "pending";
   round?: string;
   target?: "dash" | "landing" | "native";
   date?: string;
-  image?: string; // 정적 스크린샷 경로(native 등 이미지 미리보기 work). 있으면 WorkCard가 iframe 대신 <img> 렌더
-  category?: "project" | "scheduling" | "ops" | "finance" | "analytics" | "landing" | "mobile"; // 갤러리 도메인 카테고리(작품별 부여)
+  image?: string; // static screenshot path (for native, etc. image-preview works). If set, WorkCard renders an <img> instead of an iframe
+  category?: "project" | "scheduling" | "ops" | "finance" | "analytics" | "landing" | "mobile"; // gallery domain category (assigned per work)
 };
 
-export const LAST_UPDATED = "2026-07-25"; // 결정론 규칙: 동적 Date 호출 금지, 갱신 시 수동 수정
+export const LAST_UPDATED = "2026-07-25"; // determinism rule: no dynamic Date calls — update this by hand when refreshing
 
 export const NATIVE_WORKS: Work[] = [
   {
@@ -30,7 +30,7 @@ export const NATIVE_WORKS: Work[] = [
   },
 ];
 
-// Ⅰ 랜딩 — 챔피언 + 진화 계보 v6~v8. (/lab 은 자체가 인덱스 페이지라 작품 아님 — 제외)
+// I. Landing — champion + evolution lineage v6~v8. (/lab is itself an index page, not a work — excluded)
 export const LANDING_WORKS: Work[] = [
   { id: "v0", route: "/", brand: "V0 — Champion", desc: { ko: "현재 프로덕션 랜딩 · 에디토리얼 스플릿 히어로 + 제품 쇼케이스 (자동 라운드 R7 계보 승자)", en: "Live production landing · editorial split hero + product showcase (auto-round R7 lineage winner)" }, previewH: 340, category: "landing" },
   { id: "v6", route: "/v6", brand: "V6 리빌", desc: { ko: "비포/애프터 드래그 리빌 히어로 · 실제 제품사진 슬라이더(role=slider)·스프링 물리, 감각 축 차별 (자동 landing r2 승자)", en: "Before/after drag-to-reveal hero · a real product-photo slider (role=slider) with spring physics, differentiating on tactile feel (auto landing r2 winner)" }, previewH: 340, category: "landing" },
@@ -38,7 +38,7 @@ export const LANDING_WORKS: Work[] = [
   { id: "v8", route: "/v8", brand: "V8 다이얼", desc: { ko: "매칭 정확도 다이얼 히어로 · 원형 SVG 게이지 결과 시각화, 형태 신규성 (자동 landing r5 승자)", en: "Match-accuracy dial hero · a circular SVG gauge visualizes the result, a formal novelty (auto landing r5 winner)" }, previewH: 340, category: "landing" },
 ];
 
-// Ⅱ SaaS 대시보드 — /dash 갤러리 10종(d29~d38) + 기준작/제품
+// II. SaaS dashboards — 10 works in the /dash gallery (d29~d38) + baseline/product
 export const DASH_LAB_WORKS: Work[] = [
   { id: "d29", route: "/dash/d29", brand: "Waypoint", desc: { ko: "프로젝트 협업(Asana급) · 순백 라이트, 프로젝트 필터→전 위젯 동기화, 정렬 테이블·간트·워크로드·⌘K", en: "Project collaboration (Asana-grade) · pure-white light, project filter → all-widget sync, sortable table · gantt · workload · ⌘K" }, category: "project" },
   { id: "d30", route: "/dash/d30", brand: "Slotted", desc: { ko: "예약·미팅 스케줄링(Calendly급) · 순백 라이트, 이벤트타입 선택→히트맵·미팅목록 동기화, ⌘K·정렬 테이블", en: "Booking and meeting scheduling (Calendly-grade) · pure-white light, event-type selection syncs heatmap and meeting list, ⌘K and sortable tables" }, category: "scheduling" },
@@ -52,7 +52,7 @@ export const DASH_LAB_WORKS: Work[] = [
   { id: "d38", route: "/dash/d38", brand: "Wavelength", desc: { ko: "온콜 로테이션 콘솔 · 24h 레이디얼 다이얼 지배 시각화, 인시던트 대응 (자동 dash r10 승자)", en: "On-call rotation console · dominated by a 24h radial-dial visualization, built for incident response (auto dash r10 winner)" }, category: "ops" },
 ];
 
-/** 정적 카탈로그(진화 후보 제외) — 갤러리 그리드 + 상세 라우트 공용. 각 entry가 자기 도메인 category 보유. */
+/** Static catalog (excludes evolution candidates) — shared by the gallery grid and detail routes. Each entry carries its own domain category. */
 export function catalogWorks(): Work[] {
   return [...LANDING_WORKS, ...DASH_LAB_WORKS, ...NATIVE_WORKS];
 }

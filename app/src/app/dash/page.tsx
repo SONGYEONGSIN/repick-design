@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { DASH_LAB_WORKS } from "@/lib/works";
 
-export const metadata: Metadata = { title: "자유 창작 SaaS 대시보드 랩" };
+export const metadata: Metadata = { title: "Free-Creative SaaS Dashboard Lab" };
 
 function Card({ route, id, brand, desc }: { route: string; id: string; brand: string; desc: { en: string; ko: string } }) {
   return (
@@ -40,10 +40,11 @@ export default function DashLab() {
         <p className="font-mono text-xs font-semibold uppercase tracking-[0.2em] text-neutral-400">
           Free Creative Mode · SaaS Dashboards
         </p>
-        <h1 className="mt-2 text-3xl font-bold tracking-tight">자유 창작 SaaS 대시보드 랩</h1>
+        <h1 className="mt-2 text-3xl font-bold tracking-tight">Free-Creative SaaS Dashboard Lab</h1>
         <p className="mt-3 max-w-2xl text-sm leading-relaxed text-neutral-500">
-          제품·브랜드·디자인을 전부 백지에서 발명한 로그인 후 앱 대시보드들. 각자 다른 도메인·미학이되,
-          기능하는 대시보드(네비·차트·테이블·실 인터랙션). 클릭하면 원본이 열립니다. 랜딩 컬렉션은{" "}
+          Logged-in-app dashboards with product, brand, and design all invented from a blank page. Each one has
+          a different domain and aesthetic, but is a working dashboard (nav, charts, tables, real interaction).
+          Click a card to open the original. The landing collection lives at{" "}
           <code className="rounded bg-neutral-100 px-1">/free</code>.
         </p>
 
