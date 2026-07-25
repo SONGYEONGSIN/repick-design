@@ -41,10 +41,13 @@ export default function DetailClient({ work, spec, similar }: { work: Work; spec
             <h1 className="text-4xl font-extrabold tracking-tight md:text-5xl">{work.brand}</h1>
             <p className="mt-3 max-w-2xl text-sm leading-relaxed text-zinc-500">{work.desc[lang]}</p>
           </div>
-          <a href={work.route} target="_blank" rel="noreferrer"
-            className="shrink-0 rounded-lg bg-zinc-900 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-zinc-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-900 focus-visible:ring-offset-2">
-            {d.viewLive}
-          </a>
+          <div className="flex flex-wrap items-center gap-2">
+            {spec && <SpecActions work={work} spec={spec} d={d} />}
+            <a href={work.route} target="_blank" rel="noreferrer"
+              className="shrink-0 rounded-lg bg-zinc-900 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-zinc-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-900 focus-visible:ring-offset-2">
+              {d.viewLive}
+            </a>
+          </div>
         </header>
 
         <HeroPreview work={work} />
@@ -99,19 +102,77 @@ function CopyButton({ text, d }: { text: string; d: (typeof STRINGS)["en"]["deta
   );
 }
 
+/** Assemble the full design-system spec into a single DESIGN.md an AI agent can consume at once. */
+function buildDesignMd(work: Work, spec: WorkSpec): string {
+  const palette = spec.palette.map((s) => `- **${s.role}** \`${s.hex}\` (${s.token}) — ${s.usage}`).join("\n");
+  const guidelines = spec.dosDonts.map((g) => `- ✅ Do: ${g.do}\n- ❌ Don't: ${g.dont}`).join("\n");
+  return [
+    `# ${work.brand} — Design System`,
+    "",
+    "## Overview",
+    spec.philosophy,
+    "",
+    "## Color Palette",
+    palette,
+    "",
+    "## Typography",
+    spec.typography,
+    "",
+    "## Spacing & Shape",
+    spec.spacing,
+    "",
+    "## Guidelines",
+    guidelines,
+    "",
+    "## Agent Prompt",
+    spec.agentPrompt,
+    "",
+  ].join("\n");
+}
+
+function SpecActions({ work, spec, d }: { work: Work; spec: WorkSpec; d: (typeof STRINGS)["en"]["detail"] }) {
+  const [copied, setCopied] = useState(false);
+  const md = buildDesignMd(work, spec);
+  function copy() { navigator.clipboard?.writeText(md); setCopied(true); setTimeout(() => setCopied(false), 1400); }
+  function download() {
+    const blob = new Blob([md], { type: "text/markdown;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url; a.download = `${work.id}-design.md`;
+    document.body.appendChild(a); a.click(); a.remove();
+    URL.revokeObjectURL(url);
+  }
+  return (
+    <>
+      <button type="button" onClick={copy}
+        className="shrink-0 rounded-lg border border-zinc-300 px-4 py-2 text-sm font-semibold text-zinc-800 transition-colors hover:border-zinc-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-900 focus-visible:ring-offset-2">
+        {copied ? d.copied : d.copyDesignMd}
+      </button>
+      <button type="button" onClick={download}
+        className="shrink-0 rounded-lg px-3 py-2 text-sm font-semibold text-zinc-500 transition-colors hover:text-zinc-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-900">
+        {d.downloadMd}
+      </button>
+    </>
+  );
+}
+
 function RichSpec({ spec, d }: { spec: WorkSpec; d: (typeof STRINGS)["en"]["detail"] }) {
   return (
     <div className="mt-14 space-y-14">
       <section>
+        <h2 className="text-sm font-bold uppercase tracking-wide text-zinc-500">{d.overview}</h2>
+        <p className="mt-3 max-w-3xl text-sm leading-relaxed text-zinc-600">{spec.philosophy}</p>
+      </section>
+
+      <section>
         <h2 className="text-sm font-bold uppercase tracking-wide text-zinc-500">{d.palette}</h2>
-        <p className="mt-3 max-w-2xl text-sm leading-relaxed text-zinc-600">{spec.philosophy}</p>
-        <ul className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2">
+        <ul className="mt-5 grid grid-cols-1 gap-3 sm:grid-cols-2">
           {spec.palette.map((s: Swatch) => (
-            <li key={s.token} className="flex items-center gap-3 rounded-lg border border-zinc-200 p-3">
-              <span aria-hidden="true" className="h-10 w-10 shrink-0 rounded-md border border-zinc-200" style={{ background: s.hex }} />
+            <li key={s.token} className="flex items-start gap-3 rounded-lg border border-zinc-200 p-3">
+              <span aria-hidden="true" className="mt-0.5 h-10 w-10 shrink-0 rounded-md border border-zinc-200" style={{ background: s.hex }} />
               <div className="min-w-0 flex-1">
-                <div className="flex items-center justify-between gap-2">
-                  <p className="truncate text-sm font-bold">{s.role}</p>
+                <div className="flex items-start justify-between gap-2">
+                  <p className="text-sm font-bold">{s.role}</p>
                   <CopyButton text={s.hex} d={d} />
                 </div>
                 <p className="font-mono text-[11px] text-zinc-500">{s.hex} · {s.token}</p>
