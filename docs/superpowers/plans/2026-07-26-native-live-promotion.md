@@ -210,10 +210,13 @@ Point `NATIVE_WORKS` at the live bundle, render native works as mobile iframes, 
 In `app/src/lib/works.ts`, replace the entire `NATIVE_WORKS` array with:
 ```ts
 export const NATIVE_WORKS: Work[] = [
-  { id: "n1", route: "/native-app/?screen=watchlist", brand: "Watchlist", desc: { en: "Saved-item watchlist · price-drop alerts and a single accent for unread, as a native mobile screen.", ko: "관심목록 · 가격 하락 알림 · 미읽음 단일 액센트 (네이티브 모바일 화면)" }, target: "native", category: "mobile", previewH: 520 },
-  { id: "n2", route: "/native-app/?screen=match", brand: "AI Match", desc: { en: "AI-match results feed · ranked secondhand picks with match scores, native mobile.", ko: "AI 매칭 결과 피드 · 매칭 점수순 중고 추천 (네이티브 모바일)" }, target: "native", category: "mobile", previewH: 520 },
-  { id: "n3", route: "/native-app/?screen=detail", brand: "Price Detail", desc: { en: "Product price-history detail · chart + spec breakdown on a native mobile screen.", ko: "상품 가격 히스토리 상세 · 차트 + 스펙 분해 (네이티브 모바일)" }, target: "native", category: "mobile", previewH: 520 },
+  { id: "n1", route: "/native-app/index.html?screen=watchlist", brand: "Watchlist", desc: { en: "Saved-item watchlist · price-drop alerts and a single accent for unread, as a native mobile screen.", ko: "관심목록 · 가격 하락 알림 · 미읽음 단일 액센트 (네이티브 모바일 화면)" }, target: "native", category: "mobile", previewH: 520 },
+  { id: "n2", route: "/native-app/index.html?screen=match", brand: "AI Match", desc: { en: "AI-match results feed · ranked secondhand picks with match scores, native mobile.", ko: "AI 매칭 결과 피드 · 매칭 점수순 중고 추천 (네이티브 모바일)" }, target: "native", category: "mobile", previewH: 520 },
+  { id: "n3", route: "/native-app/index.html?screen=detail", brand: "Price Detail", desc: { en: "Product price-history detail · chart + spec breakdown on a native mobile screen.", ko: "상품 가격 히스토리 상세 · 차트 + 스펙 분해 (네이티브 모바일)" }, target: "native", category: "mobile", previewH: 520 },
 ];
+```
+**Route form note:** Next 16 does NOT auto-index `public/` directories — `/native-app/?screen=x` 308-redirects to a 404. The working static path is the explicit **`/native-app/index.html?screen=<slug>`** (verified 200 + English render). Use that exact form in every route above.
+```ts
 ```
 Then in the `Work` type, delete the line:
 ```ts
@@ -269,8 +272,8 @@ Run: `git rm app/public/native/notification-center.png`
 
 Run: `node --test scripts/specimen-subset-complete.test.mjs` → PASS (14 subset, no strays, no n1).
 Run: `cd app && npx next build` → succeeds (no `Work.image` type errors — grep confirms only work-card/detail-client used it, both updated).
-Run: `cd app && (npx next start -p 3100 &) ; sleep 5 ; echo -n "native cards iframe src: "; curl -s localhost:3100/gallery | grep -oE 'src="/native-app/\?screen=[a-z]+"' | sort -u | tr '\n' ' ' ; echo ; echo -n "/gallery/n1 detail: "; curl -s -o /dev/null -w "%{http_code}\n" localhost:3100/gallery/n1 ; kill %1 2>/dev/null`
-Expected: three `/native-app/?screen=watchlist|match|detail` iframe srcs on /gallery; `/gallery/n1` → 200 (coming-soon detail with live hero).
+Run: `cd app && (npx next start -p 3100 &) ; sleep 5 ; echo -n "native cards iframe src: "; curl -s localhost:3100/gallery | grep -oE 'src="/native-app/index.html\?screen=[a-z]+"' | sort -u | tr '\n' ' ' ; echo ; echo -n "/gallery/n1 detail: "; curl -s -o /dev/null -w "%{http_code}\n" localhost:3100/gallery/n1 ; kill %1 2>/dev/null`
+Expected: three `/native-app/index.html?screen=watchlist|match|detail` iframe srcs on /gallery; `/gallery/n1` → 200 (coming-soon detail with live hero).
 
 - [ ] **Step 7: Commit**
 
