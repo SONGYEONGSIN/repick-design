@@ -7,12 +7,11 @@ test("oklchToHex: pure black and white are exact", () => {
   assert.equal(oklchToHex("oklch(100% 0 0)"), "#ffffff");
 });
 
-test("oklchToHex: indigo-600 maps near #4f46e5", () => {
-  const hex = oklchToHex("oklch(51.1% 0.262 276.966)");
-  assert.match(hex, /^#[0-9a-f]{6}$/);
-  // within ±20 per channel of the canonical indigo-600 (#4f46e5) — color space precision
-  const [r, g, b] = [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16));
-  assert.ok(Math.abs(r - 0x4f) <= 20 && Math.abs(g - 0x46) <= 20 && Math.abs(b - 0xe5) <= 20, `got ${hex}`);
+test("oklchToHex: converts Tailwind v4 OKLCH to exact sRGB hex", () => {
+  // Tailwind v4 defines its palette in OKLCH; these are the exact sRGB renderings
+  // (verified against the browser canvas color engine), NOT the older v3 hexes.
+  assert.equal(oklchToHex("oklch(51.1% 0.262 276.966)"), "#4f39f6"); // indigo-600 (v3 hex was #4f46e5)
+  assert.equal(oklchToHex("oklch(21% 0.006 285.885)"), "#18181b");   // zinc-900
 });
 
 test("buildTailwindHexMap: parses --color lines incl. black/white", () => {

@@ -1,7 +1,7 @@
 // scripts/extract-palette.mjs — deterministic palette extractor (authoring aid for G2 rich specs).
 // Reads Tailwind v4 OKLCH theme + a work's source, emits ranked hex swatches.
 import { readFileSync, readdirSync, statSync } from "node:fs";
-import { join, dirname } from "node:path";
+import { join, dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const THEME_CSS = join(dirname(fileURLToPath(import.meta.url)), "..", "app", "node_modules", "tailwindcss", "theme.css");
@@ -79,10 +79,8 @@ function readSourceRecursive(dir) {
   return out;
 }
 
-// CLI
-const scriptPath = fileURLToPath(import.meta.url);
-const argv1Absolute = process.argv[1].startsWith('/') ? process.argv[1] : new URL(process.argv[1], import.meta.url).pathname;
-if (scriptPath === argv1Absolute || scriptPath === process.argv[1]) {
+// CLI — run only when invoked directly, never when imported.
+if (process.argv[1] && fileURLToPath(import.meta.url) === resolve(process.argv[1])) {
   const dir = process.argv[2];
   if (!dir) { console.error("usage: node scripts/extract-palette.mjs <sourceDir>"); process.exit(1); }
   const hexMap = buildTailwindHexMap(readFileSync(THEME_CSS, "utf8"));
