@@ -1,17 +1,17 @@
-// native/src/charts/BarBreakdown.tsx — S7 Bar: 매칭 근거 분해(가로 막대).
-// charts.catalog "Compare Categories". 단일 액센트·값 상시·내림차순·정적·결정론.
+// native/src/charts/BarBreakdown.tsx — S7 Bar: match factor breakdown (horizontal bars).
+// charts.catalog "Compare Categories". Single accent · values always shown · descending order · static · deterministic.
 import { View, Text, StyleSheet } from "react-native";
 import Svg, { Rect } from "react-native-svg";
 import { tokens } from "../tokens";
 
 export type BarDatum = { label: string; value: number };
 
-// 내림차순 정렬 순수함수(원본 불변 — charts.catalog "always sort descending by value").
+// Descending sort, pure function (original array untouched — charts.catalog "always sort descending by value").
 export function sortDesc(data: BarDatum[]): BarDatum[] {
   return [...data].sort((a, b) => b.value - a.value);
 }
 
-// 채움 폭(결정론: 소수 2자리). value를 [0,max]로 클램프 후 barWidth에 스케일.
+// Fill width (deterministic: 2 decimal places). Clamps value to [0,max], then scales to barWidth.
 export function fillWidth(value: number, max: number, barWidth: number): number {
   const v = Math.max(0, Math.min(value, max));
   return Math.round((v / max) * barWidth * 100) / 100;
@@ -21,7 +21,7 @@ type Props = { data: BarDatum[]; max?: number; accessibilityLabel: string; barWi
 
 export function BarBreakdown({ data, max = 100, accessibilityLabel, barWidth = 120 }: Props) {
   const rows = sortDesc(data);
-  const H = 8; // 바 높이
+  const H = 8; // bar height
   return (
     <View style={styles.wrap} accessible accessibilityRole="image" accessibilityLabel={accessibilityLabel}>
       {rows.map((d) => (
