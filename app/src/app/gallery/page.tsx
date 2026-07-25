@@ -5,7 +5,7 @@ import { DASH_WORKS, FREE_WORKS, LANDING_WORKS, NATIVE_WORKS, LAST_UPDATED, type
 import { parseLedger, candidateStatus } from "@/lib/evolve-status";
 import { GalleryClient } from "./gallery-client";
 
-export const metadata: Metadata = { title: "RE:PICK 전작 도록 — Collected Works" };
+export const metadata: Metadata = { title: "Specimen — Interface design systems for AI agents" };
 
 /** evolve/dash 브랜치 체크아웃에서만 존재하는 자율 루프 후보를 열거 (main/프로덕션 = 자동 숨김) */
 function evolveWorks(): Work[] {
@@ -30,10 +30,11 @@ function evolveWorks(): Work[] {
             id: `${target}-${round}/${v}`,
             route: `/${dir}/${round}/${v}`,
             brand: `${label} ${round.toUpperCase()} · ${v.toUpperCase()}`,
-            desc: "자율 진화 라운드 후보",
+            desc: { ko: "자율 진화 라운드 후보", en: "Autonomous evolution round candidate" },
             status: candidateStatus(ledgerRound, v, ledger),
             round: ledgerRound,
             target,
+            category: target === "landing" ? "landing" : "dashboard",
             date: info?.date,
           });
         }
@@ -44,13 +45,12 @@ function evolveWorks(): Work[] {
 }
 
 export default function GalleryPage() {
-  const evolve = evolveWorks();
-  const categories = [
-    { key: "landing", numeral: "Ⅰ", label: "랜딩", works: LANDING_WORKS },
-    { key: "dash", numeral: "Ⅱ", label: "SaaS 대시보드", works: DASH_WORKS },
-    { key: "free", numeral: "Ⅲ", label: "자유 창작", works: FREE_WORKS },
-    { key: "native", numeral: "Ⅳ", label: "네이티브", works: NATIVE_WORKS },
-    ...(evolve.length > 0 ? [{ key: "evolve", numeral: "Ⅴ", label: "자율 루프 후보", works: evolve }] : []),
+  const works: Work[] = [
+    ...LANDING_WORKS.map((w) => ({ ...w, category: "landing" as const })),
+    ...DASH_WORKS.map((w) => ({ ...w, category: "dashboard" as const })),
+    ...FREE_WORKS.map((w) => ({ ...w, category: "free" as const })),
+    ...NATIVE_WORKS.map((w) => ({ ...w, category: "native" as const })),
+    ...evolveWorks(),
   ];
-  return <GalleryClient categories={categories} lastUpdated={LAST_UPDATED} />;
+  return <GalleryClient works={works} lastUpdated={LAST_UPDATED} />;
 }
