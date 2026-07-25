@@ -14,7 +14,7 @@
 - **Kept set = exactly these 15 ids** (each already has a full spec in `specimen-specs.data.json`): d29 d30 d31 d32 d33 d34 d35 d36 d37 d38 v0 v6 v7 v8 n1.
 - **7 domain categories:** `project · scheduling · ops · finance · analytics · landing · mobile`. Filter chips = `All` + those 7. No `winners`/`dashboard`/`free`/`native` filter keys remain.
 - **Domain assignment:** d29,d33→project · d30→scheduling · d31,d34,d38→ops · d32,d35→finance · d36,d37→analytics · v0,v6,v7,v8→landing · n1→mobile.
-- **Load-bearing routes to KEEP:** `/` (`(marketing)/page.tsx` = champion landing v0), `/dashboard` (`app/src/app/dashboard/` — linked by `(marketing)/landing-client.tsx` CTAs ×4), `/dash` index (`app/src/app/dash/page.tsx` — imports `DASH_LAB_WORKS`, will show the kept 10).
+- **Load-bearing routes to KEEP:** `/` (`(marketing)/page.tsx` = champion landing v0), `/dashboard` (`app/src/app/(app)/dashboard/` — an `(app)` route group; linked by `(marketing)/landing-client.tsx` CTAs ×4), `/dash` index (`app/src/app/dash/page.tsx` — imports `DASH_LAB_WORKS`, will show the kept 10).
 - **Deep-spec content English-only; page chrome bilingual EN/KO** (`gallery-i18n.ts`).
 - Determinism: no `Date.now()`/`Math.random()`/`new Date()`.
 - Verification: `cd app && npx next build` (succeeds; `/gallery/[id]` SSG = 15) + curl smokes. `node --test "scripts/**/*.test.mjs"` must stay green.

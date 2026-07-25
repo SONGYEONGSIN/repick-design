@@ -58,7 +58,7 @@ Specimen 갤러리를 **큐레이션된 15작품**(전부 풀 상세 스펙 보�
 
 ### 3.5 삭제 안 함 (load-bearing)
 - `app/src/app/(marketing)/page.tsx`·`landing-client.tsx`·`layout.tsx` — 챔피언 랜딩 `/`(=v0 본체) + 공유.
-- `app/src/app/dashboard/` — v0 CTA(`href="/dashboard"` 4곳) 대상. 갤러리에서만 제외(works.ts `app` entry 삭제), 라우트 유지.
+- `app/src/app/(app)/dashboard/` (`(app)` 라우트 그룹 — URL은 `/dashboard`) — v0 CTA(`href="/dashboard"` 4곳) 대상. 갤러리에서만 제외(works.ts `app` entry 삭제), 라우트 유지.
 - `app/src/app/dash/page.tsx` (/dash 인덱스) — 유지. 잔존 10작품만 표시(imports 정합 확인).
 - dash/d29~d38, (marketing)/v6·v7·v8, native.
 
