@@ -19,7 +19,7 @@ export const NATIVE_WORKS: Work[] = [
   {
     id: "n1",
     route: "/native/notification-center.png",
-    brand: "알림센터",
+    brand: "Notification Center",
     desc: { ko: "알림 피드 · 날짜 그룹핑 · 미읽음 단일 액센트 (자동 native 라운드 auto-native-r1 승자)", en: "Notification feed · grouped by date, a single accent for unread (auto native round auto-native-r1 winner)" },
     target: "native",
     image: "/native/notification-center.png",
@@ -33,9 +33,9 @@ export const NATIVE_WORKS: Work[] = [
 // I. Landing — champion + evolution lineage v6~v8. (/lab is itself an index page, not a work — excluded)
 export const LANDING_WORKS: Work[] = [
   { id: "v0", route: "/", brand: "V0 — Champion", desc: { ko: "현재 프로덕션 랜딩 · 에디토리얼 스플릿 히어로 + 제품 쇼케이스 (자동 라운드 R7 계보 승자)", en: "Live production landing · editorial split hero + product showcase (auto-round R7 lineage winner)" }, previewH: 340, category: "landing" },
-  { id: "v6", route: "/v6", brand: "V6 리빌", desc: { ko: "비포/애프터 드래그 리빌 히어로 · 실제 제품사진 슬라이더(role=slider)·스프링 물리, 감각 축 차별 (자동 landing r2 승자)", en: "Before/after drag-to-reveal hero · a real product-photo slider (role=slider) with spring physics, differentiating on tactile feel (auto landing r2 winner)" }, previewH: 340, category: "landing" },
-  { id: "v7", route: "/v7", brand: "V7 대조표", desc: { ko: "AI 매칭 대조표 히어로 · 실 table+탭+아코디언 비교 위젯, 폼 계열 최초 표 기반 (자동 landing r4 승자)", en: "AI-match comparison-table hero · a real table + tabs + accordion widget, the form lineage's first table-based entry (auto landing r4 winner)" }, previewH: 340, category: "landing" },
-  { id: "v8", route: "/v8", brand: "V8 다이얼", desc: { ko: "매칭 정확도 다이얼 히어로 · 원형 SVG 게이지 결과 시각화, 형태 신규성 (자동 landing r5 승자)", en: "Match-accuracy dial hero · a circular SVG gauge visualizes the result, a formal novelty (auto landing r5 winner)" }, previewH: 340, category: "landing" },
+  { id: "v6", route: "/v6", brand: "V6 Reveal", desc: { ko: "비포/애프터 드래그 리빌 히어로 · 실제 제품사진 슬라이더(role=slider)·스프링 물리, 감각 축 차별 (자동 landing r2 승자)", en: "Before/after drag-to-reveal hero · a real product-photo slider (role=slider) with spring physics, differentiating on tactile feel (auto landing r2 winner)" }, previewH: 340, category: "landing" },
+  { id: "v7", route: "/v7", brand: "V7 Comparison", desc: { ko: "AI 매칭 대조표 히어로 · 실 table+탭+아코디언 비교 위젯, 폼 계열 최초 표 기반 (자동 landing r4 승자)", en: "AI-match comparison-table hero · a real table + tabs + accordion widget, the form lineage's first table-based entry (auto landing r4 winner)" }, previewH: 340, category: "landing" },
+  { id: "v8", route: "/v8", brand: "V8 Dial", desc: { ko: "매칭 정확도 다이얼 히어로 · 원형 SVG 게이지 결과 시각화, 형태 신규성 (자동 landing r5 승자)", en: "Match-accuracy dial hero · a circular SVG gauge visualizes the result, a formal novelty (auto landing r5 winner)" }, previewH: 340, category: "landing" },
 ];
 
 // II. SaaS dashboards — 10 works in the /dash gallery (d29~d38) + baseline/product
