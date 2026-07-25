@@ -50,3 +50,4 @@ _(main 기준 없음 — 라운드 커밋이 DECISION 등재를 추가한다)_
 - [[20-generations/2026-07-22-auto-dash-r10/DECISION|auto-dash-r10]] (승자 a — Wavelength 온콜 로테이션 링·인시던트 대응 콘솔)
 - [[20-generations/2026-07-23-auto-landing-r4/DECISION|auto-landing-r4]] (승자 c — AI 매칭 대조표 인터랙티브 비교 테이블 히어로, 3렌즈 만장일치)
 - [[20-generations/2026-07-24-auto-landing-r5/DECISION|auto-landing-r5]] (승자 a — 매칭 정확도 다이얼 Radial Gauge 히어로, 2:1)
+- [[20-generations/2026-07-25-auto-landing-r6/DECISION|auto-landing-r6]] (승자 a — Certificate of Appraisal 감정증명서 히어로, 3파전 완전동률→brief 렌즈 tie-break)
