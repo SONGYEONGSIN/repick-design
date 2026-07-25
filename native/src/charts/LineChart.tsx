@@ -1,5 +1,5 @@
-// native/src/charts/LineChart.tsx — S8 정식 Line/Area: 축·눈금·영역채움 + 터치 툴팁.
-// charts.catalog "Trend Over Time". 단일 액센트·저투명 영역·정적·결정론.
+// native/src/charts/LineChart.tsx — S8 full Line/Area: axes, ticks, area fill + touch tooltip.
+// charts.catalog "Trend Over Time". Single accent · low-opacity area · static · deterministic.
 import { useMemo, useRef, useState } from "react";
 import { View, PanResponder, StyleSheet, type GestureResponderEvent } from "react-native";
 import Svg, { Polyline, Polygon, Line, Circle, Rect, Text as SvgText } from "react-native-svg";
@@ -10,7 +10,7 @@ export type PricePoint = { day: string; price: number };
 const PAD = { l: 46, r: 10, t: 12, b: 22 } as const;
 const round2 = (n: number) => Math.round(n * 100) / 100;
 
-// 결정론 스케일/최근접 — 순수함수(테스트 가능).
+// Deterministic scale/nearest-index — pure functions (testable).
 export function makeScales(prices: number[], width: number, height: number) {
   const n = prices.length;
   const min = Math.min(...prices);
@@ -44,7 +44,7 @@ type Props = {
 export function LineChart({ points, width, height, accessibilityLabel, formatY = String }: Props) {
   const prices = useMemo(() => points.map((p) => p.price), [points]);
   const s = useMemo(() => makeScales(prices, width, height), [prices, width, height]);
-  const [active, setActive] = useState(points.length - 1); // 기본 최신점
+  const [active, setActive] = useState(points.length - 1); // defaults to the latest point
 
   const onTouch = (e: GestureResponderEvent) => setActive(nearestIndex(e.nativeEvent.locationX, s.n, width));
   const pan = useRef(
@@ -77,7 +77,7 @@ export function LineChart({ points, width, height, accessibilityLabel, formatY =
       {...pan.panHandlers}
     >
       <Svg width={width} height={height}>
-        {/* Y 그리드 + 눈금 */}
+        {/* Y grid + ticks */}
         {yTicks.map((t, i) => {
           const y = s.scaleY(t);
           return (
@@ -89,16 +89,16 @@ export function LineChart({ points, width, height, accessibilityLabel, formatY =
             {formatY(t)}
           </SvgText>
         ))}
-        {/* 영역 + 라인 */}
+        {/* Area + line */}
         <Polygon points={areaPts} fill={tokens.color.accent} fillOpacity={0.14} />
         <Polyline points={linePts} fill="none" stroke={tokens.color.accent} strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
-        {/* X 라벨 */}
+        {/* X labels */}
         {xIdx.map((idx, i) => (
           <SvgText key={`xl${i}`} x={s.scaleX(idx)} y={height - 6} fill={tokens.color.faint} fontSize={10} textAnchor="middle">
             {points[idx].day}
           </SvgText>
         ))}
-        {/* 툴팁: 크로스헤어 + 점 + 값 버블 */}
+        {/* Tooltip: crosshair + dot + value bubble */}
         <Line x1={ax} y1={PAD.t} x2={ax} y2={s.baseline} stroke={tokens.color.faint} strokeWidth={1} strokeDasharray="3 3" />
         <Circle cx={ax} cy={ay} r={3.5} fill={tokens.color.accent} />
         <Rect x={bx} y={by} width={bw} height={bh} rx={6} fill={tokens.color.ink} />

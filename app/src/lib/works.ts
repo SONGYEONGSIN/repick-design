@@ -9,25 +9,15 @@ export type Work = {
   round?: string;
   target?: "dash" | "landing" | "native";
   date?: string;
-  image?: string; // static screenshot path (for native, etc. image-preview works). If set, WorkCard renders an <img> instead of an iframe
   category?: "project" | "scheduling" | "ops" | "finance" | "analytics" | "landing" | "mobile"; // gallery domain category (assigned per work)
 };
 
 export const LAST_UPDATED = "2026-07-25"; // determinism rule: no dynamic Date calls — update this by hand when refreshing
 
 export const NATIVE_WORKS: Work[] = [
-  {
-    id: "n1",
-    route: "/native/notification-center.png",
-    brand: "Notification Center",
-    desc: { ko: "알림 피드 · 날짜 그룹핑 · 미읽음 단일 액센트 (자동 native 라운드 auto-native-r1 승자)", en: "Notification feed · grouped by date, a single accent for unread (auto native round auto-native-r1 winner)" },
-    target: "native",
-    image: "/native/notification-center.png",
-    status: "winner",
-    round: "auto-native-r1",
-    previewH: 420,
-    category: "mobile",
-  },
+  { id: "n1", route: "/native-app/index.html?screen=watchlist", brand: "Watchlist", desc: { en: "Saved-item watchlist · price-drop alerts and a single accent for unread, as a native mobile screen.", ko: "관심목록 · 가격 하락 알림 · 미읽음 단일 액센트 (네이티브 모바일 화면)" }, target: "native", category: "mobile", previewH: 520 },
+  { id: "n2", route: "/native-app/index.html?screen=match", brand: "AI Match", desc: { en: "AI-match results feed · ranked secondhand picks with match scores, native mobile.", ko: "AI 매칭 결과 피드 · 매칭 점수순 중고 추천 (네이티브 모바일)" }, target: "native", category: "mobile", previewH: 520 },
+  { id: "n3", route: "/native-app/index.html?screen=detail", brand: "Price Detail", desc: { en: "Product price-history detail · chart + spec breakdown on a native mobile screen.", ko: "상품 가격 히스토리 상세 · 차트 + 스펙 분해 (네이티브 모바일)" }, target: "native", category: "mobile", previewH: 520 },
 ];
 
 // I. Landing — champion + evolution lineage v6~v8. (/lab is itself an index page, not a work — excluded)

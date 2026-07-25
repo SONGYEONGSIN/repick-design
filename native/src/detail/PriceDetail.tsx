@@ -1,4 +1,4 @@
-// native/src/detail/PriceDetail.tsx — S8 가격 히스토리 상세 화면(정식 Line/Area + 툴팁).
+// native/src/detail/PriceDetail.tsx — S8 price history detail screen (full Line/Area chart + tooltip).
 import { View, Text, StyleSheet, useWindowDimensions } from "react-native";
 import { LineChart } from "../charts/LineChart";
 import { DETAIL, formatManwon, formatWon, historyChangePct, pctText } from "./data";
@@ -13,7 +13,7 @@ export function PriceDetail() {
   return (
     <View style={styles.root}>
       <Text style={styles.h1} accessibilityRole="header">
-        가격 히스토리
+        Price History
       </Text>
       <Text style={styles.title} numberOfLines={2}>
         {DETAIL.title}
@@ -22,14 +22,14 @@ export function PriceDetail() {
         <Text style={styles.current}>{formatWon(DETAIL.current)}</Text>
         <Text style={styles.pct}>{pctText(pct)}</Text>
       </View>
-      <Text style={styles.caption}>최근 {DETAIL.history.length}일 가격 추이 · 차트를 눌러 값 확인</Text>
+      <Text style={styles.caption}>Last {DETAIL.history.length} days' price trend · Tap the chart to see values</Text>
       <View style={styles.chartCard}>
         <LineChart
           points={DETAIL.history}
           width={chartW}
           height={200}
           formatY={formatManwon}
-          accessibilityLabel={`${DETAIL.title} 가격 추이, ${start.day} ${formatWon(start.price)}에서 오늘 ${formatWon(DETAIL.current)}, 등락 ${pctText(pct)}`}
+          accessibilityLabel={`${DETAIL.title} price trend, from ${start.day} ${formatWon(start.price)} to today ${formatWon(DETAIL.current)}, change ${pctText(pct)}`}
         />
       </View>
     </View>
