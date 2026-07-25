@@ -15,9 +15,11 @@ export function WorkCard({ work, lang, label }: { work: Work; lang: Lang; label:
       className="group block min-w-0 overflow-hidden rounded-xl border border-zinc-200 bg-white transition duration-200 hover:-translate-y-0.5 hover:border-zinc-400 hover:shadow-sm active:translate-y-0 active:shadow-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-900 focus-visible:ring-offset-2 motion-reduce:hover:translate-y-0">
       <div aria-hidden="true" className="relative w-full overflow-hidden border-b border-zinc-100 bg-zinc-50" style={{ height: h }}>
         {!loaded && <div className="absolute inset-0 animate-pulse bg-gradient-to-b from-zinc-100 to-zinc-50 motion-reduce:animate-none" />}
-        {work.image ? (
-          <img src={work.image} alt="" width={390} height={844} loading="lazy" onLoad={() => setLoaded(true)}
-            className={`absolute left-1/2 top-1/2 max-h-full w-auto -translate-x-1/2 -translate-y-1/2 object-contain transition-opacity duration-300 ${loaded ? "opacity-100" : "opacity-0"}`} />
+        {work.category === "mobile" ? (
+          <iframe src={work.route} loading="lazy" title={`${work.brand} preview`} tabIndex={-1}
+            onLoad={() => setLoaded(true)}
+            className={`pointer-events-none absolute left-1/2 top-0 origin-top transition-opacity duration-300 ${loaded ? "opacity-100" : "opacity-0"}`}
+            style={{ width: "390px", height: "844px", transform: `translateX(-50%) scale(${h / 844})`, border: 0 }} />
         ) : (
           <iframe src={work.route} loading="lazy" title={`${work.brand} preview`} tabIndex={-1} scrolling="no" onLoad={() => setLoaded(true)}
             className={`pointer-events-none absolute left-0 top-0 origin-top-left transition-opacity duration-300 ${loaded ? "opacity-100" : "opacity-0"}`}

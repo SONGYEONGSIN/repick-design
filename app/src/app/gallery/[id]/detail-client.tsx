@@ -79,9 +79,10 @@ function HeroPreview({ work }: { work: Work }) {
   return (
     <div className="relative mt-8 h-[480px] w-full overflow-hidden rounded-xl border border-zinc-200 bg-zinc-50">
       {!loaded && <div className="absolute inset-0 animate-pulse bg-gradient-to-b from-zinc-100 to-zinc-50 motion-reduce:animate-none" />}
-      {work.image ? (
-        <img src={work.image} alt={`${work.brand} preview`} onLoad={() => setLoaded(true)}
-          className={`absolute left-1/2 top-1/2 max-h-full w-auto -translate-x-1/2 -translate-y-1/2 object-contain transition-opacity duration-300 ${loaded ? "opacity-100" : "opacity-0"}`} />
+      {work.category === "mobile" ? (
+        <iframe src={work.route} title={`${work.brand} preview`} tabIndex={-1} onLoad={() => setLoaded(true)}
+          className={`pointer-events-none absolute left-1/2 top-1/2 origin-center transition-opacity duration-300 ${loaded ? "opacity-100" : "opacity-0"}`}
+          style={{ width: "390px", height: "844px", transform: "translate(-50%, -50%) scale(0.55)", border: 0 }} />
       ) : (
         <iframe src={work.route} title={`${work.brand} preview`} tabIndex={-1} scrolling="no" onLoad={() => setLoaded(true)}
           className={`pointer-events-none absolute left-0 top-0 origin-top-left transition-opacity duration-300 ${loaded ? "opacity-100" : "opacity-0"}`}

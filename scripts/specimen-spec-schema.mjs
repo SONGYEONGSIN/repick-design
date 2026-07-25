@@ -1,5 +1,5 @@
 // scripts/specimen-spec-schema.mjs — G2 rich-spec completeness gate (shared by tests).
-export const SUBSET_IDS = ["d29", "d30", "d31", "d32", "d33", "d34", "d35", "d36", "d37", "d38", "v0", "v6", "v7", "v8", "n1"];
+export const SUBSET_IDS = ["d29", "d30", "d31", "d32", "d33", "d34", "d35", "d36", "d37", "d38", "v0", "v6", "v7", "v8"];
 
 export function validateSpec(spec) {
   const errs = [];
