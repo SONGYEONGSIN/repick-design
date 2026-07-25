@@ -44,8 +44,8 @@ function GlobalSearch() {
           <input
             ref={inputRef}
             type="text"
-            placeholder="자산, 거래 검색…"
-            aria-label="자산, 거래 검색"
+            placeholder="Search assets, transactions…"
+            aria-label="Search assets and transactions"
             onBlur={() => setOpen(false)}
             className="min-w-0 flex-1 bg-transparent text-sm text-zinc-100 outline-none placeholder:text-zinc-500"
           />
@@ -63,7 +63,7 @@ function GlobalSearch() {
           )}
         >
           <Search aria-hidden="true" className="size-4 shrink-0" />
-          <span className="min-w-0 flex-1 truncate">검색…</span>
+          <span className="min-w-0 flex-1 truncate">Search…</span>
           <kbd className="hidden shrink-0 rounded border border-white/10 px-1.5 py-0.5 text-[10px] font-medium tabular-nums text-zinc-500 sm:inline">
             ⌘K
           </kbd>
@@ -92,14 +92,14 @@ function UserMenu() {
         onClick={() => setOpen((v) => !v)}
         aria-haspopup="menu"
         aria-expanded={open}
-        aria-label="계정 메뉴 열기"
+        aria-label="Open account menu"
         className={cn(
           "flex h-11 items-center gap-1.5 rounded-lg border border-white/10 bg-white/5 pl-1.5 pr-2 outline-none transition-colors",
           "hover:bg-white/10 focus-visible:ring-2 focus-visible:ring-indigo-400 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950",
         )}
       >
         <span className="flex size-8 items-center justify-center rounded-md bg-indigo-500/20 text-[11px] font-semibold text-indigo-300">
-          김도
+          JL
         </span>
         <ChevronDown aria-hidden="true" className="size-3.5 text-zinc-500" />
       </button>
@@ -107,7 +107,7 @@ function UserMenu() {
       {open ? (
         <ul
           role="menu"
-          aria-label="계정 메뉴"
+          aria-label="Account menu"
           className="absolute right-0 top-full z-20 mt-2 w-48 rounded-lg border border-white/10 bg-zinc-900 py-1 shadow-lg"
         >
           <li role="none">
@@ -117,7 +117,7 @@ function UserMenu() {
               className="flex min-h-11 w-full items-center gap-2.5 px-3 py-2 text-left text-[13px] text-zinc-300 outline-none hover:bg-white/5 focus-visible:bg-white/5"
               onClick={() => setOpen(false)}
             >
-              <User aria-hidden="true" className="size-3.5" /> 프로필
+              <User aria-hidden="true" className="size-3.5" /> Profile
             </button>
           </li>
           <li role="none">
@@ -127,7 +127,7 @@ function UserMenu() {
               className="flex min-h-11 w-full items-center gap-2.5 px-3 py-2 text-left text-[13px] text-zinc-300 outline-none hover:bg-white/5 focus-visible:bg-white/5"
               onClick={() => setOpen(false)}
             >
-              <Settings aria-hidden="true" className="size-3.5" /> 설정
+              <Settings aria-hidden="true" className="size-3.5" /> Settings
             </button>
           </li>
           <li role="none" className="my-1 border-t border-white/5" />
@@ -138,7 +138,7 @@ function UserMenu() {
               className="flex min-h-11 w-full items-center gap-2.5 px-3 py-2 text-left text-[13px] text-red-400 outline-none hover:bg-white/5 focus-visible:bg-white/5"
               onClick={() => setOpen(false)}
             >
-              <LogOut aria-hidden="true" className="size-3.5" /> 로그아웃
+              <LogOut aria-hidden="true" className="size-3.5" /> Log out
             </button>
           </li>
         </ul>
@@ -153,7 +153,7 @@ export function Topbar({ onOpenMobileMenu }: { onOpenMobileMenu: () => void }) {
       <button
         type="button"
         onClick={onOpenMobileMenu}
-        aria-label="메뉴 열기"
+        aria-label="Open menu"
         className={cn(
           "flex size-11 shrink-0 items-center justify-center rounded-lg text-zinc-400 outline-none transition-colors lg:hidden",
           "hover:bg-white/5 hover:text-zinc-100 focus-visible:ring-2 focus-visible:ring-indigo-400 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950",
@@ -173,12 +173,12 @@ export function Topbar({ onOpenMobileMenu }: { onOpenMobileMenu: () => void }) {
           )}
         >
           <Plus aria-hidden="true" className="size-4" />
-          자산 추가
+          Add asset
         </button>
 
         <button
           type="button"
-          aria-label="알림 3건, 확인 안 함"
+          aria-label="3 unread notifications"
           className={cn(
             "relative flex size-11 shrink-0 items-center justify-center rounded-lg text-zinc-400 outline-none transition-colors",
             "hover:bg-white/5 hover:text-zinc-100 focus-visible:ring-2 focus-visible:ring-indigo-400 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950",

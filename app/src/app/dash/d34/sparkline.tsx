@@ -9,10 +9,11 @@ export interface SparkPoint {
 }
 
 /**
- * 히어로 크로스헤어 차트 — 면적+선, 마우스 호버(위치→최근접 인덱스)와
- * 키보드(← → Home End)로 활성 포인트를 이동하며 툴팁을 갱신한다.
- * aria-live로 활성 포인트를 낭독. 좌표는 소수 2자리 반올림(하이드레이션 안정),
- * 고정 0~100 viewBox를 사용해 서버/클라이언트 렌더가 갈리지 않는다.
+ * Hero crosshair chart — area + line, moves the active point via mouse hover
+ * (position → nearest index) and keyboard (← → Home End) to update the tooltip.
+ * The active point is announced via aria-live. Coordinates are rounded to 2
+ * decimal places (for hydration stability), using a fixed 0–100 viewBox so
+ * server/client renders never diverge.
  */
 export function CrosshairChart({
   points,
@@ -76,7 +77,7 @@ export function CrosshairChart({
     <div className="w-full">
       <div
         role="img"
-        aria-label={`${ariaTitle}. ${points.map((p) => `${p.label || "구간"} ${formatValue(p.value)}`).join(", ")}`}
+        aria-label={`${ariaTitle}. ${points.map((p) => `${p.label || "segment"} ${formatValue(p.value)}`).join(", ")}`}
         tabIndex={0}
         onKeyDown={handleKey}
         onPointerMove={handleMove}
@@ -128,14 +129,14 @@ export function CrosshairChart({
         {activePoint.label} {formatValue(activePoint.value)}
       </p>
       <div className={`mt-1 flex items-center justify-between text-[11px] tabular-nums ${accentClass}`}>
-        <span className="text-zinc-400">최저 {formatValue(min)}</span>
-        <span className="text-zinc-400">최고 {formatValue(max)}</span>
+        <span className="text-zinc-400">Low {formatValue(min)}</span>
+        <span className="text-zinc-400">High {formatValue(max)}</span>
       </div>
     </div>
   );
 }
 
-/** 미니 스파크라인 — 벤토 소형 카드용, 정적 시각 요약(호버 없음). */
+/** Mini sparkline — for small bento cards, a static visual summary (no hover). */
 export function MiniSparkline({
   values,
   strokeColor = "rgb(52 211 153)",

@@ -107,7 +107,7 @@ export function AssetIcon({
 }
 
 export function StatusBadge({ status }: { status: "completed" | "pending" }) {
-  const label = status === "completed" ? "완료" : "대기중";
+  const label = status === "completed" ? "Completed" : "Pending";
   return (
     <span
       className={cn(

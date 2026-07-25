@@ -13,7 +13,7 @@ export function PeriodToggle({ value, onChange }: PeriodToggleProps) {
   return (
     <div
       role="radiogroup"
-      aria-label="조회 기간"
+      aria-label="Date range"
       className="inline-flex h-11 items-center rounded-lg border border-zinc-200 bg-zinc-50 p-1"
     >
       {PERIODS.map((period) => {

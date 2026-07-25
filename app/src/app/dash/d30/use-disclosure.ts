@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 
-/** 외부 클릭 + Escape 로 닫히는 팝오버/드롭다운 공용 훅. */
+/** Shared hook for popovers/dropdowns that close on outside click + Escape. */
 export function useDisclosure<T extends HTMLElement = HTMLDivElement>() {
   const [open, setOpen] = useState(false);
   const ref = useRef<T>(null);

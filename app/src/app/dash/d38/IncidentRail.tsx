@@ -133,7 +133,7 @@ export default function IncidentRail({ selectedId, onSelect }: { selectedId: str
         )}
       </ul>
 
-      {/* 스크린리더 전용 시맨틱 테이블 — 시각 목록과 동일한 필터/정렬 결과의 표 형태 대안 */}
+      {/* Screen-reader-only semantic table — a table-form alternative with the same filter/sort results as the visual list */}
       <div className="sr-only">
         <table>
           <caption>Incident list filtered by status ({statusFilter}) and service ({serviceFilter}), sorted {sortMode}</caption>

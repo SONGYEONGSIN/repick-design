@@ -30,9 +30,9 @@ export function KpiRow({ period }: KpiRowProps) {
   return (
     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
       <KpiCard
-        label="오늘 미팅"
+        label="Today's meetings"
         value={formatNumber(todayKpi.meetingsTotal)}
-        helpText="어제 대비"
+        helpText="vs. yesterday"
         deltaText={formatSignedPercent(todayDeltaPct)}
         tone={todayDeltaPct >= 0 ? "positive" : "negative"}
         direction={todayDeltaPct >= 0 ? "up" : "down"}
@@ -40,9 +40,9 @@ export function KpiRow({ period }: KpiRowProps) {
         accentClass="bg-indigo-50 text-indigo-600"
       />
       <KpiCard
-        label="이번주 미팅"
+        label="This week's meetings"
         value={formatNumber(weekKpi.meetingsTotal)}
-        helpText="지난주 대비"
+        helpText="vs. last week"
         deltaText={formatSignedPercent(weekDeltaPct)}
         tone={weekDeltaPct >= 0 ? "positive" : "negative"}
         direction={weekDeltaPct >= 0 ? "up" : "down"}
@@ -50,9 +50,9 @@ export function KpiRow({ period }: KpiRowProps) {
         accentClass="bg-blue-50 text-blue-600"
       />
       <KpiCard
-        label={`예약 전환율 · ${PERIOD_LABEL[period]}`}
+        label={`Booking conversion · ${PERIOD_LABEL[period]}`}
         value={`${kpi.conversionRate.toFixed(1)}%`}
-        helpText="이전 기간 대비"
+        helpText="vs. previous period"
         deltaText={formatSignedPoint(kpi.conversionDeltaPt)}
         tone={kpi.conversionDeltaPt >= 0 ? "positive" : "negative"}
         direction={kpi.conversionDeltaPt >= 0 ? "up" : "down"}
@@ -60,9 +60,9 @@ export function KpiRow({ period }: KpiRowProps) {
         accentClass="bg-emerald-50 text-emerald-600"
       />
       <KpiCard
-        label={`노쇼율 · ${PERIOD_LABEL[period]}`}
+        label={`No-show rate · ${PERIOD_LABEL[period]}`}
         value={`${kpi.noShowRate.toFixed(1)}%`}
-        helpText="이전 기간 대비"
+        helpText="vs. previous period"
         deltaText={formatSignedPoint(kpi.noShowDeltaPt)}
         tone={kpi.noShowDeltaPt <= 0 ? "positive" : "negative"}
         direction={kpi.noShowDeltaPt <= 0 ? "down" : "up"}

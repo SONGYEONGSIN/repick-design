@@ -3,8 +3,8 @@
 import { useState, type ReactNode } from "react";
 
 /**
- * 호버/포커스 툴팁. 트리거 쪽에 tabIndex=0 + aria-describedby={id} 를
- * 호출부에서 지정해야 키보드 접근이 완성된다.
+ * Hover/focus tooltip. The caller must set tabIndex=0 + aria-describedby={id}
+ * on the trigger element for keyboard accessibility to work.
  */
 export function HoverTooltip({
   id,

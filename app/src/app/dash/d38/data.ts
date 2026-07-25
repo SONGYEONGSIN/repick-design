@@ -17,7 +17,7 @@ import {
 import type { EngineerToneId, Tone } from "./tokens";
 
 /* ---------------------------------------------------------------------- */
-/* 결정론 수학 유틸 — Math.random / Date.now / new Date 미사용                 */
+/* Deterministic math utils — no Math.random / Date.now / new Date use     */
 /* ---------------------------------------------------------------------- */
 
 export function round2(n: number): number {
@@ -28,7 +28,7 @@ export function clamp(n: number, min: number, max: number): number {
 }
 
 /* ---------------------------------------------------------------------- */
-/* 브랜드 / 워크스페이스 / 사용자                                             */
+/* Brand / workspace / user                                                */
 /* ---------------------------------------------------------------------- */
 
 export const BRAND = { name: "Wavelength", tagline: "Incident & On-Call Response Console" };
@@ -41,7 +41,7 @@ export const WORKSPACES: Workspace[] = [
   { id: "mobile-guild", name: "Mobile Guild", plan: "Internal test" },
 ];
 
-/** 가상 인물(세션 컨텍스트 아님) — Wavelength를 쓰는 인시던트 커맨더. */
+/** Fictional persona (not the session context) — the incident commander using Wavelength. */
 export const CURRENT_USER = {
   name: "Nora Kessler",
   role: "Incident Commander",
@@ -54,7 +54,7 @@ export function unsplashAvatar(id: string, size = 96): string {
 }
 
 /* ---------------------------------------------------------------------- */
-/* 내비게이션                                                                */
+/* Navigation                                                               */
 /* ---------------------------------------------------------------------- */
 
 export type NavItem = { id: string; label: string; Icon: LucideIcon; active?: boolean; disabled?: boolean; badge?: string };
@@ -89,7 +89,7 @@ export const NAV_SECTIONS: NavSection[] = [
 ];
 
 /* ---------------------------------------------------------------------- */
-/* 서비스                                                                    */
+/* Services                                                                 */
 /* ---------------------------------------------------------------------- */
 
 export type ServiceId = "api-gateway" | "billing-worker" | "auth-service" | "notifications-svc" | "data-pipeline";
@@ -112,7 +112,7 @@ export function serviceIcon(id: ServiceId): LucideIcon {
 }
 
 /* ---------------------------------------------------------------------- */
-/* 엔지니어 & 온콜 로테이션                                                    */
+/* Engineers & on-call rotation                                             */
 /* ---------------------------------------------------------------------- */
 
 export type EngineerId = "priya" | "sam" | "elena" | "marcus" | "riko" | "jordan";
@@ -126,7 +126,7 @@ export type Engineer = {
   avatarId: string;
 };
 
-/** 로테이션 순서 = 배열 순서(오늘 4시간 블록·주간 요일 배정 모두 이 순서를 따름). */
+/** Rotation order = array order (both today's 4-hour blocks and the weekly weekday assignment follow this order). */
 export const ENGINEERS: Engineer[] = [
   { id: "priya", name: "Priya Nair", initials: "PN", role: "Platform SRE", tone: "indigo", avatarId: "1544005313-94ddf0286df2" },
   { id: "sam", name: "Sam Okafor", initials: "SO", role: "Infra SRE", tone: "amber", avatarId: "1519345182560-3f2917c472ef" },
@@ -140,7 +140,7 @@ export function engineerById(id: EngineerId): Engineer {
   return ENGINEERS.find((e) => e.id === id)!;
 }
 
-/** 다음 로테이션 순번의 엔지니어(에스컬레이션 2차 담당자로 사용). */
+/** The engineer next in rotation order (used as the escalation secondary). */
 export function secondaryFor(id: EngineerId): Engineer {
   const idx = ENGINEERS.findIndex((e) => e.id === id);
   return ENGINEERS[(idx + 1) % ENGINEERS.length];
@@ -155,7 +155,7 @@ export const ESCALATION_POLICY = {
   ],
 };
 
-/** 오늘(24h) 4시간 블록 로테이션 — 정확히 6블록 × 4h = 24h, ENGINEERS 순서와 동일. */
+/** Today's (24h) 4-hour block rotation — exactly 6 blocks x 4h = 24h, matching ENGINEERS order. */
 export type ShiftBlock = { startHour: number; endHour: number; engineer: EngineerId };
 export const TODAY_SHIFTS: ShiftBlock[] = [
   { startHour: 0, endHour: 4, engineer: "priya" },
@@ -166,7 +166,7 @@ export const TODAY_SHIFTS: ShiftBlock[] = [
   { startHour: 20, endHour: 24, engineer: "jordan" },
 ];
 
-/** "지금" 참조 시각 — 실시간 시계가 아닌 렌더 결정론을 위한 고정 데모 기준점(수요일 14:30). */
+/** The "now" reference time — a fixed demo anchor point (Wed 14:30) for render determinism, not a live clock. */
 export const NOW_HOUR = 14.5;
 export const NOW_DAY_INDEX = 2; // 0=Mon .. 6=Sun (Wed)
 export const NOW_LABEL = "Wed 14:30";
@@ -177,7 +177,7 @@ export function shiftForHour(hour: number): ShiftBlock {
   return TODAY_SHIFTS.find((s) => h >= s.startHour && h < s.endHour) ?? TODAY_SHIFTS[TODAY_SHIFTS.length - 1];
 }
 
-/** 이번 주 "일자별 담당 오너" 로테이션(에스컬레이션 상위 롤업, 시간별 페이저 로테이션과는 별개 계층). */
+/** This week's "day owner" rotation (escalation rollup layer, distinct from the hourly pager rotation). */
 export const WEEKDAY_LABELS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"] as const;
 export const WEEK_OWNERS: EngineerId[] = ["priya", "sam", "elena", "marcus", "riko", "jordan", "priya"];
 
@@ -186,16 +186,16 @@ export function ownerForDay(dayIndex: number): EngineerId {
 }
 
 /* ---------------------------------------------------------------------- */
-/* 트렌드(스파크라인) — 핸드시드 결정론 값, 기간 토글에 따라 교체                    */
+/* Trend (sparkline) — hand-seeded deterministic values, swapped by period toggle */
 /* ---------------------------------------------------------------------- */
 
-/** 오늘 24틱(시간별) 트리거 인시던트 수. */
+/** Triggered incident count for today's 24 ticks (hourly). */
 export const TODAY_TREND: number[] = [1, 0, 0, 1, 0, 1, 0, 1, 2, 1, 1, 1, 2, 1, 2, 1, 1, 1, 0, 1, 0, 1, 0, 0];
-/** 이번 주 7틱(요일별) 트리거 인시던트 수 — Mon..Sun. */
+/** Triggered incident count for this week's 7 ticks (daily) — Mon..Sun. */
 export const WEEK_TREND: number[] = [3, 2, 4, 3, 2, 3, 1];
 
 /* ---------------------------------------------------------------------- */
-/* 인시던트                                                                  */
+/* Incidents                                                                */
 /* ---------------------------------------------------------------------- */
 
 export type Severity = 1 | 2 | 3 | 4;
@@ -213,16 +213,16 @@ export type RunbookItem = { id: string; label: string; done: boolean };
 
 export type Incident = {
   id: string;
-  orderRank: number; // 클수록 최근
+  orderRank: number; // higher = more recent
   severity: Severity;
   title: string;
   service: ServiceId;
   affectedServices: ServiceId[];
-  dateLabel: string; // whitespace-nowrap 표시용, ex. "Jul 22"
-  triggeredHour: number; // 0..24, 오늘 링 하이라이트 매핑용
-  dayIndex: number; // 0..6 Mon..Sun, 주간 링 하이라이트 매핑용
+  dateLabel: string; // for whitespace-nowrap display, ex. "Jul 22"
+  triggeredHour: number; // 0..24, maps to today's ring highlight
+  dayIndex: number; // 0..6 Mon..Sun, maps to the weekly ring highlight
   triggeredClock: string; // ex. "13:15"
-  sinceLabel: string; // 고정 스냅샷(NOW_LABEL) 기준 경과 라벨 — 실시간 시계 아님, 결정론 문자열
+  sinceLabel: string; // elapsed label relative to the fixed snapshot (NOW_LABEL) — not a live clock, a deterministic string
   durationLabel: string;
   status: IncidentStatus;
   responder: EngineerId;
@@ -543,13 +543,13 @@ export const STATUS_META: Record<IncidentStatus, { label: string; tone: Tone }> 
 
 export const openIncidentCount = INCIDENTS.filter((i) => i.status !== "resolved").length;
 
-/** 검증: shift 테이블 기반 responder 파생이 데이터와 정합인지(정적 assert 용도 주석). */
+/** Verifies that the shift-table-derived responder matches the data (a static-assert-style comment). */
 export function verifyResponderConsistency(): boolean {
   return INCIDENTS.every((i) => shiftEngineerName(i.triggeredHour) === engineerById(i.responder).name);
 }
 
 /* ---------------------------------------------------------------------- */
-/* Intl 포맷터                                                              */
+/* Intl formatters                                                          */
 /* ---------------------------------------------------------------------- */
 
 const NUM0 = new Intl.NumberFormat("en-US");

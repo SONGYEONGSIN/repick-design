@@ -17,8 +17,8 @@ import {
 } from "./data";
 
 /**
- * 제품 프리뷰 — 좌측 셀렉터를 탭/호버로 전환하면 우측 상세가 리빌된다.
- * 상세 카드는 전환 근거 5종을 리치하게: 매칭 근거 3태그 + 컨디션 등급 + 인증 셀러 + before/after 할인율 + 매칭 %.
+ * Product preview — tapping/hovering the left selector reveals the right-side detail.
+ * The detail card richly surfaces 5 kinds of matching evidence: 3 rationale tags + condition grade + verified seller + before/after discount + match %.
  */
 export default function ProductPreview() {
   const reduced = useReducedMotion();
@@ -37,15 +37,15 @@ export default function ProductPreview() {
         transition={{ duration: 0.5, ease: EASE }}
         className="max-w-2xl"
       >
-        <p className={cx(EYEBROW, "text-[#a894f7]")}>Fig. 02 — 매칭 근거</p>
+        <p className={cx(EYEBROW, "text-[#a894f7]")}>Fig. 02 — Matching rationale</p>
         <h2 className="mt-4 font-extrabold leading-[1.08] tracking-[-0.02em] text-white text-[clamp(1.9rem,5vw,2.75rem)] break-keep">
-          AI가 왜 이걸 골랐는지,
+          Why the AI chose this,
           <br />
-          하나도 빠짐없이 보여줍니다
+          shown in full detail
         </h2>
         <p className="mt-5 text-base font-normal leading-[1.6] text-[#A1A1AA]">
-          매물을 눌러 보세요. 매칭 근거·컨디션 등급·셀러 인증·시세 대비 할인율이
-          한 카드에 전부 펼쳐집니다.
+          Tap a listing. Matching rationale, condition grade, seller
+          verification, and discount vs. retail all unfold in one card.
         </p>
       </motion.div>
 
@@ -59,7 +59,7 @@ export default function ProductPreview() {
         {/* selector */}
         <div
           role="tablist"
-          aria-label="매칭된 매물 목록"
+          aria-label="List of matched listings"
           aria-orientation="horizontal"
           className="flex gap-3 overflow-x-auto pb-1 lg:col-span-5 lg:flex-col lg:overflow-visible lg:pb-0"
         >
@@ -102,7 +102,7 @@ export default function ProductPreview() {
                     {item.title}
                   </span>
                   <span className={cx(NUM, "mt-1 block text-[0.8125rem] font-normal text-[#A1A1AA]")}>
-                    AI 매칭 {item.match}%
+                    AI match {item.match}%
                   </span>
                 </span>
                 <span
@@ -117,7 +117,7 @@ export default function ProductPreview() {
           })}
         </div>
 
-        {/* detail — key 변경 시 리마운트되어 진입 애니메이션 재생 */}
+        {/* detail — remounts on key change, replaying the entrance animation */}
         <motion.figure
           key={p.id}
           initial={reduced ? false : { opacity: 0, y: 16 }}
@@ -139,10 +139,10 @@ export default function ProductPreview() {
                 className="absolute inset-0 bg-gradient-to-t from-[#0B0B0F]/60 to-transparent sm:bg-gradient-to-r"
               />
               <span className="absolute left-3 top-3 inline-flex items-center gap-1.5 rounded-full border border-white/20 bg-[#0B0B0F]/80 px-2.5 py-1 text-[0.75rem] font-semibold text-white backdrop-blur">
-                <span className={NUM}>AI 매칭 {p.match}%</span>
+                <span className={NUM}>AI match {p.match}%</span>
               </span>
               <span className="absolute right-3 top-3 inline-flex items-center gap-1 rounded-full border border-[#6E56CF]/50 bg-[#6E56CF]/20 px-2.5 py-1 text-[0.75rem] font-semibold text-white backdrop-blur">
-                {p.grade}급 · {p.gradeLabel}
+                Grade {p.grade} · {p.gradeLabel}
               </span>
             </div>
 
@@ -154,7 +154,7 @@ export default function ProductPreview() {
                 </h3>
               </div>
 
-              {/* 인증 셀러 */}
+              {/* verified seller */}
               <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
                 <span className="inline-flex items-center gap-1.5 text-[0.8125rem] font-semibold text-white">
                   <BadgeCheck className="h-4 w-4 text-[#6E56CF]" aria-hidden />
@@ -165,7 +165,7 @@ export default function ProductPreview() {
                 </span>
               </div>
 
-              {/* 매칭 근거 3종 — stagger reveal */}
+              {/* 3 matching-rationale tags — stagger reveal */}
               <ul className="flex flex-col gap-2">
                 {p.reasons.map((r, i) => (
                   <motion.li
@@ -185,13 +185,13 @@ export default function ProductPreview() {
                 ))}
               </ul>
 
-              {/* before / after 할인율 */}
+              {/* before / after discount */}
               <div className="mt-auto flex items-baseline gap-2 border-t border-white/10 pt-4">
                 <span className={cx("text-2xl font-extrabold text-white", NUM)}>
-                  {comma(p.price)}원
+                  ₩{comma(p.price)}
                 </span>
                 <span className={cx("text-sm font-normal text-white/40 line-through", NUM)}>
-                  {comma(p.original)}원
+                  ₩{comma(p.original)}
                 </span>
                 <span className={cx("ml-auto rounded-md bg-[#6E56CF] px-2 py-0.5 text-sm font-semibold text-white", NUM)}>
                   -{p.discount}%
@@ -200,7 +200,7 @@ export default function ProductPreview() {
 
               <p className="inline-flex items-center gap-1.5 text-[0.75rem] font-normal text-[#A1A1AA]">
                 <ShieldCheck className="h-3.5 w-3.5 text-[#6E56CF]" aria-hidden />
-                전문 검수팀 실측 완료 · 하자 리포트 제공
+                Measured by our inspection team · Defect report included
               </p>
             </figcaption>
           </div>

@@ -26,7 +26,7 @@ export default function DetailPanel({ incidentId }: { incidentId: string | null 
   const [trackedId, setTrackedId] = useState(incident.id);
   const [checked, setChecked] = useState<Record<string, boolean>>(() => Object.fromEntries(incident.runbook.map((r) => [r.id, r.done])));
 
-  // 선택된 인시던트가 바뀌면 렌더 중 즉시 체크리스트를 그 인시던트의 초기 상태로 리셋(useEffect 없이 — React 권장 패턴).
+  // When the selected incident changes, reset the checklist to that incident's initial state immediately during render (no useEffect — the React-recommended pattern).
   if (incident.id !== trackedId) {
     setTrackedId(incident.id);
     setChecked(Object.fromEntries(incident.runbook.map((r) => [r.id, r.done])));

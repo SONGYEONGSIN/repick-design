@@ -20,9 +20,9 @@ export interface BoardControls {
   setSort: (s: SortState) => void;
 }
 
-/** 정렬 프리셋 — 툴바 드롭다운용. */
+/** Sort presets — for the toolbar dropdown. */
 export const SORT_PRESETS: { key: SortKey; dir: SortDir; label: string }[] = [
-  { key: "amount", dir: "desc", label: "금액 높은순" },
-  { key: "closeDate", dir: "asc", label: "마감 임박순" },
-  { key: "probability", dir: "desc", label: "확률 높은순" },
+  { key: "amount", dir: "desc", label: "Highest amount" },
+  { key: "closeDate", dir: "asc", label: "Closing soonest" },
+  { key: "probability", dir: "desc", label: "Highest probability" },
 ];

@@ -22,7 +22,7 @@ import {
 } from "lucide-react";
 
 /* ---------------------------------------------------------------------- */
-/* 결정론 수학 유틸 — Math.random / Date.now / new Date 미사용                 */
+/* Deterministic math utils — no Math.random / Date.now / new Date        */
 /* ---------------------------------------------------------------------- */
 
 export function round2(n: number): number {
@@ -32,7 +32,7 @@ export function clamp(n: number, min: number, max: number): number {
   return Math.min(max, Math.max(min, n));
 }
 
-/** 정수 가중치 분배(최대 나머지법) — 반올림 후에도 합계가 total과 정확히 일치(부분합=총합 보장). */
+/** Distributes integer weights (largest-remainder method) — sums exactly to total after rounding (guarantees subtotals = grand total). */
 export function distributeInts(total: number, weightsPct: number[]): number[] {
   const raw = weightsPct.map((w) => (total * w) / 100);
   const floors = raw.map((v) => Math.floor(v));
@@ -48,7 +48,7 @@ export function distributeInts(total: number, weightsPct: number[]): number[] {
 }
 
 /* ---------------------------------------------------------------------- */
-/* 브랜드 / 워크스페이스 / 사용자 (전부 가상 — 세션 컨텍스트와 무관한 발명 인물)        */
+/* Brand / workspace / user (all fictional — invented, unrelated to any session context) */
 /* ---------------------------------------------------------------------- */
 
 export const BRAND = { name: "Currents", tagline: "Revenue Attribution Flow" };
@@ -61,7 +61,7 @@ export const WORKSPACES: Workspace[] = [
   { id: "sandbox", name: "QA Sandbox", plan: "Internal test" },
 ];
 
-/** 가상 인물(세션 컨텍스트 아님) — Currents를 쓰는 레브옵스 리드. */
+/** Fictional persona (not session context) — a revenue ops lead who uses Currents. */
 export const CURRENT_USER = {
   name: "Dana Whitfield",
   role: "Revenue Operations Lead",
@@ -74,7 +74,7 @@ export function unsplashAvatar(id: string, size = 96): string {
 }
 
 /* ---------------------------------------------------------------------- */
-/* 내비게이션                                                                */
+/* Navigation                                                              */
 /* ---------------------------------------------------------------------- */
 
 export type NavItem = { id: string; label: string; Icon: LucideIcon; active?: boolean; disabled?: boolean; badge?: string };
@@ -109,7 +109,7 @@ export const NAV_SECTIONS: NavSection[] = [
 ];
 
 /* ---------------------------------------------------------------------- */
-/* 기간                                                                     */
+/* Period                                                                  */
 /* ---------------------------------------------------------------------- */
 
 export type PeriodId = "7d" | "30d" | "90d";
@@ -119,7 +119,7 @@ export const PERIODS: { id: PeriodId; label: string }[] = [
   { id: "90d", label: "90D" },
 ];
 
-/** 기간별 신규 유료 계정 총합(핸드작성, 결정론). 다른 모든 수치는 여기서 비례 분배된다. */
+/** Total new paid accounts per period (hand-authored, deterministic). Every other figure is proportionally distributed from this. */
 export const TOTAL_ACCOUNTS: Record<PeriodId, number> = {
   "7d": 540,
   "30d": 2380,
@@ -133,7 +133,7 @@ export const METRICS: { id: MetricId; label: string }[] = [
 ];
 
 /* ---------------------------------------------------------------------- */
-/* 1단: 획득 채널 (5) — 가중치 합 100                                          */
+/* Stage 1: acquisition channels (5) — weights sum to 100                  */
 /* ---------------------------------------------------------------------- */
 
 export type ChannelId = "organic" | "paid_search" | "paid_social" | "partner" | "direct";
@@ -149,7 +149,7 @@ export const CHANNELS: ChannelMeta[] = [
 ];
 
 /* ---------------------------------------------------------------------- */
-/* 2단: 가입 시점 플랜 티어 (4) — ARPU 고정, 채널별 분배 가중치 행(각 행 합 100)      */
+/* Stage 2: plan tier at signup (4) — fixed ARPU, per-channel distribution weight rows (each row sums to 100) */
 /* ---------------------------------------------------------------------- */
 
 export type TierId = "starter" | "growth" | "scale" | "enterprise";
@@ -163,7 +163,7 @@ export const TIERS: TierMeta[] = [
   { id: "enterprise", label: "Enterprise", Icon: Building2, arpu: 1499 },
 ];
 
-/** 행 = 채널(CHANNELS 순서), 열 = 티어(TIERS 순서). 각 행 합 100. */
+/** Rows = channels (CHANNELS order), columns = tiers (TIERS order). Each row sums to 100. */
 const CHANNEL_TO_TIER_WEIGHTS: number[][] = [
   [45, 35, 15, 5], // organic — self-serve, skews low tier
   [30, 40, 22, 8], // paid_search
@@ -173,7 +173,7 @@ const CHANNEL_TO_TIER_WEIGHTS: number[][] = [
 ];
 
 /* ---------------------------------------------------------------------- */
-/* 3단: 90일 결과 (4) — 티어별 분배 가중치 행(각 행 합 100)                        */
+/* Stage 3: 90-day outcome (4) — per-tier distribution weight rows (each row sums to 100) */
 /* ---------------------------------------------------------------------- */
 
 export type OutcomeId = "retained" | "expanded" | "downgraded" | "churned";
@@ -187,7 +187,7 @@ export const OUTCOMES: OutcomeMeta[] = [
   { id: "churned", label: "Churned", Icon: TrendingDown },
 ];
 
-/** 행 = 티어(TIERS 순서), 열 = 결과(OUTCOMES 순서). 각 행 합 100. */
+/** Rows = tiers (TIERS order), columns = outcomes (OUTCOMES order). Each row sums to 100. */
 const TIER_TO_OUTCOME_WEIGHTS: number[][] = [
   [48, 8, 10, 34], // starter — high self-serve churn
   [58, 18, 9, 15], // growth
@@ -196,7 +196,7 @@ const TIER_TO_OUTCOME_WEIGHTS: number[][] = [
 ];
 
 /* ---------------------------------------------------------------------- */
-/* 흐름 계산 — 부분합=총합 보장(distributeInts로 행 단위 정수 분배)                */
+/* Flow computation — subtotals = grand total guaranteed (distributeInts does per-row integer distribution) */
 /* ---------------------------------------------------------------------- */
 
 export type FlowNode = {
@@ -313,7 +313,7 @@ export function metricValue(node: { customers: number; mrr: number }, metric: Me
 }
 
 /* ---------------------------------------------------------------------- */
-/* 12주 신규 MRR 추세 — 선택 노드 상세용 결정론 시리즈(삼각함수 미사용, 모듈로 산술)   */
+/* 12-week new-MRR trend — deterministic series for selected-node detail (no trig, modulo arithmetic) */
 /* ---------------------------------------------------------------------- */
 
 function genSeries(seed: number, base: number, amp: number, n = 12): number[] {
@@ -344,7 +344,7 @@ export function nodeTrend(nodeId: string, baseValue: number): { label: string; v
 }
 
 /* ---------------------------------------------------------------------- */
-/* Intl 포맷터                                                              */
+/* Intl formatters                                                        */
 /* ---------------------------------------------------------------------- */
 
 const NUM0 = new Intl.NumberFormat("en-US");
@@ -364,7 +364,7 @@ export function formatMetric(v: number, metric: MetricId): string {
   return metric === "customers" ? `${formatCount(v)} accts` : formatUsd(v);
 }
 
-/* 개발 시점 자기 점검: 채널/티어 분배 가중치 행이 전부 100으로 합산되는지(부분합=총합 보장의 전제). */
+/* Dev-time self-check: verifies channel/tier distribution weight rows all sum to 100 (a precondition for subtotals = grand total). */
 export const _WEIGHTS_OK =
   CHANNELS.reduce((a, c) => a + c.weightPct, 0) === 100 &&
   CHANNEL_TO_TIER_WEIGHTS.every((row) => row.reduce((a, b) => a + b, 0) === 100) &&

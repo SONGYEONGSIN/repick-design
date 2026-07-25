@@ -12,11 +12,11 @@ export default function CreditsCard() {
       <div className="flex items-center justify-between">
         <h2 id="credits-card-heading" className="flex items-center gap-2 text-sm font-semibold text-zinc-100">
           <CreditCard className="size-4 text-zinc-500" aria-hidden="true" />
-          크레딧 사용량
+          Credit usage
         </h2>
         {nearLimit && (
           <span className="rounded-full bg-amber-500/10 px-2 py-0.5 text-[11px] font-medium text-amber-400 ring-1 ring-inset ring-amber-500/20">
-            한도 임박
+            Near limit
           </span>
         )}
       </div>
@@ -32,18 +32,18 @@ export default function CreditsCard() {
         <ProgressBar
           value={CREDITS.used}
           max={CREDITS.total}
-          label={`이번 결제 주기 크레딧 사용량 ${pct.toFixed(0)}%`}
+          label={`Credit usage for this billing cycle ${pct.toFixed(0)}%`}
           toneClassName={nearLimit ? "bg-amber-400" : "bg-indigo-400"}
         />
       </div>
 
       <dl className="mt-4 flex items-center justify-between border-t border-white/5 pt-3 text-xs">
         <div>
-          <dt className="text-zinc-500">다음 결제일</dt>
+          <dt className="text-zinc-500">Next billing date</dt>
           <dd className="mt-0.5 tabular-nums text-zinc-300">{formatDate(CREDITS.renewalDate)}</dd>
         </div>
         <div className="text-right">
-          <dt className="text-zinc-500">예상 청구액</dt>
+          <dt className="text-zinc-500">Estimated charge</dt>
           <dd className="mt-0.5 tabular-nums text-zinc-300">{formatKRW(CREDITS.estimatedBillingKRW)}</dd>
         </div>
       </dl>

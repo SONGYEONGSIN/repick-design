@@ -16,7 +16,7 @@ interface WorkflowListItemProps {
   onSelect: () => void;
 }
 
-/** 목록 레일의 워크플로 한 항목 — 이름/상태 점/미니 스파크라인/성공률을 요약해 보여준다. */
+/** A single workflow entry in the list rail — summarizes name/status dot/mini sparkline/success rate. */
 export default function WorkflowListItem({ workflow, selected, onSelect }: WorkflowListItemProps) {
   const successRate = workflowSuccessRate(workflow);
 
@@ -40,14 +40,14 @@ export default function WorkflowListItem({ workflow, selected, onSelect }: Workf
           </span>
           <Sparkline
             values={workflow.sparkline}
-            label={`${workflow.name} 최근 7일 실행 추이`}
+            label={`${workflow.name} execution trend, last 7 days`}
             className={`h-4 w-10 shrink-0 ${selected ? "text-indigo-300" : "text-zinc-600"}`}
           />
         </div>
         <div className="mt-1 flex items-center justify-between gap-2 pl-3.5 text-xs text-zinc-500">
           <span className="truncate">{workflow.category}</span>
           <span className="shrink-0 tabular-nums">
-            {formatPercent(successRate, 0)} · {formatNumber(workflow.executions)}건
+            {formatPercent(successRate, 0)} · {formatNumber(workflow.executions)} runs
           </span>
         </div>
       </button>

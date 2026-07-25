@@ -7,7 +7,7 @@ import { GalleryClient } from "./gallery-client";
 
 export const metadata: Metadata = { title: "Specimen — Interface design systems for AI agents" };
 
-/** evolve/dash 브랜치 체크아웃에서만 존재하는 자율 루프 후보를 열거 (main/프로덕션 = 자동 숨김) */
+/** Enumerates autonomous-loop candidates that only exist on an evolve/dash branch checkout (main/production = auto-hidden) */
 function evolveWorks(): Work[] {
   const ledgerPath = join(process.cwd(), "..", "vault", "30-ledger", "auto-ledger.jsonl");
   const ledger = existsSync(ledgerPath) ? parseLedger(readFileSync(ledgerPath, "utf8")) : new Map();

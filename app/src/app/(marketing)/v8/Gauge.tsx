@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { CRITERIA, TOTAL_MATCH, cx, FOCUS, CAPTION, NUM } from "./data";
 
-// --- 결정론적 다이얼 지오메트리 (Math.random / Date.now 사용 금지) ----------
+// --- deterministic dial geometry (no Math.random / Date.now allowed) ----------
 const SIZE = 300;
 const CENTER = SIZE / 2;
 const RADIUS = 120;
@@ -15,7 +15,7 @@ const ARC_DEG = (360 - CRITERIA.length * GAP_DEG) / CRITERIA.length;
 const SEG_LEN = CIRCUMFERENCE * (ARC_DEG / 360);
 const STEP_DEG = ARC_DEG + GAP_DEG;
 
-// 애니메이션은 고정 스텝 카운터로 진행 — setInterval의 증가폭만 사용, 시간 함수 없음
+// animation runs on a fixed step counter — only setInterval's increments are used, no time functions
 const TOTAL_STEPS = 60;
 const STEP_MS = 30;
 
@@ -30,7 +30,7 @@ export default function Gauge() {
   const btnRefs = useRef<Array<HTMLButtonElement | null>>([]);
 
   useEffect(() => {
-    // prefers-reduced-motion: 애니메이션을 시작하지 않고 완료 상태를 바로 렌더링(아래 progress 계산)
+    // prefers-reduced-motion: skip the animation and render the completed state immediately (progress calc below)
     if (reduced) return;
     const id = setInterval(() => {
       setStep((s) => {
@@ -44,8 +44,8 @@ export default function Gauge() {
     return () => clearInterval(id);
   }, [reduced]);
 
-  // reduced === null(마운트 직후, 매체 쿼리 판정 전)에는 정상 애니메이션으로 시작하고,
-  // reduced === true로 확정되는 즉시 완료 상태로 고정된다(중간에 멈추지 않음).
+  // while reduced === null (right after mount, before the media query resolves), the animation
+  // starts normally, then locks to the completed state the instant reduced === true is confirmed (never stops mid-way).
   const progress = reduced ? 1 : Math.min(step / TOTAL_STEPS, 1);
   const centerValue = Math.round(progress * TOTAL_MATCH);
   const activeIdx = CRITERIA.findIndex(
@@ -71,10 +71,10 @@ export default function Gauge() {
 
   return (
     <div className="flex flex-col items-center gap-8 sm:flex-row sm:items-center sm:gap-10">
-      {/* sr-only 데이터 요약 — SVG는 순수 장식이므로 aria-hidden, 실제 정보는 여기 + 버튼 목록에 있음 */}
+      {/* sr-only data summary — the SVG is purely decorative (aria-hidden); the real info lives here + in the button list */}
       <p className="sr-only">
-        AI 매칭 정확도 종합 {TOTAL_MATCH}퍼센트.{" "}
-        {CRITERIA.map((c) => `${c.label} ${c.score}퍼센트`).join(", ")}.
+        AI match accuracy overall {TOTAL_MATCH} percent.{" "}
+        {CRITERIA.map((c) => `${c.label} ${c.score} percent`).join(", ")}.
       </p>
 
       <div className="relative mx-auto aspect-square w-full max-w-[240px] shrink-0 sm:max-w-[280px]">
@@ -143,18 +143,18 @@ export default function Gauge() {
           </span>
           <span className="mt-2 max-w-[9rem] text-center text-[0.72rem] font-normal leading-snug text-[#A1A1AA]">
             {computing
-              ? `${computing.label} 계산 중…`
-              : "AI 매칭 정확도 계산 완료"}
+              ? `Calculating ${computing.label}…`
+              : "AI match accuracy calculated"}
           </span>
         </div>
       </div>
 
-      {/* 기준 선택 버튼 — 실제 인터랙티브 컨트롤(SVG 히트영역 대신 접근성 확보) */}
+      {/* criterion select buttons — the real interactive control (accessibility, instead of an SVG hit area) */}
       <div className="w-full min-w-0 flex-1">
-        <p className={cx(CAPTION, "text-[#A1A1AA]")}>기준 선택 시 근거가 갱신됩니다</p>
+        <p className={cx(CAPTION, "text-[#A1A1AA]")}>Selecting a criterion updates the evidence</p>
         <div
           role="tablist"
-          aria-label="AI 매칭 정확도 산정 기준"
+          aria-label="AI match accuracy scoring criteria"
           aria-orientation="vertical"
           className="mt-3 flex flex-col gap-1.5"
         >

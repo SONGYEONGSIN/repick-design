@@ -18,12 +18,12 @@ import { Avatar } from "./ui";
 import { PRODUCT_NAME, WORKSPACE_NAME } from "./data";
 
 const NAV_ITEMS = [
-  { href: "#overview", label: "개요", icon: Activity, active: true },
-  { href: "#channel-queue-card", label: "대기열", icon: Inbox },
-  { href: "#agent-workload-card", label: "에이전트", icon: Users },
-  { href: "#escalations-card", label: "에스컬레이션", icon: TriangleAlert },
-  { href: "#automation-card", label: "자동화", icon: Zap },
-  { href: "#sla-card", label: "리포트", icon: BarChart3 },
+  { href: "#overview", label: "Overview", icon: Activity, active: true },
+  { href: "#channel-queue-card", label: "Queue", icon: Inbox },
+  { href: "#agent-workload-card", label: "Agents", icon: Users },
+  { href: "#escalations-card", label: "Escalations", icon: TriangleAlert },
+  { href: "#automation-card", label: "Automation", icon: Zap },
+  { href: "#sla-card", label: "Reports", icon: BarChart3 },
 ];
 
 function SidebarContent() {
@@ -45,12 +45,12 @@ function SidebarContent() {
         </span>
         <span className="min-w-0 flex-1">
           <span className="block truncate text-[13px] font-medium text-zinc-100">{WORKSPACE_NAME}</span>
-          <span className="block text-[11px] text-zinc-400">워크스페이스</span>
+          <span className="block text-[11px] text-zinc-400">Workspace</span>
         </span>
         <ChevronsUpDown className="h-3.5 w-3.5 shrink-0 text-zinc-400" aria-hidden="true" />
       </button>
 
-      <nav aria-label="주요" className="flex-1 space-y-0.5 px-3 py-4">
+      <nav aria-label="Primary" className="flex-1 space-y-0.5 px-3 py-4">
         {NAV_ITEMS.map((item) => {
           const Icon = item.icon;
           return (
@@ -76,10 +76,10 @@ function SidebarContent() {
           type="button"
           className="flex w-full items-center gap-2.5 rounded-lg px-2 py-2 text-left transition-colors hover:bg-white/5 focus-visible:ring-2 focus-visible:ring-sky-400 focus-visible:outline-none"
         >
-          <Avatar name="최지우" size={28} />
+          <Avatar name="Jiwoo Choi" size={28} />
           <span className="min-w-0 flex-1">
-            <span className="block truncate text-[13px] font-medium text-zinc-100">최지우</span>
-            <span className="block truncate text-[11px] text-zinc-400">운영 매니저</span>
+            <span className="block truncate text-[13px] font-medium text-zinc-100">Jiwoo Choi</span>
+            <span className="block truncate text-[11px] text-zinc-400">Operations Manager</span>
           </span>
           <LogOut className="h-4 w-4 shrink-0 text-zinc-400" aria-hidden="true" />
         </button>
@@ -91,17 +91,17 @@ function SidebarContent() {
 export function Sidebar({ mobileOpen, onCloseMobile }: { mobileOpen: boolean; onCloseMobile: () => void }) {
   return (
     <>
-      {/* 데스크톱 고정 사이드바 */}
+      {/* Desktop fixed sidebar */}
       <aside className="hidden lg:fixed lg:inset-y-0 lg:left-0 lg:z-30 lg:flex lg:w-60 lg:flex-col lg:border-r lg:border-white/10 lg:bg-zinc-950">
         <SidebarContent />
       </aside>
 
-      {/* 모바일 드로어 */}
+      {/* Mobile drawer */}
       {mobileOpen && (
         <div className="fixed inset-0 z-40 lg:hidden">
           <button
             type="button"
-            aria-label="메뉴 닫기"
+            aria-label="Close menu"
             onClick={onCloseMobile}
             className="absolute inset-0 bg-zinc-950/70"
           />
@@ -110,7 +110,7 @@ export function Sidebar({ mobileOpen, onCloseMobile }: { mobileOpen: boolean; on
               <button
                 type="button"
                 onClick={onCloseMobile}
-                aria-label="메뉴 닫기"
+                aria-label="Close menu"
                 className="flex h-8 w-8 items-center justify-center rounded-md text-zinc-400 hover:bg-white/5 hover:text-zinc-100 focus-visible:ring-2 focus-visible:ring-sky-400 focus-visible:outline-none"
               >
                 <X className="h-4 w-4" aria-hidden="true" />

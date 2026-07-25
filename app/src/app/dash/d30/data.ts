@@ -1,5 +1,5 @@
-// 결정론적 더미 데이터 — Math.random / Date.now 사용 금지.
-// 앵커: 2026-01-12(월) "오늘" 기준으로 고정.
+// Deterministic dummy data — no Math.random / Date.now.
+// Anchored to 2026-01-12 (Mon) as fixed "today".
 
 export type Period = "today" | "week" | "month";
 
@@ -11,15 +11,15 @@ export type MeetingLocation = "video" | "phone" | "in_person";
 
 export type MemberStatus = "available" | "in_meeting" | "offline";
 
-export const TODAY = new Date(2026, 0, 12); // 2026-01-12, 월요일
+export const TODAY = new Date(2026, 0, 12); // 2026-01-12, Monday
 
 export const PERIOD_LABEL: Record<Period, string> = {
-  today: "오늘",
-  week: "이번주",
-  month: "이번달",
+  today: "Today",
+  week: "This week",
+  month: "This month",
 };
 
-// ── 이벤트 타입 ─────────────────────────────────────────────
+// ── Event types ─────────────────────────────────────────────
 
 interface EventTypeDef {
   id: EventTypeId;
@@ -28,13 +28,13 @@ interface EventTypeDef {
   accent: "indigo" | "blue" | "emerald" | "amber";
   counts: Record<Period, number>;
   conversionRate: number; // %
-  heatWeight: number; // 히트맵 상대 밀도 가중치
+  heatWeight: number; // relative density weight for the heatmap
 }
 
 export const EVENT_TYPES: EventTypeDef[] = [
   {
     id: "discovery",
-    name: "디스커버리 콜",
+    name: "Discovery Call",
     durationMin: 30,
     accent: "indigo",
     counts: { today: 6, week: 42, month: 168 },
@@ -43,7 +43,7 @@ export const EVENT_TYPES: EventTypeDef[] = [
   },
   {
     id: "demo",
-    name: "제품 데모",
+    name: "Product Demo",
     durationMin: 45,
     accent: "blue",
     counts: { today: 4, week: 27, month: 109 },
@@ -52,7 +52,7 @@ export const EVENT_TYPES: EventTypeDef[] = [
   },
   {
     id: "onboarding",
-    name: "온보딩 세션",
+    name: "Onboarding Session",
     durationMin: 60,
     accent: "emerald",
     counts: { today: 2, week: 15, month: 61 },
@@ -61,7 +61,7 @@ export const EVENT_TYPES: EventTypeDef[] = [
   },
   {
     id: "office-hours",
-    name: "오피스 아워",
+    name: "Office Hours",
     durationMin: 20,
     accent: "amber",
     counts: { today: 1, week: 8, month: 34 },
@@ -121,7 +121,7 @@ function weightedConversion(period: Period): number {
 
 export interface PeriodKpi {
   meetingsTotal: number;
-  meetingsDeltaPct: number; // 전 기간 대비 %p 아닌 증감률(%)
+  meetingsDeltaPct: number; // % change vs. previous period (not %p)
   conversionRate: number;
   conversionDeltaPt: number; // %p
   noShowRate: number;
@@ -155,20 +155,20 @@ export const PERIOD_KPI: Record<Period, PeriodKpi> = {
   },
 };
 
-// 어제 대비(오늘 미팅) / 지난주 대비(이번주 미팅) — 항상 노출되는 고정 카드용
+// vs. yesterday (today's meetings) / vs. last week (this week's meetings) — for the always-visible fixed cards
 export const YESTERDAY_MEETINGS = 12;
 export const LAST_WEEK_MEETINGS = 82;
 
-// ── 예약 추이 (최근 30일) ────────────────────────────────────
+// ── Booking trend (last 30 days) ────────────────────────────────────
 
 export interface TrendPoint {
   dateISO: string;
-  label: string; // "1/12" 형태
+  label: string; // e.g. "1/12"
   bookings: number;
   conversionRate: number;
 }
 
-const WEEKDAY_FACTOR = [0.42, 1.0, 1.08, 1.1, 1.05, 0.95, 0.5]; // 일~토
+const WEEKDAY_FACTOR = [0.42, 1.0, 1.08, 1.1, 1.05, 0.95, 0.5]; // Sun–Sat
 
 function buildTrend(days: number): TrendPoint[] {
   const points: TrendPoint[] = [];
@@ -199,9 +199,9 @@ export function trendForPeriod(period: Period): TrendPoint[] {
   return TREND_30D;
 }
 
-// ── 주간 캘린더 히트맵 ────────────────────────────────────────
+// ── Weekly calendar heatmap ────────────────────────────────────────
 
-export const HEAT_DAYS = ["월", "화", "수", "목", "금"];
+export const HEAT_DAYS = ["Mon", "Tue", "Wed", "Thu", "Fri"];
 export const HEAT_HOURS = [9, 10, 11, 12, 13, 14, 15, 16, 17];
 
 const HEAT_DAY_WEIGHT = [1.0, 0.95, 1.05, 0.9, 0.65];
@@ -232,7 +232,7 @@ export function heatMax(eventTypeId: EventTypeId | "all"): number {
   return max;
 }
 
-// ── 팀원 가용성 ────────────────────────────────────────────
+// ── Team availability ────────────────────────────────────────────
 
 export interface TeamMember {
   id: string;
@@ -247,8 +247,8 @@ export interface TeamMember {
 export const TEAM_MEMBERS: TeamMember[] = [
   {
     id: "tm-1",
-    name: "이서연",
-    role: "고객 성공 리드",
+    name: "Seoyeon Lee",
+    role: "Customer Success Lead",
     avatarUrl:
       "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=96&h=96&fit=crop&crop=faces",
     status: "available",
@@ -257,8 +257,8 @@ export const TEAM_MEMBERS: TeamMember[] = [
   },
   {
     id: "tm-2",
-    name: "조민준",
-    role: "세일즈 AE",
+    name: "Minjun Cho",
+    role: "Sales AE",
     avatarUrl:
       "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=96&h=96&fit=crop&crop=faces",
     status: "in_meeting",
@@ -267,8 +267,8 @@ export const TEAM_MEMBERS: TeamMember[] = [
   },
   {
     id: "tm-3",
-    name: "박민지",
-    role: "온보딩 스페셜리스트",
+    name: "Minji Park",
+    role: "Onboarding Specialist",
     avatarUrl:
       "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=96&h=96&fit=crop&crop=faces",
     status: "available",
@@ -277,8 +277,8 @@ export const TEAM_MEMBERS: TeamMember[] = [
   },
   {
     id: "tm-4",
-    name: "김도윤",
-    role: "지원 엔지니어",
+    name: "Doyoon Kim",
+    role: "Support Engineer",
     avatarUrl:
       "https://images.unsplash.com/photo-1547425260-76bcadfb4f2c?w=96&h=96&fit=crop&crop=faces",
     status: "offline",
@@ -287,8 +287,8 @@ export const TEAM_MEMBERS: TeamMember[] = [
   },
   {
     id: "tm-5",
-    name: "윤하은",
-    role: "솔루션 컨설턴트",
+    name: "Haeun Yoon",
+    role: "Solutions Consultant",
     avatarUrl:
       "https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?w=96&h=96&fit=crop&crop=faces",
     status: "available",
@@ -298,12 +298,12 @@ export const TEAM_MEMBERS: TeamMember[] = [
 ];
 
 export const MEMBER_STATUS_LABEL: Record<MemberStatus, string> = {
-  available: "예약 가능",
-  in_meeting: "미팅 중",
-  offline: "오프라인",
+  available: "Available",
+  in_meeting: "In a meeting",
+  offline: "Offline",
 };
 
-// ── 다가오는 미팅 리스트 ──────────────────────────────────────
+// ── Upcoming meetings list ──────────────────────────────────────
 
 export interface UpcomingMeeting {
   id: string;
@@ -327,7 +327,7 @@ function iso(offsetDays: number): string {
 export const UPCOMING_MEETINGS: UpcomingMeeting[] = [
   {
     id: "mt-01",
-    guestName: "정하늘",
+    guestName: "Haneul Jung",
     guestEmail: "haneul.jung@northfield.io",
     eventTypeId: "discovery",
     dateISO: iso(0),
@@ -351,7 +351,7 @@ export const UPCOMING_MEETINGS: UpcomingMeeting[] = [
   },
   {
     id: "mt-03",
-    guestName: "한지우",
+    guestName: "Jiwoo Han",
     guestEmail: "jiwoo.han@varda.kr",
     eventTypeId: "office-hours",
     dateISO: iso(0),
@@ -363,7 +363,7 @@ export const UPCOMING_MEETINGS: UpcomingMeeting[] = [
   },
   {
     id: "mt-04",
-    guestName: "오세훈",
+    guestName: "Sehoon Oh",
     guestEmail: "sehoon.oh@fluxpay.com",
     eventTypeId: "onboarding",
     dateISO: iso(1),
@@ -387,7 +387,7 @@ export const UPCOMING_MEETINGS: UpcomingMeeting[] = [
   },
   {
     id: "mt-06",
-    guestName: "배수아",
+    guestName: "Sua Bae",
     guestEmail: "sua.bae@granitehq.kr",
     eventTypeId: "demo",
     dateISO: iso(2),
@@ -411,7 +411,7 @@ export const UPCOMING_MEETINGS: UpcomingMeeting[] = [
   },
   {
     id: "mt-08",
-    guestName: "신동혁",
+    guestName: "Donghyuk Shin",
     guestEmail: "donghyuk.shin@cobaltway.io",
     eventTypeId: "onboarding",
     dateISO: iso(3),
@@ -435,7 +435,7 @@ export const UPCOMING_MEETINGS: UpcomingMeeting[] = [
   },
   {
     id: "mt-10",
-    guestName: "황유진",
+    guestName: "Yujin Hwang",
     guestEmail: "yujin.hwang@paperloom.kr",
     eventTypeId: "office-hours",
     dateISO: iso(4),
@@ -459,7 +459,7 @@ export const UPCOMING_MEETINGS: UpcomingMeeting[] = [
   },
   {
     id: "mt-12",
-    guestName: "문가은",
+    guestName: "Gaeun Moon",
     guestEmail: "gaeun.moon@driftline.kr",
     eventTypeId: "onboarding",
     dateISO: iso(8),
@@ -483,7 +483,7 @@ export const UPCOMING_MEETINGS: UpcomingMeeting[] = [
   },
   {
     id: "mt-14",
-    guestName: "장민수",
+    guestName: "Minsu Jang",
     guestEmail: "minsu.jang@varda.kr",
     eventTypeId: "discovery",
     dateISO: iso(15),
@@ -507,7 +507,7 @@ export const UPCOMING_MEETINGS: UpcomingMeeting[] = [
   },
   {
     id: "mt-16",
-    guestName: "조은서",
+    guestName: "Eunseo Jo",
     guestEmail: "eunseo.jo@fluxpay.com",
     eventTypeId: "onboarding",
     dateISO: iso(23),
@@ -520,25 +520,25 @@ export const UPCOMING_MEETINGS: UpcomingMeeting[] = [
 ];
 
 export const STATUS_LABEL: Record<MeetingStatus, string> = {
-  confirmed: "확정",
-  pending: "대기",
-  rescheduled: "일정 변경",
+  confirmed: "Confirmed",
+  pending: "Pending",
+  rescheduled: "Rescheduled",
 };
 
 export const LOCATION_LABEL: Record<MeetingLocation, string> = {
-  video: "화상 회의",
-  phone: "전화",
-  in_person: "대면",
+  video: "Video call",
+  phone: "Phone",
+  in_person: "In person",
 };
 
-// ── 포맷터 ────────────────────────────────────────────────
+// ── Formatters ────────────────────────────────────────────
 
-const numberFormatter = new Intl.NumberFormat("ko-KR");
-const percentFormatter = new Intl.NumberFormat("ko-KR", {
+const numberFormatter = new Intl.NumberFormat("en-US");
+const percentFormatter = new Intl.NumberFormat("en-US", {
   minimumFractionDigits: 1,
   maximumFractionDigits: 1,
 });
-const dateFormatter = new Intl.DateTimeFormat("ko-KR", {
+const dateFormatter = new Intl.DateTimeFormat("en-US", {
   month: "long",
   day: "numeric",
   weekday: "short",

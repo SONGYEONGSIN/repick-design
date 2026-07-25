@@ -4,7 +4,7 @@ interface SparklineProps {
   label: string;
 }
 
-/** 작은 추이 스파크라인. 좌표는 소수 2자리로 반올림해 서버/클라이언트 하이드레이션 불일치를 방지한다. */
+/** Small trend sparkline. Coordinates are rounded to 2 decimal places to avoid server/client hydration mismatches. */
 export default function Sparkline({ values, className, label }: SparklineProps) {
   const width = 72;
   const height = 24;

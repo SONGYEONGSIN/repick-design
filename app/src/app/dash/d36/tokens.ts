@@ -1,9 +1,9 @@
 /**
- * Chute — 라우트 스코프 디자인 토큰. 전역 테마를 건드리지 않고 이 라우트 안에서만 쓰는 클래스 상수.
- * 라이트 = 순백 캔버스(white/zinc-50) + zinc-200 헤어라인 + shadow-sm.
- * 다크 = zinc-950/900 표면 + white/10 보더. 연극적 발광·스캔라인 없음.
- * 대비 규칙: 라이트 표면 보조 텍스트는 zinc-500 이상, 다크 표면은 zinc-400 이상만 사용(모든 상태 포함).
- * 강조 1색 = violet (브랜드). 드롭오프/추세 톤은 TONE(아래)이 담당 — 색+텍스트 항상 병행.
+ * Chute — route-scoped design tokens. Class constants used only within this route, without touching the global theme.
+ * Light = pure-white canvas (white/zinc-50) + zinc-200 hairline + shadow-sm.
+ * Dark = zinc-950/900 surface + white/10 border. No theatrical glow or scanlines.
+ * Contrast rule: secondary text is zinc-500+ on light surfaces, zinc-400+ on dark surfaces (across all states).
+ * Single accent color = violet (brand). Drop-off/trend tones are handled by TONE (below) — color always pairs with text.
  */
 
 export function cx(...parts: Array<string | false | null | undefined>): string {
@@ -23,10 +23,10 @@ export const TEXT_PRIMARY = "text-zinc-900 dark:text-zinc-50";
 export const TEXT_SECONDARY = "text-zinc-600 dark:text-zinc-300";
 export const TEXT_CAPTION = "text-zinc-500 dark:text-zinc-400";
 
-/** 숫자·ID 정렬용 — 전역 font-sans(Pretendard) 위에 tabular 고정폭. */
+/** For aligning numbers/IDs — tabular fixed-width on top of the global font-sans (Pretendard). */
 export const NUM = "tabular-nums [font-feature-settings:'tnum']";
 
-/* 브랜드 액센트 — violet */
+/* Brand accent — violet */
 export const ACCENT_TEXT = "text-violet-600 dark:text-violet-400";
 export const ACCENT_SOLID = "bg-violet-600 text-white hover:bg-violet-500 active:bg-violet-700";
 export const ACCENT_SUBTLE = "bg-violet-50 text-violet-700 dark:bg-violet-500/10 dark:text-violet-300";
@@ -40,7 +40,7 @@ export const HOVER_ACTIVE_BG = "hover:bg-zinc-50 active:bg-zinc-100 dark:hover:b
 export const HOVER_ROW = "hover:bg-zinc-50 dark:hover:bg-white/[0.03]";
 export const TRANSITION = "transition-colors motion-reduce:transition-none";
 
-/* 방향/추세 톤 — 드롭오프, 배지 등에 사용. 색만으로 구분하지 않고 항상 아이콘/텍스트 병행. */
+/* Directional/trend tones — used for drop-off, badges, etc. Never distinguished by color alone; always paired with an icon/text. */
 export type Tone = "up" | "down" | "flat" | "info" | "warn" | "neutral";
 
 export const TONE: Record<Tone, { text: string; bg: string; border: string; dot: string }> = {

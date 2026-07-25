@@ -27,15 +27,15 @@ export const CAPTION =
   "text-[0.72rem] font-semibold uppercase tracking-[0.16em]";
 export const NUM = "tabular-nums tracking-[0.12em]";
 
-// --- hero comparison images (before = 어수선한 일반 리스팅, after = 정제된 큐레이션) ---
+// --- hero comparison images (before = cluttered typical listing, after = refined curation) ---
 export const BEFORE_IMG = {
   src: "https://images.unsplash.com/photo-1445205170230-053b83016050?auto=format&fit=crop&w=1200&q=80",
-  alt: "정리되지 않은 채 빽빽하게 걸린 일반 중고 의류 행어 더미",
+  alt: "A cluttered rack densely packed with unsorted secondhand clothing",
 } as const;
 
 export const AFTER_IMG = {
   src: "https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?auto=format&fit=crop&w=1200&q=80",
-  alt: "repick AI가 선별해 단독으로 정돈해 보여주는 중고 의류 한 벌",
+  alt: "A single secondhand garment, curated and neatly presented by repick AI",
 } as const;
 
 // --- domain --------------------------------------------------------------
@@ -62,100 +62,100 @@ export type Product = {
 export const PRODUCTS: Product[] = [
   {
     id: "coat",
-    title: "핸드메이드 울 더블코트",
+    title: "Handmade Wool Double-Breasted Coat",
     brand: "Maison Blanche",
-    category: "아우터",
+    category: "Outerwear",
     price: 78000,
     original: 148000,
     discount: 47,
     match: 96,
     grade: "S",
-    gradeLabel: "새 상품급",
-    seller: "검증 셀러 · 도윤",
-    sellerMeta: "거래 214건 · 재구매율 38%",
-    reasons: ["미니멀 · 뉴트럴 톤 일치", "관심 브랜드 알림", "실측 오차 1cm 이내"],
+    gradeLabel: "Like new",
+    seller: "Verified seller · Doyun",
+    sellerMeta: "214 deals · 38% repeat rate",
+    reasons: ["Matches your minimal, neutral tone", "Alert for a brand you follow", "Measurements within 1cm accuracy"],
     image:
       "https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?auto=format&fit=crop&w=900&q=80",
-    alt: "정돈된 배경에 단독으로 걸린 울 더블코트",
+    alt: "Wool double-breasted coat hung alone against a tidy background",
   },
   {
     id: "bag",
-    title: "레더 스퀘어 크로스백",
+    title: "Leather Square Crossbody Bag",
     brand: "Atelier Noir",
-    category: "가방",
+    category: "Bags",
     price: 62000,
     original: 120000,
     discount: 48,
     match: 91,
     grade: "A",
-    gradeLabel: "사용감 적음",
-    seller: "검증 셀러 · 서연",
-    sellerMeta: "거래 132건 · 평점 4.9",
-    reasons: ["뉴트럴 컬러 매칭", "예산 6만원대 적중", "시세 대비 48% 절감"],
+    gradeLabel: "Lightly used",
+    seller: "Verified seller · Seoyeon",
+    sellerMeta: "132 deals · 4.9 rating",
+    reasons: ["Neutral color match", "Within your ₩60,000 budget range", "48% below market price"],
     image:
       "https://images.unsplash.com/photo-1560243563-062bfc001d68?auto=format&fit=crop&w=900&q=80",
-    alt: "바닥에 놓인 가죽 스퀘어 크로스백",
+    alt: "Leather square crossbody bag placed on the floor",
   },
   {
     id: "sneakers",
-    title: "클래식 로우 스니커즈",
+    title: "Classic Low-Top Sneakers",
     brand: "Runway Archive",
-    category: "슈즈",
+    category: "Shoes",
     price: 54000,
     original: 98000,
     discount: 45,
     match: 88,
     grade: "A",
-    gradeLabel: "생활 흔적 소량",
-    seller: "검증 셀러 · 민재",
-    sellerMeta: "거래 87건 · 평점 4.8",
-    reasons: ["270mm 사이즈 일치", "캐주얼 취향 확장", "밑창 마모 8% 검수"],
+    gradeLabel: "Minor wear",
+    seller: "Verified seller · Minjae",
+    sellerMeta: "87 deals · 4.8 rating",
+    reasons: ["Matches your 270mm size", "Expands your casual style picks", "Sole wear inspected at 8%"],
     image:
       "https://images.unsplash.com/photo-1543076447-215ad9ba6923?auto=format&fit=crop&w=900&q=80",
-    alt: "화이트 톤의 클래식 로우 스니커즈 한 켤레",
+    alt: "A pair of white classic low-top sneakers",
   },
   {
     id: "rack",
-    title: "빈티지 울 체스터 코트",
+    title: "Vintage Wool Chesterfield Coat",
     brand: "Aureum Vintage",
-    category: "아우터",
+    category: "Outerwear",
     price: 89000,
     original: 152000,
     discount: 41,
     match: 93,
     grade: "S",
-    gradeLabel: "새 상품급",
-    seller: "검증 셀러 · 하린",
-    sellerMeta: "거래 156건 · 재구매율 32%",
-    reasons: ["오버핏 선호 반영", "S등급 컨디션", "리테일가 41% 절감"],
+    gradeLabel: "Like new",
+    seller: "Verified seller · Harin",
+    sellerMeta: "156 deals · 32% repeat rate",
+    reasons: ["Reflects your oversized-fit preference", "Grade S condition", "41% below retail price"],
     image:
       "https://images.unsplash.com/photo-1445205170230-053b83016050?auto=format&fit=crop&w=900&q=80",
-    alt: "행어에 걸린 빈티지 울 체스터 코트",
+    alt: "Vintage wool Chesterfield coat hanging on a rack",
   },
 ];
 
-// 일반 중고거래 쪽(before)에 겹쳐 보이는 결핍 신호 — 무채색·정보 없음
-export const BEFORE_GAPS = ["실측 정보 없음", "컨디션 불명", "시세 비교 불가"] as const;
+// Deficiency signals overlaid on the general secondhand (before) side — monochrome, no info
+export const BEFORE_GAPS = ["No measurements listed", "Condition unknown", "No price comparison"] as const;
 
 export type Value = { index: string; title: string; desc: string; icon: LucideIcon };
 
 export const VALUES: Value[] = [
   {
     index: "01",
-    title: "취향을 검증합니다",
-    desc: "찜 · 스킵 · 구매 이력을 실시간 반영해 지금 당신에게 맞는 것만 남깁니다.",
+    title: "We verify your taste",
+    desc: "We reflect your likes, skips, and purchase history in real time, keeping only what fits you right now.",
     icon: Sparkles,
   },
   {
     index: "02",
-    title: "컨디션을 실측합니다",
-    desc: "전문 검수팀이 실측과 하자를 확인해 S · A 등급만 매칭에 올립니다.",
+    title: "We measure condition",
+    desc: "Our inspection team checks measurements and flaws, surfacing only Grade S and A items.",
     icon: ScanSearch,
   },
   {
     index: "03",
-    title: "시세를 대조합니다",
-    desc: "최근 거래가와 리테일가를 대조해 지금 사도 손해 없는 매물만 보여줍니다.",
+    title: "We compare market price",
+    desc: "We compare recent sale prices against retail, showing only listings that are a fair deal right now.",
     icon: TrendingDown,
   },
 ];
@@ -163,13 +163,13 @@ export const VALUES: Value[] = [
 export type Stat = { value: string; label: string };
 
 export const STATS: Stat[] = [
-  { value: "128,000+", label: "누적 재판매" },
-  { value: "94%", label: "평균 매칭 정확도" },
-  { value: "4.9 / 5", label: "사용자 만족도" },
+  { value: "128,000+", label: "Total resales" },
+  { value: "94%", label: "Average match accuracy" },
+  { value: "4.9 / 5", label: "User satisfaction" },
 ];
 
 export const PROOF: Stat[] = [
-  { value: "2.4배", label: "구매 전환율 상승" },
-  { value: "-63%", label: "탐색 시간 절감" },
-  { value: "38%", label: "3개월 내 재구매율" },
+  { value: "2.4×", label: "Increase in purchase conversion" },
+  { value: "-63%", label: "Reduction in browsing time" },
+  { value: "38%", label: "Repeat purchase rate within 3 months" },
 ];

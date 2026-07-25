@@ -42,13 +42,13 @@ function compareDeals(a: Deal, b: Deal, sort: SortState): number {
       diff = a.closeDate.localeCompare(b.closeDate);
       break;
     case "company":
-      diff = a.company.localeCompare(b.company, "ko");
+      diff = a.company.localeCompare(b.company, "en");
       break;
     case "stage":
       diff = STAGE_RANK[a.stage] - STAGE_RANK[b.stage];
       break;
   }
-  if (diff === 0) diff = b.amount - a.amount; // 안정적 2차 정렬
+  if (diff === 0) diff = b.amount - a.amount; // stable secondary sort
   return sort.dir === "asc" ? diff : -diff;
 }
 
@@ -71,7 +71,7 @@ export function BoardApp() {
     return () => document.removeEventListener("keydown", onKeyDown);
   }, []);
 
-  // 담당자 필터 → 정렬 적용 (보드·리스트·스탯바가 함께 반응)
+  // Owner filter → sort applied (board, list, and stat bar all react together)
   const filteredSorted = useMemo(() => {
     const base = ownerFilter === "all" ? ALL_DEALS : ALL_DEALS.filter((d) => d.ownerId === ownerFilter);
     return [...base].sort((a, b) => compareDeals(a, b, sort));
@@ -95,7 +95,7 @@ export function BoardApp() {
     const winRate = totalClosed === 0 ? 0 : Math.round((closed.wonCount / totalClosed) * 100);
     const trend = trendByPeriod[period];
     return {
-      scopeLabel: ownerFilter === "all" ? "전체 팀" : getOwner(ownerFilter).name,
+      scopeLabel: ownerFilter === "all" ? "All Reps" : getOwner(ownerFilter).name,
       totalPipeline,
       weightedForecast,
       openCount,
@@ -142,13 +142,13 @@ export function BoardApp() {
 
         <main className="flex min-w-0 flex-1 flex-col lg:min-h-0 lg:overflow-hidden">
           <div className="mx-auto flex w-full max-w-[1760px] flex-1 flex-col gap-4 px-4 py-5 sm:px-6 lg:min-h-0 lg:overflow-hidden">
-            {/* 페이지 헤더 + 컨트롤 */}
+            {/* Page header + controls */}
             <div className="flex flex-col gap-3 lg:flex-row lg:items-start lg:justify-between">
               <div className="min-w-0">
-                <h1 className="text-xl font-semibold tracking-tight text-zinc-900">영업 파이프라인</h1>
+                <h1 className="text-xl font-semibold tracking-tight text-zinc-900">Sales Pipeline</h1>
                 <p className="mt-0.5 text-sm text-zinc-500">
-                  Northwind Sales · 진행 거래 {statData.openCount}
-                  {ownerFilter === "all" ? `건 (전체 ${totalOpen}건)` : `건 · ${statData.scopeLabel} 담당`}
+                  Northwind Sales · {statData.openCount} open deal
+                  {ownerFilter === "all" ? `s (${totalOpen} total)` : `s · owned by ${statData.scopeLabel}`}
                 </p>
               </div>
               <Toolbar controls={controls} />
@@ -156,7 +156,7 @@ export function BoardApp() {
 
             <StatBar data={statData} />
 
-            {/* 메인 영역 — 칸반 보드가 주인공(기본), 리스트 뷰는 정렬 테이블 */}
+            {/* Main area — kanban board is the default centerpiece; list view is a sortable table */}
             {view === "board" ? (
               <div className="min-w-0 flex-1 lg:min-h-0">
                 <Board grouped={grouped} />

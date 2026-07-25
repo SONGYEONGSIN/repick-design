@@ -40,7 +40,7 @@ export function BookingTrendChart({ data }: BookingTrendChartProps) {
   const areaPath = `${linePath} L${points[points.length - 1].x},${baseline} L${points[0].x},${baseline} Z`;
 
   const active = activeIndex !== null ? points[activeIndex] : null;
-  // 라벨이 겹치지 않도록 균등 간격으로 최대 6개만 표시
+  // Show at most 6 evenly spaced labels so they don't overlap
   const labelStep = Math.max(1, Math.ceil(points.length / 6));
 
   return (
@@ -58,10 +58,10 @@ export function BookingTrendChart({ data }: BookingTrendChartProps) {
             {active?.label}
           </p>
           <p className="whitespace-nowrap text-[13px] font-semibold tabular-nums text-zinc-900">
-            예약 {active ? formatNumber(active.bookings) : " "}건
+            {active ? formatNumber(active.bookings) : " "} bookings
           </p>
           <p className="whitespace-nowrap text-[11.5px] tabular-nums text-zinc-500">
-            전환율 {active ? formatPercent(active.conversionRate) : ""}
+            Conversion rate {active ? formatPercent(active.conversionRate) : ""}
           </p>
         </div>
 
@@ -70,7 +70,7 @@ export function BookingTrendChart({ data }: BookingTrendChartProps) {
           preserveAspectRatio="none"
           className="h-56 w-full overflow-visible"
           role="img"
-          aria-label="최근 예약 추이 라인 차트"
+          aria-label="Line chart of recent booking trend"
         >
           <defs>
             <linearGradient id="d30-trend-fill" x1="0" y1="0" x2="0" y2="1">
@@ -125,7 +125,7 @@ export function BookingTrendChart({ data }: BookingTrendChartProps) {
               onFocus={() => setActiveIndex(i)}
               onBlur={() => setActiveIndex(null)}
               className="h-full flex-1 focus-visible:outline-none"
-              aria-label={`${p.label} · 예약 ${p.bookings}건 · 전환율 ${p.conversionRate}%`}
+              aria-label={`${p.label} · ${p.bookings} bookings · ${p.conversionRate}% conversion`}
             />
           ))}
         </div>
@@ -141,7 +141,7 @@ export function BookingTrendChart({ data }: BookingTrendChartProps) {
 
       <p aria-live="polite" className="sr-only">
         {active
-          ? `${active.label} 예약 ${active.bookings}건, 전환율 ${active.conversionRate}퍼센트`
+          ? `${active.label}: ${active.bookings} bookings, ${active.conversionRate} percent conversion`
           : ""}
       </p>
     </div>

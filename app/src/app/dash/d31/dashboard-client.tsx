@@ -12,9 +12,9 @@ import WorkflowListRail from "./components/WorkflowListRail";
 import { WORKFLOW_BY_ID, WORKFLOWS, workflowPeriodSeries, type Period } from "./lib/data";
 
 const PERIOD_LABEL: Record<Period, string> = {
-  "24h": "최근 24시간",
-  "7d": "최근 7일",
-  "30d": "최근 30일",
+  "24h": "Last 24 hours",
+  "7d": "Last 7 days",
+  "30d": "Last 30 days",
 };
 
 export default function DashboardClient() {
@@ -33,8 +33,8 @@ export default function DashboardClient() {
 
   return (
     <AppShell>
-      {/* 마스터(목록)·디테일 두 열의 시각적 순서와 무관하게 항상 접근 가능한 단일 페이지 제목. */}
-      <h1 className="sr-only">워크플로 — {workflow.name}</h1>
+      {/* A single accessible page title, independent of the visual order of the master (list) and detail columns. */}
+      <h1 className="sr-only">Workflow — {workflow.name}</h1>
 
       <div className="flex h-full min-h-0 flex-1 flex-col lg:flex-row">
         <WorkflowListRail
@@ -56,16 +56,16 @@ export default function DashboardClient() {
           <HeroStats workflow={workflow} />
 
           <div className="px-4 py-5 sm:px-6">
-            <Card title="실행 추이" description={`${periodLabel} 성공/실패 실행 건수`} headingId="exec-trend-heading">
+            <Card title="Execution trend" description={`${periodLabel} successful/failed executions`} headingId="exec-trend-heading">
               <ExecutionChart series={series} periodLabel={periodLabel} />
             </Card>
           </div>
 
           <section aria-labelledby="execution-log-heading" className="min-w-0 px-4 pb-10 sm:px-6">
             <h2 id="execution-log-heading" className="text-sm font-semibold text-zinc-100">
-              실행 기록
+              Execution history
             </h2>
-            <p className="mt-0.5 truncate text-xs text-zinc-500">{workflow.name}의 최근 실행 — 헤더를 눌러 정렬</p>
+            <p className="mt-0.5 truncate text-xs text-zinc-500">Recent runs of {workflow.name} — click a header to sort</p>
             <div className="mt-3">
               <ExecutionLogTable workflowId={workflow.id} />
             </div>

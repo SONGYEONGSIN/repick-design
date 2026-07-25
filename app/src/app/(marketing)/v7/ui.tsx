@@ -52,18 +52,18 @@ export default function LandingClient() {
               FOCUS,
             )}
           >
-            RE:픽
+            RE:PICK
           </a>
           <div className="hidden items-center gap-7 sm:flex">
             <a href="#compare" className={NAV_LINK}>
-              대조표
+              Compare table
             </a>
             <a href="#preview" className={NAV_LINK}>
-              매칭 근거
+              Match evidence
             </a>
           </div>
           <a href="#cta" className={CTA_PRIMARY}>
-            매칭 시작
+            Start matching
           </a>
         </nav>
       </header>
@@ -89,26 +89,26 @@ export default function LandingClient() {
               )}
             >
               <Table2 className="h-3.5 w-3.5" aria-hidden />
-              일반 중고거래 vs repick
+              Ordinary resale vs. Repick
             </motion.p>
 
             <motion.h1
               variants={item}
               className="mt-5 font-extrabold leading-[1.02] tracking-[-0.02em] text-white break-keep text-[clamp(2.2rem,7.4vw,3rem)] lg:text-[clamp(2.6rem,4vw,3.6rem)]"
             >
-              같은 매물,
+              Same listing,
               <br />
-              <span className="text-[#6E56CF]">다른 근거</span>로
-              증명합니다
+              proven by{" "}
+              <span className="text-[#6E56CF]">different evidence</span>
             </motion.h1>
 
             <motion.p
               variants={item}
               className="mt-6 max-w-md text-base font-normal leading-[1.6] text-[#A1A1AA] sm:text-lg"
             >
-              가격·컨디션·판매자 신뢰·검색 시간·적합도 — 다섯 기준을 나란히
-              대조합니다. 카테고리 탭을 바꾸면 표 전체가 그 카테고리의 실제
-              데이터로 다시 계산됩니다.
+              Price, condition, seller trust, search time, and fit — five
+              criteria compared side by side. Switch the category tab and the
+              entire table recalculates using that category&apos;s real data.
             </motion.p>
 
             <motion.div
@@ -116,11 +116,11 @@ export default function LandingClient() {
               className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center"
             >
               <a href="#compare" className={CTA_PRIMARY}>
-                대조표 직접 조작하기
+                Try the comparison table
                 <ArrowRight className="h-4 w-4" strokeWidth={2.5} aria-hidden />
               </a>
               <span className="text-xs font-normal text-[#A1A1AA]">
-                가입 없이 바로 확인 · 행을 눌러 근거 펼치기
+                No sign-up needed · Tap a row to expand the evidence
               </span>
             </motion.div>
 
@@ -161,7 +161,7 @@ export default function LandingClient() {
             transition={{ duration: 0.5, ease: EASE }}
             className={cx(EYEBROW, "text-[#a894f7]")}
           >
-            Fig. 02 — AI가 이렇게 골랐습니다
+            Fig. 02 — How the AI picked these
           </motion.p>
           <motion.h2
             initial={reduced ? false : { opacity: 0, y: 16 }}
@@ -170,7 +170,7 @@ export default function LandingClient() {
             transition={{ duration: 0.5, ease: EASE, delay: reduced ? 0 : 0.05 }}
             className="mt-4 max-w-xl font-extrabold leading-[1.1] tracking-[-0.02em] text-white break-keep text-[clamp(1.7rem,4.4vw,2.4rem)]"
           >
-            대조표 뒤에는 실제 매물이 있습니다
+            Behind the table are real listings
           </motion.h2>
 
           <div className="mt-12 grid grid-cols-1 gap-6 md:grid-cols-3">
@@ -196,10 +196,10 @@ export default function LandingClient() {
                     className="object-cover"
                   />
                   <span className="absolute left-3 top-3 inline-flex items-center gap-1 rounded-full border border-[#6E56CF]/50 bg-[#6E56CF]/25 px-2.5 py-1 text-[0.7rem] font-semibold text-white backdrop-blur">
-                    {card.grade}급 · {card.gradeLabel}
+                    Grade {card.grade} · {card.gradeLabel}
                   </span>
                   <span className="absolute right-3 top-3 inline-flex items-center gap-1 rounded-full border border-white/20 bg-black/50 px-2.5 py-1 text-[0.7rem] font-semibold text-white backdrop-blur">
-                    <span className={NUM}>매칭 {card.match}%</span>
+                    <span className={NUM}>Match {card.match}%</span>
                   </span>
                 </div>
                 <figcaption className="flex flex-col gap-2.5 p-5">
@@ -216,10 +216,10 @@ export default function LandingClient() {
                         "text-sm font-semibold text-white/40 line-through",
                       )}
                     >
-                      {comma(card.retail)}원
+                      {comma(card.retail)} won
                     </span>
                     <span className={cx(NUM, "text-lg font-extrabold text-white")}>
-                      {comma(card.repick)}원
+                      {comma(card.repick)} won
                     </span>
                     <span
                       className={cx(
@@ -266,7 +266,7 @@ export default function LandingClient() {
             transition={{ duration: 0.5, ease: EASE }}
             className={cx(EYEBROW, "mb-12 block text-[#a894f7]")}
           >
-            Fig. 03 — 대조표가 하는 일
+            Fig. 03 — What the table does
           </motion.p>
 
           <div className="grid grid-cols-1 gap-x-10 gap-y-12 md:grid-cols-3">
@@ -345,12 +345,13 @@ export default function LandingClient() {
               {"“"}
             </span>
             <blockquote className="mt-2 text-2xl font-semibold leading-[1.4] tracking-[-0.02em] text-white sm:text-[1.75rem]">
-              탭 하나로 카테고리를 바꿔봤는데, 다섯 줄 숫자가 전부 다시
-              계산되더라고요. 표를 믿게 됐습니다.
+              I switched categories with a single tab, and all five rows of
+              numbers recalculated instantly. That&apos;s when I started
+              trusting the table.
             </blockquote>
             <figcaption className="mt-6 text-sm font-normal text-[#A1A1AA]">
-              <span className="font-semibold text-white">한지호</span> ·
-              프로덕트 디자이너
+              <span className="font-semibold text-white">Jiho Han</span> ·
+              Product Designer
             </figcaption>
           </motion.figure>
         </div>
@@ -367,21 +368,21 @@ export default function LandingClient() {
             className="max-w-2xl"
           >
             <h2 className="font-extrabold leading-[1.02] tracking-[-0.02em] text-white break-keep text-[clamp(2.1rem,6.4vw,3.6rem)]">
-              대조는 끝났습니다,
+              The comparison is done,
               <br />
-              이제 매칭만 받으면 됩니다
+              all that&apos;s left is your match
             </h2>
             <p className="mt-6 max-w-lg text-base font-normal leading-[1.6] text-[#A1A1AA]">
-              위 대조표에서 확인한 다섯 기준은 실제 검수·거래 데이터를
-              기준으로 산출됩니다. 취향 프로필을 만드는 데 1분이면
-              충분합니다.
+              The five criteria in the table above are calculated from real
+              inspection and transaction data. Building your taste profile
+              takes just one minute.
             </p>
             <div className="mt-9">
               <a
                 href="#top"
                 className={cx(CTA_PRIMARY, "px-7 py-3.5 text-base")}
               >
-                무료로 매칭 받기
+                Get matched for free
                 <ArrowRight className="h-4 w-4" strokeWidth={2.5} aria-hidden />
               </a>
             </div>
@@ -393,10 +394,10 @@ export default function LandingClient() {
       <footer className="border-t border-white/10">
         <div className="mx-auto flex w-full max-w-[1120px] flex-col gap-2 px-5 py-10 sm:flex-row sm:items-center sm:justify-between sm:px-8">
           <span className="text-base font-extrabold tracking-[-0.02em] text-white">
-            RE:픽
+            RE:PICK
           </span>
           <span className="text-xs font-normal text-[#A1A1AA]">
-            AI가 다시 고르는 중고 · 2026 RE:PICK
+            Secondhand, re-picked by AI · 2026 RE:PICK
           </span>
         </div>
       </footer>

@@ -27,9 +27,9 @@ export function ActivityFeed() {
 
   return (
     <Card as="section" aria-labelledby={headingId}>
-      <CardHeader title="최근 활동" titleId={headingId} description="팀의 최신 업데이트" />
+      <CardHeader title="Recent Activity" titleId={headingId} description="Latest updates from the team" />
       {activities.length === 0 ? (
-        <p className="px-5 py-8 text-center text-sm text-zinc-500">최근 활동이 없습니다.</p>
+        <p className="px-5 py-8 text-center text-sm text-zinc-500">No recent activity.</p>
       ) : (
         <ul className="space-y-4 px-5 py-5">
           {activities.map((activity) => {
@@ -50,9 +50,9 @@ export function ActivityFeed() {
                 <div className="min-w-0 flex-1">
                   <p className="text-sm text-zinc-700">
                     <span className="font-medium text-zinc-900">{actor.name}</span>
-                    {"님이 "}
+                    {" · "}
                     <span className="font-medium text-zinc-900">{activity.target}</span>
-                    {`을(를) ${activity.action}`}
+                    {` · ${activity.action}`}
                   </p>
                   <p className="mt-0.5 text-xs text-zinc-400">
                     {project.name} · {activity.time}

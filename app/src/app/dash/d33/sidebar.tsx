@@ -19,24 +19,24 @@ import { getOwner, CURRENT_USER_ID } from "./data";
 
 const NAV_SECTIONS = [
   {
-    label: "영업",
+    label: "Sales",
     items: [
-      { id: "pipeline", label: "파이프라인", icon: KanbanSquare, active: true },
-      { id: "deals", label: "거래", icon: ListChecks, active: false },
-      { id: "accounts", label: "고객사", icon: Building2, active: false },
-      { id: "forecast", label: "예측", icon: BarChart3, active: false },
+      { id: "pipeline", label: "Pipeline", icon: KanbanSquare, active: true },
+      { id: "deals", label: "Deals", icon: ListChecks, active: false },
+      { id: "accounts", label: "Accounts", icon: Building2, active: false },
+      { id: "forecast", label: "Forecast", icon: BarChart3, active: false },
     ],
   },
   {
-    label: "팀",
+    label: "Team",
     items: [
-      { id: "reps", label: "담당자", icon: Users, active: false },
-      { id: "goals", label: "목표", icon: Target, active: false },
+      { id: "reps", label: "Reps", icon: Users, active: false },
+      { id: "goals", label: "Goals", icon: Target, active: false },
     ],
   },
 ];
 
-const WORKSPACES = ["Northwind Sales", "Northwind APAC", "개인 워크스페이스"];
+const WORKSPACES = ["Northwind Sales", "Northwind APAC", "Personal Workspace"];
 
 export function Sidebar({
   mobileOpen,
@@ -52,7 +52,7 @@ export function Sidebar({
       {mobileOpen ? (
         <button
           type="button"
-          aria-label="사이드바 닫기"
+          aria-label="Close sidebar"
           onClick={onCloseMobile}
           className="fixed inset-0 z-40 bg-zinc-900/30 lg:hidden"
         />
@@ -62,7 +62,7 @@ export function Sidebar({
         className={`fixed inset-y-0 left-0 z-50 flex w-64 shrink-0 -translate-x-full flex-col border-r border-zinc-200 bg-white transition-transform duration-200 lg:static lg:z-0 lg:translate-x-0 ${
           mobileOpen ? "translate-x-0" : ""
         }`}
-        aria-label="주 사이드바"
+        aria-label="Main sidebar"
       >
         <div className="flex h-14 items-center justify-between gap-2 px-4">
           <WorkspaceSwitcher />
@@ -70,13 +70,13 @@ export function Sidebar({
             type="button"
             onClick={onCloseMobile}
             className="inline-flex h-11 w-11 items-center justify-center rounded-lg text-zinc-500 hover:bg-zinc-100 hover:text-zinc-900 focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 focus-visible:outline-none lg:hidden"
-            aria-label="사이드바 닫기"
+            aria-label="Close sidebar"
           >
             <X className="h-4 w-4" aria-hidden="true" />
           </button>
         </div>
 
-        <nav className="flex-1 space-y-6 overflow-y-auto px-3 py-4" aria-label="주요 메뉴">
+        <nav className="flex-1 space-y-6 overflow-y-auto px-3 py-4" aria-label="Main menu">
           {NAV_SECTIONS.map((section) => (
             <div key={section.label}>
               <h2 className="px-3 text-[11px] font-semibold tracking-wide text-zinc-400 uppercase">
@@ -113,7 +113,7 @@ export function Sidebar({
             className="mb-1 flex min-h-[44px] items-center gap-2.5 rounded-lg px-3 text-sm font-medium text-zinc-500 hover:bg-zinc-100 hover:text-zinc-900 focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 focus-visible:outline-none"
           >
             <LifeBuoy className="h-4 w-4 shrink-0" aria-hidden="true" />
-            도움말
+            Help
           </a>
           <div className="flex items-center gap-2.5 rounded-lg px-2 py-2">
             <Avatar src={me.avatarUrl} name={me.name} size="md" />
@@ -123,7 +123,7 @@ export function Sidebar({
             </div>
             <button
               type="button"
-              aria-label="설정"
+              aria-label="Settings"
               className="inline-flex h-11 w-11 items-center justify-center rounded-lg text-zinc-400 hover:bg-zinc-100 hover:text-zinc-700 focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 focus-visible:outline-none"
             >
               <Settings className="h-4 w-4" aria-hidden="true" />
@@ -153,7 +153,7 @@ function WorkspaceSwitcher() {
         </span>
         <span className="min-w-0 flex-1">
           <span className="block truncate text-sm font-semibold text-zinc-900">{active}</span>
-          <span className="block text-[11px] text-zinc-500">Keel · 영업 워크스페이스</span>
+          <span className="block text-[11px] text-zinc-500">Keel · Sales Workspace</span>
         </span>
         <ChevronsUpDown className="h-3.5 w-3.5 shrink-0 text-zinc-400" aria-hidden="true" />
       </button>
@@ -161,7 +161,7 @@ function WorkspaceSwitcher() {
       {open ? (
         <div
           role="listbox"
-          aria-label="워크스페이스 선택"
+          aria-label="Select workspace"
           className="absolute top-full left-0 z-30 mt-1 w-full min-w-[220px] rounded-xl border border-zinc-200 bg-white p-1.5 shadow-lg"
         >
           {WORKSPACES.map((ws) => (
@@ -187,7 +187,7 @@ function WorkspaceSwitcher() {
             className="flex min-h-[44px] w-full items-center gap-2 rounded-lg px-2.5 text-sm text-zinc-500 hover:bg-zinc-100 focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:outline-none"
           >
             <LogOut className="h-3.5 w-3.5" aria-hidden="true" />
-            로그아웃
+            Log out
           </button>
         </div>
       ) : null}

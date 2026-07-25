@@ -6,22 +6,22 @@ const STATUS_META: Record<
   { label: string; className: string; Icon: typeof CircleCheck }
 > = {
   success: {
-    label: "성공",
+    label: "Success",
     className: "bg-emerald-500/10 text-emerald-400 ring-1 ring-inset ring-emerald-500/20",
     Icon: CircleCheck,
   },
   failed: {
-    label: "실패",
+    label: "Failed",
     className: "bg-rose-500/10 text-rose-400 ring-1 ring-inset ring-rose-500/20",
     Icon: CircleX,
   },
   running: {
-    label: "실행중",
+    label: "Running",
     className: "bg-blue-500/10 text-blue-400 ring-1 ring-inset ring-blue-500/20",
     Icon: Loader2,
   },
   warning: {
-    label: "경고",
+    label: "Warning",
     className: "bg-amber-500/10 text-amber-400 ring-1 ring-inset ring-amber-500/20",
     Icon: TriangleAlert,
   },
