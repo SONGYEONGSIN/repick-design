@@ -18,6 +18,7 @@ type Strings = {
     copyDesignMd: string; downloadMd: string;
     comingSoon: string; comingSoonBody: string;
   };
+  hero: { headline: string; subcopy: string; browseCta: string; showcaseLabel: string };
 };
 
 export const STRINGS: Record<Lang, Strings> = {
@@ -38,6 +39,12 @@ export const STRINGS: Record<Lang, Strings> = {
       comingSoon: "Full spec coming soon",
       comingSoonBody: "This design's palette, guidelines, and agent prompt haven't been documented yet.",
     },
+    hero: {
+      headline: "Interface design systems, auto-evolved for AI agents.",
+      subcopy: "Every specimen is a production-grade interface — generated nightly, gated for craft, and judged. Each ships with a copy-paste DESIGN.md so an agent can rebuild it.",
+      browseCta: "Browse the gallery",
+      showcaseLabel: "Featured design systems",
+    },
   },
   ko: {
     worksLabel: "작품",
@@ -55,6 +62,12 @@ export const STRINGS: Record<Lang, Strings> = {
       copyDesignMd: "DESIGN.md 복사", downloadMd: ".md 다운로드",
       comingSoon: "상세 스펙 준비 중",
       comingSoonBody: "이 디자인의 팔레트·가이드라인·에이전트 프롬프트는 아직 문서화되지 않았습니다.",
+    },
+    hero: {
+      headline: "AI 에이전트를 위한 인터페이스 디자인 시스템 — 매일 스스로 진화.",
+      subcopy: "모든 표본은 상용급 인터페이스입니다 — 매일 생성되고, 크래프트 게이트를 통과하고, 심사됩니다. 각 작품에는 에이전트가 그대로 재현할 수 있는 DESIGN.md가 포함됩니다.",
+      browseCta: "갤러리 둘러보기",
+      showcaseLabel: "대표 디자인 시스템",
     },
   },
 };
