@@ -5,7 +5,8 @@ import { resolveScreen } from "./src/screens";
 // Native/build-time: fall back to EXPO_PUBLIC_SCREEN (used by the evolve gate).
 function currentSlug(): string | undefined {
   if (typeof window !== "undefined" && window.location) {
-    return new URLSearchParams(window.location.search).get("screen") ?? undefined;
+    const q = new URLSearchParams(window.location.search).get("screen");
+    if (q) return q;
   }
   return process.env.EXPO_PUBLIC_SCREEN;
 }

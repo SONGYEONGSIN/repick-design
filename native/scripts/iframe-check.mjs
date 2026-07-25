@@ -3,7 +3,7 @@ const require = createRequire(import.meta.url);
 const { chromium } = require('playwright');
 
 const EXPO_URL = process.argv[2] || 'http://localhost:8091/';
-const CHECK = process.argv[3] || 'AI 매칭 결과';
+const CHECK = process.argv[3] || 'AI Match Results';
 const b = await chromium.launch();
 const p = await b.newPage();
 // 갤러리 WorkCard와 동일 구조: iframe src=Expo Web URL
