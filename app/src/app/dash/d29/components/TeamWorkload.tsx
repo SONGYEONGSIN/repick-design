@@ -22,9 +22,9 @@ export function TeamWorkload() {
   return (
     <Card as="section" aria-labelledby={headingId}>
       <CardHeader
-        title="팀 워크로드"
+        title="Team Workload"
         titleId={headingId}
-        description="용량 대비 배정 작업량 · 막대에 포인터를 올리면 세부 정보가 표시됩니다"
+        description="Assigned work vs. capacity · Hover a bar for details"
       />
       <ul className="space-y-4 px-5 py-5">
         {sorted.map((member) => {
@@ -46,8 +46,8 @@ export function TeamWorkload() {
                   id={tooltipId}
                   content={
                     <span>
-                      {member.name} · 작업 {member.tasksAssigned}개 · 용량 {pct}%
-                      {over ? " · 초과 배정" : ""}
+                      {member.name} · {member.tasksAssigned} tasks · {pct}% capacity
+                      {over ? " · Overallocated" : ""}
                     </span>
                   }
                   className="mt-1.5 block w-full"
@@ -59,7 +59,7 @@ export function TeamWorkload() {
                     className="flex h-6 w-full items-center rounded-full focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-1 focus-visible:outline-none"
                   >
                     <span className="sr-only">
-                      {member.name}, 작업 {member.tasksAssigned}개, 용량 {pct}%{over ? ", 초과 배정" : ""}
+                      {member.name}, {member.tasksAssigned} tasks, {pct}% capacity{over ? ", overallocated" : ""}
                     </span>
                     <span
                       aria-hidden="true"

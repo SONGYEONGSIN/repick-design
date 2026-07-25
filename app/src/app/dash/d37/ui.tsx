@@ -54,7 +54,7 @@ export function Badge({ tone = "neutral", Icon, children }: { tone?: Tone; Icon?
   );
 }
 
-/** 진행/분배 프로그레스 바 — 트랙 + 채움, 색+수치 병행 표시는 호출부 책임. */
+/** Progress/distribution bar — track + fill; pairing color with a numeric readout is the caller's responsibility. */
 export function Progress({ pct, tone = "info" }: { pct: number; tone?: Tone }) {
   const t = TONE[tone];
   const clamped = Math.min(100, Math.max(0, pct));
@@ -180,7 +180,7 @@ export function SortableTh<K extends string>({
 
 /* --------------------------------------------------------- Sparkline */
 
-/** 결정론 미니 스파크라인 — 라인 + 은은한 면적 + 종점. 좌표 소수 2자리. */
+/** Deterministic mini sparkline — line + subtle area fill + endpoint dot. Coordinates rounded to 2 decimal places. */
 export function Sparkline({ values, stroke, fill, className }: { values: number[]; stroke: string; fill: string; className?: string }) {
   const W = 200;
   const H = 44;

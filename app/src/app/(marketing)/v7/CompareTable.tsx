@@ -37,7 +37,7 @@ const ROW_TRIGGER =
 export default function CompareTable() {
   const reduced = useReducedMotion();
   const [catIdx, setCatIdx] = useState(0);
-  // 기본으로 첫 행(가격 근거)을 열어 정지 상태에서도 실사 매물 증명이 보이게 함(hover 전용 리빌 금지 원칙)
+  // Open the first row (price basis) by default so the real-listing proof is visible even at rest (no hover-only reveal principle)
   const [openRowId, setOpenRowId] = useState<string | null>(ROWS[0].id);
   const tabRefs = useRef<Array<HTMLButtonElement | null>>([]);
 
@@ -72,15 +72,15 @@ export default function CompareTable() {
       <div className="relative flex items-center justify-between gap-3">
         <p className={cx(EYEBROW, "flex items-center gap-2 text-[#a894f7]")}>
           <Table2 className="h-3.5 w-3.5" aria-hidden />
-          Fig. 01 — AI 매칭 대조표
+          Fig. 01 — AI matching comparison table
         </p>
-        <span className={cx(CAPTION, "text-[#A1A1AA]")}>탭 전환 시 재계산</span>
+        <span className={cx(CAPTION, "text-[#A1A1AA]")}>Recalculates on tab switch</span>
       </div>
 
-      {/* 카테고리 탭 — 전환 시 표 전체 값 재계산 */}
+      {/* Category tabs — switching recalculates every value in the table */}
       <div
         role="tablist"
-        aria-label="비교할 상품 카테고리"
+        aria-label="Product category to compare"
         className="relative mt-5 flex gap-2"
       >
         {CATEGORIES.map((c, i) => {
@@ -118,7 +118,7 @@ export default function CompareTable() {
         })}
       </div>
 
-      {/* 비교 표 — 기본 대조값은 항상 노출, 행 확장은 더 깊은 근거를 위한 것 */}
+      {/* Comparison table — baseline values are always visible; expanding a row reveals deeper evidence */}
       <div
         id={`panel-${category.id}`}
         role="tabpanel"
@@ -128,8 +128,8 @@ export default function CompareTable() {
       >
         <table className="w-full table-fixed border-collapse text-left">
           <caption className="sr-only">
-            일반 중고거래와 repick AI 매칭 비교 — {category.label} 카테고리 기준,
-            카테고리를 바꾸면 값이 실시간으로 재계산됩니다
+            Comparison of ordinary secondhand trading and Repick AI matching — based on the {category.label} category;
+            switching categories recalculates the values in real time
           </caption>
           <colgroup>
             <col className="w-[38%]" />
@@ -142,19 +142,19 @@ export default function CompareTable() {
                 scope="col"
                 className={cx(CAPTION, "px-2.5 py-2.5 font-semibold text-[#A1A1AA] sm:px-3")}
               >
-                비교 기준
+                Criteria
               </th>
               <th
                 scope="col"
                 className={cx(CAPTION, "px-2.5 py-2.5 font-semibold text-[#A1A1AA] sm:px-3")}
               >
-                일반 거래
+                Ordinary resale
               </th>
               <th
                 scope="col"
                 className={cx(CAPTION, "px-2.5 py-2.5 font-semibold text-[#a894f7] sm:px-3")}
               >
-                repick AI
+                Repick AI
               </th>
             </tr>
           </thead>
@@ -263,7 +263,7 @@ export default function CompareTable() {
                                 className="object-cover"
                               />
                               <span className="absolute left-2 top-2 inline-flex items-center gap-1 rounded-full border border-[#6E56CF]/50 bg-[#6E56CF]/25 px-2 py-0.5 text-[0.66rem] font-semibold text-white backdrop-blur">
-                                {category.listing.grade}급
+                                Grade {category.listing.grade}
                               </span>
                             </div>
                             <div className="flex flex-1 flex-col gap-2.5">
@@ -277,7 +277,7 @@ export default function CompareTable() {
                                   </h3>
                                 </div>
                                 <span className="inline-flex shrink-0 items-center gap-1 rounded-full border border-white/15 bg-white/5 px-2.5 py-1 text-[0.72rem] font-semibold text-white">
-                                  <span className={NUM}>AI 매칭 {category.listing.match}%</span>
+                                  <span className={NUM}>AI match {category.listing.match}%</span>
                                 </span>
                               </div>
 
@@ -302,12 +302,12 @@ export default function CompareTable() {
                                     "text-sm font-semibold text-white/40 line-through",
                                   )}
                                 >
-                                  {comma(category.listing.retail)}원
+                                  {comma(category.listing.retail)} won
                                 </span>
                                 <span
                                   className={cx(NUM, "text-lg font-extrabold text-white")}
                                 >
-                                  {comma(category.listing.repick)}원
+                                  {comma(category.listing.repick)} won
                                 </span>
                                 <span
                                   className={cx(
@@ -332,7 +332,7 @@ export default function CompareTable() {
                                   aria-hidden
                                 />
                                 <span>
-                                  <span className="font-semibold text-white">근거.</span>{" "}
+                                  <span className="font-semibold text-white">Evidence.</span>{" "}
                                   {rv.evidence}
                                 </span>
                               </p>
@@ -350,7 +350,7 @@ export default function CompareTable() {
       </div>
 
       <a href="#cta" className={cx(CTA_PRIMARY, "mt-6")}>
-        {category.label} 카테고리로 매칭 시작하기
+        Start matching in {category.label}
         <ArrowRight className="h-4 w-4" strokeWidth={2.5} aria-hidden />
       </a>
     </div>

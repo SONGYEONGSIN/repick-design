@@ -15,17 +15,17 @@ import {
 } from "lucide-react";
 
 /* ======================================================================
- * Tessera — 포트폴리오 자산배분 콕핏 (Treemap Cockpit)
- * 순수 데이터/수학 모듈. Math.random / Date 미사용 → 서버·클라이언트 렌더 동일(하이드레이션 안전).
- * 라이트 = 순백 zinc-50/white 캔버스, 다크 = zinc-950/900 표면. 강조 1색 = violet.
- * 손익 색조 = emerald(수익) / rose(손실). 카테고리 식별색과 분리한다.
+ * Tessera — Portfolio Allocation Cockpit (Treemap Cockpit)
+ * Pure data/math module. No Math.random / Date usage → identical server/client render (hydration-safe).
+ * Light = pure white zinc-50/white canvas, dark = zinc-950/900 surface. One accent color = violet.
+ * P&L tone = emerald (gain) / rose (loss). Kept separate from category identity colors.
  * ==================================================================== */
 
 export function cx(...parts: Array<string | false | null | undefined>): string {
   return parts.filter(Boolean).join(" ");
 }
 
-/* ---- 디자인 토큰(라우트 로컬 클래스 상수) ---------------------------- */
+/* ---- Design tokens (route-local class constants) ---------------------------- */
 export const APP_BG = "bg-zinc-50 dark:bg-zinc-950";
 export const CARD_BG = "bg-white dark:bg-zinc-900";
 export const BORDER = "border-zinc-200 dark:border-zinc-800";
@@ -34,10 +34,10 @@ export const CARD = cx("rounded-2xl border", BORDER, CARD_BG, "shadow-sm");
 
 export const TEXT_PRIMARY = "text-zinc-900 dark:text-zinc-50";
 export const TEXT_SECONDARY = "text-zinc-600 dark:text-zinc-300";
-/** 라이트 표면 보조텍스트는 zinc-500 이상만(zinc-400 on white 금지). 다크는 zinc-400 이상. */
+/** On light surfaces, secondary text must be zinc-500 or darker (no zinc-400 on white). Dark surfaces: zinc-400 or lighter. */
 export const TEXT_CAPTION = "text-zinc-500 dark:text-zinc-400";
 
-/** 숫자·비중·금액 정렬 — 전역 font-sans(Pretendard)와 동일 폭. */
+/** Alignment for numbers, weights, and amounts — same width as the global font-sans (Pretendard). */
 export const NUM = "tabular-nums [font-feature-settings:'tnum']";
 
 export const ACCENT_TEXT = "text-violet-600 dark:text-violet-400";
@@ -53,7 +53,7 @@ export const HOVER_ACTIVE_BG =
 export const HOVER_ROW = "hover:bg-zinc-50 dark:hover:bg-white/[0.03]";
 export const TRANSITION = "transition-colors motion-reduce:transition-none";
 
-/* ---- 결정론 수학 -------------------------------------------------- */
+/* ---- Deterministic math -------------------------------------------------- */
 export function round2(n: number): number {
   return Math.round(n * 100) / 100;
 }
@@ -61,13 +61,13 @@ export function clamp(n: number, min: number, max: number): number {
   return Math.min(max, Math.max(min, n));
 }
 
-/* ---- Intl 포맷 ---------------------------------------------------- */
-const krwFull = new Intl.NumberFormat("ko-KR", {
+/* ---- Intl formatting ---------------------------------------------------- */
+const krwFull = new Intl.NumberFormat("en-US", {
   style: "currency",
   currency: "KRW",
   maximumFractionDigits: 0,
 });
-const krwCompact = new Intl.NumberFormat("ko-KR", {
+const krwCompact = new Intl.NumberFormat("en-US", {
   style: "currency",
   currency: "KRW",
   notation: "compact",
@@ -92,13 +92,13 @@ export function fmtSignedPct(v: number, d = 2): string {
   return `${sign}${Math.abs(v).toFixed(d)}%`;
 }
 
-/* ---- 브랜드 / 사용자 / 내비 ---------------------------------------- */
+/* ---- Brand / user / nav ---------------------------------------- */
 export const BRAND = { name: "Tessera", tagline: "Wealth Allocation", Icon: LayoutGrid };
 
-/** 가상 인물(세션 컨텍스트와 무관). */
+/** Fictional persona (unrelated to session context). */
 export const CURRENT_USER = {
   name: "Elena Whitfield",
-  role: "포트폴리오 매니저",
+  role: "Portfolio Manager",
   avatarId: "1531123897727-8f129e1688ce",
 };
 
@@ -108,9 +108,9 @@ export function unsplashAvatar(id: string, size = 96): string {
 
 export type Account = { id: string; name: string; meta: string };
 export const ACCOUNTS: Account[] = [
-  { id: "brokerage", name: "개인 종합계좌", meta: "종합자산관리 · 실시간" },
-  { id: "irp", name: "퇴직연금 IRP", meta: "세제적격 · 장기" },
-  { id: "corp", name: "법인 운용계좌", meta: "법인 · 승인 필요" },
+  { id: "brokerage", name: "Personal Brokerage Account", meta: "Full-service wealth management · Real-time" },
+  { id: "irp", name: "Retirement IRP", meta: "Tax-advantaged · Long-term" },
+  { id: "corp", name: "Corporate Trading Account", meta: "Corporate · Approval required" },
 ];
 
 export type NavItem = { id: string; label: string; Icon: LucideIcon; active?: boolean; disabled?: boolean; badge?: string };
@@ -119,33 +119,33 @@ export type NavSection = { id: string; title: string; items: NavItem[] };
 export const NAV_SECTIONS: NavSection[] = [
   {
     id: "portfolio",
-    title: "포트폴리오",
+    title: "Portfolio",
     items: [
-      { id: "cockpit", label: "배분 콕핏", Icon: LayoutGrid, active: true },
-      { id: "allocation", label: "자산배분", Icon: PieChart },
-      { id: "transactions", label: "거래내역", Icon: ArrowLeftRight },
+      { id: "cockpit", label: "Allocation Cockpit", Icon: LayoutGrid, active: true },
+      { id: "allocation", label: "Asset Allocation", Icon: PieChart },
+      { id: "transactions", label: "Transactions", Icon: ArrowLeftRight },
     ],
   },
   {
     id: "analysis",
-    title: "분석",
+    title: "Analysis",
     items: [
-      { id: "performance", label: "성과분석", Icon: TrendingUp },
-      { id: "risk", label: "리스크", Icon: Gauge },
-      { id: "rebalance", label: "리밸런싱", Icon: Scale, badge: "3" },
+      { id: "performance", label: "Performance", Icon: TrendingUp },
+      { id: "risk", label: "Risk", Icon: Gauge },
+      { id: "rebalance", label: "Rebalancing", Icon: Scale, badge: "3" },
     ],
   },
   {
     id: "admin",
-    title: "관리",
+    title: "Admin",
     items: [
-      { id: "tax", label: "세금 리포트", Icon: FileText, disabled: true },
-      { id: "settings", label: "설정", Icon: Settings },
+      { id: "tax", label: "Tax Report", Icon: FileText, disabled: true },
+      { id: "settings", label: "Settings", Icon: Settings },
     ],
   },
 ];
 
-/* ---- 카테고리(자산군) --------------------------------------------- */
+/* ---- Categories (asset classes) --------------------------------------------- */
 export type CategoryId = "equity" | "bond" | "crypto" | "cash";
 export const CATEGORY_ORDER: CategoryId[] = ["equity", "bond", "crypto", "cash"];
 
@@ -161,8 +161,8 @@ export interface CategoryMeta {
 export const CATEGORY: Record<CategoryId, CategoryMeta> = {
   equity: {
     id: "equity",
-    label: "주식",
-    short: "주식",
+    label: "Equities",
+    short: "Equity",
     Icon: CandlestickChart,
     dot: "bg-indigo-500",
     badge: "bg-indigo-50 text-indigo-700 ring-indigo-600/20 dark:bg-indigo-500/10 dark:text-indigo-300 dark:ring-indigo-400/20",
@@ -170,8 +170,8 @@ export const CATEGORY: Record<CategoryId, CategoryMeta> = {
   },
   bond: {
     id: "bond",
-    label: "채권",
-    short: "채권",
+    label: "Bonds",
+    short: "Bonds",
     Icon: Landmark,
     dot: "bg-sky-500",
     badge: "bg-sky-50 text-sky-700 ring-sky-600/20 dark:bg-sky-500/10 dark:text-sky-300 dark:ring-sky-400/20",
@@ -179,8 +179,8 @@ export const CATEGORY: Record<CategoryId, CategoryMeta> = {
   },
   crypto: {
     id: "crypto",
-    label: "암호자산",
-    short: "암호",
+    label: "Crypto",
+    short: "Crypto",
     Icon: Bitcoin,
     dot: "bg-amber-500",
     badge: "bg-amber-50 text-amber-700 ring-amber-600/20 dark:bg-amber-500/10 dark:text-amber-300 dark:ring-amber-400/20",
@@ -188,8 +188,8 @@ export const CATEGORY: Record<CategoryId, CategoryMeta> = {
   },
   cash: {
     id: "cash",
-    label: "현금성",
-    short: "현금",
+    label: "Cash Equivalents",
+    short: "Cash",
     Icon: Wallet,
     dot: "bg-teal-500",
     badge: "bg-teal-50 text-teal-700 ring-teal-600/20 dark:bg-teal-500/10 dark:text-teal-300 dark:ring-teal-400/20",
@@ -197,62 +197,62 @@ export const CATEGORY: Record<CategoryId, CategoryMeta> = {
   },
 };
 
-/** 카테고리별 커버리지 애널리스트 — 상세 패널 아바타(next/image, 가상 인물). */
+/** Coverage analyst per category — detail panel avatar (next/image, fictional persona). */
 export const ANALYST: Record<CategoryId, { name: string; role: string; avatarId: string }> = {
-  equity: { name: "Marcus Chen", role: "주식 리서치", avatarId: "1500648767791-00dcc994a43e" },
-  bond: { name: "Sofia Ramos", role: "채권 스트래티지스트", avatarId: "1494790108377-be9c29b29330" },
-  crypto: { name: "Daniel Okafor", role: "디지털자산 리서치", avatarId: "1544005313-94ddf0286df2" },
-  cash: { name: "Yuki Tanaka", role: "자금·FX 데스크", avatarId: "1438761681033-6461ffad8d80" },
+  equity: { name: "Marcus Chen", role: "Equity Research", avatarId: "1500648767791-00dcc994a43e" },
+  bond: { name: "Sofia Ramos", role: "Fixed Income Strategist", avatarId: "1494790108377-be9c29b29330" },
+  crypto: { name: "Daniel Okafor", role: "Digital Assets Research", avatarId: "1544005313-94ddf0286df2" },
+  cash: { name: "Yuki Tanaka", role: "Treasury & FX Desk", avatarId: "1438761681033-6461ffad8d80" },
 };
 
-/* ---- 기간 세그먼트 ------------------------------------------------ */
+/* ---- Period segments ------------------------------------------------ */
 export type PeriodId = "1D" | "1W" | "1M" | "YTD";
 export const PERIODS: { id: PeriodId; label: string }[] = [
-  { id: "1D", label: "1일" },
-  { id: "1W", label: "1주" },
-  { id: "1M", label: "1개월" },
-  { id: "YTD", label: "연초대비" },
+  { id: "1D", label: "1 Day" },
+  { id: "1W", label: "1 Week" },
+  { id: "1M", label: "1 Month" },
+  { id: "YTD", label: "Year to Date" },
 ];
 
-/* ---- 보유 종목 ---------------------------------------------------- */
+/* ---- Holdings ---------------------------------------------------- */
 export interface Holding {
   id: string;
   symbol: string;
   name: string;
   category: CategoryId;
-  /** 취득원가(KRW). 평가액 = cost * (1 + 기간수익률). */
+  /** Cost basis (KRW). Market value = cost * (1 + period return). */
   cost: number;
-  /** 모델 목표 비중(포트폴리오 대비 %) — 리밸런싱 밴드 판정 기준. */
+  /** Model target weight (% of portfolio) — the basis for rebalancing band checks. */
   target: number;
-  /** 기간별 누적 수익률(소수). 색조·비중·타일 크기를 결정. */
+  /** Cumulative return per period (decimal). Drives tone, weight, and tile size. */
   returns: Record<PeriodId, number>;
 }
 
-const B = 100_000_000; // 억
+const B = 100_000_000; // hundred million (KRW)
 export const HOLDINGS: Holding[] = [
-  // 주식
-  { id: "nvda", symbol: "NVDA", name: "엔비디아", category: "equity", cost: 3.05 * B, target: 12, returns: { "1D": 0.021, "1W": 0.048, "1M": 0.112, YTD: 0.386 } },
-  { id: "aapl", symbol: "AAPL", name: "애플", category: "equity", cost: 2.8 * B, target: 11, returns: { "1D": 0.006, "1W": -0.011, "1M": 0.032, YTD: 0.144 } },
-  { id: "msft", symbol: "MSFT", name: "마이크로소프트", category: "equity", cost: 2.45 * B, target: 10, returns: { "1D": 0.012, "1W": 0.019, "1M": 0.041, YTD: 0.203 } },
-  { id: "asml", symbol: "ASML", name: "ASML 홀딩", category: "equity", cost: 1.55 * B, target: 7, returns: { "1D": -0.014, "1W": 0.026, "1M": 0.058, YTD: 0.171 } },
+  // Equities
+  { id: "nvda", symbol: "NVDA", name: "Nvidia", category: "equity", cost: 3.05 * B, target: 12, returns: { "1D": 0.021, "1W": 0.048, "1M": 0.112, YTD: 0.386 } },
+  { id: "aapl", symbol: "AAPL", name: "Apple", category: "equity", cost: 2.8 * B, target: 11, returns: { "1D": 0.006, "1W": -0.011, "1M": 0.032, YTD: 0.144 } },
+  { id: "msft", symbol: "MSFT", name: "Microsoft", category: "equity", cost: 2.45 * B, target: 10, returns: { "1D": 0.012, "1W": 0.019, "1M": 0.041, YTD: 0.203 } },
+  { id: "asml", symbol: "ASML", name: "ASML Holding", category: "equity", cost: 1.55 * B, target: 7, returns: { "1D": -0.014, "1W": 0.026, "1M": 0.058, YTD: 0.171 } },
   { id: "tsm", symbol: "TSM", name: "TSMC", category: "equity", cost: 1.3 * B, target: 6, returns: { "1D": 0.031, "1W": 0.052, "1M": 0.089, YTD: 0.312 } },
-  { id: "tsla", symbol: "TSLA", name: "테슬라", category: "equity", cost: 1.05 * B, target: 4, returns: { "1D": -0.028, "1W": -0.041, "1M": 0.067, YTD: -0.092 } },
-  // 채권
-  { id: "ief", symbol: "IEF", name: "미국채 7-10Y", category: "bond", cost: 1.8 * B, target: 9, returns: { "1D": 0.003, "1W": -0.006, "1M": 0.011, YTD: 0.028 } },
-  { id: "ktb", symbol: "KTB", name: "국고채 10Y", category: "bond", cost: 1.3 * B, target: 6, returns: { "1D": 0.002, "1W": 0.004, "1M": 0.009, YTD: 0.021 } },
-  { id: "corp", symbol: "CORP", name: "AA 회사채", category: "bond", cost: 0.9 * B, target: 4, returns: { "1D": 0.001, "1W": 0.003, "1M": 0.014, YTD: 0.037 } },
-  { id: "tips", symbol: "TIPS", name: "물가연동국채", category: "bond", cost: 0.5 * B, target: 3, returns: { "1D": -0.002, "1W": 0.005, "1M": 0.008, YTD: 0.019 } },
-  // 암호자산
-  { id: "btc", symbol: "BTC", name: "비트코인", category: "crypto", cost: 1.9 * B, target: 6, returns: { "1D": 0.038, "1W": 0.094, "1M": 0.152, YTD: 0.541 } },
-  { id: "eth", symbol: "ETH", name: "이더리움", category: "crypto", cost: 1.1 * B, target: 4, returns: { "1D": 0.052, "1W": 0.071, "1M": -0.043, YTD: 0.287 } },
-  { id: "sol", symbol: "SOL", name: "솔라나", category: "crypto", cost: 0.55 * B, target: 2, returns: { "1D": -0.061, "1W": 0.118, "1M": 0.224, YTD: 0.412 } },
-  // 현금성
-  { id: "krw", symbol: "KRW", name: "원화 MMF", category: "cash", cost: 2.0 * B, target: 11, returns: { "1D": 0.0004, "1W": 0.001, "1M": 0.004, YTD: 0.017 } },
-  { id: "usd", symbol: "USD", name: "달러 예수금", category: "cash", cost: 1.0 * B, target: 5, returns: { "1D": 0.007, "1W": -0.009, "1M": 0.012, YTD: 0.043 } },
+  { id: "tsla", symbol: "TSLA", name: "Tesla", category: "equity", cost: 1.05 * B, target: 4, returns: { "1D": -0.028, "1W": -0.041, "1M": 0.067, YTD: -0.092 } },
+  // Bonds
+  { id: "ief", symbol: "IEF", name: "US Treasury 7-10Y", category: "bond", cost: 1.8 * B, target: 9, returns: { "1D": 0.003, "1W": -0.006, "1M": 0.011, YTD: 0.028 } },
+  { id: "ktb", symbol: "KTB", name: "Korea Treasury Bond 10Y", category: "bond", cost: 1.3 * B, target: 6, returns: { "1D": 0.002, "1W": 0.004, "1M": 0.009, YTD: 0.021 } },
+  { id: "corp", symbol: "CORP", name: "AA Corporate Bond", category: "bond", cost: 0.9 * B, target: 4, returns: { "1D": 0.001, "1W": 0.003, "1M": 0.014, YTD: 0.037 } },
+  { id: "tips", symbol: "TIPS", name: "Inflation-Linked Bond", category: "bond", cost: 0.5 * B, target: 3, returns: { "1D": -0.002, "1W": 0.005, "1M": 0.008, YTD: 0.019 } },
+  // Crypto
+  { id: "btc", symbol: "BTC", name: "Bitcoin", category: "crypto", cost: 1.9 * B, target: 6, returns: { "1D": 0.038, "1W": 0.094, "1M": 0.152, YTD: 0.541 } },
+  { id: "eth", symbol: "ETH", name: "Ethereum", category: "crypto", cost: 1.1 * B, target: 4, returns: { "1D": 0.052, "1W": 0.071, "1M": -0.043, YTD: 0.287 } },
+  { id: "sol", symbol: "SOL", name: "Solana", category: "crypto", cost: 0.55 * B, target: 2, returns: { "1D": -0.061, "1W": 0.118, "1M": 0.224, YTD: 0.412 } },
+  // Cash equivalents
+  { id: "krw", symbol: "KRW", name: "KRW Money Market Fund", category: "cash", cost: 2.0 * B, target: 11, returns: { "1D": 0.0004, "1W": 0.001, "1M": 0.004, YTD: 0.017 } },
+  { id: "usd", symbol: "USD", name: "USD Cash Deposit", category: "cash", cost: 1.0 * B, target: 5, returns: { "1D": 0.007, "1W": -0.009, "1M": 0.012, YTD: 0.043 } },
 ];
 
-export const AS_OF = "2026-06-30 장마감 기준";
-export const REBALANCE_BAND = 2.0; // 목표 대비 ±2%p 초과 시 리밸런싱 권고
+export const AS_OF = "As of market close, 2026-06-30";
+export const REBALANCE_BAND = 2.0; // Recommend rebalancing when drift from target exceeds ±2pp
 
 export function holdingValue(h: Holding, p: PeriodId): number {
   return h.cost * (1 + h.returns[p]);
@@ -261,7 +261,7 @@ export function pnlAmount(h: Holding, p: PeriodId): number {
   return holdingValue(h, p) - h.cost;
 }
 
-/** 20영업일 미니 스파크라인(기준가=100). index 시드 기반 결정론. 좌표는 소수 2자리. */
+/** 20-trading-day mini sparkline (base = 100). Deterministic, seeded by index. Coordinates rounded to 2 decimals. */
 export function sparkSeries(index: number, ret1M: number): number[] {
   const out: number[] = [];
   for (let i = 0; i < 20; i++) {
@@ -273,7 +273,7 @@ export function sparkSeries(index: number, ret1M: number): number[] {
   return out;
 }
 
-/* ---- 손익 색조 티어(색+텍스트 병행, AA 대비 유지) ------------------- */
+/* ---- P&L tone tiers (color + text combined, keeps AA contrast) ------------------- */
 export type Tone = "up3" | "up2" | "up1" | "flat" | "down1" | "down2" | "down3";
 export function toneFor(pnlPct: number): Tone {
   const m = Math.abs(pnlPct);
@@ -296,7 +296,7 @@ export const TILE_TONE: Record<Tone, ToneClass> = {
   down3: { fill: "bg-rose-200 dark:bg-rose-500/[0.24]", num: "text-rose-800 dark:text-rose-300", ring: "ring-1 ring-inset ring-rose-500/50" },
 };
 
-/* ---- Squarified Treemap (결정론) ---------------------------------- */
+/* ---- Squarified Treemap (deterministic) ---------------------------------- */
 export interface Rect {
   x: number;
   y: number;
@@ -319,7 +319,7 @@ function worstRatio(areas: number[], side: number): number {
   return Math.max((side2 * max) / s2, s2 / (side2 * min));
 }
 
-/** 값 배열(내림차순 권장)을 rect에 정방형에 가깝게 배치. 반환 rect는 입력 순서 대응. */
+/** Lays out a value array (descending order recommended) inside rect as near-square blocks. Returned rects match input order. */
 export function squarify(values: number[], rect: Rect): Rect[] {
   const n = values.length;
   const result: Rect[] = new Array(n);
@@ -384,15 +384,15 @@ export interface Tile {
   holding: Holding;
   value: number;
   pnlPct: number;
-  weightPct: number; // 포트폴리오(전체) 대비
-  geom: Rect; // 소속 블록 콘텐츠 영역 대비 퍼센트
+  weightPct: number; // relative to the whole portfolio
+  geom: Rect; // percentage relative to the parent block's content area
   detail: LabelDetail;
 }
 export interface Block {
   cat: CategoryId;
   total: number;
   weightPct: number;
-  geom: Rect; // 캔버스 대비 퍼센트
+  geom: Rect; // percentage relative to the canvas
   tiles: Tile[];
 }
 export interface TreemapModel {
@@ -428,7 +428,7 @@ export function buildTreemap(all: Holding[], period: PeriodId, active: ReadonlyS
   const blocks: Block[] = [];
   let tileCount = 0;
 
-  const HEADER = 30; // 캔버스 단위 헤더 높이(콘텐츠 영역 산정에만 사용)
+  const HEADER = 30; // header height in canvas units (used only to compute the content area)
 
   cats.forEach((c, ci) => {
     const r = insetRect(catRects[ci], 4);
@@ -459,7 +459,7 @@ export function buildTreemap(all: Holding[], period: PeriodId, active: ReadonlyS
   return { blocks, tileCount, activeTotal, fullTotal };
 }
 
-/* ---- 리밸런싱/집계 헬퍼 ------------------------------------------- */
+/* ---- Rebalancing / aggregation helpers ------------------------------------------- */
 export function portfolioWeight(h: Holding, period: PeriodId, fullTotal: number): number {
   return fullTotal ? (holdingValue(h, period) / fullTotal) * 100 : 0;
 }

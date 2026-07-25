@@ -94,7 +94,7 @@ export default function ExecutionChart({ series, periodLabel }: ExecutionChartPr
       <div
         tabIndex={0}
         role="group"
-        aria-label={`실행 추이 차트, ${periodLabel} 기준. 화살표 키로 지점 간 이동, Escape로 닫기`}
+        aria-label={`Execution trend chart, ${periodLabel}. Use arrow keys to move between points, Escape to close`}
         aria-describedby={tableId}
         onKeyDown={handleKeyDown}
         onFocus={() => setActiveIndex((i) => (i === null ? n - 1 : i))}
@@ -170,14 +170,14 @@ export default function ExecutionChart({ series, periodLabel }: ExecutionChartPr
               <div className="flex items-center justify-between gap-3">
                 <dt className="flex items-center gap-1.5 text-zinc-300">
                   <span className="size-1.5 rounded-full bg-indigo-400" />
-                  성공
+                  Success
                 </dt>
                 <dd className="tabular-nums text-zinc-50">{formatNumber(active.success)}</dd>
               </div>
               <div className="flex items-center justify-between gap-3">
                 <dt className="flex items-center gap-1.5 text-zinc-300">
                   <span className="size-1.5 rounded-full bg-rose-400" />
-                  실패
+                  Failed
                 </dt>
                 <dd className="tabular-nums text-zinc-50">{formatNumber(active.failed)}</dd>
               </div>
@@ -187,17 +187,17 @@ export default function ExecutionChart({ series, periodLabel }: ExecutionChartPr
 
         <p id={liveRegionId} role="status" aria-live="polite" className="sr-only">
           {active
-            ? `${active.label} 지점 — 성공 ${formatNumber(active.success)}건, 실패 ${formatNumber(active.failed)}건`
-            : "차트 포커스됨. 화살표 키로 지점을 탐색하세요."}
+            ? `${active.label} — ${formatNumber(active.success)} succeeded, ${formatNumber(active.failed)} failed`
+            : "Chart focused. Use arrow keys to explore points."}
         </p>
 
         <table id={tableId} className="sr-only">
-          <caption>{periodLabel} 실행 성공/실패 추이 데이터</caption>
+          <caption>{periodLabel} execution success/failure trend data</caption>
           <thead>
             <tr>
-              <th scope="col">시점</th>
-              <th scope="col">성공</th>
-              <th scope="col">실패</th>
+              <th scope="col">Time</th>
+              <th scope="col">Success</th>
+              <th scope="col">Failed</th>
             </tr>
           </thead>
           <tbody>
@@ -215,11 +215,11 @@ export default function ExecutionChart({ series, periodLabel }: ExecutionChartPr
       <div className="mt-3 flex items-center gap-4 text-xs text-zinc-500">
         <span className="flex items-center gap-1.5">
           <span className="h-0.5 w-3 rounded-full bg-indigo-400" aria-hidden="true" />
-          성공
+          Success
         </span>
         <span className="flex items-center gap-1.5">
           <span className="h-0.5 w-3 rounded-full bg-rose-400" style={{ borderTop: "1px dashed" }} aria-hidden="true" />
-          실패
+          Failed
         </span>
       </div>
     </div>

@@ -18,24 +18,24 @@ import { getMember } from "../data";
 
 const NAV_SECTIONS = [
   {
-    label: "워크스페이스",
+    label: "Workspace",
     items: [
-      { id: "home", label: "홈", icon: Home, active: false },
-      { id: "projects", label: "프로젝트", icon: FolderKanban, active: true },
-      { id: "tasks", label: "내 작업", icon: CheckSquare, active: false },
-      { id: "calendar", label: "캘린더", icon: Calendar, active: false },
+      { id: "home", label: "Home", icon: Home, active: false },
+      { id: "projects", label: "Projects", icon: FolderKanban, active: true },
+      { id: "tasks", label: "My Tasks", icon: CheckSquare, active: false },
+      { id: "calendar", label: "Calendar", icon: Calendar, active: false },
     ],
   },
   {
-    label: "팀",
+    label: "Team",
     items: [
-      { id: "people", label: "팀원", icon: Users, active: false },
-      { id: "portfolio", label: "포트폴리오", icon: Boxes, active: false },
+      { id: "people", label: "People", icon: Users, active: false },
+      { id: "portfolio", label: "Portfolio", icon: Boxes, active: false },
     ],
   },
 ];
 
-const WORKSPACES = ["Nova Studio", "Nova Labs", "개인 워크스페이스"];
+const WORKSPACES = ["Nova Studio", "Nova Labs", "Personal Workspace"];
 
 export function Sidebar({
   mobileOpen,
@@ -51,7 +51,7 @@ export function Sidebar({
       {mobileOpen ? (
         <button
           type="button"
-          aria-label="사이드바 닫기"
+          aria-label="Close sidebar"
           onClick={onCloseMobile}
           className="fixed inset-0 z-40 bg-zinc-900/30 lg:hidden"
         />
@@ -61,7 +61,7 @@ export function Sidebar({
         className={`fixed inset-y-0 left-0 z-50 flex w-64 shrink-0 -translate-x-full flex-col border-r border-zinc-200 bg-white transition-transform duration-200 lg:static lg:z-0 lg:translate-x-0 ${
           mobileOpen ? "translate-x-0" : ""
         }`}
-        aria-label="주 사이드바"
+        aria-label="Main sidebar"
       >
         <div className="flex h-11 items-center justify-between gap-2 px-4 pt-4">
           <WorkspaceSwitcher />
@@ -69,13 +69,13 @@ export function Sidebar({
             type="button"
             onClick={onCloseMobile}
             className="inline-flex h-11 w-11 items-center justify-center rounded-lg text-zinc-500 hover:bg-zinc-100 hover:text-zinc-900 focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 focus-visible:outline-none lg:hidden"
-            aria-label="사이드바 닫기"
+            aria-label="Close sidebar"
           >
             <X className="h-4 w-4" aria-hidden="true" />
           </button>
         </div>
 
-        <nav className="flex-1 space-y-6 overflow-y-auto px-3 py-6" aria-label="주요 메뉴">
+        <nav className="flex-1 space-y-6 overflow-y-auto px-3 py-6" aria-label="Main menu">
           {NAV_SECTIONS.map((section) => (
             <div key={section.label}>
               <h3 className="px-3 text-[11px] font-semibold tracking-wide text-zinc-400 uppercase">
@@ -115,7 +115,7 @@ export function Sidebar({
             </div>
             <button
               type="button"
-              aria-label="설정"
+              aria-label="Settings"
               className="inline-flex h-11 w-11 items-center justify-center rounded-lg text-zinc-400 hover:bg-zinc-100 hover:text-zinc-700 focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 focus-visible:outline-none"
             >
               <Settings className="h-4 w-4" aria-hidden="true" />
@@ -153,7 +153,7 @@ function WorkspaceSwitcher() {
       {open ? (
         <div
           role="listbox"
-          aria-label="워크스페이스 선택"
+          aria-label="Select workspace"
           className="absolute top-full left-0 z-30 mt-1 w-full min-w-[220px] rounded-xl border border-zinc-200 bg-white p-1.5 shadow-lg"
         >
           {WORKSPACES.map((ws) => (
@@ -179,7 +179,7 @@ function WorkspaceSwitcher() {
             className="flex w-full min-h-[44px] items-center gap-2 rounded-lg px-2.5 text-sm text-zinc-500 hover:bg-zinc-100 focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:outline-none"
           >
             <LogOut className="h-3.5 w-3.5" aria-hidden="true" />
-            로그아웃
+            Log out
           </button>
         </div>
       ) : null}

@@ -6,7 +6,7 @@ interface KpiCardProps {
   value: string;
   helpText?: string;
   deltaText: string;
-  /** 델타의 실제 색상 톤 — 지표 성격에 따라 증가/감소가 긍정일 수도 부정일 수도 있어 호출부에서 계산해 전달 */
+  /** Actual color tone for the delta — depending on the metric, an increase/decrease can be positive or negative, so the caller computes and passes this */
   tone: "positive" | "negative" | "neutral";
   direction: "up" | "down" | "flat";
   icon: React.ComponentType<{ className?: string; "aria-hidden"?: boolean | "true" | "false" }>;

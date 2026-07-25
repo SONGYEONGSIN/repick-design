@@ -46,9 +46,9 @@ export function AgentWorkloadCard({
     <Card as="section" id="agent-workload-card" aria-labelledby={TITLE_ID} className="flex flex-col">
       <CardHeader
         icon={<Users className="h-4 w-4" aria-hidden="true" />}
-        title="에이전트 워크로드"
+        title="Agent workload"
         titleId={TITLE_ID}
-        badge={<Badge className="border-white/10 bg-white/5 text-zinc-300">{formatNumber(activeCount)}명 근무중</Badge>}
+        badge={<Badge className="border-white/10 bg-white/5 text-zinc-300">{formatNumber(activeCount)} on duty</Badge>}
         expandable
         expanded={expanded}
         onToggle={onToggle}
@@ -71,7 +71,7 @@ export function AgentWorkloadCard({
                 <ProgressBar
                   className="mt-1.5"
                   value={loadPct}
-                  label={`${a.name} 업무 부하 ${loadPct}%`}
+                  label={`${a.name} workload ${loadPct}%`}
                   barClassName={loadPct >= 90 ? "bg-rose-400" : loadPct >= 70 ? "bg-amber-400" : "bg-emerald-400"}
                 />
               </div>
@@ -79,7 +79,7 @@ export function AgentWorkloadCard({
             </div>
           );
         })}
-        {filteredAgents.length === 0 && <p className="text-[13px] text-zinc-400">해당 채널 전담 에이전트가 없습니다.</p>}
+        {filteredAgents.length === 0 && <p className="text-[13px] text-zinc-400">No agents dedicated to this channel.</p>}
       </div>
 
       {expanded && (
@@ -87,7 +87,7 @@ export function AgentWorkloadCard({
           <div className="mt-3 max-h-72 overflow-y-auto rounded-lg border border-white/10 lg:max-h-none lg:overflow-visible">
             <div className="min-w-[560px] overflow-x-auto lg:min-w-0 lg:overflow-visible">
               <table className="w-full table-fixed border-collapse text-left text-[13px]">
-                <caption className="sr-only">전체 에이전트 로스터, 정렬 가능한 열: 담당자, 팀, 업무 부하, CSAT</caption>
+                <caption className="sr-only">Full agent roster, sortable columns: agent, team, workload, CSAT</caption>
                 <colgroup>
                   <col className="w-[26%]" />
                   <col className="w-[16%]" />
@@ -100,20 +100,20 @@ export function AgentWorkloadCard({
                   <tr className="border-b border-white/10">
                     <th scope="col" className="px-3 py-2" aria-sort={sortKey === "name" ? (direction === "asc" ? "ascending" : "descending") : "none"}>
                       <SortButton active={sortKey === "name"} direction={direction} onClick={() => toggle("name")}>
-                        담당자
+                        Agent
                       </SortButton>
                     </th>
                     <th scope="col" className="px-3 py-2" aria-sort={sortKey === "team" ? (direction === "asc" ? "ascending" : "descending") : "none"}>
                       <SortButton active={sortKey === "team"} direction={direction} onClick={() => toggle("team")}>
-                        팀
+                        Team
                       </SortButton>
                     </th>
                     <th scope="col" className="px-3 py-2">
-                      채널
+                      Channel
                     </th>
                     <th scope="col" className="px-3 py-2 text-right" aria-sort={sortKey === "load" ? (direction === "asc" ? "ascending" : "descending") : "none"}>
                       <SortButton align="right" active={sortKey === "load"} direction={direction} onClick={() => toggle("load")}>
-                        부하
+                        Load
                       </SortButton>
                     </th>
                     <th scope="col" className="px-3 py-2 text-right" aria-sort={sortKey === "csat" ? (direction === "asc" ? "ascending" : "descending") : "none"}>
@@ -122,7 +122,7 @@ export function AgentWorkloadCard({
                       </SortButton>
                     </th>
                     <th scope="col" className="px-3 py-2">
-                      상태
+                      Status
                     </th>
                   </tr>
                 </thead>
@@ -151,7 +151,7 @@ export function AgentWorkloadCard({
                   {sorted.length === 0 && (
                     <tr>
                       <td colSpan={6} className="px-3 py-6 text-center text-zinc-400">
-                        해당 채널 전담 에이전트가 없습니다.
+                        No agents dedicated to this channel.
                       </td>
                     </tr>
                   )}

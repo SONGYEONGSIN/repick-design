@@ -12,9 +12,9 @@ const WINDOW_END = "2026-08-24";
 const WINDOW_DAYS = dayDiff(WINDOW_START, WINDOW_END);
 
 const MONTH_MARKERS = [
-  { iso: "2026-06-01", label: "6월" },
-  { iso: "2026-07-01", label: "7월" },
-  { iso: "2026-08-01", label: "8월" },
+  { iso: "2026-06-01", label: "Jun" },
+  { iso: "2026-07-01", label: "Jul" },
+  { iso: "2026-08-01", label: "Aug" },
 ];
 
 function toPercent(iso: string): number {
@@ -37,9 +37,9 @@ export function TimelineGantt() {
   return (
     <Card as="section" aria-labelledby={headingId}>
       <CardHeader
-        title="타임라인"
+        title="Timeline"
         titleId={headingId}
-        description="프로젝트 일정 개요 · 막대에 포인터를 올리면 세부 정보가 표시됩니다"
+        description="Project schedule overview · Hover a bar for details"
       />
       <div className="px-5 py-5">
         <div className="relative">
@@ -50,14 +50,14 @@ export function TimelineGantt() {
           </div>
 
           <div className="relative rounded-lg bg-zinc-50">
-            {/* 오늘 마커 */}
+            {/* Today marker */}
             <div
               className="absolute top-0 bottom-0 z-10 w-px bg-rose-400"
               style={{ left: `${todayLeft}%` }}
               aria-hidden="true"
             >
               <span className="absolute -top-5 -translate-x-1/2 text-[10px] font-semibold whitespace-nowrap text-rose-500">
-                오늘
+                Today
               </span>
             </div>
 
@@ -74,11 +74,11 @@ export function TimelineGantt() {
                     </span>
                     <span className="relative h-6 flex-1">
                       {/*
-                        left/width(%)는 이 span(진짜 크기를 가진 flex-1 컨테이너)을 기준으로
-                        계산되어야 한다. HoverTooltip의 내부 wrapper는 자식이 absolute라
-                        자체 크기가 0으로 붕괴하므로, %기반 위치 지정은 반드시 이 바깥 span의
-                        직계 자식에서 수행하고 HoverTooltip은 이미 크기가 정해진 박스를
-                        h-full/w-full로 채우기만 하게 한다.
+                        left/width(%) must be computed relative to this span (the flex-1
+                        container that actually has real size). HoverTooltip's inner wrapper
+                        collapses to 0 size because its child is absolute, so %-based
+                        positioning must be done on a direct child of this outer span, and
+                        HoverTooltip should just fill an already-sized box with h-full/w-full.
                       */}
                       <span
                         className="absolute top-0 h-6"
@@ -89,7 +89,7 @@ export function TimelineGantt() {
                           content={
                             <span>
                               {formatDate(project.startDate)} – {formatDate(project.dueDate)} ·{" "}
-                              {statusMeta[project.status].label} · {project.progress}% 진행
+                              {statusMeta[project.status].label} · {project.progress}% complete
                             </span>
                           }
                           className="block h-full w-full"
@@ -109,8 +109,8 @@ export function TimelineGantt() {
                               aria-hidden="true"
                             />
                             <span className="sr-only">
-                              {project.name}: {formatDate(project.startDate)}부터 {formatDate(project.dueDate)}까지,
-                              진행률 {project.progress}%, {statusMeta[project.status].label}
+                              {project.name}: {formatDate(project.startDate)} to {formatDate(project.dueDate)},
+                              {project.progress}% complete, {statusMeta[project.status].label}
                             </span>
                           </button>
                         </HoverTooltip>

@@ -50,11 +50,11 @@ export function ChannelQueueCard({
     <Card as="section" id="channel-queue-card" aria-labelledby={TITLE_ID} className="flex flex-col">
       <CardHeader
         icon={<Inbox className="h-4 w-4" aria-hidden="true" />}
-        title="채널별 대기열"
+        title="Queue by channel"
         titleId={TITLE_ID}
         badge={
           <Badge className="border-white/10 bg-white/5 text-zinc-300">
-            {formatNumber(filteredRows.length)}건 대기
+            {formatNumber(filteredRows.length)} waiting
           </Badge>
         }
         expandable
@@ -74,7 +74,7 @@ export function ChannelQueueCard({
               <div className="mb-1 flex items-center justify-between text-[13px]">
                 <ChannelBadge channel={c} />
                 <span className="tabular-nums text-zinc-400">
-                  <span className="font-semibold text-zinc-100">{formatNumber(count)}</span>건 · {pct}%
+                  <span className="font-semibold text-zinc-100">{formatNumber(count)}</span> tickets · {pct}%
                 </span>
               </div>
               <div className="h-2 w-full overflow-hidden rounded-full bg-white/5">
@@ -91,7 +91,7 @@ export function ChannelQueueCard({
             <div className="min-w-[560px] overflow-x-auto lg:min-w-0 lg:overflow-visible">
               <table className="w-full table-fixed border-collapse text-left text-[13px]">
                 <caption className="sr-only">
-                  현재 대기 중인 티켓 목록, 정렬 가능한 열: 제목, 채널, 대기 시간, 우선순위
+                  List of tickets currently waiting, sortable columns: subject, channel, wait time, priority
                 </caption>
                 <colgroup>
                   <col className="w-[38%]" />
@@ -103,22 +103,22 @@ export function ChannelQueueCard({
                   <tr className="border-b border-white/10">
                     <th scope="col" className="px-3 py-2" aria-sort={sortKey === "subject" ? (direction === "asc" ? "ascending" : "descending") : "none"}>
                       <SortButton active={sortKey === "subject"} direction={direction} onClick={() => toggle("subject")}>
-                        제목
+                        Subject
                       </SortButton>
                     </th>
                     <th scope="col" className="px-3 py-2" aria-sort={sortKey === "channel" ? (direction === "asc" ? "ascending" : "descending") : "none"}>
                       <SortButton active={sortKey === "channel"} direction={direction} onClick={() => toggle("channel")}>
-                        채널
+                        Channel
                       </SortButton>
                     </th>
                     <th scope="col" className="px-3 py-2 text-right" aria-sort={sortKey === "wait" ? (direction === "asc" ? "ascending" : "descending") : "none"}>
                       <SortButton align="right" active={sortKey === "wait"} direction={direction} onClick={() => toggle("wait")}>
-                        대기
+                        Wait
                       </SortButton>
                     </th>
                     <th scope="col" className="px-3 py-2 text-right" aria-sort={sortKey === "priority" ? (direction === "asc" ? "ascending" : "descending") : "none"}>
                       <SortButton align="right" active={sortKey === "priority"} direction={direction} onClick={() => toggle("priority")}>
-                        우선순위
+                        Priority
                       </SortButton>
                     </th>
                   </tr>
@@ -146,7 +146,7 @@ export function ChannelQueueCard({
                   {sorted.length === 0 && (
                     <tr>
                       <td colSpan={4} className="px-3 py-6 text-center text-zinc-400">
-                        선택한 채널에 대기 중인 티켓이 없습니다.
+                        No tickets waiting in the selected channel.
                       </td>
                     </tr>
                   )}

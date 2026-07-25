@@ -55,7 +55,7 @@ function useOutsideClose(open: boolean, onClose: () => void) {
   return ref;
 }
 
-/* ---- 계좌 스위처 --------------------------------------------------- */
+/* ---- Account switcher --------------------------------------------------- */
 function AccountSwitcher() {
   const [open, setOpen] = useState(false);
   const [account, setAccount] = useState(ACCOUNTS[0]);
@@ -88,7 +88,7 @@ function AccountSwitcher() {
       {open ? (
         <div
           role="listbox"
-          aria-label="포트폴리오 계좌 선택"
+          aria-label="Select portfolio account"
           className={cx("absolute left-3 right-3 top-full z-40 mt-1.5 overflow-hidden rounded-xl border p-1", BORDER, "bg-white shadow-lg dark:bg-zinc-900")}
         >
           {ACCOUNTS.map((a) => {
@@ -139,7 +139,7 @@ function SidebarContent() {
 
       <AccountSwitcher />
 
-      <nav aria-label="대시보드 섹션" className="flex-1 overflow-y-auto px-3 py-4">
+      <nav aria-label="Dashboard sections" className="flex-1 overflow-y-auto px-3 py-4">
         {NAV_SECTIONS.map((section) => (
           <div key={section.id} className="mb-5 last:mb-0">
             <div className="mb-1.5 px-2.5">
@@ -157,7 +157,7 @@ function SidebarContent() {
                         <item.Icon size={17} aria-hidden="true" />
                         {item.label}
                         <span className="ml-auto rounded-full bg-zinc-100 px-1.5 py-0.5 text-[10px] font-medium text-zinc-500 dark:bg-zinc-800 dark:text-zinc-400">
-                          곧 지원
+                          Coming soon
                         </span>
                       </span>
                     </li>
@@ -197,7 +197,7 @@ function SidebarContent() {
         <div className="flex items-center gap-2.5 rounded-lg px-2 py-2">
           <Image
             src={unsplashAvatar(CURRENT_USER.avatarId, 56)}
-            alt={`${CURRENT_USER.name} 프로필 사진`}
+            alt={`${CURRENT_USER.name} profile photo`}
             width={28}
             height={28}
             className="h-7 w-7 shrink-0 rounded-full border border-black/5 object-cover dark:border-white/10"
@@ -221,13 +221,13 @@ export function Sidebar({ mobileOpen, onCloseMobile }: { mobileOpen: boolean; on
       </aside>
       {mobileOpen ? (
         <div className="fixed inset-0 z-50 lg:hidden">
-          <button type="button" aria-label="메뉴 닫기" onClick={onCloseMobile} className="absolute inset-0 bg-zinc-900/40" />
+          <button type="button" aria-label="Close menu" onClick={onCloseMobile} className="absolute inset-0 bg-zinc-900/40" />
           <aside className={cx("absolute inset-y-0 left-0 w-72 max-w-[85vw] border-r shadow-lg", BORDER, "bg-white dark:bg-zinc-950")}>
             <div className="flex justify-end p-2">
               <button
                 type="button"
                 onClick={onCloseMobile}
-                aria-label="메뉴 닫기"
+                aria-label="Close menu"
                 className={cx("grid h-11 w-11 place-items-center rounded-full border", BORDER, HOVER_ACTIVE_BG, TRANSITION, FOCUS_RING)}
               >
                 <X size={18} aria-hidden="true" />
@@ -243,11 +243,11 @@ export function Sidebar({ mobileOpen, onCloseMobile }: { mobileOpen: boolean; on
   );
 }
 
-/* ---- 상단바 -------------------------------------------------------- */
+/* ---- Top bar -------------------------------------------------------- */
 const NOTIFICATIONS = [
-  { id: "n1", text: "BTC 비중이 목표 대비 +2.5%p로 리밸런싱 밴드를 벗어났습니다.", time: "3분 전" },
-  { id: "n2", text: "월간 배당 ₩1,840,000이 원화 MMF로 입금되었습니다.", time: "1시간 전" },
-  { id: "n3", text: "2분기 세금 리포트 초안이 준비되었습니다.", time: "어제" },
+  { id: "n1", text: "BTC weight has drifted +2.5pp above target, outside the rebalancing band.", time: "3m ago" },
+  { id: "n2", text: "Monthly dividend of ₩1,840,000 was deposited into the KRW Money Market Fund.", time: "1h ago" },
+  { id: "n3", text: "Q2 tax report draft is ready.", time: "Yesterday" },
 ];
 
 export function Topbar({ onOpenPalette, onOpenMobileNav }: { onOpenPalette: () => void; onOpenMobileNav: () => void }) {
@@ -261,7 +261,7 @@ export function Topbar({ onOpenPalette, onOpenMobileNav }: { onOpenPalette: () =
       <button
         type="button"
         onClick={onOpenMobileNav}
-        aria-label="메뉴 열기"
+        aria-label="Open menu"
         className={cx("grid h-11 w-11 shrink-0 place-items-center rounded-lg lg:hidden", TEXT_CAPTION, HOVER_ACTIVE_BG, TRANSITION, FOCUS_RING)}
       >
         <Menu size={18} aria-hidden="true" />
@@ -282,7 +282,7 @@ export function Topbar({ onOpenPalette, onOpenMobileNav }: { onOpenPalette: () =
         )}
       >
         <Search size={16} aria-hidden="true" className="shrink-0" />
-        <span className="hidden truncate sm:inline">종목·자산군 검색</span>
+        <span className="hidden truncate sm:inline">Search holdings or asset classes</span>
         <span
           aria-hidden="true"
           className={cx("ml-auto hidden shrink-0 rounded-md border px-1.5 py-0.5 text-[11px] font-medium sm:inline-flex", BORDER, "bg-white dark:bg-zinc-950", TEXT_CAPTION)}
@@ -303,7 +303,7 @@ export function Topbar({ onOpenPalette, onOpenMobileNav }: { onOpenPalette: () =
           )}
         >
           <Plus size={15} aria-hidden="true" />
-          매수 주문
+          Buy Order
         </button>
 
         <div ref={notifRef} className="relative">
@@ -311,7 +311,7 @@ export function Topbar({ onOpenPalette, onOpenMobileNav }: { onOpenPalette: () =
             type="button"
             aria-haspopup="true"
             aria-expanded={notifOpen}
-            aria-label="알림 (읽지 않음 3개)"
+            aria-label="Notifications (3 unread)"
             onClick={() => {
               setNotifOpen((v) => !v);
               setUserOpen(false);
@@ -322,9 +322,9 @@ export function Topbar({ onOpenPalette, onOpenMobileNav }: { onOpenPalette: () =
             <span className="absolute right-2.5 top-2.5 h-2 w-2 rounded-full bg-rose-500 ring-2 ring-white dark:ring-zinc-900" aria-hidden="true" />
           </button>
           {notifOpen ? (
-            <div role="menu" aria-label="알림" className={cx("absolute right-0 top-full z-40 mt-2 w-80 overflow-hidden rounded-xl border", BORDER, "bg-white shadow-lg dark:bg-zinc-900")}>
+            <div role="menu" aria-label="Notifications" className={cx("absolute right-0 top-full z-40 mt-2 w-80 overflow-hidden rounded-xl border", BORDER, "bg-white shadow-lg dark:bg-zinc-900")}>
               <div className={cx("border-b px-4 py-3", BORDER)}>
-                <h2 className={cx("text-sm font-semibold", TEXT_PRIMARY)}>알림</h2>
+                <h2 className={cx("text-sm font-semibold", TEXT_PRIMARY)}>Notifications</h2>
               </div>
               <ul className={cx("divide-y", BORDER)}>
                 {NOTIFICATIONS.map((n) => (
@@ -343,7 +343,7 @@ export function Topbar({ onOpenPalette, onOpenMobileNav }: { onOpenPalette: () =
             type="button"
             aria-haspopup="true"
             aria-expanded={userOpen}
-            aria-label={`${CURRENT_USER.name} 계정 메뉴`}
+            aria-label={`${CURRENT_USER.name} account menu`}
             onClick={() => {
               setUserOpen((v) => !v);
               setNotifOpen(false);
@@ -352,7 +352,7 @@ export function Topbar({ onOpenPalette, onOpenMobileNav }: { onOpenPalette: () =
           >
             <Image
               src={unsplashAvatar(CURRENT_USER.avatarId, 60)}
-              alt={`${CURRENT_USER.name} 프로필 사진`}
+              alt={`${CURRENT_USER.name} profile photo`}
               width={30}
               height={30}
               className="h-[30px] w-[30px] shrink-0 rounded-full object-cover"
@@ -360,16 +360,16 @@ export function Topbar({ onOpenPalette, onOpenMobileNav }: { onOpenPalette: () =
             <span className={cx("hidden text-sm font-medium sm:inline", TEXT_PRIMARY)}>{CURRENT_USER.name}</span>
           </button>
           {userOpen ? (
-            <div role="menu" aria-label="계정" className={cx("absolute right-0 top-full z-40 mt-2 w-56 overflow-hidden rounded-xl border p-1", BORDER, "bg-white shadow-lg dark:bg-zinc-900")}>
+            <div role="menu" aria-label="Account" className={cx("absolute right-0 top-full z-40 mt-2 w-56 overflow-hidden rounded-xl border p-1", BORDER, "bg-white shadow-lg dark:bg-zinc-900")}>
               <div className={cx("border-b px-3 py-2.5", BORDER)}>
                 <p className={cx("truncate text-sm font-medium", TEXT_PRIMARY)}>{CURRENT_USER.name}</p>
                 <p className={cx("truncate text-xs", TEXT_CAPTION)}>{CURRENT_USER.role}</p>
               </div>
               <div className="p-1">
                 {[
-                  { label: "계정 설정", Icon: Settings },
-                  { label: "도움말 센터", Icon: HelpCircle },
-                  { label: "로그아웃", Icon: LogOut },
+                  { label: "Account Settings", Icon: Settings },
+                  { label: "Help Center", Icon: HelpCircle },
+                  { label: "Log Out", Icon: LogOut },
                 ].map((item) => (
                   <button
                     key={item.label}
@@ -391,7 +391,7 @@ export function Topbar({ onOpenPalette, onOpenMobileNav }: { onOpenPalette: () =
   );
 }
 
-/* ---- ⌘K 커맨드 팔레트 ---------------------------------------------- */
+/* ---- ⌘K command palette ---------------------------------------------- */
 export function CommandPalette({ onClose, onSelectHolding }: { onClose: () => void; onSelectHolding: (id: string) => void }) {
   const [query, setQuery] = useState("");
   const [cursor, setCursor] = useState(0);
@@ -425,8 +425,8 @@ export function CommandPalette({ onClose, onSelectHolding }: { onClose: () => vo
   }
 
   return (
-    <div className="fixed inset-0 z-[60] flex items-start justify-center px-4 pt-[12vh]" role="dialog" aria-modal="true" aria-label="명령 팔레트">
-      <button type="button" aria-label="닫기" onClick={onClose} className="absolute inset-0 bg-zinc-900/40 backdrop-blur-sm" />
+    <div className="fixed inset-0 z-[60] flex items-start justify-center px-4 pt-[12vh]" role="dialog" aria-modal="true" aria-label="Command palette">
+      <button type="button" aria-label="Close" onClick={onClose} className="absolute inset-0 bg-zinc-900/40 backdrop-blur-sm" />
       <div className={cx("relative w-full max-w-lg overflow-hidden rounded-2xl border shadow-2xl", BORDER, "bg-white dark:bg-zinc-900")}>
         <div className={cx("flex items-center gap-2.5 border-b px-4", BORDER)}>
           <Search size={17} aria-hidden="true" className={TEXT_CAPTION} />
@@ -446,15 +446,15 @@ export function CommandPalette({ onClose, onSelectHolding }: { onClose: () => vo
                 choose(results[cursor]?.id);
               }
             }}
-            placeholder="종목명, 심볼, 자산군 검색"
-            aria-label="검색어"
+            placeholder="Search by name, symbol, or asset class"
+            aria-label="Search query"
             className={cx("h-12 flex-1 bg-transparent text-sm outline-none placeholder:text-zinc-400 dark:placeholder:text-zinc-500", TEXT_PRIMARY)}
           />
           <kbd className={cx("rounded-md border px-1.5 py-0.5 text-[11px] font-medium", BORDER, TEXT_CAPTION)}>Esc</kbd>
         </div>
-        <ul className="max-h-72 overflow-y-auto p-2" role="listbox" aria-label="검색 결과">
+        <ul className="max-h-72 overflow-y-auto p-2" role="listbox" aria-label="Search results">
           {results.length === 0 ? (
-            <li className={cx("px-3 py-6 text-center text-sm", TEXT_CAPTION)}>일치하는 종목이 없습니다.</li>
+            <li className={cx("px-3 py-6 text-center text-sm", TEXT_CAPTION)}>No matching holdings found.</li>
           ) : (
             results.map((h, i) => {
               const meta = CATEGORY[h.category];
@@ -477,7 +477,7 @@ export function CommandPalette({ onClose, onSelectHolding }: { onClose: () => vo
                       <span className={cx("block truncate text-sm font-medium", NUM, TEXT_PRIMARY)}>
                         {h.symbol} <span className="font-normal text-zinc-500 dark:text-zinc-400">{h.name}</span>
                       </span>
-                      <span className={cx("block truncate text-xs", TEXT_CAPTION)}>{meta.label} · 원가 {fmtKRWc(h.cost)}</span>
+                      <span className={cx("block truncate text-xs", TEXT_CAPTION)}>{meta.label} · Cost {fmtKRWc(h.cost)}</span>
                     </span>
                     {i === cursor ? <CornerDownLeft size={15} aria-hidden="true" className={TEXT_CAPTION} /> : null}
                   </button>

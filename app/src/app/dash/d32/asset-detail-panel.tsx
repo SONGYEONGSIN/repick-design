@@ -36,23 +36,23 @@ export default function AssetDetailPanel() {
 
   if (selectedAssetId === "portfolio") {
     return (
-      <Card id="asset-detail" title="퍼포먼스 하이라이트" description="24시간 기준 최고·최저 변동" bodyClassName="px-5 pb-5">
+      <Card id="asset-detail" title="Performance highlights" description="Best & worst 24h movers" bodyClassName="px-5 pb-5">
         <dl className="mt-3">
-          <StatRow label="보유 자산 수" value={`${HOLDINGS.length}종`} />
-          <StatRow label="워치리스트" value={`${WATCHLIST.length}종`} />
+          <StatRow label="Holdings" value={`${HOLDINGS.length}`} />
+          <StatRow label="Watchlist" value={`${WATCHLIST.length}`} />
         </dl>
 
         <div className="mt-4 grid grid-cols-2 gap-3">
           <div className="rounded-xl border border-white/5 bg-white/5 p-3">
             <p className="flex items-center gap-1 text-[11px] font-medium uppercase tracking-wider text-emerald-400">
-              <ArrowUpRight aria-hidden="true" className="size-3.5" /> 베스트 퍼포머
+              <ArrowUpRight aria-hidden="true" className="size-3.5" /> Best performer
             </p>
             <p className="mt-1.5 text-sm font-semibold text-zinc-100">{BEST_PERFORMER.symbol}</p>
             <ChangeBadge value={BEST_PERFORMER.change24h} size="sm" />
           </div>
           <div className="rounded-xl border border-white/5 bg-white/5 p-3">
             <p className="flex items-center gap-1 text-[11px] font-medium uppercase tracking-wider text-red-400">
-              <ArrowDownLeft aria-hidden="true" className="size-3.5" /> 워스트 퍼포머
+              <ArrowDownLeft aria-hidden="true" className="size-3.5" /> Worst performer
             </p>
             <p className="mt-1.5 text-sm font-semibold text-zinc-100">{WORST_PERFORMER.symbol}</p>
             <ChangeBadge value={WORST_PERFORMER.change24h} size="sm" />
@@ -69,7 +69,7 @@ export default function AssetDetailPanel() {
   const returnPct = holding ? getReturnPct(holding) : 0;
 
   return (
-    <Card id="asset-detail" title={asset.name} description={holding ? "보유 중" : "워치리스트"} bodyClassName="px-5 pb-5">
+    <Card id="asset-detail" title={asset.name} description={holding ? "In holdings" : "Watchlist"} bodyClassName="px-5 pb-5">
       <div className="mt-3 flex items-center gap-3">
         <AssetIcon symbol={asset.symbol} color={asset.color} size="lg" />
         <div>
@@ -82,18 +82,18 @@ export default function AssetDetailPanel() {
 
       {holding && (
         <dl className="mt-4">
-          <StatRow label="보유 수량" value={`${formatQty(holding.qty, holding.decimals)} ${holding.symbol}`} />
-          <StatRow label="평단 매입가" value={formatPrice(holding.avgCost)} />
-          <StatRow label="평가 금액" value={formatUSD(holding.price * holding.qty)} />
-          <StatRow label="수익률" value={<ChangeBadge value={returnPct} size="sm" />} />
+          <StatRow label="Qty held" value={`${formatQty(holding.qty, holding.decimals)} ${holding.symbol}`} />
+          <StatRow label="Avg. cost" value={formatPrice(holding.avgCost)} />
+          <StatRow label="Market value" value={formatUSD(holding.price * holding.qty)} />
+          <StatRow label="Return" value={<ChangeBadge value={returnPct} size="sm" />} />
         </dl>
       )}
 
       <dl className="mt-2">
-        <StatRow label="시가총액" value={formatUSDCompact(stats.marketCap)} />
-        <StatRow label="24시간 거래량" value={formatUSDCompact(stats.volume24h)} />
-        <StatRow label="24시간 고가" value={formatPrice(stats.high24h)} />
-        <StatRow label="24시간 저가" value={formatPrice(stats.low24h)} />
+        <StatRow label="Market cap" value={formatUSDCompact(stats.marketCap)} />
+        <StatRow label="24h volume" value={formatUSDCompact(stats.volume24h)} />
+        <StatRow label="24h high" value={formatPrice(stats.high24h)} />
+        <StatRow label="24h low" value={formatPrice(stats.low24h)} />
       </dl>
 
       <div className="mt-4 grid grid-cols-2 gap-2">
@@ -101,13 +101,13 @@ export default function AssetDetailPanel() {
           type="button"
           className="min-h-11 rounded-lg bg-emerald-500 px-4 text-sm font-semibold text-zinc-950 outline-none transition-colors hover:bg-emerald-400 focus-visible:ring-2 focus-visible:ring-emerald-300 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950 active:bg-emerald-600"
         >
-          {asset.symbol} 매수
+          Buy {asset.symbol}
         </button>
         <button
           type="button"
           className="min-h-11 rounded-lg border border-white/10 bg-white/5 px-4 text-sm font-semibold text-zinc-100 outline-none transition-colors hover:bg-white/10 focus-visible:ring-2 focus-visible:ring-indigo-400 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950 active:bg-white/15"
         >
-          {asset.symbol} 매도
+          Sell {asset.symbol}
         </button>
       </div>
     </Card>

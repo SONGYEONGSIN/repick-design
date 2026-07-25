@@ -76,7 +76,7 @@ export function Avatar({
   return (
     <Image
       src={src}
-      alt={`${name} 프로필 사진`}
+      alt={`${name} profile photo`}
       width={px}
       height={px}
       sizes={`${px}px`}

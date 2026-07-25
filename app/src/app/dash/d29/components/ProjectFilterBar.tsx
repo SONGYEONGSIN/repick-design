@@ -9,14 +9,14 @@ export function ProjectFilterBar() {
     <div>
       <div
         role="group"
-        aria-label="프로젝트 필터"
+        aria-label="Project filter"
         className="flex flex-wrap items-center gap-2 overflow-x-auto"
       >
         <FilterChip
           active={selectedProjectId === "all"}
           onClick={() => setSelectedProjectId("all")}
         >
-          전체 프로젝트
+          All Projects
         </FilterChip>
         {allProjects.map((p) => (
           <FilterChip
@@ -29,8 +29,8 @@ export function ProjectFilterBar() {
         ))}
       </div>
       <p aria-live="polite" className="sr-only">
-        {selectedProject ? selectedProject.name : "전체 프로젝트"} 필터 적용됨 · 프로젝트{" "}
-        {kpis.activeProjects}개, 마감 임박 {kpis.dueSoonCount}건 표시 중
+        Filtered by {selectedProject ? selectedProject.name : "All Projects"} · Showing{" "}
+        {kpis.activeProjects} projects, {kpis.dueSoonCount} due soon
       </p>
     </div>
   );

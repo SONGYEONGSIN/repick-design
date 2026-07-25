@@ -63,7 +63,7 @@ export function CommandPalette({ open, onClose }: { open: boolean; onClose: () =
     <div className="fixed inset-0 z-[60] flex items-start justify-center bg-zinc-900/40 px-4 pt-24 sm:pt-32">
       <button
         type="button"
-        aria-label="커맨드 팔레트 닫기"
+        aria-label="Close command palette"
         onClick={onClose}
         className="absolute inset-0 cursor-default"
       />
@@ -71,7 +71,7 @@ export function CommandPalette({ open, onClose }: { open: boolean; onClose: () =
         ref={dialogRef}
         role="dialog"
         aria-modal="true"
-        aria-label="빠른 검색"
+        aria-label="Quick search"
         className="relative w-full max-w-lg overflow-hidden rounded-xl border border-zinc-200 bg-white shadow-xl"
       >
         <div className="flex h-12 items-center gap-2.5 border-b border-zinc-100 px-4">
@@ -81,8 +81,8 @@ export function CommandPalette({ open, onClose }: { open: boolean; onClose: () =
             type="text"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder="거래, 고객사, 담당자 검색…"
-            aria-label="검색어 입력"
+            placeholder="Search deals, accounts, reps…"
+            aria-label="Search input"
             className="h-full flex-1 border-0 bg-transparent text-sm text-zinc-900 placeholder:text-zinc-400 focus:outline-none"
           />
           <kbd className="shrink-0 rounded border border-zinc-200 px-1.5 py-0.5 text-[10px] font-medium text-zinc-400">
@@ -92,11 +92,11 @@ export function CommandPalette({ open, onClose }: { open: boolean; onClose: () =
 
         <div className="max-h-80 overflow-y-auto p-2 [scrollbar-width:thin]">
           {!hasResults ? (
-            <p className="px-3 py-6 text-center text-sm text-zinc-500">검색 결과가 없습니다.</p>
+            <p className="px-3 py-6 text-center text-sm text-zinc-500">No results found.</p>
           ) : (
             <>
               {matchedDeals.length > 0 ? (
-                <ResultGroup label="거래">
+                <ResultGroup label="Deals">
                   {matchedDeals.map((d) => (
                     <ResultItem
                       key={d.id}
@@ -109,14 +109,14 @@ export function CommandPalette({ open, onClose }: { open: boolean; onClose: () =
                 </ResultGroup>
               ) : null}
               {matchedCompanies.length > 0 ? (
-                <ResultGroup label="고객사">
+                <ResultGroup label="Accounts">
                   {matchedCompanies.map((c) => (
                     <ResultItem key={c} icon={Building2} label={c} onClose={onClose} />
                   ))}
                 </ResultGroup>
               ) : null}
               {matchedOwners.length > 0 ? (
-                <ResultGroup label="담당자">
+                <ResultGroup label="Reps">
                   {matchedOwners.map((o) => (
                     <ResultItem key={o.id} icon={Users} label={`${o.name} · ${o.role}`} onClose={onClose} />
                   ))}

@@ -32,7 +32,7 @@ export const CAPTION =
   "text-[0.72rem] font-semibold uppercase tracking-[0.16em]";
 export const NUM = "tabular-nums tracking-[0.12em]";
 
-// --- domain: 매칭 정확도 다이얼 (히어로 게이지) ----------------------------
+// --- domain: match accuracy dial (hero gauge) ----------------------------
 
 export type Criterion = {
   id: string;
@@ -43,47 +43,47 @@ export type Criterion = {
   evidence: string;
 };
 
-// 5개 기준 — 평균 96(다이얼 중앙 최종값)과 일치하도록 고정
+// 5 criteria — fixed so the average (96, the dial's final center value) checks out
 export const CRITERIA: Criterion[] = [
   {
     id: "taste",
-    label: "취향 프로필",
+    label: "Taste Profile",
     icon: Heart,
     score: 98,
-    weight: "가중 22%",
-    evidence: "최근 찜한 상품 87건의 컬러·핏 패턴을 학습해 선호 실루엣을 추정했습니다.",
+    weight: "22% weight",
+    evidence: "Learned your preferred silhouette from the color and fit patterns across your last 87 saved items.",
   },
   {
     id: "size",
-    label: "사이즈",
+    label: "Size",
     icon: Ruler,
     score: 99,
-    weight: "가중 20%",
-    evidence: "등록하신 실측 사이즈와 판매자 실측값의 오차가 0.5cm 이내로 일치합니다.",
+    weight: "20% weight",
+    evidence: "Your measurements and the seller's listed measurements match within 0.5cm.",
   },
   {
     id: "budget",
-    label: "예산",
+    label: "Budget",
     icon: Wallet,
     score: 94,
-    weight: "가중 18%",
-    evidence: "설정하신 10만~20만원 구간 안에서 가장 조건이 좋은 매물로 선별했습니다.",
+    weight: "18% weight",
+    evidence: "Selected the best-conditioned listing within your ₩100,000–₩200,000 range.",
   },
   {
     id: "condition",
-    label: "컨디션 등급",
+    label: "Condition Grade",
     icon: ShieldCheck,
     score: 97,
-    weight: "가중 22%",
-    evidence: "전문 검수팀이 9개 항목을 실측해 S등급 기준 충족을 확인했습니다.",
+    weight: "22% weight",
+    evidence: "Our inspection team measured 9 checkpoints and confirmed it meets Grade S standards.",
   },
   {
     id: "market",
-    label: "시세",
+    label: "Market Price",
     icon: TrendingUp,
     score: 92,
-    weight: "가중 18%",
-    evidence: "최근 3개월 동일 브랜드 실거래 178건과 대조해 적정가임을 검증했습니다.",
+    weight: "18% weight",
+    evidence: "Verified as fair value against 178 real transactions of the same brand over the last 3 months.",
   },
 ];
 
@@ -91,7 +91,7 @@ export const TOTAL_MATCH = Math.round(
   CRITERIA.reduce((sum, c) => sum + c.score, 0) / CRITERIA.length,
 );
 
-// --- domain: 제품 프리뷰 (항상 노출 — hover 게이팅 금지) --------------------
+// --- domain: product preview (always visible — no hover-gated reveal) --------------------
 
 export type Product = {
   id: string;
@@ -106,7 +106,7 @@ export type Product = {
   seller: string;
   sellerMeta: string;
   tags: [string, string];
-  daysAgo: number; // 신상품순 정렬용 — 낮을수록 최근
+  daysAgo: number; // for the "newest" sort — lower is more recent
 };
 
 export const PRODUCTS: Product[] = [
@@ -114,108 +114,108 @@ export const PRODUCTS: Product[] = [
     id: "coat",
     image: {
       src: "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=900&q=80",
-      alt: "베이지 톤 오버사이즈 트렌치코트를 입은 인물의 패션 컷",
+      alt: "Fashion shot of a person wearing a beige-toned oversized trench coat",
     },
-    title: "오버사이즈 트렌치코트",
+    title: "Oversized Trench Coat",
     brand: "Aureum Vintage",
     retail: 268000,
     repick: 132000,
     match: 91,
     grade: "A",
-    gradeLabel: "사용감 적음",
-    seller: "검증 셀러 · 지민",
-    sellerMeta: "거래 154건",
-    tags: ["오버핏 취향 반영", "A등급 이상만"],
+    gradeLabel: "Light Wear",
+    seller: "Verified Seller · Jimin",
+    sellerMeta: "154 deals",
+    tags: ["Matches your oversized-fit taste", "A-grade or above only"],
     daysAgo: 6,
   },
   {
     id: "shoulderbag",
     image: {
       src: "https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&w=900&q=80",
-      alt: "가죽 소재 미니 숄더백을 가까이서 촬영한 사진",
+      alt: "Close-up photo of a leather mini shoulder bag",
     },
-    title: "레더 미니 숄더백",
+    title: "Leather Mini Shoulder Bag",
     brand: "Atelier Noir",
     retail: 214000,
     repick: 104000,
     match: 90,
     grade: "A",
-    gradeLabel: "사용감 적음",
-    seller: "검증 셀러 · 서연",
-    sellerMeta: "거래 132건",
-    tags: ["뉴트럴 컬러 매칭", "정품 인증 확인"],
+    gradeLabel: "Light Wear",
+    seller: "Verified Seller · Seoyeon",
+    sellerMeta: "132 deals",
+    tags: ["Neutral color match", "Authenticity verified"],
     daysAgo: 2,
   },
   {
     id: "hitop",
     image: {
       src: "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=900&q=80",
-      alt: "하이탑 레더 스니커즈 한 켤레를 나란히 놓은 사진",
+      alt: "Photo of a pair of high-top leather sneakers placed side by side",
     },
-    title: "하이탑 레더 스니커즈",
+    title: "High-Top Leather Sneakers",
     brand: "Runway Archive",
     retail: 236000,
     repick: 112000,
     match: 96,
     grade: "S",
-    gradeLabel: "새 상품급",
-    seller: "검증 셀러 · 민재",
-    sellerMeta: "거래 189건",
-    tags: ["실측 사이즈 오차 0.5cm", "밑창 마모 6%"],
+    gradeLabel: "Like New",
+    seller: "Verified Seller · Minjae",
+    sellerMeta: "189 deals",
+    tags: ["0.5cm measured size variance", "6% sole wear"],
     daysAgo: 1,
   },
   {
     id: "crossbag",
     image: {
       src: "https://images.unsplash.com/photo-1560243563-062bfc001d68?auto=format&fit=crop&w=900&q=80",
-      alt: "바닥에 놓인 가죽 소재 크로스백과 액세서리",
+      alt: "A leather crossbody bag and accessories laid out on the floor",
     },
-    title: "미니 크로스바디백",
+    title: "Mini Crossbody Bag",
     brand: "Noir & Co.",
     retail: 268000,
     repick: 129000,
     match: 93,
     grade: "S",
-    gradeLabel: "새 상품급",
-    seller: "검증 셀러 · 은우",
-    sellerMeta: "거래 143건",
-    tags: ["데일리 사용 빈도 반영", "정품 감정 통과"],
+    gradeLabel: "Like New",
+    seller: "Verified Seller · Eunwoo",
+    sellerMeta: "143 deals",
+    tags: ["Reflects daily-use frequency", "Passed authentication"],
     daysAgo: 9,
   },
   {
     id: "knit",
     image: {
       src: "https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?auto=format&fit=crop&w=900&q=80",
-      alt: "니트 소재 상의를 입은 인물의 패션 컷",
+      alt: "Fashion shot of a person wearing a knit sweater",
     },
-    title: "캐시미어 브이넥 니트",
+    title: "Cashmere V-Neck Sweater",
     brand: "Studio Aren",
     retail: 246000,
     repick: 118000,
     match: 92,
     grade: "S",
-    gradeLabel: "새 상품급",
-    seller: "검증 셀러 · 리나",
-    sellerMeta: "거래 127건",
-    tags: ["소재·핏 취향 반영", "보풀 밀도 낮음"],
+    gradeLabel: "Like New",
+    seller: "Verified Seller · Rina",
+    sellerMeta: "127 deals",
+    tags: ["Matches your fabric & fit taste", "Low pilling density"],
     daysAgo: 4,
   },
   {
     id: "sneaker2",
     image: {
       src: "https://images.unsplash.com/photo-1543076447-215ad9ba6923?auto=format&fit=crop&w=900&q=80",
-      alt: "화이트 톤의 클래식 스니커즈 한 켤레",
+      alt: "A pair of classic white-toned sneakers",
     },
-    title: "레더 로우탑 스니커즈",
+    title: "Leather Low-Top Sneakers",
     brand: "Fielder Studio",
     retail: 298000,
     repick: 139000,
     match: 95,
     grade: "S",
-    gradeLabel: "새 상품급",
-    seller: "검증 셀러 · 준서",
-    sellerMeta: "거래 189건",
-    tags: ["270mm 실측 일치", "밑창 마모 3%"],
+    gradeLabel: "Like New",
+    seller: "Verified Seller · Junseo",
+    sellerMeta: "189 deals",
+    tags: ["270mm measured match", "3% sole wear"],
     daysAgo: 12,
   },
 ];
@@ -223,9 +223,9 @@ export const PRODUCTS: Product[] = [
 export type SortMode = "match" | "discount" | "new";
 
 export const SORTS: { id: SortMode; label: string; icon: LucideIcon }[] = [
-  { id: "match", label: "매칭순", icon: GaugeIcon },
-  { id: "discount", label: "할인율순", icon: TrendingUp },
-  { id: "new", label: "신상품순", icon: Timer },
+  { id: "match", label: "Best Match", icon: GaugeIcon },
+  { id: "discount", label: "Biggest Discount", icon: TrendingUp },
+  { id: "new", label: "Newest", icon: Timer },
 ];
 
 export const discountRate = (p: Product) =>
@@ -239,45 +239,45 @@ export function sortProducts(products: Product[], mode: SortMode): Product[] {
   return list.sort((a, b) => a.daysAgo - b.daysAgo);
 }
 
-// --- domain: 가치 3분할 -----------------------------------------------------
+// --- domain: value, three-way split -----------------------------------------------------
 
 export type Value = { index: string; title: string; desc: string; icon: LucideIcon };
 
 export const VALUES: Value[] = [
   {
     index: "01",
-    title: "다섯 기준을 동시에 계산합니다",
-    desc: "취향 프로필·사이즈·예산·컨디션 등급·시세를 각각 독립적으로 채점한 뒤 가중 평균해 하나의 매칭 점수로 합칩니다.",
+    title: "Scores all five criteria at once",
+    desc: "Taste profile, size, budget, condition grade, and market price are each scored independently, then combined into a single weighted match score.",
     icon: GaugeIcon,
   },
   {
     index: "02",
-    title: "숫자로 증명합니다",
-    desc: "감으로 고르지 않습니다. 실측 검수 9개 항목과 실거래가 대조 데이터가 매칭 점수의 근거로 함께 제시됩니다.",
+    title: "Proven with numbers",
+    desc: "No guesswork. Nine measured inspection points and real transaction price comparisons back up every match score.",
     icon: ShieldCheck,
   },
   {
     index: "03",
-    title: "기준을 눌러보면 근거가 열립니다",
-    desc: "다이얼의 각 기준을 선택하면 해당 점수가 어떤 데이터로 산출됐는지 바로 옆 패널에서 확인할 수 있습니다.",
+    title: "Tap a criterion to see the evidence",
+    desc: "Select any criterion on the dial and the panel right next to it shows exactly what data produced that score.",
     icon: Sparkles,
   },
 ];
 
-// --- domain: 소셜프루프 (토글 시 실시간 반영) --------------------------------
+// --- domain: social proof (updates live on toggle) --------------------------------
 
 export type Stat = { value: string; label: string };
 
 export const PROOF_WEEK: Stat[] = [
-  { value: "3,400+", label: "이번 주 매칭" },
-  { value: "94%", label: "이번 주 평균 정확도" },
-  { value: "81초", label: "이번 주 평균 매칭 시간" },
+  { value: "3,400+", label: "Matches this week" },
+  { value: "94%", label: "Avg. accuracy this week" },
+  { value: "81s", label: "Avg. match time this week" },
 ];
 
 export const PROOF_TOTAL: Stat[] = [
-  { value: "128,000+", label: "누적 매칭" },
-  { value: "96%", label: "누적 평균 정확도" },
-  { value: "9/9", label: "실측 검수 항목" },
+  { value: "128,000+", label: "Matches to date" },
+  { value: "96%", label: "Avg. accuracy to date" },
+  { value: "9/9", label: "Measured inspection points" },
 ];
 
 export { BadgeCheck, Check, Sparkles };

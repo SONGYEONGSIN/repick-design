@@ -7,8 +7,8 @@ import { TEXT_CAPTION, TEXT_PRIMARY, cx } from "./tokens";
 export type TrendPoint = { label: string; value: number };
 
 /**
- * 결정론 라인 차트 — 크로스헤어 호버 툴팁 + 키보드 접근(각 포인트가 포커스 가능한 버튼).
- * 좌표는 선형 보간만 사용(삼각함수 없음), 전부 소수 2자리 반올림.
+ * Deterministic line chart — crosshair hover tooltip + keyboard access (each point is a focusable button).
+ * Coordinates use only linear interpolation (no trigonometry), all rounded to 2 decimal places.
  */
 export default function TrendChart({
   points,
@@ -86,7 +86,7 @@ export default function TrendChart({
         ) : null}
       </svg>
 
-      {/* 포인트별 포커스/호버 히트존 — 키보드 순회 가능한 실제 버튼. */}
+      {/* Per-point focus/hover hit zone — a real button so keyboard traversal works. */}
       <div className="absolute inset-0 flex">
         {points.map((p, i) => (
           <button

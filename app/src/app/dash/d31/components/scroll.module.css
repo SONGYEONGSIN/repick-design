@@ -1,8 +1,9 @@
 /*
- * 레일(워크플로 목록)·디테일(선택된 워크플로) 두 내부 스크롤 컬럼 전용.
- * 페이지 자체는 AppShell에서 스크롤을 잠가 두므로(html/body overflow: hidden),
- * 사용자가 실제로 보게 되는 스크롤바는 이 두 컬럼뿐이다 — 클래식(항상-표시)
- * 스크롤바 환경에서 그 시각적 존재감을 최소화하기 위해 얇고 테마에 맞는 색으로 조정한다.
+ * For the two internal scroll columns only: the rail (workflow list) and the detail
+ * (selected workflow) pane. The page itself has scrolling locked in AppShell
+ * (html/body overflow: hidden), so these two columns are the only scrollbars the
+ * user ever actually sees — tuned thin and theme-matched to minimize their visual
+ * footprint under classic (always-visible) scrollbar settings.
  */
 .thinScroll {
   scrollbar-width: thin;

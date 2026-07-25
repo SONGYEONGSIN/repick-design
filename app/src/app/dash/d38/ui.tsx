@@ -59,7 +59,7 @@ export function Badge({ tone = "neutral", Icon, children }: { tone?: Tone; Icon?
   );
 }
 
-/** 점 표시(색+텍스트 병행 원칙 준수를 위해 항상 라벨 텍스트와 같이 사용). */
+/** Dot indicator (always used alongside label text to honor the color+text pairing rule). */
 export function Dot({ tone = "neutral" }: { tone?: Tone }) {
   const t = TONE[tone];
   return <span aria-hidden="true" className={cx("inline-block size-1.5 shrink-0 rounded-full", t.dot)} />;
@@ -221,7 +221,7 @@ export function Dropdown<T extends string>({
 
 /* --------------------------------------------------------- Sparkline */
 
-/** 결정론 미니 스파크라인 — 라인 + 은은한 면적 + 종점. 좌표 소수 2자리. */
+/** Deterministic mini sparkline — line + subtle area fill + endpoint dot. Coordinates rounded to 2 decimals. */
 export function Sparkline({ values, stroke, fill, className }: { values: number[]; stroke: string; fill: string; className?: string }) {
   const W = 200;
   const H = 44;

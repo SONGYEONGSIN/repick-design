@@ -15,7 +15,7 @@ export function Topbar({
       <button
         type="button"
         onClick={onOpenMobileSidebar}
-        aria-label="메뉴 열기"
+        aria-label="Open menu"
         className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg text-zinc-400 hover:bg-white/5 hover:text-zinc-100 focus-visible:ring-2 focus-visible:ring-sky-400 focus-visible:outline-none lg:hidden"
       >
         <Menu className="h-5 w-5" aria-hidden="true" />
@@ -27,7 +27,7 @@ export function Topbar({
         className="flex h-11 min-w-0 flex-1 items-center gap-2 rounded-lg border border-white/10 bg-zinc-900 px-3 text-left text-zinc-400 transition-colors hover:border-white/20 hover:text-zinc-400 focus-visible:ring-2 focus-visible:ring-sky-400 focus-visible:outline-none sm:max-w-sm"
       >
         <Search className="h-4 w-4 shrink-0" aria-hidden="true" />
-        <span className="min-w-0 flex-1 truncate text-[13px]">티켓·에이전트·명령 검색</span>
+        <span className="min-w-0 flex-1 truncate text-[13px]">Search tickets, agents, commands</span>
         <span className="hidden shrink-0 items-center gap-0.5 rounded border border-white/10 bg-zinc-950 px-1.5 py-0.5 text-[11px] text-zinc-400 sm:inline-flex">
           <Command className="h-3 w-3" aria-hidden="true" />K
         </span>
@@ -39,11 +39,11 @@ export function Topbar({
           className="hidden h-11 items-center gap-1.5 rounded-lg bg-sky-500 px-3.5 text-[13px] font-semibold text-zinc-950 transition-colors hover:bg-sky-400 focus-visible:ring-2 focus-visible:ring-sky-400 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950 focus-visible:outline-none sm:inline-flex"
         >
           <Plus className="h-4 w-4" aria-hidden="true" />
-          새 티켓
+          New ticket
         </button>
         <button
           type="button"
-          aria-label="알림, 읽지 않음 3건"
+          aria-label="Notifications, 3 unread"
           className="relative flex h-11 w-11 items-center justify-center rounded-lg text-zinc-400 hover:bg-white/5 hover:text-zinc-100 focus-visible:ring-2 focus-visible:ring-sky-400 focus-visible:outline-none"
         >
           <Bell className="h-4 w-4" aria-hidden="true" />
@@ -56,10 +56,10 @@ export function Topbar({
         </button>
         <button
           type="button"
-          aria-label="최지우 계정 메뉴 열기"
+          aria-label="Open account menu for Jiwoo Choi"
           className="flex h-11 items-center gap-2 rounded-lg px-1.5 transition-colors hover:bg-white/5 focus-visible:ring-2 focus-visible:ring-sky-400 focus-visible:outline-none"
         >
-          <Avatar name="최지우" size={30} />
+          <Avatar name="Jiwoo Choi" size={30} />
         </button>
       </div>
     </header>

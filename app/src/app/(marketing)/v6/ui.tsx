@@ -25,7 +25,7 @@ export default function LandingClient() {
   const reduced = useReducedMotion();
   const heroRef = useRef<HTMLElement | null>(null);
 
-  // 히어로 스크롤 진행률 → 슬라이더 이미지 밴드 미세 parallax (결정론, 스크롤 함수)
+  // Hero scroll progress → subtle parallax on the slider image band (deterministic, a pure function of scroll)
   const { scrollYProgress } = useScroll({
     target: heroRef,
     offset: ["start start", "end start"],
@@ -59,18 +59,18 @@ export default function LandingClient() {
               FOCUS,
             )}
           >
-            RE:픽
+            RE:PICK
           </a>
           <div className="hidden items-center gap-7 sm:flex">
             <a href="#preview" className={NAV_LINK}>
-              매칭 근거
+              Matching rationale
             </a>
             <a href="#how" className={NAV_LINK}>
-              작동 방식
+              How it works
             </a>
           </div>
           <a href="#cta" className={CTA_PRIMARY}>
-            매칭 시작
+            Start matching
           </a>
         </nav>
       </header>
@@ -101,18 +101,19 @@ export default function LandingClient() {
               variants={item}
               className="mt-5 font-extrabold leading-[1.0] tracking-[-0.02em] text-white break-keep text-[clamp(2.2rem,7.4vw,3rem)] lg:text-[clamp(3rem,4.6vw,4.4rem)]"
             >
-              고르는 방식이
+              The way you choose
               <br />
-              <span className="text-[#6E56CF]">결과</span>를 바꿉니다
+              changes the <span className="text-[#6E56CF]">outcome</span>
             </motion.h1>
 
             <motion.p
               variants={item}
               className="mt-6 max-w-md text-base font-normal leading-[1.6] text-[#A1A1AA] sm:text-lg"
             >
-              왼쪽은 흔한 중고 리스팅, 오른쪽은 repick AI가 컨디션·시세·취향을
-              검증해 다시 정돈한 같은 카테고리의 매물입니다. 핸들을 밀어 직접
-              비교해 보세요.
+              On the left, a typical secondhand listing. On the right, the
+              same category of item — reorganized by repick AI after
+              verifying condition, price, and taste fit. Drag the handle to
+              compare for yourself.
             </motion.p>
 
             <motion.div
@@ -120,11 +121,11 @@ export default function LandingClient() {
               className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center"
             >
               <a href="#cta" className={CTA_PRIMARY}>
-                내 취향으로 매칭 받기
+                Get matched to your taste
                 <ArrowRight className="h-4 w-4" strokeWidth={2.5} aria-hidden />
               </a>
               <span className="text-xs font-normal text-[#A1A1AA]">
-                1분 취향 프로필 · 카드 등록 불필요
+                1-minute taste profile · No card required
               </span>
             </motion.div>
 
@@ -173,7 +174,7 @@ export default function LandingClient() {
             transition={{ duration: 0.5, ease: EASE }}
             className={cx(EYEBROW, "mb-12 block text-[#a894f7]")}
           >
-            Fig. 03 — 작동 방식
+            Fig. 03 — How it works
           </motion.p>
 
           <div className="grid grid-cols-1 gap-x-10 gap-y-12 md:grid-cols-3">
@@ -241,11 +242,12 @@ export default function LandingClient() {
               {"“"}
             </span>
             <blockquote className="mt-2 text-2xl font-semibold leading-[1.4] tracking-[-0.02em] text-white sm:text-[1.75rem]">
-              밀어보는 순간 납득했어요. 같은 코트인데 왼쪽은 사기 겁나고, 오른쪽은
-              바로 결제 버튼을 눌렀습니다.
+              The moment I dragged the slider, I got it. Same coat — but the
+              left made me hesitant to buy, and on the right I hit checkout
+              immediately.
             </blockquote>
             <figcaption className="mt-6 text-sm font-normal text-[#A1A1AA]">
-              <span className="font-semibold text-white">김도윤</span> · 프리랜서 디자이너
+              <span className="font-semibold text-white">Kim Doyun</span> · Freelance designer
             </figcaption>
           </motion.figure>
         </div>
@@ -262,17 +264,18 @@ export default function LandingClient() {
             className="max-w-2xl"
           >
             <h2 className="font-extrabold leading-[1.02] tracking-[-0.02em] text-white break-keep text-[clamp(2.1rem,6.4vw,3.6rem)]">
-              직접 밀어보면,
+              Try it yourself,
               <br />
-              설명은 필요 없습니다
+              no explanation needed
             </h2>
             <p className="mt-6 max-w-lg text-base font-normal leading-[1.6] text-[#A1A1AA]">
-              취향 프로필을 만드는 데 1분이면 충분합니다. 그다음부터는 AI가 골라
-              정돈한 매물만 확인하세요.
+              Building your taste profile takes just one minute. After that,
+              all you&apos;ll see are listings the AI has already picked and
+              organized.
             </p>
             <div className="mt-9">
               <a href="#top" className={cx(CTA_PRIMARY, "px-7 py-3.5 text-base")}>
-                무료로 매칭 받기
+                Get matched for free
                 <ArrowRight className="h-4 w-4" strokeWidth={2.5} aria-hidden />
               </a>
             </div>
@@ -284,10 +287,10 @@ export default function LandingClient() {
       <footer className="border-t border-white/10">
         <div className="mx-auto flex w-full max-w-[1120px] flex-col gap-2 px-5 py-10 sm:flex-row sm:items-center sm:justify-between sm:px-8">
           <span className="text-base font-extrabold tracking-[-0.02em] text-white">
-            RE:픽
+            RE:PICK
           </span>
           <span className="text-xs font-normal text-[#A1A1AA]">
-            AI가 다시 고르는 중고 · 2026 RE:PICK
+            Secondhand, re-picked by AI · 2026 RE:PICK
           </span>
         </div>
       </footer>

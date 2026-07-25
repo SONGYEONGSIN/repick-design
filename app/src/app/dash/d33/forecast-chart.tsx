@@ -4,10 +4,11 @@ import { useId, useMemo, useState } from "react";
 import { round2 } from "./format";
 
 /**
- * 가중 예측 추이 — 면적+선 크로스헤어 차트.
- * 마우스 호버(위치→최근접 인덱스)와 키보드(← → Home End)로 활성 포인트를 이동하며
- * 툴팁·크로스헤어를 갱신한다. aria-live로 활성 포인트를 낭독한다.
- * 좌표는 소수 2자리 반올림(하이드레이션 안정), 선은 non-scaling-stroke로 스케일 왜곡 방지.
+ * Weighted forecast trend — area + line crosshair chart.
+ * Moves the active point via mouse hover (position → nearest index) or keyboard (← → Home End),
+ * updating the tooltip and crosshair. aria-live announces the active point.
+ * Coordinates are rounded to 2 decimals (hydration-stable); the line uses non-scaling-stroke
+ * to avoid scale distortion.
  */
 export function ForecastChart({
   points,
@@ -29,7 +30,7 @@ export function ForecastChart({
     const lo = Math.min(...values);
     const hi = Math.max(...values);
     const span = hi - lo || 1;
-    // 0..100 좌표계, 상하 12% 패딩.
+    // 0..100 coordinate space, 12% padding top and bottom.
     const xy = points.map((p, i) => {
       const x = n === 1 ? 0 : round2((i / (n - 1)) * 100);
       const y = round2(88 - ((p.value - lo) / span) * 76);
@@ -66,11 +67,11 @@ export function ForecastChart({
     <div className="w-full">
       <div className="mb-1.5 flex items-baseline justify-between">
         <span className="text-[11px] font-medium tracking-wide text-zinc-400 uppercase">
-          가중 예측 추이
+          Weighted forecast trend
         </span>
         <span className="text-[11px] text-zinc-400">
-          최고 {max}
-          {unit} · 최저 {min}
+          High {max}
+          {unit} · Low {min}
           {unit}
         </span>
       </div>
@@ -108,7 +109,7 @@ export function ForecastChart({
           />
         </svg>
 
-        {/* 크로스헤어 + 활성 포인트 (HTML 오버레이 — 스케일 왜곡 없음) */}
+        {/* Crosshair + active point (HTML overlay — no scale distortion) */}
         <div
           className="pointer-events-none absolute top-0 bottom-0 w-px bg-blue-500/30"
           style={{ left: `${activeCoord.x}%` }}
@@ -132,7 +133,7 @@ export function ForecastChart({
         </div>
       </div>
       <p className="sr-only" aria-live="polite">
-        {activePoint.label} 가중 예측 {activePoint.value}
+        {activePoint.label} weighted forecast {activePoint.value}
         {unit}
       </p>
     </div>

@@ -13,9 +13,9 @@ import WorkflowListItem from "./WorkflowListItem";
 type ListSortKey = "executions" | "successRate" | "lastRunAt";
 
 const SORT_OPTIONS: { value: ListSortKey; label: string }[] = [
-  { value: "executions", label: "실행 횟수순" },
-  { value: "successRate", label: "성공률순" },
-  { value: "lastRunAt", label: "최근 실행순" },
+  { value: "executions", label: "Execution count" },
+  { value: "successRate", label: "Success rate" },
+  { value: "lastRunAt", label: "Last run" },
 ];
 
 const STATUS_OPTIONS: StatusFilterValue[] = ["all", "success", "failed", "running", "warning"];
@@ -27,7 +27,7 @@ interface WorkflowListRailProps {
   onClose: () => void;
 }
 
-/** 화면의 마스터 — 워크플로 목록 레일. 검색·상태 필터·정렬 + 워크스페이스 요약 스트립. */
+/** The master side of the screen — the workflow list rail. Search, status filter, sort + a workspace summary strip. */
 export default function WorkflowListRail({ selectedId, onSelect, open, onClose }: WorkflowListRailProps) {
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState<StatusFilterValue>("all");
@@ -61,7 +61,7 @@ export default function WorkflowListRail({ selectedId, onSelect, open, onClose }
       {open && (
         <button
           type="button"
-          aria-label="목록 닫기"
+          aria-label="Close list"
           onClick={onClose}
           className="fixed inset-0 z-30 bg-zinc-950/70 backdrop-blur-sm lg:hidden"
         />
@@ -74,11 +74,11 @@ export default function WorkflowListRail({ selectedId, onSelect, open, onClose }
         }`}
       >
         <div className="flex shrink-0 items-center justify-between gap-2 px-4 pt-4 sm:px-5">
-          <p className="text-lg font-semibold tracking-tight text-zinc-50">워크플로</p>
+          <p className="text-lg font-semibold tracking-tight text-zinc-50">Workflows</p>
           <button
             type="button"
             onClick={onClose}
-            aria-label="목록 닫기"
+            aria-label="Close list"
             className="flex min-h-[36px] min-w-[36px] items-center justify-center rounded-lg text-zinc-400 hover:bg-white/[0.06] hover:text-zinc-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-400 lg:hidden"
           >
             <X className="size-4" aria-hidden="true" />
@@ -88,11 +88,11 @@ export default function WorkflowListRail({ selectedId, onSelect, open, onClose }
         <div className="shrink-0 space-y-2.5 px-4 pt-3 pb-3 sm:px-5">
           <div className="flex items-center justify-between text-xs">
             <span className="text-zinc-500">
-              최근 30일 실행{" "}
+              Executions (30d){" "}
               <span className="font-medium tabular-nums text-zinc-200">{formatNumber(overview.total)}</span>
             </span>
             <span className="text-zinc-500">
-              성공률{" "}
+              Success rate{" "}
               <span className="font-medium tabular-nums text-emerald-400">{formatPercent(overview.successRate)}</span>
             </span>
           </div>
@@ -101,7 +101,7 @@ export default function WorkflowListRail({ selectedId, onSelect, open, onClose }
 
         <div className="shrink-0 space-y-2.5 border-t border-white/5 px-4 py-3 sm:px-5">
           <label htmlFor="workflow-search" className="sr-only">
-            워크플로 검색
+            Search workflows
           </label>
           <div className="relative">
             <Search
@@ -113,7 +113,7 @@ export default function WorkflowListRail({ selectedId, onSelect, open, onClose }
               type="search"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              placeholder="이름 또는 카테고리 검색"
+              placeholder="Search by name or category"
               className="h-10 w-full rounded-lg border border-white/10 bg-white/[0.03] pr-3 pl-8 text-sm text-zinc-200 placeholder:text-zinc-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-400"
             />
           </div>
@@ -122,7 +122,7 @@ export default function WorkflowListRail({ selectedId, onSelect, open, onClose }
 
           <div className="flex items-center justify-end gap-1.5">
             <label htmlFor="workflow-sort" className="text-xs text-zinc-500">
-              정렬
+              Sort
             </label>
             <select
               id="workflow-sort"
@@ -140,11 +140,11 @@ export default function WorkflowListRail({ selectedId, onSelect, open, onClose }
         </div>
 
         <nav
-          aria-label="워크플로 목록"
+          aria-label="Workflow list"
           className={`min-h-0 flex-1 overflow-y-auto px-2 pb-2 sm:px-3 ${scrollStyles.thinScroll}`}
         >
           {filteredSorted.length === 0 ? (
-            <p className="px-2.5 py-8 text-center text-sm text-zinc-500">조건에 맞는 워크플로가 없습니다.</p>
+            <p className="px-2.5 py-8 text-center text-sm text-zinc-500">No workflows match your filters.</p>
           ) : (
             <ul className="space-y-0.5">
               {filteredSorted.map((w) => (

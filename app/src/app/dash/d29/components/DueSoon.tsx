@@ -16,21 +16,21 @@ export function DueSoon() {
   return (
     <Card as="section" aria-labelledby={headingId}>
       <CardHeader
-        title="마감 임박"
+        title="Due Soon"
         titleId={headingId}
-        description="5일 이내 마감되는 미완료 작업"
+        description="Incomplete tasks due within 5 days"
       />
       {dueSoonTasks.length === 0 ? (
         <p className="flex flex-col items-center gap-2 px-5 py-8 text-center text-sm text-zinc-500">
           <AlarmClock className="h-4 w-4 text-zinc-300" aria-hidden="true" />
-          임박한 마감이 없습니다.
+          No upcoming deadlines.
         </p>
       ) : (
         <div
           className="max-h-80 overflow-y-auto rounded-b-xl focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-inset focus-visible:outline-none"
           tabIndex={0}
           role="group"
-          aria-label={`마감 임박 작업 ${dueSoonTasks.length}건 · 스크롤하여 더 보기`}
+          aria-label={`${dueSoonTasks.length} tasks due soon · scroll for more`}
         >
           <ul className="divide-y divide-zinc-50">
             {dueSoonTasks.map((task) => {

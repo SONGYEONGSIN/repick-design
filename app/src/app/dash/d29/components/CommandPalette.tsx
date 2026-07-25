@@ -55,7 +55,7 @@ export function CommandPalette({ open, onClose }: { open: boolean; onClose: () =
     <div className="fixed inset-0 z-[60] flex items-start justify-center bg-zinc-900/40 px-4 pt-24 sm:pt-32">
       <button
         type="button"
-        aria-label="커맨드 팔레트 닫기"
+        aria-label="Close command palette"
         onClick={onClose}
         className="absolute inset-0 cursor-default"
       />
@@ -63,7 +63,7 @@ export function CommandPalette({ open, onClose }: { open: boolean; onClose: () =
         ref={dialogRef}
         role="dialog"
         aria-modal="true"
-        aria-label="빠른 검색"
+        aria-label="Quick search"
         className="relative w-full max-w-lg overflow-hidden rounded-xl border border-zinc-200 bg-white shadow-xl"
       >
         <div className="flex h-12 items-center gap-2.5 border-b border-zinc-100 px-4">
@@ -73,8 +73,8 @@ export function CommandPalette({ open, onClose }: { open: boolean; onClose: () =
             type="text"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder="프로젝트, 작업, 팀원 검색…"
-            aria-label="검색어 입력"
+            placeholder="Search projects, tasks, people…"
+            aria-label="Search query"
             className="h-full flex-1 border-0 bg-transparent text-sm text-zinc-900 placeholder:text-zinc-400 focus:outline-none"
           />
           <kbd className="shrink-0 rounded border border-zinc-200 px-1.5 py-0.5 text-[10px] font-medium text-zinc-400">
@@ -84,25 +84,25 @@ export function CommandPalette({ open, onClose }: { open: boolean; onClose: () =
 
         <div className="max-h-80 overflow-y-auto p-2">
           {!hasResults ? (
-            <p className="px-3 py-6 text-center text-sm text-zinc-500">검색 결과가 없습니다.</p>
+            <p className="px-3 py-6 text-center text-sm text-zinc-500">No results found.</p>
           ) : (
             <>
               {matchedProjects.length > 0 ? (
-                <ResultGroup label="프로젝트">
+                <ResultGroup label="Projects">
                   {matchedProjects.map((p) => (
                     <ResultItem key={p.id} icon={FolderKanban} label={p.name} onClose={onClose} />
                   ))}
                 </ResultGroup>
               ) : null}
               {matchedTasks.length > 0 ? (
-                <ResultGroup label="작업">
+                <ResultGroup label="Tasks">
                   {matchedTasks.map((t) => (
                     <ResultItem key={t.id} icon={CheckSquare} label={t.title} onClose={onClose} />
                   ))}
                 </ResultGroup>
               ) : null}
               {matchedMembers.length > 0 ? (
-                <ResultGroup label="팀원">
+                <ResultGroup label="People">
                   {matchedMembers.map((m) => (
                     <ResultItem key={m.id} icon={Users} label={`${m.name} · ${m.role}`} onClose={onClose} />
                   ))}

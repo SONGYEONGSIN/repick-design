@@ -15,9 +15,9 @@ import { formatDuration, formatNumber, formatPercent } from "./format";
 import type { ChannelFilter, Period } from "./types";
 
 const PERIOD_OPTIONS: { value: Period; label: string }[] = [
-  { value: "24h", label: "24시간" },
-  { value: "7d", label: "7일" },
-  { value: "30d", label: "30일" },
+  { value: "24h", label: "24h" },
+  { value: "7d", label: "7d" },
+  { value: "30d", label: "30d" },
 ];
 
 export function Hero({
@@ -43,7 +43,7 @@ export function Hero({
   const deltaSeconds = points[points.length - 1].value - points[0].value;
   const improved = deltaSeconds <= 0;
   const deltaAbs = Math.abs(deltaSeconds);
-  const deltaLabel = deltaAbs < 60 ? `${deltaAbs}초` : formatDuration(deltaAbs);
+  const deltaLabel = deltaAbs < 60 ? `${deltaAbs}s` : formatDuration(deltaAbs);
 
   const totalTickets = channel === "all" ? stat.totalHandled : stat.channelHandled[channel];
   const activeAgents =
@@ -55,13 +55,13 @@ export function Hero({
   const slaTotal = stat.slaByPriority.reduce((sum, p) => sum + p.within + p.atRisk + p.breached, 0);
   const slaPct = Math.round((slaWithin / slaTotal) * 100);
 
-  const channelLabel = channel === "all" ? "전체 채널" : CHANNEL_FILTERS.find((c) => c.value === channel)?.label ?? "";
+  const channelLabel = channel === "all" ? "All channels" : CHANNEL_FILTERS.find((c) => c.value === channel)?.label ?? "";
 
   const statItems = [
-    { label: "총 티켓", value: formatNumber(totalTickets), unit: "건" },
-    { label: "SLA 준수율", value: formatPercent(slaPct), unit: "" },
-    { label: "해결율", value: formatPercent(stat.resolutionRatePct), unit: "" },
-    { label: "활성 에이전트", value: formatNumber(activeAgents), unit: "명" },
+    { label: "Total tickets", value: formatNumber(totalTickets), unit: "" },
+    { label: "SLA compliance", value: formatPercent(slaPct), unit: "" },
+    { label: "Resolution rate", value: formatPercent(stat.resolutionRatePct), unit: "" },
+    { label: "Active agents", value: formatNumber(activeAgents), unit: "" },
   ];
 
   return (
@@ -72,24 +72,24 @@ export function Hero({
           className="inline-flex items-center gap-1.5 text-[11px] font-semibold tracking-wide text-zinc-400 uppercase"
         >
           <Gauge className="h-3.5 w-3.5" aria-hidden="true" />
-          SLA 히어로 지표
+          SLA hero metrics
         </h2>
         <div className="flex flex-wrap items-center gap-2.5">
           <FilterRadioGroup
             name="channel-filter"
-            ariaLabel="채널 필터"
+            ariaLabel="Channel filter"
             options={CHANNEL_FILTERS}
             value={channel}
             onChange={onChannelChange}
           />
-          <SegmentedControl ariaLabel="기간 토글" options={PERIOD_OPTIONS} value={period} onChange={onPeriodChange} />
+          <SegmentedControl ariaLabel="Period toggle" options={PERIOD_OPTIONS} value={period} onChange={onPeriodChange} />
         </div>
       </div>
 
       <div className="grid grid-cols-1 gap-6 pt-5 lg:grid-cols-12 lg:gap-8">
         <div className="min-w-0 lg:col-span-7">
           <p className="text-[11px] font-semibold tracking-wide text-zinc-400 uppercase">
-            평균 응답 시간 · {channelLabel} · {stat.shortLabel}
+            Average response time · {channelLabel} · {stat.shortLabel}
           </p>
           <div className="mt-2 flex flex-wrap items-end gap-x-3 gap-y-1">
             <span className="text-[clamp(2.75rem,6vw,5.25rem)] leading-none font-bold tracking-tight whitespace-nowrap text-zinc-50 tabular-nums">
@@ -103,7 +103,7 @@ export function Hero({
               }`}
             >
               {improved ? <ArrowDown className="h-3 w-3" aria-hidden="true" /> : <ArrowUp className="h-3 w-3" aria-hidden="true" />}
-              {deltaLabel} {improved ? "개선" : "증가"}
+              {deltaLabel} {improved ? "faster" : "slower"}
             </span>
           </div>
 
@@ -111,7 +111,7 @@ export function Hero({
             <CrosshairChart
               points={points}
               formatValue={(v) => formatDuration(Math.round(v))}
-              ariaTitle={`${stat.shortLabel} 평균 응답 시간 추이`}
+              ariaTitle={`${stat.shortLabel} average response time trend`}
             />
           </div>
         </div>

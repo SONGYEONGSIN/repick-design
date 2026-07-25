@@ -26,18 +26,18 @@ interface NavItem {
 
 const NAV_SECTIONS: { label: string; items: NavItem[] }[] = [
   {
-    label: "메인",
+    label: "Main",
     items: [
-      { id: "overview", label: "개요", icon: House },
-      { id: "bookings", label: "예약 현황", icon: CalendarCheck2, active: true },
+      { id: "overview", label: "Overview", icon: House },
+      { id: "bookings", label: "Bookings", icon: CalendarCheck2, active: true },
     ],
   },
   {
-    label: "관리",
+    label: "Manage",
     items: [
-      { id: "event-types", label: "이벤트 타입", icon: Layers },
-      { id: "availability", label: "팀 가용성", icon: UserCheck },
-      { id: "integrations", label: "캘린더 연동", icon: Link2 },
+      { id: "event-types", label: "Event Types", icon: Layers },
+      { id: "availability", label: "Team Availability", icon: UserCheck },
+      { id: "integrations", label: "Calendar Integrations", icon: Link2 },
     ],
   },
 ];
@@ -78,7 +78,7 @@ function WorkspaceSwitcher() {
       {open ? (
         <ul
           role="listbox"
-          aria-label="워크스페이스 선택"
+          aria-label="Select workspace"
           className="absolute inset-x-3 top-full z-20 mt-1 rounded-lg border border-zinc-200 bg-white py-1 shadow-lg"
         >
           {WORKSPACES.map((ws) => (
@@ -122,7 +122,7 @@ function SidebarContent() {
         <WorkspaceSwitcher />
       </div>
 
-      <nav aria-label="주 메뉴" className="flex-1 space-y-5 overflow-y-auto px-3 pb-4">
+      <nav aria-label="Main menu" className="flex-1 space-y-5 overflow-y-auto px-3 pb-4">
         {NAV_SECTIONS.map((section) => (
           <div key={section.label}>
             <p className="px-2 text-[11px] font-semibold uppercase tracking-wide text-zinc-400">
@@ -137,7 +137,7 @@ function SidebarContent() {
                       type="button"
                       disabled={!item.active}
                       aria-current={item.active ? "page" : undefined}
-                      title={item.active ? undefined : "데모 준비 중"}
+                      title={item.active ? undefined : "Coming soon in this demo"}
                       className={cn(
                         "flex h-9 w-full items-center gap-2.5 rounded-lg px-2.5 text-[13.5px] font-medium transition-colors",
                         item.active
@@ -161,24 +161,24 @@ function SidebarContent() {
         <div className="flex items-center gap-2.5 rounded-lg px-1.5 py-1.5">
           <Image
             src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=64&h=64&fit=crop&crop=faces"
-            alt="김태오 프로필 사진"
+            alt="Taeo Kim profile photo"
             width={32}
             height={32}
             className="h-8 w-8 shrink-0 rounded-full object-cover"
           />
           <span className="min-w-0 flex-1">
             <span className="block truncate text-[13px] font-medium text-zinc-900">
-              김태오
+              Taeo Kim
             </span>
             <span className="block truncate text-[11.5px] text-zinc-500">
-              워크스페이스 관리자
+              Workspace Admin
             </span>
           </span>
           <button
             type="button"
             className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg text-zinc-400 transition-colors hover:bg-zinc-50 hover:text-zinc-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-1"
-            aria-label="설정 열기"
-            title="설정"
+            aria-label="Open settings"
+            title="Settings"
           >
             <Settings className="h-4 w-4" aria-hidden="true" />
           </button>
@@ -204,7 +204,7 @@ export function Sidebar({ mobileOpen, onCloseMobile }: SidebarProps) {
         <div className="fixed inset-0 z-50 flex lg:hidden">
           <button
             type="button"
-            aria-label="메뉴 닫기"
+            aria-label="Close menu"
             onClick={onCloseMobile}
             className="absolute inset-0 bg-zinc-900/30"
           />
@@ -212,7 +212,7 @@ export function Sidebar({ mobileOpen, onCloseMobile }: SidebarProps) {
             <button
               type="button"
               onClick={onCloseMobile}
-              aria-label="메뉴 닫기"
+              aria-label="Close menu"
               className="absolute right-2 top-2 flex h-9 w-9 items-center justify-center rounded-lg text-zinc-400 hover:bg-zinc-50 hover:text-zinc-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500"
             >
               <X className="h-4 w-4" aria-hidden="true" />

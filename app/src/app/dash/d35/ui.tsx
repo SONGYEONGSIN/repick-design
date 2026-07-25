@@ -61,7 +61,7 @@ export function EyebrowLabel({ children, className }: { children: ReactNode; cla
   );
 }
 
-/* ---- Category badge (색 + 텍스트 병행) ----------------------------- */
+/* ---- Category badge (color + text combined) ----------------------------- */
 export function CategoryBadge({ meta, short = false }: { meta: CategoryMeta; short?: boolean }) {
   return (
     <span
@@ -76,7 +76,7 @@ export function CategoryBadge({ meta, short = false }: { meta: CategoryMeta; sho
   );
 }
 
-/* ---- Segmented control (radiogroup, Arrow 키 지원) ----------------- */
+/* ---- Segmented control (radiogroup, supports arrow keys) ----------------- */
 export function SegmentedControl<T extends string>({
   ariaLabel,
   options,
@@ -139,7 +139,7 @@ export function SegmentedControl<T extends string>({
   );
 }
 
-/* ---- Filter chip (토글) -------------------------------------------- */
+/* ---- Filter chip (toggle) -------------------------------------------- */
 export function FilterChip({
   active,
   onClick,
@@ -174,7 +174,7 @@ export function FilterChip({
   );
 }
 
-/* ---- 목표 대비 진행바 ---------------------------------------------- */
+/* ---- Progress bar vs. target ---------------------------------------------- */
 export function TargetBar({ actual, target }: { actual: number; target: number }) {
   const max = Math.max(actual, target, 1);
   const a = round2((actual / max) * 100);
@@ -187,7 +187,7 @@ export function TargetBar({ actual, target }: { actual: number; target: number }
   );
 }
 
-/* ---- Sparkline (좌표 2자리 반올림) --------------------------------- */
+/* ---- Sparkline (coordinates rounded to 2 decimals) --------------------------------- */
 export function Sparkline({
   values,
   className = "",
@@ -233,7 +233,7 @@ export function Sparkline({
   );
 }
 
-/* ---- 정렬 가능한 테이블 헤더 -------------------------------------- */
+/* ---- Sortable table header -------------------------------------- */
 export type SortDir = "asc" | "desc";
 export function SortableTh<K extends string>({
   columnKey,
