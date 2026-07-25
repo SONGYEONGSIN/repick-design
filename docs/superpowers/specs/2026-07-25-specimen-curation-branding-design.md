@@ -42,10 +42,10 @@ Specimen 갤러리를 **큐레이션된 15작품**(전부 풀 상세 스펙 보�
 ### 3.2 works.ts 편집
 - `LANDING_WORKS` → v0·v6·v7·v8만 (v1~v5 제거). 각 entry에 `category`.
 - `DASH_LAB_WORKS` → d29~d38만 (d7~d28 제거). 각 entry에 `category`.
-- `DASH_WORKS` → `rg`(Ridge, dir 삭제 대상) 제거, `app`(/dashboard, 라우트 유지) 유지 → `[...DASH_LAB_WORKS, app]`. (`/dash` 인덱스 전용 — 갤러리는 3.3처럼 DASH_LAB만 사용.)
-- `FREE_WORKS` → **삭제**(export 제거).
+- `DASH_WORKS` → catalogWorks(3.3)가 DASH_LAB만 쓰고 `/dash` 인덱스도 `DASH_LAB_WORKS`를 import하므로 **소비처 0** → `DASH_WORKS` export·`rg`(Ridge)·`app`(/dashboard) entry **삭제**(정리 태스크). `/dashboard` 라우트는 works.ts entry와 독립이라 유지됨.
+- `FREE_WORKS` → **삭제**(export 제거, /free 인덱스 삭제와 동반).
 - `NATIVE_WORKS` → n1 유지, `category: "mobile"`.
-- `Work.category` 타입 재정의: `"project"|"scheduling"|"ops"|"finance"|"analytics"|"landing"|"mobile"`. (`app`/`rg`는 갤러리 비노출이라 `category` 불요 — DASH_WORKS 잔존 entry엔 optional로 남김.)
+- `Work.category` 타입 재정의: `"project"|"scheduling"|"ops"|"finance"|"analytics"|"landing"|"mobile"`.
 
 ### 3.3 catalogWorks() (works.ts)
 - 자동 태깅(`.map(w=>({...w, category:"…"}))`) 제거 — 각 entry가 자기 `category`를 가지므로 **`[...LANDING_WORKS, ...DASH_LAB_WORKS, ...NATIVE_WORKS]`** 스프레드만. (DASH_WORKS 아님 — `app` 제품 링크는 갤러리에서 제외됨.) 결과 = 정확히 15작품.
