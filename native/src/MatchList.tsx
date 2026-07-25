@@ -5,17 +5,17 @@ import { tokens } from "./tokens";
 
 function Card({ item }: { item: Match }) {
   return (
-    <Pressable style={styles.card} accessibilityRole="button" accessibilityLabel={`${item.title}, 매칭 ${item.score}점`}>
+    <Pressable style={styles.card} accessibilityRole="button" accessibilityLabel={`${item.title}, match score ${item.score}`}>
       <View style={styles.cardHead}>
         <Text style={styles.grade}>{item.grade}</Text>
         <Text style={styles.score}>{item.score}</Text>
       </View>
       <Text style={styles.title} numberOfLines={2}>{item.title}</Text>
       <Text style={styles.price}>{item.price}</Text>
-      <Text style={styles.factorCaption}>매칭 근거</Text>
+      <Text style={styles.factorCaption}>Match factors</Text>
       <BarBreakdown
         data={item.factors}
-        accessibilityLabel={`${item.title} 매칭 근거: ${item.factors.map((f) => `${f.label} ${f.value}`).join(", ")}`}
+        accessibilityLabel={`${item.title} match factors: ${item.factors.map((f) => `${f.label} ${f.value}`).join(", ")}`}
       />
     </Pressable>
   );
@@ -24,8 +24,8 @@ function Card({ item }: { item: Match }) {
 export function MatchList() {
   return (
     <View style={styles.root}>
-      <Text style={styles.h1} accessibilityRole="header">AI 매칭 결과</Text>
-      <Text style={styles.sub}>RE:픽이 다시 고른 중고 — 오늘의 추천 {MATCHES.length}건</Text>
+      <Text style={styles.h1} accessibilityRole="header">AI Match Results</Text>
+      <Text style={styles.sub}>Secondhand, re-picked by RE:Pick — {MATCHES.length} picks today</Text>
       <FlatList
         data={MATCHES}
         keyExtractor={(m) => m.id}
