@@ -13,8 +13,9 @@ type Strings = {
   status: Record<"winner" | "dropped" | "pending", string>;
   detail: {
     home: string; viewLive: string; copy: string; copied: string;
-    palette: string; typography: string; spacing: string; guidelines: string;
+    overview: string; palette: string; typography: string; spacing: string; guidelines: string;
     do: string; dont: string; agentPrompt: string; moreLikeThis: string;
+    copyDesignMd: string; downloadMd: string;
     comingSoon: string; comingSoonBody: string;
   };
 };
@@ -31,8 +32,9 @@ export const STRINGS: Record<Lang, Strings> = {
     status: { winner: "Selected", dropped: "Cut", pending: "In review" },
     detail: {
       home: "Specimen", viewLive: "View live ↗", copy: "Copy", copied: "Copied",
-      palette: "Color palette", typography: "Typography", spacing: "Spacing & shape", guidelines: "Guidelines",
+      overview: "Overview", palette: "Color palette", typography: "Typography", spacing: "Spacing & shape", guidelines: "Guidelines",
       do: "Do", dont: "Don't", agentPrompt: "Agent prompt", moreLikeThis: "More like this",
+      copyDesignMd: "Copy DESIGN.md", downloadMd: "Download .md",
       comingSoon: "Full spec coming soon",
       comingSoonBody: "This design's palette, guidelines, and agent prompt haven't been documented yet.",
     },
@@ -48,8 +50,9 @@ export const STRINGS: Record<Lang, Strings> = {
     status: { winner: "채택", dropped: "탈락", pending: "심사 대기" },
     detail: {
       home: "Specimen", viewLive: "라이브 보기 ↗", copy: "복사", copied: "복사됨",
-      palette: "컬러 팔레트", typography: "타이포그래피", spacing: "간격 · 형태", guidelines: "가이드라인",
+      overview: "개요", palette: "컬러 팔레트", typography: "타이포그래피", spacing: "간격 · 형태", guidelines: "가이드라인",
       do: "권장", dont: "지양", agentPrompt: "에이전트 프롬프트", moreLikeThis: "비슷한 작품",
+      copyDesignMd: "DESIGN.md 복사", downloadMd: ".md 다운로드",
       comingSoon: "상세 스펙 준비 중",
       comingSoonBody: "이 디자인의 팔레트·가이드라인·에이전트 프롬프트는 아직 문서화되지 않았습니다.",
     },
