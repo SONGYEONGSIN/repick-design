@@ -8,8 +8,10 @@ export function WorkCard({ work, lang, label }: { work: Work; lang: Lang; label:
   const [loaded, setLoaded] = useState(false);
   const h = work.previewH ?? 300;
   const t = STRINGS[lang];
+  // Catalog works route to their detail page; evolve candidates (id has "/") have no detail page.
+  const href = work.id.includes("/") ? work.route : `/gallery/${work.id}`;
   return (
-    <a href={work.route}
+    <a href={href}
       className="group block min-w-0 overflow-hidden rounded-xl border border-zinc-200 bg-white transition duration-200 hover:-translate-y-0.5 hover:border-zinc-400 hover:shadow-sm active:translate-y-0 active:shadow-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-900 focus-visible:ring-offset-2 motion-reduce:hover:translate-y-0">
       <div aria-hidden="true" className="relative w-full overflow-hidden border-b border-zinc-100 bg-zinc-50" style={{ height: h }}>
         {!loaded && <div className="absolute inset-0 animate-pulse bg-gradient-to-b from-zinc-100 to-zinc-50 motion-reduce:animate-none" />}

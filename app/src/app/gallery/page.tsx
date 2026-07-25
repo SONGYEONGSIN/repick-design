@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
-import { DASH_WORKS, FREE_WORKS, LANDING_WORKS, NATIVE_WORKS, LAST_UPDATED, type Work } from "@/lib/works";
+import { catalogWorks, LAST_UPDATED, type Work } from "@/lib/works";
 import { parseLedger, candidateStatus } from "@/lib/evolve-status";
 import { GalleryClient } from "./gallery-client";
 
@@ -45,12 +45,6 @@ function evolveWorks(): Work[] {
 }
 
 export default function GalleryPage() {
-  const works: Work[] = [
-    ...LANDING_WORKS.map((w) => ({ ...w, category: "landing" as const })),
-    ...DASH_WORKS.map((w) => ({ ...w, category: "dashboard" as const })),
-    ...FREE_WORKS.map((w) => ({ ...w, category: "free" as const })),
-    ...NATIVE_WORKS.map((w) => ({ ...w, category: "native" as const })),
-    ...evolveWorks(),
-  ];
+  const works: Work[] = [...catalogWorks(), ...evolveWorks()];
   return <GalleryClient works={works} lastUpdated={LAST_UPDATED} />;
 }
