@@ -1,28 +1,28 @@
 /**
- * 날짜/숫자 포맷 유틸.
- * 모든 날짜는 'YYYY-MM-DD' ISO 문자열로 저장하고 UTC 앵커로 파싱한다.
- * 서버(UTC)와 클라이언트(로컬 tz)의 렌더 결과가 갈리지 않도록
- * Intl.DateTimeFormat에 timeZone: 'UTC'를 명시해 하이드레이션 불일치를 방지한다.
+ * Date/number formatting utilities.
+ * All dates are stored as 'YYYY-MM-DD' ISO strings and parsed with a UTC anchor.
+ * We pin timeZone: 'UTC' on Intl.DateTimeFormat so the server (UTC) and client
+ * (local tz) render the same output, avoiding hydration mismatches.
  */
 
 export function parseISODate(iso: string): Date {
   return new Date(`${iso}T00:00:00.000Z`);
 }
 
-const dateFormatter = new Intl.DateTimeFormat("ko-KR", {
+const dateFormatter = new Intl.DateTimeFormat("en-US", {
   month: "short",
   day: "numeric",
   timeZone: "UTC",
 });
 
-const dateFormatterWithWeekday = new Intl.DateTimeFormat("ko-KR", {
+const dateFormatterWithWeekday = new Intl.DateTimeFormat("en-US", {
   month: "long",
   day: "numeric",
   weekday: "short",
   timeZone: "UTC",
 });
 
-const numberFormatter = new Intl.NumberFormat("ko-KR");
+const numberFormatter = new Intl.NumberFormat("en-US");
 
 export function formatDate(iso: string): string {
   return dateFormatter.format(parseISODate(iso));
@@ -44,7 +44,7 @@ export function dayDiff(fromISO: string, toISO: string): number {
   return Math.round((to - from) / MS_PER_DAY);
 }
 
-/** 오늘(TODAY_ISO) 기준 D-day 라벨. */
+/** D-day label relative to today (TODAY_ISO). */
 export function formatDday(todayISO: string, dueISO: string): string {
   const diff = dayDiff(todayISO, dueISO);
   if (diff === 0) return "D-DAY";

@@ -39,26 +39,26 @@ export function CommandPalette({ open, onClose, onSelectEventType }: CommandPale
 
   const items: CommandItem[] = useMemo(
     () => [
-      { id: "overview", label: "개요로 이동", hint: "페이지", icon: House, disabled: true },
+      { id: "overview", label: "Go to Overview", hint: "Page", icon: House, disabled: true },
       {
         id: "bookings",
-        label: "예약 현황으로 이동",
-        hint: "현재 페이지",
+        label: "Go to Bookings",
+        hint: "Current page",
         icon: CalendarCheck2,
         disabled: true,
       },
       {
         id: "availability",
-        label: "팀 가용성으로 이동",
-        hint: "페이지",
+        label: "Go to Team Availability",
+        hint: "Page",
         icon: UserCheck,
         disabled: true,
       },
-      { id: "integrations", label: "캘린더 연동", hint: "페이지", icon: Link2, disabled: true },
+      { id: "integrations", label: "Calendar Integrations", hint: "Page", icon: Link2, disabled: true },
       ...EVENT_TYPES.map((t) => ({
         id: `filter-${t.id}`,
-        label: `이벤트 타입 필터 · ${t.name}`,
-        hint: `${t.durationMin}분`,
+        label: `Filter by event type · ${t.name}`,
+        hint: `${t.durationMin} min`,
         icon: Layers,
         onSelect: () => {
           onSelectEventType(t.id);
@@ -79,14 +79,14 @@ export function CommandPalette({ open, onClose, onSelectEventType }: CommandPale
     <div className="fixed inset-0 z-[60] flex items-start justify-center bg-zinc-900/40 px-4 pt-24">
       <button
         type="button"
-        aria-label="빠른 검색 닫기"
+        aria-label="Close quick search"
         onClick={onClose}
         className="absolute inset-0 h-full w-full cursor-default"
       />
       <div
         role="dialog"
         aria-modal="true"
-        aria-label="빠른 검색"
+        aria-label="Quick search"
         className="relative w-full max-w-lg overflow-hidden rounded-xl border border-zinc-200 bg-white shadow-2xl"
       >
         <div className="flex h-12 items-center gap-2 border-b border-zinc-100 px-3.5">
@@ -97,18 +97,18 @@ export function CommandPalette({ open, onClose, onSelectEventType }: CommandPale
             type="text"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder="페이지, 이벤트 타입 검색…"
-            aria-label="빠른 검색 입력"
+            placeholder="Search pages, event types…"
+            aria-label="Quick search input"
             className="h-full flex-1 border-0 bg-transparent text-[14px] text-zinc-900 outline-none placeholder:text-zinc-400"
           />
           <kbd className="rounded border border-zinc-200 px-1.5 py-0.5 text-[10px] font-medium text-zinc-400">
             Esc
           </kbd>
         </div>
-        <ul role="listbox" aria-label="검색 결과" className="max-h-80 overflow-y-auto p-1.5">
+        <ul role="listbox" aria-label="Search results" className="max-h-80 overflow-y-auto p-1.5">
           {filtered.length === 0 ? (
             <li className="px-3 py-6 text-center text-[13px] text-zinc-400">
-              검색 결과가 없습니다
+              No results found
             </li>
           ) : (
             filtered.map((item) => {

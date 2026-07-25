@@ -44,10 +44,10 @@ export function EscalationsCard({
     <Card as="section" id="escalations-card" aria-labelledby={TITLE_ID} className="flex flex-col">
       <CardHeader
         icon={<TriangleAlert className="h-4 w-4" aria-hidden="true" />}
-        title="긴급 대응 필요"
+        title="Needs urgent response"
         titleId={TITLE_ID}
         badge={
-          <Badge className="border-rose-400/30 bg-rose-500/10 text-rose-300">{formatNumber(filtered.length)}건</Badge>
+          <Badge className="border-rose-400/30 bg-rose-500/10 text-rose-300">{formatNumber(filtered.length)} open</Badge>
         }
         expandable
         expanded={expanded}
@@ -70,7 +70,7 @@ export function EscalationsCard({
             </span>
           </div>
         ))}
-        {filtered.length === 0 && <p className="text-[13px] text-zinc-400">선택한 채널에 에스컬레이션이 없습니다.</p>}
+        {filtered.length === 0 && <p className="text-[13px] text-zinc-400">No escalations in the selected channel.</p>}
       </div>
 
       {expanded && (
@@ -78,7 +78,7 @@ export function EscalationsCard({
           <div className="mt-3 max-h-72 overflow-y-auto rounded-lg border border-white/10 lg:max-h-none lg:overflow-visible">
             <div className="min-w-[560px] overflow-x-auto lg:min-w-0 lg:overflow-visible">
               <table className="w-full table-fixed border-collapse text-left text-[13px]">
-                <caption className="sr-only">에스컬레이션 전체 목록, 정렬 가능한 열: 제목, 경과, 우선순위</caption>
+                <caption className="sr-only">Full escalation list, sortable columns: subject, age, priority</caption>
                 <colgroup>
                   <col className="w-[40%]" />
                   <col className="w-[16%]" />
@@ -89,20 +89,20 @@ export function EscalationsCard({
                   <tr className="border-b border-white/10">
                     <th scope="col" className="px-3 py-2" aria-sort={sortKey === "subject" ? (direction === "asc" ? "ascending" : "descending") : "none"}>
                       <SortButton active={sortKey === "subject"} direction={direction} onClick={() => toggle("subject")}>
-                        제목 · 사유
+                        Subject · Reason
                       </SortButton>
                     </th>
                     <th scope="col" className="px-3 py-2">
-                      담당
+                      Assigned to
                     </th>
                     <th scope="col" className="px-3 py-2 text-right" aria-sort={sortKey === "age" ? (direction === "asc" ? "ascending" : "descending") : "none"}>
                       <SortButton align="right" active={sortKey === "age"} direction={direction} onClick={() => toggle("age")}>
-                        경과
+                        Age
                       </SortButton>
                     </th>
                     <th scope="col" className="px-3 py-2 text-right" aria-sort={sortKey === "priority" ? (direction === "asc" ? "ascending" : "descending") : "none"}>
                       <SortButton align="right" active={sortKey === "priority"} direction={direction} onClick={() => toggle("priority")}>
-                        우선순위
+                        Priority
                       </SortButton>
                     </th>
                   </tr>
@@ -131,7 +131,7 @@ export function EscalationsCard({
                   {sorted.length === 0 && (
                     <tr>
                       <td colSpan={4} className="px-3 py-6 text-center text-zinc-400">
-                        선택한 채널에 에스컬레이션이 없습니다.
+                        No escalations in the selected channel.
                       </td>
                     </tr>
                   )}

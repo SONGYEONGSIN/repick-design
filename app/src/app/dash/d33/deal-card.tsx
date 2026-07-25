@@ -23,7 +23,7 @@ export function DealCard({ deal }: { deal: Deal }) {
             <p className="truncate text-sm font-semibold text-zinc-900">{deal.company}</p>
             {deal.isNew ? (
               <span className="shrink-0 rounded bg-blue-50 px-1 py-0.5 text-[10px] font-semibold tracking-wide text-blue-700 uppercase">
-                신규
+                New
               </span>
             ) : null}
           </div>
@@ -38,12 +38,12 @@ export function DealCard({ deal }: { deal: Deal }) {
 
       <div className="mt-2.5">
         <div className="mb-1 flex items-center justify-between text-[11px] text-zinc-500">
-          <span>성사 확률</span>
+          <span>Win probability</span>
           <span className="font-medium text-zinc-700 tabular-nums">{deal.probability}%</span>
         </div>
         <ProgressBar
           value={deal.probability}
-          label={`${deal.company} 성사 확률 ${deal.probability}%`}
+          label={`${deal.company} win probability ${deal.probability}%`}
           barClassName={health.barClass}
         />
       </div>
@@ -64,7 +64,7 @@ export function DealCard({ deal }: { deal: Deal }) {
         <div className="flex shrink-0 items-center gap-2.5 text-[11px] whitespace-nowrap tabular-nums">
           <span className="inline-flex items-center gap-1 text-zinc-400">
             <Timer className="h-3 w-3" aria-hidden="true" />
-            {deal.daysInStage}일째
+            {deal.daysInStage}d in stage
           </span>
           <span
             className={`inline-flex items-center gap-1 font-medium ${

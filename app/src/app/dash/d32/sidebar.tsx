@@ -25,25 +25,25 @@ interface NavItem {
 
 const NAV_SECTIONS: { label: string; items: NavItem[] }[] = [
   {
-    label: "메인",
+    label: "Main",
     items: [
-      { id: "overview", label: "개요", icon: LayoutGrid, active: true },
-      { id: "holdings", label: "보유 자산", icon: Wallet },
-      { id: "watchlist", label: "워치리스트", icon: Star },
+      { id: "overview", label: "Overview", icon: LayoutGrid, active: true },
+      { id: "holdings", label: "Holdings", icon: Wallet },
+      { id: "watchlist", label: "Watchlist", icon: Star },
     ],
   },
   {
-    label: "분석",
+    label: "Analysis",
     items: [
-      { id: "markets", label: "시장 동향", icon: LineChart },
-      { id: "alerts", label: "가격 알림", icon: Bell },
+      { id: "markets", label: "Markets", icon: LineChart },
+      { id: "alerts", label: "Price alerts", icon: Bell },
     ],
   },
 ];
 
 const WORKSPACES = [
-  { id: "primary", name: "주 포트폴리오", plan: "Pro" },
-  { id: "trading", name: "트레이딩 계정", plan: "Pro" },
+  { id: "primary", name: "Main Portfolio", plan: "Pro" },
+  { id: "trading", name: "Trading Account", plan: "Pro" },
 ];
 
 function WorkspaceSwitcher() {
@@ -79,7 +79,7 @@ function WorkspaceSwitcher() {
       {open ? (
         <ul
           role="listbox"
-          aria-label="워크스페이스 선택"
+          aria-label="Select workspace"
           className="absolute inset-x-3 top-full z-20 mt-1 rounded-lg border border-white/10 bg-zinc-900 py-1 shadow-lg"
         >
           {WORKSPACES.map((ws) => (
@@ -119,7 +119,7 @@ function SidebarContent() {
         <WorkspaceSwitcher />
       </div>
 
-      <nav aria-label="주 메뉴" className="flex-1 space-y-5 overflow-y-auto px-3 pb-4">
+      <nav aria-label="Main menu" className="flex-1 space-y-5 overflow-y-auto px-3 pb-4">
         {NAV_SECTIONS.map((section) => (
           <div key={section.label}>
             <p className="px-2 text-[11px] font-medium uppercase tracking-wider text-zinc-500">{section.label}</p>
@@ -132,7 +132,7 @@ function SidebarContent() {
                       type="button"
                       disabled={!item.active}
                       aria-current={item.active ? "page" : undefined}
-                      title={item.active ? undefined : "데모 준비 중"}
+                      title={item.active ? undefined : "Coming soon in this demo"}
                       className={cn(
                         "flex h-9 w-full items-center gap-2.5 rounded-lg px-2.5 text-[13.5px] font-medium outline-none transition-colors",
                         "focus-visible:ring-2 focus-visible:ring-indigo-400 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950",
@@ -156,19 +156,19 @@ function SidebarContent() {
         <div className="flex items-center gap-2.5 rounded-lg px-1.5 py-1.5">
           <Image
             src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?w=64&h=64&fit=crop&crop=faces"
-            alt="김도윤 프로필 사진"
+            alt="Jordan Lee profile photo"
             width={32}
             height={32}
             className="size-8 shrink-0 rounded-full object-cover"
           />
           <span className="min-w-0 flex-1">
-            <span className="block truncate text-[13px] font-medium text-zinc-100">김도윤</span>
-            <span className="block truncate text-[11.5px] text-zinc-500">포트폴리오 관리자</span>
+            <span className="block truncate text-[13px] font-medium text-zinc-100">Jordan Lee</span>
+            <span className="block truncate text-[11.5px] text-zinc-500">Portfolio Manager</span>
           </span>
           <button
             type="button"
-            aria-label="설정 열기"
-            title="설정"
+            aria-label="Open settings"
+            title="Settings"
             className={cn(
               "flex size-11 shrink-0 items-center justify-center rounded-lg text-zinc-500 outline-none transition-colors",
               "hover:bg-white/5 hover:text-zinc-200 focus-visible:ring-2 focus-visible:ring-indigo-400 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950",
@@ -199,7 +199,7 @@ export function Sidebar({
         <div className="fixed inset-0 z-50 flex lg:hidden">
           <button
             type="button"
-            aria-label="메뉴 닫기"
+            aria-label="Close menu"
             onClick={onCloseMobile}
             className="absolute inset-0 bg-black/60"
           />
@@ -207,7 +207,7 @@ export function Sidebar({
             <button
               type="button"
               onClick={onCloseMobile}
-              aria-label="메뉴 닫기"
+              aria-label="Close menu"
               className={cn(
                 "absolute right-2 top-2 flex size-11 items-center justify-center rounded-lg text-zinc-500 outline-none transition-colors",
                 "hover:bg-white/5 hover:text-zinc-200 focus-visible:ring-2 focus-visible:ring-indigo-400",

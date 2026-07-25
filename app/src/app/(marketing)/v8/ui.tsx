@@ -76,8 +76,8 @@ export default function LandingClient() {
   };
 
   const RANGES: { id: "week" | "total"; label: string }[] = [
-    { id: "week", label: "이번 주" },
-    { id: "total", label: "전체 누적" },
+    { id: "week", label: "This week" },
+    { id: "total", label: "All time" },
   ];
   const onRangeKeyDown = (
     e: React.KeyboardEvent<HTMLButtonElement>,
@@ -105,18 +105,18 @@ export default function LandingClient() {
               FOCUS,
             )}
           >
-            RE:픽
+            RE:PICK
           </a>
           <div className="hidden items-center gap-7 sm:flex">
             <a href="#dial" className={NAV_LINK}>
-              매칭 다이얼
+              Match Dial
             </a>
             <a href="#preview" className={NAV_LINK}>
-              제품 프리뷰
+              Product Preview
             </a>
           </div>
           <a href="#cta" className={CTA_PRIMARY}>
-            매칭 시작
+            Start Matching
           </a>
         </nav>
       </header>
@@ -141,26 +141,27 @@ export default function LandingClient() {
               )}
             >
               <GaugeIcon className="h-3.5 w-3.5" aria-hidden />
-              매칭 정확도 다이얼
+              Match Accuracy Dial
             </motion.p>
 
             <motion.h1
               variants={item}
               className="mt-5 font-extrabold leading-[1.02] tracking-[-0.02em] text-white break-keep text-[clamp(2.2rem,7.4vw,3rem)] lg:text-[clamp(2.6rem,4vw,3.6rem)]"
             >
-              다섯 기준이 모여,
+              Five criteria come together,
               <br />
-              <span className="text-[#6E56CF]">{TOTAL_MATCH}%</span>의
-              확신이 됩니다
+              into <span className="text-[#6E56CF]">{TOTAL_MATCH}%</span>{" "}
+              confidence
             </motion.h1>
 
             <motion.p
               variants={item}
               className="mt-6 max-w-md text-base font-normal leading-[1.6] text-[#A1A1AA] sm:text-lg"
             >
-              취향 프로필·사이즈·예산·컨디션 등급·시세 — AI가 다섯 기준을
-              동시에 채점해 하나의 매칭 점수로 계산합니다. 오른쪽 다이얼이
-              지금 그 과정을 보여줍니다.
+              Taste profile, size, budget, condition grade, market price —
+              AI scores all five at once and combines them into a single
+              match score. The dial on the right is showing that process
+              right now.
             </motion.p>
 
             <motion.div
@@ -168,11 +169,11 @@ export default function LandingClient() {
               className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center"
             >
               <a href="#cta" className={CTA_PRIMARY}>
-                무료로 매칭 받기
+                Get matched for free
                 <ArrowRight className="h-4 w-4" strokeWidth={2.5} aria-hidden />
               </a>
               <span className="text-xs font-normal text-[#A1A1AA]">
-                가입 없이 바로 확인 · 기준을 눌러 근거 보기
+                No sign-up required · Tap a criterion to see the evidence
               </span>
             </motion.div>
 
@@ -193,7 +194,7 @@ export default function LandingClient() {
             </motion.div>
           </motion.div>
 
-          {/* right: 매칭 정확도 다이얼 — 히어로 인터랙션 */}
+          {/* right: match accuracy dial — hero interaction */}
           <div
             id="dial"
             className="scroll-mt-24 rounded-2xl border border-white/10 bg-white/[0.02] p-6 sm:p-8 lg:col-span-7"
@@ -201,10 +202,10 @@ export default function LandingClient() {
             <div className="flex items-center justify-between gap-3">
               <p className={cx(EYEBROW, "flex items-center gap-2 text-[#a894f7]")}>
                 <GaugeIcon className="h-3.5 w-3.5" aria-hidden />
-                Fig. 01 — AI 매칭 정확도 다이얼
+                Fig. 01 — AI Match Accuracy Dial
               </p>
               <span className={cx(CAPTION, "hidden text-[#A1A1AA] sm:inline")}>
-                실시간 계산
+                Live calculation
               </span>
             </div>
             <div className="mt-6">
@@ -229,7 +230,7 @@ export default function LandingClient() {
                 transition={{ duration: 0.5, ease: EASE }}
                 className={cx(EYEBROW, "text-[#a894f7]")}
               >
-                Fig. 02 — AI가 이렇게 골랐습니다
+                Fig. 02 — Here's how AI picked these
               </motion.p>
               <motion.h2
                 initial={reduced ? false : { opacity: 0, y: 16 }}
@@ -238,14 +239,14 @@ export default function LandingClient() {
                 transition={{ duration: 0.5, ease: EASE, delay: reduced ? 0 : 0.05 }}
                 className="mt-4 max-w-xl font-extrabold leading-[1.1] tracking-[-0.02em] text-white break-keep text-[clamp(1.7rem,4.4vw,2.4rem)]"
               >
-                다이얼 뒤에는 실제 매물이 있습니다
+                Behind the dial are real listings
               </motion.h2>
             </div>
 
-            {/* 정렬 조작 — 결과 카드 순서가 실시간으로 재계산됨 */}
+            {/* sort control — result card order recalculates live */}
             <div
               role="radiogroup"
-              aria-label="제품 정렬 기준"
+              aria-label="Product sort criteria"
               className="flex flex-wrap gap-2"
             >
               {SORTS.map((s, i) => {
@@ -307,7 +308,7 @@ export default function LandingClient() {
                     className="object-cover"
                   />
                   <span className="absolute left-3 top-3 inline-flex items-center gap-1 rounded-full border border-[#6E56CF]/50 bg-[#6E56CF]/25 px-2.5 py-1 text-[0.7rem] font-semibold text-white backdrop-blur">
-                    {card.grade}급 · {card.gradeLabel}
+                    Grade {card.grade} · {card.gradeLabel}
                   </span>
                   <div
                     aria-hidden
@@ -322,7 +323,7 @@ export default function LandingClient() {
                       </span>
                     </div>
                   </div>
-                  <span className="sr-only">AI 매칭 {card.match}%</span>
+                  <span className="sr-only">AI match {card.match}%</span>
                 </div>
                 <figcaption className="flex flex-col gap-2.5 p-5">
                   <div>
@@ -338,10 +339,10 @@ export default function LandingClient() {
                         "text-sm font-semibold text-[#A1A1AA] line-through",
                       )}
                     >
-                      {comma(card.retail)}원
+                      ₩{comma(card.retail)}
                     </span>
                     <span className={cx(NUM, "text-lg font-extrabold text-white")}>
-                      {comma(card.repick)}원
+                      ₩{comma(card.repick)}
                     </span>
                     <span
                       className={cx(
@@ -391,7 +392,7 @@ export default function LandingClient() {
             transition={{ duration: 0.5, ease: EASE }}
             className={cx(EYEBROW, "mb-12 block text-[#a894f7]")}
           >
-            Fig. 03 — 다이얼이 하는 일
+            Fig. 03 — What the dial does
           </motion.p>
 
           <div className="grid grid-cols-1 gap-x-10 gap-y-12 md:grid-cols-3">
@@ -458,10 +459,10 @@ export default function LandingClient() {
               ))}
             </motion.div>
 
-            {/* 조작 = 가치체감: 토글하면 위 세 스탯이 즉시 다른 데이터로 갱신됨 */}
+            {/* interaction = perceived value: toggling instantly refreshes the three stats above with different data */}
             <div
               role="radiogroup"
-              aria-label="집계 범위"
+              aria-label="Stats range"
               className="flex shrink-0 gap-2"
             >
               {RANGES.map((r, i) => {
@@ -506,12 +507,13 @@ export default function LandingClient() {
               {"“"}
             </span>
             <blockquote className="mt-2 text-2xl font-semibold leading-[1.4] tracking-[-0.02em] text-white sm:text-[1.75rem]">
-              다이얼이 채워지는 걸 보면서 왜 이 가격인지 납득이 됐어요. 기준을
-              눌러보면 근거까지 바로 나오니까요.
+              Watching the dial fill in made me understand exactly why the
+              price was what it was. Tap a criterion and the evidence shows
+              up right away.
             </blockquote>
             <figcaption className="mt-6 text-sm font-normal text-[#A1A1AA]">
-              <span className="font-semibold text-white">한지호</span> ·
-              프로덕트 디자이너
+              <span className="font-semibold text-white">Jiho Han</span> ·
+              Product Designer
             </figcaption>
           </motion.figure>
         </div>
@@ -528,21 +530,22 @@ export default function LandingClient() {
             className="max-w-2xl"
           >
             <h2 className="font-extrabold leading-[1.02] tracking-[-0.02em] text-white break-keep text-[clamp(2.1rem,6.4vw,3.6rem)]">
-              다이얼은 계산을 끝냈습니다,
+              The dial has finished calculating,
               <br />
-              이제 매칭만 받으면 됩니다
+              now all that's left is your match
             </h2>
             <p className="mt-6 max-w-lg text-base font-normal leading-[1.6] text-[#A1A1AA]">
-              {CRITERIA.map((c) => c.label).join(" · ")} — 위에서 확인한
-              다섯 기준은 실제 검수·거래 데이터를 기준으로 산출됩니다. 취향
-              프로필을 만드는 데 1분이면 충분합니다.
+              {CRITERIA.map((c) => c.label).join(" · ")} — the five criteria
+              you saw above are calculated from real inspection and
+              transaction data. Building your taste profile takes just one
+              minute.
             </p>
             <div className="mt-9">
               <a
                 href="#top"
                 className={cx(CTA_PRIMARY, "px-7 py-3.5 text-base")}
               >
-                무료로 매칭 받기
+                Get matched for free
                 <ArrowRight className="h-4 w-4" strokeWidth={2.5} aria-hidden />
               </a>
             </div>
@@ -554,10 +557,10 @@ export default function LandingClient() {
       <footer className="border-t border-white/10">
         <div className="mx-auto flex w-full max-w-[1120px] flex-col gap-2 px-5 py-10 sm:flex-row sm:items-center sm:justify-between sm:px-8">
           <span className="text-base font-extrabold tracking-[-0.02em] text-white">
-            RE:픽
+            RE:PICK
           </span>
           <span className="text-xs font-normal text-[#A1A1AA]">
-            AI가 다시 고르는 중고 · 2026 RE:PICK
+            Secondhand, re-picked by AI · 2026 RE:PICK
           </span>
         </div>
       </footer>

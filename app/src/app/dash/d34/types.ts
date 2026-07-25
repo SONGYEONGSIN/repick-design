@@ -1,5 +1,5 @@
 /**
- * Pulse — 고객 지원 SLA 운영 콘솔 타입 정의.
+ * Pulse — customer support SLA operations console type definitions.
  */
 
 export type Channel = "email" | "chat" | "phone" | "social";

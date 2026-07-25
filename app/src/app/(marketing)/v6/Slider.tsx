@@ -26,22 +26,22 @@ const KEY_STEP = 4;
 const PAGE_STEP = 10;
 
 /**
- * 히어로 비포/애프터 리빌 슬라이더.
- * - pointer/touch 드래그 + 클릭 위치 이동 (setPointerCapture)
- * - 키보드 조작 (role="slider", Arrow/Home/End/PageUp/Down, aria-valuenow)
- * - framer-motion useSpring 물리로 핸들·클립 부드럽게, motion-reduce 시 즉시
- * - scrollY 값을 받아 이미지 밴드 미세 parallax (부모가 주입)
+ * Hero before/after reveal slider.
+ * - pointer/touch drag + click-to-jump (setPointerCapture)
+ * - keyboard control (role="slider", Arrow/Home/End/PageUp/Down, aria-valuenow)
+ * - framer-motion useSpring physics for smooth handle/clip motion, instant under motion-reduce
+ * - takes a scrollY value to apply subtle parallax to the image band (injected by parent)
  */
 export default function Slider({ parallax }: { parallax: MotionValue<number> }) {
   const reduced = useReducedMotion();
   const figRef = useRef<HTMLDivElement | null>(null);
   const dragging = useRef(false);
 
-  // aria/readout 용 상태 (초기 50 → 하이드레이션 안정)
+  // state for aria/readout (starts at 50 → stable hydration)
   const [pct, setPct] = useState(50);
   const [touched, setTouched] = useState(false);
 
-  // 시각 표현용 스프링 (상태와 분리 — 오버슈트해도 aria 값은 정확)
+  // spring for the visual motion (decoupled from state — stays accurate even if it overshoots)
   const target = useMotionValue(50);
   const smooth = useSpring(
     target,
@@ -133,7 +133,7 @@ export default function Slider({ parallax }: { parallax: MotionValue<number> }) 
         }}
         className="relative aspect-[4/5] w-full touch-pan-y overflow-hidden rounded-2xl border border-white/10 bg-[#0B0B0F] sm:aspect-[4/3] lg:aspect-[5/6]"
       >
-        {/* BEFORE — 일반 중고거래 (무채·저조도, 정보 결핍) */}
+        {/* BEFORE — typical secondhand listing (desaturated, dim, lacking info) */}
         <div className="absolute inset-0">
           <Image
             src={BEFORE_IMG.src}
@@ -153,7 +153,7 @@ export default function Slider({ parallax }: { parallax: MotionValue<number> }) 
               "absolute left-4 top-4 rounded-full border border-white/15 bg-[#0B0B0F]/80 px-3 py-1 text-white/70 backdrop-blur",
             )}
           >
-            일반 중고거래
+            Typical listing
           </span>
           <ul className="absolute bottom-4 left-4 hidden flex-col gap-1.5 sm:flex">
             {BEFORE_GAPS.map((g) => (
@@ -171,7 +171,7 @@ export default function Slider({ parallax }: { parallax: MotionValue<number> }) 
           </ul>
         </div>
 
-        {/* AFTER — repick AI 매칭 (풀컬러 + 큐레이션 오버레이) */}
+        {/* AFTER — repick AI match (full color + curation overlay) */}
         <motion.div style={{ clipPath }} className="absolute inset-0">
           <Image
             src={AFTER_IMG.src}
@@ -191,28 +191,28 @@ export default function Slider({ parallax }: { parallax: MotionValue<number> }) 
             )}
           >
             <Sparkles className="h-3.5 w-3.5" aria-hidden />
-            repick AI 매칭
+            repick AI Match
           </span>
 
           <div className="absolute inset-x-4 bottom-4 flex flex-col gap-2.5">
             <div className="flex flex-wrap items-center gap-2">
               <span className="inline-flex items-center gap-1.5 rounded-full border border-white/20 bg-[#0B0B0F]/75 px-2.5 py-1 text-[0.75rem] font-semibold text-white backdrop-blur">
-                <span className={NUM}>AI 매칭 96%</span>
+                <span className={NUM}>AI match 96%</span>
               </span>
               <span className="inline-flex items-center gap-1.5 rounded-full border border-white/20 bg-[#0B0B0F]/75 px-2.5 py-1 text-[0.75rem] font-semibold text-white backdrop-blur">
-                S급 · 새 상품급
+                Grade S · Like new
               </span>
               <span className="inline-flex items-center gap-1.5 rounded-full border border-[#6E56CF]/40 bg-[#6E56CF]/15 px-2.5 py-1 text-[0.75rem] font-semibold text-white backdrop-blur">
                 <BadgeCheck className="h-3.5 w-3.5 text-[#6E56CF]" aria-hidden />
-                검증 셀러
+                Verified seller
               </span>
             </div>
             <div className="flex items-baseline gap-2 rounded-xl border border-white/10 bg-[#0B0B0F]/75 px-3 py-2 backdrop-blur">
               <span className={cx("text-lg font-extrabold text-white", NUM)}>
-                78,000원
+                ₩78,000
               </span>
               <span className={cx("text-[0.8125rem] font-normal text-white/40 line-through", NUM)}>
-                148,000원
+                ₩148,000
               </span>
               <span className={cx("ml-auto rounded-md bg-[#6E56CF] px-2 py-0.5 text-[0.8125rem] font-semibold text-white", NUM)}>
                 -47%
@@ -233,12 +233,12 @@ export default function Slider({ parallax }: { parallax: MotionValue<number> }) 
           <button
             type="button"
             role="slider"
-            aria-label="비포/애프터 비교 슬라이더"
+            aria-label="Before/after comparison slider"
             aria-orientation="horizontal"
             aria-valuemin={0}
             aria-valuemax={100}
             aria-valuenow={rounded}
-            aria-valuetext={`AI 큐레이션 ${100 - rounded}% 노출`}
+            aria-valuetext={`${100 - rounded}% AI curation revealed`}
             onKeyDown={onKeyDown}
             className={cx(
               "pointer-events-auto absolute left-1/2 top-1/2 grid h-11 w-11 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full border border-white/25 bg-[#0B0B0F]/90 text-white shadow-[0_2px_12px_rgba(0,0,0,0.45)] backdrop-blur transition-colors duration-150 hover:border-[#6E56CF] active:cursor-grabbing",
@@ -249,7 +249,7 @@ export default function Slider({ parallax }: { parallax: MotionValue<number> }) 
           </button>
         </motion.div>
 
-        {/* 드래그 힌트 — 상호작용 전에만 */}
+        {/* drag hint — shown only before interaction */}
         <div
           aria-hidden
           className={cx(
@@ -257,7 +257,7 @@ export default function Slider({ parallax }: { parallax: MotionValue<number> }) 
             touched ? "opacity-0" : "opacity-100",
           )}
         >
-          좌우로 밀어서 비교
+          Drag to compare
         </div>
       </div>
     </motion.figure>

@@ -45,10 +45,10 @@ export function DashboardShell() {
               <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
                 <div className="min-w-0">
                   <h1 className="text-xl font-semibold tracking-tight text-zinc-900">
-                    프로젝트 대시보드
+                    Project Dashboard
                   </h1>
                   <p className="mt-0.5 text-sm text-zinc-500">
-                    Nova Studio 워크스페이스의 프로젝트·작업·팀 현황
+                    Projects, tasks, and team status for the Nova Studio workspace
                   </p>
                 </div>
               </div>

@@ -4,8 +4,8 @@ import { useMemo, useState } from "react";
 import type { SortDirection } from "./types";
 
 /**
- * 제네릭 테이블 정렬 훅. 컬럼 키 → 비교값 추출 함수 맵을 받아
- * 클릭 시 asc/desc를 토글하고 정렬된 배열을 반환한다.
+ * Generic table sort hook. Takes a map of column key → comparison-value
+ * accessor functions, toggles asc/desc on click, and returns the sorted array.
  */
 export function useSortable<T, K extends string>(
   rows: T[],
@@ -34,7 +34,7 @@ export function useSortable<T, K extends string>(
       if (typeof av === "number" && typeof bv === "number") {
         cmp = av - bv;
       } else {
-        cmp = String(av).localeCompare(String(bv), "ko-KR");
+        cmp = String(av).localeCompare(String(bv), "en-US");
       }
       return direction === "asc" ? cmp : -cmp;
     });

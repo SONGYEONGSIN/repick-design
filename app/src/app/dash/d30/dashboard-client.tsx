@@ -30,7 +30,7 @@ import { WeekHeatmap } from "./week-heatmap";
 import { CommandPalette } from "./command-palette";
 
 /* ---------------------------------------------------------------- */
-/* 공용 카드                                                          */
+/* Shared card                                                       */
 /* ---------------------------------------------------------------- */
 
 function Card({
@@ -66,7 +66,7 @@ function Card({
 }
 
 /* ---------------------------------------------------------------- */
-/* 팀 가용성                                                          */
+/* Team availability                                                  */
 /* ---------------------------------------------------------------- */
 
 const MEMBER_DOT: Record<string, string> = {
@@ -101,7 +101,7 @@ function TeamAvailability() {
                 <div
                   className="h-1.5 flex-1 overflow-hidden rounded-full bg-zinc-100"
                   role="img"
-                  aria-label={`오늘 예약 ${m.bookedToday}건 / 최대 ${m.capacityToday}건`}
+                  aria-label={`${m.bookedToday} of ${m.capacityToday} booked today`}
                 >
                   <div
                     className={cn("h-full rounded-full", ratio >= 1 ? "bg-amber-500" : "bg-indigo-500")}
@@ -121,7 +121,7 @@ function TeamAvailability() {
 }
 
 /* ---------------------------------------------------------------- */
-/* 다가오는 미팅 테이블 (정렬 + 이벤트 타입 필터 연동)                     */
+/* Upcoming meetings table (sortable + wired to event type filter)   */
 /* ---------------------------------------------------------------- */
 
 type SortKey = "time" | "guest" | "event" | "status";
@@ -162,7 +162,7 @@ function UpcomingMeetings({ selectedType }: { selectedType: EventTypeId | "all" 
         ? UPCOMING_MEETINGS
         : UPCOMING_MEETINGS.filter((m) => m.eventTypeId === selectedType);
     return [...filtered].sort((a, b) => {
-      const cmp = sortValue(a, sortKey).localeCompare(sortValue(b, sortKey), "ko");
+      const cmp = sortValue(a, sortKey).localeCompare(sortValue(b, sortKey), "en");
       return sortDir === "asc" ? cmp : -cmp;
     });
   }, [selectedType, sortKey, sortDir]);
@@ -177,16 +177,16 @@ function UpcomingMeetings({ selectedType }: { selectedType: EventTypeId | "all" 
   }
 
   const headers: { key: SortKey; label: string; className?: string }[] = [
-    { key: "time", label: "일시" },
-    { key: "guest", label: "게스트" },
-    { key: "event", label: "이벤트 타입" },
-    { key: "status", label: "상태" },
+    { key: "time", label: "Date & time" },
+    { key: "guest", label: "Guest" },
+    { key: "event", label: "Event type" },
+    { key: "status", label: "Status" },
   ];
 
   return (
     <div className="min-w-0 overflow-x-auto">
       <table className="w-full min-w-[640px] border-collapse text-left text-sm">
-        <caption className="sr-only">다가오는 미팅 목록 — 열 머리글 버튼으로 정렬 가능</caption>
+        <caption className="sr-only">List of upcoming meetings — click a column header to sort</caption>
         <thead>
           <tr className="border-b border-zinc-200">
             {headers.map((h) => {
@@ -211,7 +211,7 @@ function UpcomingMeetings({ selectedType }: { selectedType: EventTypeId | "all" 
               );
             })}
             <th scope="col" className="px-3 py-2.5 font-medium text-zinc-500">
-              담당·방식
+              Host · Format
             </th>
           </tr>
         </thead>
@@ -224,7 +224,7 @@ function UpcomingMeetings({ selectedType }: { selectedType: EventTypeId | "all" 
               <tr key={m.id} className="transition-colors hover:bg-zinc-50">
                 <td className="whitespace-nowrap px-3 py-3 text-zinc-900 tabular-nums">
                   {formatDateLong(m.dateISO)} <span className="font-medium">{m.time}</span>
-                  <span className="ml-1 text-xs text-zinc-400">· {m.durationMin}분</span>
+                  <span className="ml-1 text-xs text-zinc-400">· {m.durationMin} min</span>
                 </td>
                 <td className="px-3 py-3">
                   <p className="font-medium text-zinc-900">{m.guestName}</p>
@@ -253,7 +253,7 @@ function UpcomingMeetings({ selectedType }: { selectedType: EventTypeId | "all" 
           {rows.length === 0 ? (
             <tr>
               <td colSpan={5} className="px-3 py-10 text-center text-sm text-zinc-500">
-                선택한 이벤트 타입의 예정된 미팅이 없습니다.
+                No upcoming meetings for the selected event type.
               </td>
             </tr>
           ) : null}
@@ -264,7 +264,7 @@ function UpcomingMeetings({ selectedType }: { selectedType: EventTypeId | "all" 
 }
 
 /* ---------------------------------------------------------------- */
-/* 메인 대시보드                                                       */
+/* Main dashboard                                                     */
 /* ---------------------------------------------------------------- */
 
 export function DashboardClient() {
@@ -273,7 +273,7 @@ export function DashboardClient() {
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
   const [commandOpen, setCommandOpen] = useState(false);
 
-  // ⌘K / Ctrl+K 커맨드 팔레트
+  // ⌘K / Ctrl+K command palette
   useEffect(() => {
     function onKeyDown(e: KeyboardEvent) {
       if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
@@ -287,7 +287,7 @@ export function DashboardClient() {
 
   const trend = useMemo(() => trendForPeriod(period), [period]);
   const selectedLabel =
-    selectedType === "all" ? "전체 이벤트" : eventTypeById(selectedType).name;
+    selectedType === "all" ? "All events" : eventTypeById(selectedType).name;
 
   return (
     <div className="min-h-screen bg-zinc-50 text-zinc-900">
@@ -301,12 +301,12 @@ export function DashboardClient() {
           />
 
           <main id="main-content" className="mx-auto w-full max-w-[1760px] px-4 py-6 sm:px-6 sm:py-8 lg:px-8">
-            {/* 페이지 헤더 */}
+            {/* Page header */}
             <div className="flex flex-wrap items-end justify-between gap-4">
               <div>
-                <p className="text-sm text-zinc-500">2026년 1월 12일 월요일</p>
+                <p className="text-sm text-zinc-500">Monday, January 12, 2026</p>
                 <h1 className="mt-1 text-2xl font-semibold tracking-tight text-zinc-900">
-                  예약 현황
+                  Bookings
                 </h1>
               </div>
               <PeriodToggle value={period} onChange={setPeriod} />
@@ -317,51 +317,51 @@ export function DashboardClient() {
               <KpiRow period={period} />
             </div>
 
-            {/* 추이 + 이벤트 타입 */}
+            {/* Trend + event type */}
             <div className="mt-6 grid min-w-0 grid-cols-1 gap-6 lg:grid-cols-12">
               <Card
-                title="예약 추이"
-                description="일별 예약 건수와 전환율"
+                title="Booking trend"
+                description="Daily bookings and conversion rate"
                 className="lg:col-span-8"
               >
                 <BookingTrendChart data={trend} />
               </Card>
               <Card
-                title="이벤트 타입"
-                description="타입별 예약 비중 — 선택하면 히트맵·미팅 목록이 필터링됩니다"
+                title="Event types"
+                description="Share of bookings by type — select one to filter the heatmap and meeting list"
                 className="lg:col-span-4"
               >
                 <EventTypePanel period={period} selected={selectedType} onSelect={setSelectedType} />
               </Card>
             </div>
 
-            {/* 히트맵 + 팀 가용성 */}
+            {/* Heatmap + team availability */}
             <div className="mt-6 grid min-w-0 grid-cols-1 gap-6 lg:grid-cols-12">
               <Card
-                title="주간 예약 밀도"
-                description={`요일 × 시간대 히트맵 · ${selectedLabel}`}
+                title="Weekly booking density"
+                description={`Day × hour heatmap · ${selectedLabel}`}
                 className="lg:col-span-8"
               >
                 <WeekHeatmap eventTypeId={selectedType} eventTypeLabel={selectedLabel} />
               </Card>
               <Card
-                title="팀 가용성"
-                description="오늘 예약 부하"
+                title="Team availability"
+                description="Today's booking load"
                 className="lg:col-span-4"
               >
                 <TeamAvailability />
               </Card>
             </div>
 
-            {/* 다가오는 미팅 */}
+            {/* Upcoming meetings */}
             <div className="mt-6">
               <Card
-                title="다가오는 미팅"
-                description={selectedType === "all" ? "전체 이벤트 타입" : `${selectedLabel}만 표시 중`}
+                title="Upcoming meetings"
+                description={selectedType === "all" ? "All event types" : `Showing ${selectedLabel} only`}
                 action={
                   <span className="inline-flex items-center gap-1.5 text-xs text-zinc-500">
                     <CalendarClock size={14} aria-hidden="true" />
-                    이번 주
+                    This week
                   </span>
                 }
               >
@@ -370,7 +370,7 @@ export function DashboardClient() {
             </div>
 
             <footer className="mt-10 border-t border-zinc-200 pt-5 pb-2 text-xs text-zinc-400">
-              데이터는 데모용 정적 스냅샷입니다 · 기준 2026-01-12
+              Data is a static demo snapshot · as of 2026-01-12
             </footer>
           </main>
         </div>

@@ -22,7 +22,7 @@ import {
 } from "lucide-react";
 
 /* ---------------------------------------------------------------------- */
-/* 결정론 수학 유틸 — Math.random / Date.now / new Date 미사용                 */
+/* Deterministic math utilities — no Math.random / Date.now / new Date    */
 /* ---------------------------------------------------------------------- */
 
 export function round2(n: number): number {
@@ -32,7 +32,7 @@ export function clamp(n: number, min: number, max: number): number {
   return Math.min(max, Math.max(min, n));
 }
 
-/** 정수 가중치 분배(최대 나머지법) — 반올림 후에도 합계가 total과 정확히 일치(부분합=총합 보장). */
+/** Integer weight distribution (largest-remainder method) — the sum matches total exactly even after rounding (parts always sum to the whole). */
 export function distributeInts(total: number, weightsPct: number[]): number[] {
   const raw = weightsPct.map((w) => (total * w) / 100);
   const floors = raw.map((v) => Math.floor(v));
@@ -47,7 +47,7 @@ export function distributeInts(total: number, weightsPct: number[]): number[] {
   return out;
 }
 
-/** 인덱스 기반 결정론 wave 생성 — 삼각함수 없이 모듈로 산술로 재현 가능한 12포인트 시리즈. */
+/** Index-based deterministic wave generator — a reproducible 12-point series using modulo arithmetic, no trigonometry. */
 function genSeries(seed: number, base: number, amp: number, n = 12): number[] {
   const out: number[] = [];
   for (let i = 0; i < n; i++) {
@@ -59,7 +59,7 @@ function genSeries(seed: number, base: number, amp: number, n = 12): number[] {
 }
 
 /* ---------------------------------------------------------------------- */
-/* 브랜드 / 워크스페이스 / 사용자                                             */
+/* Brand / workspace / user                                               */
 /* ---------------------------------------------------------------------- */
 
 export const BRAND = { name: "Chute", tagline: "Checkout Funnel Intelligence" };
@@ -72,7 +72,7 @@ export const WORKSPACES: Workspace[] = [
   { id: "sandbox", name: "QA Sandbox", plan: "Internal test" },
 ];
 
-/** 가상 인물(세션 컨텍스트 아님) — Chute를 쓰는 그로스팀 리드. */
+/** Fictional persona (not the session context) — a Growth lead using Chute. */
 export const CURRENT_USER = {
   name: "Priya Nakamura",
   role: "Head of Growth",
@@ -85,7 +85,7 @@ export function unsplashAvatar(id: string, size = 96): string {
 }
 
 /* ---------------------------------------------------------------------- */
-/* 내비게이션                                                                */
+/* Navigation                                                              */
 /* ---------------------------------------------------------------------- */
 
 export type NavItem = { id: string; label: string; Icon: LucideIcon; active?: boolean; disabled?: boolean; badge?: string };
@@ -120,7 +120,7 @@ export const NAV_SECTIONS: NavSection[] = [
 ];
 
 /* ---------------------------------------------------------------------- */
-/* 퍼널 단계 — 7단계, 기간별 결정론 카운트(핸드작성, 단조 감소)                    */
+/* Funnel stages — 7 stages, deterministic counts per period (hand-authored, monotonically decreasing) */
 /* ---------------------------------------------------------------------- */
 
 export type StageId = "visit" | "product" | "cart" | "checkout" | "shipping" | "payment" | "purchase";
@@ -144,7 +144,7 @@ export const PERIODS: { id: PeriodId; label: string }[] = [
   { id: "90d", label: "90D" },
 ];
 
-/** 단계별 카운트(인덱스 = STAGES 순서). 부분합 개념이 아니라 각 단계 = 그 단계까지 도달한 세션 수. */
+/** Count per stage (index = STAGES order). Not a partial-sum concept — each stage is the number of sessions that reached that stage. */
 export const STAGE_COUNTS: Record<PeriodId, number[]> = {
   "7d": [21400, 12700, 4650, 2720, 2300, 2010, 1690],
   "30d": [96800, 56700, 20500, 12150, 10320, 9040, 7610],
@@ -163,12 +163,12 @@ export function stageRetentionPct(period: PeriodId, idx: number): number {
 }
 
 /* ---------------------------------------------------------------------- */
-/* 드롭오프 사유 — 6개 전환 구간, 사유 비중은 기간 무관(구조적 패턴), 카운트만 기간별 산출 */
+/* Drop-off reasons — 6 transition segments; reason shares are period-independent (structural pattern), only counts are derived per period */
 /* ---------------------------------------------------------------------- */
 
 export type DropReason = { label: string; pct: number };
 
-/** 각 배열: [사유1, 사유2, 사유3] pct 합 + Other = 100. */
+/** Each array: [reason1, reason2, reason3] pct sum + Other = 100. */
 export const DROP_REASONS: DropReason[][] = [
   [
     { label: "Bounced from landing page", pct: 46 },
@@ -232,7 +232,7 @@ export function transitionsForPeriod(period: PeriodId): Transition[] {
 }
 
 /* ---------------------------------------------------------------------- */
-/* 트래픽 세그먼트 — 5개, 가중치 합 100(부분합=총합), 기기별 배분·전환율 변조     */
+/* Traffic segments — 5 segments, weights sum to 100 (parts sum to whole), device-level split and conversion-rate modulation */
 /* ---------------------------------------------------------------------- */
 
 export type DeviceId = "all" | "desktop" | "mobile";
@@ -251,7 +251,7 @@ export type Segment = {
   addToCartRate: number;
   checkoutStartRate: number;
   purchaseRate: number;
-  purchaseDeltaPp: number; // 전기 대비 변화(percentage point)
+  purchaseDeltaPp: number; // change vs. prior period (percentage point)
 };
 
 export const SEGMENTS: Segment[] = [
@@ -290,7 +290,7 @@ export function segmentRows(period: PeriodId, device: DeviceId): SegmentRow[] {
 }
 
 /* ---------------------------------------------------------------------- */
-/* 12주 추세 시리즈 — 단계0은 주간 세션(천 단위), 단계1~6은 직전 단계 대비 전환율    */
+/* 12-week trend series — stage 0 is weekly sessions (in thousands), stages 1-6 are conversion rate vs. the prior stage */
 /* ---------------------------------------------------------------------- */
 
 const TREND_SEED: number[] = [11, 23, 37, 41, 53, 61, 73];
@@ -302,7 +302,7 @@ export function trendSeries(stageIdx: number, period: PeriodId): { label: string
   return vals.map((v, i) => ({ label: `W${i + 1}`, value: v }));
 }
 
-/** 결정론 평균 구매 소요시간(핸드작성, 기간별) — 표시 전용 문자열. */
+/** Deterministic average time-to-purchase (hand-authored, per period) — display-only string. */
 export const AVG_TIME_TO_PURCHASE: Record<PeriodId, string> = {
   "7d": "16m 40s",
   "30d": "18m 10s",
@@ -310,7 +310,7 @@ export const AVG_TIME_TO_PURCHASE: Record<PeriodId, string> = {
 };
 
 /* ---------------------------------------------------------------------- */
-/* Intl 포맷터                                                              */
+/* Intl formatters                                                         */
 /* ---------------------------------------------------------------------- */
 
 const NUM0 = new Intl.NumberFormat("en-US");
@@ -327,5 +327,5 @@ export function formatPp(v: number): string {
   return `${sign}${PCT1.format(v)}pp`;
 }
 
-/* 개발 시점 자기 점검: 세그먼트 가중치 합 = 100(부분합=총합). */
+/* Dev-time self-check: segment weights sum to 100 (parts sum to whole). */
 export const _WEIGHTS_OK = SEGMENT_WEIGHTS.reduce((a, b) => a + b, 0) === 100;

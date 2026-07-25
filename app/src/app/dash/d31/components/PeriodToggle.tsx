@@ -1,9 +1,9 @@
 import type { Period } from "../lib/data";
 
 const OPTIONS: { value: Period; label: string }[] = [
-  { value: "24h", label: "24시간" },
-  { value: "7d", label: "7일" },
-  { value: "30d", label: "30일" },
+  { value: "24h", label: "24h" },
+  { value: "7d", label: "7d" },
+  { value: "30d", label: "30d" },
 ];
 
 interface PeriodToggleProps {
@@ -15,7 +15,7 @@ export default function PeriodToggle({ value, onChange }: PeriodToggleProps) {
   return (
     <div
       role="radiogroup"
-      aria-label="조회 기간"
+      aria-label="Time range"
       className="inline-flex items-center gap-0.5 rounded-lg border border-white/10 bg-white/[0.03] p-0.5"
     >
       {OPTIONS.map((opt) => {

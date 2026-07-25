@@ -35,162 +35,162 @@ const VIEWPORT = { once: true, margin: "-100px" } as const;
 const EASE = [0.16, 1, 0.3, 1] as const;
 
 const NAV_LINKS = [
-  { href: "#how-it-works", label: "작동 방식" },
-  { href: "#features", label: "기능" },
-  { href: "#showcase", label: "쇼케이스" },
-  { href: "#testimonials", label: "후기" },
+  { href: "#how-it-works", label: "How it works" },
+  { href: "#features", label: "Features" },
+  { href: "#showcase", label: "Showcase" },
+  { href: "#testimonials", label: "Reviews" },
   { href: "#faq", label: "FAQ" },
 ];
 
-const TRUST_LOGOS = ["요즘IT", "아웃스탠딩", "커리어리", "월간 디자인", "리멤버"];
+const TRUST_LOGOS = ["IT Today", "Outstanding", "Careerly", "Monthly Design", "Remember"];
 
 const STEPS = [
   {
     icon: Sparkles,
-    title: "취향을 학습해요",
-    desc: "저장한 상품, 찜한 스타일, 구매 이력을 바탕으로 AI가 당신만의 취향 프로필을 만듭니다.",
+    title: "We learn your taste",
+    desc: "Based on saved items, liked styles, and purchase history, AI builds a taste profile that's uniquely yours.",
   },
   {
     icon: SlidersHorizontal,
-    title: "수만 개 중 골라내요",
-    desc: "사이즈, 상태, 예산, 브랜드까지 고려해 지금 살 만한 상품만 정확히 추려냅니다.",
+    title: "We narrow down tens of thousands",
+    desc: "Weighing size, condition, budget, and brand, we pinpoint only the items worth buying right now.",
   },
   {
     icon: ShieldCheck,
-    title: "안심하고 받아보세요",
-    desc: "전문 검수와 실측 사진으로 확인된 상품만 매칭해서 보여드려요.",
+    title: "Receive it with confidence",
+    desc: "We only match items verified through professional inspection and true-to-size photos.",
   },
 ];
 
 const COMPARISON_ROWS = [
   {
-    label: "검색 시간",
-    direct: "여러 앱을 오가며 수십 개씩 직접 뒤져야 해요",
-    repick: "AI가 취향에 맞는 상품만 먼저 추려드려요",
+    label: "Search time",
+    direct: "You dig through dozens of listings across multiple apps yourself",
+    repick: "AI narrows it down to items that match your taste first",
   },
   {
-    label: "상태 확인",
-    direct: "사진만 보고 판단, 실물은 받아봐야 알아요",
-    repick: "전문 검수팀의 실측 사진과 등급을 먼저 확인해요",
+    label: "Condition check",
+    direct: "You judge from photos alone — the real condition is a surprise until it arrives",
+    repick: "Check the inspection team's true-to-size photos and grade upfront",
   },
   {
-    label: "가격 신뢰",
-    direct: "판매자마다 부르는 값이 제각각이에요",
-    repick: "시세 데이터를 기반으로 투명하게 책정돼요",
+    label: "Price trust",
+    direct: "Every seller names a different price",
+    repick: "Prices are set transparently based on market data",
   },
   {
-    label: "사이즈 매칭",
-    direct: "실측 없이 사이즈만 보고 추측해요",
-    repick: "내 사이즈 데이터와 자동으로 비교해드려요",
+    label: "Size matching",
+    direct: "You guess from the listed size with no true measurements",
+    repick: "We automatically compare it against your size data",
   },
   {
-    label: "구매 후 만족",
-    direct: "안 맞으면 되팔거나 서랍에 넣어둬요",
-    repick: "검수된 상품이라 후회할 확률이 낮아요",
+    label: "Post-purchase satisfaction",
+    direct: "If it doesn't fit, you resell it or shove it in a drawer",
+    repick: "Since every item is inspected, there's little chance you'll regret it",
   },
 ];
 
 const FAQS = [
   {
-    question: "RE:픽은 다른 중고 플랫폼과 뭐가 다른가요?",
+    question: "How is RE:Pick different from other secondhand platforms?",
     answer:
-      "직접 검색하지 않아도 됩니다. AI가 취향, 사이즈, 예산을 학습해 지금 살 만한 상품만 추려서 보여드려요. 스크롤은 줄고, 살 확률은 올라갑니다.",
+      "You don't have to search yourself. AI learns your taste, size, and budget, then shows you only the items worth buying right now. Less scrolling, more buying.",
   },
   {
-    question: "가격은 어떻게 책정되나요?",
+    question: "How are prices set?",
     answer:
-      "시세 데이터와 실측 상태 등급을 기반으로 산정합니다. 원가와 할인율을 매물마다 투명하게 함께 표기해요.",
+      "Prices are calculated from market data and verified condition grades. We show the original price and discount rate transparently on every listing.",
   },
   {
-    question: "상품 상태는 어떻게 확인할 수 있나요?",
+    question: "How can I check an item's condition?",
     answer:
-      "전문 검수팀이 실측 사이즈와 하자 여부를 직접 확인한 뒤, 등급과 실측 사진을 함께 제공합니다. 실물을 보지 않아도 상태를 가늠할 수 있어요.",
+      "Our professional inspection team checks true measurements and any flaws in person, then provides a grade along with true-to-size photos. You can gauge the condition without seeing it in person.",
   },
   {
-    question: "취향 학습은 어떻게 이뤄지나요?",
+    question: "How does taste learning work?",
     answer:
-      "찜, 스킵, 구매 이력을 실시간으로 반영해 취향 프로필을 계속 업데이트합니다. 쓸수록 추천이 정확해져요.",
+      "Your likes, skips, and purchase history update your taste profile in real time. The more you use it, the more accurate the recommendations get.",
   },
   {
-    question: "반품이나 환불도 가능한가요?",
+    question: "Can I return or get a refund?",
     answer:
-      "상품 설명과 실물 상태가 다르면 반품 및 환불을 지원합니다. 자세한 절차는 마이페이지 고객센터에서 바로 안내받을 수 있어요.",
+      "If the item differs from its description, we support returns and refunds. You can find the detailed process anytime in the Support Center under My Page.",
   },
 ];
 
 const PRODUCTS = [
   {
-    title: "빈티지 울 코트",
+    title: "Vintage Wool Coat",
     brand: "Aureum Vintage",
-    price: "89,000원",
-    original: "148,000원",
+    price: "₩89,000",
+    original: "₩148,000",
     discount: 40,
     match: 96,
     image:
       "https://images.unsplash.com/photo-1445205170230-053b83016050?auto=format&fit=crop&w=800&q=80",
-    alt: "옷걸이에 가지런히 걸린 코트들",
+    alt: "Coats neatly hung on a clothing rack",
   },
   {
-    title: "레더 크로스백",
+    title: "Leather Crossbody Bag",
     brand: "Atelier Noir",
-    price: "62,000원",
-    original: "120,000원",
+    price: "₩62,000",
+    original: "₩120,000",
     discount: 48,
     match: 91,
     image:
       "https://images.unsplash.com/photo-1560243563-062bfc001d68?auto=format&fit=crop&w=800&q=80",
-    alt: "바닥에 놓인 가죽 소재 크로스백과 액세서리",
+    alt: "A leather crossbody bag and accessories laid on the floor",
   },
   {
-    title: "클래식 스니커즈",
+    title: "Classic Sneakers",
     brand: "Runway Archive",
-    price: "54,000원",
-    original: "98,000원",
+    price: "₩54,000",
+    original: "₩98,000",
     discount: 45,
     match: 88,
     image:
       "https://images.unsplash.com/photo-1543076447-215ad9ba6923?auto=format&fit=crop&w=800&q=80",
-    alt: "화이트 톤의 클래식 스니커즈 한 켤레",
+    alt: "A pair of white classic sneakers",
   },
   {
-    title: "실크 블라우스",
+    title: "Silk Blouse",
     brand: "Maison Blanche",
-    price: "47,000원",
-    original: "89,000원",
+    price: "₩47,000",
+    original: "₩89,000",
     discount: 47,
     match: 93,
     image:
       "https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?auto=format&fit=crop&w=800&q=80",
-    alt: "실크 블라우스를 입은 인물의 패션 컷",
+    alt: "A fashion shot of a person wearing a silk blouse",
   },
 ];
 
 const STATS = [
-  { label: "누적 재판매", value: "128,000+" },
-  { label: "평균 매칭 정확도", value: "94%" },
-  { label: "사용자 만족도", value: "4.9 / 5" },
+  { label: "Total resales", value: "128,000+" },
+  { label: "Average match accuracy", value: "94%" },
+  { label: "User satisfaction", value: "4.9 / 5" },
 ];
 
 const TESTIMONIALS = [
   {
     quote:
-      "찜만 누적 300개였는데, RE:픽을 쓰고 나서는 진짜 살 것만 보여요.",
-    name: "김도윤",
-    role: "프리랜서 디자이너",
+      "I had 300 saved items piling up, but with RE:Pick I only see things I'd actually buy.",
+    name: "Kim Do-yoon",
+    role: "Freelance designer",
     avatar:
       "https://images.unsplash.com/photo-1531123897727-8f129e1688ce?auto=format&fit=crop&w=200&q=80",
   },
   {
-    quote: "상태 등급 표기가 정확해서 반품 걱정 없이 구매해요.",
-    name: "이서현",
-    role: "마케터",
+    quote: "The condition grading is so accurate I buy without worrying about returns.",
+    name: "Lee Seo-hyun",
+    role: "Marketer",
     avatar:
       "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=200&q=80",
   },
   {
-    quote: "빈티지 찾는 시간이 반의 반으로 줄었어요.",
-    name: "박지민",
-    role: "사진작가",
+    quote: "My time spent hunting for vintage pieces dropped to a quarter.",
+    name: "Park Ji-min",
+    role: "Photographer",
     avatar:
       "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=200&q=80",
   },
@@ -198,30 +198,30 @@ const TESTIMONIALS = [
 
 const FOOTER_COLUMNS = [
   {
-    title: "제품",
+    title: "Product",
     links: [
-      { label: "기능", href: "#features" },
-      { label: "작동 방식", href: "#how-it-works" },
-      { label: "쇼케이스", href: "#showcase" },
-      { label: "앱 다운로드", href: "#" },
+      { label: "Features", href: "#features" },
+      { label: "How it works", href: "#how-it-works" },
+      { label: "Showcase", href: "#showcase" },
+      { label: "Download the app", href: "#" },
     ],
   },
   {
-    title: "회사",
+    title: "Company",
     links: [
-      { label: "소개", href: "#" },
-      { label: "블로그", href: "#" },
-      { label: "채용", href: "#" },
-      { label: "뉴스룸", href: "#" },
+      { label: "About", href: "#" },
+      { label: "Blog", href: "#" },
+      { label: "Careers", href: "#" },
+      { label: "Newsroom", href: "#" },
     ],
   },
   {
-    title: "지원",
+    title: "Support",
     links: [
-      { label: "고객센터", href: "#" },
+      { label: "Customer support", href: "#" },
       { label: "FAQ", href: "#faq" },
-      { label: "이용약관", href: "#" },
-      { label: "개인정보처리방침", href: "#" },
+      { label: "Terms of service", href: "#" },
+      { label: "Privacy policy", href: "#" },
     ],
   },
 ];
@@ -347,22 +347,22 @@ export default function LandingClient() {
         href="#main-content"
         className={`sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded-md focus:bg-stone-900 focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-stone-50 ${focusRingOnDark}`}
       >
-        본문으로 건너뛰기
+        Skip to main content
       </a>
 
       <header className="sticky top-0 z-40 border-b border-stone-200 bg-stone-50/85 backdrop-blur">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4 lg:px-8">
           <a
             href="#main-content"
-            aria-label="RE:픽 홈"
+            aria-label="RE:Pick home"
             className={`inline-flex items-center gap-1.5 rounded-md text-2xl font-bold tracking-tight text-stone-900 ${focusRing}`}
           >
             <span className="rounded-md bg-orange-700 px-2 py-0.5 text-lg font-semibold text-white font-[family-name:var(--font-geist-mono)]">
               RE:
             </span>
-            픽
+            Pick
           </a>
-          <nav aria-label="주요 메뉴" className="hidden items-center gap-8 md:flex">
+          <nav aria-label="Main navigation" className="hidden items-center gap-8 md:flex">
             {NAV_LINKS.map((link) => (
               <a
                 key={link.href}
@@ -378,14 +378,14 @@ export default function LandingClient() {
               href="/dashboard"
               className={`hidden min-h-11 items-center justify-center rounded-full bg-stone-900 px-5 py-2.5 text-sm font-semibold text-stone-50 shadow-sm transition motion-safe:hover:-translate-y-0.5 hover:bg-stone-800 active:translate-y-0 active:bg-stone-950 md:inline-flex ${focusRing}`}
             >
-              무료로 시작
+              Start free
             </Link>
             <button
               ref={menuButtonRef}
               type="button"
               aria-expanded={mobileNavOpen}
               aria-controls="mobile-nav-drawer"
-              aria-label={mobileNavOpen ? "메뉴 닫기" : "메뉴 열기"}
+              aria-label={mobileNavOpen ? "Close menu" : "Open menu"}
               onClick={() => setMobileNavOpen((prev) => !prev)}
               className={`inline-flex h-11 w-11 items-center justify-center rounded-full text-stone-700 transition-colors hover:bg-stone-100 md:hidden ${focusRing}`}
             >
@@ -401,7 +401,7 @@ export default function LandingClient() {
             <motion.button
               key="mobile-nav-overlay"
               type="button"
-              aria-label="메뉴 닫기"
+              aria-label="Close menu"
               onClick={() => setMobileNavOpen(false)}
               className="fixed inset-0 z-40 bg-stone-900/50 md:hidden"
               initial={{ opacity: prefersReducedMotion ? 1 : 0 }}
@@ -414,7 +414,7 @@ export default function LandingClient() {
               id="mobile-nav-drawer"
               role="dialog"
               aria-modal="true"
-              aria-label="주요 메뉴"
+              aria-label="Main navigation"
               className="fixed inset-y-0 right-0 z-50 flex w-full max-w-xs flex-col gap-8 border-l border-stone-200 bg-stone-50 px-6 py-6 shadow-2xl md:hidden"
               initial={{ x: prefersReducedMotion ? 0 : "100%" }}
               animate={{ x: 0 }}
@@ -422,18 +422,18 @@ export default function LandingClient() {
               transition={{ duration: prefersReducedMotion ? 0 : 0.32, ease: EASE }}
             >
               <div className="flex items-center justify-between">
-                <span className="text-lg font-semibold text-stone-900">메뉴</span>
+                <span className="text-lg font-semibold text-stone-900">Menu</span>
                 <button
                   ref={closeButtonRef}
                   type="button"
                   onClick={() => setMobileNavOpen(false)}
-                  aria-label="메뉴 닫기"
+                  aria-label="Close menu"
                   className={`inline-flex h-11 w-11 items-center justify-center rounded-full text-stone-700 transition-colors hover:bg-stone-100 ${focusRing}`}
                 >
                   <X className="h-5 w-5" aria-hidden="true" />
                 </button>
               </div>
-              <nav aria-label="모바일 주요 메뉴" className="flex flex-col gap-1">
+              <nav aria-label="Mobile main navigation" className="flex flex-col gap-1">
                 {NAV_LINKS.map((link) => (
                   <a
                     key={link.href}
@@ -450,7 +450,7 @@ export default function LandingClient() {
                 onClick={() => setMobileNavOpen(false)}
                 className={`mt-auto inline-flex min-h-11 items-center justify-center rounded-full bg-stone-900 px-5 py-3 text-sm font-semibold text-stone-50 shadow-sm transition-colors hover:bg-stone-800 ${focusRing}`}
               >
-                무료로 시작
+                Start free
               </Link>
             </motion.div>
           </>
@@ -472,24 +472,24 @@ export default function LandingClient() {
                 className="inline-flex items-center gap-2 rounded-full border border-stone-200 bg-white px-4 py-1.5 text-sm font-medium text-stone-600 shadow-sm"
               >
                 <Sparkles className="h-4 w-4 text-orange-700" aria-hidden="true" />
-                AI 취향 매칭 리커머스
+                AI taste-matching recommerce
               </motion.p>
               <motion.h1
                 variants={heroItem}
                 id="hero-heading"
                 className="mt-6 text-balance text-[clamp(2.5rem,6vw,4.5rem)] font-sans leading-[1.05] tracking-[-0.01em] text-stone-900"
               >
-                당신의 취향을,
+                Your taste,
                 <br className="hidden sm:block" />
-                AI가 <em className="text-orange-700 not-italic font-semibold">다시</em> 골라드립니다
+                AI picks it <em className="text-orange-700 not-italic font-semibold">again</em>, just for you
               </motion.h1>
               <motion.p
                 variants={heroItem}
                 className="mx-auto mt-6 max-w-xl text-balance text-lg leading-relaxed tracking-[-0.01em] text-stone-600"
               >
-                수만 개 매물 속에서 스타일, 사이즈, 예산을 학습한 AI가 지금
-                당신에게 맞는 것만 선별합니다. 무한 스크롤은 끝, 확신 있는
-                선택만 남습니다.
+                AI that has learned your style, size, and budget curates only
+                what's right for you, right now, from tens of thousands of
+                listings. No more endless scrolling — just choices you can trust.
               </motion.p>
               <motion.div
                 variants={heroItem}
@@ -501,7 +501,7 @@ export default function LandingClient() {
                   whileTap={tapButton}
                   className={`group inline-flex min-h-11 items-center justify-center gap-2 rounded-full bg-stone-900 px-7 py-3 text-sm font-semibold text-stone-50 shadow-sm transition-colors hover:bg-stone-800 ${focusRing}`}
                 >
-                  무료로 시작하기
+                  Start for free
                   <ArrowRight
                     className="h-4 w-4 transition-transform motion-safe:group-hover:translate-x-1"
                     aria-hidden="true"
@@ -513,7 +513,7 @@ export default function LandingClient() {
                   whileTap={tapButton}
                   className={`inline-flex min-h-11 items-center justify-center rounded-full border border-stone-300 bg-white px-7 py-3 text-sm font-semibold text-stone-900 transition-colors hover:bg-stone-100 ${focusRing}`}
                 >
-                  쇼케이스 둘러보기
+                  Explore the showcase
                 </motion.a>
               </motion.div>
             </motion.div>
@@ -528,7 +528,7 @@ export default function LandingClient() {
               >
                 <Image
                   src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1400&q=80"
-                  alt="니트 코트를 입은 모델이 카메라를 정면으로 바라보는 패션 인물 사진"
+                  alt="Fashion photo of a model in a knit coat looking directly at the camera"
                   fill
                   sizes="(min-width: 1024px) 1024px, 100vw"
                   preload
@@ -546,8 +546,8 @@ export default function LandingClient() {
                   <Sparkles className="h-5 w-5" aria-hidden="true" />
                 </span>
                 <span className="text-sm leading-tight">
-                  <span className="block font-semibold tabular-nums text-stone-900">AI 매칭 96%</span>
-                  <span className="text-stone-500">당신의 취향과 일치해요</span>
+                  <span className="block font-semibold tabular-nums text-stone-900">96% AI match</span>
+                  <span className="text-stone-500">Matches your taste</span>
                 </span>
               </motion.div>
 
@@ -559,7 +559,7 @@ export default function LandingClient() {
               >
                 <Image
                   src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=600&q=80"
-                  alt="다양한 색상의 의류가 걸려 있는 옷걸이 랙"
+                  alt="A clothing rack with garments in various colors"
                   width={208}
                   height={256}
                   className="h-full w-full object-cover"
@@ -582,7 +582,7 @@ export default function LandingClient() {
               id="trust-heading"
               className="text-center text-xs font-semibold uppercase tracking-[0.14em] text-stone-600"
             >
-              이런 곳에서 RE:픽을 주목했습니다
+              As featured in
             </h2>
             <ul className="mt-6 flex flex-wrap items-center justify-center gap-x-10 gap-y-4">
               {TRUST_LOGOS.map((name) => (
@@ -606,15 +606,15 @@ export default function LandingClient() {
             whileInView="show"
             viewport={VIEWPORT}
           >
-            <p className="text-xs font-semibold uppercase tracking-[0.14em] text-orange-700">작동 방식</p>
+            <p className="text-xs font-semibold uppercase tracking-[0.14em] text-orange-700">How it works</p>
             <h2
               id="how-heading"
               className="mt-3 text-balance text-[clamp(2rem,4vw,3rem)] font-sans leading-[1.1] tracking-[-0.01em] text-stone-900"
             >
-              세 단계면 충분합니다
+              Just three steps
             </h2>
             <p className="mt-4 text-lg leading-relaxed tracking-[-0.01em] text-stone-600">
-              검색과 필터링은 AI에게 맡기세요. 당신은 마음에 드는 것만 받으면 됩니다.
+              Leave the searching and filtering to AI. You just receive what you'll love.
             </p>
           </motion.div>
 
@@ -649,7 +649,7 @@ export default function LandingClient() {
           </motion.ol>
         </section>
 
-        {/* Comparison: direct buying vs RE:픽 */}
+        {/* Comparison: direct buying vs RE:Pick */}
         <section id="comparison" aria-labelledby="comparison-heading" className="border-t border-stone-200 bg-stone-100/70">
           <div className="mx-auto max-w-7xl px-6 py-24 lg:px-8">
             <motion.div
@@ -659,15 +659,15 @@ export default function LandingClient() {
               whileInView="show"
               viewport={VIEWPORT}
             >
-              <p className="text-xs font-semibold uppercase tracking-[0.14em] text-orange-700">직접 사기 vs RE:픽</p>
+              <p className="text-xs font-semibold uppercase tracking-[0.14em] text-orange-700">Buying it yourself vs. RE:Pick</p>
               <h2
                 id="comparison-heading"
                 className="mt-3 text-balance text-[clamp(2rem,4vw,3rem)] font-sans leading-[1.1] tracking-[-0.01em] text-stone-900"
               >
-                같은 중고, 다른 경험
+                Same secondhand, a different experience
               </h2>
               <p className="mt-4 text-lg leading-relaxed tracking-[-0.01em] text-stone-600">
-                허탕 치던 검색을 끝내고, 검증된 선택으로 바꿔보세요.
+                End the wasted searching and switch to verified choices.
               </p>
             </motion.div>
 
@@ -679,17 +679,17 @@ export default function LandingClient() {
               viewport={VIEWPORT}
             >
               <table className="w-full min-w-[640px] border-collapse text-left">
-                <caption className="sr-only">중고 직접 구매와 RE:픽 이용 비교</caption>
+                <caption className="sr-only">Comparison of buying secondhand directly versus using RE:Pick</caption>
                 <thead>
                   <tr className="border-b border-stone-200">
                     <th scope="col" className="w-1/3 px-6 py-5 text-sm font-semibold text-stone-500">
-                      비교 항목
+                      Category
                     </th>
                     <th scope="col" className="px-6 py-5 text-sm font-semibold text-stone-500">
-                      직접 사기
+                      Buying it yourself
                     </th>
                     <th scope="col" className="bg-orange-50/60 px-6 py-5 text-sm font-semibold text-orange-800">
-                      RE:픽으로 사기
+                      Buying with RE:Pick
                     </th>
                   </tr>
                 </thead>
@@ -729,12 +729,12 @@ export default function LandingClient() {
               whileInView="show"
               viewport={VIEWPORT}
             >
-              <p className="text-xs font-semibold uppercase tracking-[0.14em] text-orange-700">기능</p>
+              <p className="text-xs font-semibold uppercase tracking-[0.14em] text-orange-700">Features</p>
               <h2
                 id="features-heading"
                 className="mt-3 text-balance text-[clamp(2rem,4vw,3rem)] font-sans leading-[1.1] tracking-[-0.01em] text-stone-900"
               >
-                레퍼런스처럼 정교하게, 한 사람을 위해
+                Reference-grade precision, made for one person
               </h2>
             </motion.div>
 
@@ -752,17 +752,18 @@ export default function LandingClient() {
                     <Sparkles className="h-5 w-5" aria-hidden="true" />
                   </span>
                   <h3 className="mt-6 text-2xl font-semibold leading-tight tracking-tight text-stone-900 sm:text-3xl">
-                    취향을 읽는 AI
+                    AI that reads your taste
                   </h3>
                   <p className="mt-4 text-lg leading-relaxed tracking-[-0.01em] text-stone-600">
-                    좋아요, 스킵, 구매 데이터를 실시간으로 학습해 취향 프로필을
-                    계속 정교하게 다듬습니다. 쓸수록 정확해져요.
+                    It learns from your likes, skips, and purchases in real
+                    time, continually refining your taste profile. The more
+                    you use it, the more accurate it gets.
                   </p>
                   <a
                     href="#how-it-works"
                     className={`group mt-6 inline-flex items-center gap-1.5 rounded-md text-sm font-semibold text-stone-900 underline-offset-4 hover:underline ${focusRing}`}
                   >
-                    취향 분석 살펴보기
+                    See how taste analysis works
                     <ArrowRight
                       className="h-4 w-4 transition-transform motion-safe:group-hover:translate-x-1"
                       aria-hidden="true"
@@ -772,7 +773,7 @@ export default function LandingClient() {
                 <div className="group relative aspect-[4/5] overflow-hidden rounded-3xl border border-stone-200 shadow-lg shadow-stone-900/5">
                   <Image
                     src="https://images.unsplash.com/photo-1523381210434-271e8be1f52b?auto=format&fit=crop&w=900&q=80"
-                    alt="옷걸이에 걸린 다양한 색상의 의류가 줄지어 있는 모습"
+                    alt="Rows of garments in various colors hanging on a rack"
                     fill
                     sizes="(min-width: 1024px) 45vw, 100vw"
                     className="object-cover transition-transform duration-700 ease-out motion-safe:group-hover:scale-105"
@@ -791,7 +792,7 @@ export default function LandingClient() {
                 <div className="group relative aspect-[4/5] overflow-hidden rounded-3xl border border-stone-200 shadow-lg shadow-stone-900/5 lg:order-1">
                   <Image
                     src="https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=900&q=80"
-                    alt="파스텔 톤 빈티지 의류가 걸려 있는 옷걸이 랙"
+                    alt="A clothing rack of pastel-toned vintage garments"
                     fill
                     sizes="(min-width: 1024px) 45vw, 100vw"
                     className="object-cover transition-transform duration-700 ease-out motion-safe:group-hover:scale-105"
@@ -802,17 +803,18 @@ export default function LandingClient() {
                     <SlidersHorizontal className="h-5 w-5" aria-hidden="true" />
                   </span>
                   <h3 className="mt-6 text-2xl font-semibold leading-tight tracking-tight text-stone-900 sm:text-3xl">
-                    불필요한 탐색은 걷어내요
+                    We clear away the unnecessary browsing
                   </h3>
                   <p className="mt-4 text-lg leading-relaxed tracking-[-0.01em] text-stone-600">
-                    수만 개 매물 중 조건에 맞지 않는 상품은 자동으로 걸러내고,
-                    필요한 것만 큐레이션해서 보여드립니다.
+                    Out of tens of thousands of listings, items that don't fit
+                    your criteria are filtered out automatically — leaving
+                    only what's curated for you.
                   </p>
                   <a
                     href="#showcase"
                     className={`group mt-6 inline-flex items-center gap-1.5 rounded-md text-sm font-semibold text-stone-900 underline-offset-4 hover:underline ${focusRing}`}
                   >
-                    필터링 기준 보기
+                    See our filtering criteria
                     <ArrowRight
                       className="h-4 w-4 transition-transform motion-safe:group-hover:translate-x-1"
                       aria-hidden="true"
@@ -834,17 +836,18 @@ export default function LandingClient() {
                     <ShieldCheck className="h-5 w-5" aria-hidden="true" />
                   </span>
                   <h3 className="mt-6 text-2xl font-semibold leading-tight tracking-tight text-stone-900 sm:text-3xl">
-                    검증된 상태, 투명한 가격
+                    Verified condition, transparent pricing
                   </h3>
                   <p className="mt-4 text-lg leading-relaxed tracking-[-0.01em] text-stone-600">
-                    전문 검수팀이 확인한 상태 등급과 시세 기반 가격으로,
-                    실물을 직접 보지 않아도 안심하고 구매할 수 있어요.
+                    With condition grades verified by a professional
+                    inspection team and market-based pricing, you can buy
+                    with confidence without seeing the item in person.
                   </p>
                   <a
                     href="#testimonials"
                     className={`group mt-6 inline-flex items-center gap-1.5 rounded-md text-sm font-semibold text-stone-900 underline-offset-4 hover:underline ${focusRing}`}
                   >
-                    검수 기준 확인하기
+                    Check our inspection standards
                     <ArrowRight
                       className="h-4 w-4 transition-transform motion-safe:group-hover:translate-x-1"
                       aria-hidden="true"
@@ -854,7 +857,7 @@ export default function LandingClient() {
                 <div className="group relative aspect-[4/5] overflow-hidden rounded-3xl border border-stone-200 shadow-lg shadow-stone-900/5">
                   <Image
                     src="https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&w=900&q=80"
-                    alt="가죽 소재 크로스백과 액세서리를 가까이서 촬영한 사진"
+                    alt="Close-up photo of a leather crossbody bag and accessories"
                     fill
                     sizes="(min-width: 1024px) 45vw, 100vw"
                     className="object-cover transition-transform duration-700 ease-out motion-safe:group-hover:scale-105"
@@ -875,14 +878,14 @@ export default function LandingClient() {
               whileInView="show"
               viewport={VIEWPORT}
             >
-              <p className="text-xs font-semibold uppercase tracking-[0.14em] text-orange-700">쇼케이스</p>
+              <p className="text-xs font-semibold uppercase tracking-[0.14em] text-orange-700">Showcase</p>
               <h2
                 id="showcase-heading"
                 className="mt-3 text-balance text-[clamp(2rem,4vw,3rem)] font-sans leading-[1.1] tracking-[-0.01em] text-stone-900"
               >
-                지금, 당신을 위해 다시 골랐어요
+                Re-picked for you, right now
               </h2>
-              <p className="mt-4 text-lg leading-relaxed tracking-[-0.01em] text-stone-600">이번 주 AI가 매칭한 추천 상품이에요.</p>
+              <p className="mt-4 text-lg leading-relaxed tracking-[-0.01em] text-stone-600">Here's what AI matched for you this week.</p>
             </motion.div>
 
             <motion.ul
@@ -912,11 +915,11 @@ export default function LandingClient() {
                     />
                     <span className="absolute left-3 top-3 inline-flex items-center gap-1 rounded-full bg-white/95 px-2.5 py-1 text-xs font-semibold tabular-nums text-stone-900 shadow-sm backdrop-blur">
                       <Sparkles className="h-3.5 w-3.5 text-orange-700" aria-hidden="true" />
-                      AI 매칭 {product.match}%
+                      {product.match}% AI match
                     </span>
                     <motion.button
                       type="button"
-                      aria-label={`${product.title} ${isLiked ? "찜 목록에서 빼기" : "찜하기"}`}
+                      aria-label={`${product.title} ${isLiked ? "remove from favorites" : "add to favorites"}`}
                       aria-pressed={isLiked}
                       onClick={() => toggleLike(product.title)}
                       whileTap={tapButton}
@@ -951,12 +954,12 @@ export default function LandingClient() {
               whileInView="show"
               viewport={VIEWPORT}
             >
-              <p className="text-xs font-semibold uppercase tracking-[0.14em] text-orange-700">후기</p>
+              <p className="text-xs font-semibold uppercase tracking-[0.14em] text-orange-700">Reviews</p>
               <h2
                 id="testimonials-heading"
                 className="mt-3 text-balance text-[clamp(2rem,4vw,3rem)] font-sans leading-[1.1] tracking-[-0.01em] text-stone-900"
               >
-                안목 있는 사람들이 먼저 씁니다
+                The discerning use it first
               </h2>
             </motion.div>
 
@@ -997,7 +1000,7 @@ export default function LandingClient() {
                   <figure className="mt-6 flex items-center gap-3">
                     <Image
                       src={t.avatar}
-                      alt={`${t.name}의 프로필 사진`}
+                      alt={`${t.name}'s profile photo`}
                       width={48}
                       height={48}
                       className="h-12 w-12 rounded-full object-cover"
@@ -1028,10 +1031,10 @@ export default function LandingClient() {
                 id="faq-heading"
                 className="mt-3 text-balance text-[clamp(2rem,4vw,3rem)] font-sans leading-[1.1] tracking-[-0.01em] text-stone-900"
               >
-                궁금한 점, 먼저 답해드릴게요
+                Answers before you even ask
               </h2>
               <p className="mt-4 text-lg leading-relaxed tracking-[-0.01em] text-stone-600">
-                더 궁금하신 내용은 고객센터에서 바로 확인하실 수 있어요.
+                For anything else, you can check with our support center right away.
               </p>
             </motion.div>
 
@@ -1068,7 +1071,7 @@ export default function LandingClient() {
             <div className="absolute inset-0">
               <Image
                 src="https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?auto=format&fit=crop&w=1600&q=80"
-                alt="빈티지 의류 매장 내부, 옷걸이 랙이 늘어선 모습"
+                alt="Interior of a vintage clothing store lined with racks of garments"
                 fill
                 sizes="100vw"
                 className="object-cover"
@@ -1086,11 +1089,11 @@ export default function LandingClient() {
                 id="cta-heading"
                 className="text-balance text-[clamp(2rem,4vw,3rem)] font-sans leading-[1.1] tracking-[-0.01em] text-stone-50"
               >
-                지금 취향을 등록하고
+                Register your taste today,
                 <br />
-                AI가 <em className="text-orange-300 not-italic font-semibold">다시</em> 고른 첫 매물을 받아보세요
+                and get the first item AI has <em className="text-orange-300 not-italic font-semibold">re-picked</em> for you
               </h2>
-              <p className="mt-4 text-lg leading-relaxed tracking-[-0.01em] text-stone-300">가입은 1분이면 충분해요. 언제든 해지할 수 있어요.</p>
+              <p className="mt-4 text-lg leading-relaxed tracking-[-0.01em] text-stone-300">Sign-up takes one minute. Cancel anytime.</p>
               <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
                 <MotionLink
                   href="/dashboard"
@@ -1098,7 +1101,7 @@ export default function LandingClient() {
                   whileTap={tapButton}
                   className={`group inline-flex min-h-11 items-center justify-center gap-2 rounded-full bg-stone-50 px-7 py-3 text-sm font-semibold text-stone-900 shadow-sm transition-colors hover:bg-white ${focusRingOnDark}`}
                 >
-                  무료로 시작하기
+                  Start for free
                   <ArrowRight
                     className="h-4 w-4 transition-transform motion-safe:group-hover:translate-x-1"
                     aria-hidden="true"
@@ -1110,7 +1113,7 @@ export default function LandingClient() {
                   whileTap={tapButton}
                   className={`inline-flex min-h-11 items-center justify-center rounded-full border border-stone-500 px-7 py-3 text-sm font-semibold text-stone-50 transition-colors hover:bg-stone-800 ${focusRingOnDark}`}
                 >
-                  기능 다시 보기
+                  Revisit the features
                 </motion.a>
               </div>
             </motion.div>
@@ -1126,10 +1129,10 @@ export default function LandingClient() {
                 <span className="rounded-md bg-orange-700 px-2 py-0.5 text-lg font-semibold text-white font-[family-name:var(--font-geist-mono)]">
                   RE:
                 </span>
-                픽
+                Pick
               </p>
               <p className="mt-3 max-w-xs text-sm text-stone-400">
-                AI가 취향을 학습해 당신에게 맞는 중고만 다시 골라주는 리커머스.
+                The recommerce platform where AI learns your taste and re-picks only the secondhand items that fit you.
               </p>
               <ul className="mt-6 flex gap-4 text-sm">
                 <li>
@@ -1179,16 +1182,16 @@ export default function LandingClient() {
           </div>
 
           <div className="mt-16 flex flex-col items-center justify-between gap-4 border-t border-stone-800 pt-8 text-sm text-stone-400 sm:flex-row">
-            <p>© 2026 RE:픽. All rights reserved.</p>
+            <p>© 2026 RE:Pick. All rights reserved.</p>
             <ul className="flex gap-6">
               <li>
                 <a href="#" className={`rounded-md hover:text-stone-300 ${focusRingOnDark}`}>
-                  이용약관
+                  Terms of service
                 </a>
               </li>
               <li>
                 <a href="#" className={`rounded-md hover:text-stone-300 ${focusRingOnDark}`}>
-                  개인정보처리방침
+                  Privacy policy
                 </a>
               </li>
             </ul>

@@ -7,11 +7,11 @@ import { Avatar, Badge, Card, HealthBadge } from "./ui";
 import type { SortKey, SortState } from "./types";
 
 const COLUMNS: { key: SortKey; label: string; align?: "right"; sortable: boolean }[] = [
-  { key: "company", label: "거래", sortable: true },
-  { key: "stage", label: "단계", sortable: true },
-  { key: "probability", label: "확률", align: "right", sortable: true },
-  { key: "amount", label: "금액", align: "right", sortable: true },
-  { key: "closeDate", label: "마감", align: "right", sortable: true },
+  { key: "company", label: "Deal", sortable: true },
+  { key: "stage", label: "Stage", sortable: true },
+  { key: "probability", label: "Probability", align: "right", sortable: true },
+  { key: "amount", label: "Amount", align: "right", sortable: true },
+  { key: "closeDate", label: "Closes", align: "right", sortable: true },
 ];
 
 export function DealList({
@@ -28,10 +28,10 @@ export function DealList({
       <div className="flex items-center justify-between gap-4 border-b border-zinc-100 px-5 py-4">
         <div className="min-w-0">
           <h2 id="deal-list-heading" className="text-sm font-semibold text-zinc-900">
-            거래 목록
+            Deal list
           </h2>
           <p className="mt-0.5 text-xs text-zinc-500">
-            총 {deals.length}건 · 열 제목을 클릭하면 정렬됩니다
+            {deals.length} deals total · Click a column header to sort
           </p>
         </div>
       </div>
@@ -39,7 +39,7 @@ export function DealList({
       <div className="overflow-x-auto">
         <table className="w-full min-w-[720px] border-collapse text-sm lg:min-w-0 lg:table-fixed">
           <caption className="sr-only">
-            거래별 고객사, 담당자, 단계, 성사 확률, 금액, 마감일, 상태 목록
+            List of deals with account, owner, stage, win probability, amount, close date, and status
           </caption>
           <colgroup>
             <col className="lg:w-[30%]" />
@@ -88,7 +88,7 @@ export function DealList({
                 scope="col"
                 className="px-4 py-2.5 text-right text-[11px] font-semibold tracking-wide text-zinc-500 uppercase"
               >
-                상태
+                Status
               </th>
             </tr>
           </thead>

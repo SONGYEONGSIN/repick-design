@@ -64,7 +64,7 @@ import {
   type SortDir,
 } from "./ui";
 
-/* ---- 손익 색상 헬퍼 ------------------------------------------------ */
+/* ---- P&L color helpers ------------------------------------------------ */
 function pnlTextClass(v: number): string {
   return v > 0
     ? "text-emerald-700 dark:text-emerald-400"
@@ -78,10 +78,10 @@ function PnlArrow({ v, size = 13 }: { v: number; size?: number }) {
   return <Minus size={size} aria-hidden="true" />;
 }
 
-const PERIOD_LABEL: Record<PeriodId, string> = { "1D": "1일", "1W": "1주", "1M": "1개월", YTD: "연초대비" };
+const PERIOD_LABEL: Record<PeriodId, string> = { "1D": "1D", "1W": "1W", "1M": "1M", YTD: "YTD" };
 
 /* ==================================================================== */
-/* 트리맵                                                                */
+/* Treemap                                                                */
 /* ==================================================================== */
 
 function Treemap({
@@ -143,8 +143,8 @@ function Treemap({
     return (
       <div className="flex h-[340px] flex-col items-center justify-center gap-2 rounded-xl border border-dashed border-zinc-300 text-center dark:border-zinc-700 sm:h-[420px]">
         <ScanSearch size={22} aria-hidden="true" className={TEXT_CAPTION} />
-        <p className={cx("text-sm font-medium", TEXT_PRIMARY)}>표시할 자산이 없습니다</p>
-        <p className={cx("text-xs", TEXT_CAPTION)}>상단 필터에서 자산군을 하나 이상 선택하세요.</p>
+        <p className={cx("text-sm font-medium", TEXT_PRIMARY)}>No assets to display</p>
+        <p className={cx("text-xs", TEXT_CAPTION)}>Select at least one asset class in the filter above.</p>
       </div>
     );
   }
@@ -153,7 +153,7 @@ function Treemap({
     <div
       ref={wrapRef}
       role="group"
-      aria-label="포트폴리오 자산 트리맵. 타일 크기는 평가액, 색은 손익 방향과 강도를 나타냅니다."
+      aria-label="Portfolio asset treemap. Tile size represents market value, color represents P&L direction and strength."
       onPointerMove={onPointerMove}
       onPointerLeave={() => {
         setHoverId(null);
@@ -260,7 +260,7 @@ function TreemapTile({
     width: `${tile.geom.w}%`,
     height: `${tile.geom.h}%`,
   };
-  const label = `${tile.holding.symbol} ${tile.holding.name}, ${meta.label}, 비중 ${fmtPct(tile.weightPct, 1)}, 손익 ${fmtSignedPct(tile.pnlPct)}`;
+  const label = `${tile.holding.symbol} ${tile.holding.name}, ${meta.label}, weight ${fmtPct(tile.weightPct, 1)}, P&L ${fmtSignedPct(tile.pnlPct)}`;
   return (
     <button
       ref={refCb}
@@ -332,15 +332,15 @@ function TreemapTooltip({ tile, fullTotal, x, y }: { tile: Tile; fullTotal: numb
       </div>
       <dl className="mt-2 space-y-1">
         <div className="flex items-center justify-between gap-2">
-          <dt className={cx("text-[11px]", TEXT_CAPTION)}>비중</dt>
+          <dt className={cx("text-[11px]", TEXT_CAPTION)}>Weight</dt>
           <dd className={cx("text-[11px] font-medium", NUM, TEXT_PRIMARY)}>{fmtPct(tile.weightPct, 1)}</dd>
         </div>
         <div className="flex items-center justify-between gap-2">
-          <dt className={cx("text-[11px]", TEXT_CAPTION)}>평가액</dt>
+          <dt className={cx("text-[11px]", TEXT_CAPTION)}>Market value</dt>
           <dd className={cx("text-[11px] font-medium", NUM, TEXT_PRIMARY)}>{fmtKRWc(tile.value)}</dd>
         </div>
         <div className="flex items-center justify-between gap-2">
-          <dt className={cx("text-[11px]", TEXT_CAPTION)}>손익</dt>
+          <dt className={cx("text-[11px]", TEXT_CAPTION)}>P&L</dt>
           <dd className={cx("inline-flex items-center gap-0.5 text-[11px] font-semibold", NUM, pnlTextClass(tile.pnlPct))}>
             <PnlArrow v={tile.pnlPct} size={11} />
             {fmtSignedPct(tile.pnlPct)}
@@ -352,7 +352,7 @@ function TreemapTooltip({ tile, fullTotal, x, y }: { tile: Tile; fullTotal: numb
 }
 
 /* ==================================================================== */
-/* 히어로 밴드                                                            */
+/* Hero band                                                            */
 /* ==================================================================== */
 
 function AllocationDonut({ period, fullTotal, active }: { period: PeriodId; fullTotal: number; active: ReadonlySet<CategoryId> }) {
@@ -391,7 +391,7 @@ function AllocationDonut({ period, fullTotal, active }: { period: PeriodId; full
           ))}
         </svg>
         <div className="absolute inset-0 grid place-items-center">
-          <span className={cx("text-[10px] font-semibold uppercase tracking-wide", TEXT_CAPTION)}>배분</span>
+          <span className={cx("text-[10px] font-semibold uppercase tracking-wide", TEXT_CAPTION)}>Mix</span>
         </div>
       </div>
       <dl className="grid grid-cols-1 gap-1.5">
@@ -434,7 +434,7 @@ function HeroBand({
     <Card padded={false} className="overflow-hidden">
       <div className="grid grid-cols-1 gap-5 p-4 sm:p-5 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-center">
         <div>
-          <EyebrowLabel>총 평가액{allOn ? "" : " · 선택 자산"}</EyebrowLabel>
+          <EyebrowLabel>Total Market Value{allOn ? "" : " · Selected Assets"}</EyebrowLabel>
           <div className="mt-1 flex flex-wrap items-baseline gap-x-3 gap-y-1">
             <span className={cx("text-3xl font-semibold tracking-tight sm:text-4xl", NUM, TEXT_PRIMARY)}>{fmtKRW(stats.total)}</span>
             <span className={cx("inline-flex items-center gap-1 text-sm font-semibold", NUM, pnlTextClass(stats.pnl))}>
@@ -446,32 +446,32 @@ function HeroBand({
           </div>
 
           <dl className="mt-4 flex flex-wrap items-stretch gap-2">
-            <StatChip label={`${PERIOD_LABEL[period]} 손익`}>
+            <StatChip label={`${PERIOD_LABEL[period]} P&L`}>
               <span className={cx("inline-flex items-center gap-1", pnlTextClass(stats.pnl))}>
                 <PnlArrow v={stats.pnl} size={12} />
                 {fmtSignedPct(stats.pnlPct)}
               </span>
             </StatChip>
-            <StatChip label="전일대비">
+            <StatChip label="vs. Prior Day">
               <span className={cx("inline-flex items-center gap-1", pnlTextClass(stats.dayPnl))}>
                 <PnlArrow v={stats.dayPnl} size={12} />
                 {fmtSignedPct(stats.dayPnlPct)}
               </span>
             </StatChip>
-            <StatChip label="리밸런싱 필요">
+            <StatChip label="Needs Rebalancing">
               <span className={cx("inline-flex items-center gap-1", stats.rebalanceCount > 0 ? "text-amber-700 dark:text-amber-400" : TEXT_SECONDARY)}>
                 <Scale size={12} aria-hidden="true" />
-                {stats.rebalanceCount}종목
+                {stats.rebalanceCount} holdings
               </span>
             </StatChip>
-            <StatChip label="보유">
-              <span className={TEXT_SECONDARY}>{stats.holdingCount}종목</span>
+            <StatChip label="Holdings">
+              <span className={TEXT_SECONDARY}>{stats.holdingCount} holdings</span>
             </StatChip>
           </dl>
 
           <div className="mt-4 flex flex-wrap items-center gap-3">
             <SegmentedControl<PeriodId>
-              ariaLabel="기간 선택"
+              ariaLabel="Select period"
               value={period}
               onChange={onPeriod}
               options={[
@@ -481,9 +481,9 @@ function HeroBand({
                 { id: "YTD", label: "YTD" },
               ]}
             />
-            <div className="flex flex-wrap items-center gap-1.5" role="group" aria-label="자산군 필터">
+            <div className="flex flex-wrap items-center gap-1.5" role="group" aria-label="Asset class filter">
               <FilterChip active={allOn} onClick={onReset}>
-                전체
+                All
               </FilterChip>
               {CATEGORY_ORDER.map((cat) => (
                 <FilterChip key={cat} active={active.has(cat)} dot={CATEGORY[cat].dot} onClick={() => onToggle(cat)}>
@@ -512,7 +512,7 @@ function StatChip({ label, children }: { label: string; children: React.ReactNod
 }
 
 /* ==================================================================== */
-/* 상세 패널                                                             */
+/* Detail panel                                                             */
 /* ==================================================================== */
 
 function DetailPanel({ holding, period, fullTotal }: { holding: Holding; period: PeriodId; fullTotal: number }) {
@@ -541,33 +541,33 @@ function DetailPanel({ holding, period, fullTotal }: { holding: Holding; period:
           {rebal ? (
             <span className="inline-flex shrink-0 items-center gap-1 rounded-full bg-amber-50 px-2 py-0.5 text-[11px] font-medium text-amber-700 ring-1 ring-inset ring-amber-600/20 dark:bg-amber-500/10 dark:text-amber-300 dark:ring-amber-400/20">
               <TriangleAlert size={11} aria-hidden="true" />
-              리밸런싱 권고
+              Rebalance recommended
             </span>
           ) : (
             <span className="inline-flex shrink-0 items-center gap-1 rounded-full bg-emerald-50 px-2 py-0.5 text-[11px] font-medium text-emerald-700 ring-1 ring-inset ring-emerald-600/20 dark:bg-emerald-500/10 dark:text-emerald-300 dark:ring-emerald-400/20">
               <Target size={11} aria-hidden="true" />
-              밴드 내
+              Within band
             </span>
           )}
         </div>
       </div>
 
       <div className="grid grid-cols-2 gap-px bg-zinc-200 dark:bg-zinc-800">
-        <DetailStat label="평가액" value={fmtKRW(value)} />
-        <DetailStat label={`${PERIOD_LABEL[period]} 손익`}>
+        <DetailStat label="Market Value" value={fmtKRW(value)} />
+        <DetailStat label={`${PERIOD_LABEL[period]} P&L`}>
           <span className={cx("inline-flex items-center gap-1", pnlTextClass(pnl))}>
             <PnlArrow v={pnl} size={13} />
             {fmtSignedPct(pnlPct)}
           </span>
           <span className={cx("mt-0.5 block text-xs font-medium", NUM, pnlTextClass(pnl))}>{fmtSignedKRWc(pnl)}</span>
         </DetailStat>
-        <DetailStat label="취득원가" value={fmtKRW(holding.cost)} />
-        <DetailStat label="포트폴리오 비중" value={fmtPct(weight, 1)} />
+        <DetailStat label="Cost Basis" value={fmtKRW(holding.cost)} />
+        <DetailStat label="Portfolio Weight" value={fmtPct(weight, 1)} />
       </div>
 
       <div className={cx("border-t p-4 sm:p-5", BORDER)}>
         <div className="flex items-center justify-between">
-          <EyebrowLabel>목표 배분 대비</EyebrowLabel>
+          <EyebrowLabel>Vs. Target Allocation</EyebrowLabel>
           <span className={cx("text-xs font-semibold", NUM, Math.abs(drift) >= 2 ? "text-amber-700 dark:text-amber-400" : TEXT_SECONDARY)}>
             {fmtSignedPct(drift, 1)}p
           </span>
@@ -576,32 +576,32 @@ function DetailPanel({ holding, period, fullTotal }: { holding: Holding; period:
           <TargetBar actual={weight} target={holding.target} />
         </div>
         <div className={cx("mt-1.5 flex items-center justify-between text-[11px]", NUM, TEXT_CAPTION)}>
-          <span>현재 {fmtPct(weight, 1)}</span>
-          <span>목표 {fmtPct(holding.target, 0)}</span>
+          <span>Current {fmtPct(weight, 1)}</span>
+          <span>Target {fmtPct(holding.target, 0)}</span>
         </div>
       </div>
 
       <div className={cx("border-t p-4 sm:p-5", BORDER)}>
         <div className="flex items-center justify-between">
-          <EyebrowLabel>20영업일 추이</EyebrowLabel>
+          <EyebrowLabel>20-Day Trend</EyebrowLabel>
           <span className={cx("text-[11px] font-medium", NUM, pnlTextClass(holding.returns["1M"]))}>1M {fmtSignedPct(holding.returns["1M"] * 100, 1)}</span>
         </div>
         <div className="mt-2 h-14">
-          <Sparkline values={spark} up={holding.returns["1M"] >= 0} label={`${holding.symbol} 20영업일 추이`} className="h-full w-full" />
+          <Sparkline values={spark} up={holding.returns["1M"] >= 0} label={`${holding.symbol} 20-day trend`} className="h-full w-full" />
         </div>
       </div>
 
       <div className={cx("mt-auto flex items-center gap-2.5 border-t p-4", BORDER, "bg-zinc-50/60 dark:bg-white/[0.02]")}>
         <Image
           src={`https://images.unsplash.com/photo-${analyst.avatarId}?auto=format&fit=crop&crop=faces&w=64&h=64&q=80`}
-          alt={`${analyst.name} 애널리스트 프로필 사진`}
+          alt={`${analyst.name} analyst profile photo`}
           width={32}
           height={32}
           className="h-8 w-8 shrink-0 rounded-full border border-black/5 object-cover dark:border-white/10"
         />
         <div className="min-w-0">
           <p className={cx("truncate text-xs font-medium", TEXT_PRIMARY)}>{analyst.name}</p>
-          <p className={cx("truncate text-[11px]", TEXT_CAPTION)}>커버리지 · {analyst.role}</p>
+          <p className={cx("truncate text-[11px]", TEXT_CAPTION)}>Coverage · {analyst.role}</p>
         </div>
       </div>
     </Card>
@@ -618,7 +618,7 @@ function DetailStat({ label, value, children }: { label: string; value?: string;
 }
 
 /* ==================================================================== */
-/* 보유 종목 테이블                                                       */
+/* Holdings table                                                       */
 /* ==================================================================== */
 
 type SortKey = "symbol" | "weight" | "value" | "pnlPct" | "pnlAmt";
@@ -668,17 +668,17 @@ function HoldingsTable({
     <Card padded={false}>
       <div className="p-4 sm:p-5">
         <CardHeader
-          title="보유 종목"
-          description={`${rows.length}종목 · ${AS_OF}`}
-          action={<span className={cx("hidden text-[11px] sm:inline", TEXT_CAPTION)}>행을 선택하면 트리맵·상세와 동기화됩니다</span>}
+          title="Holdings"
+          description={`${rows.length} holdings · ${AS_OF}`}
+          action={<span className={cx("hidden text-[11px] sm:inline", TEXT_CAPTION)}>Selecting a row syncs the treemap and detail panel</span>}
         />
       </div>
       <div className="sr-only" aria-live="polite">
-        {selectedId ? `${HOLDINGS.find((h) => h.id === selectedId)?.symbol ?? ""} 종목이 선택되었습니다.` : ""}
+        {selectedId ? `${HOLDINGS.find((h) => h.id === selectedId)?.symbol ?? ""} holding selected.` : ""}
       </div>
       <div className={cx("border-t", BORDER)}>
         <table className="w-full table-fixed border-collapse text-sm">
-          <caption className="sr-only">보유 종목별 비중, 평가액, 손익 상세. 열 머리글 버튼으로 정렬할 수 있습니다.</caption>
+          <caption className="sr-only">Holdings with weight, market value, and P&L detail. Sort using the column header buttons.</caption>
           <colgroup>
             <col className="w-[30%]" />
             <col className="w-[13%]" />
@@ -690,22 +690,22 @@ function HoldingsTable({
           <thead>
             <tr className={cx("border-b", BORDER)}>
               <SortableTh columnKey="symbol" activeKey={sortKey} dir={dir} onSort={onSort}>
-                종목
+                Holding
               </SortableTh>
               <th scope="col" className="px-3 py-2 text-left">
-                <span className={cx("text-[11px] font-semibold uppercase tracking-wide", TEXT_CAPTION)}>자산군</span>
+                <span className={cx("text-[11px] font-semibold uppercase tracking-wide", TEXT_CAPTION)}>Class</span>
               </th>
               <SortableTh columnKey="weight" activeKey={sortKey} dir={dir} onSort={onSort} align="right">
-                비중
+                Weight
               </SortableTh>
               <SortableTh columnKey="value" activeKey={sortKey} dir={dir} onSort={onSort} align="right">
-                평가액
+                Value
               </SortableTh>
               <SortableTh columnKey="pnlPct" activeKey={sortKey} dir={dir} onSort={onSort} align="right">
-                손익률
+                P&L %
               </SortableTh>
               <SortableTh columnKey="pnlAmt" activeKey={sortKey} dir={dir} onSort={onSort} align="right">
-                손익액
+                P&L Amt
               </SortableTh>
             </tr>
           </thead>
@@ -713,7 +713,7 @@ function HoldingsTable({
             {rows.length === 0 ? (
               <tr>
                 <td colSpan={6} className={cx("px-4 py-10 text-center text-sm", TEXT_CAPTION)}>
-                  선택된 자산군이 없습니다.
+                  No asset classes selected.
                 </td>
               </tr>
             ) : (
@@ -774,7 +774,7 @@ function HoldingsTable({
 }
 
 /* ==================================================================== */
-/* 오케스트레이터                                                        */
+/* Orchestrator                                                        */
 /* ==================================================================== */
 
 export default function Cockpit() {
@@ -824,7 +824,7 @@ export default function Cockpit() {
         href="#main-content"
         className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[70] focus:rounded-lg focus:bg-violet-600 focus:px-4 focus:py-2 focus:text-sm focus:font-medium focus:text-white"
       >
-        본문으로 건너뛰기
+        Skip to main content
       </a>
       <Sidebar mobileOpen={mobileNavOpen} onCloseMobile={() => setMobileNavOpen(false)} />
 
@@ -834,8 +834,8 @@ export default function Cockpit() {
         <main id="main-content" className="min-h-0 flex-1 overflow-y-auto [scrollbar-width:thin]">
           <div className="mx-auto flex max-w-[1600px] flex-col gap-4 p-4 sm:p-6">
             <div>
-              <h1 className={cx("text-xl font-semibold tracking-tight sm:text-2xl", TEXT_PRIMARY)}>배분 콕핏</h1>
-              <p className={cx("mt-0.5 text-sm", TEXT_CAPTION)}>개인 종합계좌 · 자산배분 트리맵 · {AS_OF}</p>
+              <h1 className={cx("text-xl font-semibold tracking-tight sm:text-2xl", TEXT_PRIMARY)}>Allocation Cockpit</h1>
+              <p className={cx("mt-0.5 text-sm", TEXT_CAPTION)}>Personal Brokerage Account · Asset Allocation Treemap · {AS_OF}</p>
             </div>
 
             <HeroBand
@@ -852,8 +852,8 @@ export default function Cockpit() {
                 <Card padded={false} className="flex h-full flex-col">
                   <div className="p-4 sm:p-5">
                     <CardHeader
-                      title="자산배분 트리맵"
-                      description="타일 크기는 평가액, 색은 손익 방향·강도. 타일을 선택하면 상세·테이블이 동기화됩니다."
+                      title="Asset Allocation Treemap"
+                      description="Tile size is market value, color is P&L direction and strength. Selecting a tile syncs the detail panel and table."
                     />
                   </div>
                   <div className={cx("border-t px-3 pb-3 pt-3 sm:px-4 sm:pb-4", BORDER)}>

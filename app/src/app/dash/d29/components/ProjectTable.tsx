@@ -16,10 +16,10 @@ type SortDirection = "asc" | "desc";
 const PRIORITY_RANK: Record<Project["priority"], number> = { high: 3, medium: 2, low: 1 };
 
 const COLUMNS: { key: SortKey; label: string; align?: "right" }[] = [
-  { key: "name", label: "프로젝트" },
-  { key: "priority", label: "우선순위" },
-  { key: "progress", label: "진행률", align: "right" },
-  { key: "dueDate", label: "마감일", align: "right" },
+  { key: "name", label: "Project" },
+  { key: "priority", label: "Priority" },
+  { key: "progress", label: "Progress", align: "right" },
+  { key: "dueDate", label: "Due Date", align: "right" },
 ];
 
 export function ProjectTable() {
@@ -31,7 +31,7 @@ export function ProjectTable() {
     const copy = [...projects];
     copy.sort((a, b) => {
       let diff = 0;
-      if (sortKey === "name") diff = a.name.localeCompare(b.name, "ko");
+      if (sortKey === "name") diff = a.name.localeCompare(b.name, "en");
       else if (sortKey === "progress") diff = a.progress - b.progress;
       else if (sortKey === "dueDate") diff = a.dueDate.localeCompare(b.dueDate);
       else diff = PRIORITY_RANK[a.priority] - PRIORITY_RANK[b.priority];
@@ -52,13 +52,13 @@ export function ProjectTable() {
   return (
     <Card as="section" aria-labelledby="project-table-heading">
       <CardHeader
-        title="프로젝트 진행률"
+        title="Project Progress"
         titleId="project-table-heading"
-        description={`총 ${projects.length}개 프로젝트 · 열 제목을 클릭하면 정렬됩니다`}
+        description={`${projects.length} projects total · Click a column header to sort`}
       />
       <div className="overflow-x-auto">
         <table className="w-full min-w-[480px] border-collapse text-sm lg:min-w-0 lg:table-fixed">
-          <caption className="sr-only">프로젝트별 담당자, 우선순위, 진행률, 마감일 목록</caption>
+          <caption className="sr-only">List of projects with owner, priority, progress, and due date</caption>
           <colgroup>
             <col />
             <col className="lg:w-[108px]" />
@@ -102,7 +102,7 @@ export function ProjectTable() {
                 );
               })}
               <th scope="col" className="px-5 py-2.5 text-right text-xs font-medium tracking-wide text-zinc-500 uppercase">
-                상태
+                Status
               </th>
             </tr>
           </thead>
@@ -119,7 +119,7 @@ export function ProjectTable() {
                       <div className="min-w-0">
                         <p className="truncate text-sm font-medium text-zinc-900">{project.name}</p>
                         <p className="truncate text-xs text-zinc-500">
-                          {owner.name} · {project.tasksDone}/{project.tasksTotal} 태스크
+                          {owner.name} · {project.tasksDone}/{project.tasksTotal} tasks
                         </p>
                       </div>
                     </div>
@@ -132,7 +132,7 @@ export function ProjectTable() {
                       <span className="w-24">
                         <ProgressBar
                           value={project.progress}
-                          label={`${project.name} 진행률 ${project.progress}%`}
+                          label={`${project.name} progress ${project.progress}%`}
                           barClassName={
                             project.status === "delayed"
                               ? "bg-rose-500"

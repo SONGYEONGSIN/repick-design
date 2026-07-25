@@ -137,7 +137,7 @@ function MobileChip({
 }
 
 /**
- * Left rail: search + "전체 포트폴리오" master row + 보유 자산 / 워치리스트
+ * Left rail: search + "All Portfolio" master row + Holdings / Watchlist
  * sections. Selecting any row drives the master selection (context) that the
  * center chart, transactions table, and right-rail detail all read from.
  * Collapses to a horizontal scrollable chip strip below the lg breakpoint.
@@ -155,7 +155,7 @@ export default function AssetRail() {
   const portfolioTrendColor = PORTFOLIO_CHANGE_24H_PCT >= 0 ? "#34d399" : "#f87171";
 
   return (
-    <aside aria-label="자산 목록" className="flex w-full shrink-0 flex-col border-b border-white/5 lg:w-56 lg:border-b-0 lg:border-r xl:w-72 2xl:w-80">
+    <aside aria-label="Asset list" className="flex w-full shrink-0 flex-col border-b border-white/5 lg:w-56 lg:border-b-0 lg:border-r xl:w-72 2xl:w-80">
       <div className="p-3">
         <div role="search" className="flex h-11 items-center gap-2 rounded-lg border border-white/10 bg-white/5 px-3">
           <Search aria-hidden="true" className="size-4 shrink-0 text-zinc-500" />
@@ -163,15 +163,15 @@ export default function AssetRail() {
             type="text"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder="자산 검색…"
-            aria-label="보유 자산 및 워치리스트 검색"
+            placeholder="Search assets…"
+            aria-label="Search holdings and watchlist"
             className="min-w-0 flex-1 bg-transparent text-sm text-zinc-100 outline-none placeholder:text-zinc-500"
           />
           {query ? (
             <button
               type="button"
               onClick={() => setQuery("")}
-              aria-label="검색어 지우기"
+              aria-label="Clear search"
               className="flex size-6 shrink-0 items-center justify-center rounded text-zinc-500 outline-none transition-colors hover:text-zinc-200 focus-visible:ring-2 focus-visible:ring-indigo-400"
             >
               <X aria-hidden="true" className="size-3.5" />
@@ -181,7 +181,7 @@ export default function AssetRail() {
       </div>
 
       {/* Mobile / tablet: horizontal scrollable chip strip replaces the full list */}
-      <ul role="listbox" aria-label="자산 빠른 선택" className="flex gap-2 overflow-x-auto px-3 pb-3 lg:hidden">
+      <ul role="listbox" aria-label="Quick asset select" className="flex gap-2 overflow-x-auto px-3 pb-3 lg:hidden">
         {query.length === 0 && (
           <li className="shrink-0">
             <button
@@ -196,7 +196,7 @@ export default function AssetRail() {
               )}
             >
               <Layers aria-hidden="true" className="size-3.5 text-indigo-300" />
-              <span className="whitespace-nowrap text-[13px] font-medium text-zinc-100">전체</span>
+              <span className="whitespace-nowrap text-[13px] font-medium text-zinc-100">All</span>
               <ChangeText value={PORTFOLIO_CHANGE_24H_PCT} />
             </button>
           </li>
@@ -205,12 +205,12 @@ export default function AssetRail() {
           <MobileChip key={item.id} item={item} selected={selectedAssetId === item.id} onSelect={setSelectedAssetId} />
         ))}
       </ul>
-      {noResults && <p className="px-3 pb-3 text-xs text-zinc-500 lg:hidden">일치하는 자산이 없습니다.</p>}
+      {noResults && <p className="px-3 pb-3 text-xs text-zinc-500 lg:hidden">No matching assets.</p>}
 
       {/* Desktop: full vertical rail with sections */}
       <div className="hidden flex-1 flex-col gap-5 overflow-y-auto px-3 pb-4 lg:flex">
         {query.length === 0 && (
-          <ul role="listbox" aria-label="포트폴리오 전체" className="space-y-0.5">
+          <ul role="listbox" aria-label="All portfolio" className="space-y-0.5">
             <li>
               <button
                 type="button"
@@ -227,8 +227,8 @@ export default function AssetRail() {
                   <Layers aria-hidden="true" className="size-3.5" />
                 </span>
                 <span className="min-w-0 flex-1">
-                  <span className="block truncate text-[13px] font-medium text-zinc-100">전체 포트폴리오</span>
-                  <span className="block truncate text-[11px] text-zinc-500">보유 {HOLDINGS.length}종</span>
+                  <span className="block truncate text-[13px] font-medium text-zinc-100">All Portfolio</span>
+                  <span className="block truncate text-[11px] text-zinc-500">{HOLDINGS.length} held</span>
                 </span>
                 <span className="hidden shrink-0 xl:block">
                   <Sparkline values={portfolioSparkline} color={portfolioTrendColor} width={36} />
@@ -244,8 +244,8 @@ export default function AssetRail() {
 
         {filteredHeld.length > 0 && (
           <div>
-            <SectionLabel>보유 자산 · {filteredHeld.length}</SectionLabel>
-            <ul role="listbox" aria-label="보유 자산" className="mt-1.5 space-y-0.5">
+            <SectionLabel>Holdings · {filteredHeld.length}</SectionLabel>
+            <ul role="listbox" aria-label="Holdings" className="mt-1.5 space-y-0.5">
               {filteredHeld.map((item) => (
                 <DesktopRow key={item.id} item={item} selected={selectedAssetId === item.id} onSelect={setSelectedAssetId} />
               ))}
@@ -255,8 +255,8 @@ export default function AssetRail() {
 
         {filteredWatch.length > 0 && (
           <div>
-            <SectionLabel>워치리스트 · {filteredWatch.length}</SectionLabel>
-            <ul role="listbox" aria-label="워치리스트" className="mt-1.5 space-y-0.5">
+            <SectionLabel>Watchlist · {filteredWatch.length}</SectionLabel>
+            <ul role="listbox" aria-label="Watchlist" className="mt-1.5 space-y-0.5">
               {filteredWatch.map((item) => (
                 <DesktopRow key={item.id} item={item} selected={selectedAssetId === item.id} onSelect={setSelectedAssetId} />
               ))}
@@ -264,7 +264,7 @@ export default function AssetRail() {
           </div>
         )}
 
-        {noResults && <p className="px-1 text-xs text-zinc-500">일치하는 자산이 없습니다.</p>}
+        {noResults && <p className="px-1 text-xs text-zinc-500">No matching assets.</p>}
       </div>
     </aside>
   );

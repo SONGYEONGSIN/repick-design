@@ -1,8 +1,11 @@
 /**
- * Wavelength — 라우트 스코프 디자인 토큰. 전역 테마를 건드리지 않고 이 라우트 안에서만 쓰는 클래스 상수.
- * 이번 라운드 배정 테마 = 다크 전용(프로덕션 다크, n8n/Coinbase류): zinc-950/900 표면 고정, 보더 white/10,
- * 텍스트 zinc-50(본문)/zinc-300(보조)/zinc-400(캡션, 모든 상태 포함 — zinc-500 이하 금지). 연극적 발광·스캔라인·그레인 없음.
- * 강조 1색 = teal(브랜드 UI 크롬: 버튼/포커스링/활성 네비). 온콜 링/심각도/상태 톤은 별도 카테고리 팔레트가 담당 — 색+텍스트 항상 병행.
+ * Wavelength — route-scoped design tokens. Class constants used only within this route,
+ * without touching the global theme.
+ * This round's assigned theme = dark-only (production dark, n8n/Coinbase style): fixed zinc-950/900
+ * surfaces, white/10 borders, text zinc-50 (body) / zinc-300 (secondary) / zinc-400 (caption, all
+ * states included — nothing below zinc-500). No theatrical glow, scanlines, or grain.
+ * Single accent color = teal (brand UI chrome: buttons/focus rings/active nav). The on-call ring,
+ * severity, and status tones each use a separate categorical palette — color is always paired with text.
  */
 
 export function cx(...parts: Array<string | false | null | undefined>): string {
@@ -23,10 +26,10 @@ export const TEXT_PRIMARY = "text-zinc-50";
 export const TEXT_SECONDARY = "text-zinc-300";
 export const TEXT_CAPTION = "text-zinc-400";
 
-/** 숫자·ID 정렬용 — 전역 font-sans(Pretendard) 위에 tabular 고정폭. */
+/** For aligning numbers and IDs — fixed tabular width on top of the global font-sans (Pretendard). */
 export const NUM = "tabular-nums [font-feature-settings:'tnum']";
 
-/* 브랜드 액센트 — teal (UI 크롬 전용: 버튼·포커스링·활성 네비·워크스페이스 아이콘) */
+/* Brand accent — teal (UI chrome only: buttons, focus rings, active nav, workspace icon) */
 export const ACCENT_TEXT = "text-teal-300";
 export const ACCENT_SOLID = "bg-teal-500 text-zinc-950 hover:bg-teal-400 active:bg-teal-600";
 export const ACCENT_SUBTLE = "bg-teal-500/10 text-teal-300";
@@ -39,7 +42,7 @@ export const HOVER_ACTIVE_BG = "hover:bg-white/5 active:bg-white/10";
 export const HOVER_ROW = "hover:bg-white/[0.04]";
 export const TRANSITION = "transition-colors motion-reduce:transition-none";
 
-/* 상태/존 톤 — 심각도 배지, 인시던트 상태 필, 트렌드 등에 사용. 색만으로 구분하지 않고 항상 아이콘/텍스트 병행. */
+/* Status/zone tones — used for severity badges, incident status pills, trends, etc. Always paired with an icon/text, never color alone. */
 export type Tone = "good" | "warn" | "bad" | "info" | "neutral";
 
 export const TONE: Record<Tone, { text: string; bg: string; border: string; dot: string; hex: string }> = {
@@ -81,8 +84,10 @@ export const TONE: Record<Tone, { text: string; bg: string; border: string; dot:
 };
 
 /**
- * 온콜 링 카테고리 팔레트 — 엔지니어별 구간 색(데이터 인코딩, UI 크롬과 무관하므로 다색 허용).
- * 채도 절제된 6색, 다크 표면 위 AA 대비를 만족하는 밝은 톤만 사용(라벨 텍스트는 항상 병행 표기).
+ * On-call ring categorical palette — per-engineer segment colors (data encoding, unrelated to
+ * UI chrome, so multiple hues are allowed).
+ * 6 desaturated colors, using only bright tones that meet AA contrast on the dark surface
+ * (label text is always shown alongside).
  */
 export type EngineerToneId = "teal" | "violet" | "amber" | "rose" | "indigo" | "emerald";
 

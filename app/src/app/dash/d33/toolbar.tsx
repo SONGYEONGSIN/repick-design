@@ -12,20 +12,20 @@ export function Toolbar({ controls }: { controls: BoardControls }) {
 
   return (
     <div className="flex flex-wrap items-center gap-2">
-      {/* 뷰 토글 (세그먼트 컨트롤) */}
+      {/* View toggle (segmented control) */}
       <Segmented
-        ariaLabel="뷰 전환"
+        ariaLabel="Switch view"
         options={[
-          { value: "board", label: "보드", icon: KanbanSquare },
-          { value: "list", label: "리스트", icon: List },
+          { value: "board", label: "Board", icon: KanbanSquare },
+          { value: "list", label: "List", icon: List },
         ]}
         value={view}
         onChange={(v) => setView(v as "board" | "list")}
       />
 
-      {/* 기간 토글 (세그먼트 컨트롤) */}
+      {/* Period toggle (segmented control) */}
       <Segmented
-        ariaLabel="기간 전환"
+        ariaLabel="Switch period"
         options={PERIODS.map((p) => ({ value: p, label: periodMeta[p].short }))}
         value={period}
         onChange={(v) => setPeriod(v as Period)}
@@ -42,7 +42,7 @@ export function Toolbar({ controls }: { controls: BoardControls }) {
   );
 }
 
-/* ── 세그먼트 컨트롤 ────────────────────────────────── */
+/* ── Segmented control ───────────────────────────────── */
 
 function Segmented({
   ariaLabel,
@@ -85,7 +85,7 @@ function Segmented({
   );
 }
 
-/* ── 담당자 필터 (드롭다운) ─────────────────────────── */
+/* ── Owner filter (dropdown) ──────────────────────────── */
 
 function OwnerFilter({ value, onChange }: { value: string; onChange: (id: string) => void }) {
   const [open, setOpen] = useState(false);
@@ -93,7 +93,7 @@ function OwnerFilter({ value, onChange }: { value: string; onChange: (id: string
   useOutsideClose(ref, () => setOpen(false));
 
   const activeOwner = owners.find((o) => o.id === value);
-  const label = activeOwner ? activeOwner.name : "전체 담당자";
+  const label = activeOwner ? activeOwner.name : "All Reps";
 
   return (
     <div className="relative" ref={ref}>
@@ -105,15 +105,15 @@ function OwnerFilter({ value, onChange }: { value: string; onChange: (id: string
         className="inline-flex h-11 items-center gap-2 rounded-lg border border-zinc-200 bg-white px-3 text-sm font-medium text-zinc-700 hover:bg-zinc-50 focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 focus-visible:outline-none"
       >
         <Users className="h-4 w-4 text-zinc-400" aria-hidden="true" />
-        <span className="whitespace-nowrap">담당자: {label}</span>
+        <span className="whitespace-nowrap">Rep: {label}</span>
       </button>
       {open ? (
         <div
           role="listbox"
-          aria-label="담당자 필터"
+          aria-label="Filter by rep"
           className="absolute right-0 z-30 mt-1 w-56 rounded-xl border border-zinc-200 bg-white p-1.5 shadow-lg"
         >
-          <OwnerOption label="전체 담당자" selected={value === "all"} onClick={() => { onChange("all"); setOpen(false); }} />
+          <OwnerOption label="All Reps" selected={value === "all"} onClick={() => { onChange("all"); setOpen(false); }} />
           <div className="my-1 h-px bg-zinc-100" />
           {owners.map((o) => (
             <OwnerOption
@@ -154,7 +154,7 @@ function OwnerOption({
   );
 }
 
-/* ── 정렬 (드롭다운) ────────────────────────────────── */
+/* ── Sort (dropdown) ──────────────────────────────────── */
 
 function SortMenu({
   value,
@@ -180,12 +180,12 @@ function SortMenu({
         className="inline-flex h-11 items-center gap-2 rounded-lg border border-zinc-200 bg-white px-3 text-sm font-medium text-zinc-700 hover:bg-zinc-50 focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 focus-visible:outline-none"
       >
         <ArrowUpDown className="h-4 w-4 text-zinc-400" aria-hidden="true" />
-        <span className="whitespace-nowrap">정렬: {active.label}</span>
+        <span className="whitespace-nowrap">Sort: {active.label}</span>
       </button>
       {open ? (
         <div
           role="menu"
-          aria-label="정렬 기준"
+          aria-label="Sort by"
           className="absolute right-0 z-30 mt-1 w-44 rounded-xl border border-zinc-200 bg-white p-1.5 shadow-lg"
         >
           {SORT_PRESETS.map((p) => {

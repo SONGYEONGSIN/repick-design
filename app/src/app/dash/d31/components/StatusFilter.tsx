@@ -23,7 +23,7 @@ export default function StatusFilter({ value, onChange, counts }: StatusFilterPr
   return (
     <div
       role="group"
-      aria-label="상태로 워크플로 목록 필터링"
+      aria-label="Filter workflow list by status"
       className="flex flex-wrap items-center gap-2"
     >
       {OPTIONS.map((opt) => {
@@ -43,7 +43,7 @@ export default function StatusFilter({ value, onChange, counts }: StatusFilterPr
             {opt !== "all" && (
               <span className={`size-1.5 rounded-full ${DOT_CLASS[opt]}`} aria-hidden="true" />
             )}
-            {opt === "all" ? "전체" : statusLabel(opt)}
+            {opt === "all" ? "All" : statusLabel(opt)}
             <span className="tabular-nums text-[11px] text-zinc-500">{counts[opt]}</span>
           </button>
         );

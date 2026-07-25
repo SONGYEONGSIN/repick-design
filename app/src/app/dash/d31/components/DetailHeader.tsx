@@ -11,7 +11,7 @@ interface DetailHeaderProps {
   listCount: number;
 }
 
-/** 디테일 뷰 헤더 — 선택된 워크플로 신원 + 기간 토글 + 주요 액션. 모바일에서는 목록 열기 버튼 포함. */
+/** Detail view header — selected workflow identity + period toggle + primary action. Includes an "open list" button on mobile. */
 export default function DetailHeader({ workflow, period, onPeriodChange, onOpenList, listCount }: DetailHeaderProps) {
   return (
     <div className="border-b border-white/10 bg-zinc-950/60 px-4 py-4 sm:px-6">
@@ -21,13 +21,14 @@ export default function DetailHeader({ workflow, period, onPeriodChange, onOpenL
         className="mb-3 inline-flex min-h-[36px] items-center gap-1.5 rounded-lg border border-white/10 bg-white/[0.03] px-2.5 text-xs font-medium text-zinc-400 hover:border-white/20 hover:text-zinc-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-400 lg:hidden"
       >
         <List className="size-3.5" aria-hidden="true" />
-        워크플로 목록 ({listCount})
+        Workflow list ({listCount})
       </button>
 
       {/*
-        정보 블록 → 컨트롤 블록 세로 스택이 기본값이다. lg(1024px)에서는 사이드바+목록 레일이 함께 보여
-        디테일 폭이 가장 좁아지므로, 좌우 배치는 그 폭 압박이 끝나는 xl(1280px)부터만 적용한다
-        (sm에서 조기 전환하면 lg 구간에서 제목이 다시 잘림 — 화면 스크린샷 검수에서 확인된 실결함).
+        A vertical stack of info block → control block is the default. At lg (1024px), the sidebar
+        and list rail are both showing, so the detail column is at its narrowest — the side-by-side
+        layout only kicks in once that width pressure ends, at xl (1280px). (Switching earlier at
+        sm re-clips the title in the lg range — a real defect confirmed during screenshot review.)
       */}
       <div className="flex flex-col gap-3 xl:flex-row xl:flex-wrap xl:items-start xl:justify-between xl:gap-4">
         <div className="min-w-0 flex-1">
@@ -51,7 +52,7 @@ export default function DetailHeader({ workflow, period, onPeriodChange, onOpenL
             className="inline-flex min-h-[44px] items-center gap-1.5 rounded-lg bg-indigo-500 px-3.5 text-sm font-medium text-white shadow-sm transition-colors hover:bg-indigo-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-300"
           >
             <Play className="size-3.5" aria-hidden="true" />
-            지금 실행
+            Run now
           </button>
         </div>
       </div>

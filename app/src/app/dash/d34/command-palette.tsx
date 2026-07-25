@@ -35,36 +35,36 @@ export function CommandPalette({
     () => [
       ...PERIODS.map((p) => ({
         id: `period-${p}`,
-        label: `기간: ${PERIOD_STATS[p].label} 보기`,
-        hint: "기간 토글",
+        label: `View period: ${PERIOD_STATS[p].label}`,
+        hint: "Period toggle",
         icon: Clock3,
         run: () => onSetPeriod(p),
       })),
       ...CHANNEL_FILTERS.map((c) => ({
         id: `channel-${c.value}`,
-        label: `채널: ${c.label} 보기`,
-        hint: "채널 필터",
+        label: `View channel: ${c.label}`,
+        hint: "Channel filter",
         icon: Filter,
         run: () => onSetChannel(c.value),
       })),
       {
         id: "expand-queue",
-        label: "채널별 대기열 카드 펼치기",
-        hint: "벤토 카드",
+        label: "Expand channel queue card",
+        hint: "Bento card",
         icon: Inbox,
         run: () => onExpandCard("queue"),
       },
       {
         id: "expand-escalations",
-        label: "에스컬레이션 카드 펼치기",
-        hint: "벤토 카드",
+        label: "Expand escalations card",
+        hint: "Bento card",
         icon: TriangleAlert,
         run: () => onExpandCard("escalations"),
       },
       {
         id: "expand-agents",
-        label: "에이전트 워크로드 카드 펼치기",
-        hint: "벤토 카드",
+        label: "Expand agent workload card",
+        hint: "Bento card",
         icon: Users,
         run: () => onExpandCard("agents"),
       },
@@ -129,12 +129,12 @@ export function CommandPalette({
 
   return (
     <div className="fixed inset-0 z-50 flex items-start justify-center px-4 pt-24" onKeyDown={handleKeyDown}>
-      <button type="button" aria-label="닫기" onClick={onClose} className="absolute inset-0 bg-zinc-950/70" />
+      <button type="button" aria-label="Close" onClick={onClose} className="absolute inset-0 bg-zinc-950/70" />
       <div
         ref={dialogRef}
         role="dialog"
         aria-modal="true"
-        aria-label="명령 팔레트"
+        aria-label="Command palette"
         className="relative w-full max-w-lg overflow-hidden rounded-xl border border-white/10 bg-zinc-900 shadow-2xl"
       >
         <div className="flex h-12 items-center gap-2 rounded-t-xl border-b border-white/10 px-3.5 focus-within:ring-2 focus-within:ring-sky-400 focus-within:ring-inset">
@@ -144,8 +144,8 @@ export function CommandPalette({
             type="text"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder="명령 검색 — 기간, 채널, 카드 펼치기..."
-            aria-label="명령 검색"
+            placeholder="Search commands — period, channel, expand card..."
+            aria-label="Search commands"
             aria-activedescendant={filtered[highlight] ? `cmd-${filtered[highlight].id}` : undefined}
             role="combobox"
             aria-expanded="true"
@@ -154,8 +154,8 @@ export function CommandPalette({
             className="h-full min-w-0 flex-1 bg-transparent text-[14px] text-zinc-100 placeholder:text-zinc-400 focus:outline-none"
           />
         </div>
-        <ul id="command-list" role="listbox" aria-label="명령 목록" className="max-h-72 overflow-y-auto py-1.5">
-          {filtered.length === 0 && <li className="px-3.5 py-6 text-center text-[13px] text-zinc-400">일치하는 명령이 없습니다.</li>}
+        <ul id="command-list" role="listbox" aria-label="Command list" className="max-h-72 overflow-y-auto py-1.5">
+          {filtered.length === 0 && <li className="px-3.5 py-6 text-center text-[13px] text-zinc-400">No matching commands.</li>}
           {filtered.map((cmd, i) => {
             const Icon = cmd.icon;
             const active = i === highlight;

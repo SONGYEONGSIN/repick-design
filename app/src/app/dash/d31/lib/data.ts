@@ -1,5 +1,5 @@
-// 결정론적 목업 데이터. Math.random() / Date.now() 사용 금지 — 모든 시각은 고정 기준시각(NOW)
-// 기준 상대/절대 값으로 계산한다. 서버·클라이언트 렌더 결과가 항상 동일하다.
+// Deterministic mock data. No Math.random() / Date.now() — every timestamp is computed relative
+// to (or as an absolute anchored on) the fixed reference instant (NOW). Server and client render output is always identical.
 
 export type Period = "24h" | "7d" | "30d";
 export type ExecStatus = "success" | "failed" | "running" | "warning";
@@ -33,7 +33,7 @@ export interface ExecutionLogEntry {
 
 const DAY_MS = 86_400_000;
 
-/** 대시보드 스냅샷 기준 시각 (고정값 — 실제 시계 미사용). */
+/** Dashboard snapshot reference instant (fixed value — no real clock used). */
 export const NOW = new Date("2026-07-11T15:07:00+09:00");
 
 function subDays(days: number): Date {
@@ -43,9 +43,9 @@ function subMinutes(minutes: number): Date {
   return new Date(NOW.getTime() - minutes * 60_000);
 }
 
-const dateLabel = new Intl.DateTimeFormat("ko-KR", { month: "2-digit", day: "2-digit" });
+const dateLabel = new Intl.DateTimeFormat("en-US", { month: "2-digit", day: "2-digit" });
 
-/** 총합을 정수 가중치로 나누되 나머지를 최대잔여법으로 배분해 부분합=총합을 보장한다. */
+/** Splits a total by integer weights, distributing the remainder via the largest-remainder method so the parts sum exactly to the total. */
 function distribute(total: number, weights: number[]): number[] {
   const weightSum = weights.reduce((a, b) => a + b, 0);
   const raw = weights.map((w) => (total * w) / weightSum);
@@ -62,7 +62,7 @@ function distribute(total: number, weights: number[]): number[] {
 }
 
 // ---------------------------------------------------------------------------
-// 실행 추이 시계열 (기간별)
+// Execution trend time series (by period)
 // ---------------------------------------------------------------------------
 
 const SUCCESS_24H = [22, 26, 19, 14, 10, 8, 6, 5, 4, 3, 3, 4, 6, 9, 17, 35, 54, 63, 60, 57, 52, 49, 44, 51];
@@ -71,7 +71,7 @@ const FAILED_24H = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 2, 2, 2, 2, 2, 
 const hourly24h: PeriodPoint[] = SUCCESS_24H.map((success, i) => {
   const hoursAgo = 23 - i;
   return {
-    label: hoursAgo === 0 ? "지금" : `-${hoursAgo}h`,
+    label: hoursAgo === 0 ? "Now" : `-${hoursAgo}h`,
     success,
     failed: FAILED_24H[i],
   };
@@ -85,7 +85,7 @@ const daily7d: PeriodPoint[] = SUCCESS_7D.map((success, i) => {
   return { label: dateLabel.format(subDays(daysAgo)), success, failed: FAILED_7D[i] };
 });
 
-// 30일 뷰의 마지막 7일은 7일 뷰와 동일한 값을 사용해 기간 전환 시 정합을 유지한다.
+// The last 7 days of the 30-day view use the same values as the 7-day view, keeping the two consistent when switching periods.
 const WEEK_PATTERN = [1, 0.95, 0.85, 1.6, 1.65, 1.7, 1.05];
 const leadingDays = 23;
 const leadingSuccess: number[] = [];
@@ -124,7 +124,7 @@ export function periodTotals(period: Period) {
   };
 }
 
-/** 24시간 뷰에서 실패 급증 구간을 탐지 (알림 카드용, 데이터에서 직접 계산). */
+/** Detects the failure-spike window in the 24h view (for the alert card, computed directly from the data). */
 export function detectErrorSpike() {
   const series = PERIOD_SERIES["24h"];
   let peakIndex = 0;
@@ -139,14 +139,14 @@ export function detectErrorSpike() {
 }
 
 // ---------------------------------------------------------------------------
-// 워크플로 카탈로그
+// Workflow catalog
 // ---------------------------------------------------------------------------
 
 export const WORKFLOWS: Workflow[] = [
   {
     id: "wf_b84c0e",
-    name: "Stripe 결제 웹훅 처리",
-    category: "결제",
+    name: "Stripe payment webhook processing",
+    category: "Payments",
     executions: 1240,
     failed: 92,
     avgDurationMs: 640,
@@ -155,8 +155,8 @@ export const WORKFLOWS: Workflow[] = [
   },
   {
     id: "wf_4a1f0c",
-    name: "주문 동기화 → 물류창고",
-    category: "재고",
+    name: "Order sync → warehouse",
+    category: "Inventory",
     executions: 1180,
     failed: 14,
     avgDurationMs: 2340,
@@ -165,8 +165,8 @@ export const WORKFLOWS: Workflow[] = [
   },
   {
     id: "wf_2f9d15",
-    name: "지원 티켓 라우팅",
-    category: "고객지원",
+    name: "Support ticket routing",
+    category: "Customer support",
     executions: 760,
     failed: 9,
     avgDurationMs: 810,
@@ -175,8 +175,8 @@ export const WORKFLOWS: Workflow[] = [
   },
   {
     id: "wf_e02f6a",
-    name: "Slack 장애 알림",
-    category: "알림",
+    name: "Slack incident alerts",
+    category: "Alerts",
     executions: 500,
     failed: 3,
     avgDurationMs: 205,
@@ -185,7 +185,7 @@ export const WORKFLOWS: Workflow[] = [
   },
   {
     id: "wf_1c7e88",
-    name: "리드 보강 (Clearbit)",
+    name: "Lead enrichment (Clearbit)",
     category: "CRM",
     executions: 330,
     failed: 24,
@@ -195,8 +195,8 @@ export const WORKFLOWS: Workflow[] = [
   },
   {
     id: "wf_c630a7",
-    name: "재고 부족 경보",
-    category: "재고",
+    name: "Low stock alerts",
+    category: "Inventory",
     executions: 160,
     failed: 3,
     avgDurationMs: 1310,
@@ -205,8 +205,8 @@ export const WORKFLOWS: Workflow[] = [
   },
   {
     id: "wf_9d3b21",
-    name: "인보이스 PDF 생성",
-    category: "청구",
+    name: "Invoice PDF generation",
+    category: "Billing",
     executions: 150,
     failed: 2,
     avgDurationMs: 1790,
@@ -215,8 +215,8 @@ export const WORKFLOWS: Workflow[] = [
   },
   {
     id: "wf_08e4d9",
-    name: "CRM → 스프레드시트 내보내기",
-    category: "리포팅",
+    name: "CRM → spreadsheet export",
+    category: "Reporting",
     executions: 29,
     failed: 1,
     avgDurationMs: 655,
@@ -225,8 +225,8 @@ export const WORKFLOWS: Workflow[] = [
   },
   {
     id: "wf_77bca4",
-    name: "야간 DB 백업",
-    category: "운영",
+    name: "Nightly DB backup",
+    category: "Operations",
     executions: 7,
     failed: 0,
     avgDurationMs: 156_000,
@@ -243,15 +243,17 @@ export function workflowSuccessRate(workflow: Workflow): number {
   return workflow.executions === 0 ? 0 : ((workflow.executions - workflow.failed) / workflow.executions) * 100;
 }
 
-/** 7일 스파크라인 패턴을 목표 길이만큼 순환시켜 지점별 형태 가중치를 만든다 (0 가중치는 1로 보정). */
+/** Tiles the 7-day sparkline pattern out to the target length to build per-point shape weights (a 0 weight is corrected to 1). */
 function tileShape(shape: number[], length: number): number[] {
   return Array.from({ length }, (_, i) => shape[i % shape.length] || 1);
 }
 
 /**
- * 워크플로별 실행 추이 시계열 — 전역 기간 합계에서 해당 워크플로의 실행 점유율만큼 배분하고,
- * 워크플로 고유 스파크라인 패턴으로 지점별 형태를 만든다 (지점 합계 = 배분된 워크플로 합계 보장).
- * Stripe 웹훅(wf_b84c0e)의 24시간 뷰는 전역 실패 급증 구간 형태를 그대로 반영해 알림 카드와 정합을 맞춘다.
+ * Per-workflow execution trend time series — allocates the workflow's share of executions
+ * out of the global period total, then shapes each point using the workflow's own sparkline
+ * pattern (the sum of the points is guaranteed to equal the allocated workflow total).
+ * The 24h view for the Stripe webhook (wf_b84c0e) mirrors the global failure-spike window shape
+ * exactly, to stay consistent with the alert card.
  */
 export function workflowPeriodSeries(workflowId: string, period: Period): PeriodPoint[] {
   const workflow = WORKFLOW_BY_ID.get(workflowId);
@@ -279,7 +281,7 @@ export function workflowPeriodSeries(workflowId: string, period: Period): Period
 }
 
 // ---------------------------------------------------------------------------
-// 최근 실행 로그 (분 단위 오프셋 → NOW 기준 절대시각으로 환산, 결정론적)
+// Recent execution log (minute offsets → converted to absolute times anchored on NOW, deterministic)
 // ---------------------------------------------------------------------------
 
 interface LogSeed {
@@ -333,14 +335,14 @@ export const EXECUTION_LOG: ExecutionLogEntry[] = LOG_SEED.map((seed, i) => {
   };
 });
 
-/** 워크플로별 가장 최근 실행 시각 (로그에서 직접 파생 — 이중 관리 방지). */
+/** Most recent execution time per workflow (derived directly from the log — avoids maintaining it twice). */
 export function lastRunAt(workflowId: string): Date {
   const entries = EXECUTION_LOG.filter((e) => e.workflowId === workflowId);
   return entries.reduce((latest, e) => (e.startedAt > latest ? e.startedAt : latest), new Date(0));
 }
 
 // ---------------------------------------------------------------------------
-// 크레딧 / 사용량
+// Credits / usage
 // ---------------------------------------------------------------------------
 
 export const CREDITS = {

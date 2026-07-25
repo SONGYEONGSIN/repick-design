@@ -53,7 +53,7 @@ export default function AllocationDonut() {
           width={SIZE}
           height={SIZE}
           role="img"
-          aria-label={`자산 배분: ${segments.map((s) => `${s.symbol} ${s.pct}%`).join(", ")}`}
+          aria-label={`Asset allocation: ${segments.map((s) => `${s.symbol} ${s.pct}%`).join(", ")}`}
         >
           <circle cx={CENTER} cy={CENTER} r={RADIUS} fill="none" stroke="currentColor" className="text-white/5" strokeWidth={STROKE} />
           <g transform={`rotate(-90 ${CENTER} ${CENTER})`}>
@@ -75,7 +75,7 @@ export default function AllocationDonut() {
         </svg>
         <div className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center">
           <p className="text-sm font-semibold tabular-nums text-zinc-50">{formatUSDCompact(TOTAL_BALANCE)}</p>
-          <p className="text-[10px] text-zinc-500">총 평가액</p>
+          <p className="text-[10px] text-zinc-500">Total value</p>
         </div>
       </div>
 

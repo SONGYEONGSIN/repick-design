@@ -1,22 +1,22 @@
-// 결정론적 포맷터 모음 — Math.random/Date.now 사용 금지, 전달받은 값만 포맷팅한다.
+// Deterministic formatter collection — no Math.random/Date.now, only formats the value passed in.
 
-const numberFormatter = new Intl.NumberFormat("ko-KR");
-const krwFormatter = new Intl.NumberFormat("ko-KR", {
+const numberFormatter = new Intl.NumberFormat("en-US");
+const krwFormatter = new Intl.NumberFormat("en-US", {
   style: "currency",
   currency: "KRW",
   maximumFractionDigits: 0,
 });
-const timeFormatter = new Intl.DateTimeFormat("ko-KR", {
+const timeFormatter = new Intl.DateTimeFormat("en-US", {
   hour: "2-digit",
   minute: "2-digit",
   second: "2-digit",
   hour12: false,
 });
-const dateFormatter = new Intl.DateTimeFormat("ko-KR", {
+const dateFormatter = new Intl.DateTimeFormat("en-US", {
   month: "2-digit",
   day: "2-digit",
 });
-const dateTimeFormatter = new Intl.DateTimeFormat("ko-KR", {
+const dateTimeFormatter = new Intl.DateTimeFormat("en-US", {
   month: "2-digit",
   day: "2-digit",
   hour: "2-digit",
@@ -56,14 +56,14 @@ export function formatDuration(ms: number): string {
   return `${minutes}m ${seconds}s`;
 }
 
-/** 고정된 기준 시각(now) 대비 상대 시간 — Date.now() 미사용, 결정론적. */
+/** Relative time against a fixed reference instant (now) — no Date.now(), deterministic. */
 export function formatRelative(date: Date, now: Date): string {
   const diffMs = now.getTime() - date.getTime();
   const diffMin = Math.round(diffMs / 60_000);
-  if (diffMin < 1) return "방금 전";
-  if (diffMin < 60) return `${diffMin}분 전`;
+  if (diffMin < 1) return "just now";
+  if (diffMin < 60) return `${diffMin}m ago`;
   const diffHour = Math.round(diffMin / 60);
-  if (diffHour < 24) return `${diffHour}시간 전`;
+  if (diffHour < 24) return `${diffHour}h ago`;
   const diffDay = Math.round(diffHour / 24);
-  return `${diffDay}일 전`;
+  return `${diffDay}d ago`;
 }

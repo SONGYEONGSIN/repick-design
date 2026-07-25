@@ -14,17 +14,17 @@ type SortKey = "startedAt" | "durationMs";
 type SortDir = "asc" | "desc";
 
 const TRIGGER_META = {
-  schedule: { label: "스케줄", Icon: Timer },
-  webhook: { label: "웹훅", Icon: Radio },
-  manual: { label: "수동 실행", Icon: Hand },
+  schedule: { label: "Schedule", Icon: Timer },
+  webhook: { label: "Webhook", Icon: Radio },
+  manual: { label: "Manual run", Icon: Hand },
 } as const;
 
 const COLUMNS: { key: SortKey; label: string }[] = [
-  { key: "durationMs", label: "소요시간" },
-  { key: "startedAt", label: "시작 시각" },
+  { key: "durationMs", label: "Duration" },
+  { key: "startedAt", label: "Started" },
 ];
 
-/** 선택된 워크플로 하나로 스코프된 실행 로그 — 소요시간/시작시각 정렬 가능. */
+/** Execution log scoped to a single selected workflow — sortable by duration/start time. */
 export default function ExecutionLogTable({ workflowId }: ExecutionLogTableProps) {
   const [sortKey, setSortKey] = useState<SortKey>("startedAt");
   const [sortDir, setSortDir] = useState<SortDir>("desc");
@@ -51,14 +51,14 @@ export default function ExecutionLogTable({ workflowId }: ExecutionLogTableProps
   return (
     <div className="overflow-x-auto rounded-xl border border-white/10 bg-zinc-900/60 shadow-sm">
       <table className="w-full min-w-[520px] border-collapse text-sm">
-        <caption className="sr-only">선택한 워크플로의 최근 실행 기록 — 실행 ID, 트리거, 소요시간, 시작 시각, 상태 기준 정렬 가능</caption>
+        <caption className="sr-only">Recent execution history for the selected workflow — sortable by run ID, trigger, duration, start time, and status</caption>
         <thead>
           <tr className="border-b border-white/10 text-left">
             <th scope="col" className="px-4 py-3 text-[11px] font-medium uppercase tracking-wider text-zinc-500">
-              실행 ID
+              Run ID
             </th>
             <th scope="col" className="px-4 py-3 text-[11px] font-medium uppercase tracking-wider text-zinc-500">
-              트리거
+              Trigger
             </th>
             {COLUMNS.map((col) => {
               const active = col.key === sortKey;
@@ -85,7 +85,7 @@ export default function ExecutionLogTable({ workflowId }: ExecutionLogTableProps
               );
             })}
             <th scope="col" className="px-4 py-3 text-right text-[11px] font-medium uppercase tracking-wider text-zinc-500">
-              상태
+              Status
             </th>
           </tr>
         </thead>
@@ -103,7 +103,7 @@ export default function ExecutionLogTable({ workflowId }: ExecutionLogTableProps
                 </td>
                 <td className="whitespace-nowrap px-4 py-3 text-right tabular-nums text-zinc-200">
                   {entry.durationMs === null ? (
-                    <span className="text-blue-400">진행중</span>
+                    <span className="text-blue-400">In progress</span>
                   ) : (
                     formatDuration(entry.durationMs)
                   )}
@@ -126,7 +126,7 @@ export default function ExecutionLogTable({ workflowId }: ExecutionLogTableProps
           {rows.length === 0 && (
             <tr>
               <td colSpan={5} className="px-4 py-10 text-center text-sm text-zinc-500">
-                이 워크플로의 실행 기록이 아직 없습니다.
+                No execution history for this workflow yet.
               </td>
             </tr>
           )}

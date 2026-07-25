@@ -15,7 +15,7 @@ import {
 import { COLUMN_FILL, OUTCOME_FILL, OUTCOME_RIBBON_FILL, SVG_FOCUS, TEXT_CAPTION, TEXT_PRIMARY, cx } from "./tokens";
 
 /* ---------------------------------------------------------------------- */
-/* 좌표계 — viewBox 고정 단위, 전부 소수 2자리 반올림(하이드레이션 안정)               */
+/* Coordinate system — fixed viewBox units, everything rounded to 2 decimal places (for hydration stability) */
 /* ---------------------------------------------------------------------- */
 
 const VB_W = 1200;
@@ -112,7 +112,7 @@ export default function SankeyFlow({
   metric: MetricId;
   selectedId: string | null;
   onSelect: (id: string | null) => void;
-  /** 값이 바뀔 때마다(커맨드 팔레트 등 외부 트리거) selectedId 요소로 실제 DOM 포커스를 이동시킨다. */
+  /** Whenever this value changes (external trigger e.g. command palette), moves actual DOM focus to the selectedId element. */
   focusToken: number;
 }) {
   const [activeId, setActiveId] = useState<string | null>(null);

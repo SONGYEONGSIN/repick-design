@@ -11,9 +11,9 @@ import { Card, CardHeader } from "./ui/Card";
 type ViewMode = "list" | "board";
 
 const BOARD_COLUMNS: { key: TaskStatus; label: string }[] = [
-  { key: "todo", label: "할 일" },
-  { key: "in_progress", label: "진행중" },
-  { key: "done", label: "완료" },
+  { key: "todo", label: "To Do" },
+  { key: "in_progress", label: "In Progress" },
+  { key: "done", label: "Done" },
 ];
 
 export function MyTasks() {
@@ -24,26 +24,26 @@ export function MyTasks() {
   return (
     <Card as="section" aria-labelledby={headingId}>
       <CardHeader
-        title="내 작업"
+        title="My Tasks"
         titleId={headingId}
-        description={`${myTasks.length}개 · 현재 필터에 배정된 내 작업`}
+        description={`${myTasks.length} · assigned to me under the current filter`}
         action={
           <div
             role="group"
-            aria-label="보기 방식 전환"
+            aria-label="Switch view"
             className="flex items-center rounded-lg border border-zinc-200 bg-zinc-50 p-0.5"
           >
             <ViewToggleButton
               active={view === "list"}
               onClick={() => setView("list")}
               icon={List}
-              label="리스트 보기"
+              label="List view"
             />
             <ViewToggleButton
               active={view === "board"}
               onClick={() => setView("board")}
               icon={Columns3}
-              label="보드 보기"
+              label="Board view"
             />
           </div>
         }
@@ -51,7 +51,7 @@ export function MyTasks() {
 
       {myTasks.length === 0 ? (
         <p className="px-5 py-8 text-center text-sm text-zinc-500">
-          현재 필터에 해당하는 내 작업이 없습니다.
+          No tasks match the current filter.
         </p>
       ) : view === "list" ? (
         <ListView tasks={myTasks} />
@@ -109,7 +109,7 @@ function TaskRow({ task }: { task: Task }) {
       <input
         type="checkbox"
         defaultChecked={isDone}
-        aria-label={`${task.title} 완료 표시`}
+        aria-label={`Mark "${task.title}" complete`}
         className="h-4 w-4 shrink-0 rounded border-zinc-300 text-indigo-600 focus-visible:ring-2 focus-visible:ring-indigo-500"
       />
       <div className="min-w-0 flex-1">
@@ -164,7 +164,7 @@ function BoardView({ tasks }: { tasks: Task[] }) {
               })}
               {columnTasks.length === 0 ? (
                 <li className="rounded-lg border border-dashed border-zinc-200 p-3 text-center text-xs text-zinc-400">
-                  없음
+                  None
                 </li>
               ) : null}
             </ul>

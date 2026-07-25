@@ -92,7 +92,7 @@ export function StatusBadge({ status }: { status: AgentStatus }) {
   );
 }
 
-/* ── Avatar (이니셜) ──────────────────────────────────── */
+/* ── Avatar (initials) ──────────────────────────────────── */
 
 const AVATAR_PALETTE = [
   "bg-indigo-500/20 text-indigo-300",
@@ -151,7 +151,7 @@ export function ProgressBar({
   );
 }
 
-/* ── Segmented control (기간 토글) ────────────────────── */
+/* ── Segmented control (period toggle) ────────────────────── */
 
 export function SegmentedControl<T extends string>({
   options,
@@ -190,7 +190,7 @@ export function SegmentedControl<T extends string>({
   );
 }
 
-/* ── Filter chips (채널 필터 — radiogroup, 단일 선택) ──── */
+/* ── Filter chips (channel filter — radiogroup, single-select) ──── */
 
 export function FilterRadioGroup<T extends string>({
   options,
@@ -235,7 +235,7 @@ export function FilterRadioGroup<T extends string>({
   );
 }
 
-/* ── Card header (아이콘 + 제목 + 배지 + 펼치기 토글) ─── */
+/* ── Card header (icon + title + badge + expand toggle) ─── */
 
 export function CardHeader({
   icon,
@@ -271,7 +271,7 @@ export function CardHeader({
           onClick={onToggle}
           className="flex h-8 shrink-0 items-center gap-1 rounded-md px-2 text-[12px] font-medium text-zinc-400 transition-colors hover:bg-white/5 hover:text-zinc-100 focus-visible:ring-2 focus-visible:ring-sky-400 focus-visible:outline-none"
         >
-          {expanded ? "접기" : "자세히"}
+          {expanded ? "Collapse" : "Details"}
           <ChevronDown className={`h-3.5 w-3.5 transition-transform ${expanded ? "rotate-180" : ""}`} aria-hidden="true" />
         </button>
       )}

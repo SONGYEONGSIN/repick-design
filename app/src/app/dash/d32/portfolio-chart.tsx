@@ -8,7 +8,7 @@ import { cn } from "./utils";
 import type { Period, SeriesPoint } from "./types";
 
 const PERIODS: Period[] = ["1D", "1W", "1M", "1Y"];
-const PERIOD_LABEL: Record<Period, string> = { "1D": "1일", "1W": "1주", "1M": "1개월", "1Y": "1년" };
+const PERIOD_LABEL: Record<Period, string> = { "1D": "1 day", "1W": "1 week", "1M": "1 month", "1Y": "1 year" };
 
 const CHART_W = 640;
 const CHART_H = 220;
@@ -44,7 +44,7 @@ function PeriodTabs({
   }
 
   return (
-    <div role="tablist" aria-label="차트 기간 선택" className="inline-flex items-center gap-0.5 rounded-lg border border-white/10 bg-white/5 p-1">
+    <div role="tablist" aria-label="Select chart period" className="inline-flex items-center gap-0.5 rounded-lg border border-white/10 bg-white/5 p-1">
       {PERIODS.map((p, idx) => (
         <button
           key={p}
@@ -145,7 +145,7 @@ function LineChart({
       <div
         role="slider"
         tabIndex={0}
-        aria-label={`${assetLabel} 가격 차트, ${PERIOD_LABEL[period]} 기간. 화살표 키로 시점을 탐색합니다.`}
+        aria-label={`${assetLabel} price chart, ${PERIOD_LABEL[period]} period. Use arrow keys to explore points in time.`}
         aria-valuemin={0}
         aria-valuemax={series.length - 1}
         aria-valuenow={activeIndex}
@@ -253,7 +253,7 @@ export default function PortfolioChartCard() {
   const allocation = getAllocation();
   const heldAsset = allocation.find((a) => a.holding.id === selectedAssetId)?.holding;
 
-  const label = isPortfolio ? "전체 포트폴리오" : heldAsset?.name ?? selectedAssetId.toUpperCase();
+  const label = isPortfolio ? "All Portfolio" : heldAsset?.name ?? selectedAssetId.toUpperCase();
   const color = isPortfolio ? "#6366F1" : heldAsset?.color ?? "#6366F1";
   const current = series[series.length - 1].value;
   const start = series[0].value;
@@ -264,7 +264,7 @@ export default function PortfolioChartCard() {
     <Card
       id="portfolio-chart"
       title={label}
-      description={isPortfolio ? "총 자산 가치 추이" : "자산 가격 추이"}
+      description={isPortfolio ? "Total asset value trend" : "Asset price trend"}
       action={<PeriodTabs period={period} onChange={setPeriod} panelId={panelId} />}
       bodyClassName="px-5 pb-5"
     >

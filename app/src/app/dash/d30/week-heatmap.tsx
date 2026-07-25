@@ -37,25 +37,25 @@ export function WeekHeatmap({ eventTypeId, eventTypeLabel }: WeekHeatmapProps) {
           className="pointer-events-none absolute -top-1 right-0 z-10 rounded-lg border border-zinc-200 bg-white px-2.5 py-1.5 shadow-md"
         >
           <p className="whitespace-nowrap text-[11px] font-medium text-zinc-400">
-            {HEAT_DAYS[active.dayIdx]}요일 {HEAT_HOURS[active.hourIdx]}:00
+            {HEAT_DAYS[active.dayIdx]} {HEAT_HOURS[active.hourIdx]}:00
           </p>
           <p className="whitespace-nowrap text-[13px] font-semibold tabular-nums text-zinc-900">
-            {formatNumber(activeValue ?? 0)}건 예약
+            {formatNumber(activeValue ?? 0)} bookings
           </p>
           <p className="whitespace-nowrap text-[11.5px] tabular-nums text-zinc-500">
-            주간 비중 {activeSharePct}%
+            {activeSharePct}% of week
           </p>
         </div>
       ) : null}
 
       <table className="w-full border-separate border-spacing-1">
         <caption className="mb-2 text-left text-[12.5px] text-zinc-500">
-          {eventTypeLabel} · 평일 09시~17시 시간대별 예약 밀도
+          {eventTypeLabel} · Booking density by hour, weekdays 9:00–17:00
         </caption>
         <thead>
           <tr>
             <th scope="col" className="w-10">
-              <span className="sr-only">시간대</span>
+              <span className="sr-only">Hour</span>
             </th>
             {HEAT_DAYS.map((day) => (
               <th
@@ -75,7 +75,7 @@ export function WeekHeatmap({ eventTypeId, eventTypeLabel }: WeekHeatmapProps) {
                 scope="row"
                 className="w-10 pr-1 text-right text-[11px] tabular-nums font-normal text-zinc-400"
               >
-                {hour}시
+                {hour}:00
               </th>
               {HEAT_DAYS.map((day, dayIdx) => {
                 const value = heatValue(dayIdx, hourIdx, eventTypeId);
@@ -89,7 +89,7 @@ export function WeekHeatmap({ eventTypeId, eventTypeLabel }: WeekHeatmapProps) {
                       onMouseLeave={() => setActive(null)}
                       onFocus={() => setActive({ dayIdx, hourIdx })}
                       onBlur={() => setActive(null)}
-                      aria-label={`${day}요일 ${hour}시 · ${value}건 예약`}
+                      aria-label={`${day} ${hour}:00 · ${value} bookings`}
                       style={{
                         backgroundColor: `rgba(79, 70, 229, ${(0.08 + intensity * 0.62).toFixed(2)})`,
                       }}

@@ -10,7 +10,7 @@ interface CardProps {
   className?: string;
 }
 
-/** 대시보드 전역에서 재사용하는 카드 컨테이너 — radius/border/shadow/padding 통일. */
+/** Reusable card container shared across the dashboard — unifies radius/border/shadow/padding. */
 export default function Card({ id, headingId, title, description, action, children, className = "" }: CardProps) {
   return (
     <section

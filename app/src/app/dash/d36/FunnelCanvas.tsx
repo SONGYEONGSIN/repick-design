@@ -7,9 +7,9 @@ import { formatCount, formatPct, round2, STAGE_COUNTS, STAGES, stagePct, transit
 import { FOCUS_RING_INSET, TEXT_CAPTION, TEXT_PRIMARY, TEXT_SECONDARY, TRANSITION, cx } from "./tokens";
 
 /**
- * 화면을 지배하는 단계형 전환 퍼널 — 각 단계는 폭이 카운트를 인코딩하는 가로 밴드.
- * 밴드 사이 커넥터는 이탈 수·비율 + 최상위 이탈 사유를 즉시 가독 텍스트로 노출한다(호버 불필요).
- * 밴드를 선택하면 우측/하단 상세 패널과 세그먼트 테이블이 동기화된다.
+ * The screen-dominant staged conversion funnel — each stage is a horizontal band whose width encodes its count.
+ * Connectors between bands surface drop-off count/rate plus the top drop-off reason as instantly-readable text (no hover needed).
+ * Selecting a band syncs the detail panel (right/bottom) and the segment table.
  */
 export default function FunnelCanvas({
   period,

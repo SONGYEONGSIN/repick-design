@@ -52,10 +52,10 @@ function buildValues(
   return values.map(round2);
 }
 
-const KOREAN_WEEKDAYS = ["월", "화", "수", "목", "금", "토", "일"];
+const KOREAN_WEEKDAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 const KOREAN_MONTHS = [
-  "1월", "2월", "3월", "4월", "5월", "6월",
-  "7월", "8월", "9월", "10월", "11월", "12월",
+  "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+  "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
 ];
 
 const PERIOD_LENGTH: Record<Period, number> = {
@@ -78,14 +78,14 @@ function buildLabels(period: Period, len: number): { label: string; full: string
       const weekday = KOREAN_WEEKDAYS[dayIndex];
       out.push({
         label: hourOfDay === 0 ? weekday : "",
-        full: `${weekday}요일 ${String(hourOfDay).padStart(2, "0")}:00`,
+        full: `${weekday} ${String(hourOfDay).padStart(2, "0")}:00`,
       });
     } else if (period === "1M") {
       const day = i + 1;
-      out.push({ label: `${day}일`, full: `7월 ${day}일` });
+      out.push({ label: `${day}`, full: `Jul ${day}` });
     } else {
       const month = KOREAN_MONTHS[i % 12];
-      out.push({ label: month, full: `${month} 종가 기준` });
+      out.push({ label: month, full: `${month} closing price` });
     }
   }
   return out;
@@ -242,7 +242,7 @@ export function getHoldingValue(h: Holding): number {
   return round2(h.price * h.qty);
 }
 
-/** Unrealized return since average cost basis, as a percentage (수익률). */
+/** Unrealized return since average cost basis, as a percentage (return rate). */
 export function getReturnPct(h: Holding): number {
   return round2(((h.price - h.avgCost) / h.avgCost) * 100);
 }
@@ -291,13 +291,13 @@ export function getAllocation(): { holding: Holding; pct: number }[] {
  * ---------------------------------------------------------------------- */
 
 export const TRANSACTIONS: Transaction[] = [
-  { id: "tx-01", type: "buy", assetId: "sol", symbol: "SOL", qty: 60, value: 9504.00, date: "7월 11일", time: "07:03", status: "pending" },
-  { id: "tx-02", type: "transfer_out", assetId: "usdc", symbol: "USDC", qty: 5000, value: 5000.00, date: "7월 5일", time: "08:20", status: "completed" },
-  { id: "tx-03", type: "sell", assetId: "link", symbol: "LINK", qty: 300, value: 4506.00, date: "7월 6일", time: "13:55", status: "completed" },
-  { id: "tx-04", type: "buy", assetId: "avax", symbol: "AVAX", qty: 120, value: 4296.00, date: "7월 7일", time: "20:31", status: "completed" },
-  { id: "tx-05", type: "transfer_in", assetId: "sol", symbol: "SOL", qty: 45, value: 7335.00, date: "7월 8일", time: "11:02", status: "completed" },
-  { id: "tx-06", type: "sell", assetId: "eth", symbol: "ETH", qty: 2.5, value: 8700.25, date: "7월 8일", time: "16:47", status: "completed" },
-  { id: "tx-07", type: "buy", assetId: "btc", symbol: "BTC", qty: 0.042, value: 2776.63, date: "7월 9일", time: "09:14", status: "completed" },
+  { id: "tx-01", type: "buy", assetId: "sol", symbol: "SOL", qty: 60, value: 9504.00, date: "7.11", time: "07:03", status: "pending" },
+  { id: "tx-02", type: "transfer_out", assetId: "usdc", symbol: "USDC", qty: 5000, value: 5000.00, date: "7.5", time: "08:20", status: "completed" },
+  { id: "tx-03", type: "sell", assetId: "link", symbol: "LINK", qty: 300, value: 4506.00, date: "7.6", time: "13:55", status: "completed" },
+  { id: "tx-04", type: "buy", assetId: "avax", symbol: "AVAX", qty: 120, value: 4296.00, date: "7.7", time: "20:31", status: "completed" },
+  { id: "tx-05", type: "transfer_in", assetId: "sol", symbol: "SOL", qty: 45, value: 7335.00, date: "7.8", time: "11:02", status: "completed" },
+  { id: "tx-06", type: "sell", assetId: "eth", symbol: "ETH", qty: 2.5, value: 8700.25, date: "7.8", time: "16:47", status: "completed" },
+  { id: "tx-07", type: "buy", assetId: "btc", symbol: "BTC", qty: 0.042, value: 2776.63, date: "7.9", time: "09:14", status: "completed" },
 ];
 
 /* ---------------------------------------------------------------------- *
