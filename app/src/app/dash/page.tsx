@@ -3,7 +3,7 @@ import { DASH_LAB_WORKS } from "@/lib/works";
 
 export const metadata: Metadata = { title: "자유 창작 SaaS 대시보드 랩" };
 
-function Card({ route, id, brand, desc }: { route: string; id: string; brand: string; desc: string }) {
+function Card({ route, id, brand, desc }: { route: string; id: string; brand: string; desc: { en: string; ko: string } }) {
   return (
     <a
       href={route}
@@ -23,7 +23,7 @@ function Card({ route, id, brand, desc }: { route: string; id: string; brand: st
       <div className="flex items-start justify-between gap-3 border-t border-neutral-200 px-4 py-3">
         <div className="min-w-0">
           <p className="truncate text-sm font-bold text-neutral-900">{brand}</p>
-          <p className="mt-0.5 line-clamp-2 text-xs text-neutral-500">{desc}</p>
+          <p className="mt-0.5 line-clamp-2 text-xs text-neutral-500">{desc.ko}</p>
         </div>
         <span className="shrink-0 rounded-md bg-neutral-100 px-2 py-1 font-mono text-xs font-semibold text-neutral-600">
           {id}

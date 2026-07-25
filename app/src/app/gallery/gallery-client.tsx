@@ -1,157 +1,83 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import type { Work } from "@/lib/works";
 import { WorkCard } from "./work-card";
-import { CollectionMark } from "./collection-mark";
+import { STRINGS, DEFAULT_LANG, categoryLabel, type Lang } from "./gallery-i18n";
 
-type Category = { key: string; numeral: string; label: string; works: Work[] };
+type FilterKey = "all" | "dashboard" | "landing" | "free" | "native" | "winners";
+const FILTERS: FilterKey[] = ["all", "dashboard", "landing", "free", "native", "winners"];
 
-export function GalleryClient({ categories, lastUpdated }: { categories: Category[]; lastUpdated: string }) {
-  const [active, setActive] = useState(categories[0].key);
-  const tabRefs = useRef<(HTMLButtonElement | null)[]>([]);
-  const current = categories.find((c) => c.key === active) ?? categories[0];
-  const total = categories.reduce((n, c) => n + c.works.length, 0);
-  const [winnersOnly, setWinnersOnly] = useState(false);
-  const isEvolve = current.key === "evolve";
-  const shown = isEvolve && winnersOnly ? current.works.filter((w) => w.status === "winner") : current.works;
+export function GalleryClient({ works, lastUpdated }: { works: Work[]; lastUpdated: string }) {
+  const [lang, setLang] = useState<Lang>(DEFAULT_LANG);
+  const [query, setQuery] = useState("");
+  const [filter, setFilter] = useState<FilterKey>("all");
+  const t = STRINGS[lang];
 
-  function onTabKeyDown(e: React.KeyboardEvent, idx: number) {
-    let next: number;
-    if (e.key === "ArrowRight" || e.key === "ArrowLeft") {
-      next = (idx + (e.key === "ArrowRight" ? 1 : categories.length - 1)) % categories.length;
-    } else if (e.key === "Home") {
-      next = 0;
-    } else if (e.key === "End") {
-      next = categories.length - 1;
-    } else {
-      return;
-    }
-    e.preventDefault();
-    setActive(categories[next].key);
-    tabRefs.current[next]?.focus();
-  }
+  useEffect(() => {
+    const saved = localStorage.getItem("specimen-lang");
+    if (saved === "en" || saved === "ko") setLang(saved);
+  }, []);
+  function pickLang(l: Lang) { setLang(l); localStorage.setItem("specimen-lang", l); }
+
+  const q = query.trim().toLowerCase();
+  const shown = works.filter((w) => {
+    if (filter === "winners") { if (w.status !== "winner") return false; }
+    else if (filter !== "all") { if (w.category !== filter) return false; }
+    if (q && !`${w.brand} ${w.desc.en} ${w.desc.ko}`.toLowerCase().includes(q)) return false;
+    return true;
+  });
 
   return (
     <div className="min-h-screen bg-white text-zinc-900">
       <main className="mx-auto max-w-7xl px-6 py-14 md:px-10">
-        {/* 도록 표지 */}
-        <header>
-          <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.24em] text-zinc-500">
-            Repick Design — Collected Works · <span className="tabular-nums">{total}</span> Works ·{" "}
-            <span className="tabular-nums">{categories.length}</span> Sections · Rev <span className="tabular-nums">{lastUpdated}</span>
-          </p>
-          <h1 className="mt-5 text-5xl font-extrabold leading-[1.04] tracking-tight md:text-7xl">
-            전작 도록<span aria-hidden="true" className="align-top text-2xl font-bold text-zinc-400 md:text-3xl">*</span>
-          </h1>
-          <p className="mt-4 max-w-xl text-sm leading-relaxed text-zinc-500">
-            랜딩·SaaS 대시보드·자유 창작 — 진화 루프가 축적한 모든 페이지를 한 지면에 수록한 카탈로그.
-            카드는 실제 페이지의 라이브 미리보기입니다.
-          </p>
-          <CollectionMark sections={categories.map((c) => ({ label: c.label, count: c.works.length }))} />
-        </header>
-
-        {/* 목차 (탭) */}
-        <div role="tablist" aria-label="작품 카테고리" className="mt-12 flex flex-wrap gap-x-8 gap-y-2 border-b border-zinc-200">
-          {categories.map((c, i) => {
-            const selected = c.key === active;
-            return (
-              <button
-                key={c.key}
-                ref={(el) => { tabRefs.current[i] = el; }}
-                role="tab"
-                aria-selected={selected}
-                aria-controls={`panel-${c.key}`}
-                id={`tab-${c.key}`}
-                tabIndex={selected ? 0 : -1}
-                onClick={() => setActive(c.key)}
-                onKeyDown={(e) => onTabKeyDown(e, i)}
-                className={`-mb-px flex h-11 items-center gap-2 border-b-2 text-sm font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-900 focus-visible:ring-offset-2 ${
-                  selected ? "border-zinc-900 text-zinc-900" : "border-transparent text-zinc-500 hover:border-zinc-300 hover:text-zinc-700"
-                }`}
-              >
-                <span className="font-mono text-[11px]">{c.numeral}</span>
-                {c.label}
-                <span className="rounded-full bg-zinc-100 px-2 py-0.5 font-mono text-[11px] font-semibold tabular-nums text-zinc-600">
-                  {c.works.length}
-                </span>
-              </button>
-            );
-          })}
-        </div>
-
-        {/* 선택된 섹션만 마운트 — key 교체로 크로스페이드 재생 */}
-        <section
-          key={current.key}
-          role="tabpanel"
-          id={`panel-${current.key}`}
-          aria-labelledby={`tab-${current.key}`}
-          className="mt-10 animate-[gallery-fade_240ms_ease-out] motion-reduce:animate-none"
-        >
-          {isEvolve ? (
-            <>
-              <div role="group" aria-label="후보 필터" className="mb-6 inline-flex rounded-lg border border-zinc-200 p-0.5">
-                {([["전체", false], ["승자만", true]] as const).map(([label, val]) => (
-                  <button
-                    key={label}
-                    type="button"
-                    aria-pressed={winnersOnly === val}
-                    onClick={() => setWinnersOnly(val)}
-                    className={`h-8 rounded-md px-3 text-xs font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-900 ${
-                      winnersOnly === val ? "bg-zinc-900 text-white" : "text-zinc-500 hover:text-zinc-800"
-                    }`}
-                  >
-                    {label}
-                  </button>
-                ))}
-              </div>
-              <div className="space-y-10">
-                {groupByRound(shown).map((g) => (
-                  <div key={g.key}>
-                    <h2 className="mb-4 font-mono text-[11px] font-semibold uppercase tracking-[0.2em] text-zinc-500">
-                      {g.header} · <span className="tabular-nums">{g.works.length}</span>
-                    </h2>
-                    <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-3">
-                      {g.works.map((w) => (
-                        <WorkCard key={w.id} work={w} numeral={current.numeral} />
-                      ))}
-                    </div>
-                  </div>
-                ))}
-                {shown.length === 0 && <p className="text-sm text-zinc-500">승자가 아직 없습니다.</p>}
-              </div>
-            </>
-          ) : (
-            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-3">
-              {current.works.map((w) => (
-                <WorkCard key={w.id} work={w} numeral={current.numeral} />
+        <header className="flex flex-col gap-6">
+          <div className="flex items-start justify-between gap-4">
+            <div>
+              <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.24em] text-zinc-500">
+                Specimen · <span className="tabular-nums">{works.length}</span> {t.worksLabel} · Rev <span className="tabular-nums">{lastUpdated}</span>
+              </p>
+              <h1 className="mt-4 text-5xl font-extrabold leading-[1.04] tracking-tight md:text-6xl">Specimen</h1>
+              <p className="mt-4 max-w-xl text-sm leading-relaxed text-zinc-500">{t.tagline}</p>
+            </div>
+            <div role="group" aria-label={t.langLabel} className="inline-flex shrink-0 rounded-lg border border-zinc-200 p-0.5">
+              {(["en", "ko"] as const).map((l) => (
+                <button key={l} type="button" aria-pressed={lang === l} onClick={() => pickLang(l)}
+                  className={`h-8 rounded-md px-3 text-xs font-semibold uppercase transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-900 ${lang === l ? "bg-zinc-900 text-white" : "text-zinc-500 hover:text-zinc-800"}`}>
+                  {l}
+                </button>
               ))}
             </div>
-          )}
-        </section>
+          </div>
+
+          <div className="flex flex-col gap-4 border-t border-zinc-200 pt-6 sm:flex-row sm:items-center sm:justify-between">
+            <input type="search" aria-label={t.searchLabel} value={query} onChange={(e) => setQuery(e.target.value)}
+              placeholder={t.searchPlaceholder}
+              className="h-10 w-full rounded-lg border border-zinc-200 px-3.5 text-sm placeholder:text-zinc-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-900 sm:max-w-xs" />
+            <div role="group" aria-label={t.filterLabel} className="flex flex-wrap gap-2">
+              {FILTERS.map((f) => (
+                <button key={f} type="button" aria-pressed={filter === f} onClick={() => setFilter(f)}
+                  className={`h-8 rounded-full border px-3 text-xs font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-900 ${filter === f ? "border-zinc-900 bg-zinc-900 text-white" : "border-zinc-200 text-zinc-600 hover:border-zinc-400"}`}>
+                  {t.filters[f]}
+                </button>
+              ))}
+            </div>
+          </div>
+        </header>
+
+        <p aria-live="polite" className="mt-8 font-mono text-[11px] uppercase tracking-[0.2em] text-zinc-400">
+          <span className="tabular-nums">{shown.length}</span> {t.resultsLabel}
+        </p>
+
+        <div className="mt-4 grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-3">
+          {shown.map((w) => <WorkCard key={w.id} work={w} lang={lang} label={categoryLabel(w.category, lang)} />)}
+        </div>
+        {shown.length === 0 && <p className="mt-10 text-sm text-zinc-500">{t.empty}</p>}
 
         <footer className="mt-16 border-t border-zinc-200 pt-5">
-          <p className="font-mono text-[11px] uppercase tracking-[0.24em] text-zinc-500">
-            Printed by autonomous evolution loop · repick-design
-          </p>
+          <p className="font-mono text-[11px] uppercase tracking-[0.24em] text-zinc-500">{t.footer}</p>
         </footer>
       </main>
     </div>
   );
-}
-
-function groupByRound(works: Work[]): { key: string; header: string; works: Work[] }[] {
-  const groups: { key: string; header: string; works: Work[] }[] = [];
-  for (const w of works) {
-    const key = w.round ?? "기타";
-    let g = groups.find((x) => x.key === key);
-    if (!g) {
-      const rn = w.round?.split("-r")[1] ?? "";
-      const head = `${(w.target ?? "").toUpperCase()} · R${rn}${w.date ? " · " + w.date : ""}`.replace(/^ · /, "");
-      g = { key, header: head, works: [] };
-      groups.push(g);
-    }
-    g.works.push(w);
-  }
-  return groups;
 }
