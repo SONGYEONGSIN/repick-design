@@ -6,7 +6,7 @@ export const DEFAULT_LANG: Lang = "en";
 
 type FilterKey = "all" | "project" | "scheduling" | "ops" | "finance" | "analytics" | "landing" | "mobile";
 type Strings = {
-  worksLabel: string; tagline: string; langLabel: string;
+  worksLabel: string; langLabel: string;
   searchLabel: string; searchPlaceholder: string; filterLabel: string;
   filters: Record<FilterKey, string>;
   resultsLabel: string; empty: string; footer: string;
@@ -24,7 +24,6 @@ type Strings = {
 export const STRINGS: Record<Lang, Strings> = {
   en: {
     worksLabel: "works",
-    tagline: "Interface design systems, auto-evolved for AI agents.",
     langLabel: "Language", searchLabel: "Search works", searchPlaceholder: "Search designs…",
     filterLabel: "Filter",
     filters: { all: "All", project: "Project", scheduling: "Scheduling", ops: "Ops", finance: "Finance", analytics: "Analytics", landing: "Landing", mobile: "Mobile" },
@@ -48,7 +47,6 @@ export const STRINGS: Record<Lang, Strings> = {
   },
   ko: {
     worksLabel: "작품",
-    tagline: "AI 에이전트를 위한 인터페이스 디자인 시스템 — 매일 스스로 진화.",
     langLabel: "언어", searchLabel: "작품 검색", searchPlaceholder: "디자인 검색…",
     filterLabel: "필터",
     filters: { all: "전체", project: "프로젝트", scheduling: "일정", ops: "운영", finance: "금융", analytics: "분석", landing: "랜딩", mobile: "모바일" },

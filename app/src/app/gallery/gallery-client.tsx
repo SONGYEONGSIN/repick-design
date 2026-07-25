@@ -31,7 +31,7 @@ export function GalleryClient({ works, lastUpdated }: { works: Work[]; lastUpdat
   });
 
   return (
-    <div className="min-h-screen bg-white text-zinc-900">
+    <div className="min-h-screen overflow-x-hidden bg-white text-zinc-900">
       <main className="mx-auto max-w-7xl px-6 py-14 md:px-10">
         <section className="flex flex-col gap-7">
           <div className="flex items-center justify-between gap-4">
