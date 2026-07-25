@@ -36,7 +36,10 @@ export function GalleryClient({ works, lastUpdated }: { works: Work[]; lastUpdat
               <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.24em] text-zinc-500">
                 Specimen · <span className="tabular-nums">{works.length}</span> {t.worksLabel} · Rev <span className="tabular-nums">{lastUpdated}</span>
               </p>
-              <h1 className="mt-4 text-5xl font-extrabold leading-[1.04] tracking-tight md:text-6xl">Specimen</h1>
+              <div className="mt-4 flex items-center gap-3">
+                <span aria-hidden="true" className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-zinc-900 font-mono text-2xl font-bold text-white">S</span>
+                <h1 className="text-5xl font-extrabold leading-[1.04] tracking-tight md:text-6xl">Specimen</h1>
+              </div>
               <p className="mt-4 max-w-xl text-sm leading-relaxed text-zinc-500">{t.tagline}</p>
             </div>
             <div role="group" aria-label={t.langLabel} className="inline-flex shrink-0 rounded-lg border border-zinc-200 p-0.5">
