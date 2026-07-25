@@ -5,8 +5,8 @@ import type { Work } from "@/lib/works";
 import { WorkCard } from "./work-card";
 import { STRINGS, DEFAULT_LANG, categoryLabel, type Lang } from "./gallery-i18n";
 
-type FilterKey = "all" | "dashboard" | "landing" | "free" | "native" | "winners";
-const FILTERS: FilterKey[] = ["all", "dashboard", "landing", "free", "native", "winners"];
+type FilterKey = "all" | "project" | "scheduling" | "ops" | "finance" | "analytics" | "landing" | "mobile";
+const FILTERS: FilterKey[] = ["all", "project", "scheduling", "ops", "finance", "analytics", "landing", "mobile"];
 
 export function GalleryClient({ works, lastUpdated }: { works: Work[]; lastUpdated: string }) {
   const [lang, setLang] = useState<Lang>(DEFAULT_LANG);
@@ -22,8 +22,7 @@ export function GalleryClient({ works, lastUpdated }: { works: Work[]; lastUpdat
 
   const q = query.trim().toLowerCase();
   const shown = works.filter((w) => {
-    if (filter === "winners") { if (w.status !== "winner") return false; }
-    else if (filter !== "all") { if (w.category !== filter) return false; }
+    if (filter !== "all" && w.category !== filter) return false;
     if (q && !`${w.brand} ${w.desc.en} ${w.desc.ko}`.toLowerCase().includes(q)) return false;
     return true;
   });

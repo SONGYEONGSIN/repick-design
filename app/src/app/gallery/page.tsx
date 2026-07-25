@@ -34,7 +34,7 @@ function evolveWorks(): Work[] {
             status: candidateStatus(ledgerRound, v, ledger),
             round: ledgerRound,
             target,
-            category: target === "landing" ? "landing" : "dashboard",
+            category: target === "landing" ? "landing" : undefined,
             date: info?.date,
           });
         }
