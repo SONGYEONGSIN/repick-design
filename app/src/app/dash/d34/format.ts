@@ -1,5 +1,5 @@
 /**
- * Formatting utilities. Numbers use Intl.NumberFormat(ko-KR); time values are
+ * Formatting utilities. Numbers use Intl.NumberFormat(en-US); time values are
  * rendered together with tabular-nums. All pure functions (no Date.now/Math.random).
  */
 

@@ -23,7 +23,7 @@ export default function AlertCard({ onSelectWorkflow }: AlertCardProps) {
       <span className="min-w-0 flex-1 text-xs leading-relaxed text-rose-200">
         <span className="font-medium text-rose-100">{workflow.name}</span> failure spike — {spike.label} window{" "}
         <span className="tabular-nums">{formatNumber(spike.count)} failures</span>
-        {" "}(<span className="tabular-nums font-medium">{ratioText}</span> above normal)
+        {" "}(<span className="tabular-nums font-medium">{ratioText}</span> the usual rate)
       </span>
     </button>
   );

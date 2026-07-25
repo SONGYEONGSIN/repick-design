@@ -88,7 +88,7 @@ export default function WorkflowListRail({ selectedId, onSelect, open, onClose }
         <div className="shrink-0 space-y-2.5 px-4 pt-3 pb-3 sm:px-5">
           <div className="flex items-center justify-between text-xs">
             <span className="text-zinc-500">
-              Last 30 days{" "}
+              Executions (30d){" "}
               <span className="font-medium tabular-nums text-zinc-200">{formatNumber(overview.total)}</span>
             </span>
             <span className="text-zinc-500">

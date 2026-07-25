@@ -128,7 +128,7 @@ export default function CompareTable() {
       >
         <table className="w-full table-fixed border-collapse text-left">
           <caption className="sr-only">
-            Comparison of ordinary secondhand trading and repick AI matching — based on the {category.label} category;
+            Comparison of ordinary secondhand trading and Repick AI matching — based on the {category.label} category;
             switching categories recalculates the values in real time
           </caption>
           <colgroup>
@@ -154,7 +154,7 @@ export default function CompareTable() {
                 scope="col"
                 className={cx(CAPTION, "px-2.5 py-2.5 font-semibold text-[#a894f7] sm:px-3")}
               >
-                repick AI
+                Repick AI
               </th>
             </tr>
           </thead>

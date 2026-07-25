@@ -148,9 +148,8 @@ export default function LandingClient() {
               variants={item}
               className="mt-5 font-extrabold leading-[1.02] tracking-[-0.02em] text-white break-keep text-[clamp(2.2rem,7.4vw,3rem)] lg:text-[clamp(2.6rem,4vw,3.6rem)]"
             >
-              Five criteria come together,
-              <br />
-              into <span className="text-[#6E56CF]">{TOTAL_MATCH}%</span>{" "}
+              Five criteria combine into{" "}
+              <span className="text-[#6E56CF]">{TOTAL_MATCH}%</span>{" "}
               confidence
             </motion.h1>
 
@@ -530,7 +529,7 @@ export default function LandingClient() {
             className="max-w-2xl"
           >
             <h2 className="font-extrabold leading-[1.02] tracking-[-0.02em] text-white break-keep text-[clamp(2.1rem,6.4vw,3.6rem)]">
-              The dial has finished calculating,
+              The dial has finished calculating —
               <br />
               now all that's left is your match
             </h2>

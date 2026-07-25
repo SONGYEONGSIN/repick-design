@@ -104,7 +104,7 @@ export const CATEGORIES: Category[] = [
         general: { value: "±38% error", sub: "Seller's arbitrary pricing" },
         repick: { value: "-53%", sub: "Based on real transaction prices" },
         evidence:
-          "This coat is priced at ₩148,000, benchmarked against 178 real transactions of the same brand over the past 3 months.",
+          "This coat is priced at 148,000 won, benchmarked against 178 real transactions of the same brand over the past 3 months.",
       },
       {
         general: { value: "3/9 items", sub: "Self-reported by seller" },
@@ -153,7 +153,7 @@ export const CATEGORIES: Category[] = [
         general: { value: "±42% error", sub: "Seller's arbitrary pricing" },
         repick: { value: "-52%", sub: "Based on real transaction prices" },
         evidence:
-          "Priced at ₩129,000, benchmarked against 96 recent transactions of the same line.",
+          "Priced at 129,000 won, benchmarked against 96 recent transactions of the same line.",
       },
       {
         general: { value: "2/9 items", sub: "Self-reported by seller" },
@@ -202,7 +202,7 @@ export const CATEGORIES: Category[] = [
         general: { value: "±31% error", sub: "Seller's arbitrary pricing" },
         repick: { value: "-53%", sub: "Based on real transaction prices" },
         evidence:
-          "Priced at ₩139,000, benchmarked against 121 resale transactions of the same size and condition.",
+          "Priced at 139,000 won, benchmarked against 121 resale transactions of the same size and condition.",
       },
       {
         general: { value: "4/9 items", sub: "Self-reported by seller" },
@@ -251,7 +251,7 @@ export const CATEGORIES: Category[] = [
         general: { value: "±36% error", sub: "Seller's arbitrary pricing" },
         repick: { value: "-52%", sub: "Based on real transaction prices" },
         evidence:
-          "Priced at ₩118,000, benchmarked against 84 recent transactions of the same material line.",
+          "Priced at 118,000 won, benchmarked against 84 recent transactions of the same material line.",
       },
       {
         general: { value: "3/9 items", sub: "Self-reported by seller" },

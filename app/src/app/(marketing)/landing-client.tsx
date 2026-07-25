@@ -378,7 +378,7 @@ export default function LandingClient() {
               href="/dashboard"
               className={`hidden min-h-11 items-center justify-center rounded-full bg-stone-900 px-5 py-2.5 text-sm font-semibold text-stone-50 shadow-sm transition motion-safe:hover:-translate-y-0.5 hover:bg-stone-800 active:translate-y-0 active:bg-stone-950 md:inline-flex ${focusRing}`}
             >
-              Start free
+              Start for free
             </Link>
             <button
               ref={menuButtonRef}
@@ -450,7 +450,7 @@ export default function LandingClient() {
                 onClick={() => setMobileNavOpen(false)}
                 className={`mt-auto inline-flex min-h-11 items-center justify-center rounded-full bg-stone-900 px-5 py-3 text-sm font-semibold text-stone-50 shadow-sm transition-colors hover:bg-stone-800 ${focusRing}`}
               >
-                Start free
+                Start for free
               </Link>
             </motion.div>
           </>
@@ -803,7 +803,7 @@ export default function LandingClient() {
                     <SlidersHorizontal className="h-5 w-5" aria-hidden="true" />
                   </span>
                   <h3 className="mt-6 text-2xl font-semibold leading-tight tracking-tight text-stone-900 sm:text-3xl">
-                    We clear away the unnecessary browsing
+                    We cut out the unnecessary browsing
                   </h3>
                   <p className="mt-4 text-lg leading-relaxed tracking-[-0.01em] text-stone-600">
                     Out of tens of thousands of listings, items that don't fit
@@ -1089,7 +1089,7 @@ export default function LandingClient() {
                 id="cta-heading"
                 className="text-balance text-[clamp(2rem,4vw,3rem)] font-sans leading-[1.1] tracking-[-0.01em] text-stone-50"
               >
-                Register your taste today,
+                Share your taste today,
                 <br />
                 and get the first item AI has <em className="text-orange-300 not-italic font-semibold">re-picked</em> for you
               </h2>

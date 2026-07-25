@@ -569,7 +569,7 @@ function DetailPanel({ holding, period, fullTotal }: { holding: Holding; period:
         <div className="flex items-center justify-between">
           <EyebrowLabel>Vs. Target Allocation</EyebrowLabel>
           <span className={cx("text-xs font-semibold", NUM, Math.abs(drift) >= 2 ? "text-amber-700 dark:text-amber-400" : TEXT_SECONDARY)}>
-            {fmtSignedPct(drift, 1)}p
+            {fmtSignedPct(drift, 1).replace("%", "")}pp
           </span>
         </div>
         <div className="mt-2">
