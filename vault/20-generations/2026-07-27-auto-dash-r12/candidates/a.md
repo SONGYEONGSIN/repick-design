@@ -1,0 +1,27 @@
+# Candidate A — Cadence (Release & Reliability Console)
+
+**Product**: Cadence — a fictional DevOps/platform-engineering "release & reliability health" console. Route: `/dash-evolve/r12/a`.
+
+**Archetype**: Hero stats row + one dominant visualization (the round's designated skeleton for this candidate). Inside the mandatory app shell (left sidebar with brand lockup/workspace switcher/nav/user, top bar with ⌘K trigger + "New deploy" primary action + notifications + avatar menu, mobile drawer), the page opens with four DORA-style headline stats — Deploy frequency, Change failure rate, Mean time to recovery, and Lead time for changes — each with an inline sparkline and a trend indicator. Below that sits the dominant visualization: a GitHub-style contribution/calendar heatmap, 14 weeks × 7 days (98 real cells, zero padding — the anchor date was chosen so the tracked range starts exactly on a Sunday), where color intensity encodes that day's deploy count and a small ring-badge with an AlertTriangle icon (never color-only) marks days with an incident. Every cell prints its deploy-count numeral inline, always visible, satisfying the at-a-glance rule for the round's dominant chart. Selecting or keyboard-focusing a cell drives a below-grid "Day detail" panel listing that day's deploys (service, author, duration, status), and a full "Recent deploys" sortable/filterable table sits beneath that.
+
+**Interactions implemented (6, all `'use client'`, real state, no `Math.random`/`Date.now`)**:
+1. **Heatmap cell hover/focus tooltip** — a keyboard-accessible tooltip (`group-hover`/`group-focus-within`) shows the full date, deploy count, and incident/MTTR detail for any cell.
+2. **Cell click/focus → selection sync** — clicking or pressing Enter/Space on a cell updates the "Day detail" panel below the grid with that day's real deploy list; the selected cell also gets a persistent focus ring.
+3. **Keyboard roving grid navigation** — Arrow Up/Down/Left/Right move focus between heatmap cells (ref-map keyed by `col:row`), matching the visual grid layout exactly.
+4. **Period toggle** — a segmented control ("Last 6 weeks" / "Last quarter") re-scopes the heatmap, the hero stats, and their sparklines/trend deltas; switching period re-selects a visible day if the prior selection falls outside the new window.
+5. **Table sort** — clicking any "Recent deploys" column header (`aria-sort`) sorts by date, service, author, duration, lead time, or status, toggling direction on repeat clicks.
+6. **Table filter** — a text search (service/author substring) plus a status segmented filter (All/Success/Rolled back/Failed) narrow the 207-row deploy log; an `aria-live` region reports the match count.
+
+A ⌘K command palette (Topbar trigger + global shortcut) additionally lets you jump to a specific deploy (selects its day, syncing interaction 2) or a service (sets the table's search filter, reusing interaction 6).
+
+**Typography/font**: Single global `font-sans` (Pretendard, inherited from the app's root layout — no additional `next/font` imports), `tabular-nums` on every count/stat/duration/timestamp. Copy is English-only throughout.
+
+**Theme**: Developer-Tool palette adapted to the single-accent principle — light default is a pure white/zinc-50 canvas, white cards, zinc-200 hairline borders; the one UI accent is indigo-600/indigo-400, used only for buttons, active states, and focus rings. The heatmap's sequential intensity scale reuses that same indigo hue at five shades (a data encoding, not a second UI accent); incident markers and deploy-status badges use a small semantic tone set (emerald/amber/rose), always paired with an icon and text. `dark:` variants use zinc-950/900 surfaces with white/10 borders. Caption/secondary text — including the zero-deploy heatmap cells, a state only reachable once real data renders — never drops below zinc-500 (light) / zinc-400 (dark); this was caught and fixed during a contrast pass (the zero-bucket cell text initially used the wrong tokens in each theme and was corrected).
+
+**Other fixes made during self-review**: the hero-stat cards initially truncated the unit text ("/ week" → "/ …") when a sparkline shared the value's row at 1280px — restructured so the sparkline shares the value row (short text) rather than the label row (long text), and the label row now never truncates its 11px uppercase caption. The "Last quarter" default view initially showed a false "flat 0%" trend for every stat because there was no external prior period to diff against; fixed by falling back to a first-half-vs-second-half-of-window comparison (labeled "vs. first half of period") whenever no external prior period exists.
+
+**Avatars**: `next/image` used for the current user (Dara Whitfield, fictional persona/email — not real session data) in the sidebar and topbar, all with explicit width/height and descriptive alt text.
+
+**Duplicate-avoidance**: the dominant visualization is a genuine calendar/contribution heatmap with an always-visible per-cell numeral and incident overlay — none of the 33 prior candidates used this chart family. This is the only candidate in the round permitted the "hero + single dominant viz" macro-skeleton (per the round's diversity rule); the other two r12 candidates use different structural skeletons.
+
+**Files**: `app/src/app/dash-evolve/r12/a/{page.tsx, CadenceClient.tsx, Sidebar.tsx, Topbar.tsx, HeatmapCalendar.tsx, DayDetailPanel.tsx, DeployTable.tsx, CommandPalette.tsx, data.ts, tokens.ts, ui.tsx}`.
