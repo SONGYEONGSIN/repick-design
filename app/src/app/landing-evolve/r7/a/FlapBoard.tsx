@@ -70,7 +70,7 @@ function FlapCell({
 
   return (
     <span
-      className="relative inline-flex h-[1.75em] w-[0.95em] shrink-0 items-center justify-center overflow-hidden rounded-[3px] bg-white/[0.07]"
+      className="relative inline-flex h-[1.6em] w-[0.8em] min-w-0 shrink items-center justify-center overflow-hidden rounded-[3px] bg-white/[0.07] sm:h-[1.75em] sm:w-[0.95em]"
       style={{ perspective: 220 }}
     >
       <motion.span
@@ -101,9 +101,9 @@ function FlapRow({ row, rowIndex }: { row: BoardRow; rowIndex: number }) {
 
   return (
     <tr className="border-b border-white/5 last:border-b-0">
-      <td className="px-3 py-2 sm:px-4">
+      <td className="px-1.5 py-1.5 sm:px-4 sm:py-2">
         <span className="sr-only">{row.item}</span>
-        <div aria-hidden className="flex gap-[2px]">
+        <div aria-hidden className="flex w-full min-w-0 gap-px overflow-hidden sm:gap-[2px]">
           {nameChars.map((c, i) => (
             <FlapCell
               key={i}
@@ -114,9 +114,9 @@ function FlapRow({ row, rowIndex }: { row: BoardRow; rowIndex: number }) {
           ))}
         </div>
       </td>
-      <td className="px-2 py-2">
+      <td className="px-1 py-1.5 sm:px-2 sm:py-2">
         <span className="sr-only">{row.match} percent match</span>
-        <div aria-hidden className="flex gap-[2px]">
+        <div aria-hidden className="flex w-full min-w-0 gap-px overflow-hidden sm:gap-[2px]">
           {matchChars.map((c, i) => (
             <FlapCell
               key={i}
@@ -127,9 +127,9 @@ function FlapRow({ row, rowIndex }: { row: BoardRow; rowIndex: number }) {
           ))}
         </div>
       </td>
-      <td className="px-2 py-2">
+      <td className="px-1 py-1.5 sm:px-2 sm:py-2">
         <span className="sr-only">grade {row.grade}</span>
-        <div aria-hidden className="flex gap-[2px]">
+        <div aria-hidden className="flex w-full min-w-0 gap-px overflow-hidden sm:gap-[2px]">
           <FlapCell
             char={row.grade}
             delay={cellDelay(rowIndex, GRADE_OFFSET)}
@@ -137,9 +137,9 @@ function FlapRow({ row, rowIndex }: { row: BoardRow; rowIndex: number }) {
           />
         </div>
       </td>
-      <td className="px-3 py-2 text-right sm:px-4">
+      <td className="px-1.5 py-1.5 text-right sm:px-4 sm:py-2">
         <span className="sr-only">{formatPrice(row.price)}</span>
-        <div aria-hidden className="flex justify-end gap-[2px]">
+        <div aria-hidden className="flex w-full min-w-0 justify-end gap-px overflow-hidden sm:gap-[2px]">
           {priceChars.map((c, i) => (
             <FlapCell
               key={i}
@@ -159,7 +159,7 @@ export default function FlapBoard() {
   const category = BOARD_CATEGORIES[active];
 
   return (
-    <div className="w-full">
+    <div className="w-full min-w-0">
       <div
         role="tablist"
         aria-label="Board category"
@@ -194,30 +194,39 @@ export default function FlapBoard() {
         id="board-panel"
         role="tabpanel"
         aria-labelledby={`board-tab-${category.id}`}
-        className="mt-4 overflow-x-auto rounded-lg border border-white/10 bg-[#050507]"
+        className="mt-4 min-w-0 overflow-x-auto rounded-lg border border-white/10 bg-[#050507]"
       >
-        <table className="w-full min-w-[480px] border-collapse text-[0.72rem] sm:text-[0.85rem]">
+        <table className="w-full table-fixed border-collapse text-[0.68rem] sm:text-[0.85rem]">
           <caption className="sr-only">
             Live AI-matched listings in {category.label}, updating as you
             switch categories
           </caption>
+          <colgroup>
+            <col style={{ width: "50%" }} />
+            <col style={{ width: "17%" }} />
+            <col style={{ width: "13%" }} />
+            <col style={{ width: "20%" }} />
+          </colgroup>
           <thead>
             <tr className="border-b border-white/10 text-left">
               <th
                 scope="col"
-                className={cx(CAPTION, "px-3 py-3 font-semibold text-[#A1A1AA] sm:px-4")}
+                className={cx(
+                  CAPTION,
+                  "px-1.5 py-2 font-semibold text-[#A1A1AA] sm:px-4 sm:py-3",
+                )}
               >
                 Listing
               </th>
               <th
                 scope="col"
-                className={cx(CAPTION, "px-2 py-3 font-semibold text-[#A1A1AA]")}
+                className={cx(CAPTION, "px-1 py-2 font-semibold text-[#A1A1AA] sm:px-2 sm:py-3")}
               >
                 Match
               </th>
               <th
                 scope="col"
-                className={cx(CAPTION, "px-2 py-3 font-semibold text-[#A1A1AA]")}
+                className={cx(CAPTION, "px-1 py-2 font-semibold text-[#A1A1AA] sm:px-2 sm:py-3")}
               >
                 Grade
               </th>
@@ -225,7 +234,7 @@ export default function FlapBoard() {
                 scope="col"
                 className={cx(
                   CAPTION,
-                  "px-3 py-3 text-right font-semibold text-[#A1A1AA] sm:px-4",
+                  "px-1.5 py-2 text-right font-semibold text-[#A1A1AA] sm:px-4 sm:py-3",
                 )}
               >
                 Price

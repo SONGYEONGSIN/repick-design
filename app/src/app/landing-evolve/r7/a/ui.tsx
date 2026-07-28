@@ -71,13 +71,13 @@ export default function LandingClient() {
         id="top"
         className="mx-auto w-full max-w-[1120px] px-5 pb-24 pt-14 sm:px-8 sm:pt-20"
       >
-        <div className="grid grid-cols-1 items-start gap-12 lg:grid-cols-12 lg:gap-12">
+        <div className="grid min-w-0 grid-cols-1 items-start gap-12 lg:grid-cols-12 lg:gap-12">
           {/* left: editorial headline */}
           <motion.div
             variants={container}
             initial="hidden"
             animate="show"
-            className="relative lg:col-span-5"
+            className="relative min-w-0 lg:col-span-5"
           >
             <span
               aria-hidden
@@ -150,7 +150,7 @@ export default function LandingClient() {
             initial={reduced ? false : { opacity: 0, y: 28 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, ease: EASE, delay: reduced ? 0 : 0.22 }}
-            className="lg:col-span-7"
+            className="min-w-0 lg:col-span-7"
           >
             <FlapBoard />
           </motion.div>
