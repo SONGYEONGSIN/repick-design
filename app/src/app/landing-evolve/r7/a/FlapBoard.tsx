@@ -5,12 +5,15 @@ import { motion, useReducedMotion } from "framer-motion";
 import {
   BOARD_CATEGORIES,
   FLAP_STEP_MS,
-  FLAP_ROW_STAGGER_MS,
-  FLAP_COL_STAGGER_MS,
   scrambleSequence,
+  cellDelay,
   padName,
   formatMatch,
   formatPrice,
+  NAME_OFFSET,
+  MATCH_OFFSET,
+  GRADE_OFFSET,
+  PRICE_OFFSET,
   cx,
   FOCUS,
   CAPTION,
@@ -36,14 +39,13 @@ function FlapCell({
 }) {
   const sequence = useMemo(() => scrambleSequence(char), [char]);
   const finalStep = sequence.length - 1;
-  const [step, setStep] = useState(reduced ? finalStep : 0);
+  const [step, setStep] = useState(0);
 
   useEffect(() => {
-    if (reduced) {
-      setStep(finalStep);
-      return;
-    }
-    setStep(0);
+    // reduced-motion: nothing to animate, the render below reads finalStep
+    // directly — no state to sync.
+    if (reduced) return;
+
     let interval: ReturnType<typeof setInterval> | undefined;
     const start = setTimeout(() => {
       let i = 0;
@@ -61,9 +63,10 @@ function FlapCell({
       clearTimeout(start);
       if (interval) clearInterval(interval);
     };
-  }, [sequence, delay, reduced, finalStep]);
+  }, [delay, reduced, finalStep]);
 
-  const shown = sequence[step] ?? char.toUpperCase();
+  const displayStep = reduced ? finalStep : step;
+  const shown = sequence[displayStep] ?? char.toUpperCase();
 
   return (
     <span
@@ -71,7 +74,7 @@ function FlapCell({
       style={{ perspective: 220 }}
     >
       <motion.span
-        key={step}
+        key={displayStep}
         initial={reduced ? false : { rotateX: -85, opacity: 0.4 }}
         animate={{ rotateX: 0, opacity: 1 }}
         transition={{ duration: 0.12, ease: "easeOut" }}
@@ -92,13 +95,6 @@ function FlapRow({ row, rowIndex }: { row: BoardRow; rowIndex: number }) {
   const reducedRaw = useReducedMotion();
   const reduced = !!reducedRaw;
 
-  let col = 0;
-  const nextDelay = () => {
-    const d = rowIndex * FLAP_ROW_STAGGER_MS + col * FLAP_COL_STAGGER_MS;
-    col += 1;
-    return d;
-  };
-
   const nameChars = padName(row.item).split("");
   const matchChars = formatMatch(row.match).split("");
   const priceChars = formatPrice(row.price).split("");
@@ -109,7 +105,12 @@ function FlapRow({ row, rowIndex }: { row: BoardRow; rowIndex: number }) {
         <span className="sr-only">{row.item}</span>
         <div aria-hidden className="flex gap-[2px]">
           {nameChars.map((c, i) => (
-            <FlapCell key={i} char={c} delay={nextDelay()} reduced={reduced} />
+            <FlapCell
+              key={i}
+              char={c}
+              delay={cellDelay(rowIndex, NAME_OFFSET + i)}
+              reduced={reduced}
+            />
           ))}
         </div>
       </td>
@@ -117,21 +118,35 @@ function FlapRow({ row, rowIndex }: { row: BoardRow; rowIndex: number }) {
         <span className="sr-only">{row.match} percent match</span>
         <div aria-hidden className="flex gap-[2px]">
           {matchChars.map((c, i) => (
-            <FlapCell key={i} char={c} delay={nextDelay()} reduced={reduced} />
+            <FlapCell
+              key={i}
+              char={c}
+              delay={cellDelay(rowIndex, MATCH_OFFSET + i)}
+              reduced={reduced}
+            />
           ))}
         </div>
       </td>
       <td className="px-2 py-2">
         <span className="sr-only">grade {row.grade}</span>
         <div aria-hidden className="flex gap-[2px]">
-          <FlapCell char={row.grade} delay={nextDelay()} reduced={reduced} />
+          <FlapCell
+            char={row.grade}
+            delay={cellDelay(rowIndex, GRADE_OFFSET)}
+            reduced={reduced}
+          />
         </div>
       </td>
       <td className="px-3 py-2 text-right sm:px-4">
         <span className="sr-only">{formatPrice(row.price)}</span>
         <div aria-hidden className="flex justify-end gap-[2px]">
           {priceChars.map((c, i) => (
-            <FlapCell key={i} char={c} delay={nextDelay()} reduced={reduced} />
+            <FlapCell
+              key={i}
+              char={c}
+              delay={cellDelay(rowIndex, PRICE_OFFSET + i)}
+              reduced={reduced}
+            />
           ))}
         </div>
       </td>

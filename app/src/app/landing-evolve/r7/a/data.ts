@@ -39,6 +39,10 @@ export const FLAP_STEP_MS = 45;
 export const FLAP_ROW_STAGGER_MS = 90;
 export const FLAP_COL_STAGGER_MS = 12;
 
+// Pure delay function — no shared mutable counter needed at call sites.
+export const cellDelay = (rowIndex: number, colIndex: number) =>
+  rowIndex * FLAP_ROW_STAGGER_MS + colIndex * FLAP_COL_STAGGER_MS;
+
 function flapIndex(char: string): number {
   const i = FLAP_ALPHABET.indexOf(char.toUpperCase());
   return i === -1 ? 0 : i;
@@ -63,6 +67,15 @@ export const NAME_WIDTH = 16;
 export const padName = (s: string) => s.toUpperCase().padEnd(NAME_WIDTH).slice(0, NAME_WIDTH);
 export const formatMatch = (n: number) => `${n}%`;
 export const formatPrice = (n: number) => `$${String(n).padStart(3, "0")}`;
+
+// Fixed column offsets (name is NAME_WIDTH chars, match is always "XX%" = 3
+// chars, grade is 1 char, price is "$" + 3 digits). Used to compute each
+// flap cell's deterministic stagger delay without a mutable render-time
+// counter.
+export const NAME_OFFSET = 0;
+export const MATCH_OFFSET = NAME_WIDTH;
+export const GRADE_OFFSET = MATCH_OFFSET + 3;
+export const PRICE_OFFSET = GRADE_OFFSET + 1;
 
 export type BoardGrade = "S" | "A" | "B";
 
