@@ -54,3 +54,4 @@ _(main 기준 없음 — 라운드 커밋이 DECISION 등재를 추가한다)_
 - [[20-generations/2026-07-26-auto-dash-r11/DECISION|auto-dash-r11]] (승자 a — Palisade 역할×권한 접근제어 매트릭스 콘솔, 2:1)
 - [[20-generations/2026-07-27-auto-dash-r12/DECISION|auto-dash-r12]] (승자 a — Cadence 배포/인시던트 캘린더 히트맵 릴리스 헬스 콘솔, 3렌즈 만장일치)
 - [[20-generations/2026-07-28-auto-landing-r7/DECISION|auto-landing-r7]] (승자 c — AI Annotation Scan 제품사진 주석핀 히어로, 3파전 완전동률→렌즈3 최하위 배제 tie-break 예외 첫 실사용)
+- [[20-generations/2026-07-29-auto-landing-r8/DECISION|auto-landing-r8]] (승자 a — Signal Graph 선호↔매물 관계 그래프 히어로, 3렌즈 만장일치)
