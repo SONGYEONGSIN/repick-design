@@ -5,7 +5,6 @@ import Image from "next/image";
 import { ArrowDown, ArrowUp, ArrowUpDown, CalendarClock, MapPin, Phone, Video } from "lucide-react";
 
 import {
-  EVENT_TYPES,
   LOCATION_LABEL,
   MEMBER_STATUS_LABEL,
   STATUS_LABEL,

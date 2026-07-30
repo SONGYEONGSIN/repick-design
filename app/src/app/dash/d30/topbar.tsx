@@ -28,8 +28,8 @@ interface TopbarProps {
 }
 
 export function Topbar({ onOpenMobileNav, onOpenCommand }: TopbarProps) {
-  const notif = useDisclosure<HTMLDivElement>();
-  const account = useDisclosure<HTMLDivElement>();
+  const { open: notifOpen, setOpen: setNotifOpen, ref: notifRef } = useDisclosure<HTMLDivElement>();
+  const { open: accountOpen, setOpen: setAccountOpen, ref: accountRef } = useDisclosure<HTMLDivElement>();
 
   return (
     <header className="flex h-16 shrink-0 items-center gap-2 border-b border-zinc-200 bg-white/95 px-4 backdrop-blur sm:px-6">
@@ -70,12 +70,12 @@ export function Topbar({ onOpenMobileNav, onOpenCommand }: TopbarProps) {
           <Plus className="h-4 w-4" aria-hidden="true" />
         </button>
 
-        <div ref={notif.ref} className="relative">
+        <div ref={notifRef} className="relative">
           <button
             type="button"
-            onClick={() => notif.setOpen(!notif.open)}
+            onClick={() => setNotifOpen(!notifOpen)}
             aria-haspopup="true"
-            aria-expanded={notif.open}
+            aria-expanded={notifOpen}
             aria-label={`${NOTIFICATIONS.length} notifications`}
             className="relative flex h-11 w-11 items-center justify-center rounded-lg text-zinc-500 hover:bg-zinc-50 hover:text-zinc-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500"
           >
@@ -85,7 +85,7 @@ export function Topbar({ onOpenMobileNav, onOpenCommand }: TopbarProps) {
               className="absolute right-2 top-2 flex h-2 w-2 rounded-full bg-rose-500 ring-2 ring-white"
             />
           </button>
-          {notif.open ? (
+          {notifOpen ? (
             <div
               role="dialog"
               aria-label="Notifications"
@@ -109,12 +109,12 @@ export function Topbar({ onOpenMobileNav, onOpenCommand }: TopbarProps) {
           ) : null}
         </div>
 
-        <div ref={account.ref} className="relative">
+        <div ref={accountRef} className="relative">
           <button
             type="button"
-            onClick={() => account.setOpen(!account.open)}
+            onClick={() => setAccountOpen(!accountOpen)}
             aria-haspopup="true"
-            aria-expanded={account.open}
+            aria-expanded={accountOpen}
             className="flex h-11 items-center gap-1.5 rounded-lg pl-0.5 pr-1.5 hover:bg-zinc-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500"
           >
             <Image
@@ -126,7 +126,7 @@ export function Topbar({ onOpenMobileNav, onOpenCommand }: TopbarProps) {
             />
             <ChevronDown className="h-3.5 w-3.5 text-zinc-400" aria-hidden="true" />
           </button>
-          {account.open ? (
+          {accountOpen ? (
             <div
               role="menu"
               aria-label="Account menu"

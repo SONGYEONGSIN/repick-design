@@ -24,9 +24,12 @@ export function CommandPalette({ open, onClose, onSelectEventType }: CommandPale
   const [query, setQuery] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
 
-  useEffect(() => {
+  // Derived from the `open` prop changing — adjust during render instead of in an effect.
+  const [prevOpen, setPrevOpen] = useState(open);
+  if (prevOpen !== open) {
+    setPrevOpen(open);
     if (open) setQuery("");
-  }, [open]);
+  }
 
   useEffect(() => {
     if (!open) return;
