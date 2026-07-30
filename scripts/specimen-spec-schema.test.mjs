@@ -3,9 +3,11 @@ import assert from "node:assert/strict";
 import { SUBSET_IDS, validateSpec } from "./specimen-spec-schema.mjs";
 import data from "../app/src/lib/specimen-specs.data.json" with { type: "json" };
 
-test("SUBSET_IDS is exactly the 14 approved web works", () => {
-  assert.equal(SUBSET_IDS.length, 14);
+test("SUBSET_IDS is exactly the 18 approved web works", () => {
+  assert.equal(SUBSET_IDS.length, 18);
   assert.ok(SUBSET_IDS.includes("d29") && SUBSET_IDS.includes("v0") && SUBSET_IDS.includes("v8"));
+  // batch 8 — promoted by the 2026-07-30 weekly falsification (PR #28)
+  assert.ok(SUBSET_IDS.includes("d39") && SUBSET_IDS.includes("d40") && SUBSET_IDS.includes("v9") && SUBSET_IDS.includes("v10"));
 });
 
 test("validateSpec rejects an incomplete spec", () => {
