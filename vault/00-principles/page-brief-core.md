@@ -26,6 +26,7 @@ tags: [principles, brief]
 | 이모지 금지 → lucide-react 아이콘 | static `no-emoji` | 하드페일 |
 | `next/font` 추가 import 금지 (Pretendard 전역 단일) | static `no-next-font` | 하드페일 |
 | 세리프·장식 폰트(`font-serif`) 금지 | static `no-font-serif` | 하드페일 |
+| 다크 보조텍스트 `dark:text-*-500/600` 금지 (하한 zinc-400) | static `no-dark-dim-text` | 하드페일 |
 | 전 폭 페이지·테이블 오버플로 0 (1280/1440/1920 + 모바일 390) | sweep | 하드페일 |
 | Lighthouse 접근성 **95 이상** | a11y | 하드페일 |
 | Lighthouse 성능 | perf | 기록만(탈락 미적용) |
@@ -36,7 +37,7 @@ tags: [principles, brief]
 - 포커스 가시(`outline-none` 단독 금지 — 반드시 `focus-visible` 링과 함께)
 - 대비 AA, **색만으로 의미 전달 금지**(색 + 텍스트/아이콘 병행)
 - 키보드 전 경로 도달, `prefers-reduced-motion` 게이팅(진입 `opacity:0` 잔존 금지)
-- **상태 분기 대비** — 정적·Lighthouse 게이트는 기본 렌더 뷰만 스캔한다. 필터·토글로만 도달하는 보조 상태의 텍스트도 대비 규칙을 동일 적용한다. 하한은 **표면 톤 조건부**다: 다크 보조텍스트 zinc-400 미만 금지 · 라이트는 **순백/거의 순백(zinc-50 이하) 표면에서 zinc-500 하한, muted 톤 표면(zinc-100 이상 — 세그먼트·탭 트랙·필 등)에서 zinc-600 하한**. zinc-500은 순백 위에서만 안전한 값이다(실측: `neutral-500` on `neutral-100` = 4.34:1로 하드게이트 미달 → `neutral-600` 7.18:1). 근거는 [[curation-criteria]] "Q10 판정".
+- **상태 분기 대비** — 정적·Lighthouse 게이트는 기본 렌더 뷰만 스캔한다. 필터·토글로만 도달하는 보조 상태의 텍스트도 대비 규칙을 동일 적용한다. 하한은 **표면 톤 조건부**다: 다크 보조텍스트 zinc-400 미만 금지 · 라이트는 **순백/거의 순백(zinc-50 이하) 표면에서 zinc-500 하한, muted 톤 표면(zinc-100 이상 — 세그먼트·탭 트랙·필 등)에서 zinc-600 하한**. zinc-500은 순백 위에서만 안전한 값이다(실측: `neutral-500` on `neutral-100` = 4.34:1로 하드게이트 미달 → `neutral-600` 7.18:1). 근거는 [[curation-criteria]] "Q10 판정". **다크 쪽 하한은 정적 규칙 `no-dark-dim-text`가 토큰 수준에서 강제한다** — Lighthouse는 호스트가 렌더한 스킴만 감사하므로 `dark:text-*-500`은 측정 시점에 따라 통과/실패가 갈린다(`auto-login-r1`이 라운드에서 100, 재측정에서 96 — [[curation-criteria]] "Q11 판정").
 - **sr-only 앵커** — `position:absolute` 기반 sr-only가 `overflow-x-auto` 클리핑 컨테이너(가로 스크롤 테이블, 그 `<td>` 셀 포함) 안에 있으면, 자기 자신이나 가장 가까운 감싸는 요소에 `position:relative`가 있어야 한다. 없으면 containing block이 클리핑 컨테이너를 건너뛰어 스크롤되지 않은 좌표로 페인트되고 `document.scrollWidth`를 오염시킨다 — 모바일 390px에서만 터진다. 상세: [[dash-brief-v3]] §그리드 크래프트 룰.
 
 ## 4. 타이포·이미지 규율

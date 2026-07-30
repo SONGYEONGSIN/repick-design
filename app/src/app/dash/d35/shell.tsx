@@ -152,7 +152,7 @@ function SidebarContent() {
                     <li key={item.id}>
                       <span
                         aria-disabled="true"
-                        className="flex min-h-11 cursor-not-allowed items-center gap-3 rounded-lg px-2.5 py-2 text-sm font-medium text-zinc-400 dark:text-zinc-500"
+                        className="flex min-h-11 cursor-not-allowed items-center gap-3 rounded-lg px-2.5 py-2 text-sm font-medium text-zinc-400 dark:text-zinc-400"
                       >
                         <item.Icon size={17} aria-hidden="true" />
                         {item.label}
