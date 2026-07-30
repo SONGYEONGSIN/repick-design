@@ -7,7 +7,7 @@ export type Work = {
   previewH?: number; // card preview height (px), default 300
   status?: "winner" | "dropped" | "pending";
   round?: string;
-  target?: "dash" | "landing" | "native";
+  target?: "dash" | "landing" | "native" | "login";
   date?: string;
   /**
    * Gallery page-type category (refero-style axis: what kind of page is this, not what domain it serves).
@@ -22,12 +22,17 @@ export type Work = {
     | "mobile";
 };
 
-export const LAST_UPDATED = "2026-07-30"; // determinism rule: no dynamic Date calls — update this by hand when refreshing
+export const LAST_UPDATED = "2026-07-31"; // determinism rule: no dynamic Date calls — update this by hand when refreshing
 
 export const NATIVE_WORKS: Work[] = [
   { id: "n1", route: "/native-app/index.html?screen=watchlist", brand: "Watchlist", desc: { en: "Saved-item watchlist · price-drop alerts and a single accent for unread, as a native mobile screen.", ko: "관심목록 · 가격 하락 알림 · 미읽음 단일 액센트 (네이티브 모바일 화면)" }, target: "native", category: "mobile", previewH: 520 },
   { id: "n2", route: "/native-app/index.html?screen=match", brand: "AI Match", desc: { en: "AI-match results feed · ranked secondhand picks with match scores, native mobile.", ko: "AI 매칭 결과 피드 · 매칭 점수순 중고 추천 (네이티브 모바일)" }, target: "native", category: "mobile", previewH: 520 },
   { id: "n3", route: "/native-app/index.html?screen=detail", brand: "Price Detail", desc: { en: "Product price-history detail · chart + spec breakdown on a native mobile screen.", ko: "상품 가격 히스토리 상세 · 차트 + 스펙 분해 (네이티브 모바일)" }, target: "native", category: "mobile", previewH: 520 },
+];
+
+// 0. Auth — the login page type's first entry.
+export const LOGIN_WORKS: Work[] = [
+  { id: "lg1", route: "/login", brand: "Contour", desc: { ko: "관측성 SaaS 로그인 · 좌측 컨투어 지형선 + 스파크라인 스탯의 다크 비주얼 패널과 우측 라이트 폼 스플릿, 세그먼트 토글로 로그인/가입 전환 (자동 login r1 승자)", en: "Observability-SaaS sign-in · a split of dark contour-line visual panel with sparkline stats against a light form column, with a segmented toggle between sign-in and sign-up (auto login r1 winner)" }, previewH: 340, target: "login", category: "login" },
 ];
 
 // I. Landing — champion + evolution lineage v6~v10. (/lab is itself an index page, not a work — excluded)
@@ -58,5 +63,5 @@ export const DASH_LAB_WORKS: Work[] = [
 
 /** Static catalog (excludes evolution candidates) — shared by the gallery grid and detail routes. Each entry carries its own page-type category. */
 export function catalogWorks(): Work[] {
-  return [...LANDING_WORKS, ...DASH_LAB_WORKS, ...NATIVE_WORKS];
+  return [...LANDING_WORKS, ...DASH_LAB_WORKS, ...LOGIN_WORKS, ...NATIVE_WORKS];
 }
