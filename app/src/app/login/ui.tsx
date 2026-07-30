@@ -146,10 +146,12 @@ export default function LoginClient() {
   const emailErrorId = `${reactId}-email-error`;
   const passwordId = `${reactId}-password`;
   const passwordErrorId = `${reactId}-password-error`;
+  const forgotNoteId = `${reactId}-forgot-note`;
 
   const [mode, setMode] = useState<Mode>("signin");
   const [status, setStatus] = useState<Status>("idle");
   const [showPassword, setShowPassword] = useState(false);
+  const [forgotOpen, setForgotOpen] = useState(false);
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -413,6 +415,7 @@ export default function LoginClient() {
                       ? "border-red-400 dark:border-red-500/70"
                       : "border-neutral-300 focus-visible:border-[#6E56CF] dark:border-neutral-700"
                   }`}
+                  required
                   placeholder="Jordan Reyes"
                 />
                 {nameError && (
@@ -451,6 +454,7 @@ export default function LoginClient() {
                     ? "border-red-400 dark:border-red-500/70"
                     : "border-neutral-300 focus-visible:border-[#6E56CF] dark:border-neutral-700"
                 }`}
+                required
                 placeholder="you@company.com"
               />
               {emailError && (
@@ -473,14 +477,26 @@ export default function LoginClient() {
                   Password
                 </label>
                 {mode === "signin" && (
-                  <a
-                    href="#forgot-password"
-                    className="rounded text-sm font-normal text-[#6E56CF] hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6E56CF] focus-visible:ring-offset-2 dark:focus-visible:ring-offset-neutral-950"
+                  <button
+                    type="button"
+                    onClick={() => setForgotOpen((v) => !v)}
+                    aria-expanded={forgotOpen}
+                    aria-controls={forgotNoteId}
+                    className="rounded text-sm font-normal text-[#6E56CF] hover:underline dark:text-[#a894f7] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6E56CF] focus-visible:ring-offset-2 dark:focus-visible:ring-offset-neutral-950"
                   >
                     Forgot password?
-                  </a>
+                  </button>
                 )}
               </div>
+              {mode === "signin" && forgotOpen && (
+                <p
+                  id={forgotNoteId}
+                  className="mb-2 rounded-lg border border-neutral-200 bg-neutral-50 px-3 py-2 text-sm text-neutral-700 dark:border-neutral-800 dark:bg-neutral-900 dark:text-neutral-300"
+                >
+                  Enter the email above and submit — we send a one-time reset link that expires in 30
+                  minutes. Workspace owners can also reset seats from Settings &rarr; Members.
+                </p>
+              )}
               <div className="relative">
                 <input
                   ref={passwordRef}
@@ -499,6 +515,7 @@ export default function LoginClient() {
                       ? "border-red-400 dark:border-red-500/70"
                       : "border-neutral-300 focus-visible:border-[#6E56CF] dark:border-neutral-700"
                   }`}
+                  required
                   placeholder={mode === "signup" ? "At least 8 characters" : "Your password"}
                 />
                 <button
@@ -583,7 +600,7 @@ export default function LoginClient() {
 
           <div className="mt-6 flex items-center gap-3" aria-hidden="true">
             <span className="h-px flex-1 bg-neutral-200 dark:bg-neutral-800" />
-            <span className="text-xs font-normal text-neutral-500 dark:text-neutral-500">
+            <span className="text-xs font-normal text-neutral-500 dark:text-neutral-400">
               or continue with
             </span>
             <span className="h-px flex-1 bg-neutral-200 dark:bg-neutral-800" />
@@ -607,7 +624,7 @@ export default function LoginClient() {
               GitHub
             </button>
           </div>
-          <p className="mt-2.5 min-h-4 text-xs font-normal text-neutral-500 dark:text-neutral-500" aria-live="polite">
+          <p className="mt-2.5 min-h-4 text-xs font-normal text-neutral-500 dark:text-neutral-400" aria-live="polite">
             {providerNote}
           </p>
 
@@ -618,7 +635,7 @@ export default function LoginClient() {
                 <button
                   type="button"
                   onClick={() => switchMode("signup")}
-                  className="rounded font-semibold text-[#6E56CF] hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6E56CF] focus-visible:ring-offset-2 dark:focus-visible:ring-offset-neutral-950"
+                  className="rounded font-semibold text-[#6E56CF] hover:underline dark:text-[#a894f7] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6E56CF] focus-visible:ring-offset-2 dark:focus-visible:ring-offset-neutral-950"
                 >
                   Create one
                 </button>
@@ -629,7 +646,7 @@ export default function LoginClient() {
                 <button
                   type="button"
                   onClick={() => switchMode("signin")}
-                  className="rounded font-semibold text-[#6E56CF] hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6E56CF] focus-visible:ring-offset-2 dark:focus-visible:ring-offset-neutral-950"
+                  className="rounded font-semibold text-[#6E56CF] hover:underline dark:text-[#a894f7] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6E56CF] focus-visible:ring-offset-2 dark:focus-visible:ring-offset-neutral-950"
                 >
                   Sign in
                 </button>
@@ -637,7 +654,7 @@ export default function LoginClient() {
             )}
           </p>
 
-          <p className="mt-6 text-center text-xs font-normal text-neutral-500 dark:text-neutral-500">
+          <p className="mt-6 text-center text-xs font-normal text-neutral-500 dark:text-neutral-400">
             By continuing, you agree to Contour&apos;s{" "}
             <a
               href="#terms"

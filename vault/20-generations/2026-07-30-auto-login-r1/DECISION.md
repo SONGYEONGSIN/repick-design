@@ -5,7 +5,7 @@
 - **b** — Meridian (timezone-aware scheduling SaaS) · 풀블리드 배경 · `/login-evolve/r1/b`
 - **c** — Ledgerline (freelancer invoicing/tax SaaS) · 미니멀 무장식 · `/login-evolve/r1/c`
 
-## 하드게이트 (§3) — [[SCORES]] 요약
+## 하드게이트 (§3) — [[20-generations/2026-07-30-auto-login-r1/SCORES|SCORES]] 요약
 전 후보 생존. a는 1차 a11y 94(main 랜드마크 누락 + 비활성 세그먼트 텍스트 대비 4.34 — neutral-500 on neutral-100)에서 1회 수정(우측 폼 패널을 `<main>`으로, 비활성 토글 텍스트 neutral-600으로 승격) 후 100. b·c는 1차부터 static/sweep/a11y(100)/perf 전부 통과.
 
 ## JUDGE 3렌즈 판정 전문
