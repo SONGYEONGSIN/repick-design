@@ -102,7 +102,9 @@ native는 웹 라우트가 아니라 RN 화면이라 아래 규약을 따른다.
 - **native의 경우**: 3100 dev 서버 불요(gate.mjs native 브랜치가 Expo Web 8091을 자체 export·serve). `node scripts/gate.mjs --target native --screens evolve-r<N>-a evolve-r<N>-b evolve-r<N>-c` → verdict(후보×4게이트 `<slug>/<tsc|export|render|iframe>`). `pass:false`면 `verdict.violations`(screen/step 태그)를 해당 후보 designer에 1회 수정 후 재호출. 화면별 4단계 전부 pass여야 그 후보 생존.
 
 ## 4. JUDGE 패널 (생존 후보 2개 이상일 때; 1개면 단독 심사로 승자/no-winner만 판정)
-- 스크린샷: 후보별 4폭 캡처 → `npx playwright screenshot --viewport-size=<w>,900 http://localhost:3100<라우트> vault/20-generations/<run>/shots/<v>-<w>.png` (w ∈ 1280, 1440, 1920, 390).
+- 스크린샷: 후보별로 `node scripts/capture-shots.mjs --route <라우트> --name <v> --out vault/20-generations/<run>/shots` 실행. 4폭(1280/1440/1920/390) × 4 스크롤 지점(0·35·70·100%)을 찍고, 찍기 전에 **스크롤 스루 패스**를 돌려 `whileInView` 계열 리빌을 발동시킨다. 파일명은 스크롤 0 프레임이 기존과 동일한 `<v>-<w>.png`, 나머지가 `<v>-<w>-s35.png` 식이라 기존 DECISION·PR 링크가 그대로 유효하다.
+  - **단일 프레임 캡처 금지** — 스크롤 0 한 장은 폴드 아래에 가치가 있는 작품(카탈로그 그리드)이나 스크롤로 장면이 변하는 작품을 평가할 수 없다. judge에게는 그 후보의 **전 프레임**을 넘긴다.
+  - 스크립트는 프레임마다 실제 픽셀을 재 **빈 화면을 판정**한다(`blank: true`면 비-zero exit). 하드게이트 4종은 "통과했는데 아무것도 안 그려진" 경우를 잡지 못한다 — 배경 레이어가 캔버스를 덮는 등의 실패는 오직 픽셀로만 드러난다. blank 프레임이 나오면 그 후보는 judge로 보내지 말고 1회 수정 루프로 되돌린다.
 - **native의 경우**: 후보별 Expo Web 모바일 렌더 스크린샷 — `cd native && EXPO_PUBLIC_SCREEN=evolve-r<N>-<v> npx expo export --platform web --output-dir dist --clear` → `npx serve dist -l 8091` → `npx playwright screenshot --viewport-size=<w>,844 http://localhost:8091/ vault/20-generations/<run>/shots/<v>-<w>.png` (w ∈ 390, 768 모바일·태블릿폭, 데스크톱 폭 대신). judge 렌즈는 native 블록 표(DNA/모바일 완성도/화면유형 차별)를 따른다. 집계·기권·no-winner 규칙은 웹과 동일.
 - judge 3개 병렬(Agent 도구, comparator 계열). 공통 입력: 스크린샷 + 소스 경로 (컨셉·순서 비공개 — 블라인드). 렌즈는 타깃 파라미터 표를 따른다 (렌즈 1=정본 대조, 렌즈 2=상용 완성도, 렌즈 3=구조 차별성).
 - 렌즈2 심사 축(에셋·인터랙션 풍부도): 생성형/이미지 에셋을 의미있게 썼는가, 인터랙션이 데코가 아니라 정보·전환에 기여하는가, 타깃 절제선(dash=서비스급 / landing=표현적)을 지켰는가. **장식 과잉·의미없는 모션은 감점**(v2세대 탈락 사유 재발 방지).
