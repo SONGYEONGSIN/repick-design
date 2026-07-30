@@ -1,19 +1,14 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import type { Work } from "@/lib/works";
 import type { WorkSpec, Swatch } from "@/lib/specimen-specs";
-import { STRINGS, DEFAULT_LANG, categoryLabel, type Lang } from "../gallery-i18n";
+import { STRINGS, categoryLabel, useLang } from "../gallery-i18n";
 import { WorkCard } from "../work-card";
 
 export default function DetailClient({ work, spec, similar }: { work: Work; spec: WorkSpec | null; similar: Work[] }) {
-  const [lang, setLang] = useState<Lang>(DEFAULT_LANG);
-  useEffect(() => {
-    const saved = localStorage.getItem("specimen-lang");
-    if (saved === "en" || saved === "ko") setLang(saved);
-  }, []);
-  function pickLang(l: Lang) { setLang(l); localStorage.setItem("specimen-lang", l); }
+  const [lang, pickLang] = useLang();
   const t = STRINGS[lang];
   const d = t.detail;
 

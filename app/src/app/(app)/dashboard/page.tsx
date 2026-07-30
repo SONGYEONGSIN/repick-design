@@ -558,7 +558,7 @@ export default function Landing() {
             >
               <motion.div variants={fadeUp} className="flex items-center justify-between">
                 <h2 id="reco-heading" className="text-base font-semibold text-zinc-100">
-                  Today's AI Recommendations
+                  Today&apos;s AI Recommendations
                 </h2>
                 <a
                   href="#"

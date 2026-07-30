@@ -504,7 +504,7 @@ export default function LandingClient() {
                 className="mx-auto mt-6 max-w-xl text-balance text-lg leading-relaxed tracking-[-0.01em] text-stone-600"
               >
                 AI that has learned your style, size, and budget curates only
-                what's right for you, right now, from tens of thousands of
+                what&apos;s right for you, right now, from tens of thousands of
                 listings. No more endless scrolling — just choices you can trust.
               </motion.p>
               <motion.div
@@ -630,7 +630,7 @@ export default function LandingClient() {
               Just three steps
             </h2>
             <p className="mt-4 text-lg leading-relaxed tracking-[-0.01em] text-stone-600">
-              Leave the searching and filtering to AI. You just receive what you'll love.
+              Leave the searching and filtering to AI. You just receive what you&apos;ll love.
             </p>
           </motion.div>
 
@@ -822,9 +822,9 @@ export default function LandingClient() {
                     We cut out the unnecessary browsing
                   </h3>
                   <p className="mt-4 text-lg leading-relaxed tracking-[-0.01em] text-stone-600">
-                    Out of tens of thousands of listings, items that don't fit
+                    Out of tens of thousands of listings, items that don&apos;t fit
                     your criteria are filtered out automatically — leaving
-                    only what's curated for you.
+                    only what&apos;s curated for you.
                   </p>
                   <a
                     href="#showcase"
@@ -901,7 +901,7 @@ export default function LandingClient() {
               >
                 Re-picked for you, right now
               </h2>
-              <p className="mt-4 text-lg leading-relaxed tracking-[-0.01em] text-stone-600">Here's what AI matched for you this week.</p>
+              <p className="mt-4 text-lg leading-relaxed tracking-[-0.01em] text-stone-600">Here&apos;s what AI matched for you this week.</p>
             </motion.div>
 
             <motion.ul

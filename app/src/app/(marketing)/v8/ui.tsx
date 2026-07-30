@@ -229,7 +229,7 @@ export default function LandingClient() {
                 transition={{ duration: 0.5, ease: EASE }}
                 className={cx(EYEBROW, "text-[#a894f7]")}
               >
-                Fig. 02 — Here's how AI picked these
+                Fig. 02 — Here&apos;s how AI picked these
               </motion.p>
               <motion.h2
                 initial={reduced ? false : { opacity: 0, y: 16 }}
@@ -531,7 +531,7 @@ export default function LandingClient() {
             <h2 className="font-extrabold leading-[1.02] tracking-[-0.02em] text-white break-keep text-[clamp(2.1rem,6.4vw,3.6rem)]">
               The dial has finished calculating —
               <br />
-              now all that's left is your match
+              now all that&apos;s left is your match
             </h2>
             <p className="mt-6 max-w-lg text-base font-normal leading-[1.6] text-[#A1A1AA]">
               {CRITERIA.map((c) => c.label).join(" · ")} — the five criteria

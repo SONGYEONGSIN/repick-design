@@ -86,12 +86,10 @@ const PERIOD_LABEL: Record<PeriodId, string> = { "1D": "1D", "1W": "1W", "1M": "
 
 function Treemap({
   blocks,
-  fullTotal,
   selectedId,
   onSelect,
 }: {
   blocks: ReturnType<typeof buildTreemap>["blocks"];
-  fullTotal: number;
   selectedId: string | null;
   onSelect: (id: string) => void;
 }) {
@@ -218,7 +216,7 @@ function Treemap({
       ) : null}
 
       {activeTile && crosshair ? (
-        <TreemapTooltip tile={activeTile} fullTotal={fullTotal} x={crosshair.x} y={crosshair.y} />
+        <TreemapTooltip tile={activeTile} x={crosshair.x} y={crosshair.y} />
       ) : null}
     </div>
   );
@@ -315,7 +313,7 @@ function TreemapTile({
   );
 }
 
-function TreemapTooltip({ tile, fullTotal, x, y }: { tile: Tile; fullTotal: number; x: number; y: number }) {
+function TreemapTooltip({ tile, x, y }: { tile: Tile; x: number; y: number }) {
   const meta = CATEGORY[tile.holding.category];
   const tx = x > 55 ? "calc(-100% - 12px)" : "12px";
   const ty = y > 62 ? "calc(-100% - 12px)" : "12px";
@@ -359,14 +357,18 @@ function AllocationDonut({ period, fullTotal, active }: { period: PeriodId; full
   const R = 42;
   const C = round2(2 * Math.PI * R);
   const segs = useMemo(() => {
-    let offset = 0;
-    return CATEGORY_ORDER.map((cat) => {
+    // Each arc starts where the previous one ended. Built from prefix sums rather than a running
+    // accumulator mutated inside the map: same numbers, but nothing is reassigned mid-render.
+    const dashes = CATEGORY_ORDER.map((cat) => {
       const total = HOLDINGS.filter((h) => h.category === cat).reduce((s, h) => s + holdingValue(h, period), 0);
       const w = fullTotal ? (total / fullTotal) * 100 : 0;
-      const dash = round2((w / 100) * C);
-      const seg = { cat, w, dash: Math.max(0, dash - 1.5), gap: round2(C - Math.max(0, dash - 1.5)), offset: round2(-offset) };
-      offset += dash;
-      return seg;
+      return { w, dash: round2((w / 100) * C) };
+    });
+    return CATEGORY_ORDER.map((cat, i) => {
+      const { w, dash } = dashes[i];
+      const start = dashes.slice(0, i).reduce((s, d) => s + d.dash, 0);
+      const visible = Math.max(0, dash - 1.5);
+      return { cat, w, dash: visible, gap: round2(C - visible), offset: round2(-start) };
     });
   }, [period, fullTotal, C]);
 
@@ -857,7 +859,7 @@ export default function Cockpit() {
                     />
                   </div>
                   <div className={cx("border-t px-3 pb-3 pt-3 sm:px-4 sm:pb-4", BORDER)}>
-                    <Treemap blocks={model.blocks} fullTotal={model.fullTotal} selectedId={selectedId} onSelect={selectHolding} />
+                    <Treemap blocks={model.blocks} selectedId={selectedId} onSelect={selectHolding} />
                   </div>
                 </Card>
               </div>

@@ -2,7 +2,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import {
   normalizeStatic, normalizeSweep, normalizeA11y, normalizePerf,
-  normalizeNativeRun, buildVerdict, parseArgs, filesForRoute,
+  normalizeNativeRun, buildVerdict, parseArgs, filesForRoute, worstLighthouse,
 } from './gate.mjs';
 
 test('normalizeStatic — 위반 0이면 pass', () => {
@@ -101,4 +101,19 @@ test('filesForRoute — d29 라우트에서 tsx 파일을 모은다', () => {
   assert.ok(files.every((f) => f.endsWith('.tsx')));
   assert.ok(files.some((f) => f.endsWith('page.tsx')));
   assert.ok(files.every((f) => f.startsWith('app/src/app/dash/d29/')));
+});
+
+test('worstLighthouse — 여러 라우트 중 최악을 채택한다', () => {
+  const worst = worstLighthouse([{ a11y: 100, perf: 98 }, { a11y: 91, perf: 99 }, { a11y: 96, perf: 80 }]);
+  assert.equal(worst.a11y, 91);
+  assert.equal(worst.perf, 80);
+});
+
+test('worstLighthouse — 하나라도 unavailable이면 unavailable', () => {
+  assert.equal(worstLighthouse([{ a11y: 100, perf: 98 }, 'unavailable']), 'unavailable');
+  assert.equal(worstLighthouse([]), 'unavailable');
+});
+
+test('worstLighthouse — 단일 라우트는 그대로 통과', () => {
+  assert.deepEqual(worstLighthouse([{ a11y: 97, perf: 88 }]), { a11y: 97, perf: 88 });
 });

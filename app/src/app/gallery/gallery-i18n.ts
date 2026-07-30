@@ -1,8 +1,49 @@
+import { useSyncExternalStore } from "react";
 // app/src/app/gallery/gallery-i18n.ts — Specimen 갤러리 i18n 문자열 사전
 import type { Work } from "@/lib/works";
 
 export type Lang = "en" | "ko";
 export const DEFAULT_LANG: Lang = "en";
+
+const LANG_KEY = "specimen-lang";
+const langListeners = new Set<() => void>();
+
+function readLang(): Lang | null {
+  const v = localStorage.getItem(LANG_KEY);
+  return v === "en" || v === "ko" ? v : null;
+}
+
+/**
+ * The chosen language lives in localStorage, which is an external store — so it is subscribed to
+ * rather than copied into state inside an effect. Reading it in an effect and calling setState would
+ * render once with the default and again with the stored value, and would not notice the same choice
+ * being made in another tab or on the other gallery page.
+ *
+ * `getServerSnapshot` returns the default so the server render and the first client render agree;
+ * React then swaps in the stored value without a hydration mismatch.
+ */
+export function useLang(): [Lang, (l: Lang) => void] {
+  const lang = useSyncExternalStore(
+    (onChange) => {
+      langListeners.add(onChange);
+      window.addEventListener("storage", onChange);
+      return () => {
+        langListeners.delete(onChange);
+        window.removeEventListener("storage", onChange);
+      };
+    },
+    () => readLang() ?? DEFAULT_LANG,
+    () => DEFAULT_LANG,
+  );
+  return [
+    lang,
+    (l: Lang) => {
+      localStorage.setItem(LANG_KEY, l);
+      // `storage` only fires in *other* tabs, so this tab is notified directly.
+      langListeners.forEach((fn) => fn());
+    },
+  ];
+}
 
 /** Single source of truth for filter keys — derived from the catalog's page-type union so the two can never drift. */
 export type FilterKey = "all" | NonNullable<Work["category"]>;
