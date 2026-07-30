@@ -118,7 +118,9 @@ export default function PilotClient() {
 
         {/* Close */}
         <section className="relative">
-          <div className="mx-auto max-w-[1120px] px-5 pb-32 pt-8">
+          {/* Deep bottom padding so the final scroll position lands on the wordmark stage with the
+              technique cards already scrolled away — the payoff shape gets a clear viewport. */}
+          <div className="mx-auto max-w-[1120px] px-5 pb-[48dvh] pt-8">
             <p className="max-w-3xl text-[clamp(1.25rem,3vw,1.9rem)] font-extrabold leading-[1.35] tracking-[-0.02em]">
               <SplitLines
                 lines={[
