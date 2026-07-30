@@ -1,6 +1,6 @@
 ---
 name: dash-evolve
-description: 자율 진화 1라운드 (다중 타깃 — 카탈로그에 없는 페이지 타입(login·404·catalog)을 우선 생성하고, 없으면 대시보드·랜딩·네이티브 중 무작위) — 정본 brief+격리 delta로 후보 3개 생성 → 하드게이트(gate.mjs --target web: 정적·sweep·a11y·perf) → 3렌즈 judge 다수결 → delta 격리 적재 → 정제 게이트 → evolve/dash 커밋. "/dash-evolve", "자율 라운드" 시 사용. 무인 실행 전제 — 사람 확인 없이 완주하며 no-winner 라운드를 허용한다.
+description: 자율 진화 1라운드 (다중 타깃 — 카탈로그에 없는 페이지 타입(login·404·catalog·scene)을 우선 생성하고, 없으면 대시보드·랜딩·네이티브 중 무작위) — 정본 brief+격리 delta로 후보 3개 생성 → 하드게이트(gate.mjs --target web: 정적·sweep·a11y·perf) → 3렌즈 judge 다수결 → delta 격리 적재 → 정제 게이트 → evolve/dash 커밋. "/dash-evolve", "자율 라운드" 시 사용. 무인 실행 전제 — 사람 확인 없이 완주하며 no-winner 라운드를 허용한다.
 ---
 
 # dash-evolve — 자율 라운드 (무인, 이중 타깃)
@@ -15,7 +15,7 @@ description: 자율 진화 1라운드 (다중 타깃 — 카탈로그에 없는 
   TARGET=$(node -e "
   const src=require('fs').readFileSync('app/src/lib/works.ts','utf8');
   const has=(c)=>src.includes('category: \"'+c+'\"');
-  const QUEUE=[['login','login'],['404','404'],['catalog','catalog']]; // 우선순위: 기존 작품과 구조적으로 먼 순
+  const QUEUE=[['login','login'],['404','404'],['catalog','catalog'],['scene','scene']]; // 우선순위: 기존 작품과 구조적으로 먼 순. scene은 catalog 뒤 — catalog가 스크롤 연출의 완만한 버전이라 거기서 나온 delta가 scene에 쓰인다
   const unfilled=QUEUE.filter(([,cat])=>!has(cat)).map(([t])=>t);
   if(unfilled.length){ console.log(unfilled[0]); }
   else { const base=['dash','landing','native']; console.log(base[Math.floor(Math.random()*base.length)]); }
@@ -39,23 +39,23 @@ description: 자율 진화 1라운드 (다중 타깃 — 카탈로그에 없는 
 | judge 렌즈 | brief 준수 / 상용 SaaS 완성도(Mercury·Asana·n8n·Coinbase) / 아키타입 차별성 | DNA 준수 / 상용 랜딩 완성도(Linear·Stripe·Vercel급) / 형태 차별성 |
 | 에셋·인터랙션 | 서비스급 절제 유지 + 도메인 생성형 시각화 밀도↑, 인터랙션 4종+ (연출·발광 금지) | 표현 상한 없음 — 히어로 이미지·framer-motion·스크롤 연출, 인터랙션 4종+ |
 
-### 신규 페이지 타입 파라미터 (login · 404 · catalog — 웹 라우트, 게이트는 dash/landing과 동일)
+### 신규 페이지 타입 파라미터 (login · 404 · catalog · scene — 웹 라우트, 게이트는 dash/landing과 동일)
 
 게이트(`gate.mjs --target web`)는 페이지 타입 중립이므로 **그대로 쓴다**. 달라지는 것은 브리프와 judge 렌즈뿐이다.
 
-| 변수 | login | 404 | catalog |
-|---|---|---|---|
-| BRIEF | `vault/00-principles/brief-login.md` | `vault/00-principles/brief-404.md` | `vault/00-principles/brief-catalog.md` |
-| 공통 코어 | 3종 모두 `vault/00-principles/page-brief-core.md` 를 함께 읽는다 (프로파일은 코어를 복사하지 않는다) | ← | ← |
-| DELTAS | `vault/00-principles/login-deltas-provisional.jsonl` | `vault/00-principles/404-deltas-provisional.jsonl` | `vault/00-principles/catalog-deltas-provisional.jsonl` |
-| ROUTES | `app/src/app/login-evolve/r<N>/` | `app/src/app/404-evolve/r<N>/` | `app/src/app/catalog-evolve/r<N>/` |
-| 중복 금지 | 해당 타입의 기존 카탈로그 작품 + 그 타입 evolve 누적 아키타입 (각 BRIEF §3 아키타입 목록 기준) | ← | ← |
-| judge 렌즈 | 각 BRIEF §6 표를 그대로 사용 (렌즈1=프로파일 준수 / 렌즈2=상용 완성도 / 렌즈3=아키타입 차별성) | ← | ← |
-| 인터랙션 최소 | **2종** (BRIEF §4) | **1종** (BRIEF §4) | **3종** (BRIEF §4) |
-| 스크롤 연출 | 금지 (한 화면) | 금지 (한 화면) | **허용** — BRIEF §5 제약 준수 |
+| 변수 | login | 404 | catalog | scene |
+|---|---|---|---|---|
+| BRIEF | `vault/00-principles/brief-login.md` | `vault/00-principles/brief-404.md` | `vault/00-principles/brief-catalog.md` | `vault/00-principles/brief-scene.md` |
+| 공통 코어 | 전 타입 `vault/00-principles/page-brief-core.md` 를 함께 읽는다 (프로파일은 코어를 복사하지 않는다) | ← | ← | ← |
+| DELTAS | `vault/00-principles/login-deltas-provisional.jsonl` | `vault/00-principles/404-deltas-provisional.jsonl` | `vault/00-principles/catalog-deltas-provisional.jsonl` | `vault/00-principles/scene-deltas-provisional.jsonl` |
+| ROUTES | `app/src/app/login-evolve/r<N>/` | `app/src/app/404-evolve/r<N>/` | `app/src/app/catalog-evolve/r<N>/` | `app/src/app/scene-evolve/r<N>/` |
+| 중복 금지 | 해당 타입의 기존 카탈로그 작품 + 그 타입 evolve 누적 아키타입 (각 BRIEF §3 아키타입 목록 기준) | ← | ← | 형상·전이 방식이 겹치지 않을 것 (BRIEF §6 렌즈3) |
+| judge 렌즈 | 각 BRIEF §6 표를 그대로 사용 (렌즈1=프로파일 준수 / 렌즈2=상용 완성도 / 렌즈3=아키타입 차별성) | ← | ← | ← (단 **다중 프레임 필수** — 단일 프레임 판정 금지) |
+| 인터랙션 최소 | **2종** (BRIEF §4) | **1종** (BRIEF §4) | **3종** (BRIEF §4) | **2종** — 장면 자체가 주 인터랙션 |
+| 스크롤 연출 | 금지 (한 화면) | 금지 (한 화면) | **허용** — BRIEF §5 제약 준수 | **필수** — 장면이 페이지의 축 (BRIEF §1) |
 
 - DELTAS 파일은 **해당 타입 첫 라운드에서 생성**한다(미리 빈 파일을 만들지 않는다).
-- 승격 시 `works.ts` `category`는 타깃 id와 동일한 값(`login`/`404`/`catalog`)을 쓴다 — 갤러리 칩이 자동으로 나타난다.
+- 승격 시 `works.ts` `category`는 타깃 id와 동일한 값(`login`/`404`/`catalog`/`scene`)을 쓴다 — 갤러리 칩이 자동으로 나타난다.
 
 ### native 타깃 파라미터 (RN 라운드 — 웹과 구조 상이)
 

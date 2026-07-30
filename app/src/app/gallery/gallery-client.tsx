@@ -12,7 +12,7 @@ import { STRINGS, DEFAULT_LANG, categoryLabel, type Lang, type FilterKey } from 
  * showing as dead filters — new chips appear on their own as rounds land.
  */
 const FILTER_ORDER: FilterKey[] = [
-  "all", "dashboard", "settings", "landing", "catalog", "product-detail", "paywall",
+  "all", "dashboard", "settings", "landing", "scene", "catalog", "product-detail", "paywall",
   "login", "profile", "404", "blog", "about", "careers", "contact", "developers",
   "integration", "media-kit", "mobile",
 ];
