@@ -103,8 +103,8 @@ function IconBag({ className }: SVGProps<SVGSVGElement>) {
   );
 }
 
-/** Repick brand badge — compact size for dark sidebar/header */
-function RepickBadge() {
+/** Attune brand badge — compact size for dark sidebar/header */
+function AttuneBadge() {
   return (
     <span className="inline-flex items-center gap-1.5 text-base font-bold tracking-tight text-zinc-50">
       <span className="rounded-md bg-orange-700 px-1.5 py-0.5 text-[11px] font-semibold text-white font-[family-name:var(--font-geist-mono)]">
@@ -344,7 +344,7 @@ export default function Landing() {
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: reduceMotion ? 0 : 0.4, ease: EASE }}
           >
-            <RepickBadge />
+            <AttuneBadge />
           </motion.div>
           <motion.nav
             aria-label="Main menu"
@@ -402,7 +402,7 @@ export default function Landing() {
         >
           <div className="flex h-14 items-center justify-between gap-4">
             <div className="flex items-center gap-2 lg:hidden">
-              <RepickBadge />
+              <AttuneBadge />
             </div>
             <p className="hidden text-xs font-medium text-zinc-400 lg:block">Dashboard / Home</p>
             <div className="flex flex-1 items-center justify-end gap-2 sm:gap-3">

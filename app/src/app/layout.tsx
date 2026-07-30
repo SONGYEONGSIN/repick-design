@@ -20,8 +20,8 @@ const instrumentSerif = Instrument_Serif({
 });
 
 export const metadata: Metadata = {
-  title: "Repick — Secondhand, re-picked by AI",
-  description: "AI learns your taste and re-picks just the secondhand items that are right for you, out of thousands.",
+  title: "Specimen — Interface design systems for AI agents",
+  description: "An auto-evolving gallery of production-grade interface design systems, each shipping a copy-paste DESIGN.md an AI agent can rebuild from.",
 };
 
 export default function RootLayout({

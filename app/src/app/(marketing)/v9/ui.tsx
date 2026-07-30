@@ -51,7 +51,7 @@ export default function LandingClient() {
               FOCUS,
             )}
           >
-            repick
+            Loupe
           </a>
           <div className="hidden items-center gap-7 sm:flex">
             <a href="#preview" className={NAV_LINK}>
@@ -296,7 +296,7 @@ export default function LandingClient() {
       <footer className="border-t border-white/10">
         <div className="mx-auto flex w-full max-w-[1120px] flex-col gap-2 px-5 py-10 sm:flex-row sm:items-center sm:justify-between sm:px-8">
           <span className="text-base font-extrabold tracking-[-0.02em] text-white">
-            repick
+            Loupe
           </span>
           <span className="text-xs font-normal text-[#A1A1AA]">
             AI-annotated secondhand · 2026 REPICK
