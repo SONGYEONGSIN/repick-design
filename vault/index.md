@@ -7,8 +7,9 @@ tags: [index]
 > 갱신 의무: 자율 라운드(§7 기록)와 주간 apply가 신규/승격 노트를 여기에 등재한다. lint(`scripts/wiki-lint.mjs`)가 미등재를 잡는다. 홈([[🏠 Design Evolution]])은 선별 목차, 여기는 전수.
 
 ## 원칙 (00-principles — 위키 정본층)
-- [[dash-brief-v3]] — SaaS 대시보드 생성 브리프 v3 (서비스급 기준·그리드 크래프트 룰)
-- [[design-principles]] — 랜딩 디자인 DNA (R7 수렴 정본)
+- [[page-brief-core]] — **페이지 브리프 공통 코어** (전 타입 강제: 영문 전용·게이트 기계 검증 규칙·접근성·폭 검증·산출물 환경)
+- [[dash-brief-v3]] — 타입 프로파일 `dashboard`·`settings` (앱 셸·컴포넌트 시스템·아키타입·그리드 크래프트 룰)
+- [[design-principles]] — 타입 프로파일 `landing` (보이스·컬러 토큰·타이포·히어로·구조 기본형·anti-slop)
 - [[curation-criteria]] — 지식 정제 meta-기준 (L1~L3 레벨·승격 규칙)
 - [[questions-queue]] — 정제 게이트 질문 큐 (대기/아카이브)
 - [[MEMORY]] — 학습 인덱스 (200줄 cap)
