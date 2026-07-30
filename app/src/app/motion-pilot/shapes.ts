@@ -15,7 +15,7 @@ export type Rand = () => number;
 const RASTER = 320;
 
 /** Draws onto a square offscreen canvas, then returns `count` deterministic samples of its opaque pixels. */
-export function sampleRaster(draw: (ctx: CanvasRenderingContext2D, size: number) => void, count: number, rand: Rand, depth = 0.16): Vec3[] {
+export function sampleRaster(draw: (ctx: CanvasRenderingContext2D, size: number) => void, count: number, rand: Rand, depth = 0.16, bulge = false): Vec3[] {
   const cv = document.createElement("canvas");
   cv.width = RASTER;
   cv.height = RASTER;
@@ -36,11 +36,14 @@ export function sampleRaster(draw: (ctx: CanvasRenderingContext2D, size: number)
     const x = px % RASTER;
     const y = (px / RASTER) | 0;
     // Sub-pixel jitter keeps the cloud from looking like a screen-door grid.
-    out.push([
-      ((x + rand()) / RASTER) * 2 - 1,
-      -(((y + rand()) / RASTER) * 2 - 1),
-      (rand() - 0.5) * depth,
-    ]);
+    const nx = ((x + rand()) / RASTER) * 2 - 1;
+    const ny = -(((y + rand()) / RASTER) * 2 - 1);
+    // Bulge gives the flat raster a body: points near the middle of the form sit further out in z,
+    // so the cloud reads as a shell with thickness rather than a cardboard cutout. A flat silhouette
+    // is the giveaway that separates our earlier stages from the reference's volumetric objects.
+    const falloff = Math.sqrt(Math.max(0, 1 - Math.min(1, (nx * nx + ny * ny) / 1.1)));
+    const nz = (rand() * 2 - 1) * depth * (bulge ? 0.25 + falloff : 1);
+    out.push([nx, ny, nz]);
   }
   return out;
 }
@@ -70,7 +73,74 @@ export function tuningGlyph(count: number, rand: Rand): Vec3[] {
   }, count, rand, 0.2);
 }
 
-/** Stage C — the wordmark. Rasterised type gives an exact letterform cloud. */
+
+/**
+ * Stage A — a garment silhouette: the object the product actually reasons about. Drawn with paths
+ * (no font dependency) and sampled with bulge so it reads as a body, not a cutout.
+ */
+export function garment(count: number, rand: Rand): Vec3[] {
+  return sampleRaster((ctx, s) => {
+    const cx = s / 2;
+    ctx.fillStyle = "#fff";
+    // Body: shoulders → tapered waist → hem.
+    ctx.beginPath();
+    ctx.moveTo(cx - s * 0.19, s * 0.2);
+    ctx.quadraticCurveTo(cx, s * 0.15, cx + s * 0.19, s * 0.2);
+    ctx.lineTo(cx + s * 0.26, s * 0.52);
+    ctx.quadraticCurveTo(cx + s * 0.2, s * 0.76, cx + s * 0.17, s * 0.86);
+    ctx.lineTo(cx - s * 0.17, s * 0.86);
+    ctx.quadraticCurveTo(cx - s * 0.2, s * 0.76, cx - s * 0.26, s * 0.52);
+    ctx.closePath();
+    ctx.fill();
+    // Sleeves.
+    for (const dir of [-1, 1]) {
+      ctx.beginPath();
+      ctx.moveTo(cx + dir * s * 0.18, s * 0.21);
+      ctx.quadraticCurveTo(cx + dir * s * 0.34, s * 0.3, cx + dir * s * 0.33, s * 0.6);
+      ctx.lineTo(cx + dir * s * 0.24, s * 0.62);
+      ctx.quadraticCurveTo(cx + dir * s * 0.25, s * 0.36, cx + dir * s * 0.15, s * 0.27);
+      ctx.closePath();
+      ctx.fill();
+    }
+    // Collar notch — cut back out so the neckline reads.
+    ctx.globalCompositeOperation = "destination-out";
+    ctx.beginPath();
+    ctx.moveTo(cx - s * 0.075, s * 0.185);
+    ctx.lineTo(cx, s * 0.3);
+    ctx.lineTo(cx + s * 0.075, s * 0.185);
+    ctx.closePath();
+    ctx.fill();
+    ctx.globalCompositeOperation = "source-over";
+  }, count, rand, 0.22, true);
+}
+
+/**
+ * Stage C — a head in profile: who the garment is being matched to. The payoff of the journey is a
+ * person, not a logo.
+ */
+export function profile(count: number, rand: Rand): Vec3[] {
+  return sampleRaster((ctx, s) => {
+    ctx.fillStyle = "#fff";
+    ctx.beginPath();
+    // Tall, narrow head with exaggerated features — a subtle profile dissolves into a blob once it
+    // is made of particles, so brow, nose, lip and chin are all pushed well past life drawing.
+    ctx.moveTo(s * 0.66, s * 0.92);            // neck, back
+    ctx.lineTo(s * 0.66, s * 0.74);
+    ctx.quadraticCurveTo(s * 0.72, s * 0.62, s * 0.70, s * 0.44);
+    ctx.quadraticCurveTo(s * 0.66, s * 0.14, s * 0.44, s * 0.12);   // crown
+    ctx.quadraticCurveTo(s * 0.28, s * 0.14, s * 0.28, s * 0.34);   // forehead
+    ctx.quadraticCurveTo(s * 0.30, s * 0.42, s * 0.25, s * 0.46);   // brow ridge
+    ctx.lineTo(s * 0.12, s * 0.60);                                  // nose bridge → tip (sharp)
+    ctx.lineTo(s * 0.27, s * 0.63);                                  // under nose
+    ctx.quadraticCurveTo(s * 0.22, s * 0.68, s * 0.29, s * 0.70);   // lips
+    ctx.quadraticCurveTo(s * 0.20, s * 0.78, s * 0.33, s * 0.82);   // chin
+    ctx.quadraticCurveTo(s * 0.40, s * 0.90, s * 0.50, s * 0.92);   // jaw → neck
+    ctx.closePath();
+    ctx.fill();
+  }, count, rand, 0.2, true);
+}
+
+/** The wordmark. Rasterised type gives an exact letterform cloud. Kept for other scene scripts. */
 export function wordmark(text: string, count: number, rand: Rand): Vec3[] {
   return sampleRaster((ctx, s) => {
     ctx.textAlign = "center";
