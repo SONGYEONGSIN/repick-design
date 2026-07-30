@@ -31,6 +31,12 @@ description: 자율 진화 주간 반증 (다중 타깃) — evolve/dash 누적�
    - **신규 커밋이 있으면**: 그 커밋만 보존해야 하므로 `git rebase --onto main $MERGED` — `git rebase main`이 아니다(`--onto`는 이미 머지된 구간을 재생하지 않고 $MERGED 이후 커밋만 main 위로 옮긴다).
    - push는 두 경로 모두 `git push --force-with-lease=evolve/dash:$MERGED origin evolve/dash` — lease를 **명시**한다. 맨 `--force-with-lease`는 로컬 원격추적 ref가 낡았을 때 야간 커밋을 조용히 덮는다.
 
+## 자기검증 (다음 라운드가 실측하고 지울 절)
+2026-07-30 수정의 predicted impact. **apply 모드 §6 직전에 이 절을 확인**하고, 결과를 그 주 PR 본문에 1줄로 남긴다.
+- **§6 분기 예측** — 머지 후 정합에서 rebase 충돌 0건 · apply가 삭제한 후보 디렉토리 부활 0건. 어긋나면 §6의 분기 조건(야간 커밋 유무)이 잘못 잡힌 것이므로 재설계한다.
+- **§1·§2 종결 키 예측** — 승인하지 않은 delta가 promoted/refuted로 읽히는 사례 0건. 어긋나면 `(round, variant, level)` 키가 부족한 것이므로 delta에 고유 id를 부여한다.
+- 두 예측이 실측으로 확인되면 **이 절을 삭제한다**(스킬 비대 방지). 2라운드 이상 미확인으로 남으면 예측 자체가 검증 불가하다는 신호이므로, 예측을 측정 가능한 형태로 다시 쓴다.
+
 ## 금지
 - open 모드에서 어떤 파일도 수정하지 않는다 (PR 생성/갱신만).
 - apply 모드에서 사람 입력 없는 delta를 임의로 승인/기각하지 않는다.
