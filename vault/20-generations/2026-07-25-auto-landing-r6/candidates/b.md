@@ -1,0 +1,3 @@
+## Candidate B — Scroll-driven verification timeline
+
+The hero hands off directly into a vertical stepper anchored to a single real listing (a wool double-breasted coat): Condition Check → Price Fairness Check → Seller Verification → Match Score, each revealing an actual computed number (94/100 condition score, -41% vs. market median, 4.9/5 trust score, 96% match) as it scrolls into view, with a transform-scaled accent line filling behind the steps to track progress, and a sticky proof card beside it that shows match %, grade, verified badge, and before/after discount from first paint (never gated behind scroll or hover) — culminating in a "Recommended match" verdict card that summarizes all four findings at once.

@@ -73,10 +73,11 @@ export function filesForRoute(route, appRoot = 'app/src/app') {
 }
 
 function runLighthouse(url) {
+  const chromeFlags = '--headless' + (process.env.PW_NO_SANDBOX ? ' --no-sandbox' : '');
   const r = spawnSync('npx', ['lighthouse', url,
     '--only-categories=performance,accessibility', '--preset=desktop',
-    '--output=json', '--output-path=stdout', '--chrome-flags=--headless'],
-    { encoding: 'utf8', maxBuffer: 64 * 1024 * 1024 });
+    '--output=json', '--output-path=stdout', `--chrome-flags=${chromeFlags}`],
+    { encoding: 'utf8', maxBuffer: 64 * 1024 * 1024, env: process.env });
   if (r.status !== 0 || !r.stdout) return 'unavailable';
   try {
     const j = JSON.parse(r.stdout);
