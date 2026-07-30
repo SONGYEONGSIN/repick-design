@@ -22,10 +22,15 @@ export default function PilotClient() {
     <div className="relative min-h-dvh text-white">
       {/* Page backdrop lives on its own layer *behind* the scene — putting the background on this
           wrapper instead paints over the canvas, which silently blanks the whole field. */}
-      <div aria-hidden className="fixed inset-0 -z-20 bg-[#0B0B0F]" />
+      {/* Near-black rather than the house #0B0B0F canvas: sampling the reference's frames put its
+          background at #010101 (luminance 0.6) against our 9.5, and on an additively-blended field a
+          grey backdrop lifts the darkest channel of every faint particle, which flattens colour as
+          well as contrast. The scene profile is the one place the canvas token is not the right
+          surface. */}
+      <div aria-hidden className="fixed inset-0 -z-20 bg-[#010102]" />
       <ParticleField />
 
-      <header className="sticky top-0 z-30 border-b border-white/10 bg-[#0B0B0F]/70 backdrop-blur">
+      <header className="sticky top-0 z-30 border-b border-white/10 bg-[#010102]/70 backdrop-blur">
         <div className="mx-auto flex h-14 max-w-[1120px] items-center justify-between px-5">
           <span className="text-sm font-extrabold tracking-[-0.02em]">Attune</span>
           <span className="inline-flex items-center gap-1.5 text-[0.7rem] font-semibold uppercase tracking-[0.18em] text-[#A1A1AA]">
@@ -78,7 +83,7 @@ export default function PilotClient() {
         </section>
 
         {/* Proof band — scene re-gathering behind it */}
-        <section className="relative border-y border-white/10 bg-[#0B0B0F]/70 backdrop-blur-sm">
+        <section className="relative border-y border-white/10 bg-[#010102]/70 backdrop-blur-sm">
           <div className="mx-auto grid max-w-[1120px] gap-8 px-5 py-20 sm:grid-cols-3">
             {PROOF.map((p, i) => (
               <motion.div
