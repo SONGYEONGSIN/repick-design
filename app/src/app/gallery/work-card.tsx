@@ -6,9 +6,19 @@ import { STRINGS, type Lang } from "./gallery-i18n";
 
 /** Desktop preview is authored at this width; the card scales it down to whatever width the grid gives it. */
 const PREVIEW_W = 1440;
+/**
+ * Page height rendered inside the preview iframe. Deliberately much taller than the visible card
+ * window: an iframe only ~1 viewport tall means its own viewport ends at the fold, so scroll-linked
+ * reveals (`whileInView`, IntersectionObserver) below the fold never fire and the lower half of the
+ * page paints blank. Rendering tall puts those sections inside the iframe's viewport, so they are
+ * already revealed by the time the card scrolls through them.
+ */
+const CAPTURE_H = 2400;
 
 export function WorkCard({ work, lang, label }: { work: Work; lang: Lang; label: string }) {
   const [loaded, setLoaded] = useState(false);
+  const [hover, setHover] = useState(false);
+  const [reduced, setReduced] = useState(false);
   const frameRef = useRef<HTMLDivElement>(null);
   // Scale from the measured card width, never a constant — a hardcoded factor goes stale the moment
   // the grid changes and silently crops the right edge of every desktop preview.
@@ -20,12 +30,39 @@ export function WorkCard({ work, lang, label }: { work: Work; lang: Lang; label:
     ro.observe(el);
     return () => ro.disconnect();
   }, []);
+  useEffect(() => {
+    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const sync = () => setReduced(mq.matches);
+    sync();
+    mq.addEventListener("change", sync);
+    return () => mq.removeEventListener("change", sync);
+  }, []);
   const h = work.previewH ?? 300;
+  // Scroll-through: on hover, walk the preview down the page at a constant speed so works whose
+  // value lives below the fold (catalog grids, scroll-linked landings) are visible from the card.
+  const windowH = scale > 0 ? h / scale : 0; // page px visible in the card at rest
+  // Travel only as far as the page actually goes — a work shorter than CAPTURE_H would otherwise
+  // scroll into empty background. Previews are same-origin, so the real height is readable.
+  const [pageH, setPageH] = useState(CAPTURE_H);
+  function measurePage(e: React.SyntheticEvent<HTMLIFrameElement>) {
+    setLoaded(true);
+    try {
+      const doc = e.currentTarget.contentDocument;
+      if (doc) setPageH(Math.min(CAPTURE_H, Math.max(windowH, doc.documentElement.scrollHeight)));
+    } catch {
+      /* cross-origin preview — keep the default capture height */
+    }
+  }
+  const range = Math.max(0, pageH - windowH); // page px available to travel
+  const travel = hover && !reduced ? -range : 0;
+  const travelMs = Math.round(Math.min(6000, (range / 420) * 1000)); // constant speed, capped
   const t = STRINGS[lang];
   // Catalog works route to their detail page; evolve candidates (id has "/") have no detail page.
   const href = work.id.includes("/") ? work.route : `/gallery/${work.id}`;
   return (
     <a href={href}
+      onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)}
+      onFocus={() => setHover(true)} onBlur={() => setHover(false)}
       className="group block min-w-0 overflow-hidden rounded-xl border border-zinc-200 bg-white transition duration-200 hover:-translate-y-0.5 hover:border-zinc-400 hover:shadow-sm active:translate-y-0 active:shadow-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-900 focus-visible:ring-offset-2 motion-reduce:hover:translate-y-0">
       <div ref={frameRef} aria-hidden="true" className="relative w-full overflow-hidden border-b border-zinc-100 bg-zinc-50" style={{ height: h }}>
         {!loaded && <div className="absolute inset-0 animate-pulse bg-gradient-to-b from-zinc-100 to-zinc-50 motion-reduce:animate-none" />}
@@ -35,9 +72,16 @@ export function WorkCard({ work, lang, label }: { work: Work; lang: Lang; label:
             className={`pointer-events-none absolute left-1/2 top-0 origin-top transition-opacity duration-300 ${loaded ? "opacity-100" : "opacity-0"}`}
             style={{ width: "390px", height: "844px", transform: `translateX(-50%) scale(${h / 844})`, border: 0 }} />
         ) : (
-          <iframe src={work.route} loading="lazy" title={`${work.brand} preview`} tabIndex={-1} scrolling="no" onLoad={() => setLoaded(true)}
-            className={`pointer-events-none absolute left-0 top-0 origin-top-left transition-opacity duration-300 ${loaded && scale > 0 ? "opacity-100" : "opacity-0"}`}
-            style={{ width: PREVIEW_W, height: scale > 0 ? h / scale : 1100, transform: `scale(${scale})`, border: 0 }} />
+          <iframe src={work.route} loading="lazy" title={`${work.brand} preview`} tabIndex={-1} scrolling="no" onLoad={measurePage}
+            className={`pointer-events-none absolute left-0 top-0 origin-top-left ${loaded && scale > 0 ? "opacity-100" : "opacity-0"}`}
+            style={{
+              width: PREVIEW_W,
+              height: CAPTURE_H,
+              // scale first, then translate in page pixels — the travel distance stays authoring-space.
+              transform: `scale(${scale}) translateY(${travel}px)`,
+              transition: `opacity 300ms, transform ${hover ? travelMs : 420}ms linear`,
+              border: 0,
+            }} />
         )}
       </div>
       <div className="px-4 py-3">
