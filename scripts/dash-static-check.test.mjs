@@ -109,3 +109,20 @@ test('블록 주석을 걷어내도 실제 코드의 위반은 그대로 잡는�
   assert.equal(v[0].rule, 'no-random');
   assert.equal(v[0].line, 4, '위반 줄 번호가 원본 기준으로 보고돼야 한다');
 });
+
+test('no-dark-dim-text: 다크 보조텍스트 500/600단을 잡는다', () => {
+  const v = checkSource(`<p className="text-neutral-500 dark:text-neutral-500">note</p>`);
+  assert.equal(v.length, 1);
+  assert.equal(v[0].rule, 'no-dark-dim-text');
+  assert.ok(checkSource(`<span className="dark:text-zinc-600">x</span>`).some((x) => x.rule === 'no-dark-dim-text'));
+});
+
+test('no-dark-dim-text: 라이트 전용 토큰과 다크 400단은 통과', () => {
+  const ok = `<p className="text-neutral-500 dark:text-neutral-400">note</p>\n<span className="text-zinc-600">light only</span>`;
+  assert.ok(!checkSource(ok).some((x) => x.rule === 'no-dark-dim-text'));
+});
+
+test('no-dark-dim-text: 다크 모드 안 밝은 표면 위 어두운 글자(700단 이상)는 잡지 않는다', () => {
+  const ok = `<span className="dark:bg-white dark:text-zinc-900">badge</span>`;
+  assert.ok(!checkSource(ok).some((x) => x.rule === 'no-dark-dim-text'));
+});

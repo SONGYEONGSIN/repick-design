@@ -30,6 +30,8 @@ export default function AnnotationScan() {
   const firstRun = useRef(true);
 
   const pin = PINS[activeIndex];
+  // Under reduced motion there is no count-up, so the figure is the active pin's value outright.
+  const shown = reduced ? pin.cumulative : display;
 
   // deterministic sequence: advance one fixed step at a time, loop on a
   // fixed cycle. Stops permanently once the visitor takes manual control.
@@ -47,7 +49,10 @@ export default function AnnotationScan() {
   useEffect(() => {
     const target = PINS[activeIndex].cumulative;
     if (reduced) {
-      setDisplay(target);
+      // Nothing to animate: under reduced motion the figure is read straight off the active pin
+      // during render (see `shown`), so the effect only keeps the ref in step. Setting state here
+      // instead would be a synchronous set inside an effect — an extra render for a value we can
+      // simply derive.
       prevValue.current = target;
       return;
     }
@@ -175,10 +180,10 @@ export default function AnnotationScan() {
             Running match
           </p>
           <p className={cx("mt-2 text-4xl font-extrabold text-white", NUM)} aria-hidden>
-            {display}
+            {shown}
             <span className="text-xl text-[#A1A1AA]">%</span>
           </p>
-          <span className="sr-only">{display} percent overall match, so far</span>
+          <span className="sr-only">{shown} percent overall match, so far</span>
           <p className="mt-1 whitespace-nowrap text-xs font-normal text-[#A1A1AA]">
             through check {pin.step} of {PINS.length}
           </p>

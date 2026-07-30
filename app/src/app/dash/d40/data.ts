@@ -133,7 +133,6 @@ export const WEEKDAY_LABELS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
 const dateFmt = new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric", year: "numeric" });
 const dateFmtShort = new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric" });
-const monthFmt = new Intl.DateTimeFormat("en-US", { month: "short" });
 
 export function formatDate(ms: number): string {
   return dateFmt.format(new Date(ms));
