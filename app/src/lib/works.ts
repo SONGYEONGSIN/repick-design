@@ -16,7 +16,7 @@ export type Work = {
    * Domain information (ops / finance / analytics …) lives in each work's `desc`, not in a second axis.
    */
   category?:
-    | "dashboard" | "settings" | "landing" | "catalog" | "product-detail"
+    | "dashboard" | "settings" | "landing" | "scene" | "catalog" | "product-detail"
     | "paywall" | "login" | "profile" | "404" | "blog" | "about"
     | "careers" | "contact" | "developers" | "integration" | "media-kit"
     | "mobile";
