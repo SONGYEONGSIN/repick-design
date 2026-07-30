@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { garment, profile, scatter, sparseField, type Vec3 } from "./shapes";
+import { RIM_SHARE, garment, profile, scatter, sparseField, type Vec3 } from "./shapes";
 
 /**
  * Persistent WebGL2 scene — one fixed, full-viewport particle field that holds an exact silhouette
@@ -21,13 +21,59 @@ import { garment, profile, scatter, sparseField, type Vec3 } from "./shapes";
  */
 
 const COUNT = 20000;
-const PALETTE: [number, number, number][] = [
+/**
+ * Palette weighted to the reference's measured distribution, not chosen by eye.
+ *
+ * Sampling the reference's own frames (lit pixels, HSV) gave: 56% achromatic (white/grey), a warm
+ * gold-orange band at 30-45° carrying ~22%, then small amounts of blue, red, violet and pink —
+ * average saturation 0.58, value 0.48. Our first palette was the inverse: only 33% white, dominated
+ * by cool blue-violet, and noticeably duller (saturation 0.37, value 0.33).
+ *
+ * Entries repeat to encode weight, so a uniform draw reproduces the measured mix.
+ */
+/**
+ * Two palettes, not one — split by where a particle sits in the form.
+ *
+ * Sampling the reference's own frames (lit pixels, HSV) gave 56% achromatic, a warm gold-orange band
+ * at 30-45 degrees carrying ~22%, then small amounts of blue, red, violet and pink, at average
+ * saturation 0.58. But the mix is not spread evenly: the warm band is almost entirely *rim*, tracing
+ * the silhouette, while the interior is small white and violet. A single averaged palette reproduces
+ * the histogram and still looks nothing like it, so the split is the point.
+ *
+ * Entries repeat to encode weight, so a uniform draw reproduces the measured mix.
+ */
+const RIM_PALETTE: [number, number, number][] = [
+  [1.0, 0.62, 0.06],
+  [1.0, 0.62, 0.06],
+  [1.0, 0.68, 0.07],
+  [1.0, 0.7, 0.08],
+  [1.0, 0.74, 0.1],
+  [1.0, 0.82, 0.12],
+  [1.0, 0.82, 0.12],
+  [1.0, 0.86, 0.18],
+  [1.0, 0.9, 0.3],
+  [1.0, 0.9, 0.3],
+  [1.0, 0.22, 0.16],
   [1.0, 1.0, 1.0],
-  [0.98, 0.78, 0.14],
-  [0.43, 0.34, 0.81],
-  [0.66, 0.58, 0.97],
-  [0.25, 0.72, 0.65],
-  [0.93, 0.55, 0.78],
+  [1.0, 0.35, 0.75],
+  [0.6, 0.35, 1.0],
+];
+
+const CORE_PALETTE: [number, number, number][] = [
+  [1.0, 1.0, 1.0],
+  [1.0, 1.0, 1.0],
+  [1.0, 1.0, 1.0],
+  [1.0, 1.0, 1.0],
+  [1.0, 1.0, 1.0],
+  [1.0, 1.0, 1.0],
+  [0.95, 0.95, 0.98],
+  [0.95, 0.95, 0.98],
+  [0.9, 0.9, 0.94],
+  [0.84, 0.85, 0.9],
+  [0.84, 0.85, 0.9],
+  [0.6, 0.35, 1.0],
+  [0.25, 0.75, 0.68],
+  [1.0, 0.35, 0.75],
 ];
 
 function mulberry32(seed: number) {
@@ -41,7 +87,7 @@ function mulberry32(seed: number) {
 }
 
 const VERT = `#version 300 es
-in vec3 aA; in vec3 aB; in vec3 aC; in vec3 aColor; in float aSeed;
+in vec3 aA; in vec3 aB; in vec3 aC; in vec3 aColor; in float aSeed; in float aRim;
 uniform float uMorph;     // 0..2 — A→B→C, driven by document scroll
 uniform vec2  uPointer;   // cursor in clip space (aspect-corrected); (9,9) = absent
 uniform float uAspect;
@@ -94,13 +140,20 @@ void main() {
   gl_Position = vec4(clip, 0.0, 1.0);
   // Heavy-tailed size: seed³ leaves most particles tiny and a few very large, which is what gives
   // the field depth instead of a uniform mist.
-  float sizeSeed = aSeed * aSeed * aSeed;
+  // Skewed hard so most particles stay near-dust and only the tail reads as a lit body. The
+  // reference's field covers ~0.28 of the frame while ours covered 0.36: the excess was mid-size
+  // particles overlapping each other, which additively washes colour toward white (measured
+  // chromatic saturation 0.43 against the reference's 0.58). Thinning the middle of the size
+  // distribution — not the count — drops coverage without giving up the bright tail.
+  float sizeSeed = aSeed * aSeed * aSeed * aSeed;
   // …but only while the cloud is open. Gathered into a silhouette, large particles overlap and
   // additive blending blows the form into a white slab — the precise outline is the whole point of
   // those stages, so shrink everything as the field closes up.
   float openness = clamp(1.0 - abs(m - 1.0) + burst * 0.6, 0.0, 1.0);
   float grain = mix(0.26, 1.0, openness);
-  float ptSize = (1.4 + sizeSeed * 34.0 * grain) * (0.55 + persp * 0.95) * (1.0 + hot * 1.6) * uScale * 0.62;
+  // Rim particles carry the shape; interior particles are dust behind it. Scaling the two bands
+  // apart is what turns a filled mass into a shell you can read the outline of.
+  float ptSize = (0.9 + sizeSeed * 52.0 * grain * (0.55 + aRim * 1.05)) * (0.55 + persp * 0.95) * (1.0 + hot * 1.6) * uScale * 0.62;
   gl_PointSize = ptSize;
   vBand = clamp(2.6 / max(ptSize, 2.0), 0.05, 0.34);
   vColor = aColor; vSeed = aSeed;
@@ -130,7 +183,7 @@ void main() {
   vec3 c = mix(vColor, vec3(1.0), vHot * 0.55);
   // Alpha kept below full: the mass is large enough to sit under running copy, and a slightly
   // translucent field lets the text carry (paired with a shadow on the copy itself).
-  outColor = vec4(c, line * depthFade * (0.66 + vHot * 0.6));
+  outColor = vec4(c, line * depthFade * (0.98 + vHot * 0.6));
 }`;
 
 function compile(gl: WebGL2RenderingContext, type: number, src: string) {
@@ -174,9 +227,19 @@ export default function ParticleField() {
 
     const col = new Float32Array(COUNT * 3);
     const seed = new Float32Array(COUNT);
+    const rim = new Float32Array(COUNT);
+    // sampleRaster emits its boundary band first, so the same leading indices are rim points in
+    // every shape — which is what lets rim colour and size be baked in once without breaking the
+    // particle-to-particle correspondence the morph depends on.
+    const rimSpan = COUNT * RIM_SHARE;
     for (let i = 0; i < COUNT; i++) {
-      col.set(PALETTE[Math.floor(rand() * PALETTE.length)], i * 3);
+      // A ramp, not a switch: warm colour and extra size fade off with depth, so the boundary reads
+      // as a dense edge of the same field rather than an outline drawn around it.
+      const t = Math.pow(Math.max(0, 1 - i / rimSpan), 0.7);
+      const pal = rand() < t ? RIM_PALETTE : CORE_PALETTE;
+      col.set(pal[Math.floor(rand() * pal.length)], i * 3);
       seed[i] = rand();
+      rim[i] = t;
     }
 
     function bind(name: string, data: Float32Array, size: number) {
@@ -188,7 +251,7 @@ export default function ParticleField() {
       gl!.enableVertexAttribArray(loc);
       gl!.vertexAttribPointer(loc, size, gl!.FLOAT, false, 0, 0);
     }
-    bind("aA", A, 3); bind("aB", B, 3); bind("aC", C, 3); bind("aColor", col, 3); bind("aSeed", seed, 1);
+    bind("aA", A, 3); bind("aB", B, 3); bind("aC", C, 3); bind("aColor", col, 3); bind("aSeed", seed, 1); bind("aRim", rim, 1);
 
     const uMorph = gl.getUniformLocation(prog, "uMorph");
     const uPointer = gl.getUniformLocation(prog, "uPointer");
