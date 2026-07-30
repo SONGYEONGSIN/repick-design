@@ -29,9 +29,15 @@ function tagSpanEnd(src, start) {
 
 export function checkSource(src) {
   const violations = [];
-  // 1) line-level 규칙
-  src.split('\n').forEach((line, i) => {
-    const stripped = line.replace(/\{\/\*.*?\*\/\}/g, '').replace(/\/\*.*?\*\//g, '').replace(/(?<!:)\/\/.*$/u, '');
+  // 1) line-level 규칙.
+  // 여러 줄 블록 주석의 **내부 줄**(` * ...`)에는 여는 `/*`가 없어 줄 단위 제거로는 안 걷힌다.
+  // 그래서 먼저 블록 주석을 공백으로 치환한 사본을 검사한다 — 규칙을 설명한 JSDoc이 그 규칙
+  // 위반으로 잡히던 오탐(motion-pilot 실측)의 원인. 치환은 개행·길이를 보존하므로 줄 번호는
+  // 원본과 일치하고, 보고 텍스트는 아래에서 원본 줄을 그대로 쓴다.
+  const rawLines = src.split('\n');
+  stripBlockComments(src).split('\n').forEach((scanLine, i) => {
+    const line = rawLines[i] ?? scanLine;
+    const stripped = scanLine.replace(/\{\/\*.*?\*\/\}/g, '').replace(/\/\*.*?\*\//g, '').replace(/(?<!:)\/\/.*$/u, '');
     for (const r of RULES) {
       if (r.re.test(stripped)) {
         violations.push({ rule: r.id, line: i + 1, text: line.trim().slice(0, 80), why: r.why });

@@ -85,3 +85,27 @@ test('규칙 준수 이미지는 위반 0', () => {
   const src = `<Image src="/hero.jpg" alt="히어로" width={1280} height={720} priority />`;
   assert.deepEqual(checkSource(src), []);
 });
+
+// ── 블록 주석 내부 오탐 (motion-pilot 실측: 규칙을 설명한 JSDoc이 규칙 위반으로 잡혔다) ──
+test('JSDoc 블록 주석 안의 금지 심볼은 위반이 아니다', () => {
+  const src = [
+    '/**',
+    ' * No time base here: the field never reads Date.now() and never calls Math.random().',
+    ' */',
+    'export const x = 1;',
+  ].join('\n');
+  assert.deepEqual(checkSource(src), []);
+});
+
+test('블록 주석을 걷어내도 실제 코드의 위반은 그대로 잡는다', () => {
+  const src = [
+    '/**',
+    ' * Deterministic — no Date.now() anywhere.',
+    ' */',
+    'const t = Date.now();',
+  ].join('\n');
+  const v = checkSource(src);
+  assert.equal(v.length, 1);
+  assert.equal(v[0].rule, 'no-random');
+  assert.equal(v[0].line, 4, '위반 줄 번호가 원본 기준으로 보고돼야 한다');
+});
