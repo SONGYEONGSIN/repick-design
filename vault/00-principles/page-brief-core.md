@@ -58,7 +58,18 @@ tags: [principles, brief]
 - `cd app && npx next build` 통과. **자기 폴더만** 작업한다.
 - 반환은 간결히: 제품/브랜드 + 구성 + 적용한 인터랙션 목록 + 폰트/타이포 통일 확인 + 완성도 포인트.
 
+## 타입 프로파일 목록
+
+| 타입 | 프로파일 | 인터랙션 최소 | 스크롤 연출 |
+|---|---|---|---|
+| `dashboard` · `settings` | [[dash-brief-v3]] | 4종 | 금지(서비스급 절제) |
+| `landing` | [[design-principles]] | 4종 | 허용 |
+| `login` | [[brief-login]] | 2종 | 금지 (한 화면 완결) |
+| `404` | [[brief-404]] | 1종 | 금지 (한 화면 완결) |
+| `catalog` | [[brief-catalog]] | 3종 | **허용** (§5 제약 준수) |
+
+새 타입을 추가할 때는 이 표에 행을 더하고, 프로파일에는 **타입 고유 기준만** 쓴다 — 코어 내용을 옮겨 적으면 다음 개정에서 갈라진다.
+
 ## 관련
 
-- 타입 프로파일: [[dash-brief-v3]] · [[design-principles]]
 - 정제 기준: [[curation-criteria]] · 질문 큐: [[questions-queue]]
