@@ -103,7 +103,10 @@ export async function measureFrame(page, pngBuffer) {
 export async function capture(opts, chromium) {
   const { base, route, name, out, widths, scrolls, height } = opts;
   mkdirSync(out, { recursive: true });
-  const browser = await chromium.launch({ args: ["--no-sandbox", "--use-gl=angle", "--enable-unsafe-swiftshader"] });
+  const browser = await chromium.launch({
+    executablePath: process.env.PW_CHROMIUM_PATH || undefined,
+    args: ["--no-sandbox", "--use-gl=angle", "--enable-unsafe-swiftshader"],
+  });
   const frames = [];
   const errors = [];
   for (const width of widths) {
