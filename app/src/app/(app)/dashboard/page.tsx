@@ -103,14 +103,26 @@ function IconBag({ className }: SVGProps<SVGSVGElement>) {
   );
 }
 
+/** Brand mark — a tuning motif, matching the marketing lockup. Drawn inline to match this file's icons. */
+function IconTune({ className }: SVGProps<SVGSVGElement>) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.2} strokeLinecap="round" strokeLinejoin="round" className={className} aria-hidden="true">
+      <path d="M4 7h16M4 12h16M4 17h16" />
+      <circle cx="9" cy="7" r="2" fill="currentColor" stroke="none" />
+      <circle cx="15" cy="12" r="2" fill="currentColor" stroke="none" />
+      <circle cx="8" cy="17" r="2" fill="currentColor" stroke="none" />
+    </svg>
+  );
+}
+
 /** Attune brand badge — compact size for dark sidebar/header */
 function AttuneBadge() {
   return (
-    <span className="inline-flex items-center gap-1.5 text-base font-bold tracking-tight text-zinc-50">
-      <span className="rounded-md bg-orange-700 px-1.5 py-0.5 text-[11px] font-semibold text-white font-[family-name:var(--font-geist-mono)]">
-        RE:
+    <span className="inline-flex items-center gap-2 text-base font-bold tracking-tight text-zinc-50">
+      <span aria-hidden className="inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-md bg-orange-700 text-white">
+        <IconTune className="h-3.5 w-3.5" />
       </span>
-      PICK
+      Attune
     </span>
   );
 }
