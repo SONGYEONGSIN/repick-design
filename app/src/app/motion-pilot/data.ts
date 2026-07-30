@@ -1,28 +1,31 @@
-// Motion pilot — deterministic content + geometry. No Math.random / Date.now anywhere:
-// every "organic" value below is a closed-form function of its index, so the page renders
-// byte-identically on every load and screenshots stay comparable across judge rounds.
+// Motion pilot — deterministic content + geometry. No Math.random / Date.now anywhere: every
+// "organic" value below is a closed-form function of its index. The scene has exactly one clock —
+// the idle drift — and the capture pipeline freezes it, so screenshots stay byte-identical across
+// judge rounds while a visitor still sees a field that is never quite still.
 
 export const EASE = [0.16, 1, 0.3, 1] as const;
 
 export const HERO = {
   eyebrow: "Motion pilot · pointer-driven",
-  headline: ["Interfaces that", "answer the hand", "that moves them."],
+  // Short lines on purpose: at display size a 15-character line runs half the viewport and
+  // collides with the scene. The reference keeps its headline column to roughly a quarter width.
+  headline: ["Interfaces", "that answer", "the hand."],
   accentLine: 2,
-  sub: "A feasibility probe: rich scroll and pointer choreography built without a single time-based or random value, so the gate can still verify it and judges can still compare it.",
+  sub: "A feasibility probe: rich scroll and pointer choreography with exactly one clock in it — and an off switch on that clock, so the gate can still verify the page and judges can still compare it.",
 };
 
 export const PROOF = [
   { k: "0", label: "random calls", note: "Every motion value derives from pointer or scroll position" },
   { k: "3", label: "reveal layers", note: "Character, line, and block staggers compose independently" },
-  { k: "60", label: "fps target", note: "Canvas redraws only while the pointer is actually moving" },
+  { k: "1", label: "clock, frozen on capture", note: "Idle drift is the only time-driven term; capture and reduced motion pin it to a still frame" },
 ];
 
 /** Manifesto copy — read while the field is dispersed, so the text passes through the particles. */
 export const MANIFESTO = [
   "A page that moves should still be a page that can be checked.",
   "Most of this vocabulary breaks the moment a gate asks it to render the same way twice.",
-  "So the motion here is driven by where you are, never by what time it is.",
-  "Scroll position and pointer position are the only inputs. Both are reproducible.",
+  "So everything a judge has to reproduce is driven by where you are, not by what time it is.",
+  "Scroll and pointer positions are the only inputs a screenshot depends on. The drift you see at rest is the one exception, and it stops the moment a camera is pointed at it.",
 ];
 
 export const STAGES = [
@@ -39,7 +42,7 @@ export const STAGES = [
   {
     tag: "Layer 03",
     title: "Pointer field",
-    body: "The lattice behind the hero displaces toward the cursor. At rest it is a static grid, which is exactly what the capture pipeline sees.",
+    body: "The field behind the page magnifies toward the cursor and drifts on its own when nothing is happening. Under capture or reduced motion the drift is pinned, which is exactly the still frame the pipeline needs.",
   },
 ];
 
