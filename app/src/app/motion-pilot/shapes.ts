@@ -86,7 +86,25 @@ export function wordmark(text: string, count: number, rand: Rand): Vec3[] {
   }, count, rand, 0.12);
 }
 
-/** Stage B — an exact sphere shell, solved rather than rasterised. */
+/**
+ * Stage B — the dispersed reading state: a wide, deliberately sparse field the copy passes through.
+ *
+ * This is a *sustained* stage, not a momentary burst. The reference site holds a dispersed field for
+ * its whole manifesto section, and density is what sells it: spread wider than the viewport and let
+ * individual particles read as individual shapes instead of fog. `pow(·, 0.6)` on the radius pushes
+ * points outward so the middle stays open for text rather than clumping at the centre.
+ */
+export function sparseField(count: number, rand: Rand): Vec3[] {
+  const out: Vec3[] = [];
+  for (let i = 0; i < count; i++) {
+    const theta = rand() * Math.PI * 2;
+    const r = Math.pow(rand(), 0.6) * 2.7;
+    out.push([Math.cos(theta) * r * 1.5, Math.sin(theta) * r * 1.05, (rand() - 0.5) * 2.2]);
+  }
+  return out;
+}
+
+/** An exact sphere shell, solved rather than rasterised. Kept available for other scene scripts. */
 export function sphere(count: number, rand: Rand, radius = 0.82): Vec3[] {
   const out: Vec3[] = [];
   for (let i = 0; i < count; i++) {

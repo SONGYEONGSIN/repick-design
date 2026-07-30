@@ -1,13 +1,13 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { scatter, sphere, tuningGlyph, wordmark, type Vec3 } from "./shapes";
+import { scatter, sparseField, tuningGlyph, wordmark, type Vec3 } from "./shapes";
 
 /**
  * Persistent WebGL2 scene — one fixed, full-viewport particle field that holds an exact silhouette
  * and morphs between silhouettes as the document scrolls, and reacts under the cursor.
  *
- * Three stages, all precise rather than approximate: the brand tuning mark → a sphere shell →
+ * Three stages: the brand tuning mark → a sustained dispersed field (the reading state) →
  * the wordmark. The first and last are rasterised (see ./shapes.ts) so the cloud takes the real
  * outline of the form instead of an amorphous blob.
  *
@@ -48,7 +48,7 @@ uniform float uAspect;
 uniform float uSpin;
 uniform vec2  uDrift;   // where the mass sits this scroll frame (x drifts side to side, y up/down)
 uniform float uScale;
-out vec3 vColor; out float vSeed; out float vDepth; out float vHot;
+out vec3 vColor; out float vSeed; out float vDepth; out float vHot; out float vBand;
 
 void main() {
   // Per-particle lag so the cloud reorganises limb by limb instead of sliding in lockstep.
@@ -62,7 +62,7 @@ void main() {
   // apart on the way rather than sliding intact from one silhouette to the next.
   float burst = sin(seg * 3.14159265);
   vec3 away = normalize(p + vec3(0.0007, 0.0011, 0.0013));
-  p += away * burst * burst * (0.35 + aSeed * 0.85);
+  p += away * burst * burst * (0.5 + aSeed * 2.1);
 
   float ca = cos(uSpin), sa = sin(uSpin);
   p = vec3(p.x * ca + p.z * sa, p.y, -p.x * sa + p.z * ca);
@@ -92,13 +92,23 @@ void main() {
   vHot = hot;
 
   gl_Position = vec4(clip, 0.0, 1.0);
-  gl_PointSize = (2.2 + aSeed * 7.5) * (0.55 + persp * 0.95) * (1.0 + hot * 1.6) * uScale * 0.62;
+  // Heavy-tailed size: seed³ leaves most particles tiny and a few very large, which is what gives
+  // the field depth instead of a uniform mist.
+  float sizeSeed = aSeed * aSeed * aSeed;
+  // …but only while the cloud is open. Gathered into a silhouette, large particles overlap and
+  // additive blending blows the form into a white slab — the precise outline is the whole point of
+  // those stages, so shrink everything as the field closes up.
+  float openness = clamp(1.0 - abs(m - 1.0) + burst * 0.6, 0.0, 1.0);
+  float grain = mix(0.26, 1.0, openness);
+  float ptSize = (1.4 + sizeSeed * 34.0 * grain) * (0.55 + persp * 0.95) * (1.0 + hot * 1.6) * uScale * 0.62;
+  gl_PointSize = ptSize;
+  vBand = clamp(2.6 / max(ptSize, 2.0), 0.05, 0.34);
   vColor = aColor; vSeed = aSeed;
 }`;
 
 const FRAG = `#version 300 es
 precision mediump float;
-in vec3 vColor; in float vSeed; in float vDepth; in float vHot;
+in vec3 vColor; in float vSeed; in float vDepth; in float vHot; in float vBand;
 out vec4 outColor;
 float sdTri(vec2 p, float r) {
   const float k = 1.7320508;
@@ -113,7 +123,8 @@ void main() {
   float a = vSeed * 6.2831853;
   q = mat2(cos(a), -sin(a), sin(a), cos(a)) * q;
   float d = abs(sdTri(q, 0.72));
-  float line = 1.0 - smoothstep(0.07, 0.22, d);
+  // Stroke width scales inversely with point size so large triangles stay hairline, not slabs.
+  float line = 1.0 - smoothstep(vBand * 0.45, vBand, d);
   if (line < 0.02) discard;
   float depthFade = clamp(0.4 + vDepth * 0.6, 0.12, 1.0);
   vec3 c = mix(vColor, vec3(1.0), vHot * 0.55);
@@ -155,10 +166,10 @@ export default function ParticleField() {
 
     const rand = mulberry32(20260731);
     const glyph = tuningGlyph(COUNT, rand);
-    const ball = sphere(COUNT, rand);
+    const spread = sparseField(COUNT, rand);
     const word = wordmark("ATTUNE", COUNT, rand);
     const A = flatten(glyph.length ? glyph : scatter(COUNT, rand), COUNT);
-    const B = flatten(ball, COUNT);
+    const B = flatten(spread, COUNT);
     const C = flatten(word.length ? word : scatter(COUNT, rand), COUNT);
 
     const col = new Float32Array(COUNT * 3);
