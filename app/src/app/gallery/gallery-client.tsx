@@ -4,10 +4,18 @@ import { useEffect, useState } from "react";
 import type { Work } from "@/lib/works";
 import { WorkCard } from "./work-card";
 import { Showcase } from "./showcase";
-import { STRINGS, DEFAULT_LANG, categoryLabel, type Lang } from "./gallery-i18n";
+import { STRINGS, DEFAULT_LANG, categoryLabel, type Lang, type FilterKey } from "./gallery-i18n";
 
-type FilterKey = "all" | "project" | "scheduling" | "ops" | "finance" | "analytics" | "landing" | "mobile";
-const FILTERS: FilterKey[] = ["all", "project", "scheduling", "ops", "finance", "analytics", "landing", "mobile"];
+/**
+ * Canonical chip order for the page-type axis. The gallery renders only the types that actually have
+ * works (plus "all"), so types the evolution loop has not produced yet stay invisible instead of
+ * showing as dead filters — new chips appear on their own as rounds land.
+ */
+const FILTER_ORDER: FilterKey[] = [
+  "all", "dashboard", "settings", "landing", "catalog", "product-detail", "paywall",
+  "login", "profile", "404", "blog", "about", "careers", "contact", "developers",
+  "integration", "media-kit", "mobile",
+];
 
 export function GalleryClient({ works, lastUpdated }: { works: Work[]; lastUpdated: string }) {
   const [lang, setLang] = useState<Lang>(DEFAULT_LANG);
@@ -22,6 +30,10 @@ export function GalleryClient({ works, lastUpdated }: { works: Work[]; lastUpdat
     if (saved === "en" || saved === "ko") setLang(saved);
   }, []);
   function pickLang(l: Lang) { setLang(l); localStorage.setItem("specimen-lang", l); }
+
+  // Only offer chips for page types present in the catalog — an empty filter reads as a broken gallery.
+  const present = new Set(works.map((w) => w.category).filter(Boolean));
+  const FILTERS = FILTER_ORDER.filter((f) => f === "all" || present.has(f));
 
   const q = query.trim().toLowerCase();
   const shown = works.filter((w) => {
