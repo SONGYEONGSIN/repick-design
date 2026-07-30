@@ -35,7 +35,7 @@ export const BEFORE_IMG = {
 
 export const AFTER_IMG = {
   src: "https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?auto=format&fit=crop&w=1200&q=80",
-  alt: "A single secondhand garment, curated and neatly presented by repick AI",
+  alt: "A single secondhand garment, curated and neatly presented by Threshold AI",
 } as const;
 
 // --- domain --------------------------------------------------------------

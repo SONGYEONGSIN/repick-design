@@ -25,7 +25,7 @@ export function MatchList() {
   return (
     <View style={styles.root}>
       <Text style={styles.h1} accessibilityRole="header">AI Match Results</Text>
-      <Text style={styles.sub}>Secondhand, re-picked by RE:Pick — {MATCHES.length} picks today</Text>
+      <Text style={styles.sub}>Secondhand, re-picked by Attune — {MATCHES.length} picks today</Text>
       <FlatList
         data={MATCHES}
         keyExtractor={(m) => m.id}
