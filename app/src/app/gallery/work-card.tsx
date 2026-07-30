@@ -1,11 +1,25 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { Work } from "@/lib/works";
 import { STRINGS, type Lang } from "./gallery-i18n";
 
+/** Desktop preview is authored at this width; the card scales it down to whatever width the grid gives it. */
+const PREVIEW_W = 1440;
+
 export function WorkCard({ work, lang, label }: { work: Work; lang: Lang; label: string }) {
   const [loaded, setLoaded] = useState(false);
+  const frameRef = useRef<HTMLDivElement>(null);
+  // Scale from the measured card width, never a constant — a hardcoded factor goes stale the moment
+  // the grid changes and silently crops the right edge of every desktop preview.
+  const [scale, setScale] = useState(0);
+  useEffect(() => {
+    const el = frameRef.current;
+    if (!el) return;
+    const ro = new ResizeObserver(([entry]) => setScale(entry.contentRect.width / PREVIEW_W));
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
   const h = work.previewH ?? 300;
   const t = STRINGS[lang];
   // Catalog works route to their detail page; evolve candidates (id has "/") have no detail page.
@@ -13,7 +27,7 @@ export function WorkCard({ work, lang, label }: { work: Work; lang: Lang; label:
   return (
     <a href={href}
       className="group block min-w-0 overflow-hidden rounded-xl border border-zinc-200 bg-white transition duration-200 hover:-translate-y-0.5 hover:border-zinc-400 hover:shadow-sm active:translate-y-0 active:shadow-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-900 focus-visible:ring-offset-2 motion-reduce:hover:translate-y-0">
-      <div aria-hidden="true" className="relative w-full overflow-hidden border-b border-zinc-100 bg-zinc-50" style={{ height: h }}>
+      <div ref={frameRef} aria-hidden="true" className="relative w-full overflow-hidden border-b border-zinc-100 bg-zinc-50" style={{ height: h }}>
         {!loaded && <div className="absolute inset-0 animate-pulse bg-gradient-to-b from-zinc-100 to-zinc-50 motion-reduce:animate-none" />}
         {work.category === "mobile" ? (
           <iframe src={work.route} loading="lazy" title={`${work.brand} preview`} tabIndex={-1}
@@ -22,8 +36,8 @@ export function WorkCard({ work, lang, label }: { work: Work; lang: Lang; label:
             style={{ width: "390px", height: "844px", transform: `translateX(-50%) scale(${h / 844})`, border: 0 }} />
         ) : (
           <iframe src={work.route} loading="lazy" title={`${work.brand} preview`} tabIndex={-1} scrolling="no" onLoad={() => setLoaded(true)}
-            className={`pointer-events-none absolute left-0 top-0 origin-top-left transition-opacity duration-300 ${loaded ? "opacity-100" : "opacity-0"}`}
-            style={{ width: "1440px", height: "1100px", transform: "scale(0.34)", border: 0 }} />
+            className={`pointer-events-none absolute left-0 top-0 origin-top-left transition-opacity duration-300 ${loaded && scale > 0 ? "opacity-100" : "opacity-0"}`}
+            style={{ width: PREVIEW_W, height: scale > 0 ? h / scale : 1100, transform: `scale(${scale})`, border: 0 }} />
         )}
       </div>
       <div className="px-4 py-3">
