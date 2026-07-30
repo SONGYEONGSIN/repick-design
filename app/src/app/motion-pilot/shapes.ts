@@ -13,6 +13,19 @@ export type Vec3 = [number, number, number];
 export type Rand = () => number;
 
 const RASTER = 320;
+/**
+ * Depth shells, outermost first. A pixel belongs to the first shell at whose radius it can still see
+ * empty space, so shell 0 hugs the silhouette and the last one is deep interior.
+ */
+const SHELL_RADII = [2, 5, 9, 14, 21, 30];
+/**
+ * Share of the particles each shell receives. Front-loaded: the boundary carries the form, the
+ * interior only has to suggest volume. Emitting shells in order makes particle index monotone in
+ * depth, which is what lets colour and size be graded by index alone.
+ */
+const SHELL_WEIGHTS = [0.2, 0.16, 0.14, 0.12, 0.11, 0.27];
+/** Index fraction below which a particle still counts as rim, for colour and size grading. */
+export const RIM_SHARE = 0.5;
 
 /** Draws onto a square offscreen canvas, then returns `count` deterministic samples of its opaque pixels. */
 export function sampleRaster(draw: (ctx: CanvasRenderingContext2D, size: number) => void, count: number, rand: Rand, depth = 0.16, bulge = false): Vec3[] {
@@ -26,13 +39,51 @@ export function sampleRaster(draw: (ctx: CanvasRenderingContext2D, size: number)
   draw(ctx, RASTER);
 
   const data = ctx.getImageData(0, 0, RASTER, RASTER).data;
-  const hits: number[] = [];
-  for (let i = 3; i < data.length; i += 4) if (data[i] > 128) hits.push((i - 3) / 4);
-  if (!hits.length) return [];
+  const solid = new Uint8Array(RASTER * RASTER);
+  for (let i = 3; i < data.length; i += 4) if (data[i] > 128) solid[(i - 3) / 4] = 1;
+
+  // Bin the shape into depth shells rather than filling it evenly. A uniform fill reads as a noise
+  // blob once it is made of particles — the reference draws its forms as *shells*: dense along the
+  // silhouette, thinning inward. Grading the density instead of splitting rim from core in one step
+  // is what keeps the boundary from looking like a traced neon outline.
+  const shells: number[][] = SHELL_RADII.map(() => []);
+  for (let px = 0; px < solid.length; px++) {
+    if (!solid[px]) continue;
+    const x = px % RASTER;
+    const y = (px / RASTER) | 0;
+    let shell = SHELL_RADII.length - 1;
+    for (let s = 0; s < SHELL_RADII.length; s++) {
+      let open = false;
+      for (let k = 0; k < 8 && !open; k++) {
+        const a = (k / 8) * Math.PI * 2;
+        const sx = Math.round(x + Math.cos(a) * SHELL_RADII[s]);
+        const sy = Math.round(y + Math.sin(a) * SHELL_RADII[s]);
+        open = sx < 0 || sy < 0 || sx >= RASTER || sy >= RASTER || !solid[sy * RASTER + sx];
+      }
+      if (open) { shell = s; break; }
+    }
+    shells[shell].push(px);
+  }
+  // Shells a shape is too thin to have stay empty; fold their quota into the nearest populated one.
+  const quota: { pool: number[]; upto: number }[] = [];
+  let acc = 0;
+  let carry = 0;
+  for (let s = 0; s < shells.length; s++) {
+    carry += SHELL_WEIGHTS[s];
+    if (!shells[s].length) continue;
+    acc += carry;
+    carry = 0;
+    quota.push({ pool: shells[s], upto: Math.round(count * acc) });
+  }
+  if (!quota.length) return [];
+  quota[quota.length - 1].upto = count;
 
   const out: Vec3[] = [];
+  let q = 0;
   for (let n = 0; n < count; n++) {
-    const px = hits[Math.floor(rand() * hits.length)];
+    while (q < quota.length - 1 && n >= quota[q].upto) q++;
+    const pool = quota[q].pool;
+    const px = pool[Math.floor(rand() * pool.length)];
     const x = px % RASTER;
     const y = (px / RASTER) | 0;
     // Sub-pixel jitter keeps the cloud from looking like a screen-door grid.
