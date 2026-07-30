@@ -28,7 +28,7 @@ export const STRINGS: Record<Lang, Strings> = {
     langLabel: "Language", searchLabel: "Search works", searchPlaceholder: "Search designs…",
     filterLabel: "Filter",
     filters: {
-      all: "All", dashboard: "Dashboard", settings: "Settings", landing: "Landing",
+      all: "All", dashboard: "Dashboard", settings: "Settings", landing: "Landing", scene: "Scene",
       catalog: "Catalog Page", "product-detail": "Product Details", paywall: "Paywall & Subscription",
       login: "Log In", profile: "Profile & Account", "404": "404 Page", blog: "Blog", about: "About",
       careers: "Careers", contact: "Contacts", developers: "Developers Page",
@@ -57,7 +57,7 @@ export const STRINGS: Record<Lang, Strings> = {
     langLabel: "언어", searchLabel: "작품 검색", searchPlaceholder: "디자인 검색…",
     filterLabel: "필터",
     filters: {
-      all: "전체", dashboard: "대시보드", settings: "설정", landing: "랜딩",
+      all: "전체", dashboard: "대시보드", settings: "설정", landing: "랜딩", scene: "지속 장면",
       catalog: "카탈로그", "product-detail": "상품 상세", paywall: "페이월·구독",
       login: "로그인", profile: "프로필·계정", "404": "404", blog: "블로그", about: "소개",
       careers: "채용", contact: "문의", developers: "개발자",
