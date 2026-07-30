@@ -1,0 +1,1 @@
+Meridian (timezone-aware scheduling SaaS) — full-bleed background archetype: a generative midnight-globe grid of longitude/latitude lines with glowing timezone markers fills the viewport behind a glass auth card, paired with hero marketing copy on the same screen and a login/signup segmented-mode toggle.
