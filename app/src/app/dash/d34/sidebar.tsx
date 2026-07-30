@@ -8,7 +8,6 @@ import {
   Headset,
   Inbox,
   LogOut,
-  Settings,
   TriangleAlert,
   Users,
   X,

@@ -90,6 +90,15 @@ function runLighthouse(url) {
   }
 }
 
+/** Worst score across the measured routes — a gate passes only if every route it covers passes. */
+export function worstLighthouse(results) {
+  if (!results.length || results.some((r) => r === 'unavailable')) return 'unavailable';
+  return {
+    a11y: Math.min(...results.map((r) => r.a11y)),
+    perf: Math.min(...results.map((r) => r.perf)),
+  };
+}
+
 export async function runWeb({ routes, files, base }) {
   const { checkSource } = await import('./dash-static-check.mjs');
   const { runSweep, evaluateSweep } = await import('./dash-sweep.mjs');
@@ -97,7 +106,9 @@ export async function runWeb({ routes, files, base }) {
   const staticViolations = tsxFiles.flatMap((f) =>
     checkSource(readFileSync(f, 'utf8')).map((v) => ({ file: f, ...v })));
   const sweep = evaluateSweep(await runSweep(base, routes));
-  const lh = runLighthouse(base + routes[0]);
+  // Every route, not just the first: measuring routes[0] alone reported a passing score while other
+  // routes in the same call were below the threshold, which reads as assurance the run never gave.
+  const lh = worstLighthouse(routes.map((r) => runLighthouse(base + r)));
   const gates = [
     normalizeStatic(staticViolations),
     normalizeSweep(sweep),

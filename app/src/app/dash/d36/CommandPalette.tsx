@@ -41,9 +41,13 @@ export default function CommandPalette({
     return pool.slice(0, 9);
   }, [query, allItems]);
 
-  useEffect(() => {
+  // The reset is derived from the query changing, so React's "adjust state during render" pattern
+  // fits better than an effect — an effect here only costs an extra render.
+  const [prevQuery, setPrevQuery] = useState(query);
+  if (prevQuery !== query) {
+    setPrevQuery(query);
     setActive(0);
-  }, [query]);
+  }
 
   function choose(idx: number) {
     const it = results[idx];

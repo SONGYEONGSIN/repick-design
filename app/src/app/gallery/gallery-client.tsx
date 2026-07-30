@@ -1,10 +1,10 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import type { Work } from "@/lib/works";
 import { WorkCard } from "./work-card";
 import { Showcase } from "./showcase";
-import { STRINGS, DEFAULT_LANG, categoryLabel, type Lang, type FilterKey } from "./gallery-i18n";
+import { STRINGS, categoryLabel, useLang, type FilterKey } from "./gallery-i18n";
 
 /**
  * Canonical chip order for the page-type axis. The gallery renders only the types that actually have
@@ -18,18 +18,13 @@ const FILTER_ORDER: FilterKey[] = [
 ];
 
 export function GalleryClient({ works, lastUpdated }: { works: Work[]; lastUpdated: string }) {
-  const [lang, setLang] = useState<Lang>(DEFAULT_LANG);
+  const [lang, pickLang] = useLang();
   const [query, setQuery] = useState("");
   const [filter, setFilter] = useState<FilterKey>("all");
   const t = STRINGS[lang];
   const SHOWCASE_IDS = ["d29", "d32", "d37", "d38", "v8", "n2"];
   const showcaseWorks = SHOWCASE_IDS.map((id) => works.find((w) => w.id === id)).filter((w): w is NonNullable<typeof w> => Boolean(w));
 
-  useEffect(() => {
-    const saved = localStorage.getItem("specimen-lang");
-    if (saved === "en" || saved === "ko") setLang(saved);
-  }, []);
-  function pickLang(l: Lang) { setLang(l); localStorage.setItem("specimen-lang", l); }
 
   // Only offer chips for page types present in the catalog — an empty filter reads as a broken gallery.
   const present = new Set(works.map((w) => w.category).filter(Boolean));

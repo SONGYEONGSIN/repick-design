@@ -407,9 +407,12 @@ export function CommandPalette({ onClose, onSelectHolding }: { onClose: () => vo
   useEffect(() => {
     inputRef.current?.focus();
   }, []);
-  useEffect(() => {
+  // Derived from the query changing — adjust during render instead of in an effect.
+  const [prevQuery, setPrevQuery] = useState(query);
+  if (prevQuery !== query) {
+    setPrevQuery(query);
     setCursor(0);
-  }, [query]);
+  }
   useEffect(() => {
     function onKey(e: KeyboardEvent) {
       if (e.key === "Escape") onClose();

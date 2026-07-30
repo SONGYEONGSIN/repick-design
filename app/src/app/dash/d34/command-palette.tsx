@@ -78,18 +78,30 @@ export function CommandPalette({
     return commands.filter((c) => c.label.toLowerCase().includes(q));
   }, [commands, query]);
 
-  useEffect(() => {
+  // Reset on open via React's "adjust state during render" pattern rather than an effect: the reset
+  // is derived from a prop change, not a synchronisation with an outside system, so an effect would
+  // only buy an extra render. Focus stays in an effect — that one *is* an outside system.
+  const [prevOpen, setPrevOpen] = useState(open);
+  if (prevOpen !== open) {
+    setPrevOpen(open);
     if (open) {
       setQuery("");
       setHighlight(0);
-      const t = window.setTimeout(() => inputRef.current?.focus(), 0);
-      return () => window.clearTimeout(t);
     }
-  }, [open]);
+  }
+
+  // Same reasoning as above: the highlight reset is derived from the query changing.
+  const [prevQuery, setPrevQuery] = useState(query);
+  if (prevQuery !== query) {
+    setPrevQuery(query);
+    setHighlight(0);
+  }
 
   useEffect(() => {
-    setHighlight(0);
-  }, [query]);
+    if (!open) return;
+    const t = window.setTimeout(() => inputRef.current?.focus(), 0);
+    return () => window.clearTimeout(t);
+  }, [open]);
 
   if (!open) return null;
 
