@@ -1,15 +1,15 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { scatter, sparseField, tuningGlyph, wordmark, type Vec3 } from "./shapes";
+import { garment, profile, scatter, sparseField, type Vec3 } from "./shapes";
 
 /**
  * Persistent WebGL2 scene — one fixed, full-viewport particle field that holds an exact silhouette
  * and morphs between silhouettes as the document scrolls, and reacts under the cursor.
  *
- * Three stages: the brand tuning mark → a sustained dispersed field (the reading state) →
- * the wordmark. The first and last are rasterised (see ./shapes.ts) so the cloud takes the real
- * outline of the form instead of an amorphous blob.
+ * Three stages: a garment → a sustained dispersed field (the reading state) → a head in profile.
+ * The first and last are rasterised with bulge (see ./shapes.ts) so the cloud takes the real outline
+ * of a volumetric object rather than an amorphous blob or a flat cutout.
  *
  * Gate-compatible by construction:
  * - Scatter comes from an inline seeded PRNG (mulberry32), never `Math.random` — same seed, same
@@ -165,12 +165,12 @@ export default function ParticleField() {
     gl.useProgram(prog);
 
     const rand = mulberry32(20260731);
-    const glyph = tuningGlyph(COUNT, rand);
+    const coat = garment(COUNT, rand);
     const spread = sparseField(COUNT, rand);
-    const word = wordmark("ATTUNE", COUNT, rand);
-    const A = flatten(glyph.length ? glyph : scatter(COUNT, rand), COUNT);
+    const head = profile(COUNT, rand);
+    const A = flatten(coat.length ? coat : scatter(COUNT, rand), COUNT);
     const B = flatten(spread, COUNT);
-    const C = flatten(word.length ? word : scatter(COUNT, rand), COUNT);
+    const C = flatten(head.length ? head : scatter(COUNT, rand), COUNT);
 
     const col = new Float32Array(COUNT * 3);
     const seed = new Float32Array(COUNT);
