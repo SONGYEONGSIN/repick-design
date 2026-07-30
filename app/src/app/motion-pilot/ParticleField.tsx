@@ -46,41 +46,53 @@ uniform float uMorph;     // 0..2 — A→B→C, driven by document scroll
 uniform vec2  uPointer;   // cursor in clip space (aspect-corrected); (9,9) = absent
 uniform float uAspect;
 uniform float uSpin;
-uniform float uShiftX;
+uniform vec2  uDrift;   // where the mass sits this scroll frame (x drifts side to side, y up/down)
+uniform float uScale;
 out vec3 vColor; out float vSeed; out float vDepth; out float vHot;
 
 void main() {
   // Per-particle lag so the cloud reorganises limb by limb instead of sliding in lockstep.
   float lag = aSeed * 0.42;
   float m = clamp((uMorph - lag) / (2.0 - 0.42) * 2.0, 0.0, 2.0);
+  float seg = m < 1.0 ? m : m - 1.0;
   vec3 p = m < 1.0 ? mix(aA, aB, smoothstep(0.0, 1.0, m))
                    : mix(aB, aC, smoothstep(0.0, 1.0, m - 1.0));
+
+  // Scatter through the middle of every transition and re-gather at the far end: the form breaks
+  // apart on the way rather than sliding intact from one silhouette to the next.
+  float burst = sin(seg * 3.14159265);
+  vec3 away = normalize(p + vec3(0.0007, 0.0011, 0.0013));
+  p += away * burst * burst * (0.35 + aSeed * 0.85);
 
   float ca = cos(uSpin), sa = sin(uSpin);
   p = vec3(p.x * ca + p.z * sa, p.y, -p.x * sa + p.z * ca);
   vDepth = p.z;
 
   float persp = 1.0 / (2.15 - p.z * 0.55);
-  vec2 clip = vec2(p.x * persp / uAspect * 1.55 + uShiftX, p.y * persp * 1.55);
+  vec2 clip = vec2(p.x * persp / uAspect * uScale + uDrift.x, p.y * persp * uScale + uDrift.y);
 
-  // Cursor response: particles inside the radius are pushed out of the way and lit up. Pure
-  // function of pointer position — no easing timer, so it settles the instant the cursor stops.
+  // Cursor response: the region under the pointer is magnified — points scale outward from the
+  // cursor and grow — so the form reads larger and brighter where you hover. Pure function of
+  // pointer position: no easing timer, so it settles the instant the cursor stops and contributes
+  // nothing at all when there is no pointer (the capture pipeline).
   float hot = 0.0;
   if (uPointer.x < 8.0) {
     vec2 d = clip - uPointer;
     d.x *= uAspect;
     float dist = length(d);
-    float R = 0.34;
+    float R = 0.42;
     if (dist < R) {
       hot = 1.0 - dist / R;
-      vec2 dir = dist > 0.0001 ? d / dist : vec2(0.0, 1.0);
-      clip += dir * hot * hot * 0.13;
+      float zoom = 1.0 + hot * hot * 0.75;
+      d *= zoom;
+      d.x /= uAspect;
+      clip = uPointer + d;
     }
   }
   vHot = hot;
 
   gl_Position = vec4(clip, 0.0, 1.0);
-  gl_PointSize = (2.2 + aSeed * 7.5) * (0.55 + persp * 0.95) * (1.0 + hot * 1.1);
+  gl_PointSize = (2.2 + aSeed * 7.5) * (0.55 + persp * 0.95) * (1.0 + hot * 1.6) * uScale * 0.62;
   vColor = aColor; vSeed = aSeed;
 }`;
 
@@ -105,7 +117,9 @@ void main() {
   if (line < 0.02) discard;
   float depthFade = clamp(0.4 + vDepth * 0.6, 0.12, 1.0);
   vec3 c = mix(vColor, vec3(1.0), vHot * 0.55);
-  outColor = vec4(c, line * depthFade * (0.85 + vHot * 0.5));
+  // Alpha kept below full: the mass is large enough to sit under running copy, and a slightly
+  // translucent field lets the text carry (paired with a shadow on the copy itself).
+  outColor = vec4(c, line * depthFade * (0.66 + vHot * 0.6));
 }`;
 
 function compile(gl: WebGL2RenderingContext, type: number, src: string) {
@@ -169,7 +183,8 @@ export default function ParticleField() {
     const uPointer = gl.getUniformLocation(prog, "uPointer");
     const uAspect = gl.getUniformLocation(prog, "uAspect");
     const uSpin = gl.getUniformLocation(prog, "uSpin");
-    const uShiftX = gl.getUniformLocation(prog, "uShiftX");
+    const uDrift = gl.getUniformLocation(prog, "uDrift");
+    const uScale = gl.getUniformLocation(prog, "uScale");
     gl.enable(gl.BLEND);
     gl.blendFunc(gl.SRC_ALPHA, gl.ONE);
 
@@ -192,13 +207,20 @@ export default function ParticleField() {
 
       const max = Math.max(1, document.documentElement.scrollHeight - vh);
       const p = Math.min(1, Math.max(0, window.scrollY / max));
-      const shift = vw / vh > 1.15 ? 0.34 : 0;
+      const wide = vw / vh > 1.15;
       gl.uniform1f(uMorph, p * 2);
       gl.uniform1f(uAspect, vw / vh);
       // Rotate only in transit and settle face-on at both ends: the first and last stages are
       // readable forms (a glyph, a wordmark) and a continuous spin lands them mirrored.
       gl.uniform1f(uSpin, Math.sin(p * Math.PI) * 0.9);
-      gl.uniform1f(uShiftX, shift);
+      // The mass travels while it changes — right, across to the left, back — and rises and falls.
+      // Every term is a function of scroll position, so scrolling back up retraces it exactly.
+      gl.uniform2f(
+        uDrift,
+        wide ? 0.34 + Math.sin(p * Math.PI * 2) * 0.46 : Math.sin(p * Math.PI * 2) * 0.14,
+        Math.sin(p * Math.PI * 3) * 0.16,
+      );
+      gl.uniform1f(uScale, wide ? 2.35 : 1.5);
       const pt = reduce.matches ? ABSENT : pointer;
       gl.uniform2f(uPointer, pt[0], pt[1]);
       gl.drawArrays(gl.POINTS, 0, COUNT);

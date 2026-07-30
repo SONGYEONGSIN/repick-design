@@ -43,14 +43,14 @@ export default function PilotClient() {
               <MousePointer2 className="h-3.5 w-3.5" aria-hidden />
               {HERO.eyebrow}
             </p>
-            <h1 className="max-w-2xl text-[clamp(2.1rem,7vw,3rem)] font-extrabold leading-[1.05] tracking-[-0.02em] lg:text-[clamp(3rem,4.4vw,4.2rem)]">
+            <h1 className="max-w-2xl text-[clamp(2.1rem,7vw,3rem)] font-extrabold leading-[1.05] tracking-[-0.02em] [text-shadow:0_2px_22px_rgba(11,11,15,0.92)] lg:text-[clamp(3rem,4.4vw,4.2rem)]">
               {HERO.headline.map((line, i) => (
                 <span key={line} className={`block ${i === HERO.accentLine ? "text-[#6E56CF]" : ""}`}>
                   <SplitChars text={line} delay={i * 0.12} />
                 </span>
               ))}
             </h1>
-            <p className="mt-7 max-w-lg text-base leading-[1.65] text-[#A1A1AA]">{HERO.sub}</p>
+            <p className="mt-7 max-w-lg text-base leading-[1.65] text-[#A1A1AA] [text-shadow:0_2px_22px_rgba(11,11,15,0.92)]">{HERO.sub}</p>
             <p className="mt-10 inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.16em] text-[#A1A1AA]">
               <ArrowDown className="h-3.5 w-3.5" aria-hidden />
               Scroll — the field disperses, then re-gathers
@@ -68,7 +68,7 @@ export default function PilotClient() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, margin: "-25%" }}
                   transition={{ duration: 0.7, ease: EASE }}
-                  className={`max-w-2xl text-[clamp(1.35rem,3.4vw,2.1rem)] font-extrabold leading-[1.32] tracking-[-0.02em] ${i % 2 ? "ml-auto text-right" : ""}`}
+                  className={`max-w-2xl text-[clamp(1.35rem,3.4vw,2.1rem)] font-extrabold leading-[1.32] tracking-[-0.02em] [text-shadow:0_2px_22px_rgba(11,11,15,0.92)] ${i % 2 ? "ml-auto text-right" : ""}`}
                 >
                   {para}
                 </motion.p>
@@ -121,7 +121,7 @@ export default function PilotClient() {
           {/* Deep bottom padding so the final scroll position lands on the wordmark stage with the
               technique cards already scrolled away — the payoff shape gets a clear viewport. */}
           <div className="mx-auto max-w-[1120px] px-5 pb-[48dvh] pt-8">
-            <p className="max-w-3xl text-[clamp(1.25rem,3vw,1.9rem)] font-extrabold leading-[1.35] tracking-[-0.02em]">
+            <p className="max-w-3xl text-[clamp(1.25rem,3vw,1.9rem)] font-extrabold leading-[1.35] tracking-[-0.02em] [text-shadow:0_2px_22px_rgba(11,11,15,0.92)]">
               <SplitLines
                 lines={[
                   "The expensive part of this vocabulary was never the animation.",
