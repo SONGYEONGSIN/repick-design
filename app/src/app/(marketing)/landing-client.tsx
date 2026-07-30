@@ -32,6 +32,24 @@ const focusRingOnDark =
   "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-stone-900 focus-visible:ring-orange-400";
 
 const VIEWPORT = { once: true, margin: "-100px" } as const;
+
+/**
+ * Brand mark — a tuning motif, which is literally what the name means: the product calibrates to
+ * your taste. Drawn from the icon set rather than an image file so it stays crisp at any size and
+ * needs no asset pipeline. Decorative: the accessible name lives on the surrounding link/heading.
+ */
+function AttuneMark({ tone = "light" }: { tone?: "light" | "dark" }) {
+  return (
+    <span
+      aria-hidden
+      className={`inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-md text-white ${
+        tone === "dark" ? "bg-orange-600" : "bg-orange-700"
+      }`}
+    >
+      <SlidersHorizontal className="h-4 w-4" strokeWidth={2.5} />
+    </span>
+  );
+}
 const EASE = [0.16, 1, 0.3, 1] as const;
 
 const NAV_LINKS = [
@@ -355,12 +373,10 @@ export default function LandingClient() {
           <a
             href="#main-content"
             aria-label="Attune home"
-            className={`inline-flex items-center gap-1.5 rounded-md text-2xl font-bold tracking-tight text-stone-900 ${focusRing}`}
+            className={`inline-flex items-center gap-2 rounded-md text-2xl font-bold tracking-tight text-stone-900 ${focusRing}`}
           >
-            <span className="rounded-md bg-orange-700 px-2 py-0.5 text-lg font-semibold text-white font-[family-name:var(--font-geist-mono)]">
-              RE:
-            </span>
-            Pick
+            <AttuneMark />
+            Attune
           </a>
           <nav aria-label="Main navigation" className="hidden items-center gap-8 md:flex">
             {NAV_LINKS.map((link) => (
@@ -1125,11 +1141,9 @@ export default function LandingClient() {
         <div className="mx-auto max-w-7xl px-6 py-16 lg:px-8">
           <div className="grid grid-cols-2 gap-10 sm:grid-cols-4">
             <div className="col-span-2 sm:col-span-1">
-              <p className="inline-flex items-center gap-1.5 text-2xl font-bold tracking-tight text-stone-50">
-                <span className="rounded-md bg-orange-700 px-2 py-0.5 text-lg font-semibold text-white font-[family-name:var(--font-geist-mono)]">
-                  RE:
-                </span>
-                Pick
+              <p className="inline-flex items-center gap-2 text-2xl font-bold tracking-tight text-stone-50">
+                <AttuneMark tone="dark" />
+                Attune
               </p>
               <p className="mt-3 max-w-xs text-sm text-stone-400">
                 The recommerce platform where AI learns your taste and re-picks only the secondhand items that fit you.
