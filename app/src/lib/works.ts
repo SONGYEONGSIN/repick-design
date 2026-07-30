@@ -9,7 +9,17 @@ export type Work = {
   round?: string;
   target?: "dash" | "landing" | "native";
   date?: string;
-  category?: "project" | "scheduling" | "ops" | "finance" | "analytics" | "landing" | "mobile"; // gallery domain category (assigned per work)
+  /**
+   * Gallery page-type category (refero-style axis: what kind of page is this, not what domain it serves).
+   * The union covers the full target taxonomy so future rounds have a slot to land in; the gallery only
+   * renders a filter chip for types that actually have works, so unfilled types stay invisible.
+   * Domain information (ops / finance / analytics …) lives in each work's `desc`, not in a second axis.
+   */
+  category?:
+    | "dashboard" | "settings" | "landing" | "catalog" | "product-detail"
+    | "paywall" | "login" | "profile" | "404" | "blog" | "about"
+    | "careers" | "contact" | "developers" | "integration" | "media-kit"
+    | "mobile";
 };
 
 export const LAST_UPDATED = "2026-07-30"; // determinism rule: no dynamic Date calls — update this by hand when refreshing
@@ -32,21 +42,21 @@ export const LANDING_WORKS: Work[] = [
 
 // II. SaaS dashboards — 12 works in the /dash gallery (d29~d40) + baseline/product
 export const DASH_LAB_WORKS: Work[] = [
-  { id: "d29", route: "/dash/d29", brand: "Waypoint", desc: { ko: "프로젝트 협업(Asana급) · 순백 라이트, 프로젝트 필터→전 위젯 동기화, 정렬 테이블·간트·워크로드·⌘K", en: "Project collaboration (Asana-grade) · pure-white light, project filter → all-widget sync, sortable table · gantt · workload · ⌘K" }, category: "project" },
-  { id: "d30", route: "/dash/d30", brand: "Slotted", desc: { ko: "예약·미팅 스케줄링(Calendly급) · 순백 라이트, 이벤트타입 선택→히트맵·미팅목록 동기화, ⌘K·정렬 테이블", en: "Booking and meeting scheduling (Calendly-grade) · pure-white light, event-type selection syncs heatmap and meeting list, ⌘K and sortable tables" }, category: "scheduling" },
-  { id: "d31", route: "/dash/d31", brand: "Conduit", desc: { ko: "워크플로 자동화(n8n급) · 프로덕트 다크, 크로스헤어 차트·상태 필터→테이블·로그 동기화, 에러 급증 알림", en: "Workflow automation (n8n-grade) · product dark, crosshair chart and status filter sync table and log, error-spike alerts" }, category: "ops" },
-  { id: "d32", route: "/dash/d32", brand: "Meridian", desc: { ko: "자산 포트폴리오(Coinbase급) · 프로덕트 다크, 기간 토글 가격 차트·자산 선택→차트·상세 동기화, 배분 도넛", en: "Asset portfolio (Coinbase-grade) · product dark, period-toggle price chart, asset selection syncs chart and detail, allocation donut" }, category: "finance" },
-  { id: "d33", route: "/dash/d33", brand: "Keel", desc: { ko: "협업 칸반 파이프라인 · 뷰포트락 보드+컬럼 내부 스크롤, 딜 카드 드래그, 예측 차트 (자동 dash r1 승자)", en: "Collaborative kanban pipeline · viewport-locked board with per-column scroll, draggable deal cards, forecast chart (auto dash r1 winner)" }, category: "project" },
-  { id: "d34", route: "/dash/d34", brand: "Pulse", desc: { ko: "SLA 라이브옵스 콘솔 · 다크 히어로+벤토, 레일 없는 밀도형 (자동 dash r2 승자)", en: "SLA live-ops console · dark hero + bento layout, a rail-free, high-density build (auto dash r2 winner)" }, category: "ops" },
-  { id: "d35", route: "/dash/d35", brand: "Tessera", desc: { ko: "자산배분 트리맵 콕핏 · 중첩 사각 비중 시각화, 즉시 가독 (자동 dash r7 승자)", en: "Asset-allocation treemap cockpit · nested rectangles visualize weighting, instantly legible (auto dash r7 winner)" }, category: "finance" },
-  { id: "d36", route: "/dash/d36", brand: "Chute", desc: { ko: "전환 퍼널 전용 페이지 · 트라페조이드 퍼널이 페이지 축, 단계 드롭오프 (자동 dash r8 승자)", en: "A page built around the conversion funnel · a trapezoid funnel forms the page's spine, stage-by-stage drop-off (auto dash r8 winner)" }, category: "analytics" },
-  { id: "d37", route: "/dash/d37", brand: "Currents", desc: { ko: "수익귀속 생키 흐름도 · 흐름보존 다단 리본 콘솔 (자동 dash r9 승자)", en: "Revenue-attribution Sankey diagram · a flow-conserving, multi-stage ribbon console (auto dash r9 winner)" }, category: "analytics" },
-  { id: "d38", route: "/dash/d38", brand: "Wavelength", desc: { ko: "온콜 로테이션 콘솔 · 24h 레이디얼 다이얼 지배 시각화, 인시던트 대응 (자동 dash r10 승자)", en: "On-call rotation console · dominated by a 24h radial-dial visualization, built for incident response (auto dash r10 winner)" }, category: "ops" },
-  { id: "d39", route: "/dash/d39", brand: "Palisade", desc: { ko: "역할×권한 접근제어 콘솔 · 5역할×19권한 불리언 매트릭스가 화면 주인공, 감사로그 레일 병존 (자동 dash r11 승자)", en: "Roles-and-permissions console · a 5-role × 19-permission boolean matrix owns the screen, paired with an audit-log rail (auto dash r11 winner)" }, category: "ops" },
-  { id: "d40", route: "/dash/d40", brand: "Cadence", desc: { ko: "릴리스 헬스 콘솔 · DORA 지표 히어로 + 14주×7일 배포/인시던트 캘린더 히트맵, 전 셀 값 상시 표기 (자동 dash r12 승자)", en: "Release-health console · DORA hero metrics over a 14-week × 7-day deploy/incident calendar heatmap, every cell labelled with its count (auto dash r12 winner)" }, category: "ops" },
+  { id: "d29", route: "/dash/d29", brand: "Waypoint", desc: { ko: "프로젝트 협업(Asana급) · 순백 라이트, 프로젝트 필터→전 위젯 동기화, 정렬 테이블·간트·워크로드·⌘K", en: "Project collaboration (Asana-grade) · pure-white light, project filter → all-widget sync, sortable table · gantt · workload · ⌘K" }, category: "dashboard" },
+  { id: "d30", route: "/dash/d30", brand: "Slotted", desc: { ko: "예약·미팅 스케줄링(Calendly급) · 순백 라이트, 이벤트타입 선택→히트맵·미팅목록 동기화, ⌘K·정렬 테이블", en: "Booking and meeting scheduling (Calendly-grade) · pure-white light, event-type selection syncs heatmap and meeting list, ⌘K and sortable tables" }, category: "dashboard" },
+  { id: "d31", route: "/dash/d31", brand: "Conduit", desc: { ko: "워크플로 자동화(n8n급) · 프로덕트 다크, 크로스헤어 차트·상태 필터→테이블·로그 동기화, 에러 급증 알림", en: "Workflow automation (n8n-grade) · product dark, crosshair chart and status filter sync table and log, error-spike alerts" }, category: "dashboard" },
+  { id: "d32", route: "/dash/d32", brand: "Meridian", desc: { ko: "자산 포트폴리오(Coinbase급) · 프로덕트 다크, 기간 토글 가격 차트·자산 선택→차트·상세 동기화, 배분 도넛", en: "Asset portfolio (Coinbase-grade) · product dark, period-toggle price chart, asset selection syncs chart and detail, allocation donut" }, category: "dashboard" },
+  { id: "d33", route: "/dash/d33", brand: "Keel", desc: { ko: "협업 칸반 파이프라인 · 뷰포트락 보드+컬럼 내부 스크롤, 딜 카드 드래그, 예측 차트 (자동 dash r1 승자)", en: "Collaborative kanban pipeline · viewport-locked board with per-column scroll, draggable deal cards, forecast chart (auto dash r1 winner)" }, category: "dashboard" },
+  { id: "d34", route: "/dash/d34", brand: "Pulse", desc: { ko: "SLA 라이브옵스 콘솔 · 다크 히어로+벤토, 레일 없는 밀도형 (자동 dash r2 승자)", en: "SLA live-ops console · dark hero + bento layout, a rail-free, high-density build (auto dash r2 winner)" }, category: "dashboard" },
+  { id: "d35", route: "/dash/d35", brand: "Tessera", desc: { ko: "자산배분 트리맵 콕핏 · 중첩 사각 비중 시각화, 즉시 가독 (자동 dash r7 승자)", en: "Asset-allocation treemap cockpit · nested rectangles visualize weighting, instantly legible (auto dash r7 winner)" }, category: "dashboard" },
+  { id: "d36", route: "/dash/d36", brand: "Chute", desc: { ko: "전환 퍼널 전용 페이지 · 트라페조이드 퍼널이 페이지 축, 단계 드롭오프 (자동 dash r8 승자)", en: "A page built around the conversion funnel · a trapezoid funnel forms the page's spine, stage-by-stage drop-off (auto dash r8 winner)" }, category: "dashboard" },
+  { id: "d37", route: "/dash/d37", brand: "Currents", desc: { ko: "수익귀속 생키 흐름도 · 흐름보존 다단 리본 콘솔 (자동 dash r9 승자)", en: "Revenue-attribution Sankey diagram · a flow-conserving, multi-stage ribbon console (auto dash r9 winner)" }, category: "dashboard" },
+  { id: "d38", route: "/dash/d38", brand: "Wavelength", desc: { ko: "온콜 로테이션 콘솔 · 24h 레이디얼 다이얼 지배 시각화, 인시던트 대응 (자동 dash r10 승자)", en: "On-call rotation console · dominated by a 24h radial-dial visualization, built for incident response (auto dash r10 winner)" }, category: "dashboard" },
+  { id: "d39", route: "/dash/d39", brand: "Palisade", desc: { ko: "역할×권한 접근제어 콘솔 · 5역할×19권한 불리언 매트릭스가 화면 주인공, 감사로그 레일 병존 (자동 dash r11 승자)", en: "Roles-and-permissions console · a 5-role × 19-permission boolean matrix owns the screen, paired with an audit-log rail (auto dash r11 winner)" }, category: "settings" },
+  { id: "d40", route: "/dash/d40", brand: "Cadence", desc: { ko: "릴리스 헬스 콘솔 · DORA 지표 히어로 + 14주×7일 배포/인시던트 캘린더 히트맵, 전 셀 값 상시 표기 (자동 dash r12 승자)", en: "Release-health console · DORA hero metrics over a 14-week × 7-day deploy/incident calendar heatmap, every cell labelled with its count (auto dash r12 winner)" }, category: "dashboard" },
 ];
 
-/** Static catalog (excludes evolution candidates) — shared by the gallery grid and detail routes. Each entry carries its own domain category. */
+/** Static catalog (excludes evolution candidates) — shared by the gallery grid and detail routes. Each entry carries its own page-type category. */
 export function catalogWorks(): Work[] {
   return [...LANDING_WORKS, ...DASH_LAB_WORKS, ...NATIVE_WORKS];
 }

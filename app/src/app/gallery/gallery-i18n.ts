@@ -4,7 +4,8 @@ import type { Work } from "@/lib/works";
 export type Lang = "en" | "ko";
 export const DEFAULT_LANG: Lang = "en";
 
-type FilterKey = "all" | "project" | "scheduling" | "ops" | "finance" | "analytics" | "landing" | "mobile";
+/** Single source of truth for filter keys — derived from the catalog's page-type union so the two can never drift. */
+export type FilterKey = "all" | NonNullable<Work["category"]>;
 type Strings = {
   worksLabel: string; langLabel: string;
   searchLabel: string; searchPlaceholder: string; filterLabel: string;
@@ -26,7 +27,13 @@ export const STRINGS: Record<Lang, Strings> = {
     worksLabel: "works",
     langLabel: "Language", searchLabel: "Search works", searchPlaceholder: "Search designs…",
     filterLabel: "Filter",
-    filters: { all: "All", project: "Project", scheduling: "Scheduling", ops: "Ops", finance: "Finance", analytics: "Analytics", landing: "Landing", mobile: "Mobile" },
+    filters: {
+      all: "All", dashboard: "Dashboard", settings: "Settings", landing: "Landing",
+      catalog: "Catalog Page", "product-detail": "Product Details", paywall: "Paywall & Subscription",
+      login: "Log In", profile: "Profile & Account", "404": "404 Page", blog: "Blog", about: "About",
+      careers: "Careers", contact: "Contacts", developers: "Developers Page",
+      integration: "Integration Page", "media-kit": "Media Kit", mobile: "Mobile",
+    },
     resultsLabel: "results", empty: "No designs match.",
     footer: "An auto-evolving gallery of interface design systems.",
     status: { winner: "Selected", dropped: "Cut", pending: "In review" },
@@ -49,7 +56,13 @@ export const STRINGS: Record<Lang, Strings> = {
     worksLabel: "작품",
     langLabel: "언어", searchLabel: "작품 검색", searchPlaceholder: "디자인 검색…",
     filterLabel: "필터",
-    filters: { all: "전체", project: "프로젝트", scheduling: "일정", ops: "운영", finance: "금융", analytics: "분석", landing: "랜딩", mobile: "모바일" },
+    filters: {
+      all: "전체", dashboard: "대시보드", settings: "설정", landing: "랜딩",
+      catalog: "카탈로그", "product-detail": "상품 상세", paywall: "페이월·구독",
+      login: "로그인", profile: "프로필·계정", "404": "404", blog: "블로그", about: "소개",
+      careers: "채용", contact: "문의", developers: "개발자",
+      integration: "연동", "media-kit": "미디어킷", mobile: "모바일",
+    },
     resultsLabel: "개", empty: "해당하는 디자인이 없습니다.",
     footer: "스스로 진화하는 인터페이스 디자인 시스템 갤러리.",
     status: { winner: "채택", dropped: "탈락", pending: "심사 대기" },
