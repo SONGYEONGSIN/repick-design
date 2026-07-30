@@ -94,6 +94,7 @@ uniform float uAspect;
 uniform float uSpin;
 uniform vec2  uDrift;   // where the mass sits this scroll frame (x drifts side to side, y up/down)
 uniform float uScale;
+uniform float uIdle;    // seconds of idle drift; pinned to 0 while capturing
 out vec3 vColor; out float vSeed; out float vDepth; out float vHot; out float vBand;
 
 void main() {
@@ -109,6 +110,12 @@ void main() {
   float burst = sin(seg * 3.14159265);
   vec3 away = normalize(p + vec3(0.0007, 0.0011, 0.0013));
   p += away * burst * burst * (0.5 + aSeed * 2.1);
+
+  // Idle drift: at rest the reference's field is never still, so each particle wanders a little on
+  // its own phase. The amplitude is small enough that the silhouette holds, and it is the only term
+  // in this shader driven by a clock rather than by scroll or pointer — see uIdle's freeze.
+  float ph = aSeed * 43.0;
+  p += vec3(sin(uIdle * 0.55 + ph), cos(uIdle * 0.47 + ph * 1.3), sin(uIdle * 0.39 + ph * 0.7)) * 0.021;
 
   float ca = cos(uSpin), sa = sin(uSpin);
   p = vec3(p.x * ca + p.z * sa, p.y, -p.x * sa + p.z * ca);
@@ -259,6 +266,7 @@ export default function ParticleField() {
     const uSpin = gl.getUniformLocation(prog, "uSpin");
     const uDrift = gl.getUniformLocation(prog, "uDrift");
     const uScale = gl.getUniformLocation(prog, "uScale");
+    const uIdle = gl.getUniformLocation(prog, "uIdle");
     gl.enable(gl.BLEND);
     gl.blendFunc(gl.SRC_ALPHA, gl.ONE);
 
@@ -266,11 +274,20 @@ export default function ParticleField() {
     const ABSENT: [number, number] = [9, 9];
     let pointer: [number, number] = ABSENT;
     let frame = 0;
+    // The capture pipeline pins the clock so judge screenshots stay byte-identical; reduced motion
+    // pins it for the same reason a user asked for. Everything else in the scene is still a pure
+    // function of scroll and pointer — this is the one clock, and it has an off switch.
+    const frozen = () => reduce.matches || Boolean((window as unknown as { __SPECIMEN_FREEZE__?: boolean }).__SPECIMEN_FREEZE__);
+    let idleStart = 0;
 
-    function draw() {
+    function draw(ts?: number) {
       frame = 0;
       const el = ref.current;
       if (!el || !gl) return;
+      const still = frozen();
+      if (still) idleStart = 0;
+      else if (!idleStart && ts) idleStart = ts;
+      const idle = still || !ts ? 0 : (ts - idleStart) / 1000;
       const vw = window.innerWidth, vh = window.innerHeight;
       const dpr = Math.min(1.75, window.devicePixelRatio || 1);
       const w = Math.round(vw * dpr), h = Math.round(vh * dpr);
@@ -297,7 +314,11 @@ export default function ParticleField() {
       gl.uniform1f(uScale, wide ? 2.35 : 1.5);
       const pt = reduce.matches ? ABSENT : pointer;
       gl.uniform2f(uPointer, pt[0], pt[1]);
+      gl.uniform1f(uIdle, idle);
       gl.drawArrays(gl.POINTS, 0, COUNT);
+      // Keep going only while the drift is live. Frozen, the loop stops after this frame and the
+      // canvas costs nothing until the next scroll or pointer event.
+      if (!still) frame = requestAnimationFrame(draw);
     }
     function schedule() { if (!frame) frame = requestAnimationFrame(draw); }
 

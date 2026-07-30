@@ -111,6 +111,10 @@ export async function capture(opts, chromium) {
   const errors = [];
   for (const width of widths) {
     const page = await browser.newPage({ viewport: { width, height } });
+    // Pin any clock-driven idle motion before the page's first frame. A scene may animate at rest
+    // for a visitor, but a judge compares screenshots across rounds — two captures of the same
+    // commit have to be byte-identical, so the clock is frozen here rather than left running.
+    await page.addInitScript(() => { window.__SPECIMEN_FREEZE__ = true; });
     page.on("pageerror", (e) => errors.push(`${width}: ${e.message.slice(0, 120)}`));
     await page.goto(base + route, { waitUntil: "networkidle" });
     await page.waitForTimeout(600);
