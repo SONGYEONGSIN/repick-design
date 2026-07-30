@@ -52,7 +52,7 @@ export default function LandingClient() {
               FOCUS,
             )}
           >
-            RE:PICK
+            Tally
           </a>
           <div className="hidden items-center gap-7 sm:flex">
             <a href="#compare" className={NAV_LINK}>
@@ -89,7 +89,7 @@ export default function LandingClient() {
               )}
             >
               <Table2 className="h-3.5 w-3.5" aria-hidden />
-              Ordinary resale vs. Repick
+              Ordinary resale vs. Tally
             </motion.p>
 
             <motion.h1
@@ -394,10 +394,10 @@ export default function LandingClient() {
       <footer className="border-t border-white/10">
         <div className="mx-auto flex w-full max-w-[1120px] flex-col gap-2 px-5 py-10 sm:flex-row sm:items-center sm:justify-between sm:px-8">
           <span className="text-base font-extrabold tracking-[-0.02em] text-white">
-            RE:PICK
+            Tally
           </span>
           <span className="text-xs font-normal text-[#A1A1AA]">
-            Secondhand, re-picked by AI · 2026 RE:PICK
+            Secondhand, re-picked by AI · 2026 Tally
           </span>
         </div>
       </footer>

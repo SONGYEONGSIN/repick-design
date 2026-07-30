@@ -92,7 +92,7 @@ const COMPARISON_ROWS = [
 
 const FAQS = [
   {
-    question: "How is RE:Pick different from other secondhand platforms?",
+    question: "How is Attune different from other secondhand platforms?",
     answer:
       "You don't have to search yourself. AI learns your taste, size, and budget, then shows you only the items worth buying right now. Less scrolling, more buying.",
   },
@@ -174,7 +174,7 @@ const STATS = [
 const TESTIMONIALS = [
   {
     quote:
-      "I had 300 saved items piling up, but with RE:Pick I only see things I'd actually buy.",
+      "I had 300 saved items piling up, but with Attune I only see things I'd actually buy.",
     name: "Kim Do-yoon",
     role: "Freelance designer",
     avatar:
@@ -354,7 +354,7 @@ export default function LandingClient() {
         <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4 lg:px-8">
           <a
             href="#main-content"
-            aria-label="RE:Pick home"
+            aria-label="Attune home"
             className={`inline-flex items-center gap-1.5 rounded-md text-2xl font-bold tracking-tight text-stone-900 ${focusRing}`}
           >
             <span className="rounded-md bg-orange-700 px-2 py-0.5 text-lg font-semibold text-white font-[family-name:var(--font-geist-mono)]">
@@ -649,7 +649,7 @@ export default function LandingClient() {
           </motion.ol>
         </section>
 
-        {/* Comparison: direct buying vs RE:Pick */}
+        {/* Comparison: direct buying vs Attune */}
         <section id="comparison" aria-labelledby="comparison-heading" className="border-t border-stone-200 bg-stone-100/70">
           <div className="mx-auto max-w-7xl px-6 py-24 lg:px-8">
             <motion.div
@@ -659,7 +659,7 @@ export default function LandingClient() {
               whileInView="show"
               viewport={VIEWPORT}
             >
-              <p className="text-xs font-semibold uppercase tracking-[0.14em] text-orange-700">Buying it yourself vs. RE:Pick</p>
+              <p className="text-xs font-semibold uppercase tracking-[0.14em] text-orange-700">Buying it yourself vs. Attune</p>
               <h2
                 id="comparison-heading"
                 className="mt-3 text-balance text-[clamp(2rem,4vw,3rem)] font-sans leading-[1.1] tracking-[-0.01em] text-stone-900"
@@ -679,7 +679,7 @@ export default function LandingClient() {
               viewport={VIEWPORT}
             >
               <table className="w-full min-w-[640px] border-collapse text-left">
-                <caption className="sr-only">Comparison of buying secondhand directly versus using RE:Pick</caption>
+                <caption className="sr-only">Comparison of buying secondhand directly versus using Attune</caption>
                 <thead>
                   <tr className="border-b border-stone-200">
                     <th scope="col" className="w-1/3 px-6 py-5 text-sm font-semibold text-stone-500">
@@ -689,7 +689,7 @@ export default function LandingClient() {
                       Buying it yourself
                     </th>
                     <th scope="col" className="bg-orange-50/60 px-6 py-5 text-sm font-semibold text-orange-800">
-                      Buying with RE:Pick
+                      Buying with Attune
                     </th>
                   </tr>
                 </thead>
@@ -1137,7 +1137,7 @@ export default function LandingClient() {
               <ul className="mt-6 flex gap-4 text-sm">
                 <li>
                   <a
-                    href="https://instagram.com/repick"
+                    href="https://instagram.com/attune"
                     className={`rounded-md text-stone-400 transition-colors hover:text-stone-50 ${focusRingOnDark}`}
                   >
                     Instagram
@@ -1145,7 +1145,7 @@ export default function LandingClient() {
                 </li>
                 <li>
                   <a
-                    href="https://threads.net/repick"
+                    href="https://threads.net/attune"
                     className={`rounded-md text-stone-400 transition-colors hover:text-stone-50 ${focusRingOnDark}`}
                   >
                     Threads
@@ -1153,7 +1153,7 @@ export default function LandingClient() {
                 </li>
                 <li>
                   <a
-                    href="https://x.com/repick"
+                    href="https://x.com/attune"
                     className={`rounded-md text-stone-400 transition-colors hover:text-stone-50 ${focusRingOnDark}`}
                   >
                     X
@@ -1182,7 +1182,7 @@ export default function LandingClient() {
           </div>
 
           <div className="mt-16 flex flex-col items-center justify-between gap-4 border-t border-stone-800 pt-8 text-sm text-stone-400 sm:flex-row">
-            <p>© 2026 RE:Pick. All rights reserved.</p>
+            <p>© 2026 Attune. All rights reserved.</p>
             <ul className="flex gap-6">
               <li>
                 <a href="#" className={`rounded-md hover:text-stone-300 ${focusRingOnDark}`}>

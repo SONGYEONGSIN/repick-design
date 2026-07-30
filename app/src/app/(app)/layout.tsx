@@ -4,8 +4,8 @@ import type { Metadata } from "next";
 // A shared app shell (sidebar + top bar) will live here so every dashboard view can reuse it.
 export const metadata: Metadata = {
   title: {
-    default: "Dashboard — Repick",
-    template: "%s — Repick",
+    default: "Dashboard — Attune",
+    template: "%s — Attune",
   },
 };
 

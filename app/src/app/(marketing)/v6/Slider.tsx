@@ -171,7 +171,7 @@ export default function Slider({ parallax }: { parallax: MotionValue<number> }) 
           </ul>
         </div>
 
-        {/* AFTER — repick AI match (full color + curation overlay) */}
+        {/* AFTER — Threshold AI match (full color + curation overlay) */}
         <motion.div style={{ clipPath }} className="absolute inset-0">
           <Image
             src={AFTER_IMG.src}
@@ -191,7 +191,7 @@ export default function Slider({ parallax }: { parallax: MotionValue<number> }) 
             )}
           >
             <Sparkles className="h-3.5 w-3.5" aria-hidden />
-            repick AI Match
+            Threshold AI Match
           </span>
 
           <div className="absolute inset-x-4 bottom-4 flex flex-col gap-2.5">
