@@ -1,0 +1,1 @@
+Contour (analytics/observability SaaS) — split-panel login: right-side auth form paired with a left dark panel of deterministic trig-generated topographic contour lines behind a live-metric preview card, distinguishing it from decorative-only split layouts.

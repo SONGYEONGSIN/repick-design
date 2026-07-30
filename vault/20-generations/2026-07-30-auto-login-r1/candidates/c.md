@@ -1,0 +1,1 @@
+Ledgerline (freelancer invoicing/tax SaaS) login — zero-decoration minimal archetype, built as a single centered typographic column (no card, no imagery) with hairline rules for structure, a size/weight-only type scale (400/600/800), and a live signin/signup mode switch driven entirely by copy and field changes rather than a tabbed control.
