@@ -8,6 +8,13 @@ export const RULES = [
   { id: 'no-emoji', re: /\p{Extended_Pictographic}/u, why: '이모지 금지 — lucide-react 아이콘 사용' },
   { id: 'no-raw-img', re: /<img[\s/>]/u, why: '원시 img 금지 — next/image Image 사용(LCP·CLS)' },
   { id: 'no-next-image-unopt', re: /\bunoptimized\b/u, why: 'unoptimized 금지 — 최적화 우회는 CLS/LCP 이점 상실' },
+  // Dark-mode auxiliary text below the canon floor (page-brief-core §3: dark >= zinc-400).
+  // Lighthouse only audits the scheme the host happens to render, so `dark:text-*-500` can pass the
+  // a11y gate at one time of day and fail at another — auto-login-r1 scored 100 in the round and 96
+  // on re-measurement from this exact token (4.17:1). A token-level regex is scheme-independent.
+  // Only the 500/600 steps: 700 and darker are normally paired with a light surface inside dark mode
+  // (`dark:bg-white dark:text-zinc-900`), where they are correct rather than dim.
+  { id: 'no-dark-dim-text', re: /\bdark:text-(?:zinc|neutral|gray|slate|stone)-[56]00\b/u, why: '다크 보조텍스트 하한 zinc-400 — 500/600단은 다크 배경에서 AA 미달 (page-brief-core §3)' },
 ];
 
 // 블록 주석 내용을 공백으로 치환(개행·길이 보존 → 라인/인덱스 불변)

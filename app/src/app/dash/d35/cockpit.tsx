@@ -440,7 +440,7 @@ function HeroBand({
             <span className={cx("inline-flex items-center gap-1 text-sm font-semibold", NUM, pnlTextClass(stats.pnl))}>
               <PnlArrow v={stats.pnl} />
               {fmtSignedKRWc(stats.pnl)}
-              <span className="text-zinc-400 dark:text-zinc-500">·</span>
+              <span className="text-zinc-400 dark:text-zinc-400">·</span>
               {fmtSignedPct(stats.pnlPct)}
             </span>
           </div>
