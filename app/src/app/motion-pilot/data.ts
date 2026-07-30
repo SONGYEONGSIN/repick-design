@@ -17,6 +17,14 @@ export const PROOF = [
   { k: "60", label: "fps target", note: "Canvas redraws only while the pointer is actually moving" },
 ];
 
+/** Manifesto copy — read while the field is dispersed, so the text passes through the particles. */
+export const MANIFESTO = [
+  "A page that moves should still be a page that can be checked.",
+  "Most of this vocabulary breaks the moment a gate asks it to render the same way twice.",
+  "So the motion here is driven by where you are, never by what time it is.",
+  "Scroll position and pointer position are the only inputs. Both are reproducible.",
+];
+
 export const STAGES = [
   {
     tag: "Layer 01",
