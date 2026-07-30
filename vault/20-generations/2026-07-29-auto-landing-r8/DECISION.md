@@ -2,7 +2,7 @@
 
 - Target: landing (무작위 50/50 선택 결과)
 - 후보: a — Signal Graph (Preference→Product 관계 그래프 히어로) · b — Counterweight (저울 물리 은유) · c — Strata (레이어 익스플로디드 스택)
-- 하드게이트: 전 후보 통과 (b는 390px sweep 1회 수정 후 통과 — [[SCORES]] 참조)
+- 하드게이트: 전 후보 통과 (b는 390px sweep 1회 수정 후 통과 — `SCORES.md` 참조)
 
 ## 렌즈 1 — 브리프/DNA 준수 (agent: general-purpose, opus)
 
@@ -39,4 +39,4 @@
 2. (L2, supersedes auto-landing-r7) questions-queue Q9(이미지 로드 실패 시 배지-alt 겹침) 2회 재현 확정 → 아카이브 이동, "이미지 컨테이너 aspect-ratio+배경색 예약 + 배지는 사진과 분리 배치"를 GENERATE 기본 지침으로 승격.
 
 ## 관련
-- [[SCORES]] · [[../../00-principles/design-principles]] · [[../../00-principles/landing-deltas-provisional]] · [[../../00-principles/questions-queue]]
+- `SCORES.md` · [[../../00-principles/design-principles]] · `00-principles/landing-deltas-provisional.jsonl` · [[../../00-principles/questions-queue]]
