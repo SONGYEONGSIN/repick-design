@@ -24,7 +24,8 @@ tags: [principles, brief]
 | 원시 `<img>` 금지 → `next/image` | static `no-raw-img` | 하드페일 |
 | `unoptimized` 금지 (LCP·CLS 이점 상실) | static `no-next-image-unopt` | 하드페일 |
 | 이모지 금지 → lucide-react 아이콘 | static `no-emoji` | 하드페일 |
-| `next/font` 추가 import 금지 (Pretendard 전역 단일) | static `no-next-font` | 하드페일 |
+| `next/font` 추가 import 금지 | static `no-next-font` | 하드페일 |
+| 허용 목록 밖 폰트 지정 금지 (본문 `--font-sans`, 디스플레이는 `--font-display-*` 3종 중 하나) | static `no-unlisted-font` | 하드페일 |
 | 세리프·장식 폰트(`font-serif`) 금지 | static `no-font-serif` | 하드페일 |
 | 폰트 웨이트 개수 (라우트 단위) | gate `weights` | **기록만** — 임계 미정, 아래 참조 |
 | 다크 보조텍스트 `dark:text-*-500/600` 금지 (하한 zinc-400) | static `no-dark-dim-text` | 하드페일 |
