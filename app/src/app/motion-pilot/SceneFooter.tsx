@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import BrandMark from "./BrandMark";
 import { motion, useReducedMotion } from "framer-motion";
 import { CLOSING, EASE, FOOTER_NAV, FOOTER_NOTE, FOOTER_SOCIAL } from "./data";
 import { InstagramMark, XMark } from "./SocialMarks";
@@ -63,7 +64,10 @@ export default function SceneFooter() {
             against the backdrop was fine — it is the *particles* the shadow is for. */}
         <div className={`flex flex-col gap-8 border-t border-white/10 py-10 md:flex-row md:items-center md:justify-between ${SHADOW}`}>
           <div className="flex items-center gap-6">
-            <span className="text-[1.35rem] font-bold leading-none tracking-[-0.01em]">Attune</span>
+            <span className="inline-flex items-center gap-[0.55em] text-[1.35rem] font-bold leading-none tracking-[-0.01em]">
+              <BrandMark className="h-[1.1em] w-[1.1em] shrink-0 text-white" />
+              Attune
+            </span>
             <p className="text-[0.8rem] font-extralight leading-[1.5] text-[#9A9A9A]">
               {FOOTER_NOTE.map((line) => (
                 <span key={line} className="block">
