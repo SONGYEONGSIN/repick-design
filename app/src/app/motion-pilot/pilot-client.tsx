@@ -9,7 +9,7 @@ import SiteLoader from "./SiteLoader";
 import { SplitChars, SplitLines } from "./SplitText";
 import { EASE, HERO, MANIFESTO, PROOF, STAGES } from "./data";
 import { useIntro } from "./intro";
-import { BODY, DISPLAY, MARK, PILL, SHADOW, SHELL, STATEMENT } from "./tokens";
+import { BODY, DISPLAY, HEADER_H, HEADER_ROW, MARK, PILL, SHADOW, SHELL, STATEMENT } from "./tokens";
 
 /**
  * v3 — the reference architecture: one persistent scene layer for the whole document, with ordinary
@@ -76,14 +76,14 @@ export default function PilotClient() {
           z-20 puts it above the flowing content and below the header itself (z-30). */}
       <div
         aria-hidden
-        className="pointer-events-none fixed inset-x-0 top-0 z-20 h-[8.75rem] bg-gradient-to-b from-black via-black/85 to-transparent"
+        className="pointer-events-none fixed inset-x-0 top-0 z-20 h-[clamp(7rem,8.5vw,10rem)] bg-gradient-to-b from-black via-black/85 to-transparent [backdrop-filter:blur(20px)] [mask-image:linear-gradient(to_bottom,black_55%,transparent)]"
       />
 
       {/* Fixed and fully transparent at every scroll position — no bar, no blur, no rule. The
           reference's header never acquires a surface, and giving ours one was the loudest structural
           difference between the two pages. */}
-      <header className="fixed inset-x-0 top-0 z-30 h-[clamp(4rem,5vw,6rem)]">
-        <div className={`${SHELL} flex h-[clamp(4rem,5vw,6rem)] items-center justify-between`}>
+      <header className={`fixed inset-x-0 top-0 z-30 ${HEADER_H}`}>
+        <div className={`${SHELL} ${HEADER_H} ${HEADER_ROW} justify-between`}>
           <span className="text-[clamp(1.25rem,1.35vw,1.75rem)] font-bold leading-none tracking-[-0.01em]">Attune</span>
           {/* Measured at 390px before this: wordmark 80px + nav 333px against a 342px content box,
               so the nav ran 47px past the viewport and its first label sat under the wordmark. The
