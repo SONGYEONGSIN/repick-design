@@ -10,9 +10,30 @@ import { EASE } from "./data";
  *
  * Under `prefers-reduced-motion` every glyph renders at its final state with no delay.
  */
-export function SplitChars({ text, className, delay = 0 }: { text: string; className?: string; delay?: number }) {
+export function SplitChars({
+  text,
+  className,
+  delay = 0,
+  start = true,
+}: {
+  text: string;
+  className?: string;
+  delay?: number;
+  /**
+   * Held false while the loading curtain is up, so the reveal plays *after* it lifts instead of
+   * finishing behind it. Defaults true: callers with no curtain to wait on are unaffected.
+   */
+  start?: boolean;
+}) {
   const reduced = useReducedMotion();
   const chars = Array.from(text);
+  // Reduced motion outranks the curtain. Gating `animate` on `start` alone made this element hold at
+  // opacity 0 and then *animate* to 1 when the curtain lifted — a real transition, under a setting
+  // that asks for none. It also made the frame time-dependent: two reduced-motion captures of the
+  // same commit diverged in 2 of 4 runs, because hydration lands late enough behind WebGL setup that
+  // the 0.5s fade was sometimes still running when the shot was taken. Settling immediately removes
+  // both the unwanted motion and the nondeterminism.
+  const settled = reduced || start;
   return (
     <span className={className} aria-label={text} role="text">
       {chars.map((ch, i) => (
@@ -21,8 +42,10 @@ export function SplitChars({ text, className, delay = 0 }: { text: string; class
           aria-hidden
           className="inline-block whitespace-pre will-change-transform"
           initial={reduced ? false : { opacity: 0, y: "0.45em" }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, ease: EASE, delay: reduced ? 0 : delay + i * 0.018 }}
+          animate={settled ? { opacity: 1, y: 0 } : { opacity: 0, y: "0.45em" }}
+          // duration 0 rather than a short one: if `reduced` resolves after the first client render,
+          // an in-flight fade has to snap, not finish on its own schedule.
+          transition={reduced ? { duration: 0 } : { duration: 0.5, ease: EASE, delay: delay + i * 0.018 }}
         >
           {ch}
         </motion.span>
