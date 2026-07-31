@@ -225,6 +225,48 @@ export function sparseField(count: number, rand: Rand): Vec3[] {
   return out;
 }
 
+/**
+ * An open hand — the page's own subject, since the argument here is that an interface should answer
+ * the hand that moves it. Drawn with the fingers well separated and the thumb pushed out: adjacent
+ * fingers at life proportions merge into a mitten once the outline is made of particles (§1-1's
+ * exaggeration rule, learned on the profile).
+ */
+export function hand(count: number, rand: Rand): Vec3[] {
+  return sampleRaster((ctx, s) => {
+    ctx.fillStyle = "#fff";
+    const finger = (x: number, tipY: number, w: number) => {
+      ctx.beginPath();
+      ctx.moveTo(x - w, s * 0.62);
+      ctx.lineTo(x - w, tipY + w);
+      ctx.quadraticCurveTo(x, tipY - w * 0.6, x + w, tipY + w);
+      ctx.lineTo(x + w, s * 0.62);
+      ctx.closePath();
+      ctx.fill();
+    };
+    // palm
+    ctx.beginPath();
+    ctx.moveTo(s * 0.3, s * 0.58);
+    ctx.lineTo(s * 0.72, s * 0.58);
+    ctx.quadraticCurveTo(s * 0.78, s * 0.74, s * 0.7, s * 0.86);
+    ctx.quadraticCurveTo(s * 0.52, s * 0.96, s * 0.34, s * 0.86);
+    ctx.quadraticCurveTo(s * 0.24, s * 0.74, s * 0.3, s * 0.58);
+    ctx.closePath();
+    ctx.fill();
+    finger(s * 0.38, s * 0.3, s * 0.052);   // index
+    finger(s * 0.5, s * 0.22, s * 0.055);   // middle
+    finger(s * 0.615, s * 0.28, s * 0.052); // ring
+    finger(s * 0.715, s * 0.4, s * 0.046);  // little
+    // thumb, swung well clear of the palm
+    ctx.beginPath();
+    ctx.moveTo(s * 0.32, s * 0.66);
+    ctx.quadraticCurveTo(s * 0.16, s * 0.6, s * 0.13, s * 0.47);
+    ctx.quadraticCurveTo(s * 0.19, s * 0.42, s * 0.24, s * 0.5);
+    ctx.quadraticCurveTo(s * 0.28, s * 0.58, s * 0.38, s * 0.6);
+    ctx.closePath();
+    ctx.fill();
+  }, count, rand, 0.2, true);
+}
+
 /** An exact sphere shell, solved rather than rasterised. Kept available for other scene scripts. */
 export function sphere(count: number, rand: Rand, radius = 0.82): Vec3[] {
   const out: Vec3[] = [];
