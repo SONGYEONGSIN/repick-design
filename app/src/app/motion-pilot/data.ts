@@ -42,9 +42,33 @@ export const STAGES = [
   {
     tag: "Layer 03",
     title: "Pointer field",
-    body: "The field behind the page magnifies toward the cursor and drifts on its own when nothing is happening. Under capture or reduced motion the drift is pinned, which is exactly the still frame the pipeline needs.",
+    body: "The field behind the page turns toward the cursor and magnifies under it, and it keeps drifting on its own when nothing is happening. Under capture or reduced motion the pointer reads as absent and the drift is pinned, which is exactly the still frame the pipeline needs.",
   },
 ];
+
+/**
+ * The bookend. This is the statement the loading curtain holds you on and the one the footer closes
+ * with — the same two lines in both places, which is how the reference frames a visit as a loop
+ * rather than a scroll that runs out. Changing it changes both ends at once, on purpose.
+ */
+export const CLOSING = ["Motion you can measure.", "Attune answers the hand."];
+
+/**
+ * Footer links point only at destinations this repo actually serves. The reference carries social
+ * accounts here; inventing plausible ones for a specimen would put fabricated records on a page whose
+ * whole argument is that it can be verified.
+ */
+export const FOOTER_NAV = [
+  { href: "#manifesto", label: "Manifesto" },
+  { href: "#technique", label: "Technique" },
+  { href: "/gallery", label: "Specimen" },
+];
+
+// "Copyright" is spelled out rather than set as the U+00A9 glyph. That codepoint is
+// Extended_Pictographic, so the `no-emoji` rule in `scripts/dash-static-check.mjs` hard-fails on it
+// — including inside comments, which is why this note describes the character instead of showing it.
+// The reference does set the glyph in its own footer; we cannot, and the word carries the same line.
+export const FOOTER_NOTE = ["Copyright 2026 Attune — a design specimen.", "Built to be checked, not demoed."];
 
 /** Lattice geometry — deterministic wave offsets so the field has structure without randomness. */
 export const LATTICE = { gap: 34, radius: 1.6, influence: 150, maxPush: 16 };
