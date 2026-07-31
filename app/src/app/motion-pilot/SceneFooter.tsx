@@ -4,7 +4,7 @@ import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
 import { CLOSING, EASE, FOOTER_NAV, FOOTER_NOTE, FOOTER_SOCIAL } from "./data";
 import { InstagramMark, XMark } from "./SocialMarks";
-import { MARK, SHADOW, SHELL } from "./tokens";
+import { MARK, PILL, SHADOW, SHELL } from "./tokens";
 
 const SOCIAL_MARK = { Instagram: InstagramMark, X: XMark } as const;
 
@@ -49,7 +49,7 @@ export default function SceneFooter() {
           >
             <Link
               href="/gallery"
-              className={`${MARK} inline-flex rounded-full bg-[#6E56CF] px-6 py-3.5 text-white transition-colors hover:bg-[#7d67d6] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#a894f7] focus-visible:ring-offset-4 focus-visible:ring-offset-black`}
+              className={`${MARK} ${PILL} focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#a894f7] focus-visible:ring-offset-4 focus-visible:ring-offset-black`}
             >
               See the specimen
             </Link>

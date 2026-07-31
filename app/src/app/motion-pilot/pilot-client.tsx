@@ -9,7 +9,7 @@ import SiteLoader from "./SiteLoader";
 import { SplitChars, SplitLines } from "./SplitText";
 import { EASE, HERO, MANIFESTO, PROOF, STAGES } from "./data";
 import { useIntro } from "./intro";
-import { MARK, SHADOW, SHELL } from "./tokens";
+import { BODY, DISPLAY, MARK, PILL, SHADOW, SHELL, STATEMENT } from "./tokens";
 
 /**
  * v3 — the reference architecture: one persistent scene layer for the whole document, with ordinary
@@ -82,9 +82,9 @@ export default function PilotClient() {
       {/* Fixed and fully transparent at every scroll position — no bar, no blur, no rule. The
           reference's header never acquires a surface, and giving ours one was the loudest structural
           difference between the two pages. */}
-      <header className="fixed inset-x-0 top-0 z-30 h-20">
-        <div className={`${SHELL} flex h-20 items-center justify-between`}>
-          <span className="text-[1.6rem] font-bold leading-none tracking-[-0.01em]">Attune</span>
+      <header className="fixed inset-x-0 top-0 z-30 h-[clamp(4rem,5vw,6rem)]">
+        <div className={`${SHELL} flex h-[clamp(4rem,5vw,6rem)] items-center justify-between`}>
+          <span className="text-[clamp(1.25rem,1.35vw,1.75rem)] font-bold leading-none tracking-[-0.01em]">Attune</span>
           {/* Measured at 390px before this: wordmark 80px + nav 333px against a 342px content box,
               so the nav ran 47px past the viewport and its first label sat under the wordmark. The
               header is `fixed`, so that overflow never reaches the document and the gate's width
@@ -105,7 +105,7 @@ export default function PilotClient() {
             ))}
             <Link
               href="/gallery"
-              className={`${MARK} rounded-full bg-[#6E56CF] px-4 py-2.5 text-white transition-colors hover:bg-[#7d67d6] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#a894f7] focus-visible:ring-offset-4 focus-visible:ring-offset-black`}
+              className={`${MARK} ${PILL} focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#a894f7] focus-visible:ring-offset-4 focus-visible:ring-offset-black`}
             >
               Specimen
             </Link>
@@ -136,7 +136,7 @@ export default function PilotClient() {
                 What is matched here is the *proportion* the reference actually composes with: a
                 headline column around a third of the viewport, clear of the object beside it. */}
             <h1
-              className={`w-fit text-[clamp(2.5rem,6vw,5.5rem)] font-normal leading-[1.1] tracking-[-0.04em] ${SHADOW}`}
+              className={`w-fit ${DISPLAY} ${SHADOW}`}
             >
               {HERO.headline.map((line, i) => (
                 <span key={line} className={`block ${i === HERO.accentLine ? "text-[#a894f7]" : ""}`}>
@@ -148,7 +148,7 @@ export default function PilotClient() {
               initial={reduced ? false : { opacity: 0, y: 16 }}
               animate={open ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
               transition={enter(0.5)}
-              className={`mt-8 max-w-[28rem] text-[1.2rem] font-extralight leading-[1.5] ${SHADOW}`}
+              className={`mt-8 max-w-[30ch] ${BODY} ${SHADOW}`}
             >
               {HERO.sub}
             </motion.p>
@@ -159,7 +159,7 @@ export default function PilotClient() {
               className={`${MARK} mt-10 inline-flex items-center gap-2 text-[#9A9A9A]`}
             >
               <ArrowDown className="h-4 w-4" aria-hidden />
-              Scroll — the field disperses, then re-gathers
+              Scroll — the field takes four forms
             </motion.p>
           </div>
         </section>
@@ -174,7 +174,7 @@ export default function PilotClient() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, margin: "-25%" }}
                   transition={{ duration: 0.7, ease: EASE }}
-                  className={`max-w-[46rem] text-[clamp(1.5rem,3.3vw,2.4rem)] font-normal leading-[1.2] ${SHADOW} ${i % 2 ? "ml-auto text-right" : ""}`}
+                  className={`max-w-[min(38vw,46rem)] ${STATEMENT} ${SHADOW} ${i === 1 || i === 2 ? "ml-auto text-right" : ""}`}
                 >
                   {para}
                 </motion.p>
