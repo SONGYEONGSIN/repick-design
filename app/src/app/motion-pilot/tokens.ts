@@ -29,9 +29,13 @@ export const BODY = "text-[clamp(1rem,1.25vw,1.5rem)] font-extralight leading-[1
 /**
  * The pill. Every number here is the reference's: 0.833vw type at 600, 16.48/20px padding (0.86vw /
  * 1.04vw), fully rounded, on its brighter violet — ours had been a darker #6E56CF at a fixed 14px.
+ *
+ * `leading-[0.76]` is the one that is easy to miss. The reference sets 16px type on a 12.16px line
+ * box inside the pill, which is what gives it a 48px height; inheriting the normal 1.5 line-height
+ * made ours 57px — right type, right padding, wrong button.
  */
 export const PILL =
-  "inline-flex items-center rounded-full bg-[#8052FF] px-[clamp(0.9rem,1.04vw,1.4rem)] py-[clamp(0.75rem,0.86vw,1.15rem)] text-white transition-colors hover:bg-[#9169ff]";
+  "inline-flex items-center rounded-full bg-[#8052FF] px-[clamp(0.9rem,1.04vw,1.4rem)] py-[clamp(0.75rem,0.86vw,1.15rem)] leading-[0.76] text-white transition-colors hover:bg-[#9169ff]";
 
 /** Copy sits over an additively-blended field; the shadow is what keeps it legible against a bright patch. */
 export const SHADOW = "[text-shadow:0_2px_22px_rgba(1,1,2,0.94)]";
