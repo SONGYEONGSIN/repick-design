@@ -64,6 +64,17 @@ export const FOOTER_NAV = [
   { href: "/gallery", label: "Specimen" },
 ];
 
+/**
+ * Social destinations. These are not invented here — they are the handles this repo already ships
+ * for the Attune brand in `app/src/app/(marketing)/landing-client.tsx`, reused so the two pages do
+ * not disagree about where the same brand lives. They are still placeholders: nothing verifies that
+ * these accounts exist, and they must be confirmed before this is anything but a specimen.
+ */
+export const FOOTER_SOCIAL = [
+  { href: "https://instagram.com/attune", label: "Instagram" },
+  { href: "https://x.com/attune", label: "X" },
+];
+
 // "Copyright" is spelled out rather than set as the U+00A9 glyph. That codepoint is
 // Extended_Pictographic, so the `no-emoji` rule in `scripts/dash-static-check.mjs` hard-fails on it
 // — including inside comments, which is why this note describes the character instead of showing it.
