@@ -26,6 +26,7 @@ tags: [principles, brief]
 | 이모지 금지 → lucide-react 아이콘 | static `no-emoji` | 하드페일 |
 | `next/font` 추가 import 금지 (Pretendard 전역 단일) | static `no-next-font` | 하드페일 |
 | 세리프·장식 폰트(`font-serif`) 금지 | static `no-font-serif` | 하드페일 |
+| 폰트 웨이트 개수 (라우트 단위) | gate `weights` | **기록만** — 임계 미정, 아래 참조 |
 | 다크 보조텍스트 `dark:text-*-500/600` 금지 (하한 zinc-400) | static `no-dark-dim-text` | 하드페일 |
 | 전 폭 페이지·테이블 오버플로 0 (1280/1440/1920 + 모바일 390) | sweep | 하드페일 |
 | Lighthouse 접근성 **95 이상** | a11y | 하드페일 |

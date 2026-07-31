@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import {
   normalizeStatic, normalizeSweep, normalizeA11y, normalizePerf,
   normalizeNativeRun, buildVerdict, parseArgs, filesForRoute, worstLighthouse,
+  countFontWeights, normalizeWeights,
 } from './gate.mjs';
 
 test('normalizeStatic — 위반 0이면 pass', () => {
@@ -116,4 +117,24 @@ test('worstLighthouse — 하나라도 unavailable이면 unavailable', () => {
 
 test('worstLighthouse — 단일 라우트는 그대로 통과', () => {
   assert.deepEqual(worstLighthouse([{ a11y: 97, perf: 88 }]), { a11y: 97, perf: 88 });
+});
+
+test('countFontWeights — 파일들에 걸친 고유 웨이트 집합을 센다', () => {
+  const srcs = ['<p className="font-normal">a</p>', '<h1 className="font-semibold tracking-tight">b</h1>'];
+  const r = countFontWeights(srcs);
+  assert.deepEqual(r.weights.sort(), ['normal', 'semibold']);
+  assert.equal(r.count, 2);
+});
+
+test('countFontWeights — 주석 속 언급은 세지 않는다', () => {
+  const r = countFontWeights(['// font-black 쓰지 말 것\n<p className="font-light">a</p>']);
+  assert.deepEqual(r.weights, ['light']);
+});
+
+test('normalizeWeights — 기록 전용: 어떤 개수든 통과하되 개수를 detail에 남긴다', () => {
+  assert.equal(normalizeWeights({ count: 3, weights: ['light', 'normal', 'bold'] }).detail, '3종');
+  const off = normalizeWeights({ count: 2, weights: ['normal', 'semibold'] });
+  assert.equal(off.pass, true, '카탈로그 41%를 깨는 임계를 하드페일로 두지 않는다');
+  assert.match(off.detail, /2종.*기록만/);
+  assert.deepEqual(off.violations, []);
 });
