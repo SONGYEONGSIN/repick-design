@@ -107,7 +107,11 @@ export default function PilotClient() {
       <header className={`fixed inset-x-0 top-0 z-30 ${HEADER_H}`}>
         <div className={`${SHELL} ${HEADER_H} ${HEADER_ROW} justify-between`}>
           <span className="inline-flex items-center gap-[0.55em] text-[clamp(1.25rem,1.35vw,1.75rem)] font-bold leading-none tracking-[-0.01em]">
-            <BrandMark className="h-[1.1em] w-[1.1em] shrink-0 text-white" />
+            {/* Sized against the pill, not the wordmark. The row is bottom-aligned, so two items of
+                different heights end up with different centres: at 1.1em the mark made the lockup
+                29px against the pill's 49px and sat 10px low. The reference's mark is 43px to the
+                pill's 48px — near enough that bottom-aligning lands both centres together. */}
+            <BrandMark className="h-[1.68em] w-[1.68em] shrink-0 text-white" />
             Attune
           </span>
           {/* Measured at 390px before this: wordmark 80px + nav 333px against a 342px content box,
