@@ -1196,7 +1196,10 @@ export default function LandingClient() {
           </div>
 
           <div className="mt-16 flex flex-col items-center justify-between gap-4 border-t border-stone-800 pt-8 text-sm text-stone-400 sm:flex-row">
-            <p>© 2026 Attune. All rights reserved.</p>
+            {/* "Copyright", not the U+00A9 glyph: that codepoint is Extended_Pictographic, so the
+                `no-emoji` rule in `scripts/dash-static-check.mjs` hard-fails on it — and the gate
+                runs that check over every .tsx under the route it covers. */}
+            <p>Copyright 2026 Attune. All rights reserved.</p>
             <ul className="flex gap-6">
               <li>
                 <a href="#" className={`rounded-md hover:text-stone-300 ${focusRingOnDark}`}>
