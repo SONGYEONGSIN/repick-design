@@ -8,11 +8,51 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  /* Pretendard is the one typeface; the rest of each stack is the fallback if the CDN link in
-     layout.tsx does not resolve. The next/font families that used to sit in these slots were removed
-     to satisfy the `no-next-font` rule — see the note in layout.tsx for what each one cost. */
+  /* Pretendard remains the body face for every work — it is the one that carries Korean, and the
+     rest of the stack is its fallback if the CDN link in layout.tsx does not resolve. `next/font`
+     families are still banned (see `no-next-font`); these come in as plain @font-face below. */
   --font-sans: "Pretendard Variable", Pretendard, system-ui, -apple-system, sans-serif;
   --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+}
+
+/* Display faces — an allow-list, not a free-for-all.
+   Every work in the catalogue was set in the same typeface because the gate banned adding any, and
+   typeface is the largest single share of a page's impression: 22 works, one voice. These three are
+   declared globally but a browser downloads a face only when rendered text actually uses it, so the
+   works that stay on Pretendard pay nothing. Latin only, display sizes only — body copy and all
+   Korean stay on Pretendard. Serif is deliberately absent: `no-font-serif` and design-principles
+   both ban it, and this change widens the loop rather than overruling it.
+
+   Declared in a plain `:root`, NOT inside `@theme inline`: that directive inlines values into the
+   utilities it generates and emits no custom property, so `var(--font-display-grotesk)` came back
+   empty at runtime and every probe measured identical text widths. */
+:root {
+  --font-display-grotesk: "Space Grotesk Display", var(--font-sans);
+  --font-display-wide: "Archivo Display", var(--font-sans);
+  --font-display-mono: "JetBrains Mono Display", var(--font-mono);
+}
+
+/* Allow-listed display faces. Variable weight axis, latin subset, swap so text is never invisible. */
+@font-face {
+  font-family: "Space Grotesk Display";
+  font-style: normal;
+  font-weight: 300 700;
+  font-display: swap;
+  src: url("https://cdn.jsdelivr.net/fontsource/fonts/space-grotesk:vf@latest/latin-wght-normal.woff2") format("woff2-variations");
+}
+@font-face {
+  font-family: "Archivo Display";
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("https://cdn.jsdelivr.net/fontsource/fonts/archivo:vf@latest/latin-wght-normal.woff2") format("woff2-variations");
+}
+@font-face {
+  font-family: "JetBrains Mono Display";
+  font-style: normal;
+  font-weight: 100 800;
+  font-display: swap;
+  src: url("https://cdn.jsdelivr.net/fontsource/fonts/jetbrains-mono:vf@latest/latin-wght-normal.woff2") format("woff2-variations");
 }
 
 @media (prefers-color-scheme: dark) {

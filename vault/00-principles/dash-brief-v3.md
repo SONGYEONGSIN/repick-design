@@ -9,7 +9,7 @@
 
 1. **가짜 라이트 금지**: 크림·페이퍼·세피아 배경(#F4EFE6류) + "지면/서식/카탈로그" 연출은 라이트 테마가 아니다. **진짜 라이트 = 순백 기반** — `bg-white` / `zinc-50` 캔버스, `zinc-100~200` 헤어라인 보더, 미세한 섀도. Mercury·Asana·Calendly의 라이트를 떠올려라.
 2. **세계관 연출 → 프로덕트 정제로**: 레지스트레이션 마크·재단선·타이틀블록·스탬프·베젤 같은 스큐어모픽 연출 금지. 완성도는 **컴포넌트 시스템의 정밀함**(일관된 radius/border/shadow/spacing, 정돈된 테이블, 정확한 정렬)에서 나온다.
-3. **폰트 통일 (꼼꼼히)**: 페이지 전체에 **Pretendard(전역 font-sans) 단일** + 숫자/코드/ID에만 `tabular-nums`(필요시 Geist Mono는 코드·해시 등 진짜 코드성 데이터만). **세리프·디스플레이·장식 폰트 일절 금지. next/font 추가 import 금지.** 통화 ₩는 Pretendard tabular-nums로(모노에 ₩ 글리프 없음 — 크래프트 노트).
+3. **폰트 규율**: 본문·한글은 **Pretendard(전역 font-sans) 고정**. 디스플레이(헤드라인·워드마크 등 라틴 대형 텍스트)만 화이트리스트 3종(`--font-display-grotesk` / `-wide` / `-mono`) 중 **하나**를 선택할 수 있다 — 한 작품에 두 종 이상 금지. 그 외 폰트 지정은 `no-unlisted-font` 하드페일. 나머지는 종전대로 **Pretendard 단일** + 숫자/코드/ID에만 `tabular-nums`(필요시 Geist Mono는 코드·해시 등 진짜 코드성 데이터만). **세리프·디스플레이·장식 폰트 일절 금지. next/font 추가 import 금지.** 통화 ₩는 Pretendard tabular-nums로(모노에 ₩ 글리프 없음 — 크래프트 노트).
 
 ## 테마 (배정된 것)
 - **라이트**: 흰 캔버스(white/zinc-50), 카드 white + `border-zinc-200` + `shadow-sm`, 텍스트 zinc-900/600/500, 강조 1색(indigo/blue/emerald 등 채도 절제). 다크모드 대응은 `dark:` variant로 함께(선택).

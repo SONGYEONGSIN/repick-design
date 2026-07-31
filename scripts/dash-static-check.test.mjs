@@ -126,3 +126,20 @@ test('no-dark-dim-text: 다크 모드 안 밝은 표면 위 어두운 글자(700
   const ok = `<span className="dark:bg-white dark:text-zinc-900">badge</span>`;
   assert.ok(!checkSource(ok).some((x) => x.rule === 'no-dark-dim-text'));
 });
+
+test('no-unlisted-font: 허용 목록 밖 font-family 선언을 잡는다', () => {
+  const v = checkSource(`<h1 style={{ fontFamily: "Bebas Neue, sans-serif" }}>x</h1>`);
+  assert.ok(v.some((x) => x.rule === 'no-unlisted-font'), '미등록 폰트를 잡아야 한다');
+});
+
+test('no-unlisted-font: 허용된 디스플레이 변수는 통과', () => {
+  const ok = `<h1 className="font-[family-name:var(--font-display-grotesk)]">x</h1>`;
+  assert.ok(!checkSource(ok).some((x) => x.rule === 'no-unlisted-font'));
+  const ok2 = `<p style={{ fontFamily: "var(--font-display-mono)" }}>x</p>`;
+  assert.ok(!checkSource(ok2).some((x) => x.rule === 'no-unlisted-font'));
+});
+
+test('no-unlisted-font: Pretendard 본문 지정은 통과', () => {
+  const ok = `<p style={{ fontFamily: "var(--font-sans)" }}>x</p>`;
+  assert.ok(!checkSource(ok).some((x) => x.rule === 'no-unlisted-font'));
+});
