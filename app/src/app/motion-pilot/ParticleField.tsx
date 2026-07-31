@@ -22,7 +22,7 @@ import { RIM_SHARE, garment, hand, profile, scatter, sparseField, sphere, type V
 
 const COUNT = 20000;
 /** Share of the field that stays scattered across the frame instead of ever joining a sculpture. */
-const AMBIENT_SHARE = 0.035;
+const AMBIENT_SHARE = 0.06;
 /**
  * Palette weighted to the reference's measured distribution, not chosen by eye.
  *
@@ -146,8 +146,11 @@ void main() {
   p = mix(r2, p, aAmb);
   vDepth = p.z;
 
-  // The ambient layer sits at its own scale and ignores the mass's travel, so it stays spread over
-  // the whole frame while the sculpture swings across it.
+  // The ambient layer sits at its own *position* scale and ignores the mass's travel, so it stays
+  // spread over the whole frame while the sculpture swings across it. Point size deliberately does
+  // NOT use this: sc is 1.0 for ambient against the sculpture's 2.35, so sharing the term shrank
+  // every ambient shape to a third and no size multiplier could pull it back — the two scales have
+  // to be separate.
   float sc = mix(uScale, 1.0, aAmb);
   vec2 dr = mix(uDrift, vec2(0.0), aAmb);
   float persp = 1.0 / (2.15 - p.z * 0.55);
@@ -189,7 +192,12 @@ void main() {
   float grain = mix(0.26, 1.0, openness);
   // Rim particles carry the shape; interior particles are dust behind it. Scaling the two bands
   // apart is what turns a filled mass into a shell you can read the outline of.
-  float ptSize = (0.9 + sizeSeed * 52.0 * mix(grain, 1.0, aAmb) * (0.55 + aRim * 1.05) * mix(1.0, 1.45, aAmb)) * (0.55 + persp * 0.95) * (1.0 + hot * 1.6) * sc * 0.62;
+  // The two layers need different size *distributions*, not just different multipliers. The
+  // sculpture's heavy tail (seed^4) is what gives it depth — most dust, a few large. The reference's
+  // ambient shapes are the opposite: a tight band (measured median 11px, p90 20, max 27), so they
+  // get a linear curve. Sharing one made our ambient dust with a few outliers.
+  float sSeed = mix(sizeSeed, aSeed * 0.68, aAmb);
+  float ptSize = (0.9 + sSeed * 52.0 * mix(grain, 1.0, aAmb) * (0.55 + aRim * 1.05)) * (0.55 + persp * 0.95) * (1.0 + hot * 1.6) * uScale * 0.62;
   gl_PointSize = ptSize;
   vBand = clamp(2.6 / max(ptSize, 2.0), 0.05, 0.34);
   vColor = aColor; vSeed = aSeed; vAmb = aAmb;
@@ -221,7 +229,7 @@ void main() {
   // translucent field lets the text carry (paired with a shadow on the copy itself).
   // Ambient shapes read as far-off texture, not as part of the object: same palette, a third of
   // the light.
-  outColor = vec4(c, line * depthFade * (0.98 + vHot * 0.6) * mix(1.0, 0.26, vAmb));
+  outColor = vec4(c, line * depthFade * (0.98 + vHot * 0.6) * mix(1.0, 0.3, vAmb));
 }`;
 
 function compile(gl: WebGL2RenderingContext, type: number, src: string) {
