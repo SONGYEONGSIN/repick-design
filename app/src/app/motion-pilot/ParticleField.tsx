@@ -320,13 +320,24 @@ export default function ParticleField() {
       // Scroll terms retrace exactly on the way back up; the idle terms float the whole body so the
       // object still moves with both hands off. Per-particle jitter alone (see uIdle in the shader)
       // only shimmers the surface — the reference reads alive because the *mass* wanders too.
+      // On a wide viewport the copy column sits left and the mass clears it on the right. A narrow
+      // viewport has no horizontal room to give, so the separation has to be vertical instead:
+      // the mass drops toward the lower half and shrinks, leaving the upper band to the copy.
+      // Measured at 390x844 before this — mass centred at scale 1.5, directly under the headline,
+      // and the hero read as text printed on noise. Lit-pixel share behind the hero copy: 43.6%.
+      //
+      // The drop decays with scroll (`1 - p`) rather than holding. A constant offset traded one
+      // collision for another: it cleared the hero and then parked the mass on the footer bar, whose
+      // 0.8rem copyright went unreadable. At p=1 the offset is 0 and the bar sits below a centred
+      // mass, which is where it was legible to begin with.
+      // NOTE the sign: clip space runs +1 at the top, so a *negative* y is downward.
       gl.uniform2f(
         uDrift,
         (wide ? 0.34 + Math.sin(p * Math.PI * 2) * 0.46 : Math.sin(p * Math.PI * 2) * 0.14) +
           Math.sin(idle * 0.31) * 0.055,
-        Math.sin(p * Math.PI * 3) * 0.16 + Math.sin(idle * 0.23) * 0.045,
+        (wide ? 0 : -0.46 * (1 - p)) + Math.sin(p * Math.PI * 3) * 0.16 + Math.sin(idle * 0.23) * 0.045,
       );
-      gl.uniform1f(uScale, wide ? 2.35 : 1.5);
+      gl.uniform1f(uScale, wide ? 2.35 : 1.05);
       const pt = reduce.matches ? ABSENT : pointer;
       gl.uniform2f(uPointer, pt[0], pt[1]);
       // Cursor orbit: yaw from x, pitch from y. Absent pointer → (0,0), so the capture pipeline and

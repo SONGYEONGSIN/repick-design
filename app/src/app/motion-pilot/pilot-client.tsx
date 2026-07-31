@@ -85,12 +85,20 @@ export default function PilotClient() {
       <header className="fixed inset-x-0 top-0 z-30 h-20">
         <div className={`${SHELL} flex h-20 items-center justify-between`}>
           <span className="text-[1.6rem] font-bold leading-none tracking-[-0.01em]">Attune</span>
-          <nav aria-label="Sections" className="flex items-center gap-8">
+          {/* Measured at 390px before this: wordmark 80px + nav 333px against a 342px content box,
+              so the nav ran 47px past the viewport and its first label sat under the wordmark. The
+              header is `fixed`, so that overflow never reaches the document and the gate's width
+              sweep reported zero — it has to be caught by looking.
+
+              The two section links drop below `sm`. They are in-page anchors to bands the reader
+              scrolls through anyway, so nothing becomes unreachable; the one destination that is not
+              reachable by scrolling — Specimen — keeps its place at every width. */}
+          <nav aria-label="Sections" className="flex items-center gap-5 sm:gap-8">
             {NAV.map((n) => (
               <a
                 key={n.href}
                 href={n.href}
-                className={`${MARK} rounded text-[#9A9A9A] transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#a894f7] focus-visible:ring-offset-4 focus-visible:ring-offset-black`}
+                className={`${MARK} hidden rounded text-[#9A9A9A] transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#a894f7] focus-visible:ring-offset-4 focus-visible:ring-offset-black sm:inline-block`}
               >
                 {n.label}
               </a>
