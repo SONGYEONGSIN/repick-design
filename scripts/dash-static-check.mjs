@@ -14,6 +14,13 @@ export const RULES = [
   // on re-measurement from this exact token (4.17:1). A token-level regex is scheme-independent.
   // Only the 500/600 steps: 700 and darker are normally paired with a light surface inside dark mode
   // (`dark:bg-white dark:text-zinc-900`), where they are correct rather than dim.
+  // Typeface was the one axis the loop could not vary: `no-next-font` blocked every addition, so 22
+  // works shipped in a single face — the largest share of a page's impression, held constant. The
+  // ban is now an allow-list. A work may set display type in one of the three declared faces
+  // (`--font-display-*` in globals.css); anything else — a raw family name, a newly imported face —
+  // is still a hard fail, because that is what keeps Korean body copy on Pretendard and the CLS
+  // budget predictable.
+  { id: 'no-unlisted-font', re: /font-?[Ff]amily\s*[:=]\s*["'`{]?\s*(?!var\(--font-(sans|mono|display-(grotesk|wide|mono))\))[A-Za-z]/u, why: '허용 목록 밖 폰트 금지 — 본문은 --font-sans, 디스플레이는 --font-display-* 중 하나' },
   { id: 'no-dark-dim-text', re: /\bdark:text-(?:zinc|neutral|gray|slate|stone)-[56]00\b/u, why: '다크 보조텍스트 하한 zinc-400 — 500/600단은 다크 배경에서 AA 미달 (page-brief-core §3)' },
 ];
 
