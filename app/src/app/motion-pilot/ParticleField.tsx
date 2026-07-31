@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { RIM_SHARE, garment, profile, scatter, sparseField, type Vec3 } from "./shapes";
+import { RIM_SHARE, garment, hand, profile, scatter, sparseField, sphere, type Vec3 } from "./shapes";
 
 /**
  * Persistent WebGL2 scene — one fixed, full-viewport particle field that holds an exact silhouette
@@ -21,6 +21,8 @@ import { RIM_SHARE, garment, profile, scatter, sparseField, type Vec3 } from "./
  */
 
 const COUNT = 20000;
+/** Share of the field that stays scattered across the frame instead of ever joining a sculpture. */
+const AMBIENT_SHARE = 0.035;
 /**
  * Palette weighted to the reference's measured distribution, not chosen by eye.
  *
@@ -87,8 +89,8 @@ function mulberry32(seed: number) {
 }
 
 const VERT = `#version 300 es
-in vec3 aA; in vec3 aB; in vec3 aC; in vec3 aColor; in float aSeed; in float aRim;
-uniform float uMorph;     // 0..2 — A→B→C, driven by document scroll
+in vec3 aA; in vec3 aB; in vec3 aC; in vec3 aD; in vec3 aColor; in float aSeed; in float aRim; in float aAmb;
+uniform float uMorph;     // 0..3 — A→B→C→D, driven by document scroll (one stage per section)
 uniform vec2  uPointer;   // cursor in clip space (aspect-corrected); (9,9) = absent
 uniform float uAspect;
 uniform float uSpin;
@@ -96,21 +98,34 @@ uniform vec2  uDrift;   // where the mass sits this scroll frame (x drifts side 
 uniform float uScale;
 uniform float uIdle;    // seconds of idle drift; pinned to 0 while capturing
 uniform vec2  uOrbit;   // whole-body yaw/pitch from cursor position; (0,0) when no pointer
-out vec3 vColor; out float vSeed; out float vDepth; out float vHot; out float vBand;
+out vec3 vColor; out float vSeed; out float vDepth; out float vHot; out float vBand; out float vAmb;
 
 void main() {
-  // Per-particle lag so the cloud reorganises limb by limb instead of sliding in lockstep.
-  float lag = aSeed * 0.42;
-  float m = clamp((uMorph - lag) / (2.0 - 0.42) * 2.0, 0.0, 2.0);
-  float seg = m < 1.0 ? m : m - 1.0;
-  vec3 p = m < 1.0 ? mix(aA, aB, smoothstep(0.0, 1.0, m))
-                   : mix(aB, aC, smoothstep(0.0, 1.0, m - 1.0));
+  // Per-particle lag so the cloud reorganises limb by limb instead of sliding in lockstep. Kept
+  // short: with four stages each transition owns a third of the scroll, and a lag as wide as the
+  // three-stage version's 0.42 spread particles across two segments at once — the field then never
+  // settles into any silhouette, it just churns.
+  float LAG = 0.10;
+  float lag = aSeed * LAG;
+  float SPAN = 3.0;
+  float m = clamp((uMorph - lag) / (SPAN - LAG) * SPAN, 0.0, SPAN);
+  float i0 = floor(min(m, SPAN - 1.0));
+  float seg = m - i0;
+  vec3 s0 = i0 < 0.5 ? aA : (i0 < 1.5 ? aB : aC);
+  vec3 s1 = i0 < 0.5 ? aB : (i0 < 1.5 ? aC : aD);
+  vec3 p = mix(s0, s1, smoothstep(0.0, 1.0, seg));
 
   // Scatter through the middle of every transition and re-gather at the far end: the form breaks
   // apart on the way rather than sliding intact from one silhouette to the next.
-  float burst = sin(seg * 3.14159265);
+  float burst = sin(seg * 3.14159265) * (1.0 - aAmb);
   vec3 away = normalize(p + vec3(0.0007, 0.0011, 0.0013));
   p += away * burst * burst * (0.5 + aSeed * 2.1);
+
+  // Ambient particles never join a sculpture. The reference keeps the whole frame lightly populated
+  // — sparse outlined shapes drifting well away from the object — and a field that empties out
+  // between forms reads as a hole rather than a scene. They hold their own scattered home (aA), so
+  // the morph, the burst, the spin and the orbit all pass them by.
+  p = mix(p, aA, aAmb);
 
   // Idle drift: at rest the reference's field is never still, so each particle wanders a little on
   // its own phase. The amplitude is small enough that the silhouette holds, and it is the only term
@@ -125,13 +140,18 @@ void main() {
   // unchanged; the §1-1 rule that readable forms settle face-on at scroll 0 and 1 still holds.
   float yaw = uSpin + uOrbit.x;
   float cy = cos(yaw), sy = sin(yaw);
-  p = vec3(p.x * cy + p.z * sy, p.y, -p.x * sy + p.z * cy);
+  vec3 r1 = vec3(p.x * cy + p.z * sy, p.y, -p.x * sy + p.z * cy);
   float cp = cos(uOrbit.y), sp = sin(uOrbit.y);
-  p = vec3(p.x, p.y * cp - p.z * sp, p.y * sp + p.z * cp);
+  vec3 r2 = vec3(r1.x, r1.y * cp - r1.z * sp, r1.y * sp + r1.z * cp);
+  p = mix(r2, p, aAmb);
   vDepth = p.z;
 
+  // The ambient layer sits at its own scale and ignores the mass's travel, so it stays spread over
+  // the whole frame while the sculpture swings across it.
+  float sc = mix(uScale, 1.0, aAmb);
+  vec2 dr = mix(uDrift, vec2(0.0), aAmb);
   float persp = 1.0 / (2.15 - p.z * 0.55);
-  vec2 clip = vec2(p.x * persp / uAspect * uScale + uDrift.x, p.y * persp * uScale + uDrift.y);
+  vec2 clip = vec2(p.x * persp / uAspect * sc + dr.x, p.y * persp * sc + dr.y);
 
   // Cursor response: the region under the pointer is magnified — points scale outward from the
   // cursor and grow — so the form reads larger and brighter where you hover. Pure function of
@@ -169,15 +189,15 @@ void main() {
   float grain = mix(0.26, 1.0, openness);
   // Rim particles carry the shape; interior particles are dust behind it. Scaling the two bands
   // apart is what turns a filled mass into a shell you can read the outline of.
-  float ptSize = (0.9 + sizeSeed * 52.0 * grain * (0.55 + aRim * 1.05)) * (0.55 + persp * 0.95) * (1.0 + hot * 1.6) * uScale * 0.62;
+  float ptSize = (0.9 + sizeSeed * 52.0 * mix(grain, 1.0, aAmb) * (0.55 + aRim * 1.05) * mix(1.0, 1.45, aAmb)) * (0.55 + persp * 0.95) * (1.0 + hot * 1.6) * sc * 0.62;
   gl_PointSize = ptSize;
   vBand = clamp(2.6 / max(ptSize, 2.0), 0.05, 0.34);
-  vColor = aColor; vSeed = aSeed;
+  vColor = aColor; vSeed = aSeed; vAmb = aAmb;
 }`;
 
 const FRAG = `#version 300 es
 precision mediump float;
-in vec3 vColor; in float vSeed; in float vDepth; in float vHot; in float vBand;
+in vec3 vColor; in float vSeed; in float vDepth; in float vHot; in float vBand; in float vAmb;
 out vec4 outColor;
 float sdTri(vec2 p, float r) {
   const float k = 1.7320508;
@@ -199,7 +219,9 @@ void main() {
   vec3 c = mix(vColor, vec3(1.0), vHot * 0.55);
   // Alpha kept below full: the mass is large enough to sit under running copy, and a slightly
   // translucent field lets the text carry (paired with a shadow on the copy itself).
-  outColor = vec4(c, line * depthFade * (0.98 + vHot * 0.6));
+  // Ambient shapes read as far-off texture, not as part of the object: same palette, a third of
+  // the light.
+  outColor = vec4(c, line * depthFade * (0.98 + vHot * 0.6) * mix(1.0, 0.26, vAmb));
 }`;
 
 function compile(gl: WebGL2RenderingContext, type: number, src: string) {
@@ -234,12 +256,29 @@ export default function ParticleField() {
     gl.useProgram(prog);
 
     const rand = mulberry32(20260731);
+    // Four sculptures, one per section — the reference gives every section its own object rather
+    // than parking the field in a dispersed state between two. What used to be the dispersed middle
+    // stage now lives in the ambient layer, which is present in every frame instead of only one.
     const coat = garment(COUNT, rand);
-    const spread = sparseField(COUNT, rand);
     const head = profile(COUNT, rand);
-    const A = flatten(coat.length ? coat : scatter(COUNT, rand), COUNT);
-    const B = flatten(spread, COUNT);
-    const C = flatten(head.length ? head : scatter(COUNT, rand), COUNT);
+    const palm = hand(COUNT, rand);
+    const globe = sphere(COUNT, rand, 0.9);
+    const fallback = () => scatter(COUNT, rand);
+    const A = flatten(coat.length ? coat : fallback(), COUNT);
+    const B = flatten(head.length ? head : fallback(), COUNT);
+    const C = flatten(palm.length ? palm : fallback(), COUNT);
+    const D = flatten(globe, COUNT);
+
+    // The trailing slice never gathers: it keeps a wide scatter home in every buffer, so the morph
+    // and the burst are no-ops for it and the frame stays populated at all times.
+    const drift = sparseField(COUNT, rand);
+    const ambStart = Math.round(COUNT * (1 - AMBIENT_SHARE));
+    const amb = new Float32Array(COUNT);
+    for (let i = ambStart; i < COUNT; i++) {
+      amb[i] = 1;
+      const home = drift[i];
+      for (const buf of [A, B, C, D]) buf.set(home, i * 3);
+    }
 
     const col = new Float32Array(COUNT * 3);
     const seed = new Float32Array(COUNT);
@@ -267,7 +306,7 @@ export default function ParticleField() {
       gl!.enableVertexAttribArray(loc);
       gl!.vertexAttribPointer(loc, size, gl!.FLOAT, false, 0, 0);
     }
-    bind("aA", A, 3); bind("aB", B, 3); bind("aC", C, 3); bind("aColor", col, 3); bind("aSeed", seed, 1); bind("aRim", rim, 1);
+    bind("aA", A, 3); bind("aB", B, 3); bind("aC", C, 3); bind("aD", D, 3); bind("aColor", col, 3); bind("aSeed", seed, 1); bind("aRim", rim, 1); bind("aAmb", amb, 1);
 
     const uMorph = gl.getUniformLocation(prog, "uMorph");
     const uPointer = gl.getUniformLocation(prog, "uPointer");
@@ -309,13 +348,17 @@ export default function ParticleField() {
       const max = Math.max(1, document.documentElement.scrollHeight - vh);
       const p = Math.min(1, Math.max(0, window.scrollY / max));
       const wide = vw / vh > 1.15;
-      gl.uniform1f(uMorph, p * 2);
+      gl.uniform1f(uMorph, p * 3);
       gl.uniform1f(uAspect, vw / vh);
       // Rotate only in transit and settle face-on at both ends: the first and last stages are
       // readable forms (a glyph, a wordmark) and a continuous spin lands them mirrored. The idle
       // term rides on top of that; `idle` is already 0 under freeze and reduced motion, and sin(0)
       // is 0, so every one of these additions vanishes exactly when the clock is pinned.
-      gl.uniform1f(uSpin, Math.sin(p * Math.PI) * 0.9 + Math.sin(idle * 0.17) * 0.22);
+      // Settle face-on at *every* stage, not just the ends. sin(p·π) returns to zero only at scroll 0
+      // and 1 — fine with three stages, but with four it leaves the two middle sculptures
+      // permanently yawed ~45°, and a hand seen at 45° is a blob. Three half-cycles put a zero at
+      // each of the four stage positions (§1-1: readable forms settle face-on).
+      gl.uniform1f(uSpin, Math.sin(p * Math.PI * 3) * 0.7 + Math.sin(idle * 0.17) * 0.22);
       // The mass travels while it changes — right, across to the left, back — and rises and falls.
       // Scroll terms retrace exactly on the way back up; the idle terms float the whole body so the
       // object still moves with both hands off. Per-particle jitter alone (see uIdle in the shader)
@@ -331,10 +374,17 @@ export default function ParticleField() {
       // 0.8rem copyright went unreadable. At p=1 the offset is 0 and the bar sits below a centred
       // mass, which is where it was legible to begin with.
       // NOTE the sign: clip space runs +1 at the top, so a *negative* y is downward.
+      // One arrangement per stage, alternating sides, with the copy column taking the other one —
+      // the reference composes every section that way (object right, left, left, right). A table
+      // interpolated stage to stage keeps each position *settled*; a sine sweeps through it and the
+      // mass is never actually parked where the layout expects it.
+      const SIDES = wide ? [0.36, -0.36, -0.36, 0.36] : [0.1, -0.1, -0.1, 0.1];
+      const seg = Math.min(2, Math.floor(p * 3));
+      const st = p * 3 - seg;
+      const sideDrift = SIDES[seg] + (SIDES[seg + 1] - SIDES[seg]) * (st * st * (3 - 2 * st));
       gl.uniform2f(
         uDrift,
-        (wide ? 0.34 + Math.sin(p * Math.PI * 2) * 0.46 : Math.sin(p * Math.PI * 2) * 0.14) +
-          Math.sin(idle * 0.31) * 0.055,
+        sideDrift + Math.sin(idle * 0.31) * 0.055,
         (wide ? 0 : -0.46 * (1 - p)) + Math.sin(p * Math.PI * 3) * 0.16 + Math.sin(idle * 0.23) * 0.045,
       );
       gl.uniform1f(uScale, wide ? 2.35 : 1.05);
