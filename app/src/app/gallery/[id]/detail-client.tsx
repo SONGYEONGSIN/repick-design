@@ -101,7 +101,11 @@ function CopyButton({ text, d }: { text: string; d: (typeof STRINGS)["en"]["deta
 /** Assemble the full design-system spec into a single DESIGN.md an AI agent can consume at once. */
 function buildDesignMd(work: Work, spec: WorkSpec): string {
   const palette = spec.palette.map((s) => `- **${s.role}** \`${s.hex}\` (${s.token}) — ${s.usage}`).join("\n");
-  const guidelines = spec.dosDonts.map((g) => `- ✅ Do: ${g.do}\n- ❌ Don't: ${g.dont}`).join("\n");
+  // Markdown emphasis rather than check/cross emoji. The `no-emoji` rule in
+  // `scripts/dash-static-check.mjs` points at lucide for these, but nothing renders this string as
+  // JSX — it is a DESIGN.md handed to an agent, where a bold label parses and a pictograph is just
+  // a codepoint the model has to guess the polarity of.
+  const guidelines = spec.dosDonts.map((g) => `- **Do:** ${g.do}\n- **Don't:** ${g.dont}`).join("\n");
   return [
     `# ${work.brand} — Design System`,
     "",

@@ -8,9 +8,11 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: "Pretendard Variable", Pretendard, var(--font-geist-sans), system-ui, -apple-system, sans-serif;
-  --font-mono: var(--font-geist-mono);
-  --font-display: var(--font-display);
+  /* Pretendard is the one typeface; the rest of each stack is the fallback if the CDN link in
+     layout.tsx does not resolve. The next/font families that used to sit in these slots were removed
+     to satisfy the `no-next-font` rule — see the note in layout.tsx for what each one cost. */
+  --font-sans: "Pretendard Variable", Pretendard, system-ui, -apple-system, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
 }
 
 @media (prefers-color-scheme: dark) {

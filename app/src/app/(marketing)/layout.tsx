@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 
-// 📄 Landing page category — marketing site (public, /)
+// Landing page category — marketing site (public, /)
 export const metadata: Metadata = {
   title: "Attune — AI Re-Picks Secondhand, Just for You",
 };
