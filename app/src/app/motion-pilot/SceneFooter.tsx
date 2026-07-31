@@ -2,8 +2,11 @@
 
 import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
-import { CLOSING, EASE, FOOTER_NAV, FOOTER_NOTE } from "./data";
+import { CLOSING, EASE, FOOTER_NAV, FOOTER_NOTE, FOOTER_SOCIAL } from "./data";
+import { InstagramMark, XMark } from "./SocialMarks";
 import { MARK, SHADOW, SHELL } from "./tokens";
+
+const SOCIAL_MARK = { Instagram: InstagramMark, X: XMark } as const;
 
 /**
  * Closing band, built to the reference's measured footer rather than to a generic one.
@@ -90,6 +93,27 @@ export default function SceneFooter() {
                 </Link>
               ),
             )}
+
+            {/* Icon-only, so the accessible name has to come from somewhere the glyph cannot carry:
+                the marks are `aria-hidden` and each link gets an `aria-label`. Without it a screen
+                reader announces "link" and nothing else. */}
+            <span className="flex items-center gap-5">
+              {FOOTER_SOCIAL.map((s) => {
+                const Mark = SOCIAL_MARK[s.label as keyof typeof SOCIAL_MARK];
+                return (
+                  <a
+                    key={s.href}
+                    href={s.href}
+                    aria-label={s.label}
+                    rel="noreferrer noopener"
+                    target="_blank"
+                    className="rounded text-[#9A9A9A] transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#a894f7] focus-visible:ring-offset-4 focus-visible:ring-offset-black"
+                  >
+                    <Mark className="h-[1.125rem] w-[1.125rem]" />
+                  </a>
+                );
+              })}
+            </span>
           </nav>
         </div>
       </div>
