@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 
-// 📊 SaaS dashboard category — logged-in app (/dashboard, etc.)
+// SaaS dashboard category — logged-in app (/dashboard, etc.)
 // A shared app shell (sidebar + top bar) will live here so every dashboard view can reuse it.
 export const metadata: Metadata = {
   title: {
