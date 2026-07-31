@@ -4,13 +4,14 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
 import { ArrowDown, MousePointer2 } from "lucide-react";
+import BrandMark from "./BrandMark";
 import ParticleField from "./ParticleField";
 import SceneFooter from "./SceneFooter";
 import SiteLoader from "./SiteLoader";
 import { SplitChars, SplitLines } from "./SplitText";
 import { EASE, HERO, MANIFESTO, PROOF, STAGES } from "./data";
 import { useIntro } from "./intro";
-import { BODY, DISPLAY, HEADER_H, HEADER_ROW, MARK, PILL, SHADOW, SHELL, STATEMENT } from "./tokens";
+import { BODY, DISPLAY, HEAD_SHADOW, HEADER_H, HEADER_ROW, MARK, PILL, SHADOW, SHELL, STATEMENT } from "./tokens";
 
 /**
  * v3 — the reference architecture: one persistent scene layer for the whole document, with ordinary
@@ -105,7 +106,10 @@ export default function PilotClient() {
           difference between the two pages. */}
       <header className={`fixed inset-x-0 top-0 z-30 ${HEADER_H}`}>
         <div className={`${SHELL} ${HEADER_H} ${HEADER_ROW} justify-between`}>
-          <span className="text-[clamp(1.25rem,1.35vw,1.75rem)] font-bold leading-none tracking-[-0.01em]">Attune</span>
+          <span className="inline-flex items-center gap-[0.55em] text-[clamp(1.25rem,1.35vw,1.75rem)] font-bold leading-none tracking-[-0.01em]">
+            <BrandMark className="h-[1.1em] w-[1.1em] shrink-0 text-white" />
+            Attune
+          </span>
           {/* Measured at 390px before this: wordmark 80px + nav 333px against a 342px content box,
               so the nav ran 47px past the viewport and its first label sat under the wordmark. The
               header is `fixed`, so that overflow never reaches the document and the gate's width
@@ -157,7 +161,7 @@ export default function PilotClient() {
                 What is matched here is the *proportion* the reference actually composes with: a
                 headline column around a third of the viewport, clear of the object beside it. */}
             <h1
-              className={`w-fit ${DISPLAY} ${SHADOW}`}
+              className={`w-fit ${DISPLAY} ${HEAD_SHADOW}`}
             >
               {HERO.headline.map((line, i) => (
                 <span key={line} className={`block ${i === HERO.accentLine ? "text-[#a894f7]" : ""}`}>
@@ -195,7 +199,7 @@ export default function PilotClient() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, margin: "-25%" }}
                   transition={{ duration: 0.7, ease: EASE }}
-                  className={`max-w-[min(38vw,46rem)] ${STATEMENT} ${SHADOW} ${i === 1 || i === 2 ? "ml-auto text-right" : ""}`}
+                  className={`max-w-[min(38vw,46rem)] ${STATEMENT} ${HEAD_SHADOW} ${i === 1 || i === 2 ? "ml-auto text-right" : ""}`}
                 >
                   {para}
                 </motion.p>

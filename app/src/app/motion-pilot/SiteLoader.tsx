@@ -58,7 +58,7 @@ export default function SiteLoader({ phase }: { phase: IntroPhase }) {
           ))}
         </motion.div>
 
-        <p className="px-6 text-center text-[clamp(1.35rem,3.2vw,2.4rem)] font-normal leading-[1.25] tracking-[-0.02em]">
+        <p className="px-6 text-center text-[clamp(1.4rem,2.917vw,3.4rem)] font-normal leading-[1.857] tracking-[-0.04em]">
           {CLOSING.map((line, i) => (
             // Each line gets its own overflow-hidden mask so the roll-out clips at the baseline
             // instead of sliding a visible block past the one above it.
@@ -76,7 +76,7 @@ export default function SiteLoader({ phase }: { phase: IntroPhase }) {
         </p>
       </div>
 
-      <p className="absolute bottom-8 left-6 text-[0.875rem] font-semibold uppercase tracking-[0.025em] md:left-10">
+      <p className="absolute bottom-8 left-6 text-[clamp(0.8rem,1.042vw,1.3rem)] font-semibold uppercase tracking-[0.025em] md:left-10">
         <span className="relative block overflow-hidden">
           <motion.span
             className="block"
