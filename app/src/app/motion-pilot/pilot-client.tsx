@@ -4,8 +4,12 @@ import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
 import { ArrowDown, MousePointer2 } from "lucide-react";
 import ParticleField from "./ParticleField";
+import SceneFooter from "./SceneFooter";
+import SiteLoader from "./SiteLoader";
 import { SplitChars, SplitLines } from "./SplitText";
 import { EASE, HERO, MANIFESTO, PROOF, STAGES } from "./data";
+import { useIntro } from "./intro";
+import { MARK, SHADOW, SHELL } from "./tokens";
 
 /**
  * v3 — the reference architecture: one persistent scene layer for the whole document, with ordinary
@@ -23,18 +27,6 @@ import { EASE, HERO, MANIFESTO, PROOF, STAGES } from "./data";
  * uniformly extra-bold.
  */
 
-/**
- * One shell for every band. `max-w` binds from 1280 up, so at the reference's 1536 viewport the
- * column lands at exactly x=128 with no padding of its own; below that the padding takes over as the
- * gutter. Two nested wrappers would put the text 40px further in than the reference.
- */
-const SHELL = "mx-auto w-full max-w-[1280px] px-6 md:px-10 xl:px-0";
-
-/** 14px / 600 / uppercase — the reference's one small-type style, used for nav, eyebrow and caption. */
-const MARK = "text-[0.875rem] font-semibold uppercase tracking-[0.025em]";
-
-const SHADOW = "[text-shadow:0_2px_22px_rgba(1,1,2,0.94)]";
-
 const NAV = [
   { href: "#manifesto", label: "Manifesto" },
   { href: "#technique", label: "Technique" },
@@ -42,6 +34,14 @@ const NAV = [
 
 export default function PilotClient() {
   const reduced = useReducedMotion();
+  const phase = useIntro();
+  // Reduced motion outranks the curtain: `open` gates the entrance choreography, but under reduced
+  // motion the hero must be settled from the first frame rather than animate when the curtain lifts.
+  // See the note in ./SplitText — holding these on `open` alone made reduced-motion captures
+  // time-dependent, and they diverged in 2 of 4 runs.
+  const open = phase === "reveal" || Boolean(reduced);
+  const enter = (delay: number) =>
+    reduced ? { duration: 0 } : { duration: 0.7, ease: EASE, delay: open ? delay : 0 };
 
   return (
     <div className="relative min-h-dvh text-white">
@@ -51,7 +51,33 @@ export default function PilotClient() {
           0.6) against our 9.5, and on an additively-blended field a grey backdrop lifts the darkest
           channel of every faint particle, flattening colour as well as contrast. */}
       <div aria-hidden className="fixed inset-0 -z-20 bg-black" />
+      {/* The same black again, but `absolute` so it spans the whole document rather than the
+          viewport — and at -z-30, behind both the canvas and the fixed backdrop, so it changes
+          nothing visually.
+
+          It exists for the contrast audit. `globals.css` sets `body { background: #ffffff }` on the
+          light scheme, which is what Lighthouse's desktop preset runs; the page only looks black
+          because of the fixed layer above. axe resolves an element's background from what actually
+          overlaps its rect, so in-viewport copy resolves to that fixed layer and passes, while
+          anything below the fold — the footer bar — falls through to the white body and fails.
+          Measured: without this layer the footer's five nodes reported #9a9a9a on #ffffff (2.81:1)
+          and took the page from a11y 100 to 95, one point off the hard gate. */}
+      <div aria-hidden className="absolute inset-0 -z-30 bg-black" />
       <ParticleField />
+
+      {/* Header scrim. Measured problem: with a transparent header over ordinary flowing content,
+          body copy and particles both pass straight through the nav — a sweep of 40 scroll positions
+          found 41 frames where real text sat inside the 0-80px band, and at several of them a
+          particle landed on top of a nav label.
+
+          A gradient rather than a bar: the reference's header never acquires a surface, and giving
+          ours one was the loudest structural difference between the two pages. This keeps the "no
+          bar" reading — there is no edge to see — while still occluding whatever runs beneath it.
+          z-20 puts it above the flowing content and below the header itself (z-30). */}
+      <div
+        aria-hidden
+        className="pointer-events-none fixed inset-x-0 top-0 z-20 h-[8.75rem] bg-gradient-to-b from-black via-black/85 to-transparent"
+      />
 
       {/* Fixed and fully transparent at every scroll position — no bar, no blur, no rule. The
           reference's header never acquires a surface, and giving ours one was the loudest structural
@@ -83,10 +109,18 @@ export default function PilotClient() {
         {/* Hero — the scene is gathered here */}
         <section className="relative">
           <div className={`${SHELL} flex min-h-dvh flex-col justify-center pb-24 pt-32`}>
-            <p className={`${MARK} mb-6 inline-flex items-center gap-2 text-[#a894f7]`}>
+            {/* Hero reveals are held until the curtain lifts (`open`), so the entrance is seen
+                rather than spent behind a black sheet. Every one of them settles at opacity 1 —
+                a hero that rests faded is the measured a11y failure recorded above. */}
+            <motion.p
+              initial={reduced ? false : { opacity: 0, y: 14 }}
+              animate={open ? { opacity: 1, y: 0 } : { opacity: 0, y: 14 }}
+              transition={enter(0)}
+              className={`${MARK} mb-6 inline-flex items-center gap-2 text-[#a894f7]`}
+            >
               <MousePointer2 className="h-4 w-4" aria-hidden />
               {HERO.eyebrow}
-            </p>
+            </motion.p>
             {/* Weight 400 and tracking -0.04em are the reference's, but the size is not: its face is a
                 condensed grotesque whose characters run 0.37 of the font size against Pretendard's
                 0.6, so setting our display at its 120px would make the headline column 786px where
@@ -98,17 +132,27 @@ export default function PilotClient() {
             >
               {HERO.headline.map((line, i) => (
                 <span key={line} className={`block ${i === HERO.accentLine ? "text-[#a894f7]" : ""}`}>
-                  <SplitChars text={line} delay={i * 0.12} />
+                  <SplitChars text={line} delay={0.15 + i * 0.12} start={open} />
                 </span>
               ))}
             </h1>
-            <p className={`mt-8 max-w-[28rem] text-[1.2rem] font-extralight leading-[1.5] ${SHADOW}`}>
+            <motion.p
+              initial={reduced ? false : { opacity: 0, y: 16 }}
+              animate={open ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
+              transition={enter(0.5)}
+              className={`mt-8 max-w-[28rem] text-[1.2rem] font-extralight leading-[1.5] ${SHADOW}`}
+            >
               {HERO.sub}
-            </p>
-            <p className={`${MARK} mt-10 inline-flex items-center gap-2 text-[#9A9A9A]`}>
+            </motion.p>
+            <motion.p
+              initial={reduced ? false : { opacity: 0, y: 16 }}
+              animate={open ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
+              transition={enter(0.65)}
+              className={`${MARK} mt-10 inline-flex items-center gap-2 text-[#9A9A9A]`}
+            >
               <ArrowDown className="h-4 w-4" aria-hidden />
               Scroll — the field disperses, then re-gathers
-            </p>
+            </motion.p>
           </div>
         </section>
 
@@ -180,9 +224,12 @@ export default function PilotClient() {
 
         {/* Close */}
         <section className="relative">
-          {/* Deep bottom padding so the final scroll position lands on the wordmark stage with the
-              technique cards already scrolled away — the payoff shape gets a clear viewport. */}
-          <div className={`${SHELL} pb-[60dvh] pt-24`}>
+          {/* Bottom padding so the final scroll positions land with the technique cards already
+              scrolled away and the payoff shape in a clear viewport. It used to be 60dvh, when this
+              was the last band on the page; the footer that now follows is itself a min-h-dvh band
+              with a centred head, so it supplies that clearance and 60dvh here would only add a
+              viewport and a half of empty scroll between the two. */}
+          <div className={`${SHELL} pb-[24dvh] pt-24`}>
             <p className={`max-w-[52rem] text-[clamp(1.4rem,3.1vw,2.4rem)] font-normal leading-[1.25] ${SHADOW}`}>
               <SplitLines
                 lines={[
@@ -195,6 +242,13 @@ export default function PilotClient() {
           </div>
         </section>
       </main>
+
+      <SceneFooter />
+
+      {/* Last in the tree so it paints over everything without needing a z-index race; it removes
+          itself entirely once the phase flips, and never mounts at all under capture or reduced
+          motion (see ./intro). */}
+      <SiteLoader phase={phase} />
     </div>
   );
 }

@@ -95,6 +95,7 @@ uniform float uSpin;
 uniform vec2  uDrift;   // where the mass sits this scroll frame (x drifts side to side, y up/down)
 uniform float uScale;
 uniform float uIdle;    // seconds of idle drift; pinned to 0 while capturing
+uniform vec2  uOrbit;   // whole-body yaw/pitch from cursor position; (0,0) when no pointer
 out vec3 vColor; out float vSeed; out float vDepth; out float vHot; out float vBand;
 
 void main() {
@@ -115,10 +116,18 @@ void main() {
   // its own phase. The amplitude is small enough that the silhouette holds, and it is the only term
   // in this shader driven by a clock rather than by scroll or pointer — see uIdle's freeze.
   float ph = aSeed * 43.0;
-  p += vec3(sin(uIdle * 0.55 + ph), cos(uIdle * 0.47 + ph * 1.3), sin(uIdle * 0.39 + ph * 0.7)) * 0.021;
+  p += vec3(sin(uIdle * 0.55 + ph), cos(uIdle * 0.47 + ph * 1.3), sin(uIdle * 0.39 + ph * 0.7)) * 0.03;
 
-  float ca = cos(uSpin), sa = sin(uSpin);
-  p = vec3(p.x * ca + p.z * sa, p.y, -p.x * sa + p.z * ca);
+  // Yaw carries the scroll spin *and* the cursor orbit; pitch is cursor-only. Orbiting the whole
+  // body — rather than only magnifying the patch under the pointer — is what makes the mass read as
+  // one object you are turning, which a local lens never does. Both terms are pure functions of
+  // pointer position, so with no pointer (capture pipeline) uOrbit is (0,0) and the frame is
+  // unchanged; the §1-1 rule that readable forms settle face-on at scroll 0 and 1 still holds.
+  float yaw = uSpin + uOrbit.x;
+  float cy = cos(yaw), sy = sin(yaw);
+  p = vec3(p.x * cy + p.z * sy, p.y, -p.x * sy + p.z * cy);
+  float cp = cos(uOrbit.y), sp = sin(uOrbit.y);
+  p = vec3(p.x, p.y * cp - p.z * sp, p.y * sp + p.z * cp);
   vDepth = p.z;
 
   float persp = 1.0 / (2.15 - p.z * 0.55);
@@ -267,6 +276,7 @@ export default function ParticleField() {
     const uDrift = gl.getUniformLocation(prog, "uDrift");
     const uScale = gl.getUniformLocation(prog, "uScale");
     const uIdle = gl.getUniformLocation(prog, "uIdle");
+    const uOrbit = gl.getUniformLocation(prog, "uOrbit");
     gl.enable(gl.BLEND);
     gl.blendFunc(gl.SRC_ALPHA, gl.ONE);
 
@@ -302,18 +312,27 @@ export default function ParticleField() {
       gl.uniform1f(uMorph, p * 2);
       gl.uniform1f(uAspect, vw / vh);
       // Rotate only in transit and settle face-on at both ends: the first and last stages are
-      // readable forms (a glyph, a wordmark) and a continuous spin lands them mirrored.
-      gl.uniform1f(uSpin, Math.sin(p * Math.PI) * 0.9);
+      // readable forms (a glyph, a wordmark) and a continuous spin lands them mirrored. The idle
+      // term rides on top of that; `idle` is already 0 under freeze and reduced motion, and sin(0)
+      // is 0, so every one of these additions vanishes exactly when the clock is pinned.
+      gl.uniform1f(uSpin, Math.sin(p * Math.PI) * 0.9 + Math.sin(idle * 0.17) * 0.22);
       // The mass travels while it changes — right, across to the left, back — and rises and falls.
-      // Every term is a function of scroll position, so scrolling back up retraces it exactly.
+      // Scroll terms retrace exactly on the way back up; the idle terms float the whole body so the
+      // object still moves with both hands off. Per-particle jitter alone (see uIdle in the shader)
+      // only shimmers the surface — the reference reads alive because the *mass* wanders too.
       gl.uniform2f(
         uDrift,
-        wide ? 0.34 + Math.sin(p * Math.PI * 2) * 0.46 : Math.sin(p * Math.PI * 2) * 0.14,
-        Math.sin(p * Math.PI * 3) * 0.16,
+        (wide ? 0.34 + Math.sin(p * Math.PI * 2) * 0.46 : Math.sin(p * Math.PI * 2) * 0.14) +
+          Math.sin(idle * 0.31) * 0.055,
+        Math.sin(p * Math.PI * 3) * 0.16 + Math.sin(idle * 0.23) * 0.045,
       );
       gl.uniform1f(uScale, wide ? 2.35 : 1.5);
       const pt = reduce.matches ? ABSENT : pointer;
       gl.uniform2f(uPointer, pt[0], pt[1]);
+      // Cursor orbit: yaw from x, pitch from y. Absent pointer → (0,0), so the capture pipeline and
+      // reduced motion both see the unrotated body.
+      const orbiting = pt[0] < 8;
+      gl.uniform2f(uOrbit, orbiting ? pt[0] * 0.55 : 0, orbiting ? -pt[1] * 0.3 : 0);
       gl.uniform1f(uIdle, idle);
       gl.drawArrays(gl.POINTS, 0, COUNT);
       // Keep going only while the drift is live. Frozen, the loop stops after this frame and the
