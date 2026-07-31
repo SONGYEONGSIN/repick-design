@@ -98,6 +98,7 @@ uniform vec2  uDrift;   // where the mass sits this scroll frame (x drifts side 
 uniform float uScale;
 uniform float uIdle;    // seconds of idle drift; pinned to 0 while capturing
 uniform vec2  uOrbit;   // whole-body yaw/pitch from cursor position; (0,0) when no pointer
+uniform float uGather;  // 0 = field scattered on entry, 1 = settled; pinned to 1 while capturing
 out vec3 vColor; out float vSeed; out float vDepth; out float vHot; out float vBand; out float vAmb;
 
 void main() {
@@ -120,6 +121,11 @@ void main() {
   float burst = sin(seg * 3.14159265) * (1.0 - aAmb);
   vec3 away = normalize(p + vec3(0.0007, 0.0011, 0.0013));
   p += away * burst * burst * (0.5 + aSeed * 2.1);
+
+  // Entry: the field arrives scattered and pulls into its first silhouette *after* the copy has
+  // landed, which is the order the reference opens in. uGather runs 0 -> 1 once on mount and is
+  // pinned to 1 under capture and reduced motion, so the frozen frame is the settled one.
+  p += away * (1.0 - uGather) * (1.1 + aSeed * 2.6);
 
   // Ambient particles never join a sculpture. The reference keeps the whole frame lightly populated
   // — sparse outlined shapes drifting well away from the object — and a field that empties out
@@ -156,12 +162,23 @@ void main() {
   float persp = 1.0 / (2.15 - p.z * 0.55);
   vec2 clip = vec2(p.x * persp / uAspect * sc + dr.x, p.y * persp * sc + dr.y);
 
+  // Ambient parallax: the whole background slides against the pointer, each shape by an amount set
+  // by its own depth, so the field reads as layers behind the object rather than one flat sheet.
+  // Pure function of pointer position — with no pointer (capture) the offset is zero.
+  if (uPointer.x < 8.0) {
+    float depthLayer = 0.35 + aSeed * 0.65;
+    clip -= uPointer * 0.06 * depthLayer * aAmb;
+  }
+
   // Cursor response: the region under the pointer is magnified — points scale outward from the
   // cursor and grow — so the form reads larger and brighter where you hover. Pure function of
   // pointer position: no easing timer, so it settles the instant the cursor stops and contributes
   // nothing at all when there is no pointer (the capture pipeline).
+  // The background does not get the lens. Moving the cursor over empty space should slide the whole
+  // ambient field, not magnify the patch under the pointer — a local zoom on scattered shapes reads
+  // as a bug, not an effect. Ambient parallax is applied to clip space a few lines down instead.
   float hot = 0.0;
-  if (uPointer.x < 8.0) {
+  if (uPointer.x < 8.0 && aAmb < 0.5) {
     vec2 d = clip - uPointer;
     d.x *= uAspect;
     float dist = length(d);
@@ -323,6 +340,7 @@ export default function ParticleField() {
     const uDrift = gl.getUniformLocation(prog, "uDrift");
     const uScale = gl.getUniformLocation(prog, "uScale");
     const uIdle = gl.getUniformLocation(prog, "uIdle");
+    const uGather = gl.getUniformLocation(prog, "uGather");
     const uOrbit = gl.getUniformLocation(prog, "uOrbit");
     gl.enable(gl.BLEND);
     gl.blendFunc(gl.SRC_ALPHA, gl.ONE);
@@ -336,6 +354,12 @@ export default function ParticleField() {
     // function of scroll and pointer — this is the one clock, and it has an off switch.
     const frozen = () => reduce.matches || Boolean((window as unknown as { __SPECIMEN_FREEZE__?: boolean }).__SPECIMEN_FREEZE__);
     let idleStart = 0;
+    // Entry gather. Same contract as the idle clock: it is a *mount transition*, and under capture
+    // or reduced motion it is already finished on the first frame, so the frozen page is identical
+    // to what it was before the entry existed. The delay lets the copy land first — the reference
+    // opens with its statement, then draws the object together.
+    let mountTs = 0;
+    const GATHER_DELAY = 0.55, GATHER_SPAN = 1.25;
 
     function draw(ts?: number) {
       frame = 0;
@@ -345,6 +369,10 @@ export default function ParticleField() {
       if (still) idleStart = 0;
       else if (!idleStart && ts) idleStart = ts;
       const idle = still || !ts ? 0 : (ts - idleStart) / 1000;
+      if (!mountTs && ts) mountTs = ts;
+      const since = still || !ts ? 99 : (ts - mountTs) / 1000;
+      const gRaw = Math.min(1, Math.max(0, (since - GATHER_DELAY) / GATHER_SPAN));
+      const gather = still ? 1 : gRaw * gRaw * (3 - 2 * gRaw);
       const vw = window.innerWidth, vh = window.innerHeight;
       const dpr = Math.min(1.75, window.devicePixelRatio || 1);
       const w = Math.round(vw * dpr), h = Math.round(vh * dpr);
@@ -403,10 +431,11 @@ export default function ParticleField() {
       const orbiting = pt[0] < 8;
       gl.uniform2f(uOrbit, orbiting ? pt[0] * 0.55 : 0, orbiting ? -pt[1] * 0.3 : 0);
       gl.uniform1f(uIdle, idle);
+      gl.uniform1f(uGather, gather);
       gl.drawArrays(gl.POINTS, 0, COUNT);
       // Keep going only while the drift is live. Frozen, the loop stops after this frame and the
       // canvas costs nothing until the next scroll or pointer event.
-      if (!still) frame = requestAnimationFrame(draw);
+      if (!still || gather < 1) frame = requestAnimationFrame(draw);
     }
     function schedule() { if (!frame) frame = requestAnimationFrame(draw); }
 

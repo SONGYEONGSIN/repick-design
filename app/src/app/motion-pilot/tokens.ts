@@ -38,8 +38,17 @@ export const BODY = "text-[clamp(1rem,1.25vw,1.5rem)] font-extralight leading-[1
 export const PILL =
   "inline-flex items-center rounded-full bg-[#8052FF] px-[clamp(0.9rem,1.04vw,1.4rem)] py-[clamp(0.75rem,0.86vw,1.15rem)] leading-none text-white transition-colors hover:bg-[#9169ff]";
 
-/** Copy sits over an additively-blended field; the shadow is what keeps it legible against a bright patch. */
-export const SHADOW = "[text-shadow:0_2px_22px_rgba(1,1,2,0.94)]";
+/**
+ * Copy sits over an additively-blended field, so it needs *some* separation — but the reference is
+ * much lighter about it than we were. Measured there: headings carry `text-shadow: none` and only
+ * body copy gets `rgba(0,0,0,0.8) 0 0 8px` — a tight halo with no offset. Ours was
+ * `0 2px 22px rgba(1,1,2,0.94)`: offset, wide and near-opaque, which reads as a drop shadow stuck
+ * behind the text rather than type floating over a field.
+ */
+export const SHADOW = "[text-shadow:0_0_8px_rgba(0,0,0,0.8)]";
+
+/** Display and section headings take no shadow at all, the way the reference sets them. */
+export const HEAD_SHADOW = "";
 
 /**
  * The header *zone*, which is taller than the bar it looks like. The reference's `header__inner` runs
