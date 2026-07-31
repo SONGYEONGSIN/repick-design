@@ -7,7 +7,7 @@ export type Work = {
   previewH?: number; // card preview height (px), default 300
   status?: "winner" | "dropped" | "pending";
   round?: string;
-  target?: "dash" | "landing" | "native" | "login";
+  target?: "dash" | "landing" | "native" | "login" | "404";
   date?: string;
   /**
    * Gallery page-type category (refero-style axis: what kind of page is this, not what domain it serves).
@@ -22,12 +22,20 @@ export type Work = {
     | "mobile";
 };
 
-export const LAST_UPDATED = "2026-07-31"; // determinism rule: no dynamic Date calls — update this by hand when refreshing
+export const LAST_UPDATED = "2026-08-01"; // determinism rule: no dynamic Date calls — update this by hand when refreshing
 
 export const NATIVE_WORKS: Work[] = [
   { id: "n1", route: "/native-app/index.html?screen=watchlist", brand: "Watchlist", desc: { en: "Saved-item watchlist · price-drop alerts and a single accent for unread, as a native mobile screen.", ko: "관심목록 · 가격 하락 알림 · 미읽음 단일 액센트 (네이티브 모바일 화면)" }, target: "native", category: "mobile", previewH: 520 },
   { id: "n2", route: "/native-app/index.html?screen=match", brand: "AI Match", desc: { en: "AI-match results feed · ranked secondhand picks with match scores, native mobile.", ko: "AI 매칭 결과 피드 · 매칭 점수순 중고 추천 (네이티브 모바일)" }, target: "native", category: "mobile", previewH: 520 },
   { id: "n3", route: "/native-app/index.html?screen=detail", brand: "Price Detail", desc: { en: "Product price-history detail · chart + spec breakdown on a native mobile screen.", ko: "상품 가격 히스토리 상세 · 차트 + 스펙 분해 (네이티브 모바일)" }, target: "native", category: "mobile", previewH: 520 },
+];
+
+// 0. Error — the 404 page type's first entry.
+// Routed at /not-found-page, not /404: Next reserves the literal /404 path and answers it with the
+// not-found handler (HTTP 404), so a page placed there is never served. Checked by request, not by
+// assumption — the promoted route returned 404 on its first gate run.
+export const NOTFOUND_WORKS: Work[] = [
+  { id: "nf1", route: "/not-found-page", brand: "Rivet", desc: { ko: "다크 타이포그래픽 404 · 장식 없이 타이포 매스가 화면을 지배하고 복귀 경로를 한 화면에서 끝낸다 (자동 404 r1 승자)", en: "Dark typographic 404 · no ornament, a typographic mass owns the screen and every route back resolves in one viewport (auto 404 r1 winner)" }, previewH: 340, target: "404", category: "404" },
 ];
 
 // 0. Auth — the login page type's first entry.
@@ -63,5 +71,5 @@ export const DASH_LAB_WORKS: Work[] = [
 
 /** Static catalog (excludes evolution candidates) — shared by the gallery grid and detail routes. Each entry carries its own page-type category. */
 export function catalogWorks(): Work[] {
-  return [...LANDING_WORKS, ...DASH_LAB_WORKS, ...LOGIN_WORKS, ...NATIVE_WORKS];
+  return [...LANDING_WORKS, ...DASH_LAB_WORKS, ...LOGIN_WORKS, ...NOTFOUND_WORKS, ...NATIVE_WORKS];
 }

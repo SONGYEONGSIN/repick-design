@@ -103,6 +103,15 @@ native는 웹 라우트가 아니라 RN 화면이라 아래 규약을 따른다.
 - 각 후보 `verdict.gates`를 `vault/20-generations/<run>/SCORES.md`에 표로 기록.
 - **native의 경우**: 3100 dev 서버 불요(gate.mjs native 브랜치가 Expo Web 8091을 자체 export·serve). `node scripts/gate.mjs --target native --screens evolve-r<N>-a evolve-r<N>-b evolve-r<N>-c` → verdict(후보×4게이트 `<slug>/<tsc|export|render|iframe>`). `pass:false`면 `verdict.violations`(screen/step 태그)를 해당 후보 designer에 1회 수정 후 재호출. 화면별 4단계 전부 pass여야 그 후보 생존.
 
+## 3-1. 판정 후 수정 (조건부 허용 — 2026-08-01 결정)
+
+승자 확정 **뒤에** 산출물을 고치는 것은 블라인드 판정을 받은 것과 승격되는 것을 다르게 만든다. 그렇다고 금지하면 **규칙 위반을 알면서 카탈로그에 올리게 된다**(`auto-404-r1`: 3후보 전원이 "폰트 웨이트 3종"을 위반, judge는 비차별적이라 순위에 반영 못 함). 그래서 좁게 허용한다:
+
+- **규칙 위반 해소에 한한다.** 취향·완성도 개선은 금지 — 그건 다음 라운드의 일이다.
+- 수정 후 **반드시 재게이트**하고 전 항목 통과를 확인한다.
+- DECISION.md에 **"정제 조치" 절로 무엇을·왜 고쳤는지 명시**한다. 기록이 없으면 판정본과 승격본의 차이를 아무도 추적할 수 없다.
+- 판정 **순위 자체는 재계산하지 않는다** — 수정이 순위를 바꿀 만한 것이면 그건 규칙 위반 해소가 아니라 재판정 사유다.
+
 ## 4. JUDGE 패널 (생존 후보 2개 이상일 때; 1개면 단독 심사로 승자/no-winner만 판정)
 - 스크린샷: 후보별로 `node scripts/capture-shots.mjs --route <라우트> --name <v> --out vault/20-generations/<run>/shots` 실행. 4폭(1280/1440/1920/390) × 4 스크롤 지점(0·35·70·100%)을 찍고, 찍기 전에 **스크롤 스루 패스**를 돌려 `whileInView` 계열 리빌을 발동시킨다. 파일명은 스크롤 0 프레임이 기존과 동일한 `<v>-<w>.png`, 나머지가 `<v>-<w>-s35.png` 식이라 기존 DECISION·PR 링크가 그대로 유효하다.
   - **단일 프레임 캡처 금지** — 스크롤 0 한 장은 폴드 아래에 가치가 있는 작품(카탈로그 그리드)이나 스크롤로 장면이 변하는 작품을 평가할 수 없다. judge에게는 그 후보의 **전 프레임**을 넘긴다.
