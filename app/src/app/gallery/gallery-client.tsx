@@ -87,7 +87,7 @@ export function GalleryClient({ works, lastUpdated }: { works: Work[]; lastUpdat
           <span className="tabular-nums">{shown.length}</span> {t.resultsLabel}
         </p>
 
-        <div className="mt-4 grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-3">
+        <div className="mt-4 grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-3 items-start">
           {shown.map((w) => <WorkCard key={w.id} work={w} lang={lang} label={categoryLabel(w.category, lang)} />)}
         </div>
         {shown.length === 0 && <p className="mt-10 text-sm text-zinc-500">{t.empty}</p>}
