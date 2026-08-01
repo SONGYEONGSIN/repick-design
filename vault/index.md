@@ -62,3 +62,4 @@ _(main 기준 없음 — 라운드 커밋이 DECISION 등재를 추가한다)_
 - [[20-generations/2026-07-29-auto-landing-r8/DECISION|auto-landing-r8]] (승자 a — Signal Graph 선호↔매물 관계 그래프 히어로, 3렌즈 만장일치) → **v10 승격**
 - [[20-generations/2026-07-30-auto-login-r1/DECISION|auto-login-r1]] (login 타입 첫 라운드 — 승자 a — Contour 스플릿 컨투어라인+스파크라인 로그인, 3파전 완전동률→렌즈3 최하위 배제 tie-break) → **`/login` 승격 (lg1 Contour)**
 - [[20-generations/2026-07-31-auto-404-r1/DECISION|auto-404-r1]] (404 타입 첫 라운드 — 승자 a — Rivet 다크 타이포그래픽 404, 렌즈2·렌즈3 2표 vs 렌즈1 1표) → **`/not-found-page` 승격 (nf1 Rivet)**
+- [[20-generations/2026-08-01-auto-catalog-r1/DECISION|auto-catalog-r1]] (catalog 타입 첫 라운드 — 승자 a — Loopwire 좌 필터 레일+그리드 인테그레이션 마켓플레이스, 렌즈1·렌즈2 2표 vs 렌즈3 1표 — 차별성↔완성도 상충 재현)
