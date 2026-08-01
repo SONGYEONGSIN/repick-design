@@ -5,6 +5,14 @@ export type Work = {
   brand: string;
   desc: { en: string; ko: string }; // card tagline (bilingual)
   previewH?: number; // card preview height (px), default 300
+  /**
+   * Viewport height the preview iframe is rendered at. Default is the tall capture height, which is
+   * what a scrolling page needs; a work that fills exactly one screen needs a *realistic* viewport
+   * instead, or its `100vh` resolves to the capture height and vertically-centred content lands
+   * ~1200px down — outside the visible card. Measured on the 404 promotion: h1 at y=1217 against a
+   * ~1275px window, so the page read as an empty box with one line clinging to the bottom edge.
+   */
+  previewViewport?: number;
   status?: "winner" | "dropped" | "pending";
   round?: string;
   target?: "dash" | "landing" | "native" | "login" | "404";
@@ -35,12 +43,12 @@ export const NATIVE_WORKS: Work[] = [
 // not-found handler (HTTP 404), so a page placed there is never served. Checked by request, not by
 // assumption — the promoted route returned 404 on its first gate run.
 export const NOTFOUND_WORKS: Work[] = [
-  { id: "nf1", route: "/not-found-page", brand: "Rivet", desc: { ko: "다크 타이포그래픽 404 · 장식 없이 타이포 매스가 화면을 지배하고 복귀 경로를 한 화면에서 끝낸다 (자동 404 r1 승자)", en: "Dark typographic 404 · no ornament, a typographic mass owns the screen and every route back resolves in one viewport (auto 404 r1 winner)" }, previewH: 340, target: "404", category: "404" },
+  { id: "nf1", route: "/not-found-page", brand: "Rivet", previewViewport: 900, desc: { ko: "다크 타이포그래픽 404 · 장식 없이 타이포 매스가 화면을 지배하고 복귀 경로를 한 화면에서 끝낸다 (자동 404 r1 승자)", en: "Dark typographic 404 · no ornament, a typographic mass owns the screen and every route back resolves in one viewport (auto 404 r1 winner)" }, previewH: 340, target: "404", category: "404" },
 ];
 
 // 0. Auth — the login page type's first entry.
 export const LOGIN_WORKS: Work[] = [
-  { id: "lg1", route: "/login", brand: "Contour", desc: { ko: "관측성 SaaS 로그인 · 좌측 컨투어 지형선 + 스파크라인 스탯의 다크 비주얼 패널과 우측 라이트 폼 스플릿, 세그먼트 토글로 로그인/가입 전환 (자동 login r1 승자)", en: "Observability-SaaS sign-in · a split of dark contour-line visual panel with sparkline stats against a light form column, with a segmented toggle between sign-in and sign-up (auto login r1 winner)" }, previewH: 340, target: "login", category: "login" },
+  { id: "lg1", route: "/login", brand: "Contour", previewViewport: 900, desc: { ko: "관측성 SaaS 로그인 · 좌측 컨투어 지형선 + 스파크라인 스탯의 다크 비주얼 패널과 우측 라이트 폼 스플릿, 세그먼트 토글로 로그인/가입 전환 (자동 login r1 승자)", en: "Observability-SaaS sign-in · a split of dark contour-line visual panel with sparkline stats against a light form column, with a segmented toggle between sign-in and sign-up (auto login r1 winner)" }, previewH: 340, target: "login", category: "login" },
 ];
 
 // I. Landing — champion + evolution lineage v6~v10. (/lab is itself an index page, not a work — excluded)
