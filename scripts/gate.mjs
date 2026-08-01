@@ -146,6 +146,14 @@ export function worstLighthouse(results) {
 }
 
 export async function runWeb({ routes, files, base }) {
+  // An empty route list used to sail through: no files to scan is "위반 0", no widths to sweep is
+  // "오버플로 0", and no Lighthouse result is "unavailable", which the a11y/perf gates pass. So
+  // `gate.mjs --target web` with a forgotten --routes printed a clean five-gate pass having measured
+  // nothing at all. A gate with nothing to check has not checked anything; say so instead.
+  if (!routes.length && !files.length) {
+    return buildVerdict('web', [{ name: 'scope', pass: false, detail: '측정 대상 없음 — --routes 또는 --files 필요',
+      violations: [{ rule: 'empty-scope', detail: 'routes·files 모두 비어 있어 어떤 게이트도 실측하지 않았다' }] }]);
+  }
   const { checkSource } = await import('./dash-static-check.mjs');
   const { runSweep, evaluateSweep } = await import('./dash-sweep.mjs');
   const tsxFiles = files.length ? files : routes.flatMap((r) => filesForRoute(r));

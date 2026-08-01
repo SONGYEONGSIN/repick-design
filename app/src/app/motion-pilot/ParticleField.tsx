@@ -23,7 +23,7 @@ import { RIM_SHARE, garment, hand, profile, scatter, sparseField, sphere, type V
 
 const COUNT = 20000;
 /** Share of the field that stays scattered across the frame instead of ever joining a sculpture. */
-const AMBIENT_SHARE = 0.045;
+const AMBIENT_SHARE = 0.085;
 /**
  * Palette weighted to the reference's measured distribution, not chosen by eye.
  *
@@ -130,9 +130,16 @@ void main() {
   // assembling rather than something coming into focus.
   //
   // The per-particle stagger keeps it from expanding as one rigid body.
+  //
+  // Two things have to move with the compression or the knot blows out to a flat white disc: the
+  // point size and the alpha. Squeezing the same 20k points into a fraction f of the radius packs
+  // them 1/f-squared denser, and under additive blending that much overlap saturates long before it
+  // reads as texture. So the size shrinks with the knot, and the alpha falls off quadratically —
+  // the reference's opening frame is a *dim* cluster you can still see individual marks in, not a
+  // glowing blob.
   float g = clamp((uGather - aSeed * 0.25) / 0.75, 0.0, 1.0);
   g = g * g * (3.0 - 2.0 * g);
-  p *= mix(0.06, 1.0, g);
+  p *= mix(0.24, 1.0, g);
 
   // Ambient particles never join a sculpture. The reference keeps the whole frame lightly populated
   // — sparse outlined shapes drifting well away from the object — and a field that empties out
@@ -217,16 +224,24 @@ void main() {
   float grain = mix(0.26, 1.0, openness);
   // Rim particles carry the shape; interior particles are dust behind it. Scaling the two bands
   // apart is what turns a filled mass into a shell you can read the outline of.
-  // The two layers need different size *distributions*, not just different multipliers. The
-  // sculpture's heavy tail (seed^4) is what gives it depth — most dust, a few large. The reference's
-  // ambient shapes are the opposite: a tight band (measured median 11px, p90 20, max 27), so they
-  // get a linear curve. Sharing one made our ambient dust with a few outliers.
+  // The two layers need different size *distributions*, not just different multipliers.
   //
-  // A later pass tried pow(aSeed,1.4) to make the sizes "more varied" and overshot — p90 went to 29
-  // against the reference's 20. The reference's spread really is close to linear; what reads as
-  // variety there is the *sparseness*, not a longer tail. Density is the knob, not the curve.
-  float sSeed = mix(sizeSeed, aSeed * 0.68, aAmb);
+  // The reference's background is a **mixture**, not one curve: measured across a whole hero frame
+  // it runs median 4px, p90 19, max 159 — a large population of near-invisible dust with a rare,
+  // very large shape thrown in (max/median = 40). Ours was medium shapes spread evenly (median 12,
+  // max 85, ratio 7), which is what reads as "too regular, too packed" even at a lower fill.
+  //
+  // Two earlier passes got this wrong by sampling one small patch instead of the whole frame: that
+  // patch happened to be homogeneous and said the spread was near-linear, so the curve was set
+  // linear and the variety went away. Measure the distribution over the area the eye actually takes
+  // in, not over a convenient crop.
+  float t = aSeed;
+  float ambSize = t < 0.85
+    ? 0.02 + t * 0.035
+    : 0.05 + pow((t - 0.85) / 0.15, 2.0) * 1.95;
+  float sSeed = mix(sizeSeed, ambSize, aAmb);
   float ptSize = (0.9 + sSeed * 52.0 * mix(grain, 1.0, aAmb) * (0.55 + aRim * 1.05)) * (0.55 + persp * 0.95) * (1.0 + hot * 1.6) * uScale * 0.62;
+  ptSize *= mix(0.45, 1.0, g);
   gl_PointSize = ptSize;
   vBand = clamp(2.6 / max(ptSize, 2.0), 0.05, 0.34);
   vColor = aColor; vSeed = aSeed; vAmb = aAmb; vEnter = g;
@@ -258,7 +273,7 @@ void main() {
   // translucent field lets the text carry (paired with a shadow on the copy itself).
   // Ambient shapes read as far-off texture, not as part of the object: same palette, a third of
   // the light.
-  outColor = vec4(c, line * depthFade * (0.98 + vHot * 0.6) * mix(1.0, 0.3, vAmb) * mix(0.12, 1.0, vEnter));
+  outColor = vec4(c, line * depthFade * (0.98 + vHot * 0.6) * mix(1.0, 0.46, vAmb) * mix(0.05, 1.0, vEnter * vEnter));
 }`;
 
 function compile(gl: WebGL2RenderingContext, type: number, src: string) {
