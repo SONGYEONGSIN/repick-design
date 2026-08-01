@@ -36,7 +36,13 @@ export type Work = {
   singleScreen?: boolean;
   status?: "winner" | "dropped" | "pending";
   round?: string;
-  target?: "dash" | "landing" | "native" | "login" | "404";
+  /**
+   * Which round produced this work. Derived from `PageType` rather than spelled out, so promoting a
+   * new page type never needs this union widened by hand — that list drifted from `PAGE_TYPES` once
+   * already. `dash` and `native` are the two legacy round names that predate the taxonomy and have
+   * no matching page type ("dashboard" and "mobile" respectively).
+   */
+  target?: PageType | "dash" | "native";
   date?: string;
   /**
    * Gallery page-type category (refero-style axis: what kind of page is this, not what domain it
@@ -51,7 +57,7 @@ export type Work = {
   category?: PageType;
 };
 
-export const LAST_UPDATED = "2026-08-01"; // determinism rule: no dynamic Date calls — update this by hand when refreshing
+export const LAST_UPDATED = "2026-08-02"; // determinism rule: no dynamic Date calls — update this by hand when refreshing
 
 export const NATIVE_WORKS: Work[] = [
   { id: "n1", route: "/native-app/index.html?screen=watchlist", brand: "Watchlist", desc: { en: "Saved-item watchlist · price-drop alerts and a single accent for unread, as a native mobile screen.", ko: "관심목록 · 가격 하락 알림 · 미읽음 단일 액센트 (네이티브 모바일 화면)" }, target: "native", category: "mobile" },
@@ -65,6 +71,16 @@ export const NATIVE_WORKS: Work[] = [
 // assumption — the promoted route returned 404 on its first gate run.
 export const NOTFOUND_WORKS: Work[] = [
   { id: "nf1", route: "/not-found-page", brand: "Rivet", singleScreen: true, desc: { ko: "다크 타이포그래픽 404 · 장식 없이 타이포 매스가 화면을 지배하고 복귀 경로를 한 화면에서 끝낸다 (자동 404 r1 승자)", en: "Dark typographic 404 · no ornament, a typographic mass owns the screen and every route back resolves in one viewport (auto 404 r1 winner)" }, target: "404", category: "404" },
+];
+
+// 0. Commerce/browse — the catalog page type's first entry.
+export const CATALOG_WORKS: Work[] = [
+  { id: "ct1", route: "/catalog", brand: "Loopwire", desc: { ko: "워크플로 자동화 플랫폼의 연동 마켓플레이스 · 좌측 필터 레일이 카테고리·요금제·평점을 상시 노출하고 우측 밀집 그리드가 즉시 좁혀진다, 카드 선택 시 상세 드로어 (자동 catalog r1 승자)", en: "A workflow-automation platform's integrations marketplace · a left filter rail keeps category, pricing and rating permanently visible while the dense result grid narrows in place, with a detail drawer on selection (auto catalog r1 winner)" }, target: "catalog", category: "catalog" },
+];
+
+// 0. Scene — the scene page type's first entry.
+export const SCENE_WORKS: Work[] = [
+  { id: "sc1", route: "/scene", brand: "KEPT", desc: { ko: "스크롤이 장면을 구동하는 페이지 · 고정 WebGL2 파티클 한 층이 문서 전체를 지고 먼지→궤도→스니커→워드마크로 4단계 변형한다 (자동 scene r1 승자)", en: "A page where scroll drives one scene · a single fixed WebGL2 particle layer carries the whole document, morphing through dust, orbits, a sneaker and the wordmark (auto scene r1 winner)" }, target: "scene", category: "scene" },
 ];
 
 // 0. Auth — the login page type's first entry.
@@ -100,5 +116,5 @@ export const DASH_LAB_WORKS: Work[] = [
 
 /** Static catalog (excludes evolution candidates) — shared by the gallery grid and detail routes. Each entry carries its own page-type category. */
 export function catalogWorks(): Work[] {
-  return [...LANDING_WORKS, ...DASH_LAB_WORKS, ...LOGIN_WORKS, ...NOTFOUND_WORKS, ...NATIVE_WORKS];
+  return [...LANDING_WORKS, ...DASH_LAB_WORKS, ...LOGIN_WORKS, ...NOTFOUND_WORKS, ...CATALOG_WORKS, ...SCENE_WORKS, ...NATIVE_WORKS];
 }
