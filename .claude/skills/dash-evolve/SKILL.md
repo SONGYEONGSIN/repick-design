@@ -1,9 +1,24 @@
 ---
 name: dash-evolve
-description: 자율 진화 1라운드 (다중 타깃 — works.ts PAGE_TYPES 순서대로 카탈로그에 없는 페이지 타입을 우선 생성하고, 전부 차면 대시보드·랜딩·네이티브 중 무작위) — 정본 brief+격리 delta로 후보 3개 생성 → 하드게이트(gate.mjs --target web: 정적·sweep·a11y·perf) → 3렌즈 judge 다수결 → delta 격리 적재 → 정제 게이트 → evolve/dash 커밋. "/dash-evolve", "자율 라운드" 시 사용. 무인 실행 전제 — 사람 확인 없이 완주하며 no-winner 라운드를 허용한다.
+description: 자율 진화 라운드 N회 (기본 1, 최대 3 · 다중 타깃 — works.ts PAGE_TYPES 순서대로 카탈로그에 없는 페이지 타입을 우선 생성하고, 전부 차면 대시보드·랜딩·네이티브 중 무작위) — 정본 brief+격리 delta로 후보 3개 생성 → 하드게이트(gate.mjs --target web: 정적·sweep·a11y·perf) → 3렌즈 judge 다수결 → delta 격리 적재 → 정제 게이트 → evolve/dash 커밋. 인자로 라운드 수(1~3, 기본 1)를 받는다 — `/dash-evolve 3`. "/dash-evolve", "자율 라운드" 시 사용. 무인 실행 전제 — 사람 확인 없이 완주하며 no-winner 라운드를 허용한다.
 ---
 
 # dash-evolve — 자율 라운드 (무인, 이중 타깃)
+
+인자: 실행할 라운드 수 `N` (1~3, 기본 1).
+
+## 연속 라운드 — 순차만, 병렬 금지
+
+`N`이 2 이상이면 §0~§7을 **처음부터 끝까지 N번 반복**한다. 라운드 사이에 건너뛰는 단계는 없다.
+
+**반드시 순차로 돈다.** 이 루프의 값어치는 라운드가 낳은 delta·질문이 다음 라운드의 §1 RETRIEVE로 들어가 브리프를 바꾸는 데 있다. 병렬로 돌리면 N개 라운드가 전부 **같은 시점의 delta 위에서** 만들어져 폭만 넓어지고 축적이 사라진다 — 실측 근거: `auto-login-r1`의 대비 delta가 `auto-404-r1`의 브리프에 실렸고, 3파전 완전 동률이 2주 연속 나온 뒤 넣은 "3렌즈 동시 만족" 지시가 그 다음 라운드에서 다수결을 만들었다. 둘 다 이전 라운드의 산출물이 다음 라운드를 바꾼 사례다.
+
+라운드마다 다음이 갱신된 상태로 시작해야 한다:
+- **타깃**: §0의 `PAGE_TYPES` 미채움 조회를 매 라운드 다시 실행하되, **이번 실행에서 이미 생성한 타입은 제외**하고 큐의 다음 항목으로 내려간다. 승격은 `/dash-falsify apply`에서 일어나므로 카탈로그 조회만으로는 같은 타입이 계속 뽑히고, 그러면 `N`을 올려도 커버리지가 한 칸도 안 늘어난다 — 연속 실행의 목적이 정확히 커버리지다. 예: 미채움이 `catalog → scene → product-detail`일 때 `/dash-evolve 3`은 세 타입을 하나씩 돈다.
+- **DELTAS·questions-queue**: 직전 라운드가 append한 내용을 포함해 다시 읽는다.
+- **다양성 금지 축**: `scripts/catalog-variety.mjs`를 다시 실행한다. 직전 라운드 승자가 아직 카탈로그에 없으므로 `banList`는 그대로일 수 있지만, 그 라운드가 쓴 테마·액센트·활자는 designer 프롬프트에 **"직전 라운드가 쓴 축"**으로 별도 전달해 연속 라운드가 서로 베끼지 않게 한다.
+
+**상한 3.** 라운드 하나가 후보 3개 생성 + 게이트(정적·sweep·Lighthouse 6회) + judge 3개 + 정제다. 그 이상은 한 번에 검토할 수 있는 산출물의 양을 넘고, 주간 반증 PR이 사람이 읽을 수 없게 커진다.
 
 **불변식: 정본 2개(`vault/00-principles/dash-brief-v3.md`, `vault/00-principles/design-principles.md`)와 `/dash` 갤러리·`/v1~v5`는 절대 수정하지 않는다. jsonl은 append-only. main에 커밋하지 않는다.**
 
