@@ -6,13 +6,16 @@ export type Work = {
   desc: { en: string; ko: string }; // card tagline (bilingual)
   previewH?: number; // card preview height (px), default 300
   /**
-   * Viewport height the preview iframe is rendered at. Default is the tall capture height, which is
-   * what a scrolling page needs; a work that fills exactly one screen needs a *realistic* viewport
-   * instead, or its `100vh` resolves to the capture height and vertically-centred content lands
-   * ~1200px down — outside the visible card. Measured on the 404 promotion: h1 at y=1217 against a
-   * ~1275px window, so the page read as an empty box with one line clinging to the bottom edge.
+   * This work fills exactly one screen (login, 404) rather than scrolling.
+   *
+   * Such a page must be previewed at a viewport whose *aspect* matches the card, or two things go
+   * wrong: rendered inside the tall capture height its `100vh` resolves to 2400 and vertically
+   * centred content lands ~1200px down, off the bottom of the frame (measured on the 404 promotion:
+   * h1 at y=1217 against a ~1275px window); and a fixed viewport height leaves the card shorter than
+   * its neighbours. The card derives the viewport from its own box, so one screen fills the standard
+   * preview height exactly.
    */
-  previewViewport?: number;
+  singleScreen?: boolean;
   status?: "winner" | "dropped" | "pending";
   round?: string;
   target?: "dash" | "landing" | "native" | "login" | "404";
@@ -43,22 +46,22 @@ export const NATIVE_WORKS: Work[] = [
 // not-found handler (HTTP 404), so a page placed there is never served. Checked by request, not by
 // assumption — the promoted route returned 404 on its first gate run.
 export const NOTFOUND_WORKS: Work[] = [
-  { id: "nf1", route: "/not-found-page", brand: "Rivet", previewViewport: 900, desc: { ko: "다크 타이포그래픽 404 · 장식 없이 타이포 매스가 화면을 지배하고 복귀 경로를 한 화면에서 끝낸다 (자동 404 r1 승자)", en: "Dark typographic 404 · no ornament, a typographic mass owns the screen and every route back resolves in one viewport (auto 404 r1 winner)" }, previewH: 340, target: "404", category: "404" },
+  { id: "nf1", route: "/not-found-page", brand: "Rivet", singleScreen: true, desc: { ko: "다크 타이포그래픽 404 · 장식 없이 타이포 매스가 화면을 지배하고 복귀 경로를 한 화면에서 끝낸다 (자동 404 r1 승자)", en: "Dark typographic 404 · no ornament, a typographic mass owns the screen and every route back resolves in one viewport (auto 404 r1 winner)" }, target: "404", category: "404" },
 ];
 
 // 0. Auth — the login page type's first entry.
 export const LOGIN_WORKS: Work[] = [
-  { id: "lg1", route: "/login", brand: "Contour", previewViewport: 900, desc: { ko: "관측성 SaaS 로그인 · 좌측 컨투어 지형선 + 스파크라인 스탯의 다크 비주얼 패널과 우측 라이트 폼 스플릿, 세그먼트 토글로 로그인/가입 전환 (자동 login r1 승자)", en: "Observability-SaaS sign-in · a split of dark contour-line visual panel with sparkline stats against a light form column, with a segmented toggle between sign-in and sign-up (auto login r1 winner)" }, previewH: 340, target: "login", category: "login" },
+  { id: "lg1", route: "/login", brand: "Contour", singleScreen: true, desc: { ko: "관측성 SaaS 로그인 · 좌측 컨투어 지형선 + 스파크라인 스탯의 다크 비주얼 패널과 우측 라이트 폼 스플릿, 세그먼트 토글로 로그인/가입 전환 (자동 login r1 승자)", en: "Observability-SaaS sign-in · a split of dark contour-line visual panel with sparkline stats against a light form column, with a segmented toggle between sign-in and sign-up (auto login r1 winner)" }, target: "login", category: "login" },
 ];
 
 // I. Landing — champion + evolution lineage v6~v10. (/lab is itself an index page, not a work — excluded)
 export const LANDING_WORKS: Work[] = [
-  { id: "v0", route: "/", brand: "Attune", desc: { ko: "현재 프로덕션 랜딩 · 에디토리얼 스플릿 히어로 + 제품 쇼케이스 (자동 라운드 R7 계보 승자)", en: "Live production landing · editorial split hero + product showcase (auto-round R7 lineage winner)" }, previewH: 340, category: "landing" },
-  { id: "v6", route: "/v6", brand: "Threshold", desc: { ko: "비포/애프터 드래그 리빌 히어로 · 실제 제품사진 슬라이더(role=slider)·스프링 물리, 감각 축 차별 (자동 landing r2 승자)", en: "Before/after drag-to-reveal hero · a real product-photo slider (role=slider) with spring physics, differentiating on tactile feel (auto landing r2 winner)" }, previewH: 340, category: "landing" },
-  { id: "v7", route: "/v7", brand: "Tally", desc: { ko: "AI 매칭 대조표 히어로 · 실 table+탭+아코디언 비교 위젯, 폼 계열 최초 표 기반 (자동 landing r4 승자)", en: "AI-match comparison-table hero · a real table + tabs + accordion widget, the form lineage's first table-based entry (auto landing r4 winner)" }, previewH: 340, category: "landing" },
-  { id: "v8", route: "/v8", brand: "Sundial", desc: { ko: "매칭 정확도 다이얼 히어로 · 원형 SVG 게이지 결과 시각화, 형태 신규성 (자동 landing r5 승자)", en: "Match-accuracy dial hero · a circular SVG gauge visualizes the result, a formal novelty (auto landing r5 winner)" }, previewH: 340, category: "landing" },
-  { id: "v9", route: "/v9", brand: "Loupe", desc: { ko: "AI 주석 스캔 히어로 · 실제 제품 사진 위 포커스 가능한 5개 주석 핀이 검사 항목을 순차 공개 (자동 landing r7 승자)", en: "AI annotation-scan hero · five focusable pins placed directly on a real product photo reveal what the AI inspected, one finding at a time (auto landing r7 winner)" }, previewH: 340, category: "landing" },
-  { id: "v10", route: "/v10", brand: "Lattice", desc: { ko: "선호↔매물 관계 그래프 히어로 · 노드 선택 시 근거 문장·강도 막대·강조 매물까지 네 증거면이 동시 재계산 (자동 landing r8 승자)", en: "Preference-to-product graph hero · selecting a signal recomputes four proof surfaces at once — reasoning, strength bars, and the highlighted match (auto landing r8 winner)" }, previewH: 340, category: "landing" },
+  { id: "v0", route: "/", brand: "Attune", desc: { ko: "현재 프로덕션 랜딩 · 에디토리얼 스플릿 히어로 + 제품 쇼케이스 (자동 라운드 R7 계보 승자)", en: "Live production landing · editorial split hero + product showcase (auto-round R7 lineage winner)" }, category: "landing" },
+  { id: "v6", route: "/v6", brand: "Threshold", desc: { ko: "비포/애프터 드래그 리빌 히어로 · 실제 제품사진 슬라이더(role=slider)·스프링 물리, 감각 축 차별 (자동 landing r2 승자)", en: "Before/after drag-to-reveal hero · a real product-photo slider (role=slider) with spring physics, differentiating on tactile feel (auto landing r2 winner)" }, category: "landing" },
+  { id: "v7", route: "/v7", brand: "Tally", desc: { ko: "AI 매칭 대조표 히어로 · 실 table+탭+아코디언 비교 위젯, 폼 계열 최초 표 기반 (자동 landing r4 승자)", en: "AI-match comparison-table hero · a real table + tabs + accordion widget, the form lineage's first table-based entry (auto landing r4 winner)" }, category: "landing" },
+  { id: "v8", route: "/v8", brand: "Sundial", desc: { ko: "매칭 정확도 다이얼 히어로 · 원형 SVG 게이지 결과 시각화, 형태 신규성 (자동 landing r5 승자)", en: "Match-accuracy dial hero · a circular SVG gauge visualizes the result, a formal novelty (auto landing r5 winner)" }, category: "landing" },
+  { id: "v9", route: "/v9", brand: "Loupe", desc: { ko: "AI 주석 스캔 히어로 · 실제 제품 사진 위 포커스 가능한 5개 주석 핀이 검사 항목을 순차 공개 (자동 landing r7 승자)", en: "AI annotation-scan hero · five focusable pins placed directly on a real product photo reveal what the AI inspected, one finding at a time (auto landing r7 winner)" }, category: "landing" },
+  { id: "v10", route: "/v10", brand: "Lattice", desc: { ko: "선호↔매물 관계 그래프 히어로 · 노드 선택 시 근거 문장·강도 막대·강조 매물까지 네 증거면이 동시 재계산 (자동 landing r8 승자)", en: "Preference-to-product graph hero · selecting a signal recomputes four proof surfaces at once — reasoning, strength bars, and the highlighted match (auto landing r8 winner)" }, category: "landing" },
 ];
 
 // II. SaaS dashboards — 12 works in the /dash gallery (d29~d40) + baseline/product
