@@ -43,12 +43,13 @@ export function WorkCard({ work, lang, label }: { work: Work; lang: Lang; label:
   const windowH = scale > 0 ? h / scale : 0; // page px visible in the card at rest
   // Travel only as far as the page actually goes — a work shorter than CAPTURE_H would otherwise
   // scroll into empty background. Previews are same-origin, so the real height is readable.
-  const [pageH, setPageH] = useState(CAPTURE_H);
+  const frameH = work.previewViewport ?? CAPTURE_H;
+  const [pageH, setPageH] = useState(frameH);
   function measurePage(e: React.SyntheticEvent<HTMLIFrameElement>) {
     setLoaded(true);
     try {
       const doc = e.currentTarget.contentDocument;
-      if (doc) setPageH(Math.min(CAPTURE_H, Math.max(windowH, doc.documentElement.scrollHeight)));
+      if (doc) setPageH(Math.min(frameH, Math.max(windowH, doc.documentElement.scrollHeight)));
     } catch {
       /* cross-origin preview — keep the default capture height */
     }
@@ -63,8 +64,22 @@ export function WorkCard({ work, lang, label }: { work: Work; lang: Lang; label:
     <a href={href}
       onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)}
       onFocus={() => setHover(true)} onBlur={() => setHover(false)}
-      className="group block min-w-0 overflow-hidden rounded-xl border border-zinc-200 bg-white transition duration-200 hover:-translate-y-0.5 hover:border-zinc-400 hover:shadow-sm active:translate-y-0 active:shadow-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-900 focus-visible:ring-offset-2 motion-reduce:hover:translate-y-0">
-      <div ref={frameRef} aria-hidden="true" className="relative w-full overflow-hidden border-b border-zinc-100 bg-zinc-50" style={{ height: h }}>
+      className="group flex min-w-0 flex-col overflow-hidden rounded-xl border border-zinc-200 bg-white transition duration-200 hover:-translate-y-0.5 hover:border-zinc-400 hover:shadow-sm active:translate-y-0 active:shadow-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-900 focus-visible:ring-offset-2 motion-reduce:hover:translate-y-0">
+      {/* `min-h` rather than a fixed height, and the grid is `items-start` so a row never stretches its
+          shorter cards. A mobile work (previewH 520) beside desktop ones (340) used to leave 182px of
+          measured dead space under the badge; stretching the *preview* into that slack only moved the
+          gap inside the frame, because a one-screen page scaled to 240px cannot fill a 520px box.
+          Cards sized to their own content is the only version with no dead space in either place.
+          (`h-full` had to go with it: under `items-start` it still resolves against the row, which is
+          the tallest card, so it re-stretched everything this was meant to fix.) */}
+      <div
+        ref={frameRef}
+        aria-hidden="true"
+        className="relative w-full overflow-hidden border-b border-zinc-100 bg-zinc-50"
+        // A one-screen work gets a box the exact height of its scaled page, so nothing is left over
+        // inside the frame; everything else keeps the authored preview height and scrolls on hover.
+        style={work.previewViewport && scale > 0 ? { height: Math.round(frameH * scale) } : { height: h }}
+      >
         {!loaded && <div className="absolute inset-0 animate-pulse bg-gradient-to-b from-zinc-100 to-zinc-50 motion-reduce:animate-none" />}
         {work.category === "mobile" ? (
           <iframe src={work.route} loading="lazy" title={`${work.brand} preview`} tabIndex={-1}
@@ -76,7 +91,7 @@ export function WorkCard({ work, lang, label }: { work: Work; lang: Lang; label:
             className={`pointer-events-none absolute left-0 top-0 origin-top-left ${loaded && scale > 0 ? "opacity-100" : "opacity-0"}`}
             style={{
               width: PREVIEW_W,
-              height: CAPTURE_H,
+              height: frameH,
               // scale first, then translate in page pixels — the travel distance stays authoring-space.
               transform: `scale(${scale}) translateY(${travel}px)`,
               transition: `opacity 300ms, transform ${hover ? travelMs : 420}ms linear`,

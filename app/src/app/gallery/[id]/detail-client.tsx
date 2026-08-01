@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import type { Work } from "@/lib/works";
 import type { WorkSpec, Swatch } from "@/lib/specimen-specs";
@@ -69,10 +69,34 @@ export default function DetailClient({ work, spec, similar }: { work: Work; spec
   );
 }
 
+const HERO_W = 1440;
+const HERO_H = 2028;
+
+/**
+ * The work rendered live, scaled to whatever width the column actually is.
+ *
+ * The scale used to be the constant 0.711, which is only correct in a 1024px container — anywhere
+ * else the page was cut off on the right, which is what it did on this page. Same defect the grid
+ * cards had before they started measuring; the constant just moved here instead of being removed.
+ * `previewViewport` is honoured for the same reason as in the card: a one-screen work centred inside
+ * a 2028px viewport puts its content off the bottom of the frame.
+ */
 function HeroPreview({ work }: { work: Work }) {
   const [loaded, setLoaded] = useState(false);
+  const [scale, setScale] = useState(0);
+  const boxRef = useRef<HTMLDivElement>(null);
+  const frameH = work.previewViewport ?? HERO_H;
+
+  useEffect(() => {
+    const el = boxRef.current;
+    if (!el) return;
+    const ro = new ResizeObserver(([entry]) => setScale(entry.contentRect.width / HERO_W));
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
+
   return (
-    <div className="relative mt-8 h-[480px] w-full overflow-hidden rounded-xl border border-zinc-200 bg-zinc-50">
+    <div ref={boxRef} className="relative mt-8 h-[480px] w-full overflow-hidden rounded-xl border border-zinc-200 bg-zinc-50">
       {!loaded && <div className="absolute inset-0 animate-pulse bg-gradient-to-b from-zinc-100 to-zinc-50 motion-reduce:animate-none" />}
       {work.category === "mobile" ? (
         <iframe src={work.route} title={`${work.brand} preview`} tabIndex={-1} onLoad={() => setLoaded(true)}
@@ -80,8 +104,8 @@ function HeroPreview({ work }: { work: Work }) {
           style={{ width: "390px", height: "844px", transform: "translate(-50%, -50%) scale(0.55)", border: 0 }} />
       ) : (
         <iframe src={work.route} title={`${work.brand} preview`} tabIndex={-1} scrolling="no" onLoad={() => setLoaded(true)}
-          className={`pointer-events-none absolute left-0 top-0 origin-top-left transition-opacity duration-300 ${loaded ? "opacity-100" : "opacity-0"}`}
-          style={{ width: "1440px", height: "2028px", transform: "scale(0.711)", border: 0 }} />
+          className={`pointer-events-none absolute left-0 top-0 origin-top-left transition-opacity duration-300 ${loaded && scale > 0 ? "opacity-100" : "opacity-0"}`}
+          style={{ width: HERO_W, height: frameH, transform: `scale(${scale})`, border: 0 }} />
       )}
     </div>
   );
@@ -161,7 +185,12 @@ function RichSpec({ spec, d }: { spec: WorkSpec; d: (typeof STRINGS)["en"]["deta
     <div className="mt-14 space-y-14">
       <section>
         <h2 className="text-sm font-bold uppercase tracking-wide text-zinc-500">{d.overview}</h2>
-        <p className="mt-3 max-w-3xl text-sm leading-relaxed text-zinc-600">{spec.philosophy}</p>
+        {/* Two columns from lg, not a wider single one. The paragraph already ran 92 characters per
+            line at max-w-3xl — the outer edge of readable — while the preview and spec blocks beside
+            it span the full 944px, so the prose looked accidentally short. Widening it to match would
+            have pushed the line to 113 characters and made it worse; flowing it into two columns uses
+            the same width at ~54 characters a line. */}
+        <p className="mt-3 text-sm leading-relaxed text-zinc-600 lg:columns-2 lg:gap-10">{spec.philosophy}</p>
       </section>
 
       <section>
