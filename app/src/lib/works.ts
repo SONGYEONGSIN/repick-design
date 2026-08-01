@@ -1,4 +1,22 @@
 // app/src/lib/works.ts — single source of truth for all work metadata (shared by the unified gallery + individual galleries)
+/**
+ * Every page type, **in generation priority order** — this array is both the category union and the
+ * autonomous round's queue. `/dash-evolve` walks it and takes the first type with no work yet, so
+ * adding a type here is all it takes to put it in the rotation.
+ *
+ * Order is by structural distance from what the catalogue already holds: the types that force the
+ * most different page shape come first. `scene` sits after `catalog` deliberately — catalog is the
+ * gentler version of scroll choreography, and the deltas it produces are what scene builds on.
+ */
+export const PAGE_TYPES = [
+  "dashboard", "settings", "landing", "login", "404",
+  "catalog", "scene", "product-detail", "paywall", "profile",
+  "blog", "about", "careers", "contact", "developers",
+  "integration", "media-kit", "mobile",
+] as const;
+
+export type PageType = (typeof PAGE_TYPES)[number];
+
 export type Work = {
   id: string;
   route: string;
@@ -21,16 +39,16 @@ export type Work = {
   target?: "dash" | "landing" | "native" | "login" | "404";
   date?: string;
   /**
-   * Gallery page-type category (refero-style axis: what kind of page is this, not what domain it serves).
-   * The union covers the full target taxonomy so future rounds have a slot to land in; the gallery only
-   * renders a filter chip for types that actually have works, so unfilled types stay invisible.
-   * Domain information (ops / finance / analytics …) lives in each work's `desc`, not in a second axis.
+   * Gallery page-type category (refero-style axis: what kind of page is this, not what domain it
+   * serves). Derived from `PAGE_TYPES` so the union and the generation queue can never drift —
+   * they used to be two lists, and the queue's hardcoded four meant the loop stopped filling new
+   * types after `catalog` and `scene` and silently fell back to the three it already had.
+   *
+   * Domain information (ops / finance / analytics …) lives in each work's `desc`, not in a second
+   * axis. The gallery only renders a filter chip for types that actually have works, so unfilled
+   * types stay invisible.
    */
-  category?:
-    | "dashboard" | "settings" | "landing" | "scene" | "catalog" | "product-detail"
-    | "paywall" | "login" | "profile" | "404" | "blog" | "about"
-    | "careers" | "contact" | "developers" | "integration" | "media-kit"
-    | "mobile";
+  category?: PageType;
 };
 
 export const LAST_UPDATED = "2026-08-01"; // determinism rule: no dynamic Date calls — update this by hand when refreshing
