@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import Link from "next/link";
 import { ArrowRight, LifeBuoy, Search, Activity } from "lucide-react";
 
 /* ------------------------------------------------------------------ */
@@ -18,12 +18,6 @@ const SECONDARY_LINKS = [
 ];
 
 export default function NotFoundClient() {
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
   return (
     <div className="flex min-h-dvh flex-col bg-neutral-950 text-neutral-100">
       <header className="mx-auto flex w-full max-w-5xl items-center justify-between px-6 py-6 sm:px-10">
@@ -53,9 +47,9 @@ export default function NotFoundClient() {
             <span
               key={`${digit}-${index}`}
               className={`inline-block tabular-nums transition-all duration-500 ease-out motion-reduce:transition-none motion-reduce:transform-none motion-reduce:opacity-100 ${
-                mounted ? "translate-y-0 opacity-100" : "translate-y-3 opacity-0"
+                "animate-[rise_0.5s_cubic-bezier(0.16,1,0.3,1)_both] motion-reduce:animate-none"
               } ${index === 1 ? "text-amber-400" : ""}`}
-              style={{ transitionDelay: mounted ? `${index * 90}ms` : "0ms" }}
+              style={{ animationDelay: `${index * 90}ms` }}
             >
               {digit}
             </span>
@@ -70,13 +64,13 @@ export default function NotFoundClient() {
           renamed, or the link was copied from an older release.
         </p>
 
-        <a
+        <Link
           href="/"
           className="mt-8 inline-flex items-center gap-2 rounded-lg bg-amber-400 px-5 py-2.5 text-sm font-semibold text-neutral-950 shadow-sm transition-colors hover:bg-amber-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-950"
         >
           Back to dashboard
           <ArrowRight className="h-4 w-4" aria-hidden="true" />
-        </a>
+        </Link>
 
         <nav aria-label="Alternative paths" className="mt-10 flex flex-wrap items-center justify-center gap-x-6 gap-y-3">
           {SECONDARY_LINKS.map(({ label, href, icon: Icon }) => (
