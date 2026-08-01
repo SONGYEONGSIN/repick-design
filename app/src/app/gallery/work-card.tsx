@@ -43,7 +43,10 @@ export function WorkCard({ work, lang, label }: { work: Work; lang: Lang; label:
   const windowH = scale > 0 ? h / scale : 0; // page px visible in the card at rest
   // Travel only as far as the page actually goes — a work shorter than CAPTURE_H would otherwise
   // scroll into empty background. Previews are same-origin, so the real height is readable.
-  const frameH = work.previewViewport ?? CAPTURE_H;
+  // A one-screen work is rendered at a viewport whose aspect matches the card box, so its whole
+  // screen lands in the standard preview height with nothing left over and nothing cropped. Everything
+  // else keeps the tall capture height and scrolls through on hover.
+  const frameH = work.singleScreen && scale > 0 ? Math.round(h / scale) : CAPTURE_H;
   const [pageH, setPageH] = useState(frameH);
   function measurePage(e: React.SyntheticEvent<HTMLIFrameElement>) {
     setLoaded(true);
@@ -76,9 +79,7 @@ export function WorkCard({ work, lang, label }: { work: Work; lang: Lang; label:
         ref={frameRef}
         aria-hidden="true"
         className="relative w-full overflow-hidden border-b border-zinc-100 bg-zinc-50"
-        // A one-screen work gets a box the exact height of its scaled page, so nothing is left over
-        // inside the frame; everything else keeps the authored preview height and scrolls on hover.
-        style={work.previewViewport && scale > 0 ? { height: Math.round(frameH * scale) } : { height: h }}
+        style={{ height: h }}
       >
         {!loaded && <div className="absolute inset-0 animate-pulse bg-gradient-to-b from-zinc-100 to-zinc-50 motion-reduce:animate-none" />}
         {work.category === "mobile" ? (

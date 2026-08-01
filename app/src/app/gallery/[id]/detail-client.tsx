@@ -78,14 +78,14 @@ const HERO_H = 2028;
  * The scale used to be the constant 0.711, which is only correct in a 1024px container — anywhere
  * else the page was cut off on the right, which is what it did on this page. Same defect the grid
  * cards had before they started measuring; the constant just moved here instead of being removed.
- * `previewViewport` is honoured for the same reason as in the card: a one-screen work centred inside
- * a 2028px viewport puts its content off the bottom of the frame.
+ * `singleScreen` is honoured for the same reason as in the card: a one-screen work centred inside
+ * a 2028px viewport puts its content off the bottom of the frame. The 480 is this box's fixed height.
  */
 function HeroPreview({ work }: { work: Work }) {
   const [loaded, setLoaded] = useState(false);
   const [scale, setScale] = useState(0);
   const boxRef = useRef<HTMLDivElement>(null);
-  const frameH = work.previewViewport ?? HERO_H;
+  const frameH = work.singleScreen && scale > 0 ? Math.round(480 / scale) : HERO_H;
 
   useEffect(() => {
     const el = boxRef.current;
