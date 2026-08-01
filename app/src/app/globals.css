@@ -55,6 +55,17 @@
   src: url("https://cdn.jsdelivr.net/fontsource/fonts/jetbrains-mono:vf@latest/latin-wght-normal.woff2") format("woff2-variations");
 }
 
+/* One-shot entrance used by works that reveal on mount. Declared as a keyframe rather than a
+   state flip so the component needs no effect: the resting styles are the *finished* state, and the
+   animation only supplies the offset it starts from — which also keeps `motion-reduce:animate-none`
+   landing on a fully visible element instead of an invisible one. */
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+}
+
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
