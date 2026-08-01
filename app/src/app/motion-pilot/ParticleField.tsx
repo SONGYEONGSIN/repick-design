@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { INTRO_MS } from "./intro";
 import { RIM_SHARE, garment, hand, profile, scatter, sparseField, sphere, type Vec3 } from "./shapes";
 
 /**
@@ -22,7 +23,7 @@ import { RIM_SHARE, garment, hand, profile, scatter, sparseField, sphere, type V
 
 const COUNT = 20000;
 /** Share of the field that stays scattered across the frame instead of ever joining a sculpture. */
-const AMBIENT_SHARE = 0.06;
+const AMBIENT_SHARE = 0.045;
 /**
  * Palette weighted to the reference's measured distribution, not chosen by eye.
  *
@@ -99,7 +100,7 @@ uniform float uScale;
 uniform float uIdle;    // seconds of idle drift; pinned to 0 while capturing
 uniform vec2  uOrbit;   // whole-body yaw/pitch from cursor position; (0,0) when no pointer
 uniform float uGather;  // 0 = field scattered on entry, 1 = settled; pinned to 1 while capturing
-out vec3 vColor; out float vSeed; out float vDepth; out float vHot; out float vBand; out float vAmb;
+out vec3 vColor; out float vSeed; out float vDepth; out float vHot; out float vBand; out float vAmb; out float vEnter;
 
 void main() {
   // Per-particle lag so the cloud reorganises limb by limb instead of sliding in lockstep. Kept
@@ -122,10 +123,16 @@ void main() {
   vec3 away = normalize(p + vec3(0.0007, 0.0011, 0.0013));
   p += away * burst * burst * (0.5 + aSeed * 2.1);
 
-  // Entry: the field arrives scattered and pulls into its first silhouette *after* the copy has
-  // landed, which is the order the reference opens in. uGather runs 0 -> 1 once on mount and is
-  // pinned to 1 under capture and reduced motion, so the frozen frame is the settled one.
-  p += away * (1.0 - uGather) * (1.1 + aSeed * 2.6);
+  // Entry: the form starts as a small dense knot at the centre of the screen and *expands* into
+  // place. Watching the reference's own reveal frame by frame settled the direction — it opens with
+  // a faint cluster roughly 180px across at dead centre, which then blooms outward and slides to its
+  // final side. Ours used to do the opposite (scattered wide, pulling inward), which reads as debris
+  // assembling rather than something coming into focus.
+  //
+  // The per-particle stagger keeps it from expanding as one rigid body.
+  float g = clamp((uGather - aSeed * 0.25) / 0.75, 0.0, 1.0);
+  g = g * g * (3.0 - 2.0 * g);
+  p *= mix(0.06, 1.0, g);
 
   // Ambient particles never join a sculpture. The reference keeps the whole frame lightly populated
   // — sparse outlined shapes drifting well away from the object — and a field that empties out
@@ -158,7 +165,8 @@ void main() {
   // every ambient shape to a third and no size multiplier could pull it back — the two scales have
   // to be separate.
   float sc = mix(uScale, 1.0, aAmb);
-  vec2 dr = mix(uDrift, vec2(0.0), aAmb);
+  // Drift ramps in with the bloom, so the knot starts centred and travels to its side as it opens.
+  vec2 dr = mix(uDrift * g, vec2(0.0), aAmb);
   float persp = 1.0 / (2.15 - p.z * 0.55);
   vec2 clip = vec2(p.x * persp / uAspect * sc + dr.x, p.y * persp * sc + dr.y);
 
@@ -213,16 +221,20 @@ void main() {
   // sculpture's heavy tail (seed^4) is what gives it depth — most dust, a few large. The reference's
   // ambient shapes are the opposite: a tight band (measured median 11px, p90 20, max 27), so they
   // get a linear curve. Sharing one made our ambient dust with a few outliers.
+  //
+  // A later pass tried pow(aSeed,1.4) to make the sizes "more varied" and overshot — p90 went to 29
+  // against the reference's 20. The reference's spread really is close to linear; what reads as
+  // variety there is the *sparseness*, not a longer tail. Density is the knob, not the curve.
   float sSeed = mix(sizeSeed, aSeed * 0.68, aAmb);
   float ptSize = (0.9 + sSeed * 52.0 * mix(grain, 1.0, aAmb) * (0.55 + aRim * 1.05)) * (0.55 + persp * 0.95) * (1.0 + hot * 1.6) * uScale * 0.62;
   gl_PointSize = ptSize;
   vBand = clamp(2.6 / max(ptSize, 2.0), 0.05, 0.34);
-  vColor = aColor; vSeed = aSeed; vAmb = aAmb;
+  vColor = aColor; vSeed = aSeed; vAmb = aAmb; vEnter = g;
 }`;
 
 const FRAG = `#version 300 es
 precision mediump float;
-in vec3 vColor; in float vSeed; in float vDepth; in float vHot; in float vBand; in float vAmb;
+in vec3 vColor; in float vSeed; in float vDepth; in float vHot; in float vBand; in float vAmb; in float vEnter;
 out vec4 outColor;
 float sdTri(vec2 p, float r) {
   const float k = 1.7320508;
@@ -246,7 +258,7 @@ void main() {
   // translucent field lets the text carry (paired with a shadow on the copy itself).
   // Ambient shapes read as far-off texture, not as part of the object: same palette, a third of
   // the light.
-  outColor = vec4(c, line * depthFade * (0.98 + vHot * 0.6) * mix(1.0, 0.3, vAmb));
+  outColor = vec4(c, line * depthFade * (0.98 + vHot * 0.6) * mix(1.0, 0.3, vAmb) * mix(0.12, 1.0, vEnter));
 }`;
 
 function compile(gl: WebGL2RenderingContext, type: number, src: string) {
@@ -359,7 +371,11 @@ export default function ParticleField() {
     // to what it was before the entry existed. The delay lets the copy land first — the reference
     // opens with its statement, then draws the object together.
     let mountTs = 0;
-    const GATHER_DELAY = 0.55, GATHER_SPAN = 1.25;
+    // The bloom has to start *after* the curtain lifts, or it plays out behind a black sheet and the
+    // visitor sees a settled field with no entrance at all — measured: at 1850ms the frame was
+    // already 18% lit and the whole expansion was over. Derived from INTRO_MS rather than typed
+    // again here, so moving the curtain moves the bloom with it.
+    const GATHER_DELAY = INTRO_MS / 1000 + 0.1, GATHER_SPAN = 1.3;
 
     function draw(ts?: number) {
       frame = 0;
