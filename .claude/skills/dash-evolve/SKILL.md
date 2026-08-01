@@ -1,6 +1,6 @@
 ---
 name: dash-evolve
-description: 자율 진화 1라운드 (다중 타깃 — 카탈로그에 없는 페이지 타입(login·404·catalog·scene)을 우선 생성하고, 없으면 대시보드·랜딩·네이티브 중 무작위) — 정본 brief+격리 delta로 후보 3개 생성 → 하드게이트(gate.mjs --target web: 정적·sweep·a11y·perf) → 3렌즈 judge 다수결 → delta 격리 적재 → 정제 게이트 → evolve/dash 커밋. "/dash-evolve", "자율 라운드" 시 사용. 무인 실행 전제 — 사람 확인 없이 완주하며 no-winner 라운드를 허용한다.
+description: 자율 진화 1라운드 (다중 타깃 — works.ts PAGE_TYPES 순서대로 카탈로그에 없는 페이지 타입을 우선 생성하고, 전부 차면 대시보드·랜딩·네이티브 중 무작위) — 정본 brief+격리 delta로 후보 3개 생성 → 하드게이트(gate.mjs --target web: 정적·sweep·a11y·perf) → 3렌즈 judge 다수결 → delta 격리 적재 → 정제 게이트 → evolve/dash 커밋. "/dash-evolve", "자율 라운드" 시 사용. 무인 실행 전제 — 사람 확인 없이 완주하며 no-winner 라운드를 허용한다.
 ---
 
 # dash-evolve — 자율 라운드 (무인, 이중 타깃)
@@ -14,13 +14,16 @@ description: 자율 진화 1라운드 (다중 타깃 — 카탈로그에 없는 
   ```bash
   TARGET=$(node -e "
   const src=require('fs').readFileSync('app/src/lib/works.ts','utf8');
+  const m=src.match(/export const PAGE_TYPES = \[([\s\S]*?)\] as const;/);
+  const types=[...m[1].matchAll(/\"([a-z0-9-]+)\"/g)].map(x=>x[1]);
   const has=(c)=>src.includes('category: \"'+c+'\"');
-  const QUEUE=[['login','login'],['404','404'],['catalog','catalog'],['scene','scene']]; // 우선순위: 기존 작품과 구조적으로 먼 순. scene은 catalog 뒤 — catalog가 스크롤 연출의 완만한 버전이라 거기서 나온 delta가 scene에 쓰인다
-  const unfilled=QUEUE.filter(([,cat])=>!has(cat)).map(([t])=>t);
+  const unfilled=types.filter(t=>!has(t));
   if(unfilled.length){ console.log(unfilled[0]); }
   else { const base=['dash','landing','native']; console.log(base[Math.floor(Math.random()*base.length)]); }
   ")
   ```
+
+  큐는 **`works.ts`의 `PAGE_TYPES` 배열에서 그대로 읽는다** — 여기에 목록을 복사해 두지 않는다. 예전에는 이 자리에 4개짜리 하드코딩 배열이 있었고, 유니온에는 18종이 있었다. `catalog`·`scene`을 채우고 나면 나머지 10종은 큐에 없어서 **영영 생성되지 않고** dash/landing/native 난수로 되돌아갔다 — 커버리지가 조용히 멈추는 구조였다. 타입을 추가하려면 `PAGE_TYPES`에 한 줄 넣으면 되고, 그것만으로 로테이션에 들어간다.
 
   결과는 ledger에 기록되므로 재현성은 ledger가 담보한다 (후보 코드의 결정론 규칙과 무관한 오케스트레이션 난수).
   새 타입이 카탈로그에 등재되는 시점은 `/dash-falsify apply`의 킵 결정이므로, 드롭된 타입은 다음 라운드에서 다시 우선 추첨된다 — 의도된 동작이다(성공할 때까지 재시도).
