@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useId, useRef } from "react";
-import Image from "next/image";
+import BrandTile from "./brand-tile";
 import { Check, Download, Plus, Star, X } from "lucide-react";
 import type { Integration } from "./data";
 import { buildLongDescription, formatCount } from "./data";
@@ -70,14 +70,10 @@ export default function DetailDrawer({ item, installed, onToggleInstall, onClose
           </button>
         </div>
 
-        <div className="relative mt-4 aspect-video w-full overflow-hidden rounded-xl bg-zinc-800">
-          <Image
-            src={`https://picsum.photos/seed/loopwire-${item.slug}/800/450`}
-            alt=""
-            fill
-            sizes="480px"
-            className="object-cover"
-          />
+        {/* The mark sits centred on a plain field rather than filling the banner: cropping a square
+            logo to 16:9 clips the glyph and reads as a broken image, not a header. */}
+        <div className="mt-4 flex aspect-video w-full items-center justify-center overflow-hidden rounded-xl border border-zinc-800 bg-zinc-900">
+          <BrandTile slug={item.slug} name={item.name} className="h-24 w-24 rounded-xl" />
         </div>
 
         <div className="mt-5 flex items-start justify-between gap-3">

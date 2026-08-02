@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import BrandTile from "./brand-tile";
 import { Download, Star } from "lucide-react";
 import type { Integration } from "./data";
 import { formatCount } from "./data";
@@ -31,13 +31,7 @@ export default function IntegrationCard({ item, view, index, onSelect }: Integra
           : "relative h-20 w-20 flex-none overflow-hidden rounded-lg bg-zinc-800 sm:h-24 sm:w-24"
       }
     >
-      <Image
-        src={`https://picsum.photos/seed/loopwire-${item.slug}/640/640`}
-        alt=""
-        fill
-        sizes={view === "grid" ? "(min-width: 1280px) 300px, (min-width: 640px) 45vw, 90vw" : "96px"}
-        className="object-cover"
-      />
+      <BrandTile slug={item.slug} name={item.name} className="absolute inset-0 h-full w-full" />
     </div>
   );
 
