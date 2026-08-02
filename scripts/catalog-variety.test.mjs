@@ -33,6 +33,32 @@ test('banList — 최근 N개에서 반복된 축만 금지 목록에 올린다'
   assert.ok(b.face.includes('pretendard'));
 });
 
+test('banList — 테마는 2연속이면 금지한다', () => {
+  const recent = [
+    { theme: 'dark', accent: 'emerald', face: 'grotesk' },
+    { theme: 'dark', accent: 'teal', face: 'wide' },
+    { theme: 'light', accent: 'indigo', face: 'pretendard' },
+  ];
+  assert.deepEqual(banList(recent).theme, ['dark'], '직전 2라운드가 같은 테마면 금지한다');
+});
+
+test('banList — 테마가 직전에서 끊기면 금지하지 않는다', () => {
+  const recent = [
+    { theme: 'light', accent: 'indigo', face: 'pretendard' },
+    { theme: 'dark', accent: 'teal', face: 'wide' },
+    { theme: 'dark', accent: 'emerald', face: 'grotesk' },
+  ];
+  assert.deepEqual(banList(recent).theme, [], '연속이 끊기면 누적 횟수와 무관하게 금지 없음');
+});
+
+test('banList — 테마가 기록되지 않은 레거시 라운드는 연속으로 세지 않는다', () => {
+  // variety 필드는 2026-08-01에야 들어갔다. 그 이전 entry는 theme이 없으며,
+  // undefined 두 개를 "같은 테마 2연속"으로 읽으면 존재하지 않는 축을 금지하게 된다.
+  const recent = [{ accent: 'none', face: 'pretendard' }, { accent: 'none', face: 'pretendard' }];
+  assert.deepEqual(banList(recent).theme, []);
+  assert.deepEqual(banList([{ theme: 'unknown' }, { theme: 'unknown' }]).theme, []);
+});
+
 test('banList — 이미 고르게 퍼져 있으면 금지 없음', () => {
   const recent = [
     { theme: 'dark', accent: 'indigo', face: 'grotesk' },
