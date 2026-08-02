@@ -64,3 +64,4 @@ _(main 기준 없음 — 라운드 커밋이 DECISION 등재를 추가한다)_
 - [[20-generations/2026-07-31-auto-404-r1/DECISION|auto-404-r1]] (404 타입 첫 라운드 — 승자 a — Rivet 다크 타이포그래픽 404, 렌즈2·렌즈3 2표 vs 렌즈1 1표) → **`/not-found-page` 승격 (nf1 Rivet)**
 - [[20-generations/2026-08-01-auto-catalog-r1/DECISION|auto-catalog-r1]] (catalog 타입 첫 라운드 — 승자 a — Loopwire 좌 필터 레일+그리드 인테그레이션 마켓플레이스, 렌즈1·렌즈2 2표 vs 렌즈3 1표 — 차별성↔완성도 상충 재현)
 - [[20-generations/2026-08-01-auto-scene-r1/DECISION|auto-scene-r1]] (scene 타입 첫 라운드 — 승자 a — KEPT 스니커 4단계 파티클 장면, 렌즈1·렌즈2 2표 vs 렌즈3 1표 — 3후보 전이 공식이 매크로 골격 하나로 수렴한 사실을 렌즈3이 코드 대조로 발견)
+- [[20-generations/2026-08-02-auto-product-detail-r1/DECISION|auto-product-detail-r1]] (product-detail 타입 첫 라운드 — 프로파일 부재로 page-brief-core만으로 생성 — 승자 b — Fenwick Audio 오디오 인터페이스 SKU 페이지, 3렌즈 만장일치 — c는 a11y 1-fix 루프 적용(dl/dt/dd 중첩 구조 평탄화))
