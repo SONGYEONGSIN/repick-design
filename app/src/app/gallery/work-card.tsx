@@ -43,16 +43,26 @@ export function WorkCard({ work, lang, label }: { work: Work; lang: Lang; label:
   const windowH = scale > 0 ? h / scale : 0; // page px visible in the card at rest
   // Travel only as far as the page actually goes — a work shorter than CAPTURE_H would otherwise
   // scroll into empty background. Previews are same-origin, so the real height is readable.
-  // A one-screen work is rendered at a viewport whose aspect matches the card box, so its whole
-  // screen lands in the standard preview height with nothing left over and nothing cropped. Everything
-  // else keeps the tall capture height and scrolls through on hover.
-  const frameH = work.singleScreen && scale > 0 ? Math.round(h / scale) : CAPTURE_H;
+  // Two flags fit the iframe's viewport to the card box, so the whole screen lands in the preview
+  // height with nothing left over and nothing cropped: `singleScreen` (a page that never scrolls)
+  // and `viewportPreview` (a page laid out in viewport units). They differ only in what hover does —
+  // the first has nowhere to go, the second scrolls its own document.
+  //
+  // Everything else keeps the tall capture height, which is a *substitute* for scrolling and holds
+  // only for layouts that ignore viewport height. A page whose sections are `min-h-dvh` reads 2400
+  // as the screen and stretches to match, putting its centred content below the card's window.
+  const fitViewport = (work.singleScreen || work.viewportPreview) && scale > 0;
+  const frameH = fitViewport ? Math.round(h / scale) : CAPTURE_H;
   const [pageH, setPageH] = useState(frameH);
   function measurePage(e: React.SyntheticEvent<HTMLIFrameElement>) {
     setLoaded(true);
     try {
       const doc = e.currentTarget.contentDocument;
-      if (doc) setPageH(Math.min(frameH, Math.max(windowH, doc.documentElement.scrollHeight)));
+      if (!doc) return;
+      const real = doc.documentElement.scrollHeight;
+      // A scrolling preview's document is legitimately taller than its viewport; capping it at the
+      // frame would strand the scroll-through on the first screen.
+      setPageH(work.viewportPreview ? real : Math.min(frameH, Math.max(windowH, real)));
     } catch {
       /* cross-origin preview — keep the default capture height */
     }
@@ -60,6 +70,32 @@ export function WorkCard({ work, lang, label }: { work: Work; lang: Lang; label:
   const range = Math.max(0, pageH - windowH); // page px available to travel
   const travel = hover && !reduced ? -range : 0;
   const travelMs = Math.round(Math.min(6000, (range / 420) * 1000)); // constant speed, capped
+
+  // Scrolling preview: drive the iframe's own scroll rather than translating the frame. Timed off
+  // the rAF timestamp, not a clock call, so nothing here reads the wall time.
+  const iframeRef = useRef<HTMLIFrameElement>(null);
+  useEffect(() => {
+    if (!work.viewportPreview || reduced || !loaded) return;
+    const win = iframeRef.current?.contentWindow;
+    if (!win) return;
+    const to = hover ? range : 0;
+    const from = win.scrollY;
+    const dur = hover ? travelMs : 420;
+    if (dur <= 0 || from === to) {
+      win.scrollTo(0, to);
+      return;
+    }
+    let raf = 0;
+    let t0 = 0;
+    const step = (now: number) => {
+      if (!t0) t0 = now;
+      const k = Math.min(1, (now - t0) / dur);
+      win.scrollTo(0, from + (to - from) * k);
+      if (k < 1) raf = requestAnimationFrame(step);
+    };
+    raf = requestAnimationFrame(step);
+    return () => cancelAnimationFrame(raf);
+  }, [hover, reduced, loaded, range, travelMs, work.viewportPreview]);
   const t = STRINGS[lang];
   // Catalog works route to their detail page; evolve candidates (id has "/") have no detail page.
   const href = work.id.includes("/") ? work.route : `/gallery/${work.id}`;
@@ -88,13 +124,14 @@ export function WorkCard({ work, lang, label }: { work: Work; lang: Lang; label:
             className={`pointer-events-none absolute left-1/2 top-0 origin-top transition-opacity duration-300 ${loaded ? "opacity-100" : "opacity-0"}`}
             style={{ width: "390px", height: "844px", transform: `translateX(-50%) scale(${h / 844})`, border: 0 }} />
         ) : (
-          <iframe src={work.route} loading="lazy" title={`${work.brand} preview`} tabIndex={-1} scrolling="no" onLoad={measurePage}
+          <iframe ref={iframeRef} src={work.route} loading="lazy" title={`${work.brand} preview`} tabIndex={-1} scrolling="no" onLoad={measurePage}
             className={`pointer-events-none absolute left-0 top-0 origin-top-left ${loaded && scale > 0 ? "opacity-100" : "opacity-0"}`}
             style={{
               width: PREVIEW_W,
               height: frameH,
               // scale first, then translate in page pixels — the travel distance stays authoring-space.
-              transform: `scale(${scale}) translateY(${travel}px)`,
+              // A scrolling preview moves its own document, so the frame itself must stay put.
+              transform: `scale(${scale}) translateY(${work.viewportPreview ? 0 : travel}px)`,
               transition: `opacity 300ms, transform ${hover ? travelMs : 420}ms linear`,
               border: 0,
             }} />
