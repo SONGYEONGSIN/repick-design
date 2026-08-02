@@ -54,16 +54,24 @@ export function displayFaceOf(src) {
 /**
  * What the next round should avoid, given the recent ones.
  *
- * A theme is banned only when it has run `window` times unbroken — one repeat is a coincidence, a
- * clean sweep is a rut. Accents and faces are banned at two or more uses in the window, because
- * there are many of each and repeating one already narrows the field.
+ * A theme is banned after `themeRun` consecutive uses. That was three, and three never fired: the
+ * `variety` field only started being recorded on 2026-08-01, so a three-round history did not exist
+ * yet and two dark works shipped back to back with nothing in the way. Two is the right number
+ * regardless — with essentially two themes in play, a third round is not evidence of a rut, it *is*
+ * the rut. Consecutive, not a tally: a theme that alternates is doing its job.
+ *
+ * Accents and faces are banned at two or more uses in the window rather than consecutively, because
+ * there are many of each and repeating one at all already narrows the field.
  */
-export function banList(recent, window = 3) {
+export function banList(recent, window = 3, themeRun = 2) {
   const slice = recent.slice(0, window);
   const tally = (key) => slice.reduce((m, r) => m.set(r[key], (m.get(r[key]) || 0) + 1), new Map());
-  const themes = tally('theme');
-  const theme = slice.length >= window
-    ? [...themes.entries()].filter(([, n]) => n === window).map(([t]) => t)
+  // Rounds from before the field existed carry no theme. Reading two of those as "the same theme
+  // twice" would ban `undefined` and leave the real axis unconstrained.
+  const run = recent.slice(0, themeRun);
+  const first = run[0]?.theme;
+  const theme = run.length >= themeRun && first && first !== 'unknown' && run.every((r) => r.theme === first)
+    ? [first]
     : [];
   const pick = (key, min) => [...tally(key).entries()].filter(([k, n]) => n >= min && k !== 'none').map(([k]) => k);
   return { theme, accent: pick('accent', 2), face: pick('face', 2) };
@@ -86,18 +94,43 @@ function walk(dir) {
   return out;
 }
 
-if (process.argv[1] && process.argv[1].endsWith('catalog-variety.mjs')) {
-  const roots = ['app/src/app/dash', 'app/src/app/(marketing)'];
-  const works = [];
-  for (const r of roots) {
-    if (!existsSync(r)) continue;
-    for (const n of readdirSync(r)) {
-      const d = join(r, n);
-      if (statSync(d).isDirectory() && walk(d).length) works.push([n, d]);
+/**
+ * Every route the app serves, mapped to the directory that implements it.
+ *
+ * Route groups (`(marketing)`) and private folders (`_x`) contribute no URL segment, which is why
+ * the champion at `/` lives under `app/src/app/(marketing)/page.tsx`.
+ */
+export function routeMap(appRoot = 'app/src/app') {
+  const out = new Map();
+  const descend = (dir, segs) => {
+    for (const name of readdirSync(dir)) {
+      const p = join(dir, name);
+      if (!statSync(p).isDirectory()) continue;
+      const next = name.startsWith('(') || name.startsWith('_') ? segs : [...segs, name];
+      if (existsSync(join(p, 'page.tsx'))) out.set('/' + next.join('/'), p);
+      descend(p, next);
     }
-  }
-  for (const extra of ['app/src/app/login', 'app/src/app/not-found-page', 'app/src/app/motion-pilot']) {
-    if (existsSync(extra)) works.push([extra.replace('app/src/app/', ''), extra]);
+  };
+  descend(appRoot, []);
+  return out;
+}
+
+if (process.argv[1] && process.argv[1].endsWith('catalog-variety.mjs')) {
+  // The set of works comes from `works.ts`, never from a list kept here. The hand-kept version
+  // silently went stale the moment a new page type was promoted: on 2026-08-02 it was still
+  // reporting 20 works with `face: pretendard 20` while `/catalog` (grotesk) and `/scene` (wide)
+  // were already live, and it was counting `/motion-pilot`, which is a reference and not in the
+  // catalogue at all. A diversity number that cannot see the newest work is worse than none —
+  // every judgement built on it is wrong in the direction of "nothing changed".
+  const src = readFileSync('app/src/lib/works.ts', 'utf8');
+  const routes = [...src.matchAll(/route: "([^"]+)"/g)].map((m) => m[1]);
+  const map = routeMap();
+  const works = [];
+  for (const r of routes) {
+    const d = map.get(r);
+    // Native works are React Native under `native/`, not app routes — they have no directory here
+    // and are measured by the native loop instead.
+    if (d && walk(d).length) works.push([r === '/' ? '(champion)' : r.replace(/^\//, ''), d]);
   }
   const rows = works.map(([name, d]) => ({ name, ...readWork(d) }));
   const count = (k) => rows.reduce((m, r) => m.set(r[k], (m.get(r[k]) || 0) + 1), new Map());
