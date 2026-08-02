@@ -34,6 +34,21 @@ export type Work = {
    * preview height exactly.
    */
   singleScreen?: boolean;
+  /**
+   * This page lays its *sections* out in viewport units (`min-h-dvh` + centred content), so its
+   * layout depends on how tall the viewport is.
+   *
+   * The preview normally fakes scrolling by rendering the page into a 2400px-tall iframe and sliding
+   * a window over it. That works only for viewport-independent layouts: give a `min-h-dvh` section a
+   * 2400px viewport and it becomes 2400px tall, so its vertically centred content lands ~1200px down
+   * and the card's window shows the empty top of it. Measured on the scene promotion — the card was
+   * ~500px of black with the headline clipped at the bottom edge.
+   *
+   * Such a work is previewed at a viewport whose aspect matches the card box (as `singleScreen` is),
+   * and gets its scroll-through by actually scrolling the iframe's document — which is also what
+   * makes its scroll-linked reveals fire in the right order rather than all at once.
+   */
+  viewportPreview?: boolean;
   status?: "winner" | "dropped" | "pending";
   round?: string;
   /**
@@ -80,7 +95,7 @@ export const CATALOG_WORKS: Work[] = [
 
 // 0. Scene — the scene page type's first entry.
 export const SCENE_WORKS: Work[] = [
-  { id: "sc1", route: "/scene", brand: "KEPT", desc: { ko: "스크롤이 장면을 구동하는 페이지 · 고정 WebGL2 파티클 한 층이 문서 전체를 지고 먼지→궤도→스니커→워드마크로 4단계 변형한다 (자동 scene r1 승자)", en: "A page where scroll drives one scene · a single fixed WebGL2 particle layer carries the whole document, morphing through dust, orbits, a sneaker and the wordmark (auto scene r1 winner)" }, target: "scene", category: "scene" },
+  { id: "sc1", route: "/scene", brand: "KEPT", viewportPreview: true, desc: { ko: "스크롤이 장면을 구동하는 페이지 · 고정 WebGL2 파티클 한 층이 문서 전체를 지고 먼지→궤도→스니커→워드마크로 4단계 변형한다 (자동 scene r1 승자)", en: "A page where scroll drives one scene · a single fixed WebGL2 particle layer carries the whole document, morphing through dust, orbits, a sneaker and the wordmark (auto scene r1 winner)" }, target: "scene", category: "scene" },
 ];
 
 // 0. Auth — the login page type's first entry.
