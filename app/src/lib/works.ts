@@ -72,11 +72,12 @@ export type Work = {
   category?: PageType;
 };
 
-export const LAST_UPDATED = "2026-08-02"; // determinism rule: no dynamic Date calls — update this by hand when refreshing
+export const LAST_UPDATED = "2026-08-04"; // determinism rule: no dynamic Date calls — update this by hand when refreshing
 
 export const NATIVE_WORKS: Work[] = [
   { id: "n1", route: "/native-app/index.html?screen=watchlist", brand: "Watchlist", desc: { en: "Saved-item watchlist · price-drop alerts and a single accent for unread, as a native mobile screen.", ko: "관심목록 · 가격 하락 알림 · 미읽음 단일 액센트 (네이티브 모바일 화면)" }, target: "native", category: "mobile" },
   { id: "n2", route: "/native-app/index.html?screen=match", brand: "AI Match", desc: { en: "AI-match results feed · ranked secondhand picks with match scores, native mobile.", ko: "AI 매칭 결과 피드 · 매칭 점수순 중고 추천 (네이티브 모바일)" }, target: "native", category: "mobile" },
+  { id: "n4", route: "/native-app/index.html?screen=offer-thread", brand: "Offer Thread", desc: { en: "Buyer-seller negotiation thread \u00b7 structured offer cards inline in a chronological stream, with the payout on acceptance pinned to a persistent action bar (auto native r1 winner).", ko: "\uad6c\ub9e4\uc790\u2194\ud310\ub9e4\uc790 \ud611\uc0c1 \uc2a4\ub808\ub4dc \u00b7 \uc2dc\uac04\uc21c \ud750\ub984 \uc548\uc5d0 \uad6c\uc870\ud654\ub41c \uc624\ud37c \uce74\ub4dc\uac00 \uc11e\uc774\uace0, \uc218\ub77d \uc2dc \uc2e4\uc218\ub839\uc561\uc774 \ud558\ub2e8 \uace0\uc815 \ubc14\uc5d0 \uc0c1\uc2dc \ub178\ucd9c (\uc790\ub3d9 native r1 \uc2b9\uc790)" }, target: "native", category: "mobile", previewH: 520 },
   { id: "n3", route: "/native-app/index.html?screen=detail", brand: "Price Detail", desc: { en: "Product price-history detail · chart + spec breakdown on a native mobile screen.", ko: "상품 가격 히스토리 상세 · 차트 + 스펙 분해 (네이티브 모바일)" }, target: "native", category: "mobile" },
 ];
 
@@ -86,6 +87,16 @@ export const NATIVE_WORKS: Work[] = [
 // assumption — the promoted route returned 404 on its first gate run.
 export const NOTFOUND_WORKS: Work[] = [
   { id: "nf1", route: "/not-found-page", brand: "Rivet", singleScreen: true, desc: { ko: "다크 타이포그래픽 404 · 장식 없이 타이포 매스가 화면을 지배하고 복귀 경로를 한 화면에서 끝낸다 (자동 404 r1 승자)", en: "Dark typographic 404 · no ornament, a typographic mass owns the screen and every route back resolves in one viewport (auto 404 r1 winner)" }, target: "404", category: "404" },
+];
+
+// 0. Commerce — the product-detail page type's first entry.
+export const PRODUCT_DETAIL_WORKS: Work[] = [
+  { id: "pd1", route: "/product-detail", brand: "Anvil TKL-75", desc: { en: "Certified-refurbished mechanical keyboard SKU · a configuration console where condition grade and switch feel recompute feel, fulfillment, specification and order total together, with price and buy button held in both the hero and the sticky header (auto product-detail r2 winner).", ko: "인증 리퍼비시 기계식 키보드 SKU · 컨디션 등급과 스위치 선택이 감각·이행·스펙·총액을 동시에 재계산하고, 가격과 구매 버튼이 히어로와 고정 헤더 양쪽에 상주 (자동 product-detail r2 승자)" }, target: "product-detail", category: "product-detail" },
+];
+
+// 0. Monetization — the paywall page type's first entry.
+export const PAYWALL_WORKS: Work[] = [
+  { id: "pw1", route: "/paywall", brand: "Fathomline", desc: { en: "Analytics usage paywall · a split of what stopped and when (daily event bars break at the cap) against the fix, where one lifted calculation drives the recommended plan, the price and every CTA (auto paywall r2 winner).", ko: "분석 사용량 페이월 · 왼쪽은 무엇이 언제 멈췄는가(일별 막대가 상한 지점에서 갈라진다), 오른쪽은 해법 · 단일 계산 상태가 추천 플랜·가격·전 CTA를 동시에 구동 (자동 paywall r2 승자)" }, target: "paywall", category: "paywall" },
 ];
 
 // 0. Commerce/browse — the catalog page type's first entry.
@@ -131,5 +142,5 @@ export const DASH_LAB_WORKS: Work[] = [
 
 /** Static catalog (excludes evolution candidates) — shared by the gallery grid and detail routes. Each entry carries its own page-type category. */
 export function catalogWorks(): Work[] {
-  return [...LANDING_WORKS, ...DASH_LAB_WORKS, ...LOGIN_WORKS, ...NOTFOUND_WORKS, ...CATALOG_WORKS, ...SCENE_WORKS, ...NATIVE_WORKS];
+  return [...LANDING_WORKS, ...DASH_LAB_WORKS, ...LOGIN_WORKS, ...NOTFOUND_WORKS, ...CATALOG_WORKS, ...SCENE_WORKS, ...PRODUCT_DETAIL_WORKS, ...PAYWALL_WORKS, ...NATIVE_WORKS];
 }

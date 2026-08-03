@@ -116,6 +116,13 @@ native는 웹 라우트가 아니라 RN 화면이라 아래 규약을 따른다.
 - **3렌즈 동시 만족을 명시 요구** — 각 designer에게 "차별성을 완성도와 맞바꾸지 마라: 신규 아키타입을 추구하되 핵심 증명은 상시-노출 기본값으로 두고, 조작은 그 증명을 지연시키는 게 아니라 강화해야 한다"를 넣는다. 3파전 완전 동률이 `auto-landing-r7`·`auto-login-r1` 2주 연속 발동한 원인은 렌즈 결함이 아니라 **후보가 세 렌즈를 동시에 만족시키려 하지 않는 것**이다(규칙을 잘 지킨 후보는 안전해서 차별성이 낮고, 차별성 높은 후보는 규칙을 벗어나 완성도가 낮다). 렌즈 구조 변경은 이 지시를 넣고 **1라운드 더 관측한 뒤** 판단한다. ([[curation-criteria]] "tie-break 예외의 재발 대응", 2026-07-31)
 - **native의 경우**: designer 3개는 `native/GENERATION.md` + `native/src/tokens.ts`를 입력받아 서로 다른 RN 화면을 `native/src/evolve/r<N>/<v>/`에 생성(웹 라우트 아님). 생성 후 각 후보를 native 블록의 "등록" 규약대로 `native/screens.ts`·`native/screens.json`에 slug `evolve-r<N>-<v>`로 등재한다. check 문자열 = 화면 대표 헤딩(예: "관심목록").
 
+- **designer 완료를 확인한 뒤에만 §3으로 넘어간다 — 파일 존재는 완료가 아니다.** designer가 비동기로 돌면 산출물을 여러 번에 걸쳐 쓰고, 초안을 디스크에 남긴 뒤 계속 고친다. 완료 알림을 기다리지 않고 진행하면 **낡은 상태를 게이트하고 낡은 프레임으로 판정**하게 된다(2026-08-04 `auto-native-r1` 실증 — 후보 b가 게이트 3분 뒤·스크린샷 2분 뒤에 다시 쓰였고, 판정 중이던 렌즈3이 "후보 파일이 첫 읽기 이후 바뀌었다"고 스스로 감지해 드러났다).
+- **게이트 직전에 상태를 동결하고 해시를 기록한다.** 후보 전체의 소스를 이어붙인 SHA-1을 구해 SCORES·DECISION에 남긴다 — 게이트·스크린샷·judge가 같은 산출물을 봤다는 유일한 증거다. 해시가 없으면 사후에 "무엇을 판정했는가"를 특정할 수 없다.
+  ```bash
+  cat <ROUTES>/*/*.tsx <ROUTES>/*/*.ts | shasum | cut -d" " -f1
+  ```
+  판정 중 이 해시가 바뀌면 그 라운드는 무효다 — judge를 중단하고 재게이트·재캡처 후 다시 시작한다.
+
 ## 3. HARD GATE (하나라도 실패 → 1회 수정 기회 → 재실패 시 탈락)
 - dev 서버: 3100 응답 확인(`curl -s -o /dev/null -w '%{http_code}' http://localhost:3100/`), 없으면 `cd app && npm run dev` 백그라운드 기동(이 라운드가 띄웠으면 마지막에 종료). gate.mjs 웹 브랜치가 sweep·Lighthouse 대상으로 3100을 쓴다.
 - **후보별 게이트**: 각 후보 v ∈ {a,b,c}에 대해 `node scripts/gate.mjs --target web --routes /<TARGET>-evolve/r<N>/<v>` 실행 → 공통 판정 verdict `{pass, gates:[{name:'static',…},{name:'sweep',…},{name:'a11y',…},{name:'perf',…}], violations}`. 디스패처가 정적(이미지 규칙 3종 포함 — 원시 img·alt 누락·unoptimized)·sweep(전 폭 오버플로, 랜딩도 동일 그리드 룰)·a11y·perf를 전부 실행·판정한다.

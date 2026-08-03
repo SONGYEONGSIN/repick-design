@@ -1,0 +1,25 @@
+---
+tags: [generation, paywall, auto-paywall-r2]
+---
+
+# auto-paywall-r2 / c — "Postrail"
+
+**Product/brand/trigger**: Postrail, a transactional-email delivery SaaS (password resets, receipts, account alerts). Paywall trigger: the account (Starter plan) has sent all 50,000 emails included this billing cycle — new sends are queued rather than delivered (1,284 emails waiting right now, split across three categories with an average delay per category) until the cycle resets in 9 days or the account upgrades.
+
+**Macro structure**: a persistent anchored summary bar (`summary-bar.tsx`, `position:fixed inset-x-0 bottom-0`, placed early in DOM so it's also an early keyboard stop) that always shows current plan → recommended plan, live price, and price delta with zero scrolling — it never disappears regardless of which module below is open or closed. Below the hero, the page body is three independently-controlled disclosure modules (`disclosure.tsx`, a shared controlled accordion primitive — `aria-expanded`/`aria-controls`/`role="region"`, opened/closed state lifted to the parent, no single-open-at-a-time coupling): **"Why you're blocked"** (persuasion evidence — per-category queued counts + delay via a `dl`, plus a deterministic inline SVG 7-day queue-trend chart), **"Right-size your plan"** (sizing calculator — an independent volume slider recomputes recommended tier/price/headroom from pure arithmetic, never a stored choice), and **"Compare all plans"** (full feature table). Each module shows a condensed "peek" fact in its header even while collapsed, so price/recommendation info is visible at rest at multiple points (hero card, bar, and each module's peek) without requiring a click to discover it exists. This differs from r1/b (two sections stacked linearly, both always expanded), from r1/a and r1/c (card-embedded sizing), and from this round's a ("Meridian", multi-step wizard replacing sections entirely) and b ("Fathomline", permanent split-screen) — here persuasion and sizing are siblings the visitor can open independently, in either order, while a bar external to both keeps the bottom-line numbers pinned throughout.
+
+**Interactions implemented** (5, all information-bearing):
+1. Billing-period toggle (monthly/annual) — recomputes price simultaneously in the hero card, the fixed bar, and the sizing module.
+2. "Why you're blocked" module expand/collapse — reveals the per-category queued breakdown and the queue-trend chart.
+3. "Right-size your plan" module expand/collapse — reveals the volume slider and calculator.
+4. Volume slider inside the sizing module — recomputes recommended tier, price, and headroom live (`aria-live="polite"` region announces the update).
+5. "Compare all plans" module expand/collapse — reveals the full plan comparison table.
+   (Bonus: the fixed bar's "Upgrade" button and the hero's primary CTA both open the sizing module and scroll to it, respecting `prefers-reduced-motion`.)
+
+**Palette**: near-monochrome **dark** theme (`zinc-950` background, `zinc-50` foreground, `zinc-800` borders/cards) with a single **blue** accent (`blue-500`/`blue-400`, adapted from the catalog's SaaS-General/B2B-Service blue rows). Checked against this round's other two candidates before finalizing: both "Meridian" (a, amber) and "Fathomline" (b, teal) are light theme, so dark was the deliberate choice here to avoid a light-theme sweep across the round; blue is a distinct hue family from both their accents and from the sky/green/orange used in recent unrelated rounds.
+
+**Font**: default Pretendard throughout, no `--font-display-*` override. Exactly 3 weight classes route-wide — `font-normal`, `font-medium`, `font-semibold` — verified via `grep -oh 'font-\(normal\|medium\|semibold\|bold\|light\|...\)\b' *.tsx | sort -u` across every file in the route.
+
+**Files**: `app/src/app/paywall-evolve/r2/c/page.tsx`, `paywall-client.tsx`, `summary-bar.tsx`, `disclosure.tsx`, `blocked-evidence.tsx`, `sizing-calculator.tsx`, `compare-table.tsx`, `data.ts`.
+
+**Confirmed**: `cd app && npx next build` passes cleanly. `node scripts/dash-static-check.mjs` returns `[]` (zero violations) on every file in the route. No raw `<img>`, no `Math.random`/`Date.now`/bare `new Date()`, no emoji, no `dark:text-*-500/600`. The one `<dl>` (blocked-category breakdown) follows the curation-criteria fix exactly — `dl > div > (dt, dd, dd)`, icon lives inside `dt` only. The plan-comparison module uses a real `<table>` with a `sr-only` `<caption>`, `scope="col"`/`scope="row"`, wrapped in a `relative overflow-x-auto` container (the caption's `sr-only` is `position:absolute`, so the wrapper needs `position:relative` per the sr-only-anchor rule in `page-brief-core` §3). Single `h1` in the hero; module headers are `h2` (no skipped levels). Focus-visible rings on every interactive element, with a dark-surface-specific ring-offset (`ring-offset-zinc-950` / `ring-offset-zinc-900` on the fixed bar) so the ring is visible against the forced-dark background. `prefers-reduced-motion` guards the chevron-rotate transition and the scroll-to-module jump.

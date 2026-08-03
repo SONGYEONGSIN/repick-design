@@ -1,5 +1,14 @@
 {
-  "watchlist": { "check": "Watchlist" },
-  "match": { "check": "AI Match Results" },
-  "detail": { "check": "Price History" }
+  "watchlist": {
+    "check": "Watchlist"
+  },
+  "match": {
+    "check": "AI Match Results"
+  },
+  "detail": {
+    "check": "Price History"
+  },
+  "offer-thread": {
+    "check": "Offer Thread"
+  }
 }
