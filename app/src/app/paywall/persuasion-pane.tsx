@@ -12,7 +12,6 @@ import {
   cx,
   fmt,
   usd,
-  type BillingPeriod,
   type PlanTier,
 } from "./data";
 import UsageChart from "./usage-chart";
@@ -25,11 +24,9 @@ const ROW_ICONS = [Clock, Users, Download, BarChart3];
 export default function PersuasionPane({
   recommendedPlan,
   recommendedPrice,
-  billing,
 }: {
   recommendedPlan: PlanTier;
   recommendedPrice: number;
-  billing: BillingPeriod;
 }) {
   const [windowId, setWindowId] = useState<"7d" | "30d" | "90d">("7d");
   const data = USAGE_WINDOWS[windowId];

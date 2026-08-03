@@ -53,7 +53,7 @@ export default function PaywallClient() {
 
       <main className="mx-auto max-w-[1180px]">
         <div className="grid grid-cols-1 lg:grid-cols-2">
-          <PersuasionPane recommendedPlan={plan} recommendedPrice={price} billing={billing} />
+          <PersuasionPane recommendedPlan={plan} recommendedPrice={price} />
           <SizingPane
             billing={billing}
             onBilling={setBilling}

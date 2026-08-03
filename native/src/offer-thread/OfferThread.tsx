@@ -28,7 +28,7 @@ import {
   type Outcome,
   type ThreadEntry,
 } from "./data";
-import { tokens } from "../../../tokens";
+import { tokens } from "../tokens";
 
 // Every commitment is two-tap — choose, then confirm — and lands in a settled state that the
 // thread and the pinned strip both show. One value carries the whole machine.

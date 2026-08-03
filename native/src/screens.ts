@@ -2,17 +2,13 @@ import type { ComponentType } from "react";
 import { WatchList } from "./watchlist/WatchList";
 import { MatchList } from "./MatchList";
 import { PriceDetail } from "./detail/PriceDetail";
-import { ListingComposer } from "./evolve/r1/a/ListingComposer";
-import { OfferThread } from "./evolve/r1/b/OfferThread";
-import { TasteCalibration } from "./evolve/r1/c/TasteCalibration";
+import { OfferThread } from "./offer-thread/OfferThread";
 
 const COMPONENTS = {
   watchlist: WatchList,
   match: MatchList,
   detail: PriceDetail,
-  "evolve-r1-a": ListingComposer,
-  "evolve-r1-b": OfferThread,
-  "evolve-r1-c": TasteCalibration,
+  "offer-thread": OfferThread,
 } as const satisfies Record<string, ComponentType>;
 
 export type ScreenSlug = keyof typeof COMPONENTS;
