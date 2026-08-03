@@ -14,6 +14,8 @@ tags: [index]
 - [[brief-404]] — 타입 프로파일 `404` (복귀 경로 중심, 인터랙션 최소 1종, 한 화면 완결)
 - [[brief-catalog]] — 타입 프로파일 `catalog` (필터·정렬·빈 상태 중심, 인터랙션 최소 3종, **스크롤 연출 허용 타입**)
 - [[brief-scene]] — 타입 프로파일 `scene` (페이지 전역 지속 장면, 결정론 필수, 실측 함정 4종 기록)
+- [[brief-product-detail]] — 타입 프로파일 `product-detail` (가격+CTA **이중 상시노출** 하드 기준, 선택→복수 표시부 동시 재계산, 인터랙션 최소 3종)
+- [[brief-paywall]] — 타입 프로파일 `paywall` (차단 사실+손실 없음 보증, 설득↔사이징 **단일 계산 상태 공유** 하드 기준, 인터랙션 최소 3종)
 - [[curation-criteria]] — 지식 정제 meta-기준 (L1~L3 레벨·승격 규칙)
 - [[questions-queue]] — 정제 게이트 질문 큐 (대기/아카이브)
 - [[MEMORY]] — 학습 인덱스 (200줄 cap)
@@ -64,3 +66,8 @@ _(main 기준 없음 — 라운드 커밋이 DECISION 등재를 추가한다)_
 - [[20-generations/2026-07-31-auto-404-r1/DECISION|auto-404-r1]] (404 타입 첫 라운드 — 승자 a — Rivet 다크 타이포그래픽 404, 렌즈2·렌즈3 2표 vs 렌즈1 1표) → **`/not-found-page` 승격 (nf1 Rivet)**
 - [[20-generations/2026-08-01-auto-catalog-r1/DECISION|auto-catalog-r1]] (catalog 타입 첫 라운드 — 승자 a — Loopwire 좌 필터 레일+그리드 인테그레이션 마켓플레이스, 렌즈1·렌즈2 2표 vs 렌즈3 1표 — 차별성↔완성도 상충 재현)
 - [[20-generations/2026-08-01-auto-scene-r1/DECISION|auto-scene-r1]] (scene 타입 첫 라운드 — 승자 a — KEPT 스니커 4단계 파티클 장면, 렌즈1·렌즈2 2표 vs 렌즈3 1표 — 3후보 전이 공식이 매크로 골격 하나로 수렴한 사실을 렌즈3이 코드 대조로 발견)
+- [[20-generations/2026-08-02-auto-product-detail-r1/DECISION|auto-product-detail-r1]] (product-detail 타입 첫 라운드 — 프로파일 부재로 page-brief-core만으로 생성 — 승자 b — Fenwick Audio 오디오 인터페이스 SKU 페이지, 3렌즈 만장일치 — c는 a11y 1-fix 루프 적용(dl/dt/dd 중첩 구조 평탄화))
+- [[20-generations/2026-08-02-auto-paywall-r1/DECISION|auto-paywall-r1]] (paywall 타입 첫 라운드 — 프로파일 부재로 page-brief-core만으로 생성 — 승자 b — Hopwire 인프로덕트 한도도달 페이월, 3파전 완전동률→렌즈3이 렌즈1 승자를 최하위 판정해 tie-break로 b 재적용 — a·c 둘 다 a11y 1-fix 루프 적용, c에서 round1과 동일한 dl/dt/dd 중첩 패턴 재현되어 curation-criteria L2 신규 편입)
+- [[20-generations/2026-08-03-auto-product-detail-r2/DECISION|auto-product-detail-r2]] (product-detail 2라운드째 — 승자 b — Anvil TKL-75 리퍼비시 키보드 콘솔/패널 모자이크, 렌즈1·렌즈2 2표 vs 렌즈3 1표(렌즈3은 a의 트윈컬럼 구조를 더 신선하다고 판정) — b는 모바일 a11y 1-fix(아이콘 버튼 aria-label), "히어로+헤더 이중 상시노출" 델타가 2라운드 재현되어 L2 승격)
+- [[20-generations/2026-08-03-auto-paywall-r2/DECISION|auto-paywall-r2]] (paywall 2라운드째 — 승자 b — Fathomline 제품분석 SaaS 상시노출 스플릿스크린, 렌즈1·렌즈2 2표 vs 렌즈3 1표(렌즈3은 a의 위저드 골격을 더 신선하다고 판정, b는 r1/a와 매크로 버킷 수렴으로 최하위) — c는 사이징 계산기가 페이지 CTA와 별도 하드코드 상수로 분리돼 실사용 시 가격 불일치되는 실격급 버그(소스 grep 재확인) — "설득↔사이징 분리는 단일 상태 공유가 필수" 델타 2라운드 재현으로 L2 승격)
+- [[20-generations/2026-08-04-auto-native-r1/DECISION|2026-08-04-auto-native-r1]]
