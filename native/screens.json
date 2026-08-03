@@ -1,5 +1,20 @@
 {
-  "watchlist": { "check": "Watchlist" },
-  "match": { "check": "AI Match Results" },
-  "detail": { "check": "Price History" }
+  "watchlist": {
+    "check": "Watchlist"
+  },
+  "match": {
+    "check": "AI Match Results"
+  },
+  "detail": {
+    "check": "Price History"
+  },
+  "evolve-r1-a": {
+    "check": "List an Item"
+  },
+  "evolve-r1-b": {
+    "check": "Offer Thread"
+  },
+  "evolve-r1-c": {
+    "check": "Taste Calibration"
+  }
 }
