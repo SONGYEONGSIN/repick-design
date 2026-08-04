@@ -21,6 +21,19 @@ export const RULES = [
   // is still a hard fail, because that is what keeps Korean body copy on Pretendard and the CLS
   // budget predictable.
   { id: 'no-unlisted-font', re: /font-?[Ff]amily\s*[:=]\s*["'`{]?\s*(?!var\(--font-(sans|mono|display-(grotesk|wide|mono))\))[A-Za-z]/u, why: '허용 목록 밖 폰트 금지 — 본문은 --font-sans, 디스플레이는 --font-display-* 중 하나' },
+  // Image services that return *arbitrary* pictures. Twice now a round has reached for one and
+  // shipped nonsense: `auto-catalog-r1` put moss on a CRM sync and wooden planks on double-entry
+  // bookkeeping (picsum.photos/seed/<slug> — the seed is stable, the subject is not), and
+  // `auto-blog-r1/c` loaded every post image from the same host, all of which failed — desktop
+  // showed empty grey boxes and at 390px the alt text overflowed its container into the adjacent
+  // headline. `page-brief-core` §4 reserves the box but cannot stop the content from being wrong.
+  //
+  // The ban is on randomness, not on remote hosts. A blanket "no external image host" rule was the
+  // first proposal and the retroactive scan killed it: 23 files — every landing (v6~v10, champion)
+  // and 12 dashboards — load fixed `images.unsplash.com/photo-<id>` assets a human chose. Those are
+  // controlled content. This list is the random-image family only, and it scans clean across the
+  // whole catalogue, which is what makes it promotable to a hard fail.
+  { id: 'no-random-image-host', re: /\b(?:picsum\.photos|loremflickr\.com|placekitten\.com|placeimg\.com|source\.unsplash\.com|placehold\.co|dummyimage\.com)/u, why: '무작위 이미지 서비스 금지 — 내용을 통제할 수 없어 주제와 무관한 사진이 실린다. 생성형(SVG) 또는 내용이 정해진 고정 이미지를 쓸 것' },
   { id: 'no-dark-dim-text', re: /\bdark:text-(?:zinc|neutral|gray|slate|stone)-[56]00\b/u, why: '다크 보조텍스트 하한 zinc-400 — 500/600단은 다크 배경에서 AA 미달 (page-brief-core §3)' },
 ];
 
