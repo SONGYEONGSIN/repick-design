@@ -82,6 +82,7 @@ export default function ReviewsPanel({
           <select
             value={sort}
             onChange={(e) => onSortChange(e.target.value as ReviewSort)}
+            aria-label="Sort reviews"
             className="min-h-9 rounded-lg border border-zinc-700 bg-zinc-900 px-2.5 text-sm font-medium text-zinc-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-rose-400"
           >
             {(Object.keys(SORT_LABEL) as ReviewSort[]).map((key) => (
