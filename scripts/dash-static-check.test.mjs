@@ -2,6 +2,32 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { checkSource } from './dash-static-check.mjs';
 
+
+test('no-random-image-host — 무작위 이미지 서비스는 하드페일', () => {
+  // 2026-08-02 catalog r1 승격본이 picsum.photos로 CRM 동기화 카드에 이끼 사진을 달았고,
+  // 2026-08-05 blog r1/c가 같은 호스트로 전 포스트 이미지를 로드해 전부 실패 —
+  // 데스크톱은 빈 회색 박스, 모바일 390px에서는 alt 텍스트가 컨테이너를 넘어 옆 헤드라인으로 번졌다.
+  // 재현 2회 + 소급 위반 0건이라 하드페일로 승격.
+  const hit = (src) => checkSource(src).some((v) => v.rule === 'no-random-image-host');
+  assert.ok(hit('const s = "https://picsum.photos/seed/x/640/640";'));
+  assert.ok(hit('<Image src="https://loremflickr.com/320/240" alt="x" />'));
+  assert.ok(hit('const s = "https://source.unsplash.com/random/800x600";'));
+});
+
+test('no-random-image-host — 내용이 통제된 고정 이미지는 통과', () => {
+  // images.unsplash.com/photo-<고정ID>는 사람이 고른 특정 사진이라 성격이 다르다.
+  // 전수 소급에서 23개 파일(랜딩 v6~v10·챔피언·대시보드 12종)이 이 호스트를 쓰고 있어,
+  // "외부 호스트 전면 금지"는 카탈로그 대부분을 소급 실패시킨다 — 금지 대상은 무작위성이다.
+  const hit = (src) => checkSource(src).some((v) => v.rule === 'no-random-image-host');
+  assert.ok(!hit('const s = "https://images.unsplash.com/photo-1445205170230-053b83016050?w=900";'));
+  assert.ok(!hit('const s = "https://images.pexels.com/photos/1234/x.jpg";'));
+});
+
+test('no-random-image-host — 주석 속 언급은 위반이 아니다', () => {
+  // brand-tile.tsx가 이 규칙이 생긴 경위를 주석에 적고 있다. 기록이 위반이 되면 안 된다.
+  const src = '/** picsum.photos was replaced here — see the round note. */\nexport const x = 1;';
+  assert.ok(!checkSource(src).some((v) => v.rule === 'no-random-image-host'));
+});
 test('next/font 추가 import를 잡는다', () => {
   const v = checkSource(`import { Inter } from 'next/font/google';`);
   assert.equal(v.length, 1);
