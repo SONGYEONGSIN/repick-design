@@ -131,7 +131,7 @@ export default function IntegrationsPanel({
                 <div className="flex items-start gap-3">
                   <IntegrationMark slug={item.slug} category={item.category} className="h-11 w-11 shrink-0" />
                   <div className="min-w-0">
-                    <h3 className="truncate text-sm font-semibold text-zinc-50">{item.name}</h3>
+                    <h3 className="text-sm font-semibold leading-snug text-zinc-50">{item.name}</h3>
                     <p className="mt-0.5 text-xs font-normal text-zinc-400">{CATEGORY_LABELS[item.category]}</p>
                   </div>
                 </div>
@@ -149,12 +149,12 @@ export default function IntegrationsPanel({
                   </span>
                 </div>
 
-                <div className="mt-3 flex items-center justify-between border-t border-zinc-800 pt-3 text-xs font-normal">
-                  <span className={`inline-flex items-center gap-1 ${meta.className}`}>
+                <div className="mt-3 flex flex-wrap items-center justify-between gap-x-3 gap-y-1.5 border-t border-zinc-800 pt-3 text-xs font-normal">
+                  <span className={`inline-flex shrink-0 items-center gap-1 ${meta.className}`}>
                     <StatusIcon aria-hidden="true" className="h-3.5 w-3.5" />
                     {item.status}
                   </span>
-                  <span className="inline-flex items-center gap-1 text-zinc-400">
+                  <span className="inline-flex shrink-0 items-center gap-1 whitespace-nowrap text-zinc-400">
                     <CalendarDays aria-hidden="true" className="h-3.5 w-3.5" />
                     Updated {item.updatedLabel}
                   </span>

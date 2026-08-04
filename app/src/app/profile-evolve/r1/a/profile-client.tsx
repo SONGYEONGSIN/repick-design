@@ -75,6 +75,7 @@ export default function ProfileClient() {
         </svg>
       </div>
 
+      <main>
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         {/* ── Identity header ─────────────────────────────────────────── */}
         <header className="relative flex flex-col gap-5 pb-7 sm:flex-row sm:items-end sm:justify-between">
@@ -290,6 +291,7 @@ export default function ProfileClient() {
           </div>
         </section>
       </div>
+      </main>
     </div>
   );
 }

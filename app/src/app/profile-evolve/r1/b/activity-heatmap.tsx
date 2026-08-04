@@ -24,10 +24,14 @@ const LEVEL_FILL: Record<0 | 1 | 2 | 3 | 4, string> = {
 
 const DISPLAY_FONT = { fontFamily: "var(--font-display-mono)" } as const;
 
-const CELL = 11;
-const GAP = 3;
+// Sized so the full 52-week grid (day-label gutter + 52 columns) fits inside the narrowest
+// measured right-column width at desktop breakpoints (~734px at 1264–1920, main content capped
+// at max-w-[1180px] well before that) without the wrapper ever needing to scroll — verified via
+// the gate's own sweep. Only 390px mobile is allowed to scroll this locally.
+const CELL = 10;
+const GAP = 2;
 const STEP = CELL + GAP;
-const DAY_LABEL_W = 30;
+const DAY_LABEL_W = 28;
 const WEEKS = 52;
 const DAYS = 7;
 
@@ -228,7 +232,9 @@ export default function ActivityHeatmap() {
                       />
                       <div
                         role="tooltip"
-                        className="pointer-events-none absolute bottom-full left-1/2 z-10 mb-1.5 -translate-x-1/2 whitespace-nowrap rounded-md border border-zinc-700 bg-zinc-800 px-2 py-1 text-xs font-normal text-zinc-100 opacity-0 shadow-lg transition-opacity duration-150 group-hover:opacity-100 group-focus-within:opacity-100 motion-reduce:transition-none"
+                        className={`pointer-events-none absolute left-1/2 z-10 hidden -translate-x-1/2 whitespace-nowrap rounded-md border border-zinc-700 bg-zinc-800 px-2 py-1 text-xs font-normal text-zinc-100 shadow-lg group-hover:block group-focus-within:block ${
+                          row === 0 ? "top-full mt-1.5" : "bottom-full mb-1.5"
+                        }`}
                       >
                         <span className="font-medium tabular-nums text-amber-300">{count}</span> {contributionWord(count)}{" "}
                         <span className="text-zinc-400">on {label}</span>
