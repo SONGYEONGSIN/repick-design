@@ -72,7 +72,7 @@ export type Work = {
   category?: PageType;
 };
 
-export const LAST_UPDATED = "2026-08-04"; // determinism rule: no dynamic Date calls — update this by hand when refreshing
+export const LAST_UPDATED = "2026-08-06"; // determinism rule: no dynamic Date calls — update this by hand when refreshing
 
 export const NATIVE_WORKS: Work[] = [
   { id: "n1", route: "/native-app/index.html?screen=watchlist", brand: "Watchlist", desc: { en: "Saved-item watchlist · price-drop alerts and a single accent for unread, as a native mobile screen.", ko: "관심목록 · 가격 하락 알림 · 미읽음 단일 액센트 (네이티브 모바일 화면)" }, target: "native", category: "mobile" },
@@ -87,6 +87,16 @@ export const NATIVE_WORKS: Work[] = [
 // assumption — the promoted route returned 404 on its first gate run.
 export const NOTFOUND_WORKS: Work[] = [
   { id: "nf1", route: "/not-found-page", brand: "Rivet", singleScreen: true, desc: { ko: "다크 타이포그래픽 404 · 장식 없이 타이포 매스가 화면을 지배하고 복귀 경로를 한 화면에서 끝낸다 (자동 404 r1 승자)", en: "Dark typographic 404 · no ornament, a typographic mass owns the screen and every route back resolves in one viewport (auto 404 r1 winner)" }, target: "404", category: "404" },
+];
+
+// 0. Identity — the profile page type's first entry.
+export const PROFILE_WORKS: Work[] = [
+  { id: "pf1", route: "/profile", brand: "Solstice Macro", desc: { en: "Audited trading-strategy profile · a sticky scoreboard band holds return, win rate, copiers and live-since at every scroll depth, while period and benchmark toggles recompute the monthly bars, the delta and the cohort standing from one shared state (auto profile r2 winner).", ko: "감사받은 트레이딩 전략 프로필 · 상단 고정 스코어보드가 수익률·승률·복사자·운용 시작을 전 스크롤 깊이에서 유지하고, 기간·벤치마크 토글이 월별 막대·델타·코호트 순위를 단일 공유 상태에서 함께 재계산 (자동 profile r2 승자)" }, target: "profile", category: "profile" },
+];
+
+// 0. Editorial — the blog page type's first entry.
+export const BLOG_WORKS: Work[] = [
+  { id: "bl1", route: "/blog", brand: "Baseline", desc: { en: "Benchmark journal index · each entry carries its baseline, result, sample size and confidence in the index itself, and a Feed/Compare toggle swaps one filtered dataset between editorial cards and a real aria-sort table (auto blog r2 winner).", ko: "벤치마크 저널 인덱스 · 항목마다 기준값·결과·표본·신뢰도가 인덱스 자체에 실리고, Feed/Compare 토글이 같은 필터 결과를 편집형 카드와 실동작 aria-sort 테이블 사이에서 전환 (자동 blog r2 승자)" }, target: "blog", category: "blog" },
 ];
 
 // 0. Commerce — the product-detail page type's first entry.
@@ -142,5 +152,5 @@ export const DASH_LAB_WORKS: Work[] = [
 
 /** Static catalog (excludes evolution candidates) — shared by the gallery grid and detail routes. Each entry carries its own page-type category. */
 export function catalogWorks(): Work[] {
-  return [...LANDING_WORKS, ...DASH_LAB_WORKS, ...LOGIN_WORKS, ...NOTFOUND_WORKS, ...CATALOG_WORKS, ...SCENE_WORKS, ...PRODUCT_DETAIL_WORKS, ...PAYWALL_WORKS, ...NATIVE_WORKS];
+  return [...LANDING_WORKS, ...DASH_LAB_WORKS, ...LOGIN_WORKS, ...NOTFOUND_WORKS, ...CATALOG_WORKS, ...SCENE_WORKS, ...PRODUCT_DETAIL_WORKS, ...PAYWALL_WORKS, ...PROFILE_WORKS, ...BLOG_WORKS, ...NATIVE_WORKS];
 }
