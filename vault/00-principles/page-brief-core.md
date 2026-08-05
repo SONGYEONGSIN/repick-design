@@ -78,6 +78,7 @@ tags: [principles, brief]
 | `scene` | [[brief-scene]] | 2종 (장면 자체가 주 인터랙션) | **필수** — 장면이 페이지의 축 |
 | `product-detail` | [[brief-product-detail]] | 3종 | 허용 (§5 제약 준수) |
 | `paywall` | [[brief-paywall]] | 3종 | 허용하나 권장하지 않음 |
+| `profile` | [[brief-profile]] | 3종 | 허용 (§5 제약 준수) |
 
 새 타입을 추가할 때는 이 표에 행을 더하고, 프로파일에는 **타입 고유 기준만** 쓴다 — 코어 내용을 옮겨 적으면 다음 개정에서 갈라진다.
 
