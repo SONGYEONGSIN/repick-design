@@ -319,7 +319,11 @@ export default function SeriesExplorer({ series, essays, tags }: {
                     {s.title}
                   </span>
                   <span className="mt-1 block text-xs font-normal text-zinc-600">{s.tagline}</span>
-                  <span className="mt-1.5 block text-xs font-medium text-zinc-500 tabular-nums">
+                  <span
+                    className={`mt-1.5 block text-xs font-medium tabular-nums ${
+                      selected ? "text-zinc-600" : "text-zinc-500"
+                    }`}
+                  >
                     {publishedCount}/{s.parts.length} published · {readCount} read
                   </span>
                 </span>
