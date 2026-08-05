@@ -24,6 +24,19 @@ description: 자율 진화 라운드 N회 (기본 1, 최대 3 · 다중 타깃 �
 
 ## 0. 준비 — 타깃 선택
 - 브랜치: `git checkout evolve/dash` (없으면 `git checkout -b evolve/dash`).
+- **native 주기 (주 1회 고정)** — `N`이 2 이상인 실행에서 **월요일이면 첫 라운드의 타깃을 무조건 `native`로** 두고, 나머지 라운드만 아래 미채움 큐를 따른다. `N=1`이면 그날은 native 한 라운드만 돈다.
+
+  ```bash
+  # 오케스트레이션 시각 판단 — 후보 코드의 결정론 규칙과 무관
+  IS_NATIVE_DAY=$(node -e "console.log(new Date().getUTCDay() === 1 ? 1 : 0)")
+  ```
+
+  **왜 고정 주기가 필요한가**: 미채움 큐 우선 규칙 아래에서 native는 **영영 뽑히지 않는다.** `mobile`은 이미 카탈로그에 차 있어 미채움 목록에 없고, native는 미채움이 0이 된 뒤에야 dash/landing/native 균등 난수로 1/3 확률을 얻는다. 2026-08-06 기준 미채움 8종이 남아 있었고, 그 사이 `auto-native-r*`는 **0건**이었다 — 유일한 native 라운드(`auto-native-r1`)는 사람이 수동으로 돌린 것이다.
+
+  결과는 delta 고갈이다. native delta는 L1 1건에서 멈춰 있고, 재현이 없으면 L2로 올라가지 못하므로 **`native/GENERATION.md`가 개선될 통로 자체가 없다**. 웹 정본(`page-brief-core`·타입 프로파일)이 매일 두꺼워지는 동안 native 정본만 정지한다.
+
+  주 1회로 정한 이유: 매일(또는 N의 절반)로 하면 웹 커버리지 진행이 절반으로 느려진다. 주 1회는 native delta가 쌓이기 시작하는 최소 빈도이면서 큐 전진을 크게 늦추지 않는다.
+
 - **타깃 결정 — 미충족 페이지 타입 우선**: 카탈로그에 아직 0건인 페이지 타입이 있으면 **그 타입을 먼저** 뽑고, 없으면 기존 3종(dash/landing/native) 균등 난수로 돌아간다. 균등 난수만 쓰면 이미 12건인 dashboard가 계속 뽑혀 갤러리 다양성이 늘지 않는다.
 
   ```bash

@@ -16,6 +16,7 @@ tags: [index]
 - [[brief-scene]] — 타입 프로파일 `scene` (페이지 전역 지속 장면, 결정론 필수, 실측 함정 4종 기록)
 - [[brief-product-detail]] — 타입 프로파일 `product-detail` (가격+CTA **이중 상시노출** 하드 기준, 선택→복수 표시부 동시 재계산, 인터랙션 최소 3종)
 - [[brief-paywall]] — 타입 프로파일 `paywall` (차단 사실+손실 없음 보증, 설득↔사이징 **단일 계산 상태 공유** 하드 기준, 인터랙션 최소 3종)
+- [[brief-profile]] — 타입 프로파일 `profile` (신뢰 통계 **고정 상시노출** 하드 기준, 전역 토글 → 이질적 산출물 동시 재계산, 인터랙션 최소 3종)
 - [[curation-criteria]] — 지식 정제 meta-기준 (L1~L3 레벨·승격 규칙)
 - [[questions-queue]] — 정제 게이트 질문 큐 (대기/아카이브)
 - [[MEMORY]] — 학습 인덱스 (200줄 cap)
@@ -71,3 +72,7 @@ _(main 기준 없음 — 라운드 커밋이 DECISION 등재를 추가한다)_
 - [[20-generations/2026-08-03-auto-product-detail-r2/DECISION|auto-product-detail-r2]] (product-detail 2라운드째 — 승자 b — Anvil TKL-75 리퍼비시 키보드 콘솔/패널 모자이크, 렌즈1·렌즈2 2표 vs 렌즈3 1표(렌즈3은 a의 트윈컬럼 구조를 더 신선하다고 판정) — b는 모바일 a11y 1-fix(아이콘 버튼 aria-label), "히어로+헤더 이중 상시노출" 델타가 2라운드 재현되어 L2 승격)
 - [[20-generations/2026-08-03-auto-paywall-r2/DECISION|auto-paywall-r2]] (paywall 2라운드째 — 승자 b — Fathomline 제품분석 SaaS 상시노출 스플릿스크린, 렌즈1·렌즈2 2표 vs 렌즈3 1표(렌즈3은 a의 위저드 골격을 더 신선하다고 판정, b는 r1/a와 매크로 버킷 수렴으로 최하위) — c는 사이징 계산기가 페이지 CTA와 별도 하드코드 상수로 분리돼 실사용 시 가격 불일치되는 실격급 버그(소스 grep 재확인) — "설득↔사이징 분리는 단일 상태 공유가 필수" 델타 2라운드 재현으로 L2 승격)
 - [[20-generations/2026-08-04-auto-native-r1/DECISION|2026-08-04-auto-native-r1]]
+- [[20-generations/2026-08-04-auto-profile-r1/DECISION|auto-profile-r1]] (profile 타입 첫 라운드 — 프로파일 부재로 page-brief-core만으로 생성 — 승자 b — Sable Voss / Loopwire 개발자·연동 퍼블리셔 프로필(기여 히트맵+연동 그리드), 렌즈1·렌즈2 2표 vs 렌즈3 1표 — 렌즈3은 3후보 모두가 기존 타입(catalog/dashboard/paywall)의 매크로 패턴을 부분 이식했다고 지적, Q15로 질문 큐 등재)
+- [[20-generations/2026-08-04-auto-blog-r1/DECISION|auto-blog-r1]] (blog 타입 첫 라운드 — 프로파일 부재로 page-brief-core만으로 생성 — 승자 a — Northbeam 히어로+필터형 카드 그리드 블로그 인덱스, 렌즈1·렌즈2 2표 vs 렌즈3 1표 — c는 picsum 원격 이미지 로드 실패로 alt 텍스트가 고정 컨테이너 밖으로 번지는 실결함, a·b는 결정론적 생성 SVG 아트로 이 실패 모드를 원천 회피 — 이 회피 패턴이 신규 델타로 기록)
+- [[20-generations/2026-08-05-auto-profile-r2/DECISION|auto-profile-r2]] (profile 2라운드째 — 승자 b — Renata Kessler / Solstice Macro 트레이딩 벤치마크 프로필(sticky 스코어보드 밴드의 이중 토글이 통계쌍·차트·테이블을 동시 재계산), 렌즈2·렌즈3 2표 vs 렌즈1 1표 — 렌즈1이 지적한 b의 390px 테이블 폭 결함(page-brief-core §3 sr-only containing-block 버그의 실측 재현, 자동 sweep 미검출)을 §3-1 정제 조치로 수정 후 재게이트·재통과 — "핵심 통계 상시노출" 델타 2라운드 재현으로 L2 승격, Q15에 2라운드째 관측 갱신(이식도 낮은 후보가 2연속 렌즈3 1위/최종승자))
+- [[20-generations/2026-08-05-auto-blog-r2/DECISION|auto-blog-r2]] (blog 2라운드째 — 승자 b — Baseline 벤치마크 저널 블로그(KPI 통계 행 + Feed/Compare 토글, 실동작 aria-sort 시맨틱 테이블), 렌즈1·렌즈2 2표 vs 렌즈3 1표 — r1에서 3후보 전원에게 있던 모바일 nav 대체 경로 부재(Q16)를 GENERATE 사전 지침으로 명시하자 이번엔 3후보 전원이 해소, Q16에 관측 갱신 — "무작위 이미지 호스트 회피" 델타는 이미 하드게이트(no-random-image-host)로 기계 검증돼 L2 승격, "전역 토글이 이질적 뷰를 재계산" 패턴이 auto-profile-r2와 타깃을 넘어 2회째 재현)
