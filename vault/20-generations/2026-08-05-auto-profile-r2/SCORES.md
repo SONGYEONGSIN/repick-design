@@ -2,7 +2,9 @@
 
 게이트: `CHROME_PATH=/opt/pw-browsers/chromium PW_CHROMIUM_PATH=/opt/pw-browsers/chromium PW_NO_SANDBOX=1 node scripts/gate.mjs --target web --routes /profile-evolve/r2/<v>` (세션 로컬 크로미움 심링크 경로 — playwright.dev 다운로드가 프록시에서 차단돼 `/opt/pw-browsers/chromium` 사전설치본을 사용, gate.mjs 자체는 무수정)
 
-후보 소스 동결 해시(전 후보 최종 통과 시점): `ecd0a7708c9f111a2ed7552dea4147bd26d2739f`
+후보 소스 동결 해시(전 후보 최종 통과 시점, judge 패널 입력): `ecd0a7708c9f111a2ed7552dea4147bd26d2739f`
+
+**정제 조치 후 재동결 해시**(b — §3-1 규칙 위반 해소, 순위 재계산 없음. 상세는 DECISION.md "정제 조치" 절): `c93d6cb43fd06f86a16cf9f15216a3d5f5af9df5`
 
 | 후보 | static | weights | sweep | a11y | perf | 1-fix |
 |---|---|---|---|---|---|---|

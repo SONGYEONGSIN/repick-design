@@ -109,8 +109,8 @@ export default function PositionsTable({ baseline }: { baseline: BaselineKey }) 
         })}
       </div>
 
-      <div className="mt-3 rounded-xl border border-zinc-800 bg-zinc-900/60 p-2 sm:p-3">
-        <table className="w-full table-fixed border-collapse text-sm">
+      <div className="relative mt-3 overflow-x-auto rounded-xl border border-zinc-800 bg-zinc-900/60 p-2 sm:p-3">
+        <table className="w-full min-w-[560px] table-fixed border-collapse text-sm">
           <caption className="sr-only">
             Open positions for Solstice Macro, sortable by allocation, return, and delta versus {baselineMeta.short}.
           </caption>
