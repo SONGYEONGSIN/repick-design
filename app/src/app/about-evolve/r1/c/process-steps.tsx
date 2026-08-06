@@ -57,7 +57,7 @@ export default function ProcessSteps({ steps, activeStep, onActivate }: ProcessS
               {expanded[i] ? "Hide the full story" : "Read the full story"}
               <ChevronDown
                 aria-hidden="true"
-                className={`h-4 w-4 transition-transform duration-200 ${
+                className={`h-4 w-4 transition-transform duration-200 motion-reduce:transition-none ${
                   expanded[i] ? "rotate-180" : ""
                 }`}
               />
@@ -65,7 +65,7 @@ export default function ProcessSteps({ steps, activeStep, onActivate }: ProcessS
 
             <div
               id={`step-detail-${step.id}`}
-              className="grid overflow-hidden transition-[grid-template-rows] duration-300 ease-out"
+              className="grid overflow-hidden transition-[grid-template-rows] duration-300 ease-out motion-reduce:transition-none"
               style={{ gridTemplateRows: expanded[i] ? "1fr" : "0fr" }}
             >
               <div className="min-h-0 overflow-hidden">
@@ -97,14 +97,14 @@ export default function ProcessSteps({ steps, activeStep, onActivate }: ProcessS
               </span>
               <ChevronDown
                 aria-hidden="true"
-                className={`h-5 w-5 flex-none text-zinc-500 transition-transform duration-200 ${
+                className={`h-5 w-5 flex-none text-zinc-500 transition-transform duration-200 motion-reduce:transition-none ${
                   mobileOpen === i ? "rotate-180" : ""
                 }`}
               />
             </button>
             <div
               id={`mobile-step-${step.id}`}
-              className="grid overflow-hidden transition-[grid-template-rows] duration-300 ease-out"
+              className="grid overflow-hidden transition-[grid-template-rows] duration-300 ease-out motion-reduce:transition-none"
               style={{ gridTemplateRows: mobileOpen === i ? "1fr" : "0fr" }}
             >
               <div className="min-h-0 overflow-hidden px-4 pb-4">

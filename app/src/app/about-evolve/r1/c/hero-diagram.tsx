@@ -63,7 +63,7 @@ export default function HeroDiagram({ activeStep, labels }: HeroDiagramProps) {
             stroke={filled ? "#e11d48" : "#a1a1aa"}
             strokeWidth={filled ? 3 : 2}
             markerEnd={filled ? "url(#about-arrow-active)" : "url(#about-arrow-neutral)"}
-            className="transition-[stroke,stroke-width] duration-200 ease-out"
+            className="transition-[stroke,stroke-width] duration-200 ease-out motion-reduce:transition-none"
           />
         );
       })}
@@ -77,7 +77,7 @@ export default function HeroDiagram({ activeStep, labels }: HeroDiagramProps) {
         const labelFill = state === "current" ? "#be123c" : "#3f3f46";
 
         return (
-          <g key={cx} className="transition-[fill,stroke] duration-200 ease-out">
+          <g key={cx} className="transition-[fill,stroke] duration-200 ease-out motion-reduce:transition-none">
             <circle
               cx={cx}
               cy={NODE_Y}
@@ -85,7 +85,7 @@ export default function HeroDiagram({ activeStep, labels }: HeroDiagramProps) {
               fill={fill}
               stroke={stroke}
               strokeWidth={state === "current" ? 3 : 2}
-              className="transition-[fill,stroke] duration-200 ease-out"
+              className="transition-[fill,stroke] duration-200 ease-out motion-reduce:transition-none"
             />
             <text
               x={cx}
@@ -93,7 +93,7 @@ export default function HeroDiagram({ activeStep, labels }: HeroDiagramProps) {
               textAnchor="middle"
               fontSize="30"
               fill={numberFill}
-              className="font-bold tabular-nums transition-[fill] duration-200 ease-out"
+              className="font-bold tabular-nums transition-[fill] duration-200 ease-out motion-reduce:transition-none"
             >
               {i + 1}
             </text>
@@ -103,7 +103,7 @@ export default function HeroDiagram({ activeStep, labels }: HeroDiagramProps) {
               textAnchor="middle"
               fontSize="19"
               fill={labelFill}
-              className="font-semibold transition-[fill] duration-200 ease-out"
+              className="font-semibold transition-[fill] duration-200 ease-out motion-reduce:transition-none"
             >
               {labels[i]}
             </text>
