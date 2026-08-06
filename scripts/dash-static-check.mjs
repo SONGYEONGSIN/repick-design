@@ -5,7 +5,16 @@ export const RULES = [
   { id: 'no-next-font', re: /from\s+['"]next\/font/u, why: 'next/font 추가 import 금지 (Pretendard 전역 단일)' },
   { id: 'no-font-serif', re: /\bfont-serif\b/u, why: '세리프·장식 폰트 금지' },
   { id: 'no-random', re: /Math\.random\(|Date\.now\(|new Date\(\)/u, why: '결정론적 더미 데이터 (합계 정합·하이드레이션)' },
-  { id: 'no-emoji', re: /\p{Extended_Pictographic}/u, why: '이모지 금지 — lucide-react 아이콘 사용' },
+  // `Extended_Pictographic`은 "그림문자가 될 수 있는 것" 전부라 ©(U+00A9)·™·®·↗ 같은 활자
+  // 기호까지 포함한다. 그 오탐이 세 번 발동했고(2026-07-31 랜딩 PR #57 · blog 승격본 ·
+  // 2026-08-06 careers r1/a) 세 번 다 규칙이 아니라 산출물을 고쳐, 카탈로그에 `© 2026`보다
+  // 나쁜 `Copyright 2026 …` 푸터가 남았다. careers 라운드는 후보당 1회뿐인 1-fix 기회를 이
+  // 오탐에 썼다 — 진짜 결함이 함께 있었다면 그 후보는 탈락했을 것이다.
+  //
+  // 원하는 것은 "기본 표시가 이모지인 문자"이고 그 속성은 `Emoji_Presentation`이다. 다만 그것만
+  // 쓰면 ❤️처럼 이형 선택자(U+FE0F)로 이모지 표시를 강제한 문자를 놓치므로 둘을 합친다.
+  // 선택자 없는 맨 ❤·✔는 통과하는데, 활자 기호로 쓸 여지가 있어 의도한 동작이다.
+  { id: 'no-emoji', re: /\p{Emoji_Presentation}|\p{Extended_Pictographic}\uFE0F/u, why: '이모지 금지 — lucide-react 아이콘 사용 (©™® 등 활자 기호는 허용)' },
   { id: 'no-raw-img', re: /<img[\s/>]/u, why: '원시 img 금지 — next/image Image 사용(LCP·CLS)' },
   { id: 'no-next-image-unopt', re: /\bunoptimized\b/u, why: 'unoptimized 금지 — 최적화 우회는 CLS/LCP 이점 상실' },
   // Dark-mode auxiliary text below the canon floor (page-brief-core §3: dark >= zinc-400).

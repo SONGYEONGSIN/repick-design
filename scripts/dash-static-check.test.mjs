@@ -2,6 +2,26 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { checkSource } from './dash-static-check.mjs';
 
+test('no-emoji — 법적 기호(©™®)는 이모지가 아니다', () => {
+  // Extended_Pictographic은 "그림문자가 될 수 있는 것" 전부라 활자 기호까지 포함한다. 이 오탐이
+  // 세 번 발동했고(2026-07-31 랜딩 PR #57 · blog 승격본 · 2026-08-06 careers r1/a), 세 번 다
+  // 규칙이 아니라 산출물을 고쳐 카탈로그에 "Copyright 2026 …" 푸터가 남았다. careers 라운드는
+  // 후보당 1회뿐인 1-fix 기회를 이 오탐에 썼다.
+  const hit = (src) => checkSource(src).some((v) => v.rule === 'no-emoji');
+  assert.ok(!hit('<p>© 2026 Fathom Labs</p>'));
+  assert.ok(!hit('<p>Attune™</p>'));
+  assert.ok(!hit('<p>Attune®</p>'));
+  assert.ok(!hit('<span>View live ↗</span>'), '화살표 글리프도 이모지가 아니다');
+});
+
+test('no-emoji — 진짜 이모지는 여전히 잡는다', () => {
+  const hit = (src) => checkSource(src).some((v) => v.rule === 'no-emoji');
+  assert.ok(hit('<p>🎉 launch</p>'), '기본 표시가 이모지인 문자');
+  assert.ok(hit('<p>🚀</p>'));
+  assert.ok(hit('<p>❤️</p>'), '이형 선택자로 이모지 표시를 강제한 문자');
+  assert.ok(hit('<p>✔️ done</p>'));
+});
+
 
 test('no-random-image-host — 무작위 이미지 서비스는 하드페일', () => {
   // 2026-08-02 catalog r1 승격본이 picsum.photos로 CRM 동기화 카드에 이끼 사진을 달았고,
