@@ -146,8 +146,8 @@ export default function CareersPage() {
               </h2>
               <p className="mt-5 max-w-xl text-base font-normal leading-relaxed text-zinc-400">
                 Every person gets a two-thousand-dollar annual budget for courses, books, or a
-                conference, spent without a manager's approval. Levels are published internally —
-                what a senior engineer is expected to own is written down, not passed around as
+                conference, spent without a manager&apos;s approval. Levels are published internally
+                — what a senior engineer is expected to own is written down, not passed around as
                 office folklore.
               </p>
               <p className="mt-4 max-w-xl text-base font-normal leading-relaxed text-zinc-400">

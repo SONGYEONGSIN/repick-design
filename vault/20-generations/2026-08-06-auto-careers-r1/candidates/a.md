@@ -1,0 +1,3 @@
+# careers-evolve r1 a
+
+Fathom Labs (fictional observability SaaS) careers page in the "culture manifesto + filterable open-roles list" archetype: dark/blue theme, display-wide hero over three alternating editorial prose blocks with deterministic inline-SVG accents (node graph / bar ascent / staircase), a 12-role dense list filtered by Team × Location chips with a Newest/A–Z sort (all recomputing a shared "Showing N of M" count), a keyboard-accessible slide-over drawer (focus-trapped, Escape closes, focus returns to trigger) with full JD + `mailto:` apply CTA, and a tabular-nums benefits strip. Exactly 3 font-weight classes (`font-normal`/`font-semibold`/`font-black`).

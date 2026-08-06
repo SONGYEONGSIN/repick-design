@@ -120,7 +120,6 @@ export default function RolesBoard() {
       document.removeEventListener("keydown", onKeyDown);
       document.body.style.overflow = previousOverflow;
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [openRole]);
 
   return (
