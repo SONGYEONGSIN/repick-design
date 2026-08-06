@@ -140,7 +140,7 @@ export default function AboutClient() {
 
       <footer className="border-t border-zinc-100">
         <div className="mx-auto max-w-6xl px-6 py-8 text-sm text-zinc-500">
-          © 2026 Northline Sourcing, Inc. All rights reserved.
+          Copyright 2026 Northline Sourcing, Inc. All rights reserved.
         </div>
       </footer>
     </div>
