@@ -1,0 +1,1 @@
+Northlane (remote logistics-visibility SaaS) careers page: light/fuchsia, no display face, hero + single-open "How we hire" FAQ accordion + five department-grouped collapsible role lists (with an expand-all/collapse-all control) + a static tabular-nums compensation-bands table, mailto footer contact.
