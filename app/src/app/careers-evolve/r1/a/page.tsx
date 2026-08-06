@@ -210,7 +210,7 @@ export default function CareersPage() {
             <a href="mailto:careers@fathomlabs.io" className={`rounded-sm hover:text-zinc-100 ${FOCUS_RING}`}>
               careers@fathomlabs.io
             </a>
-            <span className="text-zinc-400">© 2026 Fathom Labs</span>
+            <span className="text-zinc-400">Copyright 2026 Fathom Labs</span>
           </div>
         </div>
       </footer>
