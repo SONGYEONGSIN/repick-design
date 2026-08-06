@@ -2,6 +2,7 @@ import { ArrowRight, Mail } from "lucide-react";
 import { RoleSearch } from "./role-search";
 import { BenefitsTable } from "./benefits-table";
 import { LifeStrip } from "./life-strip";
+import { ROLES } from "./data";
 
 const FOCUS_RING =
   "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-600 focus-visible:ring-offset-2 focus-visible:ring-offset-white";
@@ -31,7 +32,8 @@ export default function CareersPage() {
           Find your role
         </h2>
         <p className="mt-2 max-w-2xl text-base font-normal leading-relaxed text-zinc-700">
-          {`${10} open roles`} across Engineering, Design, Data, Sales, Support, and Operations.
+          <span className="tabular-nums font-medium text-zinc-900">{ROLES.length}</span> open
+          roles across Engineering, Design, Data, Sales, Support, and Operations.
         </p>
         <div className="mt-8 max-w-3xl">
           <RoleSearch />
