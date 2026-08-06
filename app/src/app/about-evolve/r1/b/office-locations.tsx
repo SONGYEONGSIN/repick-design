@@ -61,7 +61,7 @@ export function OfficeLocations() {
                 <h3 className="font-medium">{office.city}</h3>
               </div>
               <p className="mt-1 text-sm text-zinc-600">{office.region}</p>
-              <p className="mt-3 text-sm leading-relaxed text-zinc-700">{office.note}</p>
+              <p className="mt-3 text-sm font-normal leading-relaxed text-zinc-700">{office.note}</p>
               <p className="mt-3 flex items-center gap-1.5 text-sm text-zinc-600">
                 <Users className="h-4 w-4 shrink-0" aria-hidden="true" />
                 <span className="tabular-nums">{office.headcount}</span> people

@@ -1,6 +1,6 @@
-// Deterministic inline-SVG monogram avatar. No photo files, no remote image service, no
-// Math.random — the fill tone and initials are derived purely from the person's name so the same
-// person always renders identically on server and client.
+// Deterministic inline-SVG monogram avatar. No photo files, no remote image service, and no
+// nondeterministic randomness — the fill tone and initials are derived purely from the person's
+// name so the same person always renders identically on server and client.
 
 const TONES = [
   { fill: "#27272a", label: "zinc-800" }, // zinc-800
