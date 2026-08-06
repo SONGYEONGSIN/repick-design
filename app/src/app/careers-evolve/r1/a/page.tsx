@@ -54,7 +54,7 @@ export default function CareersPage() {
             why, and where — in seconds, not tabs. We hire people who want that answer to be right
             more than they want it to look impressive.
           </p>
-          <p className="mt-6 text-sm font-normal text-zinc-500">
+          <p className="mt-6 text-sm font-normal text-zinc-400">
             <span className="tabular-nums font-semibold text-zinc-200">38</span> people, across{" "}
             <span className="tabular-nums font-semibold text-zinc-200">14</span> countries, on{" "}
             <span className="tabular-nums font-semibold text-zinc-200">6</span> teams.
@@ -199,7 +199,7 @@ export default function CareersPage() {
         <div className="mx-auto flex max-w-5xl flex-col gap-4 px-4 py-10 sm:flex-row sm:items-center sm:justify-between sm:px-6">
           <div>
             <p className="text-sm font-semibold text-zinc-100">Fathom Labs</p>
-            <p className="mt-1 text-sm font-normal text-zinc-500">
+            <p className="mt-1 text-sm font-normal text-zinc-400">
               Observability that tells you what broke, why, and where.
             </p>
           </div>
@@ -210,7 +210,7 @@ export default function CareersPage() {
             <a href="mailto:careers@fathomlabs.io" className={`rounded-sm hover:text-zinc-100 ${FOCUS_RING}`}>
               careers@fathomlabs.io
             </a>
-            <span className="text-zinc-600">© 2026 Fathom Labs</span>
+            <span className="text-zinc-400">© 2026 Fathom Labs</span>
           </div>
         </div>
       </footer>

@@ -133,7 +133,7 @@ export default function RolesBoard() {
       {/* Filters */}
       <div className="flex flex-col gap-4 border-b border-zinc-800 pb-6">
         <div role="group" aria-label="Filter by team" className="flex flex-wrap items-center gap-2">
-          <span className="mr-1 text-xs font-semibold uppercase tracking-[0.14em] text-zinc-500">Team</span>
+          <span className="mr-1 text-xs font-semibold uppercase tracking-[0.14em] text-zinc-400">Team</span>
           <Chip active={team === "All"} onClick={() => setTeam("All")}>
             All teams
           </Chip>
@@ -144,7 +144,7 @@ export default function RolesBoard() {
           ))}
         </div>
         <div role="group" aria-label="Filter by location" className="flex flex-wrap items-center gap-2">
-          <span className="mr-1 text-xs font-semibold uppercase tracking-[0.14em] text-zinc-500">Location</span>
+          <span className="mr-1 text-xs font-semibold uppercase tracking-[0.14em] text-zinc-400">Location</span>
           <Chip active={location === "All"} onClick={() => setLocation("All")}>
             All locations
           </Chip>
@@ -331,7 +331,7 @@ export default function RolesBoard() {
               >
                 Apply for this role
               </a>
-              <p className="flex items-center gap-1.5 text-xs font-normal text-zinc-500">
+              <p className="flex items-center gap-1.5 text-xs font-normal text-zinc-400">
                 <Clock aria-hidden="true" className="h-3.5 w-3.5" />
                 We reply to every application within five business days.
               </p>
