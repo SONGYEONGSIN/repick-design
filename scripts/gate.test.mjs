@@ -6,6 +6,16 @@ import {
   countFontWeights, normalizeWeights,
 } from './gate.mjs';
 
+test('filesForRoute — .ts 파일도 스캔한다', () => {
+  // 정적검사는 지금까지 .tsx만 봤다. 승격본 기준 .tsx 205개는 검사되고 .ts 43개는 한 번도
+  // 검사된 적이 없었다 — 하필 data.ts가 더미 데이터가 사는 곳이라 no-random(Math.random /
+  // Date.now)이 가장 나올 법한 자리다. 결정론 규칙의 주 검사 대상이 검사망 밖에 있었다.
+  const files = filesForRoute('/catalog');
+  assert.ok(files.some((f) => f.endsWith('.tsx')), 'tsx는 그대로 포함');
+  assert.ok(files.some((f) => f.endsWith('data.ts')), 'data.ts가 포함되어야 한다');
+  assert.ok(files.every((f) => /\.tsx?$/.test(f)), 'ts/tsx 외 확장자는 제외');
+});
+
 test('normalizeStatic — 위반 0이면 pass', () => {
   const g = normalizeStatic([]);
   assert.equal(g.name, 'static');
@@ -96,10 +106,13 @@ test('parseArgs — target/routes/screens 파싱', () => {
   assert.deepEqual(n.screens, ['watchlist', 'match']);
 });
 
-test('filesForRoute — d29 라우트에서 tsx 파일을 모은다', () => {
+test('filesForRoute — d29 라우트에서 ts/tsx 파일을 모은다', () => {
+  // 이 테스트는 원래 `.every(f => f.endsWith('.tsx'))`로 **결함이던 동작을 단언**하고 있었다.
+  // `.ts`를 스캔에서 빼는 것이 의도가 아니라 사고였음이 2026-08-07에 드러나(승격본 .ts 43개가
+  // 한 번도 정적검사를 받지 않았다) 단언을 의도에 맞게 고쳤다.
   const files = filesForRoute('/dash/d29');
   assert.ok(files.length > 0);
-  assert.ok(files.every((f) => f.endsWith('.tsx')));
+  assert.ok(files.every((f) => /\.tsx?$/.test(f)), 'ts/tsx만 모은다');
   assert.ok(files.some((f) => f.endsWith('page.tsx')));
   assert.ok(files.every((f) => f.startsWith('app/src/app/dash/d29/')));
 });
