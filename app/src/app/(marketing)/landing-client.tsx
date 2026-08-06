@@ -1199,7 +1199,7 @@ export default function LandingClient() {
             {/* "Copyright", not the U+00A9 glyph: that codepoint is Extended_Pictographic, so the
                 `no-emoji` rule in `scripts/dash-static-check.mjs` hard-fails on it — and the gate
                 runs that check over every .tsx under the route it covers. */}
-            <p>Copyright 2026 Attune. All rights reserved.</p>
+            <p>© 2026 Attune. All rights reserved.</p>
             <ul className="flex gap-6">
               <li>
                 <a href="#" className={`rounded-md hover:text-stone-300 ${focusRingOnDark}`}>

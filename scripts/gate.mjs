@@ -68,7 +68,11 @@ export function parseArgs(argv) {
 export function filesForRoute(route, appRoot = 'app/src/app') {
   const dir = appRoot + route;
   return readdirSync(dir, { recursive: true })
-    .filter((f) => typeof f === 'string' && f.endsWith('.tsx'))
+    // `.ts`도 포함한다. 오래도록 `.tsx`만 봤고, 그래서 각 작품의 `data.ts`·`tokens.ts`가 정적
+    // 검사를 한 번도 받지 않았다 — 하필 `data.ts`가 더미 데이터가 사는 곳이라 `no-random`
+    // (`Math.random`/`Date.now`)이 가장 나올 법한 자리다. 결정론 규칙의 주 검사 대상이 검사망
+    // 밖에 있었다(2026-08-07 실측: 승격본 `.tsx` 205개 검사 · `.ts` 43개 미검사, 실위반 0).
+    .filter((f) => typeof f === 'string' && /\.tsx?$/.test(f))
     .map((f) => `${dir}/${f}`);
 }
 

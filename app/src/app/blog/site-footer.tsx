@@ -92,7 +92,7 @@ export default function SiteFooter() {
         </div>
 
         <div className="mt-10 flex flex-col gap-3 border-t border-zinc-800 pt-6 text-sm font-normal text-zinc-400 sm:flex-row sm:items-center sm:justify-between">
-          <p>Copyright 2026 Baseline Journal. All rights reserved.</p>
+          <p>© 2026 Baseline Journal. All rights reserved.</p>
           <div className="flex gap-5">
             <a href="#" className={`rounded hover:text-zinc-50 ${FOCUS_RING}`}>
               Privacy
