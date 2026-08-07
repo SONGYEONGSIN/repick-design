@@ -21,7 +21,57 @@ import { RIM_SHARE, garment, hand, profile, scatter, sparseField, sphere, type V
  * - Decorative: `aria-hidden`, never takes pointer events, and the page reads the same without it.
  */
 
+/**
+ * Scroll → morph progress, but dwelling on the readable states.
+ *
+ * The field is a settled sculpture at every *integer* `uMorph` and a smear in between. A straight
+ * `p * 3` gives the smear exactly as much scroll distance as the sculpture, so on a four-stage page
+ * over half the scroll is spent on shapes that read as nothing.
+ *
+ * This holds each stage at its settled value for `DWELL/2` of the stage on either side, then
+ * smoothsteps across the remainder — so each sculpture is stationary for `DWELL` of a stage (half
+ * inherited from the previous stage's tail) while the transition itself passes quickly. Smoothstep
+ * in the middle band makes the velocity zero at both hold boundaries, so entering and leaving a hold
+ * has no visible kick.
+ *
+ * The idea is borrowed from `lingerEase` in oso95/scroll-world, which does this for a scroll-scrubbed
+ * video playhead — "the camera settles mid-scene where the copy peaks and moves quicker near the
+ * seams". Only the remap transfers; that pipeline is generated video behind a paid API, which this
+ * page's determinism rules and the gate's blank-frame check both rule out.
+ *
+ * Pure function of scroll — no clock, no state. The freeze contract and the capture gate are
+ * untouched: the same scroll offset still yields the same frame.
+ */
+const DWELL = 0.34;
+export function linger(p: number): number {
+  const STAGES = 3;
+  const t = Math.min(1, Math.max(0, p)) * STAGES;
+  const i = Math.min(STAGES - 1, Math.floor(t));
+  const u = t - i;
+  const half = DWELL / 2;
+  let v: number;
+  if (u <= half) v = 0;
+  else if (u >= 1 - half) v = 1;
+  else {
+    const k = (u - half) / (1 - DWELL);
+    v = k * k * (3 - 2 * k);
+  }
+  return (i + v) / STAGES;
+}
+
+/**
+ * Field size at desktop. A phone gets `MOBILE_COUNT` instead.
+ *
+ * The vertex shader runs once per particle per frame, so this is the page's dominant cost and
+ * clamping `devicePixelRatio` does nothing about it. Phones were drawing the full 20k into a 390px
+ * viewport, where the same count reads *denser* than on desktop because the frame is a fraction of
+ * the area — so the cut is not a downgrade, it holds the apparent density roughly constant.
+ *
+ * The mobile branch is chosen from `pointer: coarse`, not from a width breakpoint: a narrow desktop
+ * window still has a real GPU, and reading width would drop the count when someone resizes.
+ */
 const COUNT = 20000;
+const MOBILE_COUNT = 11000;
 /** Share of the field that stays scattered across the frame instead of ever joining a sculpture. */
 const AMBIENT_SHARE = 0.085;
 /**
@@ -307,39 +357,41 @@ export default function ParticleField() {
     gl.linkProgram(prog);
     gl.useProgram(prog);
 
+    // Resolved once at init: the buffers are built from it, so it must not change with a resize.
+    const N = window.matchMedia("(pointer: coarse)").matches ? MOBILE_COUNT : COUNT;
     const rand = mulberry32(20260731);
     // Four sculptures, one per section — the reference gives every section its own object rather
     // than parking the field in a dispersed state between two. What used to be the dispersed middle
     // stage now lives in the ambient layer, which is present in every frame instead of only one.
-    const coat = garment(COUNT, rand);
-    const head = profile(COUNT, rand);
-    const palm = hand(COUNT, rand);
-    const globe = sphere(COUNT, rand, 0.9);
-    const fallback = () => scatter(COUNT, rand);
-    const A = flatten(coat.length ? coat : fallback(), COUNT);
-    const B = flatten(head.length ? head : fallback(), COUNT);
-    const C = flatten(palm.length ? palm : fallback(), COUNT);
-    const D = flatten(globe, COUNT);
+    const coat = garment(N, rand);
+    const head = profile(N, rand);
+    const palm = hand(N, rand);
+    const globe = sphere(N, rand, 0.9);
+    const fallback = () => scatter(N, rand);
+    const A = flatten(coat.length ? coat : fallback(), N);
+    const B = flatten(head.length ? head : fallback(), N);
+    const C = flatten(palm.length ? palm : fallback(), N);
+    const D = flatten(globe, N);
 
     // The trailing slice never gathers: it keeps a wide scatter home in every buffer, so the morph
     // and the burst are no-ops for it and the frame stays populated at all times.
-    const drift = sparseField(COUNT, rand);
-    const ambStart = Math.round(COUNT * (1 - AMBIENT_SHARE));
-    const amb = new Float32Array(COUNT);
-    for (let i = ambStart; i < COUNT; i++) {
+    const drift = sparseField(N, rand);
+    const ambStart = Math.round(N * (1 - AMBIENT_SHARE));
+    const amb = new Float32Array(N);
+    for (let i = ambStart; i < N; i++) {
       amb[i] = 1;
       const home = drift[i];
       for (const buf of [A, B, C, D]) buf.set(home, i * 3);
     }
 
-    const col = new Float32Array(COUNT * 3);
-    const seed = new Float32Array(COUNT);
-    const rim = new Float32Array(COUNT);
+    const col = new Float32Array(N * 3);
+    const seed = new Float32Array(N);
+    const rim = new Float32Array(N);
     // sampleRaster emits its boundary band first, so the same leading indices are rim points in
     // every shape — which is what lets rim colour and size be baked in once without breaking the
     // particle-to-particle correspondence the morph depends on.
-    const rimSpan = COUNT * RIM_SHARE;
-    for (let i = 0; i < COUNT; i++) {
+    const rimSpan = N * RIM_SHARE;
+    for (let i = 0; i < N; i++) {
       // A ramp, not a switch: warm colour and extra size fade off with depth, so the boundary reads
       // as a dense edge of the same field rather than an outline drawn around it.
       const t = Math.pow(Math.max(0, 1 - i / rimSpan), 0.7);
@@ -415,7 +467,7 @@ export default function ParticleField() {
       const max = Math.max(1, document.documentElement.scrollHeight - vh);
       const p = Math.min(1, Math.max(0, window.scrollY / max));
       const wide = vw / vh > 1.15;
-      gl.uniform1f(uMorph, p * 3);
+      gl.uniform1f(uMorph, linger(p) * 3);
       gl.uniform1f(uAspect, vw / vh);
       // Rotate only in transit and settle face-on at both ends: the first and last stages are
       // readable forms (a glyph, a wordmark) and a continuous spin lands them mirrored. The idle
@@ -463,7 +515,7 @@ export default function ParticleField() {
       gl.uniform2f(uOrbit, orbiting ? pt[0] * 0.55 : 0, orbiting ? -pt[1] * 0.3 : 0);
       gl.uniform1f(uIdle, idle);
       gl.uniform1f(uGather, gather);
-      gl.drawArrays(gl.POINTS, 0, COUNT);
+      gl.drawArrays(gl.POINTS, 0, N);
       // Keep going only while the drift is live. Frozen, the loop stops after this frame and the
       // canvas costs nothing until the next scroll or pointer event.
       if (!still || gather < 1) frame = requestAnimationFrame(draw);
