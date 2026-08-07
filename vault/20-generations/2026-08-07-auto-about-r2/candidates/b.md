@@ -1,0 +1,1 @@
+**b — Fenwick**: 데이터 인프라 SaaS의 About 페이지. 네이티브 `<input type="range">` 연도 스크러버가 5개 고정 연도 레코드 중 하나를 선택해 헤드라인+통계를 갱신(People/Values 섹션과 별개의 세 번째 축) + 알파벳 점프 내비 + 행별 네이티브 `<details>` 바이오 확장(People, 12명 상시 노출) + 네이티브 `<details>` 아코디언(Values, 첫 항목 기본 오픈). 라이트/lime/미지정 활자. 인터랙션 3종(연도 스크러버·바이오 확장·values 아코디언).
