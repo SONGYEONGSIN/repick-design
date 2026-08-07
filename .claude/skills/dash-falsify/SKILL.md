@@ -13,6 +13,7 @@ description: 자율 진화 주간 반증 (다중 타깃) — evolve/dash 누적�
    - `## 대시보드` / `## 랜딩` 각각: 주간 라운드 표(auto-ledger에서 해당 target entry(target 필드 없는 레거시 entry는 round id `auto-<t>-r*`에서 유추)), L3 delta 편입 제안(해당 DELTAS에서 **`(round, variant, level)` 키로 종결(promoted/refuted)되지 않은** 최신 level=L3 & status=provisional. 열린 L3가 0건이면 "L3 편입 제안 없음"을 명시하고, 재현 조건을 이미 충족한 L2를 "사람 판단 요청"으로 함께 올린다 — 그러지 않으면 승격 대기 중인 L2가 매주 잔류 요약에 묻힌다), L1/L2 잔류 요약, 라운드별 위 3-링크(DECISION·승자샷·전체샷). 해당 타깃 라운드가 없던 주면 섹션에 "이번 주 라운드 없음" 1줄.
    - `## 네이티브`: 위와 동형 — 라운드 표(`auto-native-r*`, 후보별 status 승자/탈락/대기), L3 delta 편입 제안(`vault/00-principles/native-deltas-provisional.jsonl`에서 위와 동일하게 `(round, variant, level)` 키로 미종결인 최신 level=L3 & status=provisional), L1/L2 잔류, 라운드별 3-링크(승자샷은 `shots/<v>-390.png` 모바일). delta·질문·**후보 킵/드롭** 전부 반증 대상.
    - `## 다양성`: `node scripts/catalog-variety.mjs` 결과를 표로 — 테마/액센트/활자 분포와 **직전 주 대비 변화**. 이 절의 목적은 "매주 비슷한 게 나온다"를 인상이 아니라 수치로 남기는 것이다. 한 축이 3주 연속 움직이지 않으면 그 축의 선제 체크가 작동하지 않는다는 뜻이므로 finding으로 올린다.
+   - `## 브리프 구멍`: 이번 기간 `candidates/<v>.md`의 `## 브리프에 없던 것` 절을 타깃별로 모아, **2회 이상 반복된 항목만** 표로 올린다(1회는 집계에서 제외 — designer 취향과 구멍이 구분되지 않는다). 열: 항목 · 후보들이 각자 정한 값 · 반복 횟수 · 제안(브리프 어느 절에 넣을지). 반복 0건이면 "이번 기간 반복된 구멍 없음" 1줄.
    - `## 질문 큐`: questions-queue.md "대기 중" 전문 (target 표기 포함).
    - `## 위키 건전성`: ① 기계 — `node scripts/wiki-lint.mjs` 실행 결과 JSON(위반 0이면 "clean") ② 판단 — 페이지 간 모순·stale 주장(최신 delta가 정본과 충돌하는 사례) 스캔 결과를 2~3줄로.
    - `## 리뷰 방법`: "후보 킵/드롭·delta 승인/기각·질문 답변을 PR 코멘트로 남기고 로컬에서 /dash-falsify apply 실행".
