@@ -1,0 +1,1 @@
+**c — Solmark**: 글로벌 물류 가시성 SaaS의 About 페이지. 지역 필터 네이티브 `<select>`(오피스 7곳, People과 별개 섹션) + 직군 필터 네이티브 `<select>`("Showing N of M" 라이브 카운트, People) + 수동/재생-정지 컬처 필러 캐러셀(aria-live, prefers-reduced-motion 인지, Values). 다크/fuchsia/미지정 활자. 인터랙션 3종(지역필터·직군필터·필러 캐러셀 재생정지).
