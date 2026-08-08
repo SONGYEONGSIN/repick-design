@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import {
   normalizeStatic, normalizeSweep, normalizeA11y, normalizePerf,
   normalizeNativeRun, buildVerdict, parseArgs, filesForRoute, worstLighthouse,
-  countFontWeights, normalizeWeights,
+  countFontWeights, normalizeWeights, normalizeLint,
 } from './gate.mjs';
 
 test('filesForRoute — .ts 파일도 스캔한다', () => {
@@ -150,4 +150,40 @@ test('normalizeWeights — 기록 전용: 어떤 개수든 통과하되 개수�
   assert.equal(off.pass, true, '카탈로그 41%를 깨는 임계를 하드페일로 두지 않는다');
   assert.match(off.detail, /2종.*기록만/);
   assert.deepEqual(off.violations, []);
+});
+
+test('normalizeLint — 위반 0이면 pass', () => {
+  const g = normalizeLint({ errorCount: 0, warningCount: 0, messages: [] });
+  assert.equal(g.pass, true);
+  assert.equal(g.name, 'lint');
+  assert.equal(g.detail, '위반 0');
+});
+
+test('normalizeLint — error는 하드페일', () => {
+  const g = normalizeLint({ errorCount: 2, warningCount: 0, messages: [
+    { file: 'a.tsx', line: 3, ruleId: '@typescript-eslint/no-explicit-any', message: 'Unexpected any.' },
+    { file: 'a.tsx', line: 9, ruleId: '@typescript-eslint/no-explicit-any', message: 'Unexpected any.' },
+  ] });
+  assert.equal(g.pass, false);
+  assert.match(g.detail, /error 2/);
+  assert.equal(g.violations.length, 2);
+});
+
+// 오늘 승격본에서 실제로 샌 둘 중 하나(careers-3 useMemo 무력화)가 warning이었다.
+// warning을 통과시키면 게이트를 다는 의미가 절반 사라진다 — 레포 규약도 --max-warnings=0이다.
+test('normalizeLint — warning도 하드페일 (max-warnings=0 등가)', () => {
+  const g = normalizeLint({ errorCount: 0, warningCount: 1, messages: [
+    { file: 'b.tsx', line: 35, ruleId: 'react-hooks/exhaustive-deps', message: 'could change on every render' },
+  ] });
+  assert.equal(g.pass, false);
+  assert.match(g.detail, /warning 1/);
+});
+
+// eslint를 못 돌리는 환경(미설치·다른 레포에 이식)에서 게이트 전체가 죽으면 안 된다.
+// a11y의 'unavailable' 선례와 같은 처리 — 측정 못 한 것을 위반으로 읽지 않는다.
+test('normalizeLint — unavailable은 pass(하드페일 아님)', () => {
+  const g = normalizeLint('unavailable');
+  assert.equal(g.pass, true);
+  assert.equal(g.detail, 'unavailable');
+  assert.deepEqual(g.violations, []);
 });
