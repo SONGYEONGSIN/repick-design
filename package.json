@@ -2,7 +2,8 @@
   "name": "repick-design",
   "private": true,
   "scripts": {
-    "test": "node --test \"scripts/**/*.test.mjs\""
+    "test": "node --test \"scripts/**/*.test.mjs\"",
+    "build:plugin": "node scripts/build-plugin.mjs"
   },
   "devDependencies": {
     "playwright": "^1.61.1"
