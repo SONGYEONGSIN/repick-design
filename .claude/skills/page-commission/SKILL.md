@@ -132,7 +132,7 @@ node scripts/gate.mjs --target web --routes /commissioned/<slug>
 
 ## 5. 인수
 
-- 스크린샷: `node scripts/capture-shots.mjs --route /commissioned/<slug> --name <slug> --out /tmp/commission-<slug>` — 4폭 × 4 스크롤 지점. **빈 프레임 판정이 붙어 있으므로 blank가 나오면 인수 전에 고친다**
+- 스크린샷: `node scripts/capture-shots.mjs --route /commissioned/<slug> --name <slug> --out vault/40-commissions/<slug>/shots` — 4폭 × 4 스크롤 지점. **빈 프레임 판정이 붙어 있으므로 blank가 나오면 인수 전에 고친다**. `/tmp`로 찍지 마라 — 재부팅하면 사라져 인수 근거가 휘발한다
 - 게이트 결과를 그대로 보인다
 - **designer가 정한 것을 5분류로 보인다.** 평평한 목록으로 내면 사용자가 전부 읽어야 하고, 고칠 확률이 높은 항목이 묻힌다 — 2026-08-08 첫 시험에서 **34항목이 평평하게** 왔고 회사명이 그 안에 섞여 있었다. **고칠 확률 순으로** 묶는다:
 
@@ -150,6 +150,9 @@ node scripts/gate.mjs --target web --routes /commissioned/<slug>
 
 ## 6. 마무리
 
+- **인수 기록을 남긴다** — `vault/40-commissions/<slug>/RECORD.md` + `shots/`. 산출물만 커밋하면 **왜 그렇게 만들었는지가 대화에만 남고 사라진다.** 담을 것: 인터뷰 결과 · 타입 계약 · 게이트 결과 · **designer가 정한 것(§5의 5분류 그대로)** · 계약 이탈과 인수 판단.
+  자율 루프는 `vault/20-generations/<run>/`에 DECISION·SCORES·shots를 남겨 주간 반증이 링크로 건다. 주문 제작은 판정을 안 거쳐 걸 PR이 없지만, **나중에 "그때 그 페이지 어땠지"를 볼 사람은 사용자 본인**이라 오히려 더 필요하다.
+  `wiki-lint`는 `40-commissions/`를 20-generations와 같은 **경로 기반 키**로 다룬다(주문마다 `RECORD.md`가 겹치므로). index 등재는 요구하지 않는다.
 - 기본은 **미등재**. `works.ts`를 건드리지 않는다
 - 사용자가 갤러리 등재를 원하면: `works.ts`에 entry 추가 + `category` 부여 + `desc:{en,ko}` + `LAST_UPDATED` 갱신 + `cd app && npx eslint src --max-warnings=0` 확인. **이때부터 그 작품은 다양성 집계와 미채움 큐에 영향을 준다**는 것을 사용자에게 알린다
 - 커밋은 사용자 지시가 있을 때만. `main` 직접 커밋 금지(레포 규약)
