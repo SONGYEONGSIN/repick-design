@@ -117,11 +117,13 @@ description: 사용자가 요구하는 페이지를 대화로 캐낸 뒤 이 레
 
 ## 4. 게이트
 
-**게이트 전에 타입·린트가 먼저다.** `gate.mjs`는 정적 규칙·폭·Lighthouse를 보지 **컴파일 여부를 보지 않는다** — 타입 에러가 있어도 dev 서버가 라우트를 200으로 응답하므로 게이트가 통과할 수 있다. 첫 시험에서 실제로 그랬다(`Quote`에 없는 필드를 반환하는데 라우트는 200이었다).
+**게이트 전에 타입 검사가 먼저다.** `gate.mjs`는 정적 규칙·린트·폭·Lighthouse를 보지만 **컴파일 여부는 보지 않는다** — 타입 에러가 있어도 dev 서버가 라우트를 200으로 응답하므로 게이트가 통과할 수 있다. 첫 시험에서 실제로 그랬다(`Quote`에 없는 필드를 반환하는데 라우트는 200이었다).
 
 ```bash
-cd app && npx tsc --noEmit && npx eslint src/app/commissioned/<slug> --max-warnings=0
+cd app && npx tsc --noEmit
 ```
+
+> ESLint는 **더 이상 여기서 돌리지 않는다** — 2026-08-09부터 게이트의 `lint` 관문이 같은 flat config로 스코프 파일을 검사한다(error·warning 모두 하드페일).
 
 그다음 게이트:
 

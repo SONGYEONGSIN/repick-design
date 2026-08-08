@@ -25,6 +25,32 @@ export function normalizePerf(score) {
   return { name: 'perf', pass: true, detail: score === 'unavailable' ? 'unavailable' : String(score), violations: [] };
 }
 
+/**
+ * ESLint findings, folded into a gate.
+ *
+ * The hard gate measured rendered pages — static source rules, widths, Lighthouse — and never asked
+ * whether the code compiles clean. On 2026-08-09 that leaked for the first time: `auto-careers-r2/b`
+ * shipped three `any` casts and `r3/a` a `useMemo` defeated by a dependency rebuilt every render,
+ * and all five gates passed them. Both went into the catalogue and were caught only because the
+ * promotion step happens to run `eslint` by hand.
+ *
+ * Warnings fail too. One of the two escapes was a warning (`react-hooks/exhaustive-deps`), and the
+ * repo's own command is `eslint --max-warnings=0` — a gate that passes what the repo's rule fails
+ * would be a second, laxer standard. Retroactive scan before making it hard: `eslint src` reported
+ * 0 findings across all 251 promoted files, so nothing already shipped is retroactively broken.
+ */
+export function normalizeLint(result) {
+  if (result === 'unavailable') return { name: 'lint', pass: true, detail: 'unavailable', violations: [] };
+  const { errorCount = 0, warningCount = 0, messages = [] } = result;
+  const pass = errorCount === 0 && warningCount === 0;
+  return {
+    name: 'lint',
+    pass,
+    detail: pass ? '위반 0' : `error ${errorCount} · warning ${warningCount}`,
+    violations: messages,
+  };
+}
+
 export const NATIVE_STEPS = ['tsc', 'export', 'render', 'iframe'];
 
 export function normalizeNativeRun(screen, stdout, exitOk) {
@@ -89,6 +115,45 @@ function runLighthouse(url, preset) {
       a11y: Math.round((j.categories.accessibility.score ?? 0) * 100),
       perf: Math.round((j.categories.performance.score ?? 0) * 100),
     };
+  } catch {
+    return 'unavailable';
+  }
+}
+
+/**
+ * Runs the repo's own ESLint over the scoped files.
+ *
+ * Paths arrive rooted at the repo (`app/src/app/…`) but the flat config lives in `app/`, so the run
+ * happens with `cwd: appDir` and the prefix stripped. Exit status is not the signal — ESLint exits 1
+ * precisely when it finds something, which is the case we most need to read. Parseable JSON on
+ * stdout means it ran; anything else (missing binary, config error, a path it cannot resolve) is
+ * reported as unmeasured rather than as a clean pass.
+ */
+function runLint(files, appDir = 'app') {
+  if (!files.length) return 'unavailable';
+  const prefix = appDir + '/';
+  const rel = files.map((f) => (f.startsWith(prefix) ? f.slice(prefix.length) : f));
+  const r = spawnSync('npx', ['eslint', '--format', 'json', ...rel],
+    { cwd: appDir, encoding: 'utf8', maxBuffer: 64 * 1024 * 1024, env: process.env });
+  if (!r.stdout) return 'unavailable';
+  try {
+    const results = JSON.parse(r.stdout);
+    let errorCount = 0;
+    let warningCount = 0;
+    const messages = [];
+    for (const f of results) {
+      errorCount += f.errorCount ?? 0;
+      warningCount += f.warningCount ?? 0;
+      for (const m of f.messages ?? []) {
+        messages.push({
+          file: prefix + (f.filePath ?? '').split(`/${appDir}/`).pop(),
+          line: m.line,
+          rule: m.ruleId,
+          detail: m.message,
+        });
+      }
+    }
+    return { errorCount, warningCount, messages };
   } catch {
     return 'unavailable';
   }
@@ -176,6 +241,7 @@ export async function runWeb({ routes, files, base }) {
   ]));
   const gates = [
     normalizeStatic(staticViolations),
+    normalizeLint(runLint(tsxFiles)),
     normalizeWeights(countFontWeights(tsxFiles.map((f) => readFileSync(f, 'utf8')))),
     normalizeSweep(sweep),
     normalizeA11y(lh === 'unavailable' ? 'unavailable' : lh.a11y),
