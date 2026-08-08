@@ -18,7 +18,7 @@ careers 자체 최근 2라운드가 모두 dark(r1: dark/blue/wide, r2: dark/tea
 
 ## 하드게이트
 
-게이트 실행: `CHROME_PATH=/opt/pw-browsers/chromium PW_NO_SANDBOX=1 PW_CHROMIUM_PATH=/opt/pw-browsers/chromium node scripts/gate.mjs --target web --routes /careers-evolve/r3/<v>`. 소스 동결 해시: `a6531c101ed83c7ebc1c24fb345359ad80e260d0`. 전 후보 1차 통과(static 위반 0 · weights 3종 · sweep 오버플로 0 · a11y 전원 100 · perf a=80/b=68/c=72, 기록만) — 1-fix 루프 불요. 스크린샷 48장(후보별 16 = 4폭×4스크롤), blank 0/48. 상세: [[SCORES]].
+게이트 실행: `CHROME_PATH=/opt/pw-browsers/chromium PW_NO_SANDBOX=1 PW_CHROMIUM_PATH=/opt/pw-browsers/chromium node scripts/gate.mjs --target web --routes /careers-evolve/r3/<v>`. 소스 동결 해시: `a6531c101ed83c7ebc1c24fb345359ad80e260d0`. 전 후보 1차 통과(static 위반 0 · weights 3종 · sweep 오버플로 0 · a11y 전원 100 · perf a=80/b=68/c=72, 기록만) — 1-fix 루프 불요. 스크린샷 48장(후보별 16 = 4폭×4스크롤), blank 0/48. 상세: SCORES.md.
 
 ## JUDGE 패널 (3렌즈, 블라인드 — 각 렌즈에 데스크톱 1280px + 모바일 390px × 스크롤 0/35/70/100% 8프레임/후보 + 소스 경로 제공)
 

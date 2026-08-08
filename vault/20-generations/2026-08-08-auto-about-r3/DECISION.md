@@ -18,7 +18,7 @@
 
 ## 하드게이트
 
-게이트 실행: `CHROME_PATH=/opt/pw-browsers/chromium PW_NO_SANDBOX=1 PW_CHROMIUM_PATH=/opt/pw-browsers/chromium node scripts/gate.mjs --target web --routes /about-evolve/r3/<v>`. 소스 동결 해시: `f5c023c62585184e1a43d3c0c2ce7250405becee`. 전 후보 1차 통과(static 위반 0 · weights 3종 · sweep 오버플로 0 · a11y a=96/b=100/c=96 · perf a=66/b=68/c=70, 기록만) — 1-fix 루프 불요. 스크린샷 48장(후보별 16 = 4폭×4스크롤), blank 0/48. 상세: [[SCORES]].
+게이트 실행: `CHROME_PATH=/opt/pw-browsers/chromium PW_NO_SANDBOX=1 PW_CHROMIUM_PATH=/opt/pw-browsers/chromium node scripts/gate.mjs --target web --routes /about-evolve/r3/<v>`. 소스 동결 해시: `f5c023c62585184e1a43d3c0c2ce7250405becee`. 전 후보 1차 통과(static 위반 0 · weights 3종 · sweep 오버플로 0 · a11y a=96/b=100/c=96 · perf a=66/b=68/c=70, 기록만) — 1-fix 루프 불요. 스크린샷 48장(후보별 16 = 4폭×4스크롤), blank 0/48. 상세: SCORES.md.
 
 ## JUDGE 패널 (3렌즈, 블라인드 — 각 렌즈에 데스크톱 1280px + 모바일 390px × 스크롤 0/35/70/100% 8프레임/후보 + 소스 경로 제공, candidates/*.md·SCORES·DECISION·ledger는 판정 전 비공개)
 

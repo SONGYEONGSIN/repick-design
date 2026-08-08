@@ -22,7 +22,7 @@ export default function RoleFilterGrid() {
     return ROLES.filter((r) => (teams.size === 0 || teams.has(r.team)) && (locations.size === 0 || locations.has(r.location)));
   }, [teams, locations]);
 
-  function toggle(set: Set<string>, setSet: (s: Set<any>) => void, key: string) {
+  function toggle<T extends string>(set: Set<T>, setSet: (s: Set<T>) => void, key: T) {
     const next = new Set(set);
     if (next.has(key)) next.delete(key);
     else next.add(key);
@@ -40,7 +40,7 @@ export default function RoleFilterGrid() {
                 <input
                   type="checkbox"
                   checked={teams.has(t)}
-                  onChange={() => toggle(teams, setTeams as (s: Set<any>) => void, t)}
+                  onChange={() => toggle(teams, setTeams, t)}
                   className={`h-4 w-4 rounded border-zinc-600 bg-zinc-900 text-teal-400 ${FOCUS_RING}`}
                 />
                 {TEAM_LABELS[t]}
@@ -56,7 +56,7 @@ export default function RoleFilterGrid() {
                 <input
                   type="checkbox"
                   checked={locations.has(l)}
-                  onChange={() => toggle(locations, setLocations as (s: Set<any>) => void, l)}
+                  onChange={() => toggle(locations, setLocations, l)}
                   className={`h-4 w-4 rounded border-zinc-600 bg-zinc-900 text-teal-400 ${FOCUS_RING}`}
                 />
                 {LOCATION_LABELS[l]}

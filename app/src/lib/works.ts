@@ -72,7 +72,7 @@ export type Work = {
   category?: PageType;
 };
 
-export const LAST_UPDATED = "2026-08-06"; // determinism rule: no dynamic Date calls — update this by hand when refreshing
+export const LAST_UPDATED = "2026-08-09"; // determinism rule: no dynamic Date calls — update this by hand when refreshing
 
 export const NATIVE_WORKS: Work[] = [
   { id: "n1", route: "/native-app/index.html?screen=watchlist", brand: "Watchlist", desc: { en: "Saved-item watchlist · price-drop alerts and a single accent for unread, as a native mobile screen.", ko: "관심목록 · 가격 하락 알림 · 미읽음 단일 액센트 (네이티브 모바일 화면)" }, target: "native", category: "mobile" },
@@ -97,6 +97,18 @@ export const PROFILE_WORKS: Work[] = [
 // 0. Editorial — the blog page type's first entry.
 export const BLOG_WORKS: Work[] = [
   { id: "bl1", route: "/blog", brand: "Baseline", desc: { en: "Benchmark journal index · each entry carries its baseline, result, sample size and confidence in the index itself, and a Feed/Compare toggle swaps one filtered dataset between editorial cards and a real aria-sort table (auto blog r2 winner).", ko: "벤치마크 저널 인덱스 · 항목마다 기준값·결과·표본·신뢰도가 인덱스 자체에 실리고, Feed/Compare 토글이 같은 필터 결과를 편집형 카드와 실동작 aria-sort 테이블 사이에서 전환 (자동 blog r2 승자)" }, target: "blog", category: "blog" },
+];
+
+// 0. Company — the about page type's first entry.
+export const ABOUT_WORKS: Work[] = [
+  { id: "ab1", route: "/about", brand: "Ordinal", desc: { en: "Company page built as two switchable structures · the People tree re-forms around discipline or region as independent axes rather than one fixed org chart, and Values run as master-detail so each principle opens its own evidence (auto about r3 winner).", ko: "전환 가능한 두 구조로 짠 회사 소개 · People 트리가 고정 조직도가 아니라 직군·지역을 독립 축으로 재편되고, Values는 마스터-디테일로 원칙마다 근거를 연다 (자동 about r3 승자)" }, target: "about", category: "about" },
+];
+
+// 0. Hiring — the careers page type. Three independent restarts, each forbidden the others' forms.
+export const CAREERS_WORKS: Work[] = [
+  { id: "cr1", route: "/careers", brand: "Fathom Labs", desc: { en: "Hiring page led by a culture manifesto · chip filters narrow an always-open role list with no click required to read a title, and selection opens a focus-trapped detail drawer (auto careers r1 winner, unanimous 3-0).", ko: "컬처 매니페스토가 앞서는 채용 페이지 · 칩 필터가 상시 노출된 공고 리스트를 좁히고(제목을 읽는 데 클릭이 필요 없다), 선택 시 포커스 트랩 드로어가 열린다 (자동 careers r1 승자, 3-0 만장일치)" }, target: "careers", category: "careers" },
+  { id: "cr2", route: "/careers-2", brand: "Talus", desc: { en: "Hiring page as a faceted search · checkbox facets and a level range slider narrow the same set together, and each role card carries its own inline disclosure so the list never navigates away (auto careers r2 winner).", ko: "다면 검색으로 짠 채용 페이지 · 체크박스 패싯과 레벨 range 슬라이더가 같은 집합을 함께 좁히고, 공고 카드마다 인라인 디스클로저가 있어 목록을 떠나지 않는다 (자동 careers r2 승자)" }, target: "careers", category: "careers" },
+  { id: "cr3", route: "/careers-3", brand: "Isoline", desc: { en: "Hiring page pivoted on place · an office and region tablist is the primary axis, and each tab carries a timezone-overlap bar chart so the question of where also answers when we would actually overlap (auto careers r3 winner).", ko: "장소를 주축으로 둔 채용 페이지 · 오피스·지역 탭리스트가 1차 축이고, 탭마다 타임존 겹침 막대차트가 붙어 어디서 일하는가가 곧 몇 시에 겹치는가를 답한다 (자동 careers r3 승자)" }, target: "careers", category: "careers" },
 ];
 
 // 0. Commerce — the product-detail page type's first entry.
@@ -152,5 +164,5 @@ export const DASH_LAB_WORKS: Work[] = [
 
 /** Static catalog (excludes evolution candidates) — shared by the gallery grid and detail routes. Each entry carries its own page-type category. */
 export function catalogWorks(): Work[] {
-  return [...LANDING_WORKS, ...DASH_LAB_WORKS, ...LOGIN_WORKS, ...NOTFOUND_WORKS, ...CATALOG_WORKS, ...SCENE_WORKS, ...PRODUCT_DETAIL_WORKS, ...PAYWALL_WORKS, ...PROFILE_WORKS, ...BLOG_WORKS, ...NATIVE_WORKS];
+  return [...LANDING_WORKS, ...DASH_LAB_WORKS, ...LOGIN_WORKS, ...NOTFOUND_WORKS, ...CATALOG_WORKS, ...SCENE_WORKS, ...PRODUCT_DETAIL_WORKS, ...PAYWALL_WORKS, ...PROFILE_WORKS, ...BLOG_WORKS, ...ABOUT_WORKS, ...CAREERS_WORKS, ...NATIVE_WORKS];
 }

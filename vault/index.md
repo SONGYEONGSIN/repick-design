@@ -17,6 +17,7 @@ tags: [index]
 - [[brief-product-detail]] — 타입 프로파일 `product-detail` (가격+CTA **이중 상시노출** 하드 기준, 선택→복수 표시부 동시 재계산, 인터랙션 최소 3종)
 - [[brief-paywall]] — 타입 프로파일 `paywall` (차단 사실+손실 없음 보증, 설득↔사이징 **단일 계산 상태 공유** 하드 기준, 인터랙션 최소 3종)
 - [[brief-profile]] — 타입 프로파일 `profile` (신뢰 통계 **고정 상시노출** 하드 기준, 전역 토글 → 이질적 산출물 동시 재계산, 인터랙션 최소 3종)
+- [[brief-careers]] — 타입 프로파일 `careers` (**오픈 롤 상시노출** 하드 기준, 보상은 입력 축·계산 방식을 먼저 정한다, 인터랙션 최소 3종)
 - [[curation-criteria]] — 지식 정제 meta-기준 (L1~L3 레벨·승격 규칙)
 - [[questions-queue]] — 정제 게이트 질문 큐 (대기/아카이브)
 - [[MEMORY]] — 학습 인덱스 (200줄 cap)

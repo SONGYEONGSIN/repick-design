@@ -32,7 +32,7 @@ export default function OfficeExplorer() {
 
   const hq = OFFICES.find((o) => o.id === HQ_ID)!;
   const activeOfficeObj = activeOffice === ALL_OFFICES ? null : OFFICES.find((o) => o.id === activeOffice) ?? null;
-  const visibleOffices = activeOfficeObj ? [activeOfficeObj] : OFFICES;
+  const visibleOffices = useMemo(() => (activeOfficeObj ? [activeOfficeObj] : OFFICES), [activeOfficeObj]);
 
   function onTabKeyDown(e: React.KeyboardEvent) {
     if (e.key !== "ArrowRight" && e.key !== "ArrowLeft") return;
