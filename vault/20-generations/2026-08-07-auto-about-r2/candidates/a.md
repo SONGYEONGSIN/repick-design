@@ -1,0 +1,1 @@
+**a — Cordwell**: 옵저버빌리티 SaaS의 About 페이지. 데스크톱에서 sticky한 세그먼트 통계 레일(Company/Culture 토글) + 클릭 확장형 org-pod 로스터(첫 pod 기본 오픈, People) + 화살표키 내비게이션 완비 ARIA 탭리스트(Values) + 정적 마일스톤 리스트. 다크/rose/mono. 인터랙션 3종(pod 확장·values 탭전환·통계 세그먼트 토글).
