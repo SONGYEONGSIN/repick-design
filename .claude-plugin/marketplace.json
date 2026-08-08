@@ -1,0 +1,13 @@
+{
+  "name": "repick-design",
+  "description": "RE:PICK DESIGN 마켓플레이스 — 주문 제작 스킬 page-commission 배포",
+  "owner": { "name": "SONGYEONGSIN" },
+  "plugins": [
+    {
+      "name": "page-commission",
+      "source": "./plugin",
+      "category": "productivity",
+      "description": "대화로 요구사항을 캐내 페이지를 제작 — 페이지 타입 정본 11종 동봉"
+    }
+  ]
+}

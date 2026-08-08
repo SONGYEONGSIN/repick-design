@@ -77,11 +77,16 @@ export function buildVerdict(target, gates) {
 /* ───────── CLI 인자 파싱 ───────── */
 
 export function parseArgs(argv) {
-  const out = { target: null, routes: [], files: [], screens: [], base: 'http://localhost:3100' };
+  const out = { target: null, routes: [], files: [], screens: [], base: 'http://localhost:3100', appRoot: 'app/src/app', fontVars: null };
   for (let i = 0; i < argv.length; i++) {
     const a = argv[i];
     if (a === '--target') out.target = argv[++i];
     else if (a === '--base') out.base = argv[++i];
+    // Both default to this repo's layout and faces. They are flags because the static checker and the
+    // brief now ship as a plugin: a repo with `src/app` and its own font variables must be able to run
+    // the same rules without editing them. See `page-brief-repo` §2·§3 for what the defaults bind to.
+    else if (a === '--app-root') out.appRoot = argv[++i];
+    else if (a === '--font-vars') out.fontVars = argv[++i].split(',').map((v) => v.trim()).filter(Boolean);
     else if (a === '--routes') while (argv[i + 1] && !argv[i + 1].startsWith('--')) out.routes.push(argv[++i]);
     else if (a === '--files') while (argv[i + 1] && !argv[i + 1].startsWith('--')) out.files.push(argv[++i]);
     else if (a === '--screens') while (argv[i + 1] && !argv[i + 1].startsWith('--')) out.screens.push(argv[++i]);
@@ -164,7 +169,7 @@ const WEIGHT_NAMES = ['thin','extralight','light','normal','medium','semibold','
 /**
  * Counts the distinct Tailwind font-weight classes a route uses.
  *
- * page-brief-core §4 asks for exactly three weights, but the rule lived only in the brief — no
+ * page-brief-core §3 asks for exactly three weights, but the rule lived only in the brief — no
  * checker knew about it. auto-404-r1 had all three candidates violate it at once (two weights each);
  * both judge lenses noticed and neither could act, because a defect every candidate shares does not
  * separate them. A rule nothing enforces is a rule the loop does not have.
@@ -214,7 +219,7 @@ export function worstLighthouse(results) {
   };
 }
 
-export async function runWeb({ routes, files, base }) {
+export async function runWeb({ routes, files, base, appRoot = 'app/src/app', fontVars = null }) {
   // An empty route list used to sail through: no files to scan is "위반 0", no widths to sweep is
   // "오버플로 0", and no Lighthouse result is "unavailable", which the a11y/perf gates pass. So
   // `gate.mjs --target web` with a forgotten --routes printed a clean five-gate pass having measured
@@ -225,9 +230,9 @@ export async function runWeb({ routes, files, base }) {
   }
   const { checkSource } = await import('./dash-static-check.mjs');
   const { runSweep, evaluateSweep } = await import('./dash-sweep.mjs');
-  const tsxFiles = files.length ? files : routes.flatMap((r) => filesForRoute(r));
+  const tsxFiles = files.length ? files : routes.flatMap((r) => filesForRoute(r, appRoot));
   const staticViolations = tsxFiles.flatMap((f) =>
-    checkSource(readFileSync(f, 'utf8')).map((v) => ({ file: f, ...v })));
+    checkSource(readFileSync(f, 'utf8'), fontVars ? { fontVars } : {}).map((v) => ({ file: f, ...v })));
   const sweep = evaluateSweep(await runSweep(base, routes));
   // Every route, not just the first: measuring routes[0] alone reported a passing score while other
   // routes in the same call were below the threshold, which reads as assurance the run never gave.

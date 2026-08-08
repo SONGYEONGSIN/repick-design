@@ -100,10 +100,19 @@ test('계약 동형 — web·native verdict가 동일 스키마', () => {
 });
 
 test('parseArgs — target/routes/screens 파싱', () => {
+  // 단언에 appRoot·fontVars가 더해졌다. 2026-08-09에 정적검사와 브리프를 플러그인으로 배포하면서
+  // 이 레포의 레이아웃(`app/src/app`)과 폰트 변수를 코드에서 떼어 플래그로 뺐기 때문이다.
   assert.deepEqual(parseArgs(['--target', 'web', '--routes', '/dash/d29']),
-    { target: 'web', routes: ['/dash/d29'], files: [], screens: [], base: 'http://localhost:3100' });
+    { target: 'web', routes: ['/dash/d29'], files: [], screens: [], base: 'http://localhost:3100',
+      appRoot: 'app/src/app', fontVars: null });
   const n = parseArgs(['--target', 'native', '--screens', 'watchlist', 'match']);
   assert.deepEqual(n.screens, ['watchlist', 'match']);
+});
+
+test('parseArgs — --app-root·--font-vars로 레포 바인딩을 갈아끼운다', () => {
+  const o = parseArgs(['--target', 'web', '--routes', '/x', '--app-root', 'src/app', '--font-vars', 'brand, body ,']);
+  assert.equal(o.appRoot, 'src/app');
+  assert.deepEqual(o.fontVars, ['brand', 'body'], '공백 정리 + 빈 항목 제거');
 });
 
 test('filesForRoute — d29 라우트에서 ts/tsx 파일을 모은다', () => {
