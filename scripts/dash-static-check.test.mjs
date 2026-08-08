@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { checkSource } from './dash-static-check.mjs';
+import { checkSource, fontRule, DEFAULT_FONT_VARS, parseCliArgs } from './dash-static-check.mjs';
 
 test('no-emoji — 법적 기호(©™®)는 이모지가 아니다', () => {
   // Extended_Pictographic은 "그림문자가 될 수 있는 것" 전부라 활자 기호까지 포함한다. 이 오탐이
@@ -188,4 +188,37 @@ test('no-unlisted-font: 허용된 디스플레이 변수는 통과', () => {
 test('no-unlisted-font: Pretendard 본문 지정은 통과', () => {
   const ok = `<p style={{ fontFamily: "var(--font-sans)" }}>x</p>`;
   assert.ok(!checkSource(ok).some((x) => x.rule === 'no-unlisted-font'));
+});
+
+// 플러그인이 남의 레포에서 돌 때 --font-display-grotesk 같은 이 레포 변수는 존재하지 않는다.
+// 목록이 코드에 박혀 있으면 정적 검사가 그 레포에서 통째로 거짓이 된다.
+test('fontRule — 기본 목록은 이 레포의 5종', () => {
+  assert.deepEqual(DEFAULT_FONT_VARS, ['sans', 'mono', 'display-grotesk', 'display-wide', 'display-mono']);
+  assert.equal(fontRule().id, 'no-unlisted-font');
+});
+
+test('checkSource — 목록을 갈아끼우면 그 레포의 변수를 통과시킨다', () => {
+  const src = 'const s = { fontFamily: "var(--font-brand)" };';
+  assert.equal(checkSource(src).some((v) => v.rule === 'no-unlisted-font'), true, '기본 목록에선 위반');
+  assert.equal(checkSource(src, { fontVars: ['brand'] }).some((v) => v.rule === 'no-unlisted-font'), false, '커스텀 목록에선 통과');
+});
+
+test('checkSource — 갈아끼운 목록 밖은 여전히 잡는다', () => {
+  const src = 'const s = { fontFamily: "var(--font-display-grotesk)" };';
+  assert.equal(checkSource(src).some((v) => v.rule === 'no-unlisted-font'), false, '기본 목록엔 있다');
+  assert.equal(checkSource(src, { fontVars: ['brand'] }).some((v) => v.rule === 'no-unlisted-font'), true, '커스텀 목록엔 없다');
+});
+
+// 스킬(§4)이 플러그인 사용자에게 `--font-vars <목록>`을 지시하는데 CLI가 그것을 파일 경로로
+// 읽어 ENOENT 로 죽었다. 지시한 명령이 돌지 않으면 지시가 없는 것보다 나쁘다.
+test('parseCliArgs — --font-vars를 파일 목록에서 분리한다', () => {
+  const o = parseCliArgs(['a.tsx', '--font-vars', 'brand,body', 'b.tsx']);
+  assert.deepEqual(o.files, ['a.tsx', 'b.tsx']);
+  assert.deepEqual(o.fontVars, ['brand', 'body']);
+});
+
+test('parseCliArgs — 플래그가 없으면 전부 파일', () => {
+  const o = parseCliArgs(['a.tsx', 'b.tsx']);
+  assert.deepEqual(o.files, ['a.tsx', 'b.tsx']);
+  assert.equal(o.fontVars, null);
 });

@@ -1,0 +1,8 @@
+{
+  "name": "page-commission",
+  "version": "0.1.0",
+  "description": "요구사항을 대화로 캐내 페이지를 제작한다 — 자율 진화 루프가 60여 라운드로 쌓은 페이지 타입 정본(코어 + 프로파일 11종)과 의존성 없는 정적 검사를 함께 싣는다",
+  "author": { "name": "SONGYEONGSIN", "url": "https://github.com/SONGYEONGSIN" },
+  "repository": "https://github.com/SONGYEONGSIN/repick-design",
+  "keywords": ["design", "ui", "page-generation", "landing-page", "design-system"]
+}
