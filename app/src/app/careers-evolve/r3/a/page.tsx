@@ -65,8 +65,9 @@ export default function CareersPage() {
           <p className="mt-6 max-w-xl text-lg font-normal leading-relaxed text-zinc-700">
             Isoline runs the payroll and compliance infrastructure that lets B2B companies pay and
             regulate a team in fourteen countries without fourteen separate vendors. We&apos;re{" "}
-            {totalHeadcount} people across four offices and time zones, and every open role below is
-            filed under a real city — not a vague &ldquo;remote&rdquo; catch-all.
+            {totalHeadcount}{" "}
+            people across four offices and time zones, and every open role below is filed under a
+            real city — not a vague &ldquo;remote&rdquo; catch-all.
           </p>
           <dl className="mt-10 grid grid-cols-2 gap-6 border-t border-zinc-200 pt-8 sm:grid-cols-4">
             <div>
