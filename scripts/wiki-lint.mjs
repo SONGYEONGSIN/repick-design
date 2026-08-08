@@ -10,9 +10,10 @@ export function extractLinks(md) {
 
 const stem = (p) => basename(p).replace(/\.md$/, '');
 const isHome = (p) => basename(p).startsWith('🏠');
-// 20-generations는 라운드마다 basename이 겹치는 DECISION.md가 쌓이므로
+// 20-generations는 라운드마다 basename이 겹치는 DECISION.md가, 40-commissions는 주문마다
+// 겹치는 RECORD.md가 쌓이므로
 // 상대경로(확장자 제외)로 식별한다. 그 외 카테고리는 고유 basename 전제로 stem 유지.
-const key = (p) => (p.startsWith('20-generations/') ? p.replace(/\.md$/, '') : stem(p));
+const key = (p) => (/^(20-generations|40-commissions)\//.test(p) ? p.replace(/\.md$/, '') : stem(p));
 
 export function lintVault(rawFiles) {
   // 크로스플랫폼: readVault가 Windows에서 path.join으로 백슬래시 키를 만들 수 있으므로
