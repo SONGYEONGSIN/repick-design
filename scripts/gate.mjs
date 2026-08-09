@@ -15,6 +15,34 @@ export function normalizeSweep(result) {
   return { name: 'sweep', pass, detail: pass ? '전 폭 오버플로 0' : `오버플로 ${failures.length}`, violations: failures };
 }
 
+/**
+ * Every measured route must actually render.
+ *
+ * On 2026-08-09 `auto-developers-r1/a` returned HTTP 500 (`ReferenceError: TRACE_OPTIONS is not
+ * defined`) and **all six gates passed it**. Each one had a reason: `static` and `lint` read source
+ * and the source parses; `sweep` loads the page and an error page has nothing to overflow; `a11y`
+ * and `perf` got `unavailable` because Lighthouse could not score an error page — and `unavailable`
+ * is a pass, by design, so the run degrades gracefully where Chrome is missing.
+ *
+ * That graceful degradation was written for a missing *tool*. Here it excused a missing *page*. The
+ * two look identical downstream, so the distinction has to be drawn upstream: ask the route for its
+ * status first, and fail on anything that is not 2xx. A route that does not render cannot be judged,
+ * and the judges were about to be handed screenshots of an error page.
+ */
+export function normalizeRoutes(results) {
+  if (!results.length) return { name: 'route', pass: true, detail: '측정 대상 없음', violations: [] };
+  const bad = results.filter((r) => !(r.status >= 200 && r.status < 300));
+  const pass = bad.length === 0;
+  return {
+    name: 'route',
+    pass,
+    detail: pass
+      ? `${results.length}개 라우트 응답 OK`
+      : bad.map((r) => `${r.route} → ${r.status === 0 ? '도달 실패' : r.status}`).join(' · '),
+    violations: bad.map((r) => ({ route: r.route, status: r.status })),
+  };
+}
+
 export function normalizeA11y(score) {
   if (score === 'unavailable') return { name: 'a11y', pass: true, detail: 'unavailable', violations: [] };
   const pass = score >= 95;
@@ -219,6 +247,20 @@ export function worstLighthouse(results) {
   };
 }
 
+/** 각 라우트의 HTTP 상태. 도달 실패는 0으로 보고한다 — 통과시키지 않기 위해 값으로 남긴다. */
+async function fetchRouteStatuses(routes, base) {
+  const out = [];
+  for (const route of routes) {
+    try {
+      const res = await fetch(base + route, { redirect: 'manual' });
+      out.push({ route, status: res.status });
+    } catch {
+      out.push({ route, status: 0 });
+    }
+  }
+  return out;
+}
+
 export async function runWeb({ routes, files, base, appRoot = 'app/src/app', fontVars = null }) {
   // An empty route list used to sail through: no files to scan is "위반 0", no widths to sweep is
   // "오버플로 0", and no Lighthouse result is "unavailable", which the a11y/perf gates pass. So
@@ -244,7 +286,9 @@ export async function runWeb({ routes, files, base, appRoot = 'app/src/app', fon
     runLighthouse(base + r, 'desktop'),
     runLighthouse(base + r, 'mobile'),
   ]));
+  const routeStatuses = await fetchRouteStatuses(routes, base);
   const gates = [
+    normalizeRoutes(routeStatuses),
     normalizeStatic(staticViolations),
     normalizeLint(runLint(tsxFiles)),
     normalizeWeights(countFontWeights(tsxFiles.map((f) => readFileSync(f, 'utf8')))),

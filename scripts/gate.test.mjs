@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import {
   normalizeStatic, normalizeSweep, normalizeA11y, normalizePerf,
   normalizeNativeRun, buildVerdict, parseArgs, filesForRoute, worstLighthouse,
-  countFontWeights, normalizeWeights, normalizeLint,
+  countFontWeights, normalizeWeights, normalizeLint, normalizeRoutes,
 } from './gate.mjs';
 
 test('filesForRoute — .ts 파일도 스캔한다', () => {
@@ -195,4 +195,40 @@ test('normalizeLint — unavailable은 pass(하드페일 아님)', () => {
   assert.equal(g.pass, true);
   assert.equal(g.detail, 'unavailable');
   assert.deepEqual(g.violations, []);
+});
+
+// 2026-08-09 `auto-developers-r1/a`: 라우트가 500을 반환하는데 **6관문이 전부 통과**했다.
+// static·lint는 소스만 보고, sweep은 에러 페이지에 오버플로가 없어 통과하고, a11y·perf는
+// Lighthouse가 실패해 'unavailable'로 떨어졌는데 그게 하드페일이 아니다. 도구 부재를 위한
+// 우아한 저하가 **깨진 라우트를 통과로 읽는 데** 쓰였다.
+test('normalizeRoutes — 전부 200이면 pass', () => {
+  const g = normalizeRoutes([{ route: '/x', status: 200 }, { route: '/y', status: 200 }]);
+  assert.equal(g.pass, true);
+  assert.equal(g.name, 'route');
+});
+
+test('normalizeRoutes — 500 하나면 하드페일', () => {
+  const g = normalizeRoutes([{ route: '/x', status: 200 }, { route: '/bad', status: 500 }]);
+  assert.equal(g.pass, false);
+  assert.match(g.detail, /500/);
+  assert.equal(g.violations.length, 1);
+  assert.equal(g.violations[0].route, '/bad');
+});
+
+test('normalizeRoutes — 404도 하드페일 (라우트가 성립하지 않는다)', () => {
+  assert.equal(normalizeRoutes([{ route: '/nope', status: 404 }]).pass, false);
+});
+
+// dev 서버가 안 떠 있으면 status가 0이다. 이건 후보의 결함이 아니라 측정 실패지만,
+// 그래도 통과시키면 안 된다 — 아무것도 측정하지 못한 채 라운드가 진행된다.
+test('normalizeRoutes — 도달 실패(status 0)도 하드페일', () => {
+  const g = normalizeRoutes([{ route: '/x', status: 0 }]);
+  assert.equal(g.pass, false);
+  assert.match(g.detail, /도달/);
+});
+
+test('normalizeRoutes — --files 모드처럼 라우트가 없으면 측정 대상 없음으로 pass', () => {
+  const g = normalizeRoutes([]);
+  assert.equal(g.pass, true);
+  assert.equal(g.detail, '측정 대상 없음');
 });
