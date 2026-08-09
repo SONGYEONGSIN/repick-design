@@ -3,7 +3,8 @@
   "private": true,
   "scripts": {
     "test": "node --test \"scripts/**/*.test.mjs\"",
-    "build:plugin": "node scripts/build-plugin.mjs"
+    "build:plugin": "node scripts/build-plugin.mjs",
+    "check:heartbeat": "node scripts/heartbeat.mjs"
   },
   "devDependencies": {
     "playwright": "^1.61.1"
