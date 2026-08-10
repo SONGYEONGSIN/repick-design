@@ -55,7 +55,20 @@ export async function runSweep(baseUrl, routes, widths = sweepWidths()) {
       const m = await page.evaluate(() => {
         const doc = document.documentElement;
         const els = [...document.querySelectorAll('table, [class*="overflow-x"]')];
+        // 텍스트를 직접 가진 요소의 계산된 굵기 — 클래스가 없어 preflight 400으로 그려지는
+        // 본문까지 포함된다. 소스에서 클래스를 세는 방식이 놓치던 바로 그 값이다.
+        //
+        // SVG 안은 뺀다. `/catalog`을 재보니 700이 하나 더 잡혔는데 출처가 생성형 로고의
+        // `<text>` 글자꼴이었다 — `font-weight` 속성을 자기가 들고 있다. 정본 §3의 "웨이트
+        // 정확히 3종"은 "위계는 크기·자간·색으로 만든다"는 맥락이라 **타이포 위계**를 말하고,
+        // 로고 글자꼴은 일러스트다. 안 빼면 SVG를 그린 작품만 규칙을 어긴 것처럼 읽힌다.
+        const weights = [...document.querySelectorAll('body *')]
+          .filter((el) => !el.closest('svg'))
+          .filter((el) => [...el.childNodes].some((n) => n.nodeType === 3 && n.textContent.trim()))
+          .map((el) => Number(getComputedStyle(el).fontWeight))
+          .filter((n) => Number.isFinite(n));
         return {
+          fontWeights: [...new Set(weights)],
           scrollWidth: doc.scrollWidth,
           clientWidth: doc.clientWidth,
           tables: els.map((el, i) => ({
@@ -72,6 +85,7 @@ export async function runSweep(baseUrl, routes, widths = sweepWidths()) {
   // 배열에 부가 채널을 얹는다 — `evaluateSweep(measurements)` 시그니처를 그대로 두기 위해서다.
   // 소비처는 gate.mjs 하나이고, 거기서 `.consoleMessages`를 읽어 별도 관문으로 정규화한다.
   measurements.consoleMessages = consoleMessages;
+  measurements.fontWeights = [...new Set(measurements.flatMap((m) => m.fontWeights ?? []))];
   return measurements;
 }
 

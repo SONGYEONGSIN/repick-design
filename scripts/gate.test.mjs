@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import {
   normalizeStatic, normalizeSweep, normalizeA11y, normalizePerf,
   normalizeNativeRun, buildVerdict, parseArgs, filesForRoute, worstLighthouse,
-  countFontWeights, normalizeWeights, normalizeLint, normalizeRoutes, parseTscOutput, normalizeTypes, normalizeConsole,
+  countFontWeights, normalizeWeights, renderedWeights, normalizeLint, normalizeRoutes, parseTscOutput, normalizeTypes, normalizeConsole,
 } from './gate.mjs';
 
 test('filesForRoute — .ts 파일도 스캔한다', () => {
@@ -154,7 +154,9 @@ test('countFontWeights — 주석 속 언급은 세지 않는다', () => {
 });
 
 test('normalizeWeights — 기록 전용: 어떤 개수든 통과하되 개수를 detail에 남긴다', () => {
-  assert.equal(normalizeWeights({ count: 3, weights: ['light', 'normal', 'bold'] }).detail, '3종');
+  // detail에 **측정 방식**이 붙었다. 같은 "3종"이라도 명시 클래스를 센 것과 렌더를 실측한 것은
+  // 신뢰도가 다르고, 그 차이를 감추면 계측 아티팩트가 또 사람 눈에만 보인다(2026-08-11).
+  assert.match(normalizeWeights({ count: 3, weights: ['light', 'normal', 'bold'] }).detail, /^3종/);
   const off = normalizeWeights({ count: 2, weights: ['normal', 'semibold'] });
   assert.equal(off.pass, true, '카탈로그 41%를 깨는 임계를 하드페일로 두지 않는다');
   assert.match(off.detail, /2종.*기록만/);
@@ -332,4 +334,35 @@ test('normalizeConsole — 측정 불가는 위반이 아니다', () => {
   const g = normalizeConsole('unavailable');
   assert.equal(g.pass, true);
   assert.equal(g.detail, 'unavailable');
+});
+
+// `weights`는 지금까지 **명시 클래스만** 셌다. Tailwind preflight의 기본 400은 클래스가 없어서
+// 카운터에 안 잡히고, 그 아티팩트가 두 번 관측됐다 — `auto-careers-r1`은 실질 4종을 3종으로,
+// `auto-integration-r1/c`는 3종을 2종으로 읽었다(방향만 반대). 정본이 요구하는 것은 **렌더된**
+// 굵기 종수이므로, 이제 sweep의 페이지 로드에서 `getComputedStyle`로 직접 잰다.
+test('renderedWeights — 계산된 굵기를 정렬·중복제거한다', () => {
+  const r = renderedWeights([400, 600, 400, 700, 600]);
+  assert.deepEqual(r.weights, [400, 600, 700]);
+  assert.equal(r.count, 3);
+});
+
+test('renderedWeights — 빈 입력은 0종', () => {
+  assert.equal(renderedWeights([]).count, 0);
+});
+
+// preflight 400이 클래스 없이 렌더되는 그 상황. 명시 클래스는 2종인데 실제는 3종이다.
+test('renderedWeights — 클래스 없는 기본 400도 센다', () => {
+  const r = renderedWeights([400, 500, 600]);
+  assert.equal(r.count, 3, '명시 클래스가 medium·semibold 둘뿐이어도 렌더는 3종');
+});
+
+test('normalizeWeights — 렌더 측정치를 받으면 그대로 보고한다', () => {
+  const g = normalizeWeights(renderedWeights([400, 500, 600]));
+  assert.equal(g.pass, true, '기록만 — 임계는 Q13에서 보류 상태');
+  assert.match(g.detail, /3종/);
+});
+
+test('normalizeWeights — 측정 불가면 명시 클래스 집계로 물러선다', () => {
+  const g = normalizeWeights(countFontWeights(['<p class="font-medium">x</p>']));
+  assert.match(g.detail, /1종|medium/);
 });
