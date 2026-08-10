@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import {
   normalizeStatic, normalizeSweep, normalizeA11y, normalizePerf,
   normalizeNativeRun, buildVerdict, parseArgs, filesForRoute, worstLighthouse,
-  countFontWeights, normalizeWeights, normalizeLint, normalizeRoutes, parseTscOutput, normalizeTypes,
+  countFontWeights, normalizeWeights, normalizeLint, normalizeRoutes, parseTscOutput, normalizeTypes, normalizeConsole,
 } from './gate.mjs';
 
 test('filesForRoute — .ts 파일도 스캔한다', () => {
@@ -284,4 +284,52 @@ test('normalizeTypes — 측정 불가는 위반이 아니다', () => {
 
 test('normalizeTypes — 스코프가 비면 측정 대상 없음', () => {
   assert.equal(normalizeTypes([], []).detail, '측정 대상 없음');
+});
+
+// 2026-08-10 `auto-integration-r1/b`: 승자가 프레임 4장 전부에 Next dev 오버레이 `1 Issue` 배지를
+// 달고 있었고 7관문이 전부 통과시켰다. 추적하니 React 중복 키였다
+// (`Encountered two children with the same key, "no counterpart"`). judge가 육안으로 잡았다.
+//
+// 하드페일 승격 전 소급 스캔: 카탈로그 34라우트에서 아래 패턴 매칭 **0건**
+// (관측된 5건은 `/scene`의 WebGL 드라이버 성능 메시지 4건과 `/v7`의 next/image LCP 힌트 1건 —
+// 둘 다 React 결함이 아니라 패턴에서 제외된다).
+test('normalizeConsole — 메시지 없으면 pass', () => {
+  const g = normalizeConsole([]);
+  assert.equal(g.pass, true);
+  assert.equal(g.name, 'console');
+});
+
+test('normalizeConsole — React 중복 키는 하드페일 (실제 사고)', () => {
+  const g = normalizeConsole([
+    { type: 'warning', text: 'Encountered two children with the same key, `no counterpart`.' },
+  ]);
+  assert.equal(g.pass, false);
+  assert.equal(g.violations.length, 1);
+});
+
+test('normalizeConsole — 하이드레이션 불일치도 하드페일', () => {
+  assert.equal(normalizeConsole([{ type: 'error', text: 'Hydration failed because the server rendered HTML didn\'t match' }]).pass, false);
+});
+
+test('normalizeConsole — 잡히지 않은 페이지 에러는 항상 하드페일', () => {
+  assert.equal(normalizeConsole([{ type: 'pageerror', text: 'ReferenceError: TRACE_OPTIONS is not defined' }]).pass, false);
+});
+
+// 소급 스캔에서 실제로 나온 둘. 이것들을 잡으면 결함 아닌 것으로 카탈로그 6%가 떨어진다.
+test('normalizeConsole — WebGL 드라이버 메시지는 통과 (결함 아님)', () => {
+  assert.equal(normalizeConsole([
+    { type: 'warning', text: '[.WebGL-0x11c0a4aba00]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV)' },
+  ]).pass, true);
+});
+
+test('normalizeConsole — next/image LCP 힌트는 통과 (성능 제안)', () => {
+  assert.equal(normalizeConsole([
+    { type: 'warning', text: 'Image with src "https://images.unsplash.com/photo-1445205170230" was detected as the Largest Contentful Paint (LCP)' },
+  ]).pass, true);
+});
+
+test('normalizeConsole — 측정 불가는 위반이 아니다', () => {
+  const g = normalizeConsole('unavailable');
+  assert.equal(g.pass, true);
+  assert.equal(g.detail, 'unavailable');
 });
