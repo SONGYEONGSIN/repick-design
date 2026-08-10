@@ -37,7 +37,7 @@ export default function ContactPage() {
       </a>
 
       <header className="border-b border-zinc-200">
-        <div className="mx-auto flex max-w-3xl flex-wrap items-center justify-between gap-3 px-4 py-4 sm:px-6">
+        <div className="mx-auto flex max-w-4xl flex-wrap items-center justify-between gap-3 px-4 py-4 sm:px-6">
           <span className="text-lg font-bold tracking-tight text-zinc-900">{COMPANY.name}</span>
           <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
             <a
@@ -59,7 +59,7 @@ export default function ContactPage() {
       </header>
 
       <main id="main">
-        <div className="mx-auto max-w-3xl px-4 sm:px-6">
+        <div className="mx-auto max-w-4xl px-4 sm:px-6">
           <section aria-labelledby="page-heading" className="pb-8 pt-10 sm:pt-12">
             <p className="text-sm font-semibold uppercase tracking-[0.2em] text-blue-800">Contact</p>
             <h1
@@ -141,7 +141,7 @@ export default function ContactPage() {
       </main>
 
       <footer className="border-t border-zinc-200 bg-zinc-50">
-        <div className="mx-auto max-w-3xl px-4 py-8 text-sm font-normal text-zinc-600 sm:px-6">
+        <div className="mx-auto max-w-4xl px-4 py-8 text-sm font-normal text-zinc-600 sm:px-6">
           <p>
             Still not sure which rung fits?{" "}
             <a

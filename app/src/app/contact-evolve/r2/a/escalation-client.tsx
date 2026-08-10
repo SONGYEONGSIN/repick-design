@@ -58,7 +58,7 @@ export default function EscalationClient() {
           it. Nothing is hidden either way: every tier&apos;s address stays visible whether you pick one
           or not.
         </p>
-        <div role="group" aria-label="Filter the ladder by situation" className="mt-4 flex flex-wrap gap-2">
+        <div role="group" aria-label="Highlight the matching tier by situation" className="mt-4 flex flex-wrap gap-2">
           {SITUATIONS.map((s) => {
             const isSelected = selected === s.id;
             return (
