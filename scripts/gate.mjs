@@ -43,6 +43,43 @@ export function normalizeRoutes(results) {
   };
 }
 
+/** `tsc --noEmit` 출력 한 줄 = `src/…/foo.tsx(280,18): error TS2304: …` */
+export function parseTscOutput(stdout) {
+  const out = [];
+  for (const line of String(stdout).split('\n')) {
+    const m = /^(.+?)\((\d+),(\d+)\): error (TS\d+): (.+)$/.exec(line.trim());
+    if (m) out.push({ file: m[1], line: Number(m[2]), rule: m[4], detail: m[5] });
+  }
+  return out;
+}
+
+/**
+ * Type errors, attributed to the candidate whose files they land in.
+ *
+ * `auto-developers-r1/a` returned HTTP 500 (`ReferenceError: TRACE_OPTIONS is not defined`) and six
+ * gates passed it. The `route` gate now catches that *symptom*, but a type error that does not throw
+ * at runtime still sails through — and `tsc` had named the defect exactly (`TS2304`) all along. It
+ * simply was not part of the gate.
+ *
+ * Scoping matters more here than anywhere else. `tsc` compiles the whole project, while the gate
+ * judges one candidate at a time: if candidate b's type error failed a and c too, a single mistake
+ * would void the entire round. So the run happens once and the errors are filtered down to the files
+ * this invocation actually covers. Errors elsewhere are someone else's gate.
+ */
+export function normalizeTypes(errors, files) {
+  if (errors === 'unavailable') return { name: 'types', pass: true, detail: 'unavailable', violations: [] };
+  if (!files.length) return { name: 'types', pass: true, detail: '측정 대상 없음', violations: [] };
+  // 스코프 파일은 레포 루트 기준(`app/src/…`), tsc 출력은 `app/` 기준(`src/…`)이라 접미사로 맞춘다.
+  const mine = errors.filter((e) => files.some((f) => f.endsWith(e.file) || f === e.file));
+  const pass = mine.length === 0;
+  return {
+    name: 'types',
+    pass,
+    detail: pass ? '에러 0' : `${mine.length}건 — ${mine.map((e) => e.rule).join(', ')}`,
+    violations: mine,
+  };
+}
+
 export function normalizeA11y(score) {
   if (score === 'unavailable') return { name: 'a11y', pass: true, detail: 'unavailable', violations: [] };
   const pass = score >= 95;
@@ -247,6 +284,14 @@ export function worstLighthouse(results) {
   };
 }
 
+/** `tsc --noEmit`를 한 번 돌려 에러 목록을 얻는다. 실행 불가면 'unavailable'. */
+function runTypecheck(appDir = 'app') {
+  const r = spawnSync('npx', ['tsc', '--noEmit'], { cwd: appDir, encoding: 'utf8', maxBuffer: 64 * 1024 * 1024, env: process.env });
+  // tsc는 에러가 있으면 비-0으로 끝난다 — 그게 우리가 읽어야 할 경우다. 판단 기준은 출력이다.
+  if (r.error || r.stdout == null) return 'unavailable';
+  return parseTscOutput(r.stdout);
+}
+
 /** 각 라우트의 HTTP 상태. 도달 실패는 0으로 보고한다 — 통과시키지 않기 위해 값으로 남긴다. */
 async function fetchRouteStatuses(routes, base) {
   const out = [];
@@ -289,6 +334,7 @@ export async function runWeb({ routes, files, base, appRoot = 'app/src/app', fon
   const routeStatuses = await fetchRouteStatuses(routes, base);
   const gates = [
     normalizeRoutes(routeStatuses),
+    normalizeTypes(runTypecheck(), tsxFiles),
     normalizeStatic(staticViolations),
     normalizeLint(runLint(tsxFiles)),
     normalizeWeights(countFontWeights(tsxFiles.map((f) => readFileSync(f, 'utf8')))),

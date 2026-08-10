@@ -21,6 +21,8 @@ tags: [principles, brief]
 |---|---|---|
 | `Math.random(` · `Date.now(` · `new Date()` 금지 (결정론 데이터·하이드레이션) | static `no-random` | 하드페일 |
 | ESLint 위반 0 (error·warning 모두) — `any` 단언·무력화된 훅 의존성 등 | `lint` (레포 flat config) | 하드페일 |
+| 타입 에러 0 (`tsc --noEmit`, 스코프 파일 귀속) | `types` | 하드페일 |
+| 라우트가 2xx로 응답 | `route` | 하드페일 |
 | 원시 `<img>` 금지 → `next/image` | static `no-raw-img` | 하드페일 |
 | `unoptimized` 금지 (LCP·CLS 이점 상실) | static `no-next-image-unopt` | 하드페일 |
 | 이모지 금지 → lucide-react 아이콘 | static `no-emoji` | 하드페일 |
