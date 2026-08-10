@@ -72,7 +72,7 @@ export type Work = {
   category?: PageType;
 };
 
-export const LAST_UPDATED = "2026-08-09"; // determinism rule: no dynamic Date calls — update this by hand when refreshing
+export const LAST_UPDATED = "2026-08-11"; // determinism rule: no dynamic Date calls — update this by hand when refreshing
 
 export const NATIVE_WORKS: Work[] = [
   { id: "n1", route: "/native-app/index.html?screen=watchlist", brand: "Watchlist", desc: { en: "Saved-item watchlist · price-drop alerts and a single accent for unread, as a native mobile screen.", ko: "관심목록 · 가격 하락 알림 · 미읽음 단일 액센트 (네이티브 모바일 화면)" }, target: "native", category: "mobile" },
@@ -97,6 +97,26 @@ export const PROFILE_WORKS: Work[] = [
 // 0. Editorial — the blog page type's first entry.
 export const BLOG_WORKS: Work[] = [
   { id: "bl1", route: "/blog", brand: "Baseline", desc: { en: "Benchmark journal index · each entry carries its baseline, result, sample size and confidence in the index itself, and a Feed/Compare toggle swaps one filtered dataset between editorial cards and a real aria-sort table (auto blog r2 winner).", ko: "벤치마크 저널 인덱스 · 항목마다 기준값·결과·표본·신뢰도가 인덱스 자체에 실리고, Feed/Compare 토글이 같은 필터 결과를 편집형 카드와 실동작 aria-sort 테이블 사이에서 전환 (자동 blog r2 승자)" }, target: "blog", category: "blog" },
+];
+
+// 0. Inbound — the contact page type's first entry.
+export const CONTACT_WORKS: Work[] = [
+  { id: "ct2", route: "/contact", brand: "Tessera", desc: { en: "Reconciliation platform's contact desk built to answer before it routes · one triage field returns a single routing slip whose whole shape changes with the verdict, while four desks keep their addresses, median first reply and staffed hours printed above it with nothing behind a click (auto contact r1 winner).", ko: "정산 대조 플랫폼의 문의 창구 · 트리아지 입력 한 칸이 판정 종류에 따라 골격 자체가 바뀌는 단일 라우팅 슬립을 돌려주고, 그 위로 네 창구의 주소·중앙값 응답·근무시간이 무조작 상태로 상시 노출된다 (자동 contact r1 승자)" }, target: "contact", category: "contact" },
+];
+
+// 0. API entry — the developers page type's first entry.
+export const DEVELOPERS_WORKS: Work[] = [
+  { id: "dv1", route: "/developers", brand: "Bollard", desc: { en: "Shipping-rate API entry written as a transcript of one executed session · three chained calls sit on the page as request and response pairs from the first screen, and every returned line carries a gutter tag naming the parameter that produced it (auto developers r1 winner).", ko: "실행된 세션의 기록으로 쓴 배송요율 API 입구 · 연쇄된 세 호출이 첫 화면부터 요청·응답 쌍으로 놓이고, 응답의 모든 줄이 자신을 만든 파라미터를 거터 태그로 밝힌다 (자동 developers r1 승자)" }, target: "developers", category: "developers" },
+];
+
+// 0. Connection — the integration page type's first entry.
+export const INTEGRATION_WORKS: Work[] = [
+  { id: "ig1", route: "/integration", brand: "Kestrel", desc: { en: "A two-way HubSpot sync seen from the day it broke · four self-contained strata (field policy, run ledger, conflict precedence, human queue) where one incident leaves its trace in three of them, and six fields state in the same table why they will never cross (auto integration r1 winner).", ko: "사고 난 날의 관점에서 본 HubSpot 양방향 동기화 · 자기완결 4지층(필드 정책·실행 원장·충돌 우선순위·사람 대기 큐)에서 한 사건이 셋에 흔적을 남기고, 여섯 필드가 같은 표 안에서 넘어가지 않는 이유를 말한다 (자동 integration r1 승자)" }, target: "integration", category: "integration" },
+];
+
+// 0. Press — the media-kit page type's first entry.
+export const MEDIA_KIT_WORKS: Work[] = [
+  { id: "mk1", route: "/media-kit", brand: "Tolvan", desc: { en: "Press record that puts the facts a reporter cannot get wrong ahead of the logo · twelve of them printed with a verification date and the named person who confirms each, and one control that changes only the shape a fact arrives in — plain, Markdown or BibTeX (auto media-kit r1 winner).", ko: "로고보다 틀리면 안 되는 사실을 앞세운 프레스 레코드 · 열두 가지가 검증일과 확인자 실명을 달고 인쇄되며, 유일한 조작은 사실이 도착하는 형태만 바꾼다 — 평문·마크다운·BibTeX (자동 media-kit r1 승자)" }, target: "media-kit", category: "media-kit" },
 ];
 
 // 0. Company — the about page type's first entry.
@@ -164,5 +184,5 @@ export const DASH_LAB_WORKS: Work[] = [
 
 /** Static catalog (excludes evolution candidates) — shared by the gallery grid and detail routes. Each entry carries its own page-type category. */
 export function catalogWorks(): Work[] {
-  return [...LANDING_WORKS, ...DASH_LAB_WORKS, ...LOGIN_WORKS, ...NOTFOUND_WORKS, ...CATALOG_WORKS, ...SCENE_WORKS, ...PRODUCT_DETAIL_WORKS, ...PAYWALL_WORKS, ...PROFILE_WORKS, ...BLOG_WORKS, ...ABOUT_WORKS, ...CAREERS_WORKS, ...NATIVE_WORKS];
+  return [...LANDING_WORKS, ...DASH_LAB_WORKS, ...LOGIN_WORKS, ...NOTFOUND_WORKS, ...CATALOG_WORKS, ...SCENE_WORKS, ...PRODUCT_DETAIL_WORKS, ...PAYWALL_WORKS, ...PROFILE_WORKS, ...BLOG_WORKS, ...ABOUT_WORKS, ...CAREERS_WORKS, ...CONTACT_WORKS, ...DEVELOPERS_WORKS, ...INTEGRATION_WORKS, ...MEDIA_KIT_WORKS, ...NATIVE_WORKS];
 }
