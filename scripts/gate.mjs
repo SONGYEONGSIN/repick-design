@@ -296,12 +296,31 @@ export function countFontWeights(sources) {
  * guess. So the number is surfaced in every round — drift stays visible — and the threshold waits
  * for the canon contradiction to be settled.
  */
-export function normalizeWeights({ count, weights }) {
+/**
+ * Distinct font weights the browser actually painted.
+ *
+ * `countFontWeights` reads Tailwind classes out of source, which misses the one weight nobody
+ * writes: preflight's default 400. The artifact showed up twice, in opposite directions —
+ * `auto-careers-r1` had four rendered weights read as three, and `auto-integration-r1/c` had three
+ * read as two (its only explicit classes were `font-medium` and `font-semibold`; body copy sat at an
+ * implicit 400). Both times a judge had to settle it by eye.
+ *
+ * The canon's unit is the *rendered* page, so measure the rendered page. `sweep` already loads every
+ * route, so `getComputedStyle` costs nothing extra. Class counting stays as the fallback for runs
+ * with no browser.
+ */
+export function renderedWeights(values) {
+  const weights = [...new Set(values.map(Number).filter((n) => Number.isFinite(n)))].sort((a, b) => a - b);
+  return { count: weights.length, weights, rendered: true };
+}
+
+export function normalizeWeights({ count, weights, rendered = false }) {
   const canonical = count === 3;
+  const how = rendered ? '렌더 실측' : '명시 클래스';
   return {
     name: 'weights',
     pass: true,
-    detail: canonical ? '3종' : `${count}종 (${weights.join(', ') || '없음'}) — 기록만`,
+    detail: canonical ? `3종 (${how})` : `${count}종 (${weights.join(', ') || '없음'}) — 기록만, ${how}`,
     violations: [],
   };
 }
@@ -369,7 +388,12 @@ export async function runWeb({ routes, files, base, appRoot = 'app/src/app', fon
     normalizeTypes(runTypecheck(), tsxFiles),
     normalizeStatic(staticViolations),
     normalizeLint(runLint(tsxFiles)),
-    normalizeWeights(countFontWeights(tsxFiles.map((f) => readFileSync(f, 'utf8')))),
+    // 렌더 실측을 우선하고, 브라우저가 없으면 명시 클래스 집계로 물러선다.
+    normalizeWeights(
+      sweepRaw.fontWeights?.length
+        ? renderedWeights(sweepRaw.fontWeights)
+        : countFontWeights(tsxFiles.map((f) => readFileSync(f, 'utf8'))),
+    ),
     normalizeSweep(sweep),
     normalizeConsole(sweepRaw.consoleMessages ?? 'unavailable'),
     normalizeA11y(lh === 'unavailable' ? 'unavailable' : lh.a11y),
