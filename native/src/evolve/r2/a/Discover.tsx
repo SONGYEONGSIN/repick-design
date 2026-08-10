@@ -149,7 +149,11 @@ export function Discover() {
           accessibilityState={{ disabled: !hasActiveFilters }}
           accessibilityLabel="Clear all filters and search text"
           hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
-          style={({ pressed }) => [styles.clearAllBtn, pressed && hasActiveFilters && styles.pressed]}
+          style={({ pressed }) => [
+            styles.clearAllBtn,
+            !hasActiveFilters && styles.clearAllBtnDisabled,
+            pressed && hasActiveFilters && styles.pressed,
+          ]}
         >
           <Text style={[styles.clearAllText, !hasActiveFilters && styles.clearAllTextDisabled]}>Clear all</Text>
         </Pressable>
@@ -258,6 +262,7 @@ const styles = StyleSheet.create({
     textTransform: "uppercase",
   },
   clearAllBtn: { minHeight: 32, justifyContent: "center" },
+  clearAllBtnDisabled: { opacity: 0.5 },
   clearAllText: { fontSize: 13, fontWeight: "700", color: tokens.color.accent },
   clearAllTextDisabled: { color: tokens.color.faint },
 
