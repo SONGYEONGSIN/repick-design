@@ -4,7 +4,7 @@ const { chromium } = require('playwright');
 
 const EXPO_URL = process.argv[2] || 'http://localhost:8091/';
 const CHECK = process.argv[3] || 'AI Match Results';
-const b = await chromium.launch();
+const b = await chromium.launch({ executablePath: process.env.PW_CHROMIUM_PATH || undefined });
 const p = await b.newPage();
 // 갤러리 WorkCard와 동일 구조: iframe src=Expo Web URL
 await p.setContent(`<iframe src="${EXPO_URL}" style="width:1440px;height:1100px;border:0" title="native preview"></iframe>`);
