@@ -3,12 +3,18 @@ import { WatchList } from "./watchlist/WatchList";
 import { MatchList } from "./MatchList";
 import { PriceDetail } from "./detail/PriceDetail";
 import { OfferThread } from "./offer-thread/OfferThread";
+import { Discover } from "./evolve/r2/a/Discover";
+import { AlertsCenter } from "./evolve/r2/b/AlertsCenter";
+import { Preferences } from "./evolve/r2/c/Preferences";
 
 const COMPONENTS = {
   watchlist: WatchList,
   match: MatchList,
   detail: PriceDetail,
   "offer-thread": OfferThread,
+  "evolve-r2-a": Discover,
+  "evolve-r2-b": AlertsCenter,
+  "evolve-r2-c": Preferences,
 } as const satisfies Record<string, ComponentType>;
 
 export type ScreenSlug = keyof typeof COMPONENTS;

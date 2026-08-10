@@ -59,7 +59,7 @@ function ScreenHeader() {
   return (
     <View style={styles.header}>
       <Text style={styles.h1} accessibilityRole="header">
-        Account &amp; Preferences
+        Account & Preferences
       </Text>
       <Text style={styles.sub}>Changes apply immediately — nothing here waits for a save button.</Text>
       <ProfileCard />

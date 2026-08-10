@@ -10,5 +10,14 @@
   },
   "offer-thread": {
     "check": "Offer Thread"
+  },
+  "evolve-r2-a": {
+    "check": "Search & Discover"
+  },
+  "evolve-r2-b": {
+    "check": "Alerts Center"
+  },
+  "evolve-r2-c": {
+    "check": "Account & Preferences"
   }
 }
