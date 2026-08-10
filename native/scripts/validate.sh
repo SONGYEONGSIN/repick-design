@@ -33,7 +33,7 @@ const { createRequire } = require("node:module");
 const req = createRequire(process.env.ROOT + "/");
 const { chromium } = req("playwright");
 (async () => {
-  const b = await chromium.launch(); const p = await b.newPage();
+  const b = await chromium.launch({ executablePath: process.env.PW_CHROMIUM_PATH || undefined }); const p = await b.newPage();
   await p.goto("http://localhost:" + process.env.PORT + "/", { waitUntil: "load" });
   await p.waitForTimeout(1500);
   const t = await p.evaluate(() => document.body.innerText); await b.close();
