@@ -38,6 +38,14 @@ export async function runSweep(baseUrl, routes, widths = sweepWidths()) {
     args: process.env.PW_NO_SANDBOX ? ['--no-sandbox'] : [],
   });
   const page = await browser.newPage();
+  // 콘솔은 sweep이 이미 도는 페이지 로드에 얹는다 — 별도 브라우저 기동 없이 공짜다.
+  // 판정(무엇이 결함인가)은 여기서 하지 않는다. gate.mjs `normalizeConsole`이 패턴을 안다.
+  const consoleMessages = [];
+  page.on('console', (m) => {
+    const type = m.type();
+    if (type === 'error' || type === 'warning') consoleMessages.push({ type, text: m.text().slice(0, 300) });
+  });
+  page.on('pageerror', (e) => consoleMessages.push({ type: 'pageerror', text: String(e).slice(0, 300) }));
   const measurements = [];
   for (const route of routes) {
     for (const width of widths) {
@@ -61,6 +69,9 @@ export async function runSweep(baseUrl, routes, widths = sweepWidths()) {
     }
   }
   await browser.close();
+  // 배열에 부가 채널을 얹는다 — `evaluateSweep(measurements)` 시그니처를 그대로 두기 위해서다.
+  // 소비처는 gate.mjs 하나이고, 거기서 `.consoleMessages`를 읽어 별도 관문으로 정규화한다.
+  measurements.consoleMessages = consoleMessages;
   return measurements;
 }
 

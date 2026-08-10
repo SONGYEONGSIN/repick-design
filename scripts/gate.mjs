@@ -43,6 +43,37 @@ export function normalizeRoutes(results) {
   };
 }
 
+/**
+ * React correctness warnings the browser prints while the page runs.
+ *
+ * `auto-integration-r1/b` won its round carrying a Next dev-overlay `1 Issue` badge in all four
+ * frames, and seven gates passed it. The defect was a duplicate React key
+ * (`Encountered two children with the same key, "no counterpart"`) — a judge caught it by eye, in a
+ * screenshot, because nothing measured the console.
+ *
+ * The pattern list is narrow on purpose. A retroactive scan of all 34 catalogue routes found five
+ * console messages, and **none of them were defects**: four WebGL driver performance notices from
+ * `/scene` and one `next/image` LCP hint from `/v7`. A blanket "any warning fails" rule would have
+ * failed 6% of shipped work on things that are not wrong. Narrowed to React correctness plus
+ * uncaught page errors, the same scan reports zero — which is what makes it promotable to a hard
+ * fail (the same bar `no-random-image-host` had to clear).
+ */
+export const CONSOLE_DEFECT_RE =
+  /same key|unique "?key"?|Hydration failed|did not match|Text content does not match|Warning: .*React|Maximum update depth|Cannot update a component/i;
+
+export function normalizeConsole(messages) {
+  if (messages === 'unavailable') return { name: 'console', pass: true, detail: 'unavailable', violations: [] };
+  // `pageerror`는 패턴과 무관하게 위반이다 — 잡히지 않은 예외는 그 자체로 결함이다.
+  const bad = messages.filter((m) => m.type === 'pageerror' || CONSOLE_DEFECT_RE.test(m.text));
+  const pass = bad.length === 0;
+  return {
+    name: 'console',
+    pass,
+    detail: pass ? `메시지 ${messages.length}건 · 결함 0` : `${bad.length}건 — ${bad.map((m) => m.text.slice(0, 40)).join(' · ')}`,
+    violations: bad,
+  };
+}
+
 /** `tsc --noEmit` 출력 한 줄 = `src/…/foo.tsx(280,18): error TS2304: …` */
 export function parseTscOutput(stdout) {
   const out = [];
@@ -320,7 +351,8 @@ export async function runWeb({ routes, files, base, appRoot = 'app/src/app', fon
   const tsxFiles = files.length ? files : routes.flatMap((r) => filesForRoute(r, appRoot));
   const staticViolations = tsxFiles.flatMap((f) =>
     checkSource(readFileSync(f, 'utf8'), fontVars ? { fontVars } : {}).map((v) => ({ file: f, ...v })));
-  const sweep = evaluateSweep(await runSweep(base, routes));
+  const sweepRaw = await runSweep(base, routes);
+  const sweep = evaluateSweep(sweepRaw);
   // Every route, not just the first: measuring routes[0] alone reported a passing score while other
   // routes in the same call were below the threshold, which reads as assurance the run never gave.
   // Both viewports, worst taken. The desktop preset was the only one measured, and sweep already
@@ -339,6 +371,7 @@ export async function runWeb({ routes, files, base, appRoot = 'app/src/app', fon
     normalizeLint(runLint(tsxFiles)),
     normalizeWeights(countFontWeights(tsxFiles.map((f) => readFileSync(f, 'utf8')))),
     normalizeSweep(sweep),
+    normalizeConsole(sweepRaw.consoleMessages ?? 'unavailable'),
     normalizeA11y(lh === 'unavailable' ? 'unavailable' : lh.a11y),
     normalizePerf(lh === 'unavailable' ? 'unavailable' : lh.perf),
   ];
