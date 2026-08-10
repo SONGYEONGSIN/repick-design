@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import {
   normalizeStatic, normalizeSweep, normalizeA11y, normalizePerf,
   normalizeNativeRun, buildVerdict, parseArgs, filesForRoute, worstLighthouse,
-  countFontWeights, normalizeWeights, normalizeLint, normalizeRoutes,
+  countFontWeights, normalizeWeights, normalizeLint, normalizeRoutes, parseTscOutput, normalizeTypes,
 } from './gate.mjs';
 
 test('filesForRoute — .ts 파일도 스캔한다', () => {
@@ -231,4 +231,57 @@ test('normalizeRoutes — --files 모드처럼 라우트가 없으면 측정 대
   const g = normalizeRoutes([]);
   assert.equal(g.pass, true);
   assert.equal(g.detail, '측정 대상 없음');
+});
+
+// 2026-08-09 `auto-developers-r1/a`: `TRACE_OPTIONS` 미선언으로 라우트가 500이었고 게이트 6관문이
+// 전부 통과시켰다. `route` 관문이 그 **증상**은 잡지만, 런타임에 안 터지는 타입 에러는 여전히
+// 통과한다. tsc는 그 결함을 정확히 짚었다(TS2304) — 게이트에 없었을 뿐이다.
+test('parseTscOutput — 파일·줄·코드·메시지를 뽑는다', () => {
+  const out = [
+    "src/app/developers-evolve/r1/a/console.tsx(280,18): error TS2304: Cannot find name 'TRACE_OPTIONS'.",
+    "src/app/developers-evolve/r1/a/console.tsx(280,37): error TS7006: Parameter 'option' implicitly has an 'any' type.",
+  ].join('\n');
+  const errs = parseTscOutput(out);
+  assert.equal(errs.length, 2);
+  assert.equal(errs[0].file, 'src/app/developers-evolve/r1/a/console.tsx');
+  assert.equal(errs[0].line, 280);
+  assert.equal(errs[0].rule, 'TS2304');
+  assert.match(errs[0].detail, /TRACE_OPTIONS/);
+});
+
+test('parseTscOutput — 에러 없는 출력은 빈 배열', () => {
+  assert.deepEqual(parseTscOutput(''), []);
+  assert.deepEqual(parseTscOutput('Found 0 errors.\n'), []);
+});
+
+// tsc는 프로젝트 전체를 본다. 게이트는 후보별 판정이므로 **다른 후보의 에러가 이 후보를
+// 떨어뜨리면 안 된다** — 한 라운드에서 후보 b의 타입 에러로 a·c까지 탈락하면 그 라운드가 통째로
+// 날아간다. 스코프 파일에 귀속된 에러만 이 관문의 위반이다.
+test('normalizeTypes — 스코프 밖 에러는 무시한다', () => {
+  const errs = [
+    { file: 'src/app/x-evolve/r1/b/foo.tsx', line: 1, rule: 'TS2304', detail: 'x' },
+  ];
+  const g = normalizeTypes(errs, ['app/src/app/x-evolve/r1/a/page.tsx']);
+  assert.equal(g.pass, true);
+  assert.equal(g.name, 'types');
+});
+
+test('normalizeTypes — 스코프 안 에러는 하드페일', () => {
+  const errs = [
+    { file: 'src/app/x-evolve/r1/a/console.tsx', line: 280, rule: 'TS2304', detail: "Cannot find name 'TRACE_OPTIONS'." },
+  ];
+  const g = normalizeTypes(errs, ['app/src/app/x-evolve/r1/a/console.tsx']);
+  assert.equal(g.pass, false);
+  assert.match(g.detail, /TS2304|1/);
+  assert.equal(g.violations.length, 1);
+});
+
+test('normalizeTypes — 측정 불가는 위반이 아니다', () => {
+  const g = normalizeTypes('unavailable', ['app/src/app/x/page.tsx']);
+  assert.equal(g.pass, true);
+  assert.equal(g.detail, 'unavailable');
+});
+
+test('normalizeTypes — 스코프가 비면 측정 대상 없음', () => {
+  assert.equal(normalizeTypes([], []).detail, '측정 대상 없음');
 });
