@@ -62,7 +62,10 @@ const CTRL =
   "inline-flex h-11 items-center justify-center gap-1.5 rounded-lg text-sm font-medium transition-colors motion-reduce:transition-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zinc-900";
 
 export default function HoplineDashboard() {
-  const [lang, setLang] = useState<Lang>("ko");
+  // 기본은 영문이다. 갤러리 등재 작품은 `page-brief-repo` §1의 "글로벌 벤치마크 정합"이 적용되고,
+  // 그 근거는 카탈로그가 Linear·Stripe와 나란히 비교된다는 것이다 — 기본 화면이 영문이어야 비교가
+  // 성립한다. 한국어는 토글로 남아 기능이 죽지 않고, 한 화면 혼용은 여전히 0이다(2026-08-12 등재 판단).
+  const [lang, setLang] = useState<Lang>("en");
   const [periodId, setPeriodId] = useState<PeriodId>("7d");
   const [focus, setFocus] = useState<TodoId | null>(null);
   const [status, setStatus] = useState<Record<TodoId, TodoStatus>>({
