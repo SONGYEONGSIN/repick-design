@@ -23,7 +23,7 @@ import {
   type StepperRow,
   type ToggleRow,
 } from "./data";
-import { tokens } from "../../../tokens";
+import { tokens } from "../tokens";
 
 const HIT_SLOP = { top: 10, bottom: 10, left: 10, right: 10 };
 
