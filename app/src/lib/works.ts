@@ -75,6 +75,7 @@ export type Work = {
 export const LAST_UPDATED = "2026-08-11"; // determinism rule: no dynamic Date calls — update this by hand when refreshing
 
 export const NATIVE_WORKS: Work[] = [
+  { id: "n5", route: "/native-app/index.html?screen=account", brand: "Account & Preferences", desc: { en: "Account and preferences as one always-scrolling list — no fixed header, no bottom action bar — where every change is written on the spot rather than held behind a save button (auto native r2 winner).", ko: "계정·환경설정을 상시 스크롤 단일 리스트 하나로 — 고정 헤더도 하단 액션바도 없이 — 값 변경을 저장 버튼 뒤에 묶지 않고 그 자리에서 반영한다 (자동 native r2 승자)" }, target: "native", category: "mobile" },
   { id: "n1", route: "/native-app/index.html?screen=watchlist", brand: "Watchlist", desc: { en: "Saved-item watchlist · price-drop alerts and a single accent for unread, as a native mobile screen.", ko: "관심목록 · 가격 하락 알림 · 미읽음 단일 액센트 (네이티브 모바일 화면)" }, target: "native", category: "mobile" },
   { id: "n2", route: "/native-app/index.html?screen=match", brand: "AI Match", desc: { en: "AI-match results feed · ranked secondhand picks with match scores, native mobile.", ko: "AI 매칭 결과 피드 · 매칭 점수순 중고 추천 (네이티브 모바일)" }, target: "native", category: "mobile" },
   { id: "n4", route: "/native-app/index.html?screen=offer-thread", brand: "Offer Thread", desc: { en: "Buyer-seller negotiation thread \u00b7 structured offer cards inline in a chronological stream, with the payout on acceptance pinned to a persistent action bar (auto native r1 winner).", ko: "\uad6c\ub9e4\uc790\u2194\ud310\ub9e4\uc790 \ud611\uc0c1 \uc2a4\ub808\ub4dc \u00b7 \uc2dc\uac04\uc21c \ud750\ub984 \uc548\uc5d0 \uad6c\uc870\ud654\ub41c \uc624\ud37c \uce74\ub4dc\uac00 \uc11e\uc774\uace0, \uc218\ub77d \uc2dc \uc2e4\uc218\ub839\uc561\uc774 \ud558\ub2e8 \uace0\uc815 \ubc14\uc5d0 \uc0c1\uc2dc \ub178\ucd9c (\uc790\ub3d9 native r1 \uc2b9\uc790)" }, target: "native", category: "mobile" },
@@ -101,6 +102,7 @@ export const BLOG_WORKS: Work[] = [
 
 // 0. Inbound — the contact page type's first entry.
 export const CONTACT_WORKS: Work[] = [
+  { id: "ct3", route: "/contact-2", brand: "Sole Trace", desc: { en: "Contact page as an escalation ladder · every channel stays listed at every rung and the control only reorders and badges them, never filters — the r1 lesson taken one step further, that a working link still fails if a device can drop it from the DOM (auto contact r2 winner).", ko: "에스컬레이션 사다리로 짠 문의 페이지 · 모든 채널이 매 단계에 계속 실려 있고 조작은 재정렬과 배지만 할 뿐 걸러내지 않는다 — 링크가 작동해도 장치가 DOM에서 빼면 같은 결함이라는 r1 교훈의 확장 (자동 contact r2 승자)" }, target: "contact", category: "contact" },
   { id: "ct2", route: "/contact", brand: "Tessera", desc: { en: "Reconciliation platform's contact desk built to answer before it routes · one triage field returns a single routing slip whose whole shape changes with the verdict, while four desks keep their addresses, median first reply and staffed hours printed above it with nothing behind a click (auto contact r1 winner).", ko: "정산 대조 플랫폼의 문의 창구 · 트리아지 입력 한 칸이 판정 종류에 따라 골격 자체가 바뀌는 단일 라우팅 슬립을 돌려주고, 그 위로 네 창구의 주소·중앙값 응답·근무시간이 무조작 상태로 상시 노출된다 (자동 contact r1 승자)" }, target: "contact", category: "contact" },
 ];
 

@@ -34,6 +34,9 @@ description: 자율 진화 주간 반증 (다중 타깃) — evolve/dash 누적�
 
 5. **위키 마감** — index.md에 승격/신규 노트 등재 반영 → `node scripts/wiki-lint.mjs` 재실행, 위반 0 확인(승격이 만든 깨진 링크·미등재 즉시 수정).
 6. 반영 커밋(evolve/dash) → `cd app && npx next build` 통과 확인 → `gh pr merge <num> --squash` (PR 제목 conventional 확인. `--delete-branch` 금지 — evolve/dash는 상시 브랜치).
+   **머지 전 범위 확인 (2026-08-11 신설)** — 머지 직전에 `git log origin/main..origin/evolve/dash --oneline`을 **다시** 돌려, 브랜치가 PR 본문이 다룬 라운드와 같은 범위인지 본다. **PR을 연 뒤 머지하기 전에 착지한 야간 라운드는 아무도 안 본 채 딸려 들어간다** — §6의 정합 분기는 *머지 후* 신규 커밋만 보므로 이 창을 못 막는다.
+   실사고: PR #98을 4라운드 기준으로 열었는데 그 사이 `auto-native-r2`·`auto-contact-r2`가 착지해, 머지 시점 브랜치에는 **6라운드**가 있었다. 승격은 승인된 4종만 했으나 **두 라운드의 DECISION·delta·원장 항목·후보 코드가 전부 미리뷰로 main에 들어갔고**, 그 뒤 `evolve/dash`에 diff가 없어 정상 반증 PR을 열 수 없게 됐다(승격 PR로 우회).
+   범위가 다르면 둘 중 하나다 — **본문을 갱신해** 새 라운드까지 리뷰 대상에 넣거나, 그 커밋들을 **다음 주로 미룬다**(`git rebase --onto` 로 분리). 조용히 머지하지 않는다.
    **머지 후 브랜치 정합** — 머지한 evolve/dash head를 `$MERGED`로 두고 `git fetch origin` 후 **야간 신규 커밋 유무로 분기한다. 무조건 `git rebase main`은 금지.**
    - 먼저 `git checkout -B evolve/dash origin/evolve/dash` (반드시 origin 기준 재설정 — 낡은 로컬 브랜치를 밀면 그 사이 착지한 야간 커밋이 유실된다, 2026-07-15 실사고).
    - `git log $MERGED..origin/evolve/dash --oneline` 이 **비어 있으면**(신규 라운드 없음): 무손실을 먼저 증명한다 — `git diff $MERGED main` 이 비어 있거나 **main 우위 변경만** 있어야 한다(main이 먼저 받은 스킬/설정 수정이 evolve/dash에 없는 경우가 있다). 확인 후 `git reset --hard main` → push. squash 머지 뒤 `git rebase main`을 쓰면 이전 커밋들을 재생하면서 **apply가 삭제한 후보 디렉토리를 되살리고 `vault/index.md`에서 충돌한다**(2026-07-30 실증 — abort 후 reset으로 우회). 이 경로의 reset은 "PR open 이후 커밋"이 0건임을 위 `git log`로 증명한 뒤에만 허용된다.
