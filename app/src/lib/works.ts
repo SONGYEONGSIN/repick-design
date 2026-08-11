@@ -72,7 +72,7 @@ export type Work = {
   category?: PageType;
 };
 
-export const LAST_UPDATED = "2026-08-11"; // determinism rule: no dynamic Date calls — update this by hand when refreshing
+export const LAST_UPDATED = "2026-08-12"; // determinism rule: no dynamic Date calls — update this by hand when refreshing
 
 export const NATIVE_WORKS: Work[] = [
   { id: "n5", route: "/native-app/index.html?screen=account", brand: "Account & Preferences", desc: { en: "Account and preferences as one always-scrolling list — no fixed header, no bottom action bar — where every change is written on the spot rather than held behind a save button (auto native r2 winner).", ko: "계정·환경설정을 상시 스크롤 단일 리스트 하나로 — 고정 헤더도 하단 액션바도 없이 — 값 변경을 저장 버튼 뒤에 묶지 않고 그 자리에서 반영한다 (자동 native r2 승자)" }, target: "native", category: "mobile" },
@@ -170,6 +170,7 @@ export const LANDING_WORKS: Work[] = [
 
 // II. SaaS dashboards — 12 works in the /dash gallery (d29~d40) + baseline/product
 export const DASH_LAB_WORKS: Work[] = [
+  { id: "d41", route: "/commissioned/hopline", brand: "Hopline", desc: { en: "Short-link analytics read as a to-do list rather than a scoreboard \u00b7 three prescription cards derive from the hero series and the audience panels, and each one can pin a vertical marker onto that series so the reader sees which number it points at, with a KO/EN switch that swaps every string (commissioned, reference-informed).", ko: "\uc810\uc218\ud310\uc774 \uc544\ub2c8\ub77c \ud560 \uc77c \ubaa9\ub85d\uc73c\ub85c \uc77d\ud788\ub294 \ub2e8\ucd95\ub9c1\ud06c \ubd84\uc11d \u00b7 \ucc98\ubc29 \uce74\ub4dc \uc14b\uc774 \ud788\uc5b4\ub85c \uc2dc\uacc4\uc5f4\uacfc \uc624\ub514\uc5b8\uc2a4 \ud328\ub110\uc5d0\uc11c \ud30c\uc0dd\ub418\uace0, \uac01 \uce74\ub4dc\uac00 \uadf8 \uc2dc\uacc4\uc5f4\uc5d0 \uc218\uc9c1 \ub9c8\ucee4\ub97c \uaf42\uc544 \uc5b4\ub290 \uc22b\uc790\ub97c \uac00\ub9ac\ud0a4\ub294\uc9c0 \ubcf4\uc5ec\uc900\ub2e4 \u00b7 \ud55c/\uc601 \uc804\ud658 (\uc8fc\ubb38 \uc81c\uc791, \ub808\ud37c\ub7f0\uc2a4 \ucc38\uc870)" }, target: "dashboard", category: "dashboard" },
   { id: "d29", route: "/dash/d29", brand: "Waypoint", desc: { ko: "프로젝트 협업(Asana급) · 순백 라이트, 프로젝트 필터→전 위젯 동기화, 정렬 테이블·간트·워크로드·⌘K", en: "Project collaboration (Asana-grade) · pure-white light, project filter → all-widget sync, sortable table · gantt · workload · ⌘K" }, category: "dashboard" },
   { id: "d30", route: "/dash/d30", brand: "Slotted", desc: { ko: "예약·미팅 스케줄링(Calendly급) · 순백 라이트, 이벤트타입 선택→히트맵·미팅목록 동기화, ⌘K·정렬 테이블", en: "Booking and meeting scheduling (Calendly-grade) · pure-white light, event-type selection syncs heatmap and meeting list, ⌘K and sortable tables" }, category: "dashboard" },
   { id: "d31", route: "/dash/d31", brand: "Conduit", desc: { ko: "워크플로 자동화(n8n급) · 프로덕트 다크, 크로스헤어 차트·상태 필터→테이블·로그 동기화, 에러 급증 알림", en: "Workflow automation (n8n-grade) · product dark, crosshair chart and status filter sync table and log, error-spike alerts" }, category: "dashboard" },
