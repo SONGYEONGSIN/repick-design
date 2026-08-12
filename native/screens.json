@@ -13,5 +13,14 @@
   },
   "account": {
     "check": "Account & Preferences"
+  },
+  "evolve-r3-a": {
+    "check": "Your price sharpens as you describe it"
+  },
+  "evolve-r3-b": {
+    "check": "Handoff check"
+  },
+  "evolve-r3-c": {
+    "check": "Owned resale value"
   }
 }
