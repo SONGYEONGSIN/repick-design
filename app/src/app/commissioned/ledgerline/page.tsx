@@ -3,9 +3,9 @@ import type { Metadata } from "next";
 import LedgerlineApp from "./LedgerlineApp";
 
 export const metadata: Metadata = {
-  title: "Ledgerline — where the money moved",
+  title: "Ledgerline — business banking dashboard",
   description:
-    "Business banking for small teams. A movement stream that shows where money came from and where it left, in English or Korean.",
+    "Operating, payroll and reserve accounts on one screen: money in, money out, net movement, available balance and the full movement ledger, in English or Korean.",
 };
 
 export default function LedgerlinePage() {
