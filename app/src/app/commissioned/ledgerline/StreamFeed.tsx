@@ -1,14 +1,7 @@
 "use client";
 
-import {
-  AlertTriangle,
-  ArrowDownLeft,
-  ArrowUpRight,
-  Check,
-  ChevronDown,
-  Clock,
-} from "lucide-react";
 import { useState } from "react";
+import { ArrowDown, ArrowUp, ArrowUpDown, Check, Clock, TriangleAlert } from "lucide-react";
 
 import {
   CATEGORY,
@@ -17,236 +10,208 @@ import {
   UI,
   dateFull,
   dateShort,
-  formatMoney,
   formatSigned,
-  type DayGroup,
   type Lang,
   type StatusKey,
-  type StreamFilter,
   type Txn,
 } from "./data";
+import { SHELL, cn } from "./ui";
 
-type StreamFeedProps = {
-  lang: Lang;
-  filter: StreamFilter;
-  onFilter: (next: StreamFilter) => void;
-  groups: DayGroup[];
-  total: number;
+type SortKey = "date" | "party" | "category" | "status" | "amount";
+type SortDir = "asc" | "desc";
+
+const STATUS_STYLE: Record<StatusKey, string> = {
+  settled: "bg-zinc-100 text-zinc-700",
+  pending: "bg-white text-zinc-700 ring-1 ring-inset ring-zinc-300",
+  review: "bg-rose-50 text-rose-700",
 };
 
-const FILTERS: { id: StreamFilter; label: { en: string; ko: string } }[] = [
-  { id: "all", label: UI.filterAll },
-  { id: "in", label: UI.filterIn },
-  { id: "out", label: UI.filterOut },
-];
+const STATUS_ICON: Record<StatusKey, typeof Check> = {
+  settled: Check,
+  pending: Clock,
+  review: TriangleAlert,
+};
 
-function statusStyle(status: StatusKey): string {
-  if (status === "pending") return "border-amber-300 bg-amber-50 text-amber-800";
-  if (status === "review") return "border-rose-300 bg-rose-50 text-rose-700";
-  return "border-zinc-200 bg-zinc-50 text-zinc-700";
+const STATUS_RANK: Record<StatusKey, number> = { review: 0, pending: 1, settled: 2 };
+
+function compare(a: Txn, b: Txn, key: SortKey, lang: Lang): number {
+  if (key === "date") return b.day - a.day;
+  if (key === "amount") {
+    const av = a.dir === "in" ? a.cents : -a.cents;
+    const bv = b.dir === "in" ? b.cents : -b.cents;
+    return av - bv;
+  }
+  if (key === "status") return STATUS_RANK[a.status] - STATUS_RANK[b.status];
+  const av = key === "party" ? a.party[lang] : CATEGORY[a.cat][lang];
+  const bv = key === "party" ? b.party[lang] : CATEGORY[b.cat][lang];
+  if (av < bv) return -1;
+  if (av > bv) return 1;
+  return 0;
 }
 
-function StatusBadge({ status, lang }: { status: StatusKey; lang: Lang }) {
-  return (
-    <span
-      className={`inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-[11px] font-medium ${statusStyle(status)}`}
-    >
-      {status === "settled" ? <Check aria-hidden="true" className="h-3 w-3" /> : null}
-      {status === "pending" ? <Clock aria-hidden="true" className="h-3 w-3" /> : null}
-      {status === "review" ? <AlertTriangle aria-hidden="true" className="h-3 w-3" /> : null}
-      {STATUS[status][lang]}
-    </span>
-  );
-}
+export function StreamFeed({
+  rows,
+  lang,
+  caption,
+}: {
+  rows: readonly Txn[];
+  lang: Lang;
+  caption: string;
+}) {
+  const [sortKey, setSortKey] = useState<SortKey>("date");
+  const [sortDir, setSortDir] = useState<SortDir>("desc");
 
-function Detail({ txn, lang }: { txn: Txn; lang: Lang }) {
-  const items: { label: string; value: string; mono: boolean }[] = [
-    { label: UI.method[lang], value: `${METHOD[txn.method][lang]} ···· ${txn.last4}`, mono: false },
-    { label: UI.category[lang], value: CATEGORY[txn.cat][lang], mono: false },
-    { label: UI.reference[lang], value: txn.ref, mono: true },
-    { label: UI.posted[lang], value: dateFull(txn.day, lang), mono: true },
-    { label: UI.after[lang], value: formatMoney(txn.balanceAfter), mono: true },
+  const sorted = [...rows].sort((a, b) => {
+    const base = compare(a, b, sortKey, lang);
+    const resolved = base === 0 ? (a.id < b.id ? -1 : a.id > b.id ? 1 : 0) : base;
+    return sortDir === "asc" ? resolved : -resolved;
+  });
+
+  function toggle(key: SortKey) {
+    if (key === sortKey) {
+      setSortDir(sortDir === "asc" ? "desc" : "asc");
+      return;
+    }
+    setSortKey(key);
+    setSortDir(key === "date" || key === "amount" ? "desc" : "asc");
+  }
+
+  const columns: {
+    key: SortKey | "method";
+    label: string;
+    width: string;
+    align?: "right";
+  }[] = [
+    { key: "date", label: SHELL.headDate[lang], width: "w-[22%] sm:w-[18%] md:w-[14%] lg:w-[12%]" },
+    {
+      key: "party",
+      label: SHELL.headParty[lang],
+      width: "w-[36%] sm:w-[36%] md:w-[30%] lg:w-[28%]",
+    },
+    {
+      key: "category",
+      label: UI.category[lang],
+      width: "hidden md:table-cell md:w-[20%] lg:w-[18%]",
+    },
+    { key: "method", label: UI.method[lang], width: "hidden lg:table-cell lg:w-[12%]" },
+    {
+      key: "status",
+      label: UI.status[lang],
+      width: "hidden sm:table-cell sm:w-[20%] md:w-[16%] lg:w-[14%]",
+    },
+    {
+      key: "amount",
+      label: SHELL.headAmount[lang],
+      width: "w-[42%] sm:w-[26%] md:w-[20%] lg:w-[16%]",
+      align: "right",
+    },
   ];
-  return (
-    <div className="border-t border-dashed border-zinc-200 bg-zinc-50 px-3 py-3 sm:px-12">
-      <dl className="grid grid-cols-1 gap-x-6 gap-y-2 sm:grid-cols-2 xl:grid-cols-3">
-        {items.map((item) => (
-          <div key={item.label} className="flex items-baseline justify-between gap-3 sm:block">
-            <dt className="text-[11px] font-medium uppercase tracking-wide text-zinc-600">
-              {item.label}
-            </dt>
-            <dd
-              className="truncate text-sm font-normal text-zinc-900 sm:mt-0.5"
-              style={item.mono ? { fontFamily: "var(--font-display-mono)" } : undefined}
-            >
-              {item.value}
-            </dd>
-          </div>
-        ))}
-      </dl>
-    </div>
-  );
-}
-
-export default function StreamFeed({ lang, filter, onFilter, groups, total }: StreamFeedProps) {
-  const [openId, setOpenId] = useState<string | null>(null);
 
   return (
-    <section
-      aria-labelledby="ledgerline-stream"
-      className="rounded-2xl border border-zinc-200 bg-white"
-    >
-      <div className="flex flex-wrap items-center gap-3 border-b border-zinc-200 px-4 py-3">
-        <div className="min-w-0">
-          <h2 id="ledgerline-stream" className="text-base font-semibold text-zinc-900">
-            {UI.streamTitle[lang]}
-          </h2>
-          <p className="mt-0.5 text-xs font-normal text-zinc-600">
-            <span style={{ fontFamily: "var(--font-display-mono)" }}>{total}</span>{" "}
-            {UI.count[lang]} · {UI.streamNote[lang]}
-          </p>
-        </div>
-        <div
-          role="group"
-          aria-label={UI.filterGroup[lang]}
-          className="ml-auto flex items-center gap-1 rounded-full bg-zinc-100 p-1"
-        >
-          {FILTERS.map((item) => {
-            const active = filter === item.id;
+    <table className="w-full table-fixed border-collapse text-left text-sm">
+      <caption className="sr-only font-normal">{caption}</caption>
+      <thead>
+        <tr className="border-b border-zinc-200">
+          {columns.map((column) => {
+            const sortable = column.key !== "method";
+            const active = sortable && column.key === sortKey;
+            const Icon = active ? (sortDir === "asc" ? ArrowUp : ArrowDown) : ArrowUpDown;
             return (
-              <button
-                key={item.id}
-                type="button"
-                aria-pressed={active}
-                onClick={() => onFilter(item.id)}
-                className={`inline-flex h-11 items-center gap-1.5 rounded-full px-4 text-sm font-medium transition-colors duration-150 motion-reduce:transition-none focus-visible:ring-2 focus-visible:ring-rose-600 focus-visible:ring-offset-2 ${
-                  active ? "bg-rose-600 text-white" : "text-zinc-700 hover:bg-white"
-                }`}
+              <th
+                key={column.key}
+                scope="col"
+                aria-sort={
+                  active ? (sortDir === "asc" ? "ascending" : "descending") : undefined
+                }
+                className={cn(
+                  "px-3 py-2 align-middle text-[11px] font-medium uppercase tracking-[0.06em] text-zinc-600",
+                  column.width,
+                  column.align === "right" && "text-right",
+                )}
               >
-                {item.id === "in" ? <ArrowDownLeft aria-hidden="true" className="h-3.5 w-3.5" /> : null}
-                {item.id === "out" ? <ArrowUpRight aria-hidden="true" className="h-3.5 w-3.5" /> : null}
-                {item.label[lang]}
-              </button>
+                {sortable ? (
+                  <button
+                    type="button"
+                    onClick={() => toggle(column.key as SortKey)}
+                    className={cn(
+                      "-mx-1 inline-flex h-9 max-w-full items-center gap-1 rounded-md px-1 transition-colors hover:text-zinc-900 motion-reduce:transition-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose-500",
+                      active && "text-zinc-900",
+                    )}
+                  >
+                    <span className="truncate">{column.label}</span>
+                    <Icon
+                      className={cn("h-3 w-3 shrink-0", active ? "text-rose-600" : "text-zinc-400")}
+                      aria-hidden="true"
+                    />
+                  </button>
+                ) : (
+                  <span className="inline-flex h-9 max-w-full items-center truncate">
+                    {column.label}
+                  </span>
+                )}
+              </th>
             );
           })}
-        </div>
-      </div>
-
-      {groups.length === 0 ? (
-        <p className="px-4 py-10 text-center text-sm font-normal text-zinc-600">{UI.empty[lang]}</p>
-      ) : (
-        <ol>
-          {groups.map((group) => (
-            <li key={group.day} className="border-b border-zinc-100 last:border-b-0">
-              <div className="flex items-baseline justify-between gap-3 bg-zinc-50 px-4 py-2">
-                <h3
-                  className="text-xs font-medium text-zinc-700"
-                  style={{ fontFamily: "var(--font-display-mono)" }}
+        </tr>
+      </thead>
+      <tbody className="divide-y divide-zinc-100">
+        {sorted.map((row) => {
+          const StatusIcon = STATUS_ICON[row.status];
+          return (
+            <tr key={row.id} className="transition-colors hover:bg-zinc-50 motion-reduce:transition-none">
+              <td className="truncate px-3 py-3 text-[12px] text-zinc-700 tabular-nums sm:text-[13px]">
+                <span className="md:hidden">{dateShort(row.day, lang)}</span>
+                <span className="hidden md:inline">{dateFull(row.day, lang)}</span>
+              </td>
+              <td className="px-3 py-3">
+                <span className="block truncate text-[13.5px] font-medium text-zinc-900">
+                  {row.party[lang]}
+                </span>
+                <span className="block truncate text-[11.5px] text-zinc-600">{row.memo[lang]}</span>
+                <span className="mt-1 block truncate text-[11.5px] text-zinc-600 sm:hidden">
+                  {CATEGORY[row.cat][lang]} · {STATUS[row.status][lang]}
+                </span>
+              </td>
+              <td className="hidden truncate px-3 py-3 text-[13px] text-zinc-700 md:table-cell">
+                {CATEGORY[row.cat][lang]}
+              </td>
+              <td className="hidden truncate px-3 py-3 text-[13px] text-zinc-700 lg:table-cell">
+                {METHOD[row.method][lang]}
+                <span className="block truncate text-[11.5px] text-zinc-600 tabular-nums">
+                  {row.ref}
+                </span>
+              </td>
+              <td className="hidden px-3 py-3 sm:table-cell">
+                <span
+                  className={cn(
+                    "inline-flex max-w-full items-center gap-1 rounded-full px-2 py-0.5 text-[11.5px] font-medium",
+                    STATUS_STYLE[row.status],
+                  )}
                 >
-                  {dateShort(group.day, lang)}
-                </h3>
-                <p className="flex items-baseline gap-3 text-xs font-normal text-zinc-600">
-                  <span>
-                    {UI.filterIn[lang]}{" "}
-                    <span
-                      className="tabular-nums text-zinc-900"
-                      style={{ fontFamily: "var(--font-display-mono)" }}
-                    >
-                      {formatMoney(group.inCents)}
-                    </span>
-                  </span>
-                  <span>
-                    {UI.filterOut[lang]}{" "}
-                    <span
-                      className="tabular-nums text-rose-700"
-                      style={{ fontFamily: "var(--font-display-mono)" }}
-                    >
-                      {formatMoney(group.outCents)}
-                    </span>
-                  </span>
-                </p>
-              </div>
-              <ul>
-                {group.rows.map((txn) => {
-                  const open = openId === txn.id;
-                  return (
-                    <li key={txn.id} className="border-t border-zinc-100 first:border-t-0">
-                      <button
-                        type="button"
-                        aria-expanded={open}
-                        aria-controls={`detail-${txn.id}`}
-                        onClick={() => setOpenId(open ? null : txn.id)}
-                        className="relative grid w-full grid-cols-[2rem_minmax(0,1fr)_auto_1rem] items-center gap-3 px-4 py-3 text-left transition-colors duration-150 hover:bg-zinc-50 motion-reduce:transition-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-rose-600 md:grid-cols-[2rem_minmax(0,1fr)_7rem_6rem_8.5rem_1rem]"
-                      >
-                        <span
-                          className={`flex h-8 w-8 items-center justify-center rounded-full border ${
-                            txn.dir === "in"
-                              ? "border-zinc-300 bg-white text-zinc-800"
-                              : "border-rose-200 bg-rose-50 text-rose-700"
-                          }`}
-                        >
-                          {txn.dir === "in" ? (
-                            <ArrowDownLeft aria-hidden="true" className="h-4 w-4" />
-                          ) : (
-                            <ArrowUpRight aria-hidden="true" className="h-4 w-4" />
-                          )}
-                        </span>
-
-                        <span className="min-w-0">
-                          <span className="block truncate text-sm font-medium text-zinc-900">
-                            {txn.party[lang]}
-                          </span>
-                          <span className="block truncate text-xs font-normal text-zinc-600">
-                            {txn.memo[lang]}
-                          </span>
-                          <span className="mt-1 flex md:hidden">
-                            <StatusBadge status={txn.status} lang={lang} />
-                          </span>
-                        </span>
-
-                        <span
-                          className="hidden truncate text-xs font-normal text-zinc-600 md:block"
-                          style={{ fontFamily: "var(--font-display-mono)" }}
-                        >
-                          {METHOD[txn.method][lang]} ···· {txn.last4}
-                        </span>
-
-                        <span className="hidden md:block">
-                          <StatusBadge status={txn.status} lang={lang} />
-                        </span>
-
-                        <span
-                          className={`justify-self-end whitespace-nowrap text-right text-sm font-medium tabular-nums ${
-                            txn.dir === "in" ? "text-zinc-900" : "text-rose-700"
-                          }`}
-                          style={{ fontFamily: "var(--font-display-mono)" }}
-                        >
-                          {formatSigned(txn.cents, txn.dir)}
-                        </span>
-
-                        <ChevronDown
-                          aria-hidden="true"
-                          className={`h-4 w-4 justify-self-end text-zinc-600 transition-transform duration-150 motion-reduce:transition-none ${
-                            open ? "rotate-180" : ""
-                          }`}
-                        />
-                        <span className="sr-only">
-                          {open ? UI.detailClose[lang] : UI.detailOpen[lang]}
-                        </span>
-                      </button>
-                      {open ? (
-                        <div id={`detail-${txn.id}`}>
-                          <Detail txn={txn} lang={lang} />
-                        </div>
-                      ) : null}
-                    </li>
-                  );
-                })}
-              </ul>
-            </li>
-          ))}
-        </ol>
-      )}
-    </section>
+                  <StatusIcon className="h-3 w-3 shrink-0" aria-hidden="true" />
+                  <span className="truncate">{STATUS[row.status][lang]}</span>
+                </span>
+              </td>
+              <td
+                className={cn(
+                  "truncate px-3 py-3 text-right text-[12.5px] font-medium tabular-nums sm:text-sm",
+                  row.dir === "in" ? "text-rose-700" : "text-zinc-900",
+                )}
+                style={{ fontFamily: "var(--font-display-mono)" }}
+              >
+                {formatSigned(row.cents, row.dir)}
+              </td>
+            </tr>
+          );
+        })}
+        {sorted.length === 0 ? (
+          <tr>
+            <td colSpan={6} className="px-3 py-10 text-center text-[13px] text-zinc-600">
+              {UI.empty[lang]}
+            </td>
+          </tr>
+        ) : null}
+      </tbody>
+    </table>
   );
 }
