@@ -72,7 +72,7 @@ export function Transactions({
     <section
       id="verdant-transactions"
       aria-labelledby="verdant-transactions-h"
-      className={cx(PANEL, "scroll-mt-24 p-4 sm:p-5")}
+      className={cx(PANEL, "scroll-mt-24 p-4 sm:p-5 xl:flex xl:min-h-0 xl:flex-1 xl:flex-col")}
     >
       <div className="flex flex-wrap items-center justify-between gap-3">
         <h2
@@ -102,7 +102,7 @@ export function Transactions({
         </div>
       </div>
 
-      <div className="relative mt-3">
+      <div className="relative mt-3 xl:flex-1">
         <table className="w-full table-fixed border-collapse text-left [&_th]:text-left [&_th]:font-medium">
           <caption className="sr-only">{UI.txnCaption[lang]}</caption>
           <thead>
