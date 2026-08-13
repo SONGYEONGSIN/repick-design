@@ -148,7 +148,11 @@ export default function LedgerlineDashboard() {
         />
 
         <main className="min-w-0 flex-1 px-4 py-5 md:px-6 md:py-6">
-          <div className="mx-auto flex w-full max-w-[1440px] flex-col gap-4">
+          {/* 1440 캡은 1920 화면에서 좌우 112px씩을 비워 [[dash-brief-v3]] §레이아웃("뷰포트 꽉
+              채움 · 과한 max-w 금지 · 초광폭만 완만 cap")을 어겼다. 사내 대시보드는 1600~1920을
+              쓰고 /dash/d30 은 1920 에서 32px 만 남긴다. 사이드바 256 + 좌우 패딩 48 을 빼면
+              1920 화면의 가용폭이 1616 이므로, 1760 은 뷰포트 ~2064px 를 넘을 때만 걸린다. */}
+          <div className="mx-auto flex w-full max-w-[1760px] flex-col gap-4">
             <Topbar
               lang={lang}
               period={period}
