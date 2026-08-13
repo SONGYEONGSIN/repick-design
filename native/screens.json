@@ -22,5 +22,14 @@
   },
   "evolve-r3-c": {
     "check": "Owned resale value"
+  },
+  "evolve-r4-b": {
+    "check": "Notifications"
+  },
+  "evolve-r4-a": {
+    "check": "Browse"
+  },
+  "evolve-r4-c": {
+    "check": "Order History"
   }
 }
