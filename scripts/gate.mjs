@@ -149,14 +149,84 @@ export function normalizeLint(result) {
 
 export const NATIVE_STEPS = ['tsc', 'export', 'render', 'iframe'];
 
-export function normalizeNativeRun(screen, stdout, exitOk) {
+const ANSI_RE = /\[[0-9;]*m/g;
+
+// tsc는 출력이 TTY냐 파이프냐에 따라 두 형식을 낸다. 하나만 읽으면 환경에 따라 조용히 0건이
+// 되어 "에러가 없다"와 "에러를 못 읽었다"가 구분되지 않는다.
+export function parseNativeTsc(stdout) {
+  const out = [];
+  for (const raw of String(stdout).replace(ANSI_RE, '').split('\n')) {
+    const line = raw.trim();
+    const m =
+      /^(.+?)\((\d+),(\d+)\): error (TS\d+): (.+)$/.exec(line) ??
+      /^(.+?):(\d+):(\d+) - error (TS\d+): (.+)$/.exec(line);
+    if (m) out.push({ file: m[1], line: Number(m[2]), rule: m[4], detail: m[5] });
+  }
+  return out;
+}
+
+// 한계: 슬러그에서 폴더를 유추한다. 라운드 후보(`evolve-r<N>-<v>`)와 자기 폴더를 가진 영구
+// 화면(watchlist·detail·offer-thread·account)은 맞지만, 파일 하나로 사는 화면(`match` →
+// `src/MatchList.tsx`)은 못 맞춘다. 그때 그 화면의 에러는 아래에서 `shared`로 분류돼 **전
+// 후보가 실패**한다 — 틀리는 방향이 "남의 에러를 내 탓으로"가 아니라 "모두 멈춤"이라 안전한
+// 쪽이다. 후보 격리가 필요한 곳은 한 라운드를 함께 게이트하는 evolve 슬러그뿐이다.
+export function screenSourceDir(slug) {
+  const m = /^evolve-r(\d+)-([a-z])$/.exec(slug);
+  return m ? `src/evolve/r${m[1]}/${m[2]}/` : `src/${slug}/`;
+}
+
+// `npx tsc --noEmit`은 native 프로젝트 전역을 한 번에 돈다. 그래서 후보 하나의 타입 에러가
+// 같은 라운드의 다른 후보 tsc까지 실패시키고, `set -e`인 validate.sh가 거기서 멈춰 뒤 3단계는
+// 아예 돌지도 않는다 — 그런데 예전에는 그 12건이 전부 `detail: '실패'` 한 단어로 나왔다.
+// 무인 라운드였다면 3후보 전원 탈락 no-winner로 기록되고 사유는 한 단어만 남는다
+// (2026-08-13 `auto-native-r3` 실측). 웹의 `normalizeTypes`가 스코프 귀속으로 이미 푼 문제라
+// 같은 방식을 옮긴다: 에러를 후보 폴더에 귀속시키고, 돌지 않은 단계는 실패와 구분해 적는다.
+export function normalizeNativeRun(screen, stdout, exitOk, opts = {}) {
+  const allScreens = opts.allScreens ?? [screen];
+  const errors = parseNativeTsc(stdout);
+  const myDir = screenSourceDir(screen);
+  const otherDirs = allScreens.filter((s) => s !== screen).map((s) => ({ slug: s, dir: screenSourceDir(s) }));
+  const mine = errors.filter((e) => e.file.includes(myDir));
+  const others = errors.filter((e) => !mine.includes(e) && otherDirs.some((o) => e.file.includes(o.dir)));
+  // 공용 파일(tokens.ts·screens.ts 등)이 깨지면 전 후보가 실제로 못 돈다 — 남의 탓이 아니다.
+  const shared = errors.filter((e) => !mine.includes(e) && !others.includes(e));
+
+  let blockedBy = null;
   return NATIVE_STEPS.map((step) => {
-    const pass = stdout.includes(`GATE_STEP:${step}:ok`);
+    if (stdout.includes(`GATE_STEP:${step}:ok`)) {
+      return { name: `${screen}/${step}`, pass: true, detail: '통과', violations: [] };
+    }
+    if (blockedBy) {
+      return {
+        name: `${screen}/${step}`, pass: false,
+        detail: `미실행 — ${blockedBy}로 중단`,
+        violations: [{ screen, step, blockedBy }],
+      };
+    }
+    if (step === 'tsc' && errors.length) {
+      const owned = [...mine, ...shared];
+      if (!owned.length) {
+        const who = [...new Set(others.map((e) => otherDirs.find((o) => e.file.includes(o.dir)).slug))];
+        blockedBy = `다른 후보(${who.join(', ')})의 tsc 에러`;
+        return {
+          name: `${screen}/tsc`, pass: true,
+          detail: `에러 0 — 다른 후보(${who.join(', ')})의 에러로 전역 tsc가 중단됨`,
+          violations: [],
+        };
+      }
+      blockedBy = 'tsc 실패';
+      const head = owned.slice(0, 3).map((e) => `${e.file}:${e.line} ${e.rule}`).join(' · ');
+      return {
+        name: `${screen}/tsc`, pass: false,
+        detail: `${owned.length}건 — ${head}${owned.length > 3 ? ` 외 ${owned.length - 3}건` : ''}`,
+        violations: owned.map((e) => ({ screen, step, ...e })),
+      };
+    }
+    blockedBy = `${step} ${exitOk ? '미실행' : '실패'}`;
     return {
-      name: `${screen}/${step}`,
-      pass,
-      detail: pass ? '통과' : exitOk ? '미실행' : '실패',
-      violations: pass ? [] : [{ screen, step }],
+      name: `${screen}/${step}`, pass: false,
+      detail: exitOk ? '미실행' : '실패',
+      violations: [{ screen, step }],
     };
   });
 }
@@ -416,7 +486,7 @@ export function runNative({ screens }) {
       maxBuffer: 64 * 1024 * 1024,
     });
     const stdout = (r.stdout ?? '') + (r.stderr ?? '');
-    gates = gates.concat(normalizeNativeRun(screen, stdout, r.status === 0));
+    gates = gates.concat(normalizeNativeRun(screen, stdout, r.status === 0, { allScreens: screens }));
   }
   return buildVerdict('native', gates);
 }
