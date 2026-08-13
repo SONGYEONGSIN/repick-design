@@ -78,15 +78,12 @@ export function evaluateHeartbeat({ now, lastRoundDate }) {
 
 export const LEDGER = 'vault/30-ledger/auto-ledger.jsonl';
 
-/** 원장 마지막 항목의 라운드 날짜. 파일이 없거나 비면 null. */
-export function lastRoundDateFromLedger(path = LEDGER) {
-  let text;
-  try {
-    text = readFileSync(path, 'utf8');
-  } catch {
-    return null;
-  }
-  const lines = text.trim().split('\n').filter(Boolean);
+/** 야간 라운드가 원장을 쌓는 브랜치. main 의 원장은 주간 반증 머지까지 갱신되지 않는다. */
+export const LEDGER_REF = 'origin/evolve/dash';
+
+/** 원장 텍스트에서 마지막 유효 항목의 라운드 날짜. 없으면 null. */
+export function lastRoundDateFromText(text) {
+  const lines = String(text ?? '').trim().split('\n').filter(Boolean);
   for (let i = lines.length - 1; i >= 0; i--) {
     try {
       const d = JSON.parse(lines[i]);
@@ -98,22 +95,45 @@ export function lastRoundDateFromLedger(path = LEDGER) {
   return null;
 }
 
+/** 워킹트리의 원장을 읽는다. **누락 판정에는 쓰지 마라** — 아래 `resolveLastRoundDate` 참조. */
+export function lastRoundDateFromLedger(path = LEDGER) {
+  try {
+    return lastRoundDateFromText(readFileSync(path, 'utf8'));
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * 누락 판정에 쓸 마지막 라운드 날짜.
+ *
+ * **워킹트리를 보면 안 된다.** 야간 라운드는 `evolve/dash`에 커밋하고 main 의 원장은 주간 반증
+ * 머지까지 그대로라, main 에 체크아웃돼 있으면 정상 발화 중에도 며칠 누락으로 읽힌다 —
+ * 2026-08-14 에 실제로 그렇게 오판했다(main 원장 08-10 vs `evolve/dash` 08-13, 그날 밤 두 라운드는
+ * 정상 완주했다). 이 분기 로직은 원래 CLI 블록 안에만 인라인으로 있었고 export 된 것은 워킹트리를
+ * 읽었다 — **부르는 쪽이 틀릴 수 있는 API 였다는 것이 그 오판의 원인**이라 판정 자체를 여기로 옮긴다.
+ */
+export function resolveLastRoundDate({
+  ref = LEDGER_REF,
+  path = LEDGER,
+  runGit = (args) => spawnSync('git', args, { encoding: 'utf8', maxBuffer: 32 * 1024 * 1024 }),
+  readWorkingTree = () => { try { return readFileSync(path, 'utf8'); } catch { return null; } },
+} = {}) {
+  const show = runGit(['show', `${ref}:${path}`]);
+  if (show?.status === 0 && show.stdout) {
+    const d = lastRoundDateFromText(show.stdout);
+    if (d) return d;
+  }
+  // ref 를 못 읽는 환경(얕은 클론·오프라인·브랜치 없음)에서는 워킹트리라도 본다. 값이 낡을 수는
+  // 있어도 "판정 불가"보다는 낫다.
+  return lastRoundDateFromText(readWorkingTree());
+}
+
 const isMain = process.argv[1] && process.argv[1].endsWith('heartbeat.mjs');
 if (isMain) {
   // 원장은 evolve/dash에 쌓이므로 그 브랜치의 최신 내용을 본다 — 로컬 워킹트리가 main일 수 있다.
   spawnSync('git', ['fetch', '-q', 'origin'], { encoding: 'utf8' });
-  const show = spawnSync('git', ['show', `origin/evolve/dash:${LEDGER}`], { encoding: 'utf8', maxBuffer: 32 * 1024 * 1024 });
-  let lastRoundDate = null;
-  if (show.status === 0 && show.stdout) {
-    for (const l of show.stdout.trim().split('\n').filter(Boolean).reverse()) {
-      try {
-        const d = JSON.parse(l);
-        if (d.date) { lastRoundDate = d.date; break; }
-      } catch { /* 손상된 줄 건너뜀 */ }
-    }
-  } else {
-    lastRoundDate = lastRoundDateFromLedger();
-  }
+  const lastRoundDate = resolveLastRoundDate();
   const v = evaluateHeartbeat({ now: Date.now(), lastRoundDate });
   console.log(JSON.stringify({ ...v, lastRoundDate }, null, 2));
   process.exit(v.stale ? 1 : 0);
