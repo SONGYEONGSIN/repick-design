@@ -21,3 +21,4 @@ vault/.obsidian/workspace.json
 .claude/agent-memory/
 .vercel
 .env*
+.ref-tmp/
