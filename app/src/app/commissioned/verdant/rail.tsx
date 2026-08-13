@@ -468,17 +468,17 @@ export function UpcomingPanel({ lang, netCents }: { lang: Lang; netCents: number
     <section
       id="verdant-upcoming"
       aria-labelledby="verdant-upcoming-h"
-      className={cx(PANEL, "scroll-mt-24 p-4 sm:p-5")}
+      className={cx(PANEL, "scroll-mt-24 p-4 sm:p-5 xl:flex xl:min-h-0 xl:flex-1 xl:flex-col")}
     >
       <h2 id="verdant-upcoming-h" className="text-sm font-semibold tracking-wide text-zinc-100">
         {UI.upcoming[lang]}
       </h2>
 
-      <ul className="mt-3 flex flex-col gap-2">
+      <ul className="mt-3 flex flex-col gap-2 xl:flex-1">
         {UPCOMING.map((item) => (
           <li
             key={item.id}
-            className="flex items-center gap-3 rounded-xl border border-zinc-800 p-2.5"
+            className="flex items-center gap-3 rounded-xl border border-zinc-800 p-2.5 xl:flex-1"
           >
             <CalendarClock className="size-4 shrink-0 text-zinc-400" aria-hidden="true" />
             <span className="flex min-w-0 flex-1 flex-col">
