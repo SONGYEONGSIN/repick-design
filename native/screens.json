@@ -13,5 +13,11 @@
   },
   "account": {
     "check": "Account & Preferences"
+  },
+  "handoff": {
+    "check": "Handoff check"
+  },
+  "notifications": {
+    "check": "Notifications"
   }
 }
