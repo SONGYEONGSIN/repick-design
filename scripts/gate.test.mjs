@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import {
   normalizeStatic, normalizeSweep, normalizeA11y, normalizePerf,
   normalizeNativeRun, buildVerdict, parseArgs, filesForRoute, worstLighthouse,
+  parseNativeTsc, screenSourceDir,
   countFontWeights, normalizeWeights, renderedWeights, normalizeLint, normalizeRoutes, parseTscOutput, normalizeTypes, normalizeConsole,
 } from './gate.mjs';
 
@@ -365,4 +366,72 @@ test('normalizeWeights — 렌더 측정치를 받으면 그대로 보고한다'
 test('normalizeWeights — 측정 불가면 명시 클래스 집계로 물러선다', () => {
   const g = normalizeWeights(countFontWeights(['<p class="font-medium">x</p>']));
   assert.match(g.detail, /1종|medium/);
+});
+
+/* ───────── native 게이트 관찰성·귀속 (2026-08-13, auto-native-r3 실측 결함) ─────────
+   후보 c의 tsc 에러 8건이 a·b의 tsc까지 실패시켜 12/12 실패가 났고, verdict의 detail은
+   12건 전부 "실패" 한 단어여서 스킬 §3의 1-fix 루프에 넘길 내용이 없었다. 웹은
+   normalizeTypes가 스코프 파일 귀속으로 이미 해결한 문제다. */
+
+test('parseNativeTsc — pretty(ANSI 포함)·non-pretty 두 형식을 모두 읽는다', () => {
+  const pretty = '\u001b[96msrc/evolve/r3/c/Own.tsx\u001b[0m:\u001b[93m153\u001b[0m:\u001b[93m58\u001b[0m - \u001b[91merror\u001b[0m\u001b[90m TS2339: \u001b[0mProperty \'up\' does not exist.';
+  const plain = 'src/evolve/r3/a/Sell.tsx(12,4): error TS2322: Type X is not assignable.';
+  const errs = parseNativeTsc(pretty + '\n' + plain);
+  assert.equal(errs.length, 2);
+  assert.equal(errs[0].file, 'src/evolve/r3/c/Own.tsx');
+  assert.equal(errs[0].line, 153);
+  assert.equal(errs[0].rule, 'TS2339');
+  assert.equal(errs[1].file, 'src/evolve/r3/a/Sell.tsx');
+  assert.equal(errs[1].rule, 'TS2322');
+});
+
+test('screenSourceDir — evolve 슬러그는 라운드 폴더, 영구 슬러그는 자기 폴더', () => {
+  assert.equal(screenSourceDir('evolve-r3-a'), 'src/evolve/r3/a/');
+  assert.equal(screenSourceDir('evolve-r12-c'), 'src/evolve/r12/c/');
+  assert.equal(screenSourceDir('watchlist'), 'src/watchlist/');
+});
+
+test('normalizeNativeRun — 남의 후보 tsc 에러로 내 tsc가 실패하지 않는다', () => {
+  const out = 'src/evolve/r3/c/Own.tsx(153,58): error TS2339: Property \'up\' does not exist.';
+  const gates = normalizeNativeRun('evolve-r3-a', out, false, { allScreens: ['evolve-r3-a', 'evolve-r3-b', 'evolve-r3-c'] });
+  const tsc = gates.find((g) => g.name === 'evolve-r3-a/tsc');
+  assert.equal(tsc.pass, true, 'a의 파일에 에러가 없으므로 a의 tsc는 통과여야 한다');
+  assert.match(tsc.detail, /evolve-r3-c/, '누구 때문에 막혔는지 detail이 말해야 한다');
+});
+
+test('normalizeNativeRun — 자기 파일 에러는 detail에 실제 내용이 담긴다', () => {
+  const out = 'src/evolve/r3/c/Own.tsx(153,58): error TS2339: Property \'up\' does not exist.';
+  const gates = normalizeNativeRun('evolve-r3-c', out, false, { allScreens: ['evolve-r3-a', 'evolve-r3-c'] });
+  const tsc = gates.find((g) => g.name === 'evolve-r3-c/tsc');
+  assert.equal(tsc.pass, false);
+  assert.match(tsc.detail, /TS2339/);
+  assert.equal(tsc.violations.length, 1);
+  assert.equal(tsc.violations[0].line, 153);
+});
+
+test('normalizeNativeRun — 공용 파일 에러는 전 후보가 실패한다', () => {
+  const out = 'src/tokens.ts(9,3): error TS2322: Type X is not assignable.';
+  for (const s of ['evolve-r3-a', 'evolve-r3-c']) {
+    const tsc = normalizeNativeRun(s, out, false, { allScreens: ['evolve-r3-a', 'evolve-r3-c'] })
+      .find((g) => g.name === `${s}/tsc`);
+    assert.equal(tsc.pass, false, `${s}: 공용 파일이 깨지면 모두 실패여야 한다`);
+    assert.match(tsc.detail, /TS2322/);
+  }
+});
+
+test('normalizeNativeRun — 선행 단계 실패로 못 돈 단계는 실패가 아니라 미실행으로 구분된다', () => {
+  const out = 'src/evolve/r3/c/Own.tsx(1,1): error TS2339: nope.';
+  const gates = normalizeNativeRun('evolve-r3-c', out, false, { allScreens: ['evolve-r3-c'] });
+  assert.equal(gates.find((g) => g.name === 'evolve-r3-c/tsc').detail.includes('TS2339'), true);
+  for (const step of ['export', 'render', 'iframe']) {
+    const g = gates.find((x) => x.name === `evolve-r3-c/${step}`);
+    assert.match(g.detail, /미실행/, `${step}: 돌지 않은 단계를 "실패"라고 하면 안 된다`);
+    assert.match(g.detail, /tsc/, `${step}: 무엇 때문에 안 돌았는지 말해야 한다`);
+  }
+});
+
+test('normalizeNativeRun — 기존 3인자 호출 호환 유지', () => {
+  const out = 'GATE_STEP:tsc:ok\nGATE_STEP:export:ok\nGATE_STEP:render:ok\nGATE_STEP:iframe:ok';
+  const gates = normalizeNativeRun('watchlist', out, true);
+  assert.ok(gates.every((g) => g.pass));
 });
