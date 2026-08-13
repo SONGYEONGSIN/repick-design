@@ -1,4 +1,4 @@
-// native/src/evolve/r4/b/data.ts — auto-native-r4 candidate b: Notifications / Activity feed.
+// native/src/data.ts — auto-native-r4 candidate b: Notifications / Activity feed.
 // Deterministic dummy data only — fixed strings, no Math.random/Date.now/argless new Date().
 
 export type NotificationType = "priceDrop" | "offer" | "message" | "savedSearch" | "handoff";

@@ -1,4 +1,4 @@
-// native/src/evolve/r4/b/NotificationsScreen.tsx — auto-native-r4 candidate b.
+// native/src/NotificationsScreen.tsx — auto-native-r4 candidate b.
 // Screen type: Notifications / Activity feed — a browse screen with no terminal/completion
 // action (there is nothing here to "finish"). Per accumulated native deltas, that calls for
 // zero fixed header/footer chrome: everything — title, filters, mark-all-as-read — scrolls
@@ -14,7 +14,7 @@ import {
   type AppNotification,
   type NotificationType,
 } from "./data";
-import { tokens } from "../../../tokens";
+import { tokens } from "../tokens";
 
 const HIT_SLOP = { top: 8, bottom: 8, left: 8, right: 8 };
 type CategoryKey = NotificationType | "all";

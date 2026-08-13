@@ -7,7 +7,7 @@ import {
   Text,
   View,
 } from "react-native";
-import { tokens } from "../../../tokens";
+import { tokens } from "../tokens";
 import {
   formatUsd,
   handoffChecks,
