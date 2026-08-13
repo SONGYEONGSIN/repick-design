@@ -4,6 +4,8 @@ import { MatchList } from "./MatchList";
 import { PriceDetail } from "./detail/PriceDetail";
 import { OfferThread } from "./offer-thread/OfferThread";
 import { Preferences } from "./account/Preferences";
+import { HandoffCheckScreen } from "./handoff/HandoffCheckScreen";
+import { NotificationsScreen } from "./notifications/NotificationsScreen";
 
 const COMPONENTS = {
   watchlist: WatchList,
@@ -11,6 +13,8 @@ const COMPONENTS = {
   detail: PriceDetail,
   "offer-thread": OfferThread,
   account: Preferences,
+  handoff: HandoffCheckScreen,
+  notifications: NotificationsScreen,
 } as const satisfies Record<string, ComponentType>;
 
 export type ScreenSlug = keyof typeof COMPONENTS;
