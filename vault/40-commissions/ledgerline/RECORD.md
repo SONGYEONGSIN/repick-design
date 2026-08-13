@@ -2,11 +2,27 @@
 
 주문 제작 4건째. **세 번 만든 첫 주문**이며, 이 기록의 값어치는 두 번의 오판이 무엇이었는지에 있다.
 
-- 라우트: `/commissioned/ledgerline`
-- 산출물: `app/src/app/commissioned/ledgerline/` (10파일)
+- 라우트: `/commissioned/ledgerline` (최종) · `-d30` · `-feed` (이전 두 판, §0)
+- 산출물: `app/src/app/commissioned/ledgerline/` (10파일) + `ledgerline-d30/`(9) + `ledgerline-feed/`(4)
 - 레퍼런스: `reference-sequence.png` (사용자 제공, Dribbble/Sequence)
 - 1차 2026-08-12 · 2차 2026-08-13 · **3차(최종) 2026-08-13**
 - `works.ts` **미등재**
+
+## 0. 세 판이 전부 살아 있다 (2026-08-13)
+
+세 판을 나란히 열 수 있게 각자 라우트를 줬다. **git에서 바이트 동일로 복원**했고 셋 다 손대지 않은 채 게이트 9관문을 통과한다.
+
+| 판 | 라우트 | 출처 커밋 | 골격 |
+|---|---|---|---|
+| 1차 | `/commissioned/ledgerline-feed` | `1bfb7b9` | 에디토리얼 — 문장 히어로 + 거래 스트림, 셸 없음 |
+| 2차 | `/commissioned/ledgerline-d30` | `8e439fd` | d30 골격 — 사이드바 + KPI 4장 + 8/4 + 표 |
+| **3차** | `/commissioned/ledgerline` | `d0824dc` | **레퍼런스 정합** — 다크 히어로 밴드 + Cash Flow + stat 3장 + Activity + My Cards |
+
+복원 충실도: 1차 4/4 파일·2차 9/9 파일이 원본과 **바이트 동일**. 외부 의존은 셋 다 `react`·`next`·`lucide-react`뿐이라 폴더가 자립한다.
+
+**`data.ts`는 세 판에서 바이트 동일하다**(`87ffdfb25d3f`) — 같은 39건 거래·3계좌·이중언어 사전 위에서 골격만 세 번 달라진 것이다. 그래서 이 세 라우트는 **같은 데이터를 세 가지 형태로 읽는 비교군**이 된다.
+
+대표 프레임: `variant-1-feed-1440.png` · `variant-2-d30-1440.png` · `shots/ledgerline-1440.png`(3차)
 
 ## 1. 세 판과 두 번의 오판
 
@@ -122,7 +138,9 @@ designer가 라벨을 `sr-only`로 돌리고 `EN`/`KO` 필을 우측 정렬했�
 
 ## 10. 폐기
 
-2차(d30 골격) 서브트리 5파일(`LedgerlineApp.tsx`·`accounts-panel.tsx`·`flow-chart.tsx`·`StreamFeed.tsx`·`ui.tsx`)이 통째로 고아가 되어 오케스트레이터가 삭제했다 — **이번 변경이 만든 orphan**이라 정리했고 무관한 dead code는 건드리지 않았다. 1·2차 전체는 git 이력에 있다.
+2차(d30 골격) 서브트리 5파일이 3차 시점에 고아가 되어 `/commissioned/ledgerline/`에서는 삭제했다 — **그 변경이 만든 orphan**이라 정리했고 무관한 dead code는 건드리지 않았다.
+
+**다만 폐기는 아니다** — 사용자 요청으로 1·2차를 각자 라우트에 복원했다(§0). 삭제된 5파일은 `/commissioned/ledgerline-d30/`에 원본 그대로 살아 있고, 3차 트리에서만 빠져 있다.
 
 ## 샷
 
