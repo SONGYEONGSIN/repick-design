@@ -79,7 +79,7 @@ export default function RankingBoard() {
         <div className="mx-auto w-full max-w-[1120px] px-5 py-14 md:px-8 md:py-24">
           <div className="grid gap-12 lg:grid-cols-12 lg:gap-12">
             {/* Rail — the input side of the page. */}
-            <div className="min-w-0 animate-[rise_0.5s_ease-out_backwards] lg:col-span-5 motion-reduce:animate-none">
+            <div className="flex min-w-0 flex-col animate-[rise_0.5s_ease-out_backwards] lg:col-span-5 motion-reduce:animate-none">
               <p className="text-xs font-normal uppercase tracking-[0.28em] text-zinc-600">
                 repick · AI-picked secondhand
               </p>
@@ -99,13 +99,13 @@ export default function RankingBoard() {
               </p>
               <a
                 href="#picks"
-                className="mt-7 inline-flex items-center gap-2 rounded-full bg-[#6E56CF] px-6 py-3 text-sm font-semibold text-white transition-transform duration-200 ease-out hover:-translate-y-px focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6E56CF] focus-visible:ring-offset-2 motion-reduce:transition-none"
+                className="mt-7 inline-flex items-center gap-2 self-start rounded-full bg-[#6E56CF] px-6 py-3 text-sm font-semibold text-white transition-transform duration-200 ease-out hover:-translate-y-px focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6E56CF] focus-visible:ring-offset-2 motion-reduce:transition-none"
               >
                 See tonight&rsquo;s ranked picks
                 <ArrowRight aria-hidden="true" className="size-4" />
               </a>
 
-              <div className="mt-12 border-t border-zinc-200 pt-6">
+              <div className="mt-12 flex flex-1 flex-col border-t border-zinc-200 pt-6">
                 <GhostNumber value="01" />
                 <p className="mt-1 text-xs font-normal uppercase tracking-[0.16em] text-zinc-600">
                   Fig. 01 — Criteria, in the order you set
@@ -114,15 +114,15 @@ export default function RankingBoard() {
                   Move a criterion up and it weighs more.
                 </h2>
 
-                <ol className="mt-5 flex flex-col gap-2">
+                <ol className="mt-5 flex flex-1 flex-col gap-2">
                   {rail.map((row, i) => (
                     <motion.li
                       key={row.crit.id}
                       layout
                       transition={tween}
-                      className="flex min-w-0 items-start gap-3 border border-zinc-200 bg-white p-3"
+                      className="flex min-w-0 flex-1 items-center gap-3 border border-zinc-200 bg-white p-3"
                     >
-                      <span className="w-4 shrink-0 pt-0.5 text-sm font-semibold tabular-nums">
+                      <span className="w-4 shrink-0 text-sm font-semibold tabular-nums">
                         {row.position}
                       </span>
                       <span className="min-w-0 flex-1">
@@ -152,7 +152,7 @@ export default function RankingBoard() {
                               : `Move ${row.crit.name} up to position ${row.position - 1}`
                           }
                           onClick={() => move(row.crit.id, -1)}
-                          className="inline-flex size-8 items-center justify-center rounded-sm border border-zinc-300 text-zinc-600 transition-colors duration-150 hover:border-[#0B0B0F] hover:text-[#0B0B0F] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6E56CF] focus-visible:ring-offset-2 aria-disabled:opacity-30 aria-disabled:hover:border-zinc-300 aria-disabled:hover:text-zinc-600"
+                          className="inline-flex size-11 items-center justify-center rounded-sm border border-zinc-300 text-zinc-600 transition-colors duration-150 hover:border-[#0B0B0F] hover:text-[#0B0B0F] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6E56CF] focus-visible:ring-offset-2 aria-disabled:opacity-30 aria-disabled:hover:border-zinc-300 aria-disabled:hover:text-zinc-600"
                         >
                           <ChevronUp aria-hidden="true" className="size-4" />
                         </button>
@@ -165,7 +165,7 @@ export default function RankingBoard() {
                               : `Move ${row.crit.name} down to position ${row.position + 1}`
                           }
                           onClick={() => move(row.crit.id, 1)}
-                          className="inline-flex size-8 items-center justify-center rounded-sm border border-zinc-300 text-zinc-600 transition-colors duration-150 hover:border-[#0B0B0F] hover:text-[#0B0B0F] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6E56CF] focus-visible:ring-offset-2 aria-disabled:opacity-30 aria-disabled:hover:border-zinc-300 aria-disabled:hover:text-zinc-600"
+                          className="inline-flex size-11 items-center justify-center rounded-sm border border-zinc-300 text-zinc-600 transition-colors duration-150 hover:border-[#0B0B0F] hover:text-[#0B0B0F] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6E56CF] focus-visible:ring-offset-2 aria-disabled:opacity-30 aria-disabled:hover:border-zinc-300 aria-disabled:hover:text-zinc-600"
                         >
                           <ChevronDown aria-hidden="true" className="size-4" />
                         </button>
@@ -198,6 +198,39 @@ export default function RankingBoard() {
                     );
                   })}
                 </div>
+
+                {/* The prose read-back and the fill key both describe the criteria list, so they
+                    live under the control that produces them rather than at the head of the
+                    results column — which also stops the rail from ending 498px short of the
+                    grid row it shares with the cards. */}
+                <p className="mt-6 max-w-[62ch] text-lg font-normal leading-[1.5]">
+                  Ranked mostly by{" "}
+                  <span className="font-semibold text-[#6E56CF]">
+                    {first.crit.name.toLowerCase()}
+                  </span>
+                  , then <span className="font-semibold">{second.crit.name.toLowerCase()}</span>.{" "}
+                  <span className="text-zinc-600">
+                    {third.crit.name.toLowerCase()}, {fourth.crit.name.toLowerCase()} and{" "}
+                    {fifth.crit.name.toLowerCase()} only break ties.
+                  </span>
+                </p>
+
+                <ul className="mt-5 flex flex-wrap gap-x-4 gap-y-2 border-y border-zinc-200 py-3">
+                  {rail.map((row) => (
+                    <li
+                      key={row.crit.id}
+                      className="flex items-center gap-2 text-xs font-normal text-zinc-600"
+                    >
+                      <span
+                        aria-hidden="true"
+                        className="size-3 shrink-0 rounded-[2px] border border-zinc-300"
+                        style={{ background: row.crit.fill }}
+                      />
+                      <span className="uppercase tracking-[0.12em]">{row.crit.abbr}</span>
+                      <span>{row.crit.name}</span>
+                    </li>
+                  ))}
+                </ul>
               </div>
             </div>
 
@@ -221,33 +254,6 @@ export default function RankingBoard() {
                 </div>
                 <GhostNumber value="02" />
               </div>
-
-              <p className="mt-4 max-w-[62ch] text-lg font-normal leading-[1.5]">
-                Ranked mostly by{" "}
-                <span className="font-semibold text-[#6E56CF]">{first.crit.name.toLowerCase()}</span>
-                , then <span className="font-semibold">{second.crit.name.toLowerCase()}</span>.{" "}
-                <span className="text-zinc-600">
-                  {third.crit.name.toLowerCase()}, {fourth.crit.name.toLowerCase()} and{" "}
-                  {fifth.crit.name.toLowerCase()} only break ties.
-                </span>
-              </p>
-
-              <ul className="mt-5 flex flex-wrap gap-x-4 gap-y-2 border-y border-zinc-200 py-3">
-                {rail.map((row) => (
-                  <li
-                    key={row.crit.id}
-                    className="flex items-center gap-2 text-xs font-normal text-zinc-600"
-                  >
-                    <span
-                      aria-hidden="true"
-                      className="size-3 shrink-0 rounded-[2px] border border-zinc-300"
-                      style={{ background: row.crit.fill }}
-                    />
-                    <span className="uppercase tracking-[0.12em]">{row.crit.abbr}</span>
-                    <span>{row.crit.name}</span>
-                  </li>
-                ))}
-              </ul>
 
               <ol className="mt-5 flex flex-col gap-3">
                 {ranked.map((row, i) => {
