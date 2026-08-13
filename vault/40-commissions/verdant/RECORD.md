@@ -7,7 +7,29 @@
 - 레퍼런스: `reference-finexus.png` (사용자 제공, Dribbble/Finexus)
 - 제작·인수: 2026-08-13
 - 갈래: **A** — `dashboard`는 프로파일(`dash-brief-v3`)이 있다
-- `works.ts` **미등재**
+- **갤러리 등재 (2026-08-14)**: `d44` = `/commissioned/verdant` (§0)
+
+## 0. 갤러리 등재 (2026-08-14)
+
+사용자 요청으로 `works.ts`에 올렸다 — `d44` · 카드 제목 `Verdant` · `category: dashboard`.
+
+### 다양성 집계에 미친 영향 (실측)
+
+| 축 | 등재 전 | 등재 후 |
+|---|---|---|
+| 전체 | 38 | **39** |
+| 액센트 | violet-hex 7 · indigo 5 · … · none 1 (**12종**) | 같은 12종 + **`lime 1`** (**13종**) |
+| 활자 | grotesk 5 | grotesk **6** |
+| 테마 | light 23 · dark 15 | light 23 · **dark 16** |
+| `dashboard` 카테고리 | 14 | **15** |
+
+**액센트 축이 하나 늘었다.** 등재 전 카탈로그 12개 액센트 어디에도 라임 계열이 없었고, 이 작품이 13번째 색을 만들었다 — 39작품 중 유일한 `lime`이다. 반면 `dashboard`는 15로 최다 포화가 더 깊어진다.
+
+`eslint src --max-warnings=0` 위반 0, `/gallery`·`/gallery/d44` 200.
+
+### 언어 정책
+
+[[page-brief-repo]] §1(영문 전용)은 등재 시점에 발동한다. **기본이 영문**(`lang="en"`, 한글 0자)이고 한국어는 토글로 여는 선택지라 기본 상태에서 정합한다. `hopline`(`d41`)·`ledgerline`(`d42`·`d43`) 선례와 동일하다.
 
 ## 1. 인터뷰 결과
 
