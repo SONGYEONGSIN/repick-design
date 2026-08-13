@@ -6,7 +6,7 @@
 - 산출물: `app/src/app/commissioned/ledgerline/` (10파일) + `ledgerline-d30/`(9) + `ledgerline-feed/`(4)
 - 레퍼런스: `reference-sequence.png` (사용자 제공, Dribbble/Sequence)
 - 1차 2026-08-12 · 2차 2026-08-13 · **3차(최종) 2026-08-13**
-- `works.ts` **미등재**
+- **갤러리 등재 (2026-08-13)**: `d43` = `/commissioned/ledgerline` · `d42` = `/commissioned/ledgerline-d30` (§0-1). `-feed`는 미등재
 
 ## 0. 세 판이 전부 살아 있다 (2026-08-13)
 
@@ -23,6 +23,37 @@
 **`data.ts`는 세 판에서 바이트 동일하다**(`87ffdfb25d3f`) — 같은 39건 거래·3계좌·이중언어 사전 위에서 골격만 세 번 달라진 것이다. 그래서 이 세 라우트는 **같은 데이터를 세 가지 형태로 읽는 비교군**이 된다.
 
 대표 프레임: `variant-1-feed-1440.png` · `variant-2-d30-1440.png` · `shots/ledgerline-1440.png`(3차)
+
+## 0-1. 갤러리 등재 (2026-08-13)
+
+사용자 요청으로 두 판을 `works.ts`에 올렸다. 셋 중 둘만이고 1차(`-feed`)는 미등재로 둔다.
+
+| id | 라우트 | 카드 제목 | category |
+|---|---|---|---|
+| `d43` | `/commissioned/ledgerline` | `Ledgerline` | `dashboard` |
+| `d42` | `/commissioned/ledgerline-d30` | `Ledgerline · KPI shell` | `dashboard` |
+
+카드 제목을 나눈 이유: `brand`가 갤러리 카드의 `truncate` 제목이자 상세 페이지 `<title>`이라, 같은 브랜드·같은 데이터인 둘이 나란히 서면 구분이 안 된다. **다른 것은 셸뿐이므로 셸로 이름 붙였다.**
+
+### 다양성 집계에 미친 영향 (실측)
+
+등재하는 순간 이 둘은 다양성 집계와 미채움 큐에 들어간다. 실제 변화:
+
+| 축 | 등재 전 | 등재 후 |
+|---|---|---|
+| 전체 | 36 | **38** |
+| 테마 | light 21 · dark 15 | light **23** · dark 15 |
+| 액센트 | … `rose 1` · `emerald 2` … | … `emerald 3` · **`rose 2`** … |
+| 활자 | pretendard 23 · wide 6 · grotesk 4 · **mono 3** | pretendard 23 · wide 6 · **grotesk 5** · **mono 4** |
+| `dashboard` 카테고리 | 12 | **14** |
+
+**두 축이 오히려 나아졌다** — `rose`는 등재 전 카탈로그 최희소 액센트(1건)였고 `mono`는 최희소 활자(3건)였는데, 2차판이 그 둘을 동시에 올렸다. 반면 `dashboard`는 12 → 14로 최다 포화가 더 깊어졌다.
+
+`eslint src --max-warnings=0` 위반 0, `/gallery`·`/gallery/d42`·`/gallery/d43` 전부 200, `/gallery` 게이트 9관문 통과.
+
+### 언어 정책 확인
+
+[[page-brief-repo]] §1(영문 전용)은 **카탈로그 등재 시점에 발동**한다. 두 판 모두 **기본이 영문**(`lang="en"`, 한글 0자)이고 한국어는 사용자가 토글로 여는 선택지라, 기본 상태에서 "글로벌 벤치마크 정합"을 만족한다. 직전 주문 `hopline`(`d41`)을 같은 근거로 등재한 선례를 따랐다.
 
 ## 1. 세 판과 두 번의 오판
 
