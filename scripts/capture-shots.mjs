@@ -120,7 +120,15 @@ export async function capture(opts, chromium) {
     await page.waitForTimeout(600);
 
     // Scroll-through pass: walk the page once so in-view reveals fire before any frame is captured.
-    const pageHeight = await page.evaluate(() => document.documentElement.scrollHeight);
+    // `document.body.scrollHeight`, not `document.documentElement.scrollHeight` — on a viewport-locked
+    // shell (`h-dvh overflow-hidden` root, only an inner region scrolls) this Chromium build has been
+    // observed reporting `documentElement.scrollHeight` well beyond the page's real, rendered extent
+    // (offsetHeight/clientHeight/computed height all agree on the true size; only that one metric
+    // diverges) while `body.scrollHeight` matches the true size correctly. Scrolling to a fraction of
+    // the inflated value scrolls the window past all real content into blank space, which the
+    // blank-frame check then (correctly) flags — but the page itself has no defect. `body.scrollHeight`
+    // is the reliable source for both this and the ordinary long-scrolling case, where the two agree.
+    const pageHeight = await page.evaluate(() => document.body.scrollHeight);
     for (let y = 0; y < pageHeight; y += Math.round(height * 0.6)) {
       await page.evaluate((v) => window.scrollTo(0, v), y);
       await page.waitForTimeout(90);
