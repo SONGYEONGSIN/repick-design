@@ -40,16 +40,16 @@ function GlobalSearch() {
     <div ref={containerRef} className="relative min-w-0">
       {open ? (
         <div role="search" className="flex h-11 w-56 items-center gap-2 rounded-lg border border-white/10 bg-white/5 px-3 sm:w-72">
-          <Search aria-hidden="true" className="size-4 shrink-0 text-zinc-500" />
+          <Search aria-hidden="true" className="size-4 shrink-0 text-zinc-400" />
           <input
             ref={inputRef}
             type="text"
             placeholder="Search assets, transactions…"
             aria-label="Search assets and transactions"
             onBlur={() => setOpen(false)}
-            className="min-w-0 flex-1 bg-transparent text-sm text-zinc-100 outline-none placeholder:text-zinc-500"
+            className="min-w-0 flex-1 bg-transparent text-sm text-zinc-100 outline-none placeholder:text-zinc-400"
           />
-          <kbd className="hidden shrink-0 rounded border border-white/10 px-1.5 py-0.5 text-[10px] text-zinc-500 sm:inline">
+          <kbd className="hidden shrink-0 rounded border border-white/10 px-1.5 py-0.5 text-[10px] text-zinc-400 sm:inline">
             Esc
           </kbd>
         </div>
@@ -58,13 +58,13 @@ function GlobalSearch() {
           type="button"
           onClick={() => setOpen(true)}
           className={cn(
-            "flex h-11 w-40 items-center gap-2 rounded-lg border border-white/10 bg-white/5 px-3 text-left text-sm text-zinc-500 outline-none transition-colors sm:w-64",
+            "flex h-11 w-40 items-center gap-2 rounded-lg border border-white/10 bg-white/5 px-3 text-left text-sm text-zinc-400 outline-none transition-colors sm:w-64",
             "hover:bg-white/10 focus-visible:ring-2 focus-visible:ring-indigo-400 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950",
           )}
         >
           <Search aria-hidden="true" className="size-4 shrink-0" />
           <span className="min-w-0 flex-1 truncate">Search…</span>
-          <kbd className="hidden shrink-0 rounded border border-white/10 px-1.5 py-0.5 text-[10px] font-medium tabular-nums text-zinc-500 sm:inline">
+          <kbd className="hidden shrink-0 rounded border border-white/10 px-1.5 py-0.5 text-[10px] font-medium tabular-nums text-zinc-400 sm:inline">
             ⌘K
           </kbd>
         </button>
@@ -92,7 +92,7 @@ function UserMenu() {
         onClick={() => setOpen((v) => !v)}
         aria-haspopup="menu"
         aria-expanded={open}
-        aria-label="Open account menu"
+        aria-label="JL — open account menu"
         className={cn(
           "flex h-11 items-center gap-1.5 rounded-lg border border-white/10 bg-white/5 pl-1.5 pr-2 outline-none transition-colors",
           "hover:bg-white/10 focus-visible:ring-2 focus-visible:ring-indigo-400 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950",
@@ -101,7 +101,7 @@ function UserMenu() {
         <span className="flex size-8 items-center justify-center rounded-md bg-indigo-500/20 text-[11px] font-semibold text-indigo-300">
           JL
         </span>
-        <ChevronDown aria-hidden="true" className="size-3.5 text-zinc-500" />
+        <ChevronDown aria-hidden="true" className="size-3.5 text-zinc-400" />
       </button>
 
       {open ? (

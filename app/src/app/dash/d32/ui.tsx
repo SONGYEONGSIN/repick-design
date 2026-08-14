@@ -41,7 +41,7 @@ export function Card({
               </h2>
             )}
             {description && (
-              <p title={description} className="mt-0.5 truncate text-xs text-zinc-500">
+              <p title={description} className="mt-0.5 truncate text-xs text-zinc-400">
                 {description}
               </p>
             )}
@@ -127,7 +127,7 @@ export function StatusBadge({ status }: { status: "completed" | "pending" }) {
 }
 
 export function SectionLabel({ children }: { children: ReactNode }) {
-  return <p className="text-[11px] font-medium uppercase tracking-wider text-zinc-500">{children}</p>;
+  return <p className="text-[11px] font-medium uppercase tracking-wider text-zinc-400">{children}</p>;
 }
 
 /**

@@ -20,7 +20,7 @@ import { AssetIcon, Card, ChangeBadge } from "./ui";
 function StatRow({ label, value }: { label: string; value: ReactNode }) {
   return (
     <div className="flex items-center justify-between border-b border-white/5 py-2.5 text-sm last:border-b-0">
-      <dt className="text-zinc-500">{label}</dt>
+      <dt className="text-zinc-400">{label}</dt>
       <dd className="tabular-nums text-zinc-200">{value}</dd>
     </div>
   );

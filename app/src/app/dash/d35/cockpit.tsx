@@ -258,13 +258,24 @@ function TreemapTile({
     width: `${tile.geom.w}%`,
     height: `${tile.geom.h}%`,
   };
-  const label = `${tile.holding.symbol} ${tile.holding.name}, ${meta.label}, weight ${fmtPct(tile.weightPct, 1)}, P&L ${fmtSignedPct(tile.pnlPct)}`;
+  // 타일은 크기에 따라 보이는 조각이 달라진다(detail: none/min/full).
+  //
+  // `aria-label`로 전체를 덮으면 label-content-name-mismatch 가 뜬다 — 보이는 글자가 접근 이름에
+  // 그대로 들어 있어야 하는데, 보이는 조각들은 별개 span 이라 사이에 공백이 없고(`NVDA+2.1%13.3%`)
+  // 사람이 쓴 문장은 공백이 있어 두 문자열이 절대 일치하지 않는다. 라벨 문구를 아무리 맞춰도 이 축은
+  // 못 넘는다.
+  //
+  // 그래서 표준 패턴으로 간다: **이름은 보이는 내용에서** 얻고, 추가 설명은 같은 버튼 안 `sr-only`로
+  // 잇는다. 글자가 하나도 없는 최소 타일만 이름이 비므로 그때는 `aria-label`을 쓴다(보이는 글자가
+  // 없으니 이 규칙 자체가 적용되지 않는다).
+  const context = `${tile.holding.name}, ${meta.label}, weight ${fmtPct(tile.weightPct, 1)}, P&L ${fmtSignedPct(tile.pnlPct)}`;
+  const nameless = tile.detail === "none";
   return (
     <button
       ref={refCb}
       type="button"
       aria-pressed={selected}
-      aria-label={label}
+      aria-label={nameless ? `${tile.holding.symbol} ${context}` : undefined}
       onClick={onSelect}
       onPointerEnter={onEnter}
       onPointerLeave={onLeave}
@@ -294,6 +305,8 @@ function TreemapTile({
           <span className={cx("block truncate text-[10px] font-semibold leading-tight sm:text-[11px]", NUM, TEXT_PRIMARY)}>
             {tile.holding.symbol}
           </span>
+          {/* 이름을 보이는 내용에서 얻으므로, 티커만으로는 부족한 맥락을 여기서 잇는다. */}
+          <span className="sr-only">{context}</span>
           {tile.detail !== "min" ? (
             <span className="mt-auto min-w-0">
               <span className={cx("flex items-center gap-0.5 text-[10px] font-semibold leading-none sm:text-[11px]", NUM, tone.num)}>
@@ -554,7 +567,9 @@ function DetailPanel({ holding, period, fullTotal }: { holding: Holding; period:
         </div>
       </div>
 
-      <div className="grid grid-cols-2 gap-px bg-zinc-200 dark:bg-zinc-800">
+      {/* dt·dd 는 dl 안에만 설 수 있다. DetailStat 이 div 로 한 쌍을 감싸는데, HTML5 는
+          dl > div > (dt, dd) 를 허용하므로 컨테이너만 dl 로 두면 격자가 그대로 유지된다. */}
+      <dl className="grid grid-cols-2 gap-px bg-zinc-200 dark:bg-zinc-800">
         <DetailStat label="Market Value" value={fmtKRW(value)} />
         <DetailStat label={`${PERIOD_LABEL[period]} P&L`}>
           <span className={cx("inline-flex items-center gap-1", pnlTextClass(pnl))}>
@@ -565,7 +580,7 @@ function DetailPanel({ holding, period, fullTotal }: { holding: Holding; period:
         </DetailStat>
         <DetailStat label="Cost Basis" value={fmtKRW(holding.cost)} />
         <DetailStat label="Portfolio Weight" value={fmtPct(weight, 1)} />
-      </div>
+      </dl>
 
       <div className={cx("border-t p-4 sm:p-5", BORDER)}>
         <div className="flex items-center justify-between">

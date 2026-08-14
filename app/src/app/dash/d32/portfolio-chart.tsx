@@ -215,7 +215,7 @@ function LineChart({
           <span
             key={i}
             aria-hidden="true"
-            className="pointer-events-none absolute right-1 -translate-y-1/2 text-[10px] tabular-nums text-zinc-500"
+            className="pointer-events-none absolute right-1 -translate-y-1/2 text-[10px] tabular-nums text-zinc-400"
             style={{ top: `${(mapY(gv) / CHART_H) * 100}%` }}
           >
             {formatPrice(gv)}
@@ -234,7 +234,7 @@ function LineChart({
         )}
       </div>
 
-      <div className="mt-2 flex items-center justify-between px-1 text-[11px] tabular-nums text-zinc-500" aria-hidden="true">
+      <div className="mt-2 flex items-center justify-between px-1 text-[11px] tabular-nums text-zinc-400" aria-hidden="true">
         <span>{axisStartLabel}</span>
         <span>{axisMidLabel}</span>
         <span>{axisEndLabel}</span>
@@ -274,7 +274,7 @@ export default function PortfolioChartCard() {
         </p>
         <div className="mb-1.5 flex items-center gap-2">
           <ChangeBadge value={changePct} />
-          <span className="text-xs tabular-nums text-zinc-500">
+          <span className="text-xs tabular-nums text-zinc-400">
             {changeUsd >= 0 ? "+" : ""}
             {formatUSD(changeUsd)} · {PERIOD_LABEL[period]}
           </span>

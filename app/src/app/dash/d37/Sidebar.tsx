@@ -101,7 +101,7 @@ function SidebarContent() {
   return (
     <div className="flex h-full flex-col">
       <div className="flex h-11 shrink-0 items-center gap-2 px-4">
-        <span className="grid h-7 w-7 shrink-0 place-items-center rounded-[8px] bg-sky-600 text-white">
+        <span className="grid h-7 w-7 shrink-0 place-items-center rounded-[8px] bg-sky-700 text-white">
           <BrandIcon size={16} aria-hidden="true" strokeWidth={2.25} />
         </span>
         <span className={cx("text-[15px] font-semibold leading-none tracking-tight", TEXT_PRIMARY)}>{BRAND.name}</span>
@@ -150,7 +150,7 @@ function SidebarContent() {
                       <item.Icon size={17} aria-hidden="true" />
                       {item.label}
                       {item.badge ? (
-                        <span className="ml-auto grid h-5 min-w-5 place-items-center rounded-full bg-sky-600 px-1 text-[11px] font-semibold text-white">
+                        <span className="ml-auto grid h-5 min-w-5 place-items-center rounded-full bg-sky-700 px-1 text-[11px] font-semibold text-white">
                           {item.badge}
                         </span>
                       ) : null}
