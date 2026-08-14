@@ -8,6 +8,8 @@ export const SUBSET_IDS = [
   "n1", "n2", "n3", "n4", "n5", "n6", "n7",
   // 배치 2a (2026-08-14): 신규 타입 7종
   "lg1", "nf1", "pf1", "bl1", "ab1", "ct1", "sc1",
+  // 배치 2b (2026-08-14): careers·contact 계열 7종
+  "cr1", "cr2", "cr3", "ct2", "ct3", "dv1", "ig1",
 ];
 
 export function validateSpec(spec) {
