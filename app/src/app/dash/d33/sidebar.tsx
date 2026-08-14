@@ -88,7 +88,8 @@ export function Sidebar({
                   return (
                     <li key={item.id}>
                       <a
-                        href={`#${item.id}`}
+                        // 존재하지 않는 id 를 가리키면 클릭이 아무 일도 안 한다(skip-link 실패).
+                        href="#main-content"
                         aria-current={item.active ? "page" : undefined}
                         className={`flex min-h-[44px] items-center gap-2.5 rounded-lg px-3 text-sm font-medium transition-colors focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 focus-visible:outline-none ${
                           item.active
@@ -109,7 +110,7 @@ export function Sidebar({
 
         <div className="border-t border-zinc-100 p-3">
           <a
-            href="#help"
+            href="#main-content"
             className="mb-1 flex min-h-[44px] items-center gap-2.5 rounded-lg px-3 text-sm font-medium text-zinc-500 hover:bg-zinc-100 hover:text-zinc-900 focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 focus-visible:outline-none"
           >
             <LifeBuoy className="h-4 w-4 shrink-0" aria-hidden="true" />

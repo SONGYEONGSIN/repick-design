@@ -140,7 +140,7 @@ export function BoardApp() {
           onOpenMobileMenu={() => setMobileNavOpen(true)}
         />
 
-        <main className="flex min-w-0 flex-1 flex-col lg:min-h-0 lg:overflow-hidden">
+        <main id="main-content" className="flex min-w-0 flex-1 flex-col lg:min-h-0 lg:overflow-hidden">
           <div className="mx-auto flex w-full max-w-[1760px] flex-1 flex-col gap-4 px-4 py-5 sm:px-6 lg:min-h-0 lg:overflow-hidden">
             {/* Page header + controls */}
             <div className="flex flex-col gap-3 lg:flex-row lg:items-start lg:justify-between">

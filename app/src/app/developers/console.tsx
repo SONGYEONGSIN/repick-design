@@ -522,7 +522,8 @@ function Cell({
 }) {
   return (
     <article className="mt-8 first:mt-6">
-      <h3 className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
+      {/* 이 절을 감싸는 헤딩은 페이지 h1(console-heading)이다. h3 로 두면 레벨을 건너뛴다. */}
+      <h2 className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
         <span
           className="text-xl font-bold tabular-nums text-cyan-400"
           style={{ fontFamily: "var(--font-display-mono)" }}
@@ -533,7 +534,7 @@ function Cell({
         <span className="min-w-0 font-mono text-xs font-normal text-zinc-400">
           <span className="text-cyan-300">{method}</span> {path}
         </span>
-      </h3>
+      </h2>
       <p className="mt-1.5 max-w-2xl text-sm font-normal leading-relaxed text-zinc-400">{blurb}</p>
       <div className="mt-4 grid gap-3 lg:grid-cols-2">{children}</div>
     </article>
