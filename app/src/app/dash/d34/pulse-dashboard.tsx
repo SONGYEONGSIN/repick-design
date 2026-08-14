@@ -62,7 +62,7 @@ export function PulseDashboard() {
           onOpenCommandPalette={() => setCommandPaletteOpen(true)}
         />
 
-        <main id="overview" className="mx-auto w-full max-w-[1600px] px-4 py-6 sm:px-6 lg:px-8">
+        <main id="overview" className="mx-auto w-full max-w-[1680px] px-4 py-6 sm:px-6 lg:px-8">
           <div className="mb-6">
             <h1 className="text-xl font-semibold tracking-tight text-zinc-50 sm:text-2xl">SLA operations overview</h1>
             <p className="mt-1 text-[13px] text-zinc-400">
