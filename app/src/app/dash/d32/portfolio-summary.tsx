@@ -13,7 +13,7 @@ export default function PortfolioSummary() {
   return (
     <Card id="portfolio-summary" title="Portfolio summary" description="Across all holdings" bodyClassName="px-5 pb-5">
       <div className="mt-3">
-        <p className="text-[11px] font-medium uppercase tracking-wider text-zinc-500">Total asset value</p>
+        <p className="text-[11px] font-medium uppercase tracking-wider text-zinc-400">Total asset value</p>
         <p className="mt-1.5 text-3xl font-semibold tabular-nums text-zinc-50">{formatUSD(TOTAL_BALANCE)}</p>
         <div className="mt-2 flex items-center gap-2">
           <ChangeBadge value={PORTFOLIO_CHANGE_24H_PCT} size="sm" />
@@ -25,7 +25,7 @@ export default function PortfolioSummary() {
       </div>
 
       <div className="mt-5 border-t border-white/5 pt-5">
-        <p className="mb-3 text-[11px] font-medium uppercase tracking-wider text-zinc-500">Asset allocation</p>
+        <p className="mb-3 text-[11px] font-medium uppercase tracking-wider text-zinc-400">Asset allocation</p>
         <AllocationDonut />
       </div>
     </Card>

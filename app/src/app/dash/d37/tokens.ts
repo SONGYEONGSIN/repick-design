@@ -28,7 +28,7 @@ export const NUM = "tabular-nums [font-feature-settings:'tnum']";
 
 /* Brand accent — sky (flow/current concept) */
 export const ACCENT_TEXT = "text-sky-600 dark:text-sky-400";
-export const ACCENT_SOLID = "bg-sky-600 text-white hover:bg-sky-500 active:bg-sky-700";
+export const ACCENT_SOLID = "bg-sky-700 text-white hover:bg-sky-700 active:bg-sky-800";
 export const ACCENT_SUBTLE = "bg-sky-50 text-sky-700 dark:bg-sky-500/10 dark:text-sky-300";
 export const ACCENT_RING = "ring-sky-600 dark:ring-sky-400";
 

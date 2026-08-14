@@ -132,7 +132,9 @@ export const WATCHLIST: WatchAsset[] = [
     price: 0.1842, change24h: 3.85, changeWeek: 9.2, changeMonth: -4.1, changeYear: 22.0,
   },
   {
-    id: "pol", symbol: "POL", name: "Polygon", color: "#8247E5", decimals: 0,
+    id: "pol", symbol: "POL", name: "Polygon", color: "#A073EB", decimals: 0,
+    // Polygon 정본색 #8247E5 를 흰색 24% 로 밝힌 틴트. 칩은 이 색을 배경(13%)과 글자에 함께 쓰는데
+    // 원본은 zinc-950 위에서 3.46:1 로 AA 미달이었다(10종 중 유일). 5.10:1 — 여유를 둔다.
     price: 0.5231, change24h: -0.92, changeWeek: -3.4, changeMonth: 6.7, changeYear: -18.2,
   },
   {

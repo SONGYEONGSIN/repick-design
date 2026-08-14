@@ -35,7 +35,7 @@ export default function RecentTransactions() {
       {rows.length === 0 ? (
         <div role="status" className="mt-3 flex flex-col items-center gap-2 rounded-xl border border-dashed border-white/10 py-10 text-center">
           <History aria-hidden="true" className="size-5 text-zinc-600" />
-          <p className="text-sm text-zinc-500">No recent transactions for this asset.</p>
+          <p className="text-sm text-zinc-400">No recent transactions for this asset.</p>
         </div>
       ) : (
         <div className="mt-3 -mx-5 overflow-x-auto px-5">
@@ -54,16 +54,16 @@ export default function RecentTransactions() {
             </caption>
             <thead>
               <tr className="border-b border-white/5 text-left">
-                <th scope="col" className="py-2 pr-3 text-[11px] font-medium uppercase tracking-wider text-zinc-500">
+                <th scope="col" className="py-2 pr-3 text-[11px] font-medium uppercase tracking-wider text-zinc-400">
                   Transaction
                 </th>
-                <th scope="col" className="py-2 pl-2 text-right text-[11px] font-medium uppercase tracking-wider text-zinc-500">
+                <th scope="col" className="py-2 pl-2 text-right text-[11px] font-medium uppercase tracking-wider text-zinc-400">
                   Amount
                 </th>
-                <th scope="col" className="py-2 pl-2 text-right text-[11px] font-medium uppercase tracking-wider text-zinc-500">
+                <th scope="col" className="py-2 pl-2 text-right text-[11px] font-medium uppercase tracking-wider text-zinc-400">
                   Date
                 </th>
-                <th scope="col" className="py-2 pl-2 text-right text-[11px] font-medium uppercase tracking-wider text-zinc-500">
+                <th scope="col" className="py-2 pl-2 text-right text-[11px] font-medium uppercase tracking-wider text-zinc-400">
                   Status
                 </th>
               </tr>
@@ -94,7 +94,7 @@ export default function RecentTransactions() {
                           {/* The 3-pane center card stays narrow even on desktop (≈450px), so
                               quantity is always shown as subtext rather than its own column —
                               adding a column at a viewport breakpoint would overflow the card. */}
-                          <span className="block truncate text-xs text-zinc-500">
+                          <span className="block truncate text-xs text-zinc-400">
                             {formatQty(tx.qty, txAsset?.decimals ?? 2)} {tx.symbol}
                           </span>
                         </span>
@@ -105,7 +105,7 @@ export default function RecentTransactions() {
                       {formatUSD(tx.value).replace(/\.00$/, "")}
                     </td>
                     {/* Dates are stored pre-abbreviated (e.g. "7.11") to fit the narrow center pane */}
-                    <td className="whitespace-nowrap py-2.5 pl-2 text-right tabular-nums text-zinc-500">
+                    <td className="whitespace-nowrap py-2.5 pl-2 text-right tabular-nums text-zinc-400">
                       {tx.date}
                     </td>
                     <td className="whitespace-nowrap py-2.5 pl-2 text-right">

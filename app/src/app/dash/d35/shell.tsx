@@ -282,7 +282,7 @@ export function Topbar({ onOpenPalette, onOpenMobileNav }: { onOpenPalette: () =
         )}
       >
         <Search size={16} aria-hidden="true" className="shrink-0" />
-        <span className="hidden truncate sm:inline">Search holdings or asset classes</span>
+        <span className="sr-only truncate sm:not-sr-only sm:inline">Search holdings or asset classes</span>
         <span
           aria-hidden="true"
           className={cx("ml-auto hidden shrink-0 rounded-md border px-1.5 py-0.5 text-[11px] font-medium sm:inline-flex", BORDER, "bg-white dark:bg-zinc-950", TEXT_CAPTION)}
