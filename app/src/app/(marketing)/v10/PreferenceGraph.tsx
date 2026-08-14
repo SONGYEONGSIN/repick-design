@@ -202,7 +202,10 @@ export default function PreferenceGraph() {
                     </span>
                     <span
                       className={cx(
-                        "shrink-0 text-[0.72rem] font-extrabold text-[#6E56CF] sm:text-xs",
+                        // accent #6E56CF 는 이 다크면에서 3.45:1 로 소형 텍스트 AA 미달이다.
+                        // 정본 §Color Tokens 의 용도 제한대로 밝은 틴트를 쓴다(이 작품이
+                        // 이미 쓰던 값). Lighthouse 실측 2026-08-14.
+                        "shrink-0 text-[0.72rem] font-extrabold text-[#a894f7] sm:text-xs",
                         NUM,
                       )}
                     >

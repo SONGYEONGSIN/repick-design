@@ -213,7 +213,7 @@ export default function LandingClient() {
                     <span
                       className={cx(
                         NUM,
-                        "text-sm font-semibold text-white/40 line-through",
+                        "text-sm font-semibold text-zinc-400 line-through",
                       )}
                     >
                       {comma(card.retail)} won
