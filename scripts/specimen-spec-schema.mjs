@@ -14,6 +14,8 @@ export const SUBSET_IDS = [
   "pd1", "pw1", "mk1",
   // 배치 3 (2026-08-14): 최신 승격·주문 6종 — 이걸로 카탈로그 전 작품이 채워졌다
   "v11", "d41", "d42", "d43", "d44", "d45",
+  // 2026-08-15 주간 반증 승격분 — 이 줄부터는 승격과 같은 PR에서 채운다(specimen-works-coverage 가 강제)
+  "v12", "n8", "n9",
 ];
 
 export function validateSpec(spec) {
