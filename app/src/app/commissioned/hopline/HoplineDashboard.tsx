@@ -95,7 +95,7 @@ export default function HoplineDashboard() {
       </a>
 
       <header className="sticky top-0 z-20 border-b border-zinc-200 bg-white/90 backdrop-blur">
-        <div className="mx-auto flex w-full max-w-[1600px] flex-wrap items-center gap-2 px-4 py-3 sm:px-6">
+        <div className="flex w-full flex-wrap items-center gap-2 px-4 py-3 sm:px-6">
           <div className="flex min-w-0 items-center gap-2.5">
             <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-orange-600">
               <Link2 className="h-4.5 w-4.5 text-white" aria-hidden="true" />
@@ -202,7 +202,7 @@ export default function HoplineDashboard() {
         </div>
       </header>
 
-      <main className="mx-auto w-full max-w-[1600px] px-4 pt-8 sm:px-6">
+      <main className="w-full px-4 pt-8 sm:px-6">
         {/* 2 — reading band */}
         <section aria-labelledby="hopline-band">
           <div className="grid gap-4 lg:grid-cols-12">

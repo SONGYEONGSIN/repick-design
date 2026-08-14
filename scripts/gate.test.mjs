@@ -4,7 +4,7 @@ import {
   normalizeStatic, normalizeSweep, normalizeA11y, normalizePerf,
   normalizeNativeRun, buildVerdict, parseArgs, filesForRoute, worstLighthouse,
   parseNativeTsc, screenSourceDir,
-  countFontWeights, normalizeWeights, renderedWeights, normalizeLint, normalizeRoutes, parseTscOutput, normalizeTypes, normalizeConsole,
+  countFontWeights, normalizeWeights, countDisplayFaces, normalizeDisplayFaces, displayFaceViolations, renderedWeights, normalizeLint, normalizeRoutes, parseTscOutput, normalizeTypes, normalizeConsole,
 } from './gate.mjs';
 
 test('filesForRoute — .ts 파일도 스캔한다', () => {
@@ -152,6 +152,68 @@ test('countFontWeights — 파일들에 걸친 고유 웨이트 집합을 센다
 test('countFontWeights — 주석 속 언급은 세지 않는다', () => {
   const r = countFontWeights(['// font-black 쓰지 말 것\n<p className="font-light">a</p>']);
   assert.deepEqual(r.weights, ['light']);
+});
+
+test('countDisplayFaces — 라우트 전체에서 쓰인 디스플레이 활자 집합을 센다', () => {
+  // 파일 단위로는 절대 안 걸린다. verdant(d44)가 grotesk 를 네 파일에서 쓰고 rail.tsx 한 줄에서만
+  // mono 를 썼는데, `no-unlisted-font` 는 두 변수 다 화이트리스트 소속이라 통과시켰다. 위반은
+  // **작품 전체를 가로질러야** 보인다 — 웨이트 3종 규칙을 라우트 단위로 센 것과 같은 이유다.
+  const r = countDisplayFaces([
+    'style={{ fontFamily: "var(--font-display-grotesk)" }}',
+    'style={{ fontFamily: "var(--font-display-mono)" }}',
+  ]);
+  assert.deepEqual(r.faces, ['display-grotesk', 'display-mono']);
+  assert.equal(r.count, 2);
+});
+
+test('countDisplayFaces — 본문 활자(sans·mono)는 디스플레이 면이 아니다', () => {
+  // `--font-mono` 는 표·카드번호의 tabular 본문 활자고 화이트리스트에서 display 계열과 별개 항목이다.
+  // 이걸 세면 숫자를 등폭으로 쓰는 대시보드가 전부 위반이 되어 규칙이 즉시 무의미해진다.
+  const r = countDisplayFaces([
+    'style={{ fontFamily: "var(--font-sans)" }}',
+    'style={{ fontFamily: "var(--font-mono)" }}',
+    'style={{ fontFamily: "var(--font-display-wide)" }}',
+  ]);
+  assert.deepEqual(r.faces, ['display-wide']);
+  assert.equal(r.count, 1);
+});
+
+test('countDisplayFaces — 주석 속 언급은 세지 않는다', () => {
+  const r = countDisplayFaces(['/* var(--font-display-mono) 는 쓰지 않는다 */\nvar(--font-display-grotesk)']);
+  assert.deepEqual(r.faces, ['display-grotesk']);
+});
+
+test('normalizeDisplayFaces — 2종 이상은 하드페일, 0·1종은 통과', () => {
+  // 웨이트와 달리 기록전용이 아니다. 소급 스캔에서 41작품 중 위반이 **1건**뿐이라(1종 17 · 0종 23)
+  // 하드페일로 올려도 기존 카탈로그를 깨지 않는다 — 웨이트 규칙을 기록전용에 묶어 둔 근거(41% 위반)와
+  // 정확히 반대되는 실측이다.
+  assert.equal(normalizeDisplayFaces({ count: 1, faces: ['display-grotesk'] }).length, 0);
+  assert.equal(normalizeDisplayFaces({ count: 0, faces: [] }).length, 0);
+  const v = normalizeDisplayFaces({ count: 2, faces: ['display-grotesk', 'display-mono'] });
+  assert.equal(v.length, 1);
+  assert.equal(v[0].rule, 'multi-display-face');
+  assert.match(v[0].detail, /display-grotesk.*display-mono/);
+});
+
+test('displayFaceViolations — 라우트를 가로질러 합산하지 않는다', () => {
+  // 한 번의 게이트 호출이 여러 라우트를 받으면(주문 제작·수동 확인에서 흔하다) 소스가 합쳐진다.
+  // 합집합으로 세면 **각자 1종인 두 작품**이 2종 위반으로 뜬다 — 실제로 verdant(grotesk) + hopline(mono)를
+  // 한 호출에 넣었을 때 그렇게 나왔다. 규칙의 단위는 작품이므로 그룹 단위로 센다.
+  const v = displayFaceViolations([
+    { route: '/a', sources: ['var(--font-display-grotesk)'] },
+    { route: '/b', sources: ['var(--font-display-mono)'] },
+  ]);
+  assert.deepEqual(v, [], '서로 다른 작품의 활자는 합산 대상이 아니다');
+});
+
+test('displayFaceViolations — 위반한 라우트를 지목한다', () => {
+  const v = displayFaceViolations([
+    { route: '/ok', sources: ['var(--font-display-wide)'] },
+    { route: '/bad', sources: ['var(--font-display-grotesk)', 'var(--font-display-mono)'] },
+  ]);
+  assert.equal(v.length, 1);
+  assert.equal(v[0].route, '/bad');
+  assert.equal(v[0].rule, 'multi-display-face');
 });
 
 test('normalizeWeights — 기록 전용: 어떤 개수든 통과하되 개수를 detail에 남긴다', () => {
