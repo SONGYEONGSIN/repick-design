@@ -318,35 +318,33 @@ export const STYLE_RULES: StyleRule[] = [
   },
 ];
 
-export type BrandColor = { id: string; name: string; hex: string; swatch: string; use: string };
+// `swatch` 유틸리티 클래스를 뺐다 — 색은 `hex` 하나에서만 나온다. 두 필드가 있던 동안
+// 4색 중 2색이 갈라졌다(2026-08-14 실측). 렌더는 `KitBody` 가 `hex` 로 직접 칠한다.
+export type BrandColor = { id: string; name: string; hex: string; use: string };
 
 export const BRAND_COLORS: BrandColor[] = [
   {
     id: "amber",
     name: "Tolvan Amber",
     hex: "#D97706",
-    swatch: "bg-amber-600",
     use: "The mark and one accent per layout. Never as text below 16px.",
   },
   {
     id: "black",
     name: "Yard Black",
     hex: "#18181B",
-    swatch: "bg-zinc-900",
     use: "Wordmark, headings, and body text. The default, not the exception.",
   },
   {
     id: "paper",
     name: "Terminal Paper",
     hex: "#FAFAF9",
-    swatch: "bg-stone-50",
     use: "Backgrounds. The mark sits on this or on white, never on a photograph.",
   },
   {
     id: "rust",
     name: "Signal Rust",
     hex: "#9A3412",
-    swatch: "bg-orange-800",
     use: "Fault states inside the product only. Not a marketing color.",
   },
 ];

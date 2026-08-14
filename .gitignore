@@ -22,3 +22,8 @@ vault/.obsidian/workspace.json
 .vercel
 .env*
 .ref-tmp/
+
+# 다른 하네스용 스킬 미러·에디터 설정 — 저장소 정본은 .claude/skills 다.
+# 2026-08-14 에 git add -A 로 실수로 추적됐다가 해제했다(디스크에는 남는다).
+.agents/
+.codex/
