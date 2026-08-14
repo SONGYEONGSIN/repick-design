@@ -2334,5 +2334,740 @@
       }
     ],
     "agentPrompt": "# Recreate: KEPT (a scene page carried by one particle field)\n\nBuild a page whose spine is a single fixed WebGL2 particle layer. The copy is not decorated by the scene — it passes over it like a caption track.\n\n**Architecture:** one canvas at the page root, `fixed inset-0`, behind the content, `aria-hidden` and never taking pointer events. Behind it, two black layers: a fixed viewport one, and an `absolute inset-0` one spanning the whole *document*. The second is not cosmetic — an audit resolves an element's background from what overlaps its rect, so with only a viewport-sized layer the footer falls through to the body's light scheme and fails contrast. Never put a background colour on the content wrapper: it paints over the canvas and blanks the field with no error anywhere.\n\n**The field:** roughly 18,000 points in one draw call, morphing continuously through four silhouette states — a dust vortex, orbital rings, a recognisable object, and the wordmark. The only input is document scroll progress; there are no pinned sections and nothing swaps content in place. Recognisable forms are drawn once onto an offscreen 2D canvas and their opaque pixels sampled by a seeded generator, binned into depth shells emitted outermost-first. Solve the vortex and the rings parametrically — rasterising an exact equation only adds error. Always supply a fallback for the empty-raster case, or the field silently disappears.\n\n**Transitions:** hand off with a swirl, not an explosion. Every particle rotates about the axis by an amount that falls off with radius, so the inner mass turns further than the rim and one silhouette unwinds into the next. Square the sine so the ends flatten — a plain sine still has the middle of the object rotated tens of degrees at the scroll position where it is supposed to be parked. With four states, rotation must return to zero at *each* of them, not only at scroll 0 and 1. Keep per-particle lag short enough that no particle straddles two segments.\n\n**Determinism (non-negotiable):** an inline seeded PRNG, never Math.random. Exactly one clock — a small idle drift — pinned to zero under a capture freeze flag injected before the first frame and under prefers-reduced-motion, with the render loop stopping entirely in either case rather than repainting a still frame. Write the entry bloom as a mount transition that starts *finished* when frozen, so a captured frame is identical to one from a build without it. Everything else is a pure function of scroll offset and pointer position.\n\n**Pointer:** two responses, both pure functions of position with no easing timer, so they stop the instant the cursor does and contribute nothing when no cursor exists. A local lens that opens and brightens the sculpture underneath it, and a depth-layered parallax on the ambient background particles. Aspect-correct the pointer before use, and define an off-screen sentinel for absence.\n\n**Density and colour:** split the palette into rim and core sets and mix them with a continuous depth ramp, never a binary switch — a hard split paints a neon sticker around the shape. Keep the rim chromatic and the core mostly achromatic so overlapping particles do not wash every silhouette white. Reserve a few percent of the field as an ambient layer that skips the morph and holds its own scattered home in every buffer, so no frame is ever empty between states. Scale point size with openness so the field goes fine-grained as it closes, and give the ambient layer a linear size curve rather than the sculpture's heavy tail.\n\n**Layout:** no fixed max-width anywhere. One fluid shell around 82vw, falling back to the viewport minus a fixed gutter on phones. A fixed header with a gradient scrim behind it — masked to transparent, never a bar — so copy and particles cannot pass through the nav. Give each statement its own full-viewport band so it is read through the dispersed field. Divide the proof and method rows with hairlines and no gap. End with roughly a viewport of bottom padding so the last scroll positions hand the frame to the final silhouette alone.\n\n**Type:** one wide display face, three weights only — extralight for display and statements, normal for body, semibold for small caps. Every size fluid via clamp. Text stays at full opacity: contrast is audited at scroll zero, so a scroll-linked opacity ramp on text reads as a failure regardless of how it looks mid-scroll. Separation comes from a zero-offset halo on body copy only.\n\n**Accessibility:** split-character reveals render their glyphs `aria-hidden` with the real sentence carried by an sr-only copy. The page must read identically with the canvas absent."
+  },
+  "cr1": {
+    "id": "cr1",
+    "palette": [
+      {
+        "token": "zinc-950",
+        "hex": "#09090b",
+        "role": "Canvas",
+        "usage": "The whole page ground and the slide-over drawer's own background, so the drawer reads as the same surface pulled forward rather than a lighter modal"
+      },
+      {
+        "token": "zinc-900",
+        "hex": "#18181b",
+        "role": "Section seams + alternating band",
+        "usage": "Every section's top border, and the tinted band (at 30% alpha) that alternates behind the How we work and How we grow editorial blocks so the three prose sections read as a rhythm rather than one long column"
+      },
+      {
+        "token": "zinc-800",
+        "hex": "#27272a",
+        "role": "Inventory container",
+        "usage": "The single rounded border around the entire open-roles list plus the divider between every row — one card holding twelve rows, not twelve cards"
+      },
+      {
+        "token": "zinc-700",
+        "hex": "#3f3f46",
+        "role": "Control outline",
+        "usage": "Resting borders on the filter chips, the sort segmented pair, and the drawer's close button; also the SVG diagram line colour so the illustrations sit at control weight, not at heading weight"
+      },
+      {
+        "token": "zinc-400",
+        "hex": "#9f9fa9",
+        "role": "Body text",
+        "usage": "All editorial prose, the row's team/location/type columns, the live Showing N of M count, and the benefits captions"
+      },
+      {
+        "token": "zinc-50",
+        "hex": "#fafafa",
+        "role": "Display text",
+        "usage": "The h1, every section heading, the role title in each row, and the drawer title — the only near-white in the type scale"
+      },
+      {
+        "token": "blue-500",
+        "hex": "#2b7fff",
+        "role": "Accent — solid fills",
+        "usage": "The two filled surfaces on the route: the skip link when focused, and Apply for this role at the bottom of the drawer, both with near-black label text"
+      },
+      {
+        "token": "blue-400",
+        "hex": "#51a2ff",
+        "role": "Accent — interaction and marks",
+        "usage": "Focus-visible ring on every control, the row chevron that rotates when its drawer is open, and the bullet dots in the drawer's responsibility and requirement lists"
+      },
+      {
+        "token": "blue-300",
+        "hex": "#8ec5ff",
+        "role": "Accent — labels",
+        "usage": "The uppercase tracked eyebrow above the h1, the Open role kicker inside the drawer, and the What comes with the role heading on the benefits strip"
+      },
+      {
+        "token": "diagram-blue",
+        "hex": "#60a5fa",
+        "role": "Diagram highlight (literal, not a token)",
+        "usage": "Hardcoded in the three inline SVGs to stroke exactly one element per diagram — the central node, the third bar, the top step — so each illustration has a single focal point"
+      },
+      {
+        "token": "diagram-plate",
+        "hex": "#0a0a0f",
+        "role": "Diagram fill (literal, not a token)",
+        "usage": "Fill inside every SVG circle so connecting lines are visually cut at the node edge instead of passing through it"
+      }
+    ],
+    "typography": "Body runs on the sans stack; the h1 alone is set in the wide display face, which keeps the display voice as a single event rather than a texture. Exactly three weights route-wide: font-normal for all prose and row metadata, font-semibold for row titles, chip labels and buttons, font-black for the h1, the three section headings, the drawer title, and the benefit figures. Scale: h1 at 4xl climbing to 5xl and 6xl with leading-[1.05] and tight tracking; section headings 2xl to 3xl; prose at base with relaxed leading and lg for the hero lede; row titles at base; the eyebrow and the two group labels at sm and xs uppercase with 0.2em and 0.14em tracking. Every count is tabular-nums — the headcount figures in the hero, the Showing N of M pair, and the oversized benefit values (Unlimited, 100%, $2,000, 16 weeks, 6 years, 4).",
+    "spacing": "A single max-w-5xl measure from header to footer, with px-4 rising to px-6. Sections are separated by a hairline top border and py-16, and the hero opens at pt-16 rising to pt-24. The three editorial blocks alternate their grid template — 1.3fr/1fr with the diagram right, then 1fr/1.3fr with the diagram moved to first order so it lands left — which produces a zig-zag without any new component. The roles inventory is one rounded-2xl bordered container whose rows are divided rather than gapped; each row is a five-track grid (title, team, location, type, chevron) above the sm breakpoint that collapses to a single stacked column below it, so the phone layout loses columns instead of gaining a horizontal scrollbar. The drawer is a full-height right-edge panel capped at max-w-lg with its own px-6 to px-8 padding and internal mt-7 rhythm between its subheadings. The benefits strip sits at mt-14 as a rounded-2xl panel with a two-up grid that becomes three-up at sm.",
+    "philosophy": "Fathom Labs treats the job list as the argument and the culture writing as its footnotes. The page opens with three editorial blocks about how the company works, builds and grows, each paired with a deterministic inline SVG, but every one of them ends where the inventory begins — and the inventory is one unbroken list of twelve roles rendered before any control is touched. The two chip facets and the sort pair subtract rows from a list already on screen; they never collapse it into groups, and the slide-over drawer adds the full job description without ever being the place a visitor learns that a role exists. That ordering is the whole design position: a careers page whose default state shows department names and counts has published nothing, so this one publishes the titles first and treats every interaction as a way to see less of an inventory you have already been shown. The drawer earns its dialog role rather than borrowing it — focus moves to the close button on open, Tab cycles inside the panel, Escape closes, focus returns to the row that opened it, and body scroll locks while it is up. The copy carries the same discipline: a pipeline that handles two million events a second, a two-thousand-dollar budget spent without a manager's approval, an explicit rule that paging the same person three nights running is a bug in the system. Each is specific enough to be wrong, which is what makes the rest believable.",
+    "dosDonts": [
+      {
+        "do": "Render every open role as a row in the default state, and let the facet chips subtract rows from a list already on screen.",
+        "dont": "Group roles under collapsible departments — a first screen showing only department names and counts has published nothing a candidate can act on."
+      },
+      {
+        "do": "Put title, team, location and type in the row and the full description in the drawer.",
+        "dont": "Put anything behind the drawer that a visitor needs in order to decide whether the role exists at all."
+      },
+      {
+        "do": "Build the drawer's focus trap by hand: focus the close button on open, cycle Tab within the panel, restore focus to the triggering row on close, and lock body scroll while it is open.",
+        "dont": "Ship a right-edge panel with a dialog role and no trap — Escape and focus return are what make it a dialog rather than decoration."
+      },
+      {
+        "do": "Mark an active chip with a check icon as well as the accent fill and border.",
+        "dont": "Let the accent fill alone carry the selected state of a filter."
+      },
+      {
+        "do": "Draw the three culture diagrams as inline SVG with exactly one element stroked in the accent, and fill the node interiors with a near-black plate so lines are cut at the node edge.",
+        "dont": "Reach for photography or a remote image host to illustrate culture copy."
+      },
+      {
+        "do": "Keep a Clear filters escape hatch for facet combinations that legitimately return nothing, and announce the count through a polite live region.",
+        "dont": "Let a two-facet AND filter drop to an empty container with no way back to the full list."
+      },
+      {
+        "do": "Carry the role title into the application mailto subject so the message arrives pre-addressed.",
+        "dont": "Send every applicant to one bare address and make them retype which role they mean."
+      }
+    ],
+    "agentPrompt": "# Recreate: Fathom Labs careers (manifesto + faceted list + slide-over drawer)\n\nBuild a dark careers page for an observability company whose spine is a single, always-visible inventory of twelve open roles.\n\n**Palette:** `zinc-950` canvas throughout, including the drawer — the drawer is the same surface pulled forward, not a lighter modal. `zinc-900` for section seams and for the 30%-alpha band that alternates behind the first and third editorial blocks. `zinc-800` for the one container border around the whole role list and the dividers between its rows. `zinc-700` for resting control outlines and for the SVG diagram strokes. `zinc-400` for all prose, `zinc-50` for display text. Accent is blue in three steps: `blue-500` fills the two solid surfaces (focused skip link, Apply button), `blue-400` carries every focus ring plus the row chevron and list bullets, `blue-300` carries uppercase tracked labels. The diagrams use two literal hexes rather than tokens — `#60a5fa` to stroke exactly one element each, `#0a0a0f` to fill node interiors so connecting lines stop at the edge.\n\n**Type:** sans body with the wide display face on the h1 only. Exactly three weights: normal for prose and row metadata, semibold for row titles and buttons, black for the h1, the three section headings, the drawer title and the benefit figures. h1 at 4xl to 6xl with leading-1.05; eyebrow and group labels at sm and xs uppercase with 0.2em and 0.14em tracking. Every numeral is tabular — headcounts, the Showing N of M pair, the oversized benefit values.\n\n**Layout:** one max-w-5xl measure end to end. Header with a wordmark and a jump-to-roles pill. Hero: eyebrow, h1, lede, a one-line headcount sentence. Then three editorial blocks — How we work / How we build / How we grow — each a two-column grid whose template flips between blocks so the diagram alternates sides without a second component. Then the roles section: two chip rows (team, location), a live count paired with a two-button sort (Newest, Title A–Z), and one rounded container holding twelve divided rows. Each row is a five-track grid above sm — title, team, location, type, chevron — collapsing to a stacked single column below, so the phone loses columns rather than gaining a scrollbar. A benefits strip closes the section as a rounded panel of six oversized figures with captions.\n\n**Behavior:** chips are toggles with an All option per facet; sort reorders by a hand-assigned rank or alphabetically; a row opens a right-edge drawer capped at max-w-lg carrying summary, responsibilities, requirements and an apply mailto whose subject already names the role. Build the trap by hand: focus the close button on open, cycle Tab inside the panel, close on Escape, return focus to the triggering row, lock body scroll while open. Filter results are announced through a polite live region and an empty combination gets a Clear filters button. Data is deterministic — ordering uses a hand-assigned integer rank, never a timestamp, and no clock is read anywhere.\n\n**Feel:** editorial on the way down, catalogue at the bottom, and nothing in the catalogue is behind a click. Culture copy is specific enough to be falsifiable — a named throughput figure, a named budget, a named on-call rule — which is what earns the list beneath it."
+  },
+  "cr2": {
+    "id": "cr2",
+    "palette": [
+      {
+        "token": "zinc-950",
+        "hex": "#09090b",
+        "role": "Canvas",
+        "usage": "Page ground, and the label colour on both teal-filled buttons so the accent never carries white text"
+      },
+      {
+        "token": "zinc-900",
+        "hex": "#18181b",
+        "role": "Card and panel fill",
+        "usage": "Role cards and the level-explorer panel at 60% alpha, the comp section band at 30% — a two-step lift off the canvas rather than a single flat surface colour"
+      },
+      {
+        "token": "zinc-800",
+        "hex": "#27272a",
+        "role": "Borders and slider track",
+        "usage": "Every border on the route — header, sections, cards, the divider inside an opened card — and the unfilled portion of the level range track"
+      },
+      {
+        "token": "zinc-600",
+        "hex": "#52525c",
+        "role": "Checkbox outline",
+        "usage": "The resting border of the eight native filter checkboxes, one step lighter than card borders so the controls read as controls"
+      },
+      {
+        "token": "zinc-400",
+        "hex": "#9f9fa9",
+        "role": "Secondary text",
+        "usage": "The hero lede, the role meta line under each title, the Showing N of M count, the L1 to L5 tick labels, and the base/equity field labels"
+      },
+      {
+        "token": "zinc-300",
+        "hex": "#d4d4d8",
+        "role": "Disclosed body text",
+        "usage": "Checkbox labels and the responsibility bullets revealed inside an opened card — a step brighter than the meta line, because this is the content the disclosure was opened for"
+      },
+      {
+        "token": "zinc-50",
+        "hex": "#fafafa",
+        "role": "Display text",
+        "usage": "h1, section headings, fieldset legends, role titles, the current level name, and the base and equity figures"
+      },
+      {
+        "token": "teal-400",
+        "hex": "#00d5be",
+        "role": "Accent — fills and native accent-color",
+        "usage": "Both call-to-action pills, the checked state of the filter checkboxes, and the range input's thumb and filled track, all via the native accent-color property rather than a custom control"
+      },
+      {
+        "token": "teal-300",
+        "hex": "#46ecd5",
+        "role": "Accent — text and hover",
+        "usage": "The Careers at Talus eyebrow, the Level explorer label, the Clear filters link in the empty state, and the hover fill of both pills"
+      }
+    ],
+    "typography": "No display face at all — the route runs entirely on the sans stack and builds hierarchy from size, tracking and colour. Exactly three weights: font-normal for prose, meta lines, tick labels and checkbox labels; font-semibold for section headings, legends, role titles, links and buttons; font-black for the h1 and the current level name only. The h1 runs 4xl to 5xl to 6xl with leading-[1.05] while section headings stay at 2xl semibold, so the opening claim outweighs everything after it by two levels at once. Uppercase tracked labels appear at sm with 0.2em (the eyebrow) and at xs with 0.14em and 0.1em (Level explorer, Base salary, Equity). Every figure is tabular-nums: the Showing N of M count, the tick row, and the base and equity strings, which keeps the two comp cells optically aligned as the slider moves.",
+    "spacing": "max-w-5xl throughout with px-4 to px-6, sections divided by hairline top borders and py-16, hero at pt-16 to pt-24. The two filter fieldsets sit in one wrapping flex row with a generous 8-unit gap between facets and tighter 4-unit and 2-unit gaps between the checkboxes inside each, so the facet boundary is legible from spacing before the legend is read. Role cards are a one-column grid becoming two at sm, gapped at 3 units, each rounded-xl with p-4 — deliberately compact, because eight cards should fit in roughly one and a half screens. An opened card adds its responsibilities above a top border at pt-3. The level explorer is capped at max-w-xl so the slider stays a comfortable drag distance, inside a rounded-2xl panel at p-6 to p-8; the L1 to L5 ticks sit immediately under the track in a justify-between row so each label lands under its own step, and the base and equity cells sit in a two-up grid of bordered boxes beneath the summary line.",
+    "philosophy": "Talus argues that a published compensation band is worth more than a page of culture copy, and it builds the entire route around making that claim checkable. The headline states it outright — eight open roles, every comp band published rather than negotiated blind — and the two devices below exist to back it. The first is a faceted filter built from real form semantics: two fieldsets with legends and eight native checkboxes, ANDed across facets, where no boxes checked means all eight roles render. The default state is therefore the complete inventory, and a filter can only ever be an act of subtraction the visitor performed themselves. The second is the level explorer, and its restraint is the point: the range input is an index into five fixed, pre-written level records, never a multiplier. The page cannot compute a salary, so it cannot compute a wrong one — what the slider shows is exactly what was published, and the aria-valuetext announces the level name rather than an integer. Between them sit the role cards, where the disclosure is a native details element carrying an explicit chevron because list-none removes the browser's own marker; the title, team, location and comp note stay in the summary, and only the responsibilities are behind the toggle. The whole route refuses the two easy moves — hiding inventory behind a control and generating a number it cannot stand behind — and what is left is a page that can be read top to bottom without touching anything.",
+    "dosDonts": [
+      {
+        "do": "Build the two-facet filter from fieldset, legend and native checkboxes so assistive tech announces the group boundary and the checked state for free.",
+        "dont": "Rebuild the same filter out of buttons with aria-pressed and lose the grouping the legend was giving you."
+      },
+      {
+        "do": "Treat both facets empty as show everything, so the resting state is the full inventory.",
+        "dont": "Require a facet selection before the grid renders anything."
+      },
+      {
+        "do": "Give the disclosure summary a visible chevron, because removing the list marker removes the only native signal that the card opens.",
+        "dont": "Strip the marker with list-none and leave nothing in its place."
+      },
+      {
+        "do": "Let the range input select one of five fixed, published bands and announce the level name through aria-valuetext.",
+        "dont": "Multiply a slider position into a salary figure — a number the page computes is a number the page can be wrong about."
+      },
+      {
+        "do": "Keep title, team, location and the comp note in the summary line, above the toggle.",
+        "dont": "Put compensation behind the disclosure on a page whose headline promises published bands."
+      },
+      {
+        "do": "Set both accent fills against near-black label text and drive the checkbox and slider through the native accent-color property.",
+        "dont": "Hand-build a custom slider when the native range control already carries keyboard support and a valuetext hook."
+      },
+      {
+        "do": "Print base and equity as tabular numerals in two equal bordered cells so the figures hold their position as the level changes.",
+        "dont": "Let the comp figures reflow horizontally each time the slider moves."
+      }
+    ],
+    "agentPrompt": "# Recreate: Talus careers (faceted checkbox filter + card disclosure + level explorer)\n\nBuild a dark careers page for an infrastructure-monitoring company whose entire claim is that compensation is published rather than negotiated blind.\n\n**Palette:** `zinc-950` canvas, which is also the label colour on both accent-filled buttons — the accent never carries white text. `zinc-900` at 60% alpha for role cards and the level panel and at 30% for the comp section band, giving two distinct lifts off the ground. `zinc-800` for every border and for the unfilled slider track. `zinc-600` for the resting checkbox outline, one step lighter than card borders so controls read as controls. Text runs `zinc-400` for lede, meta and labels, `zinc-300` for checkbox labels and the bullets revealed inside an opened card, `zinc-50` for display. Accent is teal in two steps: `teal-400` for both pills, the checked checkbox and the range thumb, all through the native accent-color property; `teal-300` for the eyebrow, the Level explorer label, the empty-state link and both pill hovers.\n\n**Type:** no display face — sans only, hierarchy from size and tracking. Exactly three weights: normal for prose, meta and tick labels; semibold for headings, legends, titles and buttons; black for the h1 and the current level name and nothing else. h1 at 4xl to 6xl with leading-1.05 while section headings stay 2xl semibold, so the opening claim outranks everything by two steps. Uppercase tracked labels at sm/0.2em and xs/0.14em. Tabular numerals on the count, the L1–L5 ticks and both comp figures.\n\n**Layout:** max-w-5xl, sections divided by hairline top borders at py-16, hero pt-16 to pt-24. Filters: two fieldsets in one wrapping flex row, 8-unit gap between facets and 4/2-unit gaps inside them, so the facet boundary is visible before the legend is read. Roles: a one-column grid becoming two at sm, gap-3, cards rounded-xl at p-4 — compact on purpose, because eight cards should fit inside roughly a screen and a half. Level explorer: capped at max-w-xl inside a rounded-2xl panel at p-6 to p-8, with the five tick labels in a justify-between row directly under the track and a two-up grid of bordered cells for base and equity.\n\n**Behavior:** four teams and three locations as checkboxes; facets AND together; no boxes checked means all eight roles render. A live count reads Showing N of M. Each card is a native details element whose summary carries the title plus a team, location and comp-note line, with an explicit chevron because list-none removes the native marker; only responsibilities live behind the toggle. The level control is a native range input whose value indexes a fixed array of five levels, each with a pre-written base range, equity range and summary — it never calculates, and aria-valuetext announces the level name. An empty facet combination renders a message with an inline Clear filters button. No clock is read and no random source is used anywhere.\n\n**Feel:** transparent and unfussy. Every number on the page was written by a person and can be pointed at; nothing is behind a control except the paragraph you asked to see."
+  },
+  "cr3": {
+    "id": "cr3",
+    "palette": [
+      {
+        "token": "white",
+        "hex": "#ffffff",
+        "role": "Canvas",
+        "usage": "Page ground, individual role rows, the search field and select, and the perk tiles — content sits on white, chrome sits on the tinted bands"
+      },
+      {
+        "token": "zinc-50",
+        "hex": "#fafafa",
+        "role": "Band and rail fill",
+        "usage": "The roles section and benefits section grounds, plus the office sidebar and the no-matches notice — the tint that separates the two structural bands from the white content inside them"
+      },
+      {
+        "token": "zinc-200",
+        "hex": "#e4e4e7",
+        "role": "Hairline rules",
+        "usage": "Every section boundary, the hero statistics divider, role row borders, process cards, and the inactive office tab outline"
+      },
+      {
+        "token": "zinc-300",
+        "hex": "#d4d4d8",
+        "role": "Field outline",
+        "usage": "One step darker than the section rules, reserved for things you type in or press: the search input, the team select, and the per-row Apply pill"
+      },
+      {
+        "token": "zinc-900",
+        "hex": "#18181b",
+        "role": "Display ink + primary fill",
+        "usage": "The wordmark, h1, section headings, role titles and statistic values, and the filled See open roles pill in the header"
+      },
+      {
+        "token": "zinc-700",
+        "hex": "#3f3f46",
+        "role": "Lede prose",
+        "usage": "The hero paragraph and every section's introductory sentence"
+      },
+      {
+        "token": "zinc-600",
+        "hex": "#52525c",
+        "role": "Secondary text",
+        "usage": "Role meta lines, the live count, process step bodies, the overlap sentence beside each timezone bar, and the inactive tab label — the muted step chosen to clear AA on the zinc-50 rail, where zinc-500 would not"
+      },
+      {
+        "token": "zinc-500",
+        "hex": "#71717b",
+        "role": "Micro-labels on white",
+        "usage": "The four hero statistic labels, per-office headcount labels and the UTC axis ticks — all of which sit on white or on a white card, where this step is still AA"
+      },
+      {
+        "token": "amber-800",
+        "hex": "#973c00",
+        "role": "Accent — text",
+        "usage": "The Careers at Isoline eyebrow, the numbered process markers, the active tab's role count, the Clear filters link and the Apply hover state — the darkest amber, chosen because amber at text size on white has to be this deep to hold contrast"
+      },
+      {
+        "token": "amber-600",
+        "hex": "#e17100",
+        "role": "Accent — selection and data",
+        "usage": "The active office tab's border and the solid segment of each timezone bar that marks real overlap with headquarters"
+      },
+      {
+        "token": "amber-500",
+        "hex": "#fe9a00",
+        "role": "Accent — solid fill",
+        "usage": "The one filled amber surface on the route: the Email the team button, carrying near-black label text"
+      },
+      {
+        "token": "amber-200",
+        "hex": "#fee685",
+        "role": "Accent — background band",
+        "usage": "Each office's own working-hours band inside the 24-hour track, and the tinted panel behind the selected office's local perk"
+      },
+      {
+        "token": "zinc-100",
+        "hex": "#f4f4f5",
+        "role": "Track ground",
+        "usage": "The full 24-hour UTC rail behind every timezone bar, so unstaffed hours are a visible neutral rather than empty space"
+      }
+    ],
+    "typography": "The grotesk display face is used exactly twice — the wordmark and the h1 — and everything else runs on the sans stack, which keeps the geographic rail and the role rows in a neutral voice. Exactly three weights: font-normal for prose, meta lines and inactive tab labels; font-semibold for section headings, role titles, field labels, the active tab and statistic values; font-black for the h1 alone. The h1 runs 4xl to 5xl to 6xl at leading-[1.05] while section headings sit at 2xl semibold, so the display face and the heaviest weight arrive together, once. Statistic values are 2xl semibold tabular-nums over xs uppercase tracked labels; the process markers are two-digit zero-padded numerals set tabular so 01 through 04 hold the same width; the overlap readouts, the role counts on each tab, the headcounts and the five UTC axis ticks are all tabular as well.",
+    "spacing": "max-w-5xl throughout, with the page alternating white and zinc-50 bands separated by hairline top borders at py-16 and a hero opening at pt-16 to pt-24. The hero closes with a statistics row that is two-up on phones and four-up at sm, sitting above a border-t at pt-8. The explorer is the structural decision: a grid of 1fr and a fixed 320px rail at lg, with the roles column carrying min-w-0 so a long title cannot push the rail out. The office tab rail is a horizontally scrollable flex strip with negative margin bleed on phones and wraps normally at sm, and each tab is a two-line block — city above, tag and role count below — so the tabs carry data rather than just labels. Roles are grouped by city with 8-unit gaps between groups and 2-unit gaps between rows; each row is a wrapping flex that keeps the Apply pill on the same line until it cannot. There is no multi-column table anywhere on the route, by construction. Timezone bars are 3-unit-tall rounded rails with absolutely positioned percentage segments, stacked at 5-unit intervals with the axis ticks beneath the last one.",
+    "philosophy": "Isoline starts from the premise that the first question a candidate actually asks is where they would be, so geography is the page's navigation rather than one more filter chip. The roles section is an ARIA tablist of five scopes — All offices, plus Austin as headquarters, Lisbon, Singapore and Remote — with roving tabindex and arrow-key movement, and its default panel already renders all fourteen job titles grouped under their city headings with no click at all. The team select and the keyword field narrow on top of whichever office scope is active and neither can empty the page silently; a combination with no matches still renders a notice with a Clear filters link. What makes the geographic axis more than a relabelled filter is the sidebar: selecting an office also recomputes an overlap panel against headquarters, drawing each office's working hours on a shared 24-hour UTC rail with the overlapping segment filled solid, and printing the same fact in words above the bar so colour never carries meaning alone. Singapore's row reads no live overlap, async handoff — a zero the page prints rather than hides, which is the same instinct that files every role under a real city instead of a vague remote catch-all. The route also declines a shape on purpose: roles are single-column rows, never a four-column fixed table, because a table that technically does not overflow at 390px can still crowd its headers together and break titles across three lines. One caution the judging surfaced and worth carrying forward: a tab-dependent visualisation earns its place only when it adds a fact the adjacent text does not already state.",
+    "dosDonts": [
+      {
+        "do": "Build the office rail as a real tablist — roving tabindex, arrow-key movement, aria-selected, and a tabpanel labelled by its own tab.",
+        "dont": "Fake tabs with plain buttons that only set state, then leave keyboard users tabbing through all five."
+      },
+      {
+        "do": "Ship an All offices tab as the default so the geography axis costs zero clicks and every title is already grouped under its city.",
+        "dont": "Open on a single office and make the candidate discover that the other three exist."
+      },
+      {
+        "do": "State each overlap in words directly above its bar, so the visualisation reinforces a sentence rather than replacing it.",
+        "dont": "Encode overlap only as bar position and fill and expect it to be read."
+      },
+      {
+        "do": "Print the zero honestly — the office with no live overlap with headquarters gets the same row treatment as the one with three hours.",
+        "dont": "Drop or soften the office whose numbers look worst."
+      },
+      {
+        "do": "Render roles as single-column rows with a per-row Apply link whose mailto subject already carries the role and the city.",
+        "dont": "Lay fourteen roles into a four-column table-fixed grid — at 390px the headers crowd and titles break to three lines while an overflow check still reports clean."
+      },
+      {
+        "do": "Give the sidebar something the list does not already say: overlap hours, headcount, and that office's own local perk.",
+        "dont": "Fill a tab-dependent panel by restating a fact that is printed two inches away — that reads as decoration, not data."
+      },
+      {
+        "do": "Use the deepest amber for anything at text size on white, and reserve the mid and light steps for selection borders, data fills and background bands.",
+        "dont": "Set body-sized amber text in the same step you use to fill a button."
+      }
+    ],
+    "agentPrompt": "# Recreate: Isoline careers (office-first tablist + timezone overlap rail)\n\nBuild a light careers page for a payroll and compliance infrastructure company where geography, not department, is the browsing axis.\n\n**Palette:** `white` canvas with content on white — role rows, inputs, perk tiles — and structure on `zinc-50` bands (the roles section, the benefits section, the office sidebar). `zinc-200` for every hairline rule; `zinc-300` one step darker and reserved for things you type in or press (search field, team select, Apply pill). Ink is `zinc-900` for display and the header pill fill, `zinc-700` for lede prose, `zinc-600` for secondary text — pick this step, not the lighter one, because most secondary text sits on the tinted rail where the lighter step would miss AA — and `zinc-500` only for micro-labels that sit on white. Amber runs four steps by job: `amber-800` for anything at text size (eyebrow, process numerals, links, active tab count), `amber-600` for the active tab border and the solid overlap segment, `amber-500` for the single filled button with near-black text, `amber-200` for the working-hours band and the local-perk panel. The 24-hour rail behind the bars is `zinc-100` so unstaffed hours read as neutral rather than empty.\n\n**Type:** the grotesk display face appears exactly twice — wordmark and h1 — everything else is sans. Three weights: normal, semibold, black, with black on the h1 only. h1 at 4xl to 6xl and leading-1.05; section headings 2xl semibold. Statistic values 2xl semibold tabular over xs uppercase tracked labels. Process markers are zero-padded two-digit tabular numerals. Overlap readouts, per-tab role counts, headcounts and the five UTC axis ticks are all tabular.\n\n**Layout:** max-w-5xl, alternating white and tinted bands at py-16, hero pt-16 to pt-24 closing with a statistics row (two-up on phones, four-up at sm) above a divider. The explorer is a grid of 1fr plus a fixed 320px rail at lg, with the roles column carrying min-w-0 so a long title cannot shove the rail. The tab rail is a horizontally scrollable strip on phones that wraps at sm; each tab is two lines — city on top, tag and role count beneath. Roles group by city with 8-unit gaps between groups and 2-unit between rows, each row a wrapping flex holding title, meta line and an Apply pill. No multi-column table anywhere on the route, by construction.\n\n**Behavior:** five tab scopes — All offices plus four real cities — as a genuine tablist with roving tabindex and arrow keys. The default tab renders all fourteen titles grouped under city headings with zero interaction. A team select and a keyword field narrow within the active scope; neither can empty the page silently — a dead combination renders a notice with a Clear filters link, and the count is announced politely. Selecting an office also recomputes the sidebar: its blurb, its local perk, and an overlap panel drawing each office's working hours on a shared 24-hour UTC rail with the overlapping segment filled solid and headquarters' own window traced as an outline. Every hour comes from fixed integers; nothing reads a clock. Print the honest zero — the office with no overlap says so in words.\n\n**Feel:** a company that files every job under a real city and is willing to tell you which of them will never be awake when you are."
+  },
+  "ct2": {
+    "id": "ct2",
+    "palette": [
+      {
+        "token": "white",
+        "hex": "#ffffff",
+        "role": "Canvas",
+        "usage": "Page ground, the routing slip, the four desk cards, and the prepared-message box inside the handoff panel"
+      },
+      {
+        "token": "zinc-50",
+        "hex": "#fafafa",
+        "role": "Band fill",
+        "usage": "The triage console band, the resolve/escalate footer strip inside the slip, the two-up prep and limits band, and the footer — the tint that says this region is chrome around the white content"
+      },
+      {
+        "token": "zinc-200",
+        "hex": "#e4e4e7",
+        "role": "Hairline rules",
+        "usage": "Section boundaries, the divider under the h1 statistics, the internal rules inside each desk card, and the slip's header and footer separators"
+      },
+      {
+        "token": "zinc-300",
+        "hex": "#d4d4d8",
+        "role": "Field and slip outline",
+        "usage": "One step darker than the section rules and used only where something is typed, pressed or routed: the triage input, the two selects, the symptom chips, the slip's own border, and the resolve button"
+      },
+      {
+        "token": "zinc-900",
+        "hex": "#18181b",
+        "role": "Display ink + header fill",
+        "usage": "The wordmark, h1, section headings, desk names, the median and p90 figures, and the filled support-address pill in the header"
+      },
+      {
+        "token": "zinc-700",
+        "hex": "#3f3f46",
+        "role": "Body prose",
+        "usage": "All explanatory paragraphs, the desk purpose line, and the two footer link rows"
+      },
+      {
+        "token": "zinc-600",
+        "hex": "#52525c",
+        "role": "Micro-labels",
+        "usage": "The uppercase definition labels inside every desk card (Median first reply, Slowest 1 in 10, Answered by, Staffed, Handles), the search glyph, and the weekday initials on the coverage strip"
+      },
+      {
+        "token": "rose-800",
+        "hex": "#a50036",
+        "role": "Accent — text",
+        "usage": "Every inline link and every accent glyph at text size: the four desk addresses, the Skip to the four addresses escape link, the checkmarks in the prep and handles lists, the hour readout above the slider"
+      },
+      {
+        "token": "rose-700",
+        "hex": "#c70036",
+        "role": "Accent — solid actions",
+        "usage": "The two decisive buttons — put me through to a person, and open this in your email client — plus the send-hour range accent"
+      },
+      {
+        "token": "rose-400",
+        "hex": "#ff637e",
+        "role": "Coverage data",
+        "usage": "The staffed spans drawn on each desk card's seven-day, twenty-four-hour coverage strip, against a neutral track with a near-black marker at the chosen hour"
+      },
+      {
+        "token": "rose-100",
+        "hex": "#ffe4e6",
+        "role": "Step markers",
+        "usage": "The numbered circles on a routed resolution's step list, carrying a deep rose numeral"
+      },
+      {
+        "token": "rose-50",
+        "hex": "#fff1f2",
+        "role": "Handoff ground",
+        "usage": "The panel that appears when a visitor escalates or when nothing matches, plus the badge marking which desk card the message would go to — the one tint that says a person is now involved"
+      }
+    ],
+    "typography": "The wide display face is applied to five elements only — the wordmark, the h1 and the three section headings — and everything else stays on the sans stack, so a page dense with numbers keeps one editorial voice. Exactly three weights: font-normal for prose, field values and list items; font-semibold for labels, links, buttons, desk names and inline emphasis inside sentences; font-bold for the h1, the three display headings, and the median and p90 figures on each card. The h1 runs 4xl to 5xl to 6xl at leading-[1.06]; section headings are 2xl rising to 3xl; the routed verdict badge and the definition labels are xs uppercase with wide tracking. Everything measurable is tabular-nums — the quarterly counts and percentages in the hero, each desk's median and p90, the clock readouts on both sides of the send-time control, the wait duration in each card's estimate line, and the resolved-share percentages on the slip.",
+    "spacing": "max-w-6xl throughout with px-4 to px-6, and the page alternates white and zinc-50 bands separated by hairlines at py-14. The opening band is deliberately front-loaded: eyebrow, h1, two paragraphs, then a definition list of all four desks that runs one-up on phones, two-up at sm and four-up at lg, above a border-t at pt-8 — the addresses are in the first screen and ahead of the triage box in source order. The routing slip is a rounded-2xl bordered card built in three stacked zones with their own px-5 to px-6 rhythm: a header row carrying the symptom and its verdict badge, a body at py-6, and a footer strip that changes with the outcome. The desk board is a two-up grid at md of rounded-2xl cards at p-5 to p-6, each internally divided by three top borders into statistics, staffed hours and handles. The coverage strip inside a card is a seven-row grid of a 2rem label column and a flexible track, gapped tightly at 1 unit so the week reads as a block.",
+    "philosophy": "Tessera is built to be left rather than filled in — the number it says it tries to move is the share of visitors who close the tab with what they came for, not the count of messages it collects. That commitment is structural rather than editorial. All four desks, their working mailto addresses, their median first reply and their staffed hours are printed in the opening band, above the triage box and ahead of it in source order, and the triage box itself carries an explicit escape link down to them. The box then does something a search box normally does not: it does not narrow a list. It takes the single top-ranked resolution and replaces the entire slip with it, so the slip changes shape by verdict — an open incident, a documented answer with numbered steps, an answer a named desk already wrote, or a straight handoff — and a query matching nothing skips deflection altogether and opens the prepared message by itself. That distinction matters because a search that trims a result set is the skeleton a catalogue page already owns; routing to one verdict is not. The deferred question, when will I hear back, is answered without reading a clock: a weekday and hour you choose drives every card's estimate against that desk's real staffed window, and the seven-day coverage strip shows the hours nobody is on the desk as plainly as the hours somebody is. The honesty extends past the metrics — a p90 beside every median, three things the company does not do, a security address answered at any hour including weekends, and a postal address with the note that mail is opened twice a week.",
+    "dosDonts": [
+      {
+        "do": "Print every desk address as a working mailto in the opening band, before the triage box and ahead of it in source order.",
+        "dont": "Put a deflection funnel in front of the addresses — a contact page whose first interactive element intercepts you has chosen its own metric over the visitor's."
+      },
+      {
+        "do": "Replace the whole slip with one routed verdict and keep all four desk cards rendered underneath at every state.",
+        "dont": "Turn the input into a search that trims a result list — that is a catalogue skeleton wearing a contact page's clothes."
+      },
+      {
+        "do": "Let a query that matches nothing skip the deflection step entirely and open the handoff on its own, with the visitor's words already in the draft.",
+        "dont": "Serve three loosely related articles to someone the corpus cannot help."
+      },
+      {
+        "do": "Publish the p90 next to every median and draw the hours the desk is unstaffed as plainly as the hours it is staffed.",
+        "dont": "Publish a median alone — a single number is a promise, and a promise without its tail is unfalsifiable."
+      },
+      {
+        "do": "Handle a rejected clipboard write with a sentence telling the visitor to select the text above, and tie the confirmation to the draft string so editing the query retires a stale Copied message.",
+        "dont": "Assume the clipboard call resolves, or leave a confirmation on screen next to text it no longer describes."
+      },
+      {
+        "do": "Answer when will I hear back from a weekday and hour the visitor picks, counting only minutes somebody is actually on the desk.",
+        "dont": "Read the system clock to compute a reply estimate — it breaks hydration determinism and the answer is not reproducible."
+      },
+      {
+        "do": "Keep escalation exactly one button away from every resolution, including after the visitor has said the answer worked.",
+        "dont": "Treat a resolved outcome as terminal state with no path back to a person."
+      }
+    ],
+    "agentPrompt": "# Recreate: Tessera contact (deflection-first triage desk with the addresses printed first)\n\nBuild a light contact page for a payments reconciliation platform whose stated goal is that most visitors leave without writing.\n\n**Palette:** `white` canvas carrying the routing slip, the four desk cards and the prepared-message box. `zinc-50` for chrome bands — the triage console, the slip's decision footer, the prep-and-limits band, the page footer. `zinc-200` for hairline rules; `zinc-300`, one step darker, only for things typed, pressed or routed (triage input, both selects, symptom chips, the slip's own border). Ink is `zinc-900` for display type and the header address pill, `zinc-700` for prose, `zinc-600` for the uppercase definition labels inside each card. Rose runs five steps by job: `rose-800` for every inline link and text-size glyph, `rose-700` for the two decisive buttons and the hour slider, `rose-400` for staffed spans on the coverage strip, `rose-100` for numbered step markers, `rose-50` as the ground of the handoff panel and the routed-desk badge.\n\n**Type:** the wide display face on five elements only — wordmark, h1 and three section headings. Three weights: normal, semibold, bold. h1 at 4xl to 6xl and leading-1.06; headings 2xl to 3xl; verdict badge and definition labels xs uppercase tracked. Tabular numerals on every measurable thing: quarterly counts and percentages, each desk's median and p90, both clock readouts, the wait duration, the resolved-share figures.\n\n**Layout:** max-w-6xl, alternating white and tinted bands at py-14. Front-load the opening band — eyebrow, h1, two paragraphs, then a definition list of all four desks (one-up, two-up at sm, four-up at lg) above a divider. The slip is a rounded-2xl card in three zones with px-5 to px-6 rhythm: a header carrying the symptom and its verdict badge, a body, and a footer strip that changes with the outcome. The desk board is a two-up grid at md of rounded-2xl cards, each divided by three internal top borders into statistics, staffed hours and handles. The coverage strip is a seven-row grid of a 2rem weekday column and a flexible track, gapped at 1 unit so the week reads as one block.\n\n**Behavior:** one input plus symptom chips ranks a fixed corpus of resolutions and takes only the top match, replacing the entire slip rather than filtering a list; below three characters it stays idle instead of flashing no-match at every keystroke. The slip renders one of four verdicts — open incident, documented, asked before, needs a person — and a query matching nothing skips deflection and opens the handoff itself. After a routed answer, offer exactly two buttons: it worked, or put me through, and keep the second reachable even after the first. The handoff carries a desk select, a prepared draft, a mailto with subject and body prefilled, and a copy button that handles rejection with a readable sentence and retires its confirmation when the draft changes. A weekday select and a 0–23 hour range drive every desk card's estimate against that desk's staffed window; nothing reads a clock, and the default is a fixed midweek morning. Close with the prep list, three things the company does not do, a security address answered at any hour, and a postal address.\n\n**Feel:** a desk that would rather answer you than receive you, and prints its slowest tenth next to its median to prove it means it."
+  },
+  "ct3": {
+    "id": "ct3",
+    "palette": [
+      {
+        "token": "white",
+        "hex": "#ffffff",
+        "role": "Canvas",
+        "usage": "Page ground, the four tier cards in their resting state, the unmatched rung markers, and the unselected situation chips"
+      },
+      {
+        "token": "zinc-200",
+        "hex": "#e4e4e7",
+        "role": "Hairline rules",
+        "usage": "The header and section boundaries, the resting tier-card border, and the rule above each card's break-condition line"
+      },
+      {
+        "token": "zinc-300",
+        "hex": "#d4d4d8",
+        "role": "Chip outline + ladder rail",
+        "usage": "Unselected chip borders, the resting rung-marker ring, and the one-pixel vertical connector that runs from each rung's marker down to the next — the line that makes four cards read as one ladder"
+      },
+      {
+        "token": "zinc-900",
+        "hex": "#18181b",
+        "role": "Display ink",
+        "usage": "The wordmark, h1, section headings, tier names, the SLA phrase on each rung, and the owner's name inside the staffing sentence"
+      },
+      {
+        "token": "zinc-700",
+        "hex": "#3f3f46",
+        "role": "Body prose",
+        "usage": "Tier summaries, the lede, the reasoning lists, unselected chip labels, and the next-rung pointer emphasis"
+      },
+      {
+        "token": "zinc-600",
+        "hex": "#52525c",
+        "role": "Conditions and counts",
+        "usage": "Queue-depth characterisations, the Tier N prefix inside each heading, the break-condition text, the next-rung pointer, and the footer"
+      },
+      {
+        "token": "blue-700",
+        "hex": "#1447e6",
+        "role": "Accent — selection",
+        "usage": "The selected chip fill, the matched rung's marker and card border, the Matches your situation badge, the checkmarks in the two reasoning lists, and the focus ring on every control"
+      },
+      {
+        "token": "blue-800",
+        "hex": "#193cb8",
+        "role": "Accent — links",
+        "usage": "Every mailto and the tier-four tel link, underlined with a 40% alpha rule of the same hue so the underline is present without competing with the label"
+      },
+      {
+        "token": "blue-50",
+        "hex": "#eff6ff",
+        "role": "Match ground",
+        "usage": "The fill of the single tier card that matches the selected situation — the only surface tint on the route, and the only thing selection changes besides a border and a badge"
+      },
+      {
+        "token": "zinc-50",
+        "hex": "#fafafa",
+        "role": "Footer band",
+        "usage": "The closing band that routes any unsure visitor back to tier one"
+      }
+    ],
+    "typography": "No display typeface anywhere, and that is a stated decision rather than an omission: the route already reads as an operations runbook, and a second face would compete with the rung numerals for that texture. Exactly three weights: font-normal for prose, unselected chip labels and break conditions; font-semibold for addresses, phone numbers, selected chips, the SLA phrase and inline emphasis on owner names; font-bold for the h1, the section headings, the tier names and the numeral inside each rung marker. Scale is compressed on purpose — h1 at 4xl rising to 5xl with leading-[1.08], section headings only at lg rising to xl, tier names at base rising to lg, everything else at sm, and the break-condition line at xs. Rung numerals are set tabular-nums inside 11-unit circles so 1 through 4 hold identical optical weight, and the tier-four phone number is tabular as well.",
+    "spacing": "max-w-4xl — narrower than every other route in this set, because the ladder is a single column and a wider measure would break the runbook reading. Header at py-4, hero at pt-10 to pt-12 with pb-8, and the sections below the ladder divided by hairline top borders at py-12. The ladder itself is an ordered list where each rung is a flex row of two parts: a marker column holding an 11-by-11 circle with a one-pixel connector beneath it that flexes to fill whatever height the card takes, and the card itself at flex-1 with min-w-0. Rungs are separated by pb-8 with the last one zeroed, so the connector visibly terminates rather than trailing into whitespace. Inside a card, content stacks at a steady mt-3: summary, then the contact row of mailto and optional tel, then the SLA and queue row, then the named owner sentence, then a border-t at pt-3 before the break condition, then the next-rung pointer. The situation chips sit above the ladder in a wrapping flex at gap-2 with an mt-10 gap before the first rung.",
+    "philosophy": "Sole Trace answers the two questions a contact page actually gets — who handles this, and what happens when they do not answer — with a fixed four-rung ladder instead of a directory or a clock. Help desk, order and authentication specialists, trust and escalations, and an urgent direct line render unconditionally as a step-connected vertical sequence, each rung carrying a named owner, a working address, a phone number where one exists, a published response promise, a characterisation of its queue depth, and, in the same card, the condition under which that promise does not hold. The page's single interactive device is a row of eight situation chips, two per rung, and it is deliberately powerless: selecting one adds a badge, a border and a tinted fill to the one rung that owns it, and announces the match through a visually hidden live region. It filters nothing, hides nothing and gates nothing, because a visitor who guesses their situation wrong should not lose access to three of four addresses. The clock question is refused outright — there is no day, hour or timezone control on the route, and when will they respond is answered by a published promise plus its named exception, both fixed strings a support team would keep in a runbook. That refusal is the route's sharpest choice: the alternative move, asking the visitor to simulate a send time so the page can compute an arrival, is the one every candidate in the previous round independently reached for, and it made those pages interchangeable. Escalation is named rather than implied — each rung points at the next by name and tells you to go up rather than resend, and the footer routes anyone still unsure back to rung one.",
+    "dosDonts": [
+      {
+        "do": "Render all four rungs, their addresses and their phone links unconditionally, and let the situation picker add only a badge, a border and a fill.",
+        "dont": "Filter the ladder down to the matching rung — hiding three of four addresses punishes the visitor who guessed wrong about their own problem."
+      },
+      {
+        "do": "Pair every published promise with the condition that voids it, inside the same card and above the fold of that card.",
+        "dont": "Publish a response window without its exception and let the visitor discover the weekend gap by waiting through it."
+      },
+      {
+        "do": "Answer when will they respond with a fixed published promise written like a runbook entry.",
+        "dont": "Build a weekday-and-hour simulator to work around a ban on reading the clock — three independent candidates converged on exactly that device, and it made three different pages feel like one."
+      },
+      {
+        "do": "Name the next rung explicitly and tell people to climb rather than resend to the same desk.",
+        "dont": "Leave escalation implicit and let a second copy of the same message join the same queue."
+      },
+      {
+        "do": "Announce the matched tier through a visually hidden polite live region as well as the badge.",
+        "dont": "Rely on a border colour and a fill to communicate which rung was selected."
+      },
+      {
+        "do": "Give the top rung a real tel link with the number set in tabular numerals alongside its address.",
+        "dont": "Print an urgent phone number as plain text — a published number that is not a link is not reachable from a keyboard or a phone."
+      },
+      {
+        "do": "Draw the ladder with a one-pixel connector that flexes to each card's height and terminates at the last rung.",
+        "dont": "Stack four unrelated cards and expect the numerals alone to imply a sequence."
+      }
+    ],
+    "agentPrompt": "# Recreate: Sole Trace contact (four-rung escalation ladder, no clock anywhere)\n\nBuild a light contact page for a resale marketplace, structured as a fixed escalation ladder rather than a desk directory.\n\n**Palette:** `white` canvas carrying the resting tier cards, the rung markers and the unselected chips. `zinc-200` for section and card hairlines; `zinc-300` for chip borders, the resting marker ring, and the one-pixel vertical connector that turns four cards into one ladder. Ink is `zinc-900` for display type, tier names and the SLA phrase, `zinc-700` for prose and unselected chip labels, `zinc-600` for queue depth, break conditions and next-rung pointers. Accent is blue in three steps with one job each: `blue-700` for the selected chip fill, the matched marker and border, the match badge, the reasoning checkmarks and every focus ring; `blue-800` for every mailto and the single tel link, underlined with a 40%-alpha rule of the same hue; `blue-50` as the fill of the one matched card — the only surface tint on the route. A `zinc-50` footer band closes the page.\n\n**Type:** no display typeface at all, deliberately — the route reads as an operations runbook and a second face would fight the rung numerals for that texture. Three weights: normal, semibold, bold. Compress the scale: h1 at 4xl to 5xl with leading-1.08, section headings only lg to xl, tier names base to lg, everything else sm, break conditions xs. Rung numerals are tabular inside 11-unit circles so all four hold identical weight; the phone number is tabular too.\n\n**Layout:** max-w-4xl — narrower than a normal marketing measure, because the ladder is one column and a wide measure breaks the runbook reading. Header py-4, hero pt-10 to pt-12, sections below the ladder at py-12 with hairline tops. Each rung is a flex row of a marker column — an 11-by-11 circle with a one-pixel connector beneath it that flexes to whatever height the card takes — and the card at flex-1 with min-w-0. Rungs separated by pb-8, zeroed on the last so the connector terminates. Card content stacks at a steady mt-3: summary, contact row, SLA and queue row, named owner sentence, a divider, the break condition, then the next-rung pointer.\n\n**Behavior:** four rungs — help desk, order and authentication specialists, trust and escalations, urgent direct line — render unconditionally with a named owner, a working mailto, a tel on the top rung, a published response promise, a queue-depth characterisation and the condition that voids the promise. The one interactive device is a row of eight situation chips, two per rung; selecting one adds a badge, a border and a tint to the owning rung and announces the match through a visually hidden polite live region. It must not filter, reorder or hide anything. There is no weekday, hour or timezone control on the route: every timing answer is a fixed published string. Each rung names the next one and tells the visitor to climb rather than resend; the footer sends anyone unsure back to rung one.\n\n**Feel:** a runbook a support organisation would actually keep, published as-is — every promise beside the condition that breaks it, and no rung you have to guess your way into."
+  },
+  "dv1": {
+    "id": "dv1",
+    "palette": [
+      {
+        "token": "zinc-950",
+        "hex": "#09090b",
+        "role": "Canvas",
+        "usage": "Page ground, the code panes themselves, the sticky control band, and the three get-started cards — the transcript sits on the same black as the page so nothing frames it as a demo"
+      },
+      {
+        "token": "zinc-900",
+        "hex": "#18181b",
+        "role": "Field and band fill",
+        "usage": "The lane select and unselected radio pills, the endpoint table's header row, the install snippets, and the two section bands drawn at 40% alpha"
+      },
+      {
+        "token": "zinc-800",
+        "hex": "#27272a",
+        "role": "Structural borders",
+        "usage": "Every section rule, the pane outlines, the endpoint table's row dividers, and the top and bottom edges of the sticky control band"
+      },
+      {
+        "token": "zinc-700",
+        "hex": "#3f3f46",
+        "role": "Control outline",
+        "usage": "Resting borders on the selects, the radio pills, the copy buttons, the version-pin chip and the status codes in the error list"
+      },
+      {
+        "token": "zinc-400",
+        "hex": "#9f9fa9",
+        "role": "Secondary text + syntax neutral",
+        "usage": "Prose beneath the headings, the 11px uppercase control labels, and inside the panes it carries JSON keys, punctuation, comments and the untraced gutter tags — everything that is structure rather than value"
+      },
+      {
+        "token": "zinc-100",
+        "hex": "#f4f4f5",
+        "role": "Display text + string literals",
+        "usage": "Headings, the API key, endpoint paths in the table, and string values inside the transcript"
+      },
+      {
+        "token": "cyan-400",
+        "hex": "#00d3f2",
+        "role": "Accent — chrome",
+        "usage": "The 01, 02 and 03 cell numerals, active control borders, the direction glyph in each pane header, the fix button and the back-to-transcript button"
+      },
+      {
+        "token": "cyan-300",
+        "hex": "#53eafd",
+        "role": "Accent — computed values",
+        "usage": "Numbers and keywords inside every pane, the HTTP verbs, the weight readout, and the gutter tag on any line whose value was carried over from an earlier call — the accent points at what your change moved, not at syntax generally"
+      },
+      {
+        "token": "cyan-950",
+        "hex": "#053345",
+        "role": "Trace wash",
+        "usage": "The full-width row fill on every line the currently traced parameter produced, and the fill behind an active radio pill — the same tone in the control and in the consequence"
+      },
+      {
+        "token": "rose-400",
+        "hex": "#ff637e",
+        "role": "Failure edge",
+        "usage": "At 50% alpha it borders the response pane and the status chip when the parameter combination returns a 422, and the panel carrying the explanation and the one-click fix"
+      }
+    ],
+    "typography": "The mono display face carries the wordmark, the h1, all three section headings and the 01/02/03 cell numerals; body prose stays on the sans stack and the transcript itself runs in the code mono face. Exactly three weights: font-normal for prose, code lines and untraced controls; font-semibold for cell titles, pane labels, control labels, buttons and error codes; font-bold for the h1, the section headings and the cell numerals. The panes are set at 12px rising to 13px with leading-6, and the gutter tags sit at 10px with 0.08em tracking so a three-letter marker never crowds the code beside it; control labels are 11px uppercase at 0.18em. Tabular-nums covers everything countable — the weight readout, the status codes and their latency notes, the rate limits, the retry schedule, and the numeric tokens inside the transcript.",
+    "spacing": "max-w-6xl throughout. The console begins immediately after a short hero and is the page: key and language pills sit above a border-t at pt-6, then the control band spans the full width with border-y and becomes sticky at the top from lg upward, where it costs roughly 120 pixels and buys the ability to move the weight while looking at call 03. Below lg it stays in flow, because a stacked band would eat a phone screen. Each of the three cells opens at mt-8 with a wrapping heading line — numeral, title, then the verb and path in mono at xs — and a two-column grid at lg holding request and response side by side, collapsing to one column beneath it. Between cells, a single prose line carries the arithmetic or names the identifier that chains one call to the next. Inside a pane, the gutter is a 12-unit sticky column pinned to the left edge with an opaque background while the code scrolls under it. The endpoint table is held at a 44rem minimum inside a horizontal scroller with fixed 9/26/43/22 percent columns, and the closing sections run at py-14 to py-16.",
+    "philosophy": "Bollard's developers page is a transcript of three chained calls, and its argument is that a working request and its response sitting in the resting state proves more than any feature list. Nothing has to be clicked to learn what the API looks like: on load there is already a real POST to the rates endpoint, its 200 response, and a latency note, for a named lane at a real weight. The four controls above do not reveal anything — they re-run the arithmetic, and every one of them moves the request lines and the response fields together because both come from the same computation. The differentiating device is the gutter: every line in every pane carries a three-letter tag naming the parameter that produced it, so the question a developer actually has, which input owns which output, is answered by looking. Selecting a parameter washes its lines across all three calls and a readout counts how many lines you write and how many fields come back. That gutter is pinned with sticky positioning at the pane's left edge and given an opaque background, because a code pane on a phone has to scroll sideways and a marker that scrolls away answers nothing. Syntax colour follows the same logic: numbers and keywords take the single accent while keys and punctuation stay neutral, since a reader scanning for what their change did is looking for numbers. Failure is treated as a dependency rather than an edge case — an unserviceable combination returns a genuine 422, calls 02 and 03 report themselves not reached, and a button patches the offending parameter. Everything below the console exists to bound scope: a six-row endpoint table with no search, no filter and no sort, because a reference table must never become the page's spine.",
+    "dosDonts": [
+      {
+        "do": "Ship the resting state with a valid request and its real response already on screen, for a named lane at a real weight.",
+        "dont": "Open on a headline and put the first request behind a click, a tab or a scroll."
+      },
+      {
+        "do": "Recompute the request lines and the response fields from one shared calculation, so a single control moves both halves.",
+        "dont": "Pair a live request with a static response literal — then the controls are a browser, not a proof."
+      },
+      {
+        "do": "Tag every line in the gutter with the parameter that produced it, and pin the gutter with sticky left positioning over an opaque background.",
+        "dont": "Let the attribution scroll out of view with the code at 390px, or tint the gutter translucently so scrolled code shows through the tag."
+      },
+      {
+        "do": "Let an unserviceable combination return a genuine 422, mark the dependent calls as not reached, and offer a button that patches the offending parameter.",
+        "dont": "Clamp the inputs so the error can never occur — the dependency between the calls is part of what you are documenting."
+      },
+      {
+        "do": "Colour numbers and keywords with the one accent and leave keys, punctuation and comments neutral.",
+        "dont": "Syntax-highlight in five hues on a page whose reader is scanning for what a single change moved."
+      },
+      {
+        "do": "Keep the endpoint table free of search, filter and sort, and say plainly that anything not on the list is not in the API.",
+        "dont": "Let a reference table grow controls and quietly become the page's centre of gravity."
+      },
+      {
+        "do": "Derive the identifier that chains call 02 to call 01 from the parameter tuple itself, so the same inputs return the same bytes every time.",
+        "dont": "Generate identifiers or timestamps at render — a transcript that changes on reload is not a transcript."
+      }
+    ],
+    "agentPrompt": "# Recreate: Bollard developers (live three-call transcript with a parameter gutter)\n\nBuild a dark developers page for a freight rating and booking API where the page is a transcript of three chained calls, not a document about them.\n\n**Palette:** `zinc-950` for the canvas, the code panes and the sticky control band — the transcript sits on the same black as the page so nothing frames it as a demo. `zinc-900` for selects, unselected radio pills, the table header row, install snippets and two section bands at 40% alpha. `zinc-800` for structural borders and pane outlines; `zinc-700` for resting control edges. Inside the panes, `zinc-400` carries keys, punctuation, comments and untraced gutter tags while `zinc-100` carries strings and headings — structure neutral, content bright. Accent is cyan with three distinct jobs: `cyan-400` for chrome (cell numerals, active borders, the fix and back buttons), `cyan-300` for computed values (numbers, keywords, HTTP verbs, the weight readout, chained-value gutter tags), `cyan-950` as the wash on traced lines and the fill of an active radio pill — the same tone in the control and in its consequence. `rose-400` at 50% alpha borders the response pane, the status chip and the explanation panel when the call fails.\n\n**Type:** the mono display face on wordmark, h1, section headings and the 01/02/03 numerals; prose on sans; the transcript in code mono. Three weights: normal, semibold, bold. Panes at 12px rising to 13px with leading-6; gutter tags at 10px with 0.08em tracking; control labels 11px uppercase at 0.18em. Tabular numerals on the weight readout, status codes and latency notes, rate limits, the retry schedule and every numeric token in the transcript.\n\n**Layout:** max-w-6xl. Short hero, then the console, which is the page. Sandbox key and language pills above a divider; then a full-width control band with top and bottom rules that becomes sticky at the viewport top from lg upward and stays in flow below it. Three cells at mt-8, each with a wrapping heading of numeral, title, verb and path, and a two-column request/response grid at lg collapsing to one column. Between cells, one prose line carries the arithmetic or names the identifier chaining the calls. In a pane, the gutter is a 12-unit column pinned sticky to the left with an opaque background while the code scrolls underneath. The endpoint table sits at a 44rem minimum inside a horizontal scroller with fixed 9/26/43/22 percent columns.\n\n**Behavior:** four controls — a lane select, three service radios, a weight range in half-kilo steps, and an insurance checkbox — plus a highlight radio group listing the four parameters and an explicit Off. Editing a parameter also traces it. Every control recomputes the request lines and the response fields from one shared calculation using integer cents and half-kilo billing rounding. Tracing washes matching lines across all three calls and updates a live readout counting lines written and fields returned. An unserviceable combination returns a real 422, marks calls 02 and 03 not reached, and offers a button that patches the offending parameter. The rate identifier is derived from the parameter tuple, so the same inputs yield the same bytes; no clock and no random source anywhere. Below: a six-endpoint table with no search or sort, an error list of code, meaning and remedy, limits, the webhook retry schedule, and a three-step start.\n\n**Feel:** a session someone already ran, left open for you, with every line labelled by the input that produced it."
+  },
+  "ig1": {
+    "id": "ig1",
+    "palette": [
+      {
+        "token": "zinc-950",
+        "hex": "#09090b",
+        "role": "Canvas",
+        "usage": "Page ground and, deliberately, the fill of each statistic tile and each disconnect card — those grids are drawn as one-pixel gaps over a lighter ground, so the canvas colour is what makes the cells read as cells"
+      },
+      {
+        "token": "zinc-900",
+        "hex": "#18181b",
+        "role": "Panel fill",
+        "usage": "The field table's header row, the run and precedence cards at 40% alpha, the queue rows at 40%, and the solid bar carrying the hand-back button"
+      },
+      {
+        "token": "zinc-800",
+        "hex": "#27272a",
+        "role": "Borders and grid rules",
+        "usage": "Every container border and row divider, and the background behind the one-pixel gaps in the statistic strip and the disconnect list, where it becomes the rule itself"
+      },
+      {
+        "token": "zinc-700",
+        "hex": "#3f3f46",
+        "role": "Control outline",
+        "usage": "Resting borders on the run disclosure buttons, the unselected precedence radios, the undo button, and the Releases into chip"
+      },
+      {
+        "token": "zinc-400",
+        "hex": "#9f9fa9",
+        "role": "Labels and metadata",
+        "usage": "Column headers, statistic labels, run windows, record identifiers, footnotes, and the blocked rows' opposite-side cell where there is deliberately no counterpart to name"
+      },
+      {
+        "token": "zinc-300",
+        "hex": "#d4d4d8",
+        "role": "Body prose",
+        "usage": "The lede, every what-actually-happens cell in the field table, run headlines, rejection reasons, and the consequence sentence under each precedence row"
+      },
+      {
+        "token": "zinc-50",
+        "hex": "#fafafa",
+        "role": "Display text",
+        "usage": "h1, section headings, statistic values, run numbers, the two competing values in a precedence row, and the value named as surviving"
+      },
+      {
+        "token": "orange-400",
+        "hex": "#ff8904",
+        "role": "Accent — operation",
+        "usage": "The hand-back button fill with near-black label text, the checkbox and radio accent colour, the border of a precedence row whose rule has been flipped, and every focus ring on the route"
+      },
+      {
+        "token": "orange-300",
+        "hex": "#ffb86a",
+        "role": "Accent — text and marks",
+        "usage": "The jump link to the human queue, the both-ways direction glyph, the queue target glyph, the expiry marker in the disconnect list, and the unsaved-preview note"
+      },
+      {
+        "token": "amber-400",
+        "hex": "#ffb900",
+        "role": "Warning status",
+        "usage": "At 30% border alpha and 10% fill, the degraded-since-run chip in the header, the partial-run verdicts, and the held, will not retry on its own badge in the queue"
+      },
+      {
+        "token": "emerald-300",
+        "hex": "#5ee9b5",
+        "role": "Settled status",
+        "usage": "Complete run verdicts, the stays bucket in the disconnect list, and the handed to the next run confirmation on a released record"
+      },
+      {
+        "token": "rose-300",
+        "hex": "#ffa1ad",
+        "role": "Refusal",
+        "usage": "The does not cross direction cell and the stops bucket, above a 20% rose tint on each refused table row — the only place the palette says no"
+      }
+    ],
+    "typography": "The grotesk display face is applied to values rather than headings alone: the h1 and the section headings, but also the statistic figures, the run numbers, both competing values in a precedence row, and the record labels in the human queue — so the things a reader is trying to compare are all set in the same voice. Field names, record identifiers and the two counterpart columns are set in mono at xs, which is what makes the table read as configuration rather than marketing. Exactly three weights, and unusually for this set they are font-normal, font-medium and font-semibold — there is no bold on the route, so the hierarchy stays flat enough for four parallel strata to coexist without one shouting. Uppercase tracked labels run at xs with 0.18em in the header eyebrow and at wider tracking on column and statistic labels. Tabular-nums covers the statistic values, run numbers, read and written counts, the record identifiers in the queue, and both counts in the selection summary.",
+    "spacing": "max-w-6xl with px-4 rising to px-8, pt-10 and a deep pb-24 so the human queue is never the last thing pinned to the viewport edge. The header closes with a border-b at pb-10, and the four strata below open at pt-12 and then pt-14 each — even intervals, because no stratum is subordinate to another. The statistic strip and the disconnect list use the same trick: a grid with one-pixel gaps over a lighter background so the rules are the gaps, inside one rounded container. The field table is fixed-layout with an explicit 24/22/24/30 percent column group and cells at px-3 rising to px-4, aligned to the top so a long explanation does not centre itself against a short field name. Runs and precedence rows are rounded-xl cards at p-4 to p-5 in a 3-unit stack; a run's disclosure opens a nested darker panel with its own divided definition list. The waiting queue is a single rounded container of divided rows closed by a solid summary bar that carries the count sentence on the left and the hand-back button on the right.",
+    "philosophy": "This page is written for the person who already connected the integration and is opening it on a bad Tuesday. It is not a connect-this-app pitch: the header states that the sync moves eleven fields and deliberately refuses six, prints a degraded-status chip and a link straight to the records waiting on a human, and then hands over four self-complete strata — what crosses, the last six runs, who wins a conflict, and what is stuck on a person. The refusals are the argument. Every field that does not cross gets a full row in the same table as the ones that do, with the reasoning done as arithmetic rather than asserted: a dunning state that changes forty times a day would spend the entire daily API budget before nine in the morning, and card and bank details never leave the billing system at all, which the row labels as not a setting rather than a default. What makes the four strata one page is that a single incident leaves its fingerprint in three of them — a rejected value in a run's detail reappears by record identifier in the human queue, and a missing scope in the field table shows up as a held record with the same reason. The operations are deliberately local: flipping a precedence rule changes that field only, names the value that would survive and what it drags with it, marks itself as an unsaved preview, and offers an undo back to the saved rule. And the page answers the question vendors usually avoid — if you disconnect, what stays, what stops, and what expires — including the admission that the other system will quietly go stale rather than show an error.",
+    "dosDonts": [
+      {
+        "do": "Give every refused field a full row in the same table as the crossings, with its reason stated as arithmetic — call volume, cost, or a hard security boundary.",
+        "dont": "Footnote the refusals under a table of everything that works."
+      },
+      {
+        "do": "Make each run row sufficient on its own — window, direction, both counts, a verdict chip and a headline — so the disclosure only ever adds the rejected records by name.",
+        "dont": "Put the verdict behind the toggle and force a click to learn whether a run needs attention."
+      },
+      {
+        "do": "Key table rows on a composite of both counterpart names, because more than one row legitimately has no counterpart on the same side.",
+        "dont": "Key rows on a single column whose value repeats — duplicate keys are a runtime warning no static or accessibility gate will catch."
+      },
+      {
+        "do": "Say what a flipped precedence rule would drag with it in the same sentence as the surviving value, label the state as an unsaved preview, and offer an undo.",
+        "dont": "Let a toggle imply it saved something, or show a winning value without its downstream cost."
+      },
+      {
+        "do": "Let one incident surface in three strata under the same record identifier, so the page reads as one system rather than four widgets.",
+        "dont": "Build four independent sections whose data never references each other."
+      },
+      {
+        "do": "Answer what happens on disconnect in three named buckets, including the one where the other side goes quietly stale instead of erroring.",
+        "dont": "End an integration page at the connect button and leave teardown undocumented."
+      },
+      {
+        "do": "Derive every headline count from the underlying rows.",
+        "dont": "Hardcode a summary figure the table beneath it can contradict — one number that fails to reconcile discounts every other number on the page."
+      }
+    ],
+    "agentPrompt": "# Recreate: Kestrel integration (four strata of sync state, written for the bad Tuesday)\n\nBuild a dark integration page for a two-way sync between a CRM and a billing system, aimed at someone who already connected it and is now debugging it.\n\n**Palette:** `zinc-950` canvas, used deliberately as the fill of the statistic tiles and disconnect cards — those grids are drawn as one-pixel gaps over `zinc-800`, so the canvas colour is what makes the cells read as cells and the gaps become the rules. `zinc-900` for the table header row, the run and precedence cards at 40% alpha, queue rows, and the solid summary bar. `zinc-800` for every border; `zinc-700` for resting control outlines. Text runs `zinc-400` for column headers, timestamps, identifiers and footnotes, `zinc-300` for prose and explanations, `zinc-50` for display values. Accent is orange split by job: `orange-400` for operation (hand-back button fill on near-black text, checkbox and radio accent, the border of a flipped rule, every focus ring) and `orange-300` for text-size marks (the jump link, direction glyphs, the unsaved-preview note). Status is a fixed three-way vocabulary: `amber-400` at 30% border and 10% fill for degraded and partial and held, `emerald-300` for complete and stays and handed back, `rose-300` for does not cross and stops, over a 20% rose tint on each refused row.\n\n**Type:** the grotesk display face on values as well as headings — h1, section headings, statistic figures, run numbers, the two competing values in a precedence row, and queue record labels — so everything a reader compares is in the same voice. Field names and identifiers in mono at xs, which is what makes the table read as configuration. Exactly three weights and no bold anywhere: normal, medium, semibold, keeping the hierarchy flat enough for four parallel strata. Uppercase tracked labels at xs. Tabular numerals on statistics, run numbers, read and written counts, identifiers and both selection counts.\n\n**Layout:** max-w-6xl, px-4 to px-8, pt-10 and a deep pb-24. Header closes on a divider at pb-10; the four strata open at even pt-12 and pt-14 intervals because none is subordinate. The field table is fixed-layout with an explicit 24/22/24/30 column group, cells top-aligned so a long explanation does not centre against a short field name, and a visually hidden caption plus column and row scopes. Runs and precedence rows are rounded-xl cards at p-4 to p-5 in a 3-unit stack, a run's disclosure opening a nested darker panel with a divided definition list. The queue is one rounded container of divided rows closed by a solid bar carrying the count sentence and the hand-back button.\n\n**Behavior:** seventeen field rows, eleven crossing and six refused, each refusal carrying arithmetic rather than an assertion. Six runs, each row self-sufficient — window, direction, counts, verdict chip, headline — with a disclosure that adds only the rejected records by name; key rows on a composite of both counterpart names, because more than one row legitimately has no counterpart. Four precedence rows, each with radios flipping the winner for that field only, a live sentence naming the surviving value and its downstream cost, an explicit unsaved-preview note and an undo to the saved rule. A queue of held records with checkboxes, a summary counting the selection by target system, and a hand-back action moving them to a queued state. Wire the strata together: one rejection should appear in a run detail and again by the same identifier in the queue. Close with what stays, what stops and what expires on disconnect. No clock, no random source, and every headline count derived from the rows beneath it.\n\n**Feel:** a status page a vendor would be slightly uncomfortable publishing — refusals as first-class rows, an incident traceable across three sections, and an honest answer about what breaks quietly when you turn it off."
   }
 }
