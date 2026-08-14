@@ -126,17 +126,36 @@ export function normalizeTypes(errors, files) {
  * never reached the gate at all: `runLighthouse` returned two numbers. Fifteen works passed while
  * carrying a named accessibility defect nobody could see.
  */
+/**
+ * Audits promoted from record-only to hard fail.
+ *
+ * The canon writes these as absolute prohibitions, and an averaging score cannot enforce an
+ * absolute — `/developers` failed `heading-order` outright and passed with 98. The promotion bar is
+ * the one `no-random-image-host` and `console` had to clear: a retroactive scan across every work
+ * must report zero violations, so nothing already shipped is retroactively broken. Each of these
+ * four was down to a handful of works (`heading-order` 1, `definition-list` 1, `target-size` 1,
+ * `skip-link` 2); those five were fixed first, taking the catalogue to zero.
+ *
+ * `color-contrast` (6 works), `button-name` (5) and `label-content-name-mismatch` (3) stay
+ * record-only for now — same rule, they simply have not been fixed down to zero yet.
+ */
+export const A11Y_HARD_AUDITS = new Set(['heading-order', 'definition-list', 'target-size', 'skip-link']);
+
 export function normalizeA11y(result) {
   if (result === 'unavailable') return { name: 'a11y', pass: true, detail: 'unavailable', violations: [] };
   // 숫자만 넘어오는 호출부(레거시·테스트)도 그대로 받는다 — 점수는 언제나 첫 번째 신호다.
   const score = typeof result === 'number' ? result : result.score;
   const failedAudits = typeof result === 'number' ? [] : (result.failedAudits ?? []);
-  const pass = score >= 95;
+  const hard = failedAudits.filter((a) => A11Y_HARD_AUDITS.has(a));
+  const pass = score >= 95 && hard.length === 0;
   return {
     name: 'a11y',
     pass,
     detail: failedAudits.length ? `${score} · 실패 감사 ${failedAudits.join(' · ')}` : String(score),
-    violations: pass ? [] : [{ score, threshold: 95, failedAudits }],
+    violations: [
+      ...(score >= 95 ? [] : [{ rule: 'a11y-score', score, threshold: 95 }]),
+      ...hard.map((audit) => ({ rule: 'a11y-audit', audit, detail: `${audit} 실패 — 정본이 절대 금지로 적은 조항이다 (page-brief-core §2)` })),
+    ],
   };
 }
 

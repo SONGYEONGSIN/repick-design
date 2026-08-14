@@ -55,7 +55,10 @@ export default function DivergenceChart({ range, baseline }: { range: RangeKey; 
       </p>
 
       <div className="mt-4 rounded-xl border border-zinc-800 bg-zinc-900/60 p-4">
-        <div className="flex h-36 items-stretch gap-[3px] sm:h-44">
+        {/* 막대가 24개라 390px 에서 각 폭이 11.5px 가 되어 포인터 타깃 최소치(24×24)에 못 미친다.
+            바닥을 24px 로 두고 좁은 폭에서만 가로로 흐르게 한다 — 데스크톱은 `flex-1` 이 그대로 채우므로
+            보이는 모양이 바뀌지 않는다. 로컬 가로 스크롤은 모바일 전용이라는 폭 규칙과도 맞는다. */}
+        <div className="flex h-36 items-stretch gap-[3px] overflow-x-auto pb-1 sm:h-44">
           {MONTHS.map((m, i) => {
             const delta = round2(m.own - m[baseline]);
             const positive = delta >= 0;
@@ -69,7 +72,7 @@ export default function DivergenceChart({ range, baseline }: { range: RangeKey; 
                 onClick={() => setSelected(i)}
                 aria-pressed={isSelected}
                 aria-label={`${m.label}: Solstice ${m.own.toFixed(2)}%, ${baselineMeta.short} ${m[baseline].toFixed(2)}%, ${formatPoints(delta)}${inRange ? "" : " (outside selected range)"}`}
-                className={`group flex flex-1 min-w-0 flex-col justify-center rounded-sm transition-opacity ${FOCUS} ${
+                className={`group flex min-w-6 flex-1 flex-col justify-center rounded-sm transition-opacity ${FOCUS} ${
                   inRange ? "opacity-100" : "opacity-35 hover:opacity-70"
                 }`}
               >

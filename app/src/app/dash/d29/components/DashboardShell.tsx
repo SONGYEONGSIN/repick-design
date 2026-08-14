@@ -40,7 +40,7 @@ export function DashboardShell() {
             onOpenMobileMenu={() => setMobileNavOpen(true)}
           />
 
-          <main className="min-w-0 flex-1 px-4 py-6 sm:px-6 lg:px-8">
+          <main id="main-content" className="min-w-0 flex-1 px-4 py-6 sm:px-6 lg:px-8">
             <div className="mx-auto flex min-w-0 max-w-[1600px] flex-col gap-6">
               <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
                 <div className="min-w-0">
