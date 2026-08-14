@@ -87,7 +87,9 @@ export function Sidebar({
                   return (
                     <li key={item.id}>
                       <a
-                        href={`#${item.id}`}
+                        // 존재하지 않는 id 를 가리키면 클릭이 아무 일도 안 한다(skip-link 실패).
+                        // 이 셸의 실제 목적지는 본문뿐이고, 활성 항목 구분은 aria-current 가 한다.
+                        href="#main-content"
                         aria-current={item.active ? "page" : undefined}
                         className={`flex min-h-[44px] items-center gap-2.5 rounded-lg px-3 text-sm font-medium transition-colors focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 focus-visible:outline-none ${
                           item.active

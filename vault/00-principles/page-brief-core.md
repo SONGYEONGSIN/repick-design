@@ -35,7 +35,8 @@ tags: [principles, brief]
 | 무작위 이미지 서비스 금지 (picsum·loremflickr·source.unsplash 등) | static `no-random-image-host` | 하드페일 |
 | 전 폭 페이지·테이블 오버플로 0 (1280/1440/1920 + 모바일 390) | sweep | 하드페일 |
 | Lighthouse 접근성 **95 이상** | a11y | 하드페일 |
-| ↳ 실패한 개별 감사 id (`heading-order`·`button-name`·`color-contrast` 등) | a11y `detail` | **기록만** — 아래 참조 |
+| ↳ 승격된 감사 실패 — `heading-order` · `definition-list` · `target-size` · `skip-link` | a11y | **하드페일** (점수와 무관) |
+| ↳ 그 밖의 실패 감사 id (`color-contrast`·`button-name`·`label-content-name-mismatch` 등) | a11y `detail` | **기록만** — 아래 참조 |
 | Lighthouse 성능 | perf | 기록만(탈락 미적용) |
 
 > **점수 95는 절대 규칙을 강제하지 못한다** (2026-08-14 커버리지 감사). §2의 조항들은 **절대 금지**로 적혀 있는데 a11y 계측은 **가중 평균의 임계값**이라, 5점 미만짜리 감사는 무엇이든 통과한다. `/developers`가 `heading-order`를 명시적으로 실패(`score:0`)하고 **98점으로 통과**했고, 가중치 0인 감사는 **총점 100을 받고도 실패**한다(`d45`·`d41`의 `label-content-name-mismatch`).
@@ -44,7 +45,12 @@ tags: [principles, brief]
 > **점수 미달 3건은 해소됐다** — `d32` 84 · `d35` 91 · `d37` 94 가 전부 **100**이 됐다(2026-08-14). d32는 `ul[role=listbox] > li > button[role=option]` 중첩 하나가 `aria-required-children`·`aria-required-parent`·`listitem` **셋을 동시에** 깨고 있었다.
 > **첫 측정은 모바일 프리셋만 봐서 감사 집계를 낮게 냈다** — `d39`의 `label-content-name-mismatch`와 `d45`의 `color-contrast`를 놓쳤다. 게이트는 양 프리셋 **합집합**을 취하므로 소급 스캔도 같아야 한다. **작품 수는 같았지만 감사 목록이 달랐다** — 한 프리셋만 보면 그 작품이 "무엇을" 어겼는지가 틀린다.
 > 실측 전문과 방법은 [[coverage-audit-2026-08-14]].
-> **좁은 승격 경로**: 정본이 절대 금지로 적었고 소급 위반이 ≤2건인 감사부터 하드페일로 올린다. 현재 후보는 `heading-order`(dv1) · `definition-list`(ig1) · `target-size`(pf1) · `skip-link`(d29·d33) — **4감사 5작품**. 그 5건을 먼저 고친 뒤 승격한다.
+> **좁은 승격 1차 완료** (2026-08-14): `heading-order`·`definition-list`·`target-size`·`skip-link` **4감사를 하드페일로 올렸다.** 승격 순서는 언제나 **고치고 나서 올린다** — 위반작 5건(dv1·ig1·pf1·d29·d33)을 먼저 0으로 만든 뒤 규칙을 세웠고, 그래서 카탈로그가 하나도 안 깨진다(`no-random-image-host`·`console` 이 넘은 것과 같은 바).
+>   - `dv1` 엔드포인트 헤딩이 `h3`인데 감싸는 헤딩이 페이지 `h1`이라 레벨을 건너뛰었다 → `h2`
+>   - `ig1` `dl > div` 안에 `<p>`가 있었다(자식은 `dt`·`dd` 뿐) → 두 번째 `dd`
+>   - `pf1` 막대 24개가 390px에서 11.5px라 포인터 타깃 최소치(24×24) 미달 → 바닥 24px + 좁은 폭에서만 가로 흐름
+>   - `d29`·`d33` 사이드바 앵커가 **존재하지 않는 id**를 가리켰다(클릭이 아무 일도 안 한다) → `#main-content`(d35가 이미 쓰던 관례)
+> **아직 기록전용**: `color-contrast` 6 · `button-name` 5 · `label-content-name-mismatch` 3. 규칙이 달라서가 아니라 **아직 0으로 못 내려서**다. 고치는 대로 같은 절차로 올린다.
 
 ## 2. 접근성·견고성 (judge 렌즈1이 대조)
 

@@ -1,7 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import {
-  normalizeStatic, normalizeSweep, normalizeA11y, normalizePerf,
+  normalizeStatic, normalizeSweep, normalizeA11y, A11Y_HARD_AUDITS, normalizePerf,
   normalizeNativeRun, buildVerdict, parseArgs, filesForRoute, worstLighthouse,
   parseNativeTsc, screenSourceDir,
   countFontWeights, normalizeWeights, countDisplayFaces, normalizeDisplayFaces, displayFaceViolations, renderedWeights, normalizeLint, normalizeRoutes, parseTscOutput, normalizeTypes, normalizeConsole,
@@ -170,10 +170,40 @@ test('normalizeA11y — 실패한 감사를 detail에 싣는다 (점수가 통�
   // 통과했다. 정본 §2 는 헤딩 스킵을 **절대 금지**로 적었지만 계측은 **가중 평균의 임계값**이라
   // 5점 미만짜리 감사는 무엇이든 통과한다. 가중치 0인 감사는 총점 100 을 받고도 실패한다(d45·d41).
   // 판정은 그대로 두고 **보이게** 만든다 — 41작품 소급에서 15작품이 이 상태로 조용히 지나갔다.
-  const v = normalizeA11y({ score: 98, failedAudits: ['heading-order'] });
-  assert.equal(v.pass, true, '기록만 — 점수 임계는 그대로다');
+  // 2026-08-14 승격 이후 `heading-order` 는 하드페일이므로 여기서는 아직 기록전용인 감사로 확인한다.
+  const v = normalizeA11y({ score: 98, failedAudits: ['button-name'] });
+  assert.equal(v.pass, true, '승격 안 된 감사는 점수 임계만 본다');
   assert.match(v.detail, /98/);
+  assert.match(v.detail, /button-name/);
+});
+
+test('normalizeA11y — 승격된 감사는 점수와 무관하게 하드페일', () => {
+  // 정본 §2 는 헤딩 스킵을 **절대 금지**로 적었는데 점수는 평균이라 98 로도 통과했다. 소급 위반이
+  // ≤2건인 감사부터 절대 규칙답게 강제한다 — 다섯 작품(dv1·ig1·pf1·d29·d33)을 먼저 고쳐 위반을 0으로
+  // 만든 뒤라 카탈로그를 깨지 않는다.
+  const v = normalizeA11y({ score: 98, failedAudits: ['heading-order'] });
+  assert.equal(v.pass, false, '점수가 임계를 넘어도 승격된 감사 실패는 통과가 아니다');
   assert.match(v.detail, /heading-order/);
+  assert.equal(v.violations[0].rule, 'a11y-audit');
+});
+
+test('normalizeA11y — 승격 안 된 감사는 여전히 기록만', () => {
+  // color-contrast 6건 · button-name 5건 · label-content-name-mismatch 3건은 아직 위반이 많아
+  // 하드페일로 올리면 카탈로그가 깨진다. 보이되 떨어뜨리지 않는다.
+  const v = normalizeA11y({ score: 96, failedAudits: ['color-contrast'] });
+  assert.equal(v.pass, true);
+  assert.match(v.detail, /color-contrast/);
+});
+
+test('normalizeA11y — 승격 감사와 기록 감사가 섞이면 하드페일하되 둘 다 보인다', () => {
+  const v = normalizeA11y({ score: 97, failedAudits: ['color-contrast', 'skip-link'] });
+  assert.equal(v.pass, false);
+  assert.match(v.detail, /skip-link/);
+  assert.match(v.detail, /color-contrast/);
+});
+
+test('A11Y_HARD_AUDITS — 승격 목록은 소급 위반 0인 넷뿐이다', () => {
+  assert.deepEqual([...A11Y_HARD_AUDITS].sort(), ['definition-list', 'heading-order', 'skip-link', 'target-size']);
 });
 
 test('normalizeA11y — 감사 전원 통과면 detail이 점수만 남는다', () => {

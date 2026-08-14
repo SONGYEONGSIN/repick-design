@@ -107,7 +107,8 @@ export default function Page() {
                 >
                   {fact.value}
                 </dd>
-                <p className="mt-1 text-xs text-zinc-400">{fact.note}</p>
+                {/* dl > div 의 자식은 dt·dd 뿐이다. 주석도 설명이므로 두 번째 dd 로 둔다. */}
+                <dd className="mt-1 text-xs text-zinc-400">{fact.note}</dd>
               </div>
             ))}
           </dl>
