@@ -19,5 +19,11 @@
   },
   "notifications": {
     "check": "Notifications"
+  },
+  "listing": {
+    "check": "Create listing"
+  },
+  "order-status": {
+    "check": "Order status"
   }
 }
