@@ -26,6 +26,7 @@ tags: [index]
 ## 원장 (30-ledger — append-only 로그층)
 - [[AUTO-RUN-LOG]] — 자율 라운드 실행 로그 (사람용 요약)
 - [[NEW-PAGES-LOG]] — 신규 페이지 생성 로그
+- [[30-ledger/coverage-audit-2026-08-14|coverage-audit-2026-08-14]] — 정본 조항 ↔ 실제 계측 대조 감사 (41작품 소급 실측)
 - auto-ledger.jsonl — 자율 라운드 원장 (target·판정·반증)
 - design-ledger.jsonl — 랜딩 R1~R7 계보 원장
 - landing-forms.jsonl — 랜딩 형태·선별 학습 원장
