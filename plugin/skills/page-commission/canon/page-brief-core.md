@@ -39,9 +39,12 @@ tags: [principles, brief]
 | Lighthouse 성능 | perf | 기록만(탈락 미적용) |
 
 > **점수 95는 절대 규칙을 강제하지 못한다** (2026-08-14 커버리지 감사). §2의 조항들은 **절대 금지**로 적혀 있는데 a11y 계측은 **가중 평균의 임계값**이라, 5점 미만짜리 감사는 무엇이든 통과한다. `/developers`가 `heading-order`를 명시적으로 실패(`score:0`)하고 **98점으로 통과**했고, 가중치 0인 감사는 **총점 100을 받고도 실패**한다(`d45`·`d41`의 `label-content-name-mismatch`).
-> **41작품 소급**: 전 감사 통과 **23** · 점수는 통과인데 감사 실패 **15** · 점수 미달 **3**(`d32` 84 · `d35` 91 · `d37` 94 — 오늘 게이트를 돌리면 탈락한다). 감사 1건이라도 실패하면 하드페일로 두면 **44%가 깨지므로** 지금은 기록만 한다(웨이트 3종이 41% 위반으로 기록전용에 머문 것과 같은 벽).
-> 실패 감사 집계: `button-name` 7 · `color-contrast` 6 · `label-content-name-mismatch` 3 · `skip-link` 2 · `target-size`·`listitem`·`heading-order`·`dlitem`·`definition-list`·`aria-required-parent`·`aria-required-children` 각 1.
-> **좁은 승격 경로**: 정본이 절대 금지로 적었고 소급 위반이 ≤2건인 감사부터 하드페일로 올린다. 그 전에 위반작을 고친다.
+> **41작품 소급** (2026-08-14, 데스크톱·모바일 **양 프리셋 합집합** — 게이트와 같은 방식): 전 감사 통과 **26** · 점수는 통과인데 감사 실패 **15** · 점수 미달 **0**. 감사 1건이라도 실패하면 하드페일로 두면 **37%(15/41)가 깨지므로** 지금은 기록만 한다(웨이트 3종이 41% 위반으로 기록전용에 머문 것과 같은 벽).
+> 실패 감사 집계: `color-contrast` 6 · `button-name` 5 · `label-content-name-mismatch` 3 · `skip-link` 2 · `target-size`·`heading-order`·`definition-list` 각 1.
+> **점수 미달 3건은 해소됐다** — `d32` 84 · `d35` 91 · `d37` 94 가 전부 **100**이 됐다(2026-08-14). d32는 `ul[role=listbox] > li > button[role=option]` 중첩 하나가 `aria-required-children`·`aria-required-parent`·`listitem` **셋을 동시에** 깨고 있었다.
+> **첫 측정은 모바일 프리셋만 봐서 감사 집계를 낮게 냈다** — `d39`의 `label-content-name-mismatch`와 `d45`의 `color-contrast`를 놓쳤다. 게이트는 양 프리셋 **합집합**을 취하므로 소급 스캔도 같아야 한다. **작품 수는 같았지만 감사 목록이 달랐다** — 한 프리셋만 보면 그 작품이 "무엇을" 어겼는지가 틀린다.
+> 실측 전문과 방법은 [[coverage-audit-2026-08-14]].
+> **좁은 승격 경로**: 정본이 절대 금지로 적었고 소급 위반이 ≤2건인 감사부터 하드페일로 올린다. 현재 후보는 `heading-order`(dv1) · `definition-list`(ig1) · `target-size`(pf1) · `skip-link`(d29·d33) — **4감사 5작품**. 그 5건을 먼저 고친 뒤 승격한다.
 
 ## 2. 접근성·견고성 (judge 렌즈1이 대조)
 
