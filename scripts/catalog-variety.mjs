@@ -25,9 +25,21 @@ const HEX_FAMILIES = [
   [/#(2dd4bf|34d399)/i, 'teal-hex'],
 ];
 
+/**
+ * 캔버스가 밝은가 어두운가.
+ *
+ * **불투명도 모디파이어가 붙은 배경은 세지 않는다.** `\b`는 `/` 앞에서 성립하므로 예전 정규식은
+ * `bg-white/5`를 "라이트 캔버스"로 셌는데, 그건 다크 UI의 반투명 보더·호버 오버레이 관용구다
+ * (`border-white/10`은 dash 브리프가 다크 테마에 명시한 것이다). 반대쪽도 같아서 `bg-black/20`
+ * 류가 다크로 셌다 — **오버레이는 어느 쪽이든 캔버스가 아니다.**
+ *
+ * 2026-08-14 실측으로 잡았다: 스크린샷 픽셀 평균 휘도를 진실로 두고 41작품을 채점하니 옛 정규식이
+ * **36/41**, 이 정규식이 **40/41**이었다(나머지 1건은 아래 `walk`의 스코프 결함이었다). 계측이
+ * 틀린 채로 `banList`가 다음 라운드의 회피 축을 계산하고 있었다 — [[questions-queue]] Q26.
+ */
 export function themeOf(src) {
-  const dark = (src.match(/bg-(?:zinc|neutral|slate|gray|stone)-(?:900|950)\b|bg-black\b|bg-\[#0[0-9a-f]{5}\]/gi) || []).length;
-  const light = (src.match(/bg-white\b|bg-(?:zinc|neutral|slate|gray|stone)-(?:50|100)\b/gi) || []).length;
+  const dark = (src.match(/bg-(?:zinc|neutral|slate|gray|stone)-(?:900|950)(?![\w/])|bg-black(?![\w/])|bg-\[#0[0-9a-f]{5}\]/gi) || []).length;
+  const light = (src.match(/bg-white(?![\w/])|bg-(?:zinc|neutral|slate|gray|stone)-(?:50|100)(?![\w/])/gi) || []).length;
   if (dark === 0 && light === 0) return 'unknown';
   return dark > light ? 'dark' : 'light';
 }
@@ -83,13 +95,24 @@ export function readWork(dir) {
   return { theme: themeOf(src), accent: accentOf(src), face: displayFaceOf(src) };
 }
 
-function walk(dir) {
+/**
+ * 이 라우트에 **속한** 파일만 모은다.
+ *
+ * 하위 라우트 디렉토리(자기 `page.tsx`를 가진 것)로 내려가지 않는다. 예전에는 무조건 재귀해서
+ * 챔피언 `/`(= `app/src/app/(marketing)`)가 **v6~v11 여섯 개 다크 형제의 소스를 함께 읽었고**,
+ * `/dash`는 13개를 읽었다 — 부모의 판독이 자식들로 오염된다. 2026-08-14 실측에서 `/`가 픽셀
+ * 휘도 0.862(명백한 라이트)인데 dark 로 읽힌 원인이 이것이었다.
+ */
+function walk(dir, isRoot = true) {
   if (!existsSync(dir)) return [];
   const out = [];
   for (const name of readdirSync(dir)) {
     const p = join(dir, name);
-    if (statSync(p).isDirectory()) out.push(...walk(p));
-    else if (/\.tsx?$/.test(p)) out.push(p);
+    if (statSync(p).isDirectory()) {
+      // 라우트 그룹 `(x)`·비공개 `_x` 는 URL 세그먼트를 만들지 않으므로 이 라우트의 일부다.
+      const ownsRoute = existsSync(join(p, 'page.tsx')) && !name.startsWith('(') && !name.startsWith('_');
+      if (!ownsRoute) out.push(...walk(p, false));
+    } else if (/\.tsx?$/.test(p)) out.push(p);
   }
   return out;
 }
