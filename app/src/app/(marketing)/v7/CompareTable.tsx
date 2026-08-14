@@ -70,10 +70,12 @@ export default function CompareTable() {
       </span>
 
       <div className="relative flex items-center justify-between gap-3">
-        <p className={cx(EYEBROW, "flex items-center gap-2 text-[#a894f7]")}>
+        {/* 섹션 제목이라 h2 다 — `<p>` 로 두면 아래 매물 h3 가 h1 다음에 바로 와서
+            heading-order 가 깨진다(Lighthouse 실측, 2026-08-14). 시각은 EYEBROW 그대로. */}
+        <h2 className={cx(EYEBROW, "flex items-center gap-2 text-[#a894f7]")}>
           <Table2 className="h-3.5 w-3.5" aria-hidden />
           Fig. 01 — AI matching comparison table
-        </p>
+        </h2>
         <span className={cx(CAPTION, "text-[#A1A1AA]")}>Recalculates on tab switch</span>
       </div>
 
@@ -299,7 +301,7 @@ export default function CompareTable() {
                                 <span
                                   className={cx(
                                     NUM,
-                                    "text-sm font-semibold text-white/40 line-through",
+                                    "text-sm font-semibold text-zinc-400 line-through",
                                   )}
                                 >
                                   {comma(category.listing.retail)} won
