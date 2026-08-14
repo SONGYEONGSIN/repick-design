@@ -139,7 +139,18 @@ test('worstLighthouse — 하나라도 unavailable이면 unavailable', () => {
 });
 
 test('worstLighthouse — 단일 라우트는 그대로 통과', () => {
-  assert.deepEqual(worstLighthouse([{ a11y: 97, perf: 88 }]), { a11y: 97, perf: 88 });
+  assert.deepEqual(worstLighthouse([{ a11y: 97, perf: 88, failedAudits: [] }]), { a11y: 97, perf: 88, failedAudits: [] });
+});
+
+test('worstLighthouse — 실패 감사는 합집합이다 (한쪽에서만 터지는 것을 지우지 않는다)', () => {
+  // 데스크톱·모바일을 둘 다 돌리는 이유가 이것이다 — `target-size` 는 모바일에서만 터지고,
+  // 교집합이나 첫 번째만 취하면 그 감사가 통째로 사라진다.
+  const r = worstLighthouse([
+    { a11y: 100, perf: 90, failedAudits: ['heading-order'] },
+    { a11y: 96, perf: 70, failedAudits: ['target-size'] },
+  ]);
+  assert.equal(r.a11y, 96);
+  assert.deepEqual(r.failedAudits, ['heading-order', 'target-size']);
 });
 
 test('countFontWeights — 파일들에 걸친 고유 웨이트 집합을 센다', () => {
@@ -152,6 +163,33 @@ test('countFontWeights — 파일들에 걸친 고유 웨이트 집합을 센다
 test('countFontWeights — 주석 속 언급은 세지 않는다', () => {
   const r = countFontWeights(['// font-black 쓰지 말 것\n<p className="font-light">a</p>']);
   assert.deepEqual(r.weights, ['light']);
+});
+
+test('normalizeA11y — 실패한 감사를 detail에 싣는다 (점수가 통과여도)', () => {
+  // `/developers` 는 heading-order 를 명시적으로 실패(score=0, binary)했는데 총점 98로 게이트를
+  // 통과했다. 정본 §2 는 헤딩 스킵을 **절대 금지**로 적었지만 계측은 **가중 평균의 임계값**이라
+  // 5점 미만짜리 감사는 무엇이든 통과한다. 가중치 0인 감사는 총점 100 을 받고도 실패한다(d45·d41).
+  // 판정은 그대로 두고 **보이게** 만든다 — 41작품 소급에서 15작품이 이 상태로 조용히 지나갔다.
+  const v = normalizeA11y({ score: 98, failedAudits: ['heading-order'] });
+  assert.equal(v.pass, true, '기록만 — 점수 임계는 그대로다');
+  assert.match(v.detail, /98/);
+  assert.match(v.detail, /heading-order/);
+});
+
+test('normalizeA11y — 감사 전원 통과면 detail이 점수만 남는다', () => {
+  assert.equal(normalizeA11y({ score: 100, failedAudits: [] }).detail, '100');
+});
+
+test('normalizeA11y — 점수 미달은 여전히 하드페일', () => {
+  const v = normalizeA11y({ score: 84, failedAudits: ['color-contrast', 'listitem'] });
+  assert.equal(v.pass, false);
+  assert.match(v.detail, /color-contrast/);
+});
+
+test('normalizeA11y — 숫자만 넘겨도(레거시·unavailable) 깨지지 않는다', () => {
+  assert.equal(normalizeA11y(97).pass, true);
+  assert.equal(normalizeA11y(94).pass, false);
+  assert.equal(normalizeA11y('unavailable').detail, 'unavailable');
 });
 
 test('countDisplayFaces — 라우트 전체에서 쓰인 디스플레이 활자 집합을 센다', () => {
