@@ -321,8 +321,17 @@ export default function KitBody() {
           <ul className="grid min-w-0 gap-px overflow-hidden rounded-xl border border-zinc-200 bg-zinc-200 sm:grid-cols-2">
             {BRAND_COLORS.map((color) => (
               <li key={color.id} className="flex min-w-0 flex-col bg-white p-5">
+                {/* 스와치를 `hex` 에서 직접 칠한다. 원래는 별도 `swatch` 유틸리티 클래스가 색을
+                    그렸는데 인쇄되고 복사되는 값은 `hex` 라 **같은 값이 두 곳에** 있었고, 2026-08-14
+                    실측에서 4색 중 2색이 갈라져 있었다 — `#D97706` vs `bg-amber-600`(=`#e17100`),
+                    `#9A3412` vs `bg-orange-800`(=`#9f2d00`), 둘 다 Tailwind v3 잔재다. 기자가
+                    복사해 가는 값과 눈에 보이는 색이 달랐다는 뜻이고, 하필 "복사해 가서 틀리지 않게
+                    하는 것"이 이 페이지의 명제다. 값을 맞추는 대신 출처를 하나로 만들어 다시
+                    갈라질 수 없게 했다(Tailwind 는 런타임 문자열로 임의 클래스를 생성할 수 없어
+                    인라인 style 이 단일 출처를 지키는 유일한 경로다). */}
                 <span
-                  className={`h-12 w-full rounded-md ring-1 ring-inset ring-zinc-300 ${color.swatch}`}
+                  className="h-12 w-full rounded-md ring-1 ring-inset ring-zinc-300"
+                  style={{ backgroundColor: color.hex }}
                   aria-hidden="true"
                 />
                 <h3 className="mt-3 text-base font-medium text-zinc-900">{color.name}</h3>
