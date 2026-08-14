@@ -12,6 +12,8 @@ export const SUBSET_IDS = [
   "cr1", "cr2", "cr3", "ct2", "ct3", "dv1", "ig1",
   // 배치 2c (2026-08-14): 신규 타입 마감 3종
   "pd1", "pw1", "mk1",
+  // 배치 3 (2026-08-14): 최신 승격·주문 6종 — 이걸로 카탈로그 전 작품이 채워졌다
+  "v11", "d41", "d42", "d43", "d44", "d45",
 ];
 
 export function validateSpec(spec) {
