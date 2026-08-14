@@ -49,12 +49,12 @@ export default function InspectorDevice({
               className={cx(
                 "inline-flex items-center gap-1 rounded-full border px-2.5 py-1 text-[0.7rem] font-semibold transition-colors duration-150 sm:gap-1.5 sm:px-3 sm:py-1.5 sm:text-xs",
                 isOn
-                  ? "border-transparent bg-[#6E56CF] text-[#0B0B0F]"
+                  ? "border-transparent bg-[#6E56CF] text-white"
                   : "border-white/15 bg-white/[0.02] text-[#A1A1AA] hover:text-white",
                 FOCUS_RING,
               )}
             >
-              <Icon aria-hidden="true" className={cx("size-3", isOn ? "text-[#0B0B0F]" : "text-[#B6A6F0]")} />
+              <Icon aria-hidden="true" className={cx("size-3", isOn ? "text-white" : "text-[#B6A6F0]")} />
               {layer.short}
               <span className="sr-only">{isOn ? ", layer on" : ", layer off"}</span>
             </button>
@@ -109,10 +109,10 @@ export default function InspectorDevice({
           <span
             className={cx(
               "inline-flex items-center gap-1.5 rounded-full px-2 py-0.5 text-[0.7rem] font-semibold sm:px-2.5 sm:py-1 sm:text-xs",
-              verdict.filled ? "bg-[#6E56CF] text-[#0B0B0F]" : "border border-white/20 text-white",
+              verdict.filled ? "bg-[#6E56CF] text-white" : "border border-white/20 text-white",
             )}
           >
-            <VerdictIcon aria-hidden="true" className={cx("size-3.5", verdict.filled ? "text-[#0B0B0F]" : "text-[#B6A6F0]")} />
+            <VerdictIcon aria-hidden="true" className={cx("size-3.5", verdict.filled ? "text-white" : "text-[#B6A6F0]")} />
             {verdict.label}
           </span>
           <span className={cx(CAPTION, "text-[#A1A1AA]")}>

@@ -17,7 +17,7 @@ export default function Page() {
     <main className="w-full bg-[#0B0B0F] text-white">
       <a
         href="#main-content"
-        className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded-md focus:bg-[#6E56CF] focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-[#0B0B0F]"
+        className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded-md focus:bg-[#6E56CF] focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-white"
       >
         Skip to main content
       </a>

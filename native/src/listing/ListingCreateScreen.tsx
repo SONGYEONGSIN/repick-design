@@ -1,4 +1,4 @@
-// native/src/evolve/r5/a/ListingCreateScreen.tsx — auto-native-r5 candidate a.
+// native/src/listing/ListingCreateScreen.tsx — auto-native-r5 candidate a.
 //
 // Listing creation / upload flow: a 4-step wizard (Photos -> Details -> Price -> Review) with a
 // terminal Publish action. Distinct macro bucket from the avoided screens — it is a multi-step
@@ -23,7 +23,7 @@ import {
   View,
   type ListRenderItem,
 } from "react-native";
-import { tokens } from "../../../tokens";
+import { tokens } from "../tokens";
 import {
   CATEGORIES,
   CONDITIONS,

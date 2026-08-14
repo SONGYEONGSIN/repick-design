@@ -1,4 +1,4 @@
-// native/src/evolve/r5/a/data.ts — auto-native-r5 candidate a.
+// native/src/listing/data.ts — auto-native-r5 candidate a.
 // Deterministic dummy data for the listing-creation wizard: category list, condition ladder,
 // a suggested-price reference (mocked "similar sold listings" comparison), and quick price
 // presets derived from that reference. No Math.random / Date.now / bare `new Date()` anywhere.

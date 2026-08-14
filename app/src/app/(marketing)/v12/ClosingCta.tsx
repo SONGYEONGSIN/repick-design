@@ -31,7 +31,7 @@ export default function ClosingCta() {
             <a
               href="#picks"
               className={cx(
-                "mt-6 inline-flex items-center gap-2 rounded-full bg-[#6E56CF] px-6 py-3 text-sm font-semibold text-[#0B0B0F] transition-transform duration-200 ease-out hover:-translate-y-px motion-reduce:transition-none",
+                "mt-6 inline-flex items-center gap-2 rounded-full bg-[#6E56CF] px-6 py-3 text-sm font-semibold text-white transition-transform duration-200 ease-out hover:-translate-y-px motion-reduce:transition-none",
                 FOCUS_RING,
               )}
             >

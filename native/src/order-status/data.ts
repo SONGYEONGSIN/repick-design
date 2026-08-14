@@ -1,4 +1,4 @@
-// native/src/evolve/r5/b/data.ts — deterministic dummy data for the order tracking timeline
+// native/src/order-status/data.ts — deterministic dummy data for the order tracking timeline
 // No Math.random / Date.now / bare `new Date()` anywhere — every date is a fixed literal label.
 
 export type StepStatus = "done" | "current" | "upcoming";

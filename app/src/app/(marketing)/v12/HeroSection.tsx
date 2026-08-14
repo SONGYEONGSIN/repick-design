@@ -48,7 +48,7 @@ export default function HeroSection() {
             <a
               href="#picks"
               className={cx(
-                "mt-3.5 inline-flex w-fit items-center gap-2 rounded-full bg-[#6E56CF] px-5 py-2.5 text-sm font-semibold text-[#0B0B0F] transition-transform duration-200 ease-out hover:-translate-y-px motion-reduce:transition-none sm:mt-4",
+                "mt-3.5 inline-flex w-fit items-center gap-2 rounded-full bg-[#6E56CF] px-5 py-2.5 text-sm font-semibold text-white transition-transform duration-200 ease-out hover:-translate-y-px motion-reduce:transition-none sm:mt-4",
                 FOCUS_RING,
               )}
             >

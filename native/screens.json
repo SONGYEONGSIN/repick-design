@@ -20,13 +20,10 @@
   "notifications": {
     "check": "Notifications"
   },
-  "evolve-r5-c": {
-    "check": "Saved searches"
-  },
-  "evolve-r5-b": {
-    "check": "Order status"
-  },
-  "evolve-r5-a": {
+  "listing": {
     "check": "Create listing"
+  },
+  "order-status": {
+    "check": "Order status"
   }
 }
