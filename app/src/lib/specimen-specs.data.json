@@ -3382,5 +3382,591 @@
       }
     ],
     "agentPrompt": "# Recreate: Tolvan Systems press record (media kit as a fact ledger)\n\nBuild a press sheet for a freight-terminal software company on the premise that a media kit is judged by whether a reporter can file a correct paragraph, not by whether a logo archive downloads.\n\n**Palette:** `zinc-50` canvas with `white` content cells and `zinc-200` as the substrate those cells sit on. `zinc-900` for ink, the wordmark, the two 2px section rules and the active segmented-control fill. `zinc-600` for every explanatory paragraph and for the 11px uppercase eyebrows. Amber is the signal and it is graded: `amber-500` for the 1px bar that opens the page, the mark's chevron, the solid Copy buttons and the copied state; `amber-700` for verification glyphs; `amber-800` for the one display subtitle. `orange-800` is the error tone — the X and strikethrough on wrong forms, and the border of the clipboard-failure panel. Whatever hexes you print in the brand-color section must be the same values the swatches beside them are painted with, because the printed hex is what the Copy button hands over.\n\n**Type:** Pretendard Variable for prose, a grotesque display face for assertions only — the h1, the subtitle, all section headings, the twelve fact values, the boilerplate quote and the wordmark. Exactly three weights, with normal declared explicitly rather than inherited. h1 at 5xl→7xl with tight leading; section headings 2xl→3xl; body sm at generous leading; and a recurring 11px uppercase run at 0.18–0.2em tracking for the masthead strip, stamp labels, fact labels and figcaptions. Dates, headcounts, dollar figures and word counts tabular; each verification date in a time element carrying the ISO value the copy payload uses.\n\n**Layout:** open on a 1px amber rule and a three-part uppercase strip (section name, sheet number, press URL) — not a logo. Then the h1, a one-line thesis, a short paragraph, and a three-cell stamp strip: last full review, next scheduled review, corrections address. Below: a format panel (Plain / Markdown / BibTeX with a live preview of what a copy looks like right now), the record itself as twelve fact cards on a 1→2→3 grid, a write-this-not-this table on an asymmetric three-track grid, three approved boilerplate lengths with word counts, a mark-and-color section, and three named contacts. Every list is white cells over a zinc-200 ground with 1px gaps, all sections separated by the same vertical step, and each card is a flex column that pushes its Copy button to a common baseline.\n\n**Behavior:** the format control changes only the shape a fact leaves in — nothing on screen is hidden behind it. Every payload, in every format, carries the source URL, the verification date and the confirmer. A boilerplate control switches between three approved lengths and prints each one's word count. Copy failure is a designed state: raise a fixed bottom panel with the exact payload as select-all text, labelled with which fact and which format, plus a dismiss control; announce copy results through a polite live region. Content requirements: legal entity name with its wrong forms, founding year with the incorporation date, headcount with its payroll close, funding total separated from the round, two executives with real spelling traps, product names with capitalization rules, pronunciation, ownership status, and customer counts — each with a date and a named confirmer whose coverage matches their role. Deterministic throughout, and no misuse rendered in broken contrast: this sheet proves correctness with facts, not with failed lockups.\n\n**Feel:** a document of record. Regular column advance, no crescendo, no hero image — the reader is on deadline and the page's only job is to be right and to be carried away intact."
+  },
+  "v11": {
+    "id": "v11",
+    "palette": [
+      {
+        "token": "white",
+        "hex": "#ffffff",
+        "role": "Canvas",
+        "usage": "The hero, the ranked-listing column and the proof section all sit on pure white; only the value-model band drops to zinc-50 and only the closing CTA inverts to the ink tone"
+      },
+      {
+        "token": "#0b0b0f",
+        "hex": "#0b0b0f",
+        "role": "Ink, and the inverted closing band",
+        "usage": "The landing DNA's bg token, used here as body ink on white and as the full-bleed background of the final CTA section. Written as a literal rather than zinc-950 (#09090b), so it stays a shade off the utility scale on purpose"
+      },
+      {
+        "token": "#6e56cf",
+        "hex": "#6e56cf",
+        "role": "Accent — the only chromatic colour on the page",
+        "usage": "Primary CTA fill, the x5 weight pill on whichever criterion currently sits first, the leader card's border plus its 5%-alpha tint, the Top pick badge, the quote mark, the emphasised criterion name in the prose read-back, and every focus-visible ring"
+      },
+      {
+        "token": "#a1a1aa",
+        "hex": "#a1a1aa",
+        "role": "Criterion fill — Rarity",
+        "usage": "The solid segment for Rarity in every listing's contribution bar and its legend swatch. This is the DNA's own muted token and equals Tailwind v3's zinc-400; the v4 theme resolves zinc-400 to #9f9fa9, so the literal sits deliberately outside the utility scale"
+      },
+      {
+        "token": "#3f3f46",
+        "hex": "#3f3f46",
+        "role": "Criterion fill — Price fairness",
+        "usage": "Second segment of the contribution bar and the body mass of every generated product silhouette (platter, chair shell, camera body, top shelf)"
+      },
+      {
+        "token": "#71717a",
+        "hex": "#71717a",
+        "role": "Product silhouette secondary",
+        "usage": "Tonearm, chair base, lens ring and middle shelf in the four generated marks. Tailwind v3's zinc-500 — the v4 theme resolves zinc-500 to #71717b, so this literal is one digit off the utility the rest of the page uses"
+      },
+      {
+        "token": "zinc-600",
+        "hex": "#52525c",
+        "role": "Muted text",
+        "usage": "Every secondary line — criterion blurbs, seller meta, the eyebrow and Fig. captions, the per-criterion points readout under each bar, and the trailing clause of the prose read-back"
+      },
+      {
+        "token": "zinc-200",
+        "hex": "#e4e4e7",
+        "role": "Hairline borders and ghost numerals",
+        "usage": "Section dividers, criterion rail rows, quote cards, the stats rule — and, as a hard-coded fill, the oversized 01/02/03/04 ghost figure numbers that anchor each block"
+      },
+      {
+        "token": "zinc-100",
+        "hex": "#f4f4f5",
+        "role": "Inset track",
+        "usage": "The contribution bar's unfilled track, the preset-chip group's pill track, and the plate behind each product silhouette"
+      },
+      {
+        "token": "zinc-50",
+        "hex": "#fafafa",
+        "role": "Secondary surface",
+        "usage": "The value-model band that holds the three explanation panels, and the fill of the two quote figures in the proof section"
+      }
+    ],
+    "typography": "Pretendard for body, with --font-display-grotesk carrying every large latin figure: the h1, the three section headlines, the closing CTA headline, the stat numerals and each listing's match percentage. Exactly three weights render — 400 for body and captions, 600 for card titles, rail labels, CTA text and table totals, 800 for every display headline and stat. Hierarchy above that comes from scale and tracking, not more weights: the h1 is clamp(2.5rem, 6.2vw, 4.5rem) at leading-[0.95], section headlines clamp(1.9rem, 3.4vw, 2.9rem), the CTA clamp(2.1rem, 5vw, 3.75rem) and the stat figures clamp(2.25rem, 4vw, 3.25rem), all at tracking-[-0.02em]. Small type runs a three-step tracking ladder — 0.28em for the eyebrow, 0.16em for Fig. captions, 0.12em for stat labels and the per-criterion points line. Every number on the page is tabular-nums, including the weights, the point totals, the shares and the struck-through was-price.",
+    "spacing": "A single mx-auto max-w-[1120px] column with px-5 / md:px-8 and py-14 to py-24 section rhythm, split by hairline zinc-200 borders rather than extra whitespace. Two 12-column splits carry the page: 5/7 in the hero (criteria rail left, ranked cards right) and 4/8 in the proof section (headline left, quotes right). The hero grid's most specific decision is that the left rail has no leftover height — the prose read-back and the criterion colour/hatch key were moved down from the results column so the rail's contents fill the shared row, and the criterion list itself is a flex-1 chain that absorbs whatever height remains. Before that change the left column ended 498px short of the row at every width from 1120 to 2560, because the 1120 cap makes all of those widths one geometry; after it the leftover measures 0px at 1120, 1280, 1440, 1920 and 2560 and the two columns close at the same y. The reorder also pulled the ranked cards 154px up, so four of the four listings sit inside the first fold. Reorder buttons are 44x44 and cards use flat borders with no radius above rounded-sm.",
+    "philosophy": "The five criteria are not weighted with sliders — their order is the weight, and the entire page is a readout of that one list. Position one carries x5 down to position five at x1, the five always sum to 15, and a match percentage is therefore just the total divided by 15; there is no hidden model to disclose because the model is the thing you are dragging. Moving one criterion up re-sorts the cards, re-splits every contribution bar, re-computes the point table, rewrites the prose read-back and rewrites the why-it-leads sentence, all in one tick — the argument being that a ranking you can rearrange is a ranking you can audit. Everything is populated on first paint: the four listings, their grades, their discounts, their reason tags and the leader's justification are all visible before any interaction, so the proof never waits on the control. The stacked contribution bar carries two encodings at once — each criterion has both a distinct tone and, for two of the five, a distinct hatch — so the stack never depends on colour alone, and the numeric points and shares are printed underneath it as text regardless. The palette stays near-monochrome so that the one accent can mean exactly one thing: this is the criterion currently doing the most work.",
+    "dosDonts": [
+      {
+        "do": "Make position itself the weight and print the multiplier on every row.",
+        "dont": "Offer sliders or percentage inputs — they ask the reader to invent numbers the model never needed."
+      },
+      {
+        "do": "Recompute the ranking, the bars, the point table and the prose sentence from one order array.",
+        "dont": "Let any panel hold its own copy of the ordering — the moment two readouts can disagree, the transparency claim is gone."
+      },
+      {
+        "do": "Give two of the five criterion fills a hatch pattern as well as a tone.",
+        "dont": "Separate the five stack segments by hue alone; the bar is the densest place on the page for colour-only meaning to fail."
+      },
+      {
+        "do": "Ship the four ranked cards with grades, prices, reason tags and the leader's justification already rendered.",
+        "dont": "Hide the proof behind the first interaction — the product surface has to be in the first fold, not below it."
+      },
+      {
+        "do": "Let the left rail's contents grow into the grid row via a flex-1 chain.",
+        "dont": "Leave the rail short and call it whitespace — at a fixed 1120 cap every viewport inherits the same 498px hole."
+      },
+      {
+        "do": "Keep the accent to one hue and give the ghost figure numerals a near-border grey.",
+        "dont": "Add gradients or line-art brackets for texture; the impact is supposed to come from the type scale."
+      }
+    ],
+    "agentPrompt": "# Recreate: repick v11 (light editorial landing, ordered-criteria ranking)\n\nBuild a light, near-monochrome marketplace landing whose hero is a live ranking engine: five scoring criteria in a reorderable list on the left, four ranked listings on the right.\n\n**The model.** Position is the weight. Slot 1 carries x5, slot 5 carries x1, the five weights always sum to 15, and a listing's match percentage is its weighted total divided by 15, rounded once. State this on the page. There are no sliders and no percentage inputs anywhere.\n\n**Palette.** `white` canvas; ink is the literal `#0b0b0f` (not zinc-950); one accent, `#6e56cf`, used for the primary CTA fill, the x5 pill on the first-placed criterion, the leader card's border and 5%-alpha tint, the Top pick badge, the quote mark and every focus ring. Muted text is `zinc-600`, hairlines `zinc-200`, inset tracks `zinc-100`, the secondary band `zinc-50`. The five criterion fills are deliberately not a hue ramp: two solid greys (`#3f3f46`, `#a1a1aa`), pure ink, and two repeating-linear-gradient hatches — so the stacked bar reads without colour.\n\n**Type.** Pretendard body, `--font-display-grotesk` for the h1, section headlines, CTA headline, stat figures and each card's match percentage. Exactly three weights: 400 / 600 / 800. Scale does the rest — h1 at clamp(2.5rem, 6.2vw, 4.5rem) leading-[0.95], headlines at clamp(1.9rem, 3.4vw, 2.9rem), stats at clamp(2.25rem, 4vw, 3.25rem), all tracking-[-0.02em]. A three-step tracking ladder for small caps: 0.28em eyebrow, 0.16em figure captions, 0.12em stat labels. Every numeral tabular-nums.\n\n**Layout.** One `max-w-[1120px]` column, px-5 / md:px-8, py-14 to py-24, sections divided by hairline top borders. Hero is a 5/7 twelve-column split; the proof section is 4/8. Oversized ghost numerals (01-04) fill-painted in `zinc-200` head each block with a `Fig. 0N` caption above the headline.\n\n**Critical layout rule.** The left rail must consume the full height of the grid row it shares with the cards. Put the prose read-back sentence and the criterion colour/hatch legend under the rail (not in the results column, where they'd otherwise live), and make the criterion list a flex-1 chain so it stretches. Verify the leftover space in the left column measures 0 at 1120, 1280, 1440, 1920 and 2560 — at a fixed cap those widths are one geometry, so a gap appears identically at all of them. Do not solve this with sticky positioning; the rail is taller than a normal viewport.\n\n**Behaviour.** Up/down buttons (44x44, with aria-disabled at the ends and aria-labels naming the destination position) reorder the list; four preset chips apply named orders; a per-card button swaps which listing the decomposition table shows. Each change updates: card order (layout-animated, tween not spring), the stacked contribution bars, the point/share caption under each bar, the weight pills, the prose read-back, the leader's why-it-leads sentence, the 4-row point table and the movement panel measured against the default order. A polite live region announces the new top pick. Animation is transform-only, ~300ms ease-out, gated on reduced-motion.\n\n**Content on first paint.** All four listings render fully before any interaction: generated flat-geometry SVG product marks, grade badge, ID-verified badge, discount badge, reason tag, struck was-price, current price, match percentage, contribution bar and the leader's justification. No external images. All data is module constants and pure integer functions — no Math.random, no Date.now, no toLocaleString.\n\n**Feel:** trustworthy and editorial. Type scale carries the impact; the single violet says exactly one thing.\n"
+  },
+  "d41": {
+    "id": "d41",
+    "palette": [
+      {
+        "token": "zinc-50",
+        "hex": "#fafafa",
+        "role": "Canvas",
+        "usage": "The whole app surface behind a translucent white sticky header; every card sits on top of it as pure white"
+      },
+      {
+        "token": "white",
+        "hex": "#ffffff",
+        "role": "Card surface",
+        "usage": "Every panel — reading band, KPI trio, the three prescription cards, audience, flow, the link table — is white with a zinc-200 hairline, rounded-xl and shadow-sm"
+      },
+      {
+        "token": "orange-700",
+        "hex": "#ca3500",
+        "role": "Accent — text and buttons",
+        "usage": "The primary Fix this button, the active sort caret, the peak-reading label in the heatmap conclusion, and the emphasis word in the live reading strip. The accent is split by contrast need: text and controls take the 700 step so they clear AA on white"
+      },
+      {
+        "token": "orange-600",
+        "hex": "#f54900",
+        "role": "Accent — graphic fills only",
+        "usage": "Brand tile, notification dot, the area-chart line and its gradient, the browser/OS share bars, the sankey link nodes. Never used for text, which is the whole reason for the 700/600 split"
+      },
+      {
+        "token": "#ea580c",
+        "hex": "#ea580c",
+        "role": "Heatmap cell ramp (raw literal)",
+        "usage": "The 84 hour-of-week cells are filled with rgba(234, 88, 12, alpha) where alpha runs 0.06 to 0.90 by value. That literal is Tailwind v3's orange-600 — this repo's v4 theme resolves orange-600 to #f54a00 — so the heatmap ramp is a fractionally different orange from the chart line beside it"
+      },
+      {
+        "token": "orange-50",
+        "hex": "#fff7ed",
+        "role": "Reading strip",
+        "usage": "The tinted band above the heatmap that holds the aria-live conclusion sentence, the one place a wash of accent is allowed to sit behind body text"
+      },
+      {
+        "token": "emerald-700",
+        "hex": "#007a55",
+        "role": "Positive delta",
+        "usage": "Rising percentage deltas and the active-links counter, always paired with an arrow icon, an explicit sign and an sr-only direction word"
+      },
+      {
+        "token": "red-700",
+        "hex": "#c10007",
+        "role": "Negative delta and critical severity",
+        "usage": "Falling deltas, the broken-link status pill and the critical prescription badge, again never as colour alone — each carries its own lucide icon and label"
+      },
+      {
+        "token": "zinc-900",
+        "hex": "#18181b",
+        "role": "Ink and active segment",
+        "usage": "Headings and figures, plus the filled state of every segmented control (period, language, browser/OS, show-on-chart) and the dashed marker line the prescriptions drop into the hero chart"
+      },
+      {
+        "token": "zinc-200",
+        "hex": "#e4e4e7",
+        "role": "Hairline",
+        "usage": "Card borders, header rule, table header divider, and the chart's four horizontal gridlines"
+      }
+    ],
+    "typography": "Pretendard for all prose and every Korean string; --font-display-mono for the numeric and identifier layer only — the wordmark, the 5xl hero click total, the KPI figures, the delta values, slugs, referrer domains, the account initials, the search keycap, the 09:40 report stamp, the heatmap hour ticks and the 01/02/03 prescription indices. It is deliberately never applied to a Korean path (the weekday row labels stay Pretendard) because the display faces carry no hangul glyphs. Exactly three weights render — 400 body, 500 for labels, table headers, badges and buttons, 600 for the h1, section headings and the hero figure. Section labels are 11px uppercase with wide tracking; the type ladder runs 5xl hero total, 2xl KPI, lg section heading, sm card heading, xs body, 11px label, 10px axis tick. All counts, percentages and deltas are tabular-nums.",
+    "spacing": "A header-only shell — no sidebar, because the approved six-section composition never had one — with the header and main sharing one mx-auto max-w-[1600px] container at px-4 / sm:px-6. That cap is the one place this piece differs from the three later commissions on the same route family, which dropped the body cap entirely; here the content stops widening at 1600. Sections are separated by mt-10 and the twelve-column grid changes split every time to give each section its own rhythm: 4/8 for the reading band, a 3-up prescription row, 4/8 for audience, 7/5 for the flow, full width for the link table. Cards are rounded-xl with p-5 or p-6 and shadow-sm; every header control is exactly 44px tall as an individual button, not merely as a container. The heatmap is 7 rows x 12 columns of 28px-tall buttons with 4px gaps, kept above a min-w-[520px] floor inside a mobile-only horizontal scroller that releases at md; the link table does the same at 640px. Absolute positioning is banned inside both scrollers — the sr-only direction word is dropped from deltas rendered there, because an absolutely positioned sr-only span inside a clipping container paints at unscrolled coordinates and pushed the document 248px wide at 390px.",
+    "philosophy": "Hopline refuses to be a scoreboard. Every figure on the page is followed by what to do about it, and the three prescriptions are not a banner floating above the charts — they are wired into them. Each prescription card carries its own severity badge, its evidence sentence, its own mini bar chart and, crucially, a Show on chart control that drops a dashed vertical marker into the hero time series at that finding's date, so the claim and the curve are the same object. The reading band goes further and states how to read the number at all — total clicks is reach, not people — because a metric a reader misinterprets is worse than one they skip. Numbers and sentences can never drift apart: the peak multiple and the send-time ratio are computed in code and injected into the copy, and the reconciliation rules are explicit, with the eight listed links plus a derived remainder summing exactly to the hero total and the attributed flow always smaller than table clicks because it only counts referred traffic. Prescriptions can be queued, snoozed or dismissed and every one of those states is reversible, which is what turns the section from a report into a worklist. The Korean and English copy were written separately rather than translated, and the language toggle swaps the lang attribute with the strings so the page never mixes them.",
+    "dosDonts": [
+      {
+        "do": "Wire each prescription to a vertical marker on the hero time series.",
+        "dont": "Float an anomaly section above unrelated charts — untethered, it is a banner, not a prescription."
+      },
+      {
+        "do": "Print a read-this line under each KPI explaining what the figure does and does not mean.",
+        "dont": "Ship a naked total that invites the reader to mistake reach for people."
+      },
+      {
+        "do": "Compute the peak multiple and the send-time ratio and inject them into the copy string.",
+        "dont": "Hand-write the number into the sentence — the day the series changes, the prose lies."
+      },
+      {
+        "do": "Split the accent by contrast need: the 700 step for text and controls, the 600 step for fills.",
+        "dont": "Use one accent step everywhere; the fill-strength orange will not clear AA as body text on white."
+      },
+      {
+        "do": "Make all 84 heatmap cells 28px buttons with an aria-label naming day, hour range and count.",
+        "dont": "Render the grid as divs with a hover tooltip — the conclusion has to be reachable by keyboard and readable as text."
+      },
+      {
+        "do": "Keep absolutely positioned sr-only text out of any overflow-x-auto container.",
+        "dont": "Rely on adding a relative anchor to beat it — that depends on Tailwind's utility output order and is not deterministic."
+      },
+      {
+        "do": "Write the Korean copy natively and swap the lang attribute with the strings.",
+        "dont": "Translate the English line by line, or let one screen show both languages at once."
+      }
+    ],
+    "agentPrompt": "# Recreate: Hopline (short-link analytics that reads as a to-do list)\n\nBuild a light, commercial link-analytics dashboard for marketers. The organising idea: this page answers \"what should I fix today\", so every metric is followed by an action and the actions are wired back into the charts.\n\n**Shell.** No sidebar. A sticky translucent-white header holds the wordmark, a search button with a keycap hint, a 7/28/90-day segmented control, an EN/KO language group, notifications and an account initial. Header and main share one `mx-auto max-w-[1600px]` container at px-4 / sm:px-6. Every header control is individually 44px tall.\n\n**Six sections, in this order:** (1) reading band — a 4/8 split of an oversized total-clicks figure with a period delta beside a full-width area chart; (2) a 3-up KPI row where each card carries a \"Read:\" sentence explaining what the number means; (3) **Do this** — three prescription cards, placed above the audience section, not below it; (4) audience — a device donut with a percentage table plus a 7x12 hour-of-week heatmap; (5) a two-sided flow diagram from referrer sources to links, with a domain table beside it; (6) a sortable link table with a derived remainder row and a totals row.\n\n**The prescription cards are the point.** Each holds a severity badge (critical / warning / opportunity, each with its own lucide icon and tone), a one-line title, an evidence sentence, a small bar chart with the offending bars highlighted, a primary Fix-this button, and a **Show on chart** toggle that drops a dashed vertical marker plus a square node into the hero time series at that finding's date and prints a caption strip beneath it. Cards can be queued, snoozed or dismissed into a dashed placeholder with an Undo, and a counter reports how many of three are handled.\n\n**Palette.** `zinc-50` canvas, `white` cards with `zinc-200` hairlines, rounded-xl, shadow-sm. Split the orange accent by contrast need: `orange-700` for text, buttons and active carets, `orange-600` for fills only (brand tile, chart line and gradient, share bars, flow nodes). The heatmap ramp is `rgba(234, 88, 12, a)` with alpha from 0.06 to 0.90. `orange-50` tints only the live reading strip. Deltas use `emerald-700` / `red-700`, always with an arrow, an explicit sign and an sr-only direction word.\n\n**Type.** Pretendard for prose and all Korean; `--font-display-mono` for the numeric/identifier layer only — wordmark, hero total, KPI figures, deltas, slugs, domains, initials, keycap, timestamp, hour ticks, card indices. Never apply a display face to a Korean string; the weekday labels stay Pretendard. Exactly three weights: 400 / 500 / 600. Write the font family as an inline literal at each call site — do not hoist it into a shared constant, because static scanners read the string that follows fontFamily and a hoisted constant reads as an unlisted font.\n\n**Data discipline.** Deterministic constants only. The three period totals are real sums of their series arrays. Eight listed links plus a derived \"other\" remainder must equal the hero total exactly. Attributed flow is always less than table clicks, and the page says so as a percentage. The peak multiple and the send-time ratio are computed and injected into the copy — never typed into the sentence.\n\n**Accessibility.** All 84 heatmap cells are 28px buttons with an aria-label naming weekday, hour range and count; the conclusion strip is aria-live. The donut ships a percentage table; the time series and the flow ship sr-only tables — and every one of those sr-only blocks must live outside any `overflow-x-auto` container, since an absolutely positioned sr-only element inside a clipping scroller paints at unscrolled coordinates and blows out the document width at 390px. Mobile-only horizontal scroll for the heatmap (520px floor) and the link table (640px floor), released at md.\n\n**Bilingual.** English default, Korean via toggle, `lang` swapped with the strings, zero mixing on any one screen. Type the Korean dictionary against the English one so a missing key fails the compile.\n"
+  },
+  "d42": {
+    "id": "d42",
+    "palette": [
+      {
+        "token": "zinc-50",
+        "hex": "#fafafa",
+        "role": "Canvas",
+        "usage": "App background behind the white sidebar, white topbar and white panels — a true light shell, no cream or paper tone"
+      },
+      {
+        "token": "white",
+        "hex": "#ffffff",
+        "role": "Panel surface",
+        "usage": "Sidebar, topbar, the four KPI cards, the chart panel, the breakdown panel and the movements table all sit on white with zinc-200 hairlines and rounded-xl corners"
+      },
+      {
+        "token": "rose-500",
+        "hex": "#ff2056",
+        "role": "Accent — money-in encoding",
+        "usage": "The upward half of the diverging cash-flow chart, the category share bars in the breakdown panel, and the focus-visible ring colour on every control"
+      },
+      {
+        "token": "rose-700",
+        "hex": "#c70036",
+        "role": "Accent — text step",
+        "usage": "Inbound amounts in the movements table, the money-in readout above the chart, and the review status pill's label — the darker step so the accent can carry small text on white"
+      },
+      {
+        "token": "rose-50",
+        "hex": "#fff1f2",
+        "role": "Accent wash",
+        "usage": "The hovered/focused chart column's backing tint, the review status pill's fill and the alert chip behind an unfavourable KPI delta"
+      },
+      {
+        "token": "zinc-500",
+        "hex": "#71717b",
+        "role": "Money-out encoding",
+        "usage": "The downward half of the diverging chart. Outflow is deliberately neutral rather than a second hue, so the accent means one direction and the chart never needs a colour key to be read as in-versus-out"
+      },
+      {
+        "token": "zinc-900",
+        "hex": "#18181b",
+        "role": "Ink",
+        "usage": "Page title, KPI figures, panel titles, outbound amounts and counterparty names"
+      },
+      {
+        "token": "zinc-600",
+        "hex": "#52525c",
+        "role": "Muted text",
+        "usage": "Every secondary line — memos, category and method cells, KPI notes, axis dates, the footer. Fixed at the 600 step everywhere because the surfaces underneath vary between white, zinc-50 and zinc-100, and the darkest of those sets the floor"
+      },
+      {
+        "token": "zinc-200",
+        "hex": "#e4e4e7",
+        "role": "Hairline",
+        "usage": "Panel borders, the table header rule, the segmented control's outer edge and the pending pill's inset ring"
+      },
+      {
+        "token": "zinc-100",
+        "hex": "#f4f4f5",
+        "role": "Inset track",
+        "usage": "The segmented control's track, the KPI icon tiles, the settled status pill, the bar-chart's unfilled share track and the scheduled-payment rows"
+      }
+    ],
+    "typography": "Pretendard for prose; --font-display-mono for the entire numeric layer — the page title, all four KPI figures at 26px, the three chart readouts, every amount in the breakdown list and every amount cell in the movements table. Exactly three weights render: 400 body, 500 for labels, table headers, status pills and segmented options, 600 for the page title, panel titles and the KPI figures. Labels are 11px uppercase at tracking-[0.08em] in the KPI cards and tracking-[0.06em] in the table head. The body ladder is deliberately fractional — 13.5px for counterparty names, 13px for category and method cells, 12.5px for amounts at the narrow breakpoint, 11.5px for memos — so five columns of information can stack in one cell on mobile without a size collision. Every figure is tabular-nums and right-aligned in its column.",
+    "spacing": "No max-width cap on the body at all: the main region is padding-only at px-4 / sm:px-5 / lg:px-6 beside a fixed sidebar, so the content stays flush from 1280 through 3440 with an even gutter. This is the variant the client pointed to as the reference when the sibling build's cap was wrong twice, and it is the reason that build ended up capless too. Inside, the rhythm is a 4/8 stack: a page-title row, then a 4-across KPI grid (1 / sm:2 / xl:4), then a twelve-column 8/4 split of the diverging chart against the category breakdown, then the full-width movements panel, then a hairline footer note. Panels are rounded-xl with a bordered header strip and p-4 / sm:p-5 bodies; the table panel zeroes its body padding so rows run edge to edge. The chart is a 224px-tall flex row of equal-width columns, each a 112px upper well and a 112px lower well straddling a hairline zero line, with bar width capped at 26px so a 30-day and a 90-day period read at the same weight. The table is table-fixed with percentage columns that shed cells by breakpoint — method at lg, category at md, status at sm — instead of scrolling horizontally, so there is no horizontal scrollbar on the desktop table at any width.",
+    "philosophy": "This is the KPI-shell reading of a ledger that also exists as d43 at /commissioned/ledgerline: byte-identical data.ts, the same 39 movements, the same three accounts, the same bilingual dictionary — and a completely different skeleton. Where d43 opens on a dark teal balance band borrowed from a client reference, d42 opens on four equal white KPI cards in a row, and that single choice changes what the page argues. Four cards give money in, money out, net and balance the same visual weight, so the reader is being asked to compare four quantities rather than to look at one balance; net is allowed to be negative and gets its own alert tone, which a hero balance figure can never express. The chart follows the same logic: a diverging bar column per bucket with inflow above a hairline zero line and outflow below it, where the accent means in and plain zinc means out, so direction is carried by position and hue at once and the two halves stay comparable at a glance. Selecting the direction filter dims one half rather than removing it, keeping the other half's scale stable. The category breakdown re-aggregates from whichever direction is active and states its share and count in text beside every bar. Everything hangs off two controls — account and period — and the same pair drives the sidebar, the KPI row, the chart, the breakdown and the table, which is what makes a four-card top row legible instead of decorative.",
+    "dosDonts": [
+      {
+        "do": "Give money in, money out, net and balance equal weight as four KPI cards.",
+        "dont": "Promote one balance to a hero figure here — that is the sibling variant's argument, and net's sign disappears when you do."
+      },
+      {
+        "do": "Encode direction as position across a hairline zero line, with the accent above and neutral zinc below.",
+        "dont": "Give outflow a second accent hue; two saturated colours make the reader learn a key before reading the chart."
+      },
+      {
+        "do": "Dim the inactive half of the chart when a direction filter is on.",
+        "dont": "Remove it — the remaining bars would rescale and the comparison the reader was making would silently change."
+      },
+      {
+        "do": "Drop table columns at breakpoints and fold their content into the counterparty cell on mobile.",
+        "dont": "Force a min-width and scroll the desktop table sideways."
+      },
+      {
+        "do": "Leave the body uncapped and let padding alone hold the gutter.",
+        "dont": "Pick a max-width number — every guess at where ultrawide begins has to be re-guessed for the next shell."
+      },
+      {
+        "do": "Hold secondary text at the zinc-600 step across every surface.",
+        "dont": "Tune it per surface — the panels alternate white, zinc-50 and zinc-100 and the darkest one sets the floor."
+      }
+    ],
+    "agentPrompt": "# Recreate: Ledgerline · KPI shell (light business-banking dashboard)\n\nBuild a light, commercial banking dashboard for a business owner who opens it weekly to answer one question: where did the money come from and where did it go. This is the KPI-shell reading of a ledger — a companion piece to a reference-matched variant of the same data, so the skeleton, not the domain, is what has to be right.\n\n**Shell.** Fixed left sidebar (brand lockup, two nav groups, an account switcher, a user block) on white, plus a topbar with search, a period selector, a language toggle, notifications and an avatar menu. Canvas `zinc-50`; every panel white with `zinc-200` hairlines, rounded-xl, a bordered header strip carrying a title and a meta line. A Cmd/Ctrl-K palette jumps to accounts and periods.\n\n**No body max-width.** The main region is padding-only — px-4 / sm:px-5 / lg:px-6 — so content stays flush from 1280 to 3440 with an even gutter. Do not pick a cap number.\n\n**Composition, top to bottom:** page-title row with an as-of stamp → a four-across KPI grid (1 / sm:2 / xl:4) of money in, money out, net and balance → a twelve-column 8/4 split of the diverging cash-flow chart against a category breakdown → a full-width movements table → a hairline footer note.\n\n**The four KPI cards are the argument.** Give all four equal weight. Each card holds an 11px uppercase label, an icon tile, a 26px mono figure, a delta chip against the previous window and a short note. Net must be allowed to go negative and take an alert tone; balance shows what is scheduled to leave. Do not promote any one of them into a hero band.\n\n**The chart.** One column per bucket, each an upper well and a lower well straddling a hairline zero line — inflow above in `rose-500`, outflow below in `zinc-500`. Bars are height-percentage divs, not SVG, capped at 26px wide so a 30-day and a 90-day period read at the same weight. Hover or focus on a column swaps the three readouts above (in / out / net) to that bucket's range and tints the column with `rose-50`; leaving restores the whole-period totals. The direction filter dims the inactive half at 25% opacity rather than removing it, so the scale never shifts.\n\n**The table.** `table-fixed` with percentage columns and no forced min-width. Shed columns by breakpoint — method at lg, category at md, status at sm — and fold category plus status into the counterparty cell below sm. Every header is a sort button with `aria-sort`; ties break on a stable id so the order never wobbles. Status pills pair colour with a lucide icon and a word.\n\n**Palette.** One accent, rose. `rose-500` for inflow bars, share bars and focus rings; `rose-700` for inbound amounts and the review pill's text; `rose-50` for the active column tint and alert chips. Outflow is deliberately neutral `zinc-500`. Ink `zinc-900`; hold all secondary text at `zinc-600` everywhere, because the surfaces alternate white, `zinc-50` and `zinc-100` and the darkest of those sets the contrast floor.\n\n**Type.** Pretendard prose; `--font-display-mono` for the whole numeric layer — page title, KPI figures, chart readouts, breakdown amounts, table amounts. Exactly three weights: 400 / 500 / 600. 11px uppercase labels at 0.08em in cards and 0.06em in the table head. Use a fractional body ladder (13.5 / 13 / 12.5 / 11.5px) so a stacked mobile cell does not collide. Everything numeric is tabular-nums and right-aligned.\n\n**Data.** Deterministic constants anchored to a fixed date — no Math.random, no Date.now, no live date objects. Amounts are integer cents; percentages are derived, never typed. Bilingual dictionary with English default; swap the `lang` attribute with the strings and never mix languages on one screen.\n"
+  },
+  "d43": {
+    "id": "d43",
+    "palette": [
+      {
+        "token": "zinc-50",
+        "hex": "#fafafa",
+        "role": "Canvas",
+        "usage": "A faintly grey app background rather than pure white, so the white sidebar and the white cards both read as raised surfaces against it"
+      },
+      {
+        "token": "teal-900",
+        "hex": "#0b4f4a",
+        "role": "Primary — the dark band",
+        "usage": "The hero balance band that opens the page, the credit-card face in the My Cards panel, the selected account's sidebar row and its ring on the selected account card, the brand mark plate and the avatar disc. This is the single most identifying colour on the route"
+      },
+      {
+        "token": "emerald-500",
+        "hex": "#00bc7d",
+        "role": "Secondary accent — the active state",
+        "usage": "The filled direction button inside the dark band, money-out bars in the cash-flow chart, the icon tile beside the money-out figure, the current-page dot in the sidebar, the compact-rows switch when on, and the notch peeking above the card face"
+      },
+      {
+        "token": "emerald-950",
+        "hex": "#002c22",
+        "role": "Ink on emerald fills",
+        "usage": "The label inside the active emerald button and the arrow inside the emerald icon tile. Chosen over white because white on emerald-500 measures roughly 2.3:1 and fails AA outright"
+      },
+      {
+        "token": "teal-800",
+        "hex": "#005f5a",
+        "role": "Money-in bars",
+        "usage": "The upward half of the cash-flow chart, paired against emerald-500 below the zero line so the two directions stay distinguishable while both remain in the same family as the band"
+      },
+      {
+        "token": "teal-100",
+        "hex": "#cbfbf1",
+        "role": "Text on the dark band",
+        "usage": "The Available balance label and the money-in comparison clause inside the hero band; the card wordmark and the card's kind and holder lines take the same tint family"
+      },
+      {
+        "token": "emerald-700",
+        "hex": "#007a55",
+        "role": "Inbound amounts",
+        "usage": "Signed inbound figures in the activity table, the settled status pill's label, and the section-heading icons that mark cash flow, activity and cards"
+      },
+      {
+        "token": "white",
+        "hex": "#ffffff",
+        "role": "Card and shell surface",
+        "usage": "The sidebar, every rounded-2xl content card, the search field, the period select and the export button"
+      },
+      {
+        "token": "zinc-200",
+        "hex": "#e4e4e7",
+        "role": "Hairline",
+        "usage": "Card borders, the sidebar edge, the table head rule, the chart's dashed vertical guides and the zero line"
+      },
+      {
+        "token": "zinc-600",
+        "hex": "#52525c",
+        "role": "Muted text",
+        "usage": "Every secondary line on white — column headers, category and date sublines, share percentages, axis labels, the vs-last-period clause. Held at the 600 step across all surfaces rather than tuned per panel"
+      }
+    ],
+    "typography": "Pretendard for prose; --font-display-grotesk for the numeric and identifier layer — the hero balance at text-4xl / md:text-5xl, all delta figures, the three account-card balances at 2xl to 28px, the cash-flow axis and tick labels, every amount in the activity table, the masked card number at 0.18em tracking, the account last-four chips, the date-range chip and the sidebar wordmark. Exactly three weights render: 400 for body, 500 for headings, figures, labels and every control, 600 for the sidebar wordmark alone. Because the display face is a geometric sans and the weight ceiling is low, hierarchy is made almost entirely with size and tracking — a three-step uppercase ladder at 0.12em for the other-accounts label, 0.14em for sidebar group labels and 0.22em for the card wordmark. Table headers are 11px uppercase inside 44px-tall sort buttons. All figures are tabular-nums.",
+    "spacing": "No max-width cap on the body — px-4 / md:px-6 padding only — which took two failed attempts to arrive at: a 1440 cap left 112px of dead margin per side at 1920, a 1760 cap held to 1920 but reopened from 2200 (272px per side at 2560), and only removing the cap held the gutter at 24px across 1280, 1440, 1920, 2200, 2560 and 3440. The reference used to design this page was a single browser-width screenshot, which can show that content looks flush but cannot say where to lock it. Inside, the page is a vertical gap-4 stack rather than a grid: topbar row, hero band, cash-flow card, a three-across account-card grid (1 / sm:2 / xl:3), and finally an xl:grid-cols-[minmax(0,1fr)_360px] split of the activity table against the cards panel. The cash-flow card splits again at lg:grid-cols-[minmax(0,1fr)_248px], chart beside a bordered stat rail. Cards are rounded-2xl with px-4 / md:px-6 bodies; the hero band is rounded-2xl with its own px-5 / md:px-8. Every interactive control is exactly 44px tall — search, select, export, direction buttons, grain toggle, sort headers, language pills, the switch and each account row.",
+    "philosophy": "This is the same ledger as d42 at /commissioned/ledgerline-d30 — byte-identical data.ts, the same 39 movements, three accounts and bilingual dictionary — rebuilt to match a client-supplied reference instead of an in-house shell, and the difference between the two is the point. Here the page opens on a dark teal band carrying one number: available balance. That single choice reorders everything downstream. Because the band answers how much is there, the cash-flow card is free to answer where it moved, the three account cards answer which pot, and the activity table answers what specifically — a chain of narrowing questions rather than d42's four peer metrics. The reference's decorative controls were all replaced with working ones rather than reproduced: its three hero action buttons became direction filters that actually re-cut the chart, table and CSV; a Pro Mode switch became a row-density switch; a See All link that had nowhere to go became the list of the other two accounts, and clicking one brings its card to the front. The account selector is deliberately duplicated in three places — sidebar, stat cards, cards panel — so that a single piece of state is visibly the same state from three entry points. Two contrast decisions are load-bearing: the label on an emerald fill is emerald-950, not white, because white measures about 2.3:1 there; and the h1 lives on the hero band, not on the sidebar wordmark, so heading order follows document order. The chart is flex plus height percentages rather than SVG because aspect ratio changes per viewport, and it ships a role-img summary and a legend instead of a hover tooltip, since 90 daily bars would put hit targets below the 44px floor the rest of the page holds.",
+    "dosDonts": [
+      {
+        "do": "Open on one number — available balance — and let each section below narrow the question.",
+        "dont": "Reproduce the KPI-row reading here; the sibling variant already owns that skeleton on the same data."
+      },
+      {
+        "do": "Replace every decorative control in the reference with one that changes the data.",
+        "dont": "Carry over a dead link or a shortcut hint you did not implement — printing an unimplemented shortcut is a lie."
+      },
+      {
+        "do": "Put the label on an emerald-500 fill in emerald-950.",
+        "dont": "Use white on it — that pairing lands near 2.3:1 and fails AA."
+      },
+      {
+        "do": "Anchor the h1 on the hero band and mark sidebar group labels as paragraphs referenced by aria-labelledby.",
+        "dont": "Make the sidebar wordmark the h1 — the heading then precedes the content it is supposed to head."
+      },
+      {
+        "do": "Drop the chart tooltip and ship a role-img summary plus a legend instead.",
+        "dont": "Add per-bar hover targets on a 90-bar daily view; the hit areas fall under the 44px floor the rest of the page keeps."
+      },
+      {
+        "do": "Leave the body uncapped and hold the gutter with padding.",
+        "dont": "Trust a single-width reference screenshot to tell you where ultrawide starts — it cannot, and two guesses missed."
+      },
+      {
+        "do": "Expose the account selector from the sidebar, the stat cards and the cards panel at once.",
+        "dont": "Hide the selection behind one control — the synchronisation is only believable when you can watch it from elsewhere."
+      }
+    ],
+    "agentPrompt": "# Recreate: Ledgerline (light business-banking dashboard, dark hero band)\n\nBuild a light business-banking dashboard whose spine is a dark teal balance band. It is the reference-matched reading of a ledger that also exists in a KPI-shell variant; the skeleton is what distinguishes it, so follow the composition exactly.\n\n**Shell.** A white left sidebar with two groups: in-page anchor nav (overview / cash flow / activity / cards) and an accounts group of three selectable rows, each with an icon, a name and a last-four chip. Below them: a help disclosure, a row-density switch, a language group and a user block. Canvas `zinc-50`.\n\n**No body max-width.** Padding only, px-4 / md:px-6. Verify the gutter is identical at 1280, 1440, 1920, 2200, 2560 and 3440. A cap of 1440 leaves 112px per side at 1920; 1760 survives to 1920 and reopens at 2200. Do not cap.\n\n**Composition, as a gap-4 vertical stack:** topbar row (real search, a date-range chip, a period select, an export control that downloads the visible rows as CSV) → **hero band** → cash-flow card → three account cards → an `xl:grid-cols-[minmax(0,1fr)_360px]` split of the activity table against a My Cards panel.\n\n**Hero band.** Rounded-2xl, filled `teal-900`, with a generative rotated-capsule SVG at 10% white stroke behind it. It carries the h1 (available balance plus the masked account), the balance at text-4xl / md:text-5xl, a signed delta clause, a movement count — and, on the right, three pill buttons that are direction filters (all / money in / money out). The active one is filled `emerald-500` with `emerald-950` text; the others are white/10 with a hairline ring. Those buttons must actually re-cut the chart, the table and the CSV.\n\n**Cash flow.** `lg:grid-cols-[minmax(0,1fr)_248px]`: a diverging bar chart beside a bordered stat rail. Inflow above the zero line in `teal-800`, outflow below in `emerald-500`; the direction filter fades the inactive half to 20% opacity. Build it with flex and height percentages, not SVG — viewport aspect ratio varies and SVG forces coordinate recalculation or distortion. Ship a `role=\"img\"` summary label and a legend; do **not** add per-bar hover tooltips, because a 90-bar daily view puts hit targets under 44px. The grain toggle is Grouped / Daily, not Weekly — a 30-day window buckets by three days and a 90-day window by ten, so weekly would be false.\n\n**Account cards.** Three, each a whole-card selection button showing balance, signed net for the period and a vs-last-period line. Express change as a signed amount, not a percentage: net can be negative and a percentage against a negative baseline flips direction.\n\n**Activity.** A semantic table with 44px sort-button headers and `aria-sort`, a circular direction icon per row, a status pill and, under each amount, that row's share of the period total. **My Cards** shows a `teal-900` card face built from generative SVG with a masked number and a self-drawn network glyph; beneath it, list the other two accounts as buttons that bring their card to the front.\n\n**Palette.** `teal-900` band and card face; `emerald-500` active state; `emerald-950` as the label on any emerald fill (white there is about 2.3:1); `teal-800` inflow bars; `teal-100` for text on the band; `emerald-700` for inbound amounts and section icons; `zinc-200` hairlines; hold all muted text at `zinc-600`.\n\n**Type.** Pretendard prose, `--font-display-grotesk` on every figure, date, masked number, last-four chip and the wordmark. Exactly three weights: 400 / 500 / 600, with 600 reserved for the wordmark alone — size and tracking carry the rest. Uppercase tracking ladder 0.12 / 0.14 / 0.22em.\n\n**Structure.** The h1 belongs to the hero band, not the sidebar wordmark, so headings follow document order; sidebar group labels are paragraphs referenced with aria-labelledby. Every control is 44px tall. No effects: derive with memos and mutate state in event handlers only. Bilingual, English default, `lang` swapped with the strings.\n"
+  },
+  "d44": {
+    "id": "d44",
+    "palette": [
+      {
+        "token": "zinc-950",
+        "hex": "#09090b",
+        "role": "Canvas, and ink on lime",
+        "usage": "The app background and the sidebar, and the text colour used on every lime fill — the KPI card, the period pills, the Add-transaction button and the chart tooltip all print near-black on acid green"
+      },
+      {
+        "token": "lime-300",
+        "hex": "#bbf451",
+        "role": "Accent",
+        "usage": "The only saturated colour on the route: the money-in KPI card's full fill, the surplus bar gradient's top stop, the kept-figure and cash-flow net figures, the active period pill, the insights panel's border and heading, the selected category and goal states, checkbox accents and every focus ring"
+      },
+      {
+        "token": "emerald-950",
+        "hex": "#002c22",
+        "role": "Bar gradient base",
+        "usage": "The bottom stop of the vertical gradient on every surplus bar, so a positive bar darkens toward the zero line instead of ending in a flat block"
+      },
+      {
+        "token": "emerald-400",
+        "hex": "#00d492",
+        "role": "Secondary encoding",
+        "usage": "Favourable delta chips, the second goal's progress bar, the alternate donut arc tone and its hatched pattern variant — a second data hue that is never allowed to act as chrome"
+      },
+      {
+        "token": "zinc-900",
+        "hex": "#18181b",
+        "role": "Panel surface",
+        "usage": "Every rounded-2xl panel — cash flow, transactions, card, goals, spending, upcoming — sits on this against the zinc-950 canvas, with a zinc-800 border doing the separation"
+      },
+      {
+        "token": "zinc-800",
+        "hex": "#27272a",
+        "role": "Panel border and inset track",
+        "usage": "Panel outlines, table row rules, progress-bar tracks, the expanded-row tint and the deficit bar's fill"
+      },
+      {
+        "token": "zinc-500",
+        "hex": "#71717b",
+        "role": "Deficit hatching",
+        "usage": "The diagonal repeating-linear-gradient drawn over any bar that falls below the break-even line, plus that bar's outline — so overspend reads by pattern and position, not only by absence of colour"
+      },
+      {
+        "token": "zinc-400",
+        "hex": "#9f9fa9",
+        "role": "Muted text and the break-even line",
+        "usage": "All secondary text on the dark panels — labels, axis ticks, sublines, legend copy — and the dashed horizontal rule marking zero on the cash-flow chart. This is the floor for secondary text on dark; nothing dimmer is used"
+      },
+      {
+        "token": "zinc-50",
+        "hex": "#fafafa",
+        "role": "Headline ink",
+        "usage": "The h1, the money-out and card-spend figures, the donut centre amount and the saved total — the brightest step, reserved for headline figures rather than body text"
+      },
+      {
+        "token": "zinc-700",
+        "hex": "#3f3f46",
+        "role": "Secondary border",
+        "usage": "The card face's outline, the period chip and the card/goal selector groups, one step brighter than the panel border so nested controls stay separable from the panel they sit in"
+      }
+    ],
+    "typography": "Pretendard for prose; --font-display-grotesk on the h1 and every headline figure — the three KPI amounts, the cash-flow net, the donut centre, saved total, card spend and the after-upcoming figure. One deliberate second display face appears exactly once: the masked card number strip uses --font-display-mono, the only place on the route a face other than grotesk is set. Exactly three weights render: 400 for body, 500 for the period pills, the Add button, table headers via a [&_th]:font-medium selector and the tooltip's net row, 600 for the h1 and every panel heading. Panel headings are a uniform 14px semibold with wide tracking, which keeps six stacked panels reading as peers; hierarchy inside them comes from figure size — 3xl KPI, 3xl/4xl cash-flow net, 3xl saved, 2xl card spend, xl after-upcoming, down to 11px and 10px for sublines and axis ticks. Every amount, percentage and count is tabular-nums.",
+    "spacing": "No max-width cap on the body: px-4 / lg:px-6 with pt-6 pb-16 beside a sidebar that collapses from 16rem to 5rem, holding a 24px gutter from 1440 through 3440. The page is a stack — heading row, a 3-across KPI grid (1 / sm:2 / xl:3), a full-width insights strip, then an xl:grid-cols-[minmax(0,1fr)_21rem] split of the main column against a four-panel rail. The specific decision is in that bottom split: at xl and above the last panel of each column (transactions on the left, upcoming on the right) takes flex-1 and passes the extra height down into its own table wrapper or list, so the two columns end at the same y. This had to survive two opposite states — with rows collapsed the rail ran 278px longer, with a row expanded the table ran 481px longer — and capping either side would have fixed one state while breaking the other. After the change the difference measures 0px at 1280, 1440, 1920 and 2560 in both states, with no new horizontal overflow. Sticky positioning was rejected on measurement: the rail is about 1420px tall, taller than a viewport, so pinning it would permanently clip its bottom. Panels are rounded-2xl at p-4 / sm:p-5; the donut is a 224px SVG with a 62px arc radius and 20px stroke, sized up from 160/58/20 after the centred amount was measured overlapping the ring by 6.1px — the worst case, a yearly total with the selected arc thickened to 28, now clears by 7.5px.",
+    "philosophy": "The brief was three proofs at once — where is it leaking, how far to the goal, what did I keep — and the answer was to give each one its own panel and forbid any of them from becoming a footnote to the others. The donut answers the leak and is not decorative: choosing a slice filters the transaction table to that category. Goals answers the distance with arithmetic rather than a bar alone, converting a monthly contribution into months remaining and an amount outstanding. The KPI trio plus the cash-flow chart answers what was kept, and the chart encodes signed net per bucket rather than gross in and out, because a bar that must cross a break-even line has to carry a sign. That decision cascades: a surplus bar is a lime gradient above the line, a deficit bar is a hatched neutral block below it, so the reader gets direction, pattern and sign — three encodings, none of them colour alone. A fourth panel exists that the reference did not have, and it is the one that finishes the argument: what is left after the bills that have not landed yet, because in personal finance the useful number is not what remains today but what remains after what is already committed. Every period control on the page was collapsed into one, since four panels reading four different windows would put the three proofs on different time axes. The route is also the catalogue's only acid-lime piece, and that accent is rationed hard — one saturated hue, near-black text on top of it, and a strict floor of zinc-400 for every secondary line on the dark panels.",
+    "dosDonts": [
+      {
+        "do": "Give each of the three proofs its own panel and its own answering mechanism.",
+        "dont": "Fold one into another's caption — a proof that only appears as a subtitle is not being answered."
+      },
+      {
+        "do": "Plot signed net per bucket so bars cross a dashed break-even line.",
+        "dont": "Plot gross in and out as paired bars — the question is what was kept, and paired bars make the reader subtract."
+      },
+      {
+        "do": "Draw deficit bars with diagonal hatching and an outline in addition to their position below the line.",
+        "dont": "Let the absence of the lime gradient be the only signal that a bucket overspent."
+      },
+      {
+        "do": "Collapse every panel's period control into one shared selector.",
+        "dont": "Leave per-panel period dropdowns as the reference had them; the three proofs then sit on different time axes."
+      },
+      {
+        "do": "Let the last panel in each bottom column absorb leftover height with flex-1.",
+        "dont": "Cap or scroll one side to match the other — the two columns disagree in opposite directions depending on whether a row is expanded."
+      },
+      {
+        "do": "Size the donut hole from the worst case — the longest amount with the selected arc thickened.",
+        "dont": "Shrink the centred text to fit; a yearly total adds digits and the overlap comes straight back."
+      },
+      {
+        "do": "Give a control that hides its text label at narrow widths an sr-only label instead of display:none.",
+        "dont": "Use a responsive hidden utility on the only text a button has — its accessible name drops to zero and neither the eye nor a DOM dump will catch it."
+      }
+    ],
+    "agentPrompt": "# Recreate: Verdant (dark personal-finance dashboard, acid-lime accent)\n\nBuild a dark personal wealth-and-spending dashboard that answers three questions at once, each with its own panel, none of them subordinate: **where is money leaking**, **how far to the goal**, **what did I earn, spend and keep**.\n\n**Shell.** A collapsible left sidebar (16rem, 5rem collapsed) on `zinc-950` with a brand mark, a labelled nav group, preference rows and a row-density switch; a topbar with search, a language toggle, an insights toggle and a notification popover. Canvas `zinc-950`; every panel `zinc-900` inside a `zinc-800` border, rounded-2xl, p-4 / sm:p-5.\n\n**No body max-width.** px-4 / lg:px-6, pt-6 pb-16. Hold a 24px gutter from 1440 to 3440.\n\n**Composition:** title row with a single shared period control (week / month / year) and a primary action → a three-across KPI grid → a full-width insights strip → `xl:grid-cols-[minmax(0,1fr)_21rem]` splitting cash flow + transactions against a rail of card, goals, spending and upcoming.\n\n**Panel one — cash flow.** Plot **signed net per bucket**, not gross in and out. Surplus bars rise above a dashed break-even line filled with a vertical `emerald-950` → `lime-300` gradient; deficit bars hang below it as neutral blocks with a `zinc-500` outline and a diagonal repeating-linear-gradient hatch. Direction, pattern and sign all carry the meaning, so colour is never alone. Hover, focus or click a bar for a lime tooltip with in / out / net; the tooltip flips sides past the midpoint.\n\n**Panel two — spending.** A generative SVG donut, 224px with a 62px arc radius and 20px stroke (28px on the selected arc). Two of the arcs use SVG hatch patterns rather than a third and fourth hue. Selecting a slice **filters the transactions table** to that category and swaps the centred amount. Size the hole from the worst case — the longest amount with the selected arc thickened — and verify the centred text clears the ring; at 160/58/20 a yearly total overlaps by about 6px.\n\n**Panel three — goals.** Progress bars plus real arithmetic: turn a monthly contribution into months remaining and an amount outstanding, and announce the result politely.\n\n**Panel four — upcoming.** Add a panel the reference does not have: what is left after the bills already committed. In personal finance that, not today's balance, is the conclusion.\n\n**Bottom-row alignment.** At xl and up, give the last panel in each column `flex-1` and pass the surplus height down into its own table wrapper or list. Test both states — collapsed rows and an expanded row — because the columns overrun in opposite directions (about +278px on the rail collapsed, about +481px on the table expanded). Do not use sticky (the rail is roughly 1420px, taller than a viewport) and do not use internal scroll or max-height caps.\n\n**Palette.** One saturated accent, `lime-300`, with `zinc-950` as the text on every lime fill. `emerald-400` as a second data-only hue for favourable deltas, one goal bar and one donut arc — never as chrome. `zinc-400` is the hard floor for secondary text on dark and also draws the break-even line. `zinc-50` is reserved for headline figures.\n\n**Type.** Pretendard prose, `--font-display-grotesk` on the h1 and every headline figure. Exactly three weights: 400 / 500 / 600. Keep panel headings a uniform 14px semibold so six stacked panels read as peers and let figure size make the hierarchy.\n\n**Discipline.** Deterministic constants only — no Math.random, no Date.now, no live date objects. Aggregates must reconcile: weekly buckets sum into the monthly figure, and the visible table is explicitly a sample whose total never exceeds the aggregate. Compute donut arcs without mutating a cursor during render. Write `Ctrl` rather than the command glyph in keycaps. Replace every dead control with a working one, or remove it. Any button whose visible label disappears at a narrow width needs an sr-only label, not a responsive hidden utility — `display:none` removes the accessible name entirely.\n"
+  },
+  "d45": {
+    "id": "d45",
+    "palette": [
+      {
+        "token": "zinc-950",
+        "hex": "#09090b",
+        "role": "Canvas",
+        "usage": "The shell background, the sidebar, the mobile drawer, the sticky topbar at 90% with a backdrop blur, and the stroke that outlines every chart marker so a dot stays visible wherever the line puts it"
+      },
+      {
+        "token": "zinc-900",
+        "hex": "#18181b",
+        "role": "Card surface",
+        "usage": "Every panel is this at 60% opacity inside a white/10 hairline, rounded-2xl — the trend card, the carrier scorecard, the shipment detail pane and the tracking-event feed. The palette runs on one surface step plus alpha rather than a stack of greys"
+      },
+      {
+        "token": "rose-500",
+        "hex": "#ff2056",
+        "role": "Accent",
+        "usage": "The brand tile, the New shipment button, the notification dot and, at low alpha, the selected shipment row, the selected carrier row, the active nav pill and the completed tracking nodes"
+      },
+      {
+        "token": "rose-400",
+        "hex": "#ff637e",
+        "role": "Accent — text and focus",
+        "usage": "The single focus-visible ring colour on every control on the route, the active-nav label, the sort caret and the completion checks in the event feed"
+      },
+      {
+        "token": "#fb7185",
+        "hex": "#fb7185",
+        "role": "Forecast encoding (raw literal)",
+        "usage": "Hand-written into the SVG: the dashed forecast line, the confidence band at 16% fill, the forecast end marker and the legend's dash gradient. It is Tailwind v3's rose-400 — this repo's v4 theme resolves rose-400 to #ff637e — so the forecast the reader watches is a fractionally different rose from the focus ring around it"
+      },
+      {
+        "token": "#a1a1aa",
+        "hex": "#a1a1aa",
+        "role": "Carrier overlay (raw literal)",
+        "usage": "The dashed per-carrier comparison line and its legend swatch. Tailwind v3's zinc-400, where the v4 theme resolves zinc-400 to #9f9fa9 — the overlay is deliberately neutral so the fleet line and the forecast keep the only two meanings that carry hue"
+      },
+      {
+        "token": "#f4f4f5",
+        "hex": "#f4f4f5",
+        "role": "Fleet actual line (raw literal)",
+        "usage": "The solid historical portion of the on-time trend and the today marker's fill. Matching zinc-100 exactly, it is the brightest line on the chart because history is the one series that is not an estimate"
+      },
+      {
+        "token": "emerald-400",
+        "hex": "#00d492",
+        "role": "On-time status",
+        "usage": "The on-time pill's dot and label at 10% fill, and early ETA deltas — always beside a check icon and a signed hour figure, never as the only signal"
+      },
+      {
+        "token": "amber-400",
+        "hex": "#ffb900",
+        "role": "At-risk status",
+        "usage": "The middle rung of the four-state shipment ladder, again as a dot plus an abbreviated word rather than a bare colour"
+      },
+      {
+        "token": "zinc-400",
+        "hex": "#9f9fa9",
+        "role": "Muted text",
+        "usage": "All secondary text — 11px uppercase column and section labels, carrier sublines, axis ticks, timestamps, placeholder text and the legend. The floor for dim text on this surface; nothing steps below it"
+      }
+    ],
+    "typography": "Pretendard throughout, with --font-display-grotesk used in exactly two places: the Portlane wordmark and the hero on-time percentage at text-3xl / sm:text-4xl. Exactly three weights render — 400 for body and the two row-header cells that opt out of table-header bold, 500 for labels, nav items, status pills, delta text, sort buttons and chart annotations, 600 for card titles, the hero figure, the wordmark, the avatar monogram and the primary button. Section and column labels are a consistent 11px uppercase with wide tracking. The body ladder is fractional — 13.5px nav items, 13px table cells and menu rows, 11.5px sublines, 11px labels, 10px chart annotations — which is what lets a 320px rail carry a lane, a carrier and a delta in one row without truncation. Every figure on the route is tabular-nums, including hour deltas rendered to one decimal and percentages to one decimal, so the rail's right column stays optically aligned as it sorts.",
+    "spacing": "A three-pane console under a fixed 240px sidebar and a 64px sticky topbar: main is px-4 / sm:px-6 / lg:px-8 with py-6 inside a mx-auto max-w-[1920px] frame, and the panes are a gap-4 xl:flex-row of a 320px shipment rail, a min-w-0 flex-1 centre column and a 320px (2xl:360px) detail column. Below xl the three stack in that order so the rail stays the first thing read. Cards are rounded-2xl with white/10 hairlines and px-5 pb-5 bodies; the shell runs a 4/8px rhythm throughout. The rail's table gets its own xl:max-h-[560px] scroll region so a long shipment list never drives the page height past the chart it feeds, and it is table-fixed at 48/28/24 percent with no min-width, so the desktop table never scrolls sideways. The chart is a fixed 760x240 viewBox stretched with preserveAspectRatio none inside a responsive h-56 / sm:h-64 / lg:h-72 box, with annotations positioned as percentage-offset absolute spans over it rather than as SVG text — which is why the carrier label flips to the left of its point once it passes 68% of the plot width, having otherwise run a few pixels past the page edge at 390px. Every header control is 44px.",
+    "philosophy": "Portlane is a freight operations console built on one rule: the chart must be readable before anyone touches it. The dominant on-time trend prints its today value and its forecast range as always-on labels anchored to their own points, marks both ends with solid dots, and draws the today divider as a permanent dashed rule — so the crosshair tooltip is an enhancement, not the only way in. The chart also separates certainty from estimate by line treatment rather than by colour alone: history is a solid near-white line, the forecast is dashed rose with a filled confidence band, and the per-carrier comparison is a dashed neutral, which keeps three series legible without three accents. Selection is the spine of the layout. Picking a lane in the left rail simultaneously overlays that carrier's series on the chart, rewrites the card's description line, highlights that carrier's row in the scorecard and repopulates the detail pane and the event feed — one piece of state, four visible consequences, reachable from the rail, the palette or a keyboard. The rail is a real table with sortable headers and aria-sort rather than a list of buttons, and the scorecard aggregates from the same series the chart renders, so no second set of hand-authored numbers can drift. The period toggle is 30/60/90 days rather than a short recent window, matching the historical range the domain actually reasons over, and the forecast horizon stays fixed at six days across all three so the estimate does not silently change meaning with the toggle. Status is always a dot plus an abbreviated word, and every ETA delta a sign, an icon and a figure.",
+    "dosDonts": [
+      {
+        "do": "Anchor always-on labels to the today point and the forecast end, and keep the today divider permanently drawn.",
+        "dont": "Put the current value only inside the hover tooltip — a console chart that must be probed has failed at a glance."
+      },
+      {
+        "do": "Distinguish history, forecast and carrier overlay by line treatment — solid, dashed with band, dashed neutral.",
+        "dont": "Give each series its own accent hue; three chrome colours would compete with the status ladder."
+      },
+      {
+        "do": "Make the chart a slider role with arrow, Home and End keys driving the same crosshair a pointer does.",
+        "dont": "Bind the crosshair to pointer events alone — the only readout of a per-day value must not be mouse-exclusive."
+      },
+      {
+        "do": "Build the rail as a real table-fixed table with sort buttons and aria-sort on the header cells.",
+        "dont": "Substitute a list of buttons for the brief's data table; the sort semantics disappear with it."
+      },
+      {
+        "do": "Derive the carrier scorecard from the same series the chart renders.",
+        "dont": "Hand-author a second set of carrier numbers — the two will disagree the first time the series changes."
+      },
+      {
+        "do": "Offer 30/60/90-day periods and hold the forecast horizon fixed across all three.",
+        "dont": "Add a short recent window or let the forecast length track the toggle — the projection would change meaning silently."
+      },
+      {
+        "do": "Flip the carrier annotation to the left of its point once it passes about 68% of the plot width.",
+        "dont": "Let an absolutely positioned chart label run past the plot bounds; it pushes the document wide at 390px."
+      }
+    ],
+    "agentPrompt": "# Recreate: Portlane (dark freight & logistics operations console)\n\nBuild a dark three-pane freight operations console for tracking shipments, forecasting fleet on-time performance and comparing carrier reliability in one view.\n\n**Shell.** A 240px `zinc-950` sidebar (brand lockup, a network switcher listbox, two labelled nav sections with lucide icons and an active pill, a user block) and a 64px sticky topbar at `zinc-950/90` with backdrop blur, carrying a Cmd-K search trigger, a primary New shipment button, an alerts button and an account menu. Main is `mx-auto max-w-[1920px]`, px-4 / sm:px-6 / lg:px-8, py-6.\n\n**Three panes** as a gap-4 `xl:flex-row`: a 320px shipment rail, a `min-w-0 flex-1` centre column holding the trend card above the carrier scorecard, and a 320px (2xl:360px) column holding the shipment detail pane above the tracking-event feed. Below xl they stack in that order. Cards are rounded-2xl, `zinc-900/60` inside a `white/10` hairline, px-5 pb-5.\n\n**The dominant chart is the piece to get right.** A fleet on-time trend across a fixed 760x240 viewBox stretched with `preserveAspectRatio=\"none\"`. History draws as a solid near-white line; the forecast continues as a dashed rose line with a filled confidence band at 16%; when a shipment is selected, that carrier's actual series overlays as a dashed neutral grey. Three series, three line treatments, no third accent hue.\n\nThe chart must read without interaction: a permanently drawn dashed today divider, solid markers at today and at the forecast end, and **always-on percentage-offset labels** anchored to both — today's value, and the forecast end's projected range. The crosshair tooltip is an addition on top of that, not the mechanism. Give the plot `role=\"slider\"` with `aria-valuetext` and make Arrow keys, Home and End move the same crosshair a pointer does.\n\n**Period toggle:** 30D / 60D / 90D as a roving-tabindex tablist with arrow-key navigation, driving a tabpanel. Do not offer a short recent window, and hold the forecast horizon fixed at six days across all three — a projection whose length tracks the toggle changes meaning silently.\n\n**The rail is a real table.** `table-fixed` at 48/28/24 percent with no min-width, a caption, `aria-sort` on each header and a sort button inside it; plus a search field and status filter chips above. Rows are `th scope=\"row\"` wrapping a full-width selection button. Give it its own `xl:max-h-[560px]` scroll region so a long list never drives page height past the chart.\n\n**Selection sync.** Picking a lane must, in one tick: overlay that carrier on the chart, rewrite the trend card's description line, highlight that carrier's row in the scorecard, repopulate the detail pane and swap the event feed. The Cmd-K palette writes to the same state. The carrier scorecard aggregates from the same series the chart renders — never a second hand-authored set of numbers.\n\n**Palette.** `zinc-950` canvas, `zinc-900/60` cards, `rose-500` for the brand tile, primary button and low-alpha selection tints, `rose-400` as the single focus-ring colour. Status is a four-rung ladder — emerald on-time, amber at-risk, rose delayed, zinc delivered — always a dot plus an abbreviated word. ETA deltas carry a sign, an icon and a figure. Hold every muted line at `zinc-400`; nothing dimmer.\n\n**Type.** Pretendard, with `--font-display-grotesk` in exactly two places: the wordmark and the hero on-time percentage. Exactly three weights: 400 / 500 / 600. 11px uppercase tracked labels; a fractional body ladder (13.5 / 13 / 11.5 / 11 / 10px) so a 320px rail row carries lane, carrier and delta without truncation. Everything numeric is tabular-nums, hours to one decimal.\n\n**Determinism and edges.** Every value is a pure function of a fixed seed and every date label is offset arithmetic from a fixed anchor — no Math.random, no Date.now, no live date objects. Reset palette state by comparing to previous state during render, not by setting state inside an effect. Flip the carrier annotation to the left of its point past about 68% of the plot width, or it runs past the page edge at 390px. Give the Cmd-K trigger an accessible name that survives its label being hidden at narrow widths.\n"
   }
 }
