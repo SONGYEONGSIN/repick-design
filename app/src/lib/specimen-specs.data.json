@@ -1745,5 +1745,594 @@
       }
     ],
     "agentPrompt": "# Recreate: Notifications (activity feed, no fixed chrome)\n\nBuild a React Native notifications feed where nothing is pinned — heading, filters and the mark-all control all live in the list header and scroll away, because the screen has no terminal action.\n\n**Palette:** white canvas and white rows on #e4e4e7 hairlines. One indigo accent (#4f46e5) for unread and active-filter state only: the unread row's border and its 4px left rail, the unread dot, the 'New' tag, the active chip fill, the mark-all outline and label, and the on-state switch. Ink #18181b for the heading and unread titles; #27272a for read titles, monograms and the switch label; #52525b for body text, the uppercase CATEGORY heading and inactive chip labels; #71717a for the count subline, type labels, timestamps, source lines, the chevron and the disabled state. Never tint a row's background to mean unread.\n\n**Type:** heading 28/800 at -0.5 over a 13 faint 'N unread of M' subline; unread title 15/800 ink and read title 15/600 #27272a at identical size and line-height; an 11/800 two-letter monogram plus an 11/700 uppercase 0.4-tracked type label; body 13/18 at two lines; source and timestamp 11 faint with the timestamp tabular; a 'New' tag at 11/800 accent.\n\n**Layout:** gutters 20, 40 top inset inside the header, 40 of bottom padding, and a 12 separator between rows instead of a divider. Each row is a 36px bordered monogram badge, a body column (type label and timestamp on one line, then title, body, source), and a faint chevron hidden from accessibility. The header holds the title beside a mark-all button, then an uppercase CATEGORY heading, then wrapping chips at 8 in both axes, then an unread-only switch row. Every control is at least 44 high.\n\n**Behavior:** tapping a row marks it read in place; the category filter and the unread-only switch narrow the list immediately; 'Mark all read' becomes a disabled 'All caught up' rather than disappearing; an empty result renders a state naming both filters that could be hiding rows. Fourteen fixed notifications in reverse-chronological order with fixed relative-time strings.\n\n**Accessibility:** each row is a button whose label states type, read state, title, body and time; chips form a radiogroup with selected states; the unread-only control uses switch role with a checked state.\n\n**Feel:** read or unread is answerable from arm's length, and every filter is visible without scrolling sideways."
+  },
+  "lg1": {
+    "id": "lg1",
+    "palette": [
+      {
+        "token": "white",
+        "hex": "#ffffff",
+        "role": "Form canvas (light default)",
+        "usage": "The right-hand auth column and every input fill in the light default — the form panel is deliberately the plainest surface on the page"
+      },
+      {
+        "token": "neutral-950",
+        "hex": "#0a0a0a",
+        "role": "Form canvas (dark)",
+        "usage": "Dark-variant shell behind the form, and the focus-ring offset colour so the violet ring never sits directly on a violet control"
+      },
+      {
+        "token": "panel-ink",
+        "hex": "#0b0b12",
+        "role": "Brand panel canvas",
+        "usage": "The left panel, and the fill of the SVG rect behind the contour lines — a violet-shifted near-black that stays darker than the dark-mode form column beside it"
+      },
+      {
+        "token": "brand-violet",
+        "hex": "#6e56cf",
+        "role": "Primary accent",
+        "usage": "Submit button, focus rings on every control, the mobile wordmark tile, input border on focus, and the 35 percent radial glow in the brand panel's top-left corner"
+      },
+      {
+        "token": "link-violet",
+        "hex": "#a894f7",
+        "role": "Accent (dark text)",
+        "usage": "The dark-mode value for text links only — 'Forgot password?' and the mode-switch link. The 600-weight brand violet fails contrast as small text on the dark shell, so links lift a step instead of inheriting the button colour"
+      },
+      {
+        "token": "contour-violet",
+        "hex": "#a78bfa",
+        "role": "Generative line",
+        "usage": "Stroke of the six sine-derived terrain paths at descending opacities (0.55 down to 0.13) and of the sparkline inside the coverage card — the brand panel's only drawn colour"
+      },
+      {
+        "token": "emerald-400",
+        "hex": "#00d492",
+        "role": "Live indicator",
+        "usage": "The 6px pulse dot on the 'Signal coverage' card, and the border/background/text set of the post-submit success banner"
+      },
+      {
+        "token": "red-700",
+        "hex": "#c10007",
+        "role": "Validation error",
+        "usage": "Inline field-error text, always paired with an AlertCircle icon and an aria-describedby link — the colour is never the only signal that a field failed"
+      },
+      {
+        "token": "neutral-600",
+        "hex": "#525252",
+        "role": "Secondary text",
+        "usage": "Sub-headline, inactive mode-switch label, and the account-switch prompt under the provider row — the lightest neutral used for text on the white column"
+      }
+    ],
+    "typography": "Pretendard Variable throughout — this route calls none of the three allow-listed display faces, because a sign-in screen has no display type to set. Exactly three weights: font-normal (body, helper text, legal line), font-semibold (field labels, buttons, provider names, the active mode-switch label) and font-bold (the wordmark, the h1, and the brand panel's positioning line). Hierarchy is carried by size and colour instead of a fourth weight: the h1 is 24px with tracking-tight, labels are 14px semibold, helper and legal copy are 14px and 12px normal in neutral-600/neutral-500. The one large numeral — 98.4 percent signal coverage — is 30px bold with tabular-nums and a half-size dimmed percent sign, so the figure reads as data rather than as a second headline.",
+    "spacing": "A 50/50 `lg:grid-cols-2` split, with the brand panel present only at `lg` and up; below that the form is the whole page and a small wordmark tile stands in for the panel. Horizontal padding steps 24 → 40 → 56 → 80px across sm/lg/xl while the form itself stays pinned at `max-w-sm`, so the column never widens — only its margins do. Vertical rhythm inside the form is a 4px scale: 28px under the mode switch, 6px between h1 and sub-headline, 24px to the form, 16px between fields, 24px to the provider divider. Controls are rounded-lg at 14px/10px padding; the mode switch is a rounded-full two-cell track with 4px inset; the brand panel's coverage card is rounded-2xl at 20px inside a 272px cap. The brand panel is a three-part flex column — lockup at top, argument in the middle, trust line at the bottom — so its content spreads to the panel's full height rather than stacking against the top edge.",
+    "philosophy": "Contour is a split sign-in whose argument is that the left panel may persuade but only the right panel is operable. The brand side is entirely generated — six sine-derived contour paths, a radial glow, and a sparkline over fourteen fixed weekly values — so nothing is fetched and nothing can fail to load behind the form. The form side spends its whole budget on the thing this page type is actually judged on: bound labels rather than placeholder labels, correct autocomplete tokens across the sign-in and sign-up modes, inline errors carrying aria-invalid plus aria-describedby plus an icon, a password reveal that is a real aria-pressed button holding focus, and aria-busy with an sr-only live region during submission. Authentication is a deterministic stub with a published credential pair, and it is the failure path that is demonstrated most carefully: a wrong password names the demo credentials, a taken email in sign-up sends you back to sign-in. The type profile forbids an app shell and forbids scroll, and that second constraint is the real discipline here — everything, including the legal line and the provider row, has to finish inside one viewport, which is why the page has no second section to hide weak work in. Two modes share one form rather than routing to a second page, and switching resets touched state and clears the password field, so the screen is never showing validation from a mode you left.",
+    "dosDonts": [
+      {
+        "do": "Draw the brand panel from code — sine-derived paths, a radial gradient, a fixed sparkline series.",
+        "dont": "Put a product screenshot or a stock photograph there; it is a network dependency on a screen whose only job is to accept a password."
+      },
+      {
+        "do": "Give the dark theme its own link colour a step lighter than the button violet.",
+        "dont": "Reuse one accent for both a filled button and small text on a dark surface — one of the two will miss AA."
+      },
+      {
+        "do": "Return a specific, actionable failure that names the demo credentials.",
+        "dont": "Ship only the happy path; a sign-in screen with no visible error state has not been designed, only drawn."
+      },
+      {
+        "do": "Keep sign-in and create-account as one form with a switch that resets touched state.",
+        "dont": "Carry validation errors across the mode switch, or leave a typed password in the field when the mode changes."
+      },
+      {
+        "do": "Finish the whole page — legal line included — inside one viewport.",
+        "dont": "Add a second section below the fold; scrolling on this page type means the form is over-designed."
+      }
+    ],
+    "agentPrompt": "# Recreate: Contour (workspace sign-in)\n\nBuild a two-panel sign-in that completes in a single viewport. No app shell, no sidebar, no scroll — nothing below the fold.\n\n**Layout:** a 50/50 grid at `lg` and above. The left brand panel exists only at that breakpoint; below it the form is the entire page with a compact wordmark tile above it. The form column is capped at 384px and vertically centred, with horizontal padding stepping 24 / 40 / 56 / 80px across the breakpoints so the margins grow and the measure never does. Inside the brand panel, run a three-part flex column: wordmark lockup at top, positioning line plus a metric card in the middle, a one-line trust statement at the bottom.\n\n**Palette:** white form canvas (with a full dark variant on a near-black neutral), a violet-shifted near-black `#0b0b12` brand panel, `#6e56cf` as the single accent for the submit button, focus rings, and the focused input border. Text links on dark lift to `#a894f7` because the button violet misses AA at small sizes on that shell. All generated line work — six terrain contours and one sparkline — is stroked in `#a78bfa` at descending opacities. Success is emerald, validation errors are a deep red paired with an icon.\n\n**Type:** body face only, no display face. Exactly three weights — normal, semibold, bold. The h1 is 24px bold tracking-tight; labels are 14px semibold; helper and legal copy are 14px and 12px normal in muted neutrals. One oversized tabular-nums figure sits in the brand panel's metric card with a half-size dimmed unit.\n\n**Brand panel content:** draw six contour paths from a sine function over a fixed 400x600 viewBox, rounding every coordinate to two decimals so server and client agree. Add a radial glow from the accent at 35 percent in the top-left. The metric card is a translucent white surface with a hairline border, holding a labelled percentage, a pulse dot, and a sparkline built from fourteen fixed weekly values.\n\n**Form quality (this is what the page is judged on):** every input has a bound label — never a placeholder standing in for one. Autocomplete is exact and mode-aware: name, email, current-password in sign-in, new-password in sign-up. Validation runs after blur and on submit; failures render inline with an icon, `aria-invalid`, and `aria-describedby`, and submission moves focus to the first invalid field. The password reveal is a button with `aria-pressed` that keeps focus through the toggle. Submitting sets `aria-busy`, swaps the label to a progress state with a spinner, and announces the outcome through an sr-only live region.\n\n**Behaviour:** a segmented sign-in / create-account switch (real buttons, `aria-pressed`) that resets touched state and clears the password; a forgot-password disclosure with `aria-expanded` and `aria-controls`; two provider buttons rendered as restrained inline SVG marks that state plainly they are not wired up in this preview. Authentication is a deterministic stub: one published credential pair succeeds after a fixed delay, everything else returns an error naming those credentials, and a taken address in sign-up routes you back to sign-in. No Math.random, no Date.now. Every animation is gated behind motion-reduce.\n\n**Feel:** the left panel argues; the right panel works. If the form ever needs to scroll, delete something."
+  },
+  "nf1": {
+    "id": "nf1",
+    "palette": [
+      {
+        "token": "neutral-950",
+        "hex": "#0a0a0a",
+        "role": "Canvas",
+        "usage": "The full-height page fill, the ring-offset colour on every focusable element, and the ink of the label inside the amber CTA — one value doing three jobs keeps the screen down to two hues"
+      },
+      {
+        "token": "neutral-100",
+        "hex": "#f5f5f5",
+        "role": "Primary ink",
+        "usage": "The three oversized numerals, the h1 error sentence, the wordmark, and the hover state of every muted link"
+      },
+      {
+        "token": "neutral-400",
+        "hex": "#a1a1a1",
+        "role": "Secondary ink",
+        "usage": "The explanatory paragraph, the header nav, and the three alternative-path links — the resting state that lifts to neutral-100 on hover and focus"
+      },
+      {
+        "token": "amber-400",
+        "hex": "#ffb900",
+        "role": "Accent",
+        "usage": "The centre zero of the 404, the single primary CTA fill, and every focus ring on the page. It appears exactly twice as content and never as a second button"
+      },
+      {
+        "token": "amber-300",
+        "hex": "#ffd230",
+        "role": "Accent hover",
+        "usage": "Hover fill of the 'Back to dashboard' button — a lift rather than a darken, because the button's ink is the near-black canvas colour and darkening would close the contrast"
+      }
+    ],
+    "typography": "Two families and no display face: the numerals are set in the Tailwind mono stack (system UI monospace), everything else in Pretendard Variable. Exactly three weights across the route — font-normal (paragraph, nav, alternative-path links), font-medium (the Rivet wordmark) and font-semibold (the numerals, the h1, the CTA label). The numerals run 5.5rem / 8rem / 10rem across sm and md with leading-none, tracking-tighter and tabular-nums, so the three glyphs sit at fixed advance widths and the middle zero can take colour without shifting the other two. The h1 is 24px stepping to 30px, and the explanation is 14px at relaxed leading capped to a `max-w-md` measure — deliberately much smaller than the numerals, because the code is the landmark and the sentence is the instruction.",
+    "spacing": "A `min-h-dvh` flex column: header, then a `flex-1` main that centres its content on both axes, so the page composes itself at any viewport height without ever scrolling. One shell width — `max-w-5xl` at 24px padding rising to 40px — carries both the header row and the centred stack. Inside that stack the rhythm is a single descending ladder: numerals, 32px to the h1, 12px to the paragraph, 32px to the primary CTA, 40px to the alternative paths. The three secondary links are a flex-wrap row with 24px column gap and 12px row gap, so they reflow to two lines on a phone rather than compressing. The numerals themselves sit in a baseline-aligned row with a 4px gap, which is what lets the coloured zero read as part of one word instead of three tiles.",
+    "philosophy": "Rivet's 404 is the typographic archetype taken literally: no illustration, no card, no search box, and no second screen. The type profile relaxes the interaction minimum to one for this page, and the correct reading of that relaxation is that an error page's virtue is the speed of return, not the count of devices — so the only motion is a staggered rise on the three numerals at 90ms intervals, cancelled outright under prefers-reduced-motion. The numerals are marked aria-hidden and the h1 carries the actual sentence, which is the ownership rule this page type gets wrong most often: the landmark heading belongs to the error, never to the wordmark. Exit routes are ranked rather than offered as a menu: one filled primary CTA back to the dashboard, then three text links (docs search, status, support) at a deliberately quieter weight, so the eye resolves the page in one pass. The tone states what happened and offers a cause — renamed route, link copied from an older release — without ever attributing the mistake to the reader. And because everything must finish in one viewport, the whole layout is a `min-h-dvh` column with a centred `flex-1` middle: there is no scroll to hide a weak second act in, which is exactly the constraint that makes this page type a real test.",
+    "dosDonts": [
+      {
+        "do": "Give the h1 to the error sentence and mark the oversized numerals aria-hidden.",
+        "dont": "Let the brand wordmark or the numerals take the page's single h1 — a screen reader then announces a brand, not a problem."
+      },
+      {
+        "do": "Rank the exits: one filled CTA, then quieter text links for search, status, and support.",
+        "dont": "Offer four equally weighted buttons; a dead end with a menu is still a pause."
+      },
+      {
+        "do": "Colour exactly one numeral and use that same accent for the CTA and the focus rings.",
+        "dont": "Introduce a second accent, or tint all three digits — the middle zero is the only colour event the page can afford."
+      },
+      {
+        "do": "State a plausible cause — the route was renamed, the link came from an older release.",
+        "dont": "Write copy that blames the reader for typing the address."
+      },
+      {
+        "do": "Keep the layout a min-h-dvh column with a centred flex-1 middle so it never scrolls.",
+        "dont": "Add a decorative search field that returns nothing; an input that does not answer is worse than no input."
+      }
+    ],
+    "agentPrompt": "# Recreate: Rivet 404 (typographic error page)\n\nBuild a dark, single-viewport 404 for a developer platform. Zero imagery, zero decoration, no scroll: the whole page resolves in one screen.\n\n**Structure:** a `min-h-dvh` flex column. A slim header holds the wordmark on the left and two quiet nav links (docs, status) on the right. The main region is `flex-1` and centres its content on both axes, so vertical composition holds at any viewport height. One shell width carries both bands — capped around 1024px with 24px padding rising to 40px.\n\n**The numerals:** three separate spans reading 4, 0, 4, set in the system monospace stack at 5.5rem, rising to 8rem and 10rem at sm and md, with leading-none, tighter tracking, tabular-nums, and a 4px baseline-aligned gap. Mark the whole group `aria-hidden` and mark it non-selectable. Colour only the middle zero in the accent; leave the outer digits in the primary ink.\n\n**Heading order:** the single h1 is the error sentence — 'This page moved or never existed.' — not the wordmark and not the code. Below it, a 14px paragraph at relaxed leading, capped to a roughly 28rem measure, that gives a plausible cause: the route may have been renamed, or the link was copied from an older release. Never attribute the mistake to the reader.\n\n**Exits, ranked:** exactly one filled primary CTA back to the dashboard, in the accent with near-black ink and a trailing arrow icon. Below it, a flex-wrap row of three quieter text links with leading icons — search the docs, status page, contact support — each at secondary ink lifting to primary on hover and focus. Give the row a 24px column gap and a 12px row gap so it reflows to two lines on a phone instead of compressing.\n\n**Palette:** a near-black canvas, a near-white primary ink, one mid grey for secondary text, and a single amber accent used in exactly three places — the middle zero, the CTA fill, and every focus ring. The CTA's hover state gets *lighter*, not darker, because its label is painted in the canvas colour and darkening would close the contrast. No second accent anywhere.\n\n**Type discipline:** exactly three weights route-wide — normal for the paragraph and links, medium for the wordmark, semibold for the numerals, the h1 and the CTA. Hierarchy comes from size and colour, not from a fourth weight.\n\n**Motion:** one device only. Stagger the three numerals into place with a rise-and-fade keyframe at roughly 90ms intervals, declared so that the resting styles are the finished state and the animation only supplies the offset it starts from. Cancel it entirely under prefers-reduced-motion. No parallax, no game, no cursor trail — over-production on an error page is a deduction, not a flourish.\n\n**Accessibility:** every link and the CTA carry a visible focus ring in the accent with an offset in the canvas colour. The nav landmarks are labelled ('Quick links', 'Alternative paths'). Nothing on the page relies on colour alone.\n\n**Feel:** the code is the landmark, the sentence is the instruction, and the exit is already under the reader's eye."
+  },
+  "pf1": {
+    "id": "pf1",
+    "palette": [
+      {
+        "token": "zinc-950",
+        "hex": "#09090b",
+        "role": "Canvas",
+        "usage": "Page shell, the sticky band's 97 percent backdrop, the ring-offset on every control, and the ink of the label inside a filled cyan button"
+      },
+      {
+        "token": "zinc-900",
+        "hex": "#18181b",
+        "role": "Card surface",
+        "usage": "Every panel — the two scoreboard cells at 60 percent, the divergence chart card, the month-detail strip at 40 percent, the cohort gauge, the positions table — plus the resting fill of the segmented range and baseline tracks"
+      },
+      {
+        "token": "zinc-800",
+        "hex": "#27272a",
+        "role": "Hairline",
+        "usage": "Every border on the page: card edges, the band's bottom rule, table header and row separators, the percentile track, and the footer divider. There is no second border colour"
+      },
+      {
+        "token": "cyan-400",
+        "hex": "#00d3f2",
+        "role": "Accent and outperformance",
+        "usage": "Active segmented-control fill, the follow button once engaged, the percentile fill bar, the focus ring, and every monthly bar where Solstice beat the selected baseline"
+      },
+      {
+        "token": "cyan-300",
+        "hex": "#53eafd",
+        "role": "Accent (text and selection)",
+        "usage": "The Meridian eyebrow, the audited badge, the delta column in the positions table, the selected outperforming bar, and the percentile marker knob — a step lighter than the fill so cyan text on zinc-900 stays AA"
+      },
+      {
+        "token": "zinc-50",
+        "hex": "#fafafa",
+        "role": "Figure ink",
+        "usage": "The scoreboard's four headline figures, the cohort percentile, section headings, and the h1 — reserved almost entirely for numbers and titles"
+      },
+      {
+        "token": "zinc-400",
+        "hex": "#9f9fa9",
+        "role": "Label ink and underperformance",
+        "usage": "Every `dt` label, axis label, and helper line, and — deliberately doubling — the bars for months where the strategy trailed its baseline"
+      },
+      {
+        "token": "zinc-200",
+        "hex": "#e4e4e7",
+        "role": "Selected underperformance",
+        "usage": "The one negative bar currently selected, and the delta figure when the selected month trailed: the selection state is a lightness step within the same neutral, never a switch to red"
+      }
+    ],
+    "typography": "Archivo Display, loaded through the wide display variable, carries every figure and title — the four scoreboard numbers, the delta badge, the month-detail values, the cohort percentile, the h1, and the Meridian eyebrow — while Pretendard Variable carries all body copy, labels and table cells. Exactly three weights route-wide: font-normal (body, table cells, `dt` labels), font-medium (segmented controls, filter pills, table headers, the delta badge) and font-semibold (figures, headings, the eyebrow). Every numeric surface is tabular-nums without exception, which is what lets the four scoreboard figures stay optically aligned as the range toggle changes their digit counts. Small labels are 11px uppercase at 0.1em tracking; the brand eyebrow runs the same treatment at 0.16em; axis labels drop to 10px and only every fourth one is visible, the rest kept in the flow as invisible spacers so the columns cannot drift.",
+    "spacing": "A `max-w-6xl` shell at 16 / 24 / 32px padding, held identically by the hero, the sticky band, the main grid and the footer, so all four edges line up down the page. The band itself is two rows — controls, then the comparison — at 12px rising to 16px vertical padding, which keeps it under a fifth of a laptop viewport while sticky. Below it the main grid is `lg:grid-cols-[1fr_280px]`: the divergence chart takes the fluid column and the cohort gauge takes a fixed 280px rail, both `min-w-0` and `items-start` so neither stretches to match the other's height. Cards are rounded-xl at 16px padding. The chart is 24 flex-1 bars in a 144px box rising to 176px with a 3px gap and a 12px max bar width, split into two half-height halves around an implied zero line so positive and negative months grow away from the same axis. The positions table is `table-fixed` with an explicit 34/20/16/15/15 percent colgroup and a 560px floor, so horizontal scrolling exists only on a phone and never on a desktop.",
+    "philosophy": "Meridian is a track-record profile, and its whole argument is that the numbers a stranger needs to judge a strategy must never leave the screen. The scoreboard band is sticky at the top of the viewport and carries return, win rate, copiers and time-live on the left, the selected baseline's return on the right, and a delta badge between them — so at every scroll depth and in every filter state the page is still answering 'compared to what'. Two global toggles, range and baseline, are the only state that matters, and they recompute four heterogeneous surfaces at once from one dataset: the band's eight figures, the 24-bar divergence chart, the month-detail strip and the positions table's delta column. The chart's axis is fixed across both baselines on purpose, so switching baseline moves the bars rather than the scale, and the comparison stays a comparison. The direction encoding is the page's sharpest decision: outperformance is cyan and underperformance is neutral zinc, with icons and words alongside — there is no red on this page at all, which removes the reflex reading of a red month as a loss when it is only a month behind an index. Selection is expressed as a lightness step inside whichever colour a bar already has, never as a hue change, so two meanings (direction, selection) survive on one row of bars. The subject is deliberately narrow — a published systematic strategy rather than a generic 'developer profile' — because that choice is what makes the trust statistics specific enough to be worth fixing in place.",
+    "dosDonts": [
+      {
+        "do": "Pin the trust figures and the baseline comparison in a sticky band that survives every scroll depth and filter state.",
+        "dont": "Park them in a hero that scrolls away, or behind a tab — the one question this page answers must never require a click."
+      },
+      {
+        "do": "Let two global toggles recompute the band, the chart, the detail strip and the table from a single dataset.",
+        "dont": "Give each panel its own local range state; the page then shows four different periods at once and proves nothing."
+      },
+      {
+        "do": "Hold the chart's vertical scale fixed across both baselines so only the bars move when the baseline changes.",
+        "dont": "Rescale on every toggle — a comparison whose axis moves with it is not a comparison."
+      },
+      {
+        "do": "Encode outperformance as the accent hue and underperformance as neutral, with an icon and a word alongside.",
+        "dont": "Reach for red/green; a month trailing an index is not a failure, and the colour pair says it is."
+      },
+      {
+        "do": "Express selection as a lightness step within the bar's existing colour.",
+        "dont": "Change hue to show selection — the bar is already carrying direction and the two encodings collide."
+      },
+      {
+        "do": "Give the positions table an explicit percentage colgroup with table-fixed.",
+        "dont": "Force a min-width that makes the desktop table scroll sideways; local horizontal scroll is a phone-only affordance."
+      }
+    ],
+    "agentPrompt": "# Recreate: Meridian (published track-record profile)\n\nBuild a dark profile page for a *published trading strategy and its author* — not a generic developer profile. The narrow subject is the point: it forces a specific set of trust statistics.\n\n**Spine:** a sticky scoreboard band directly under the hero, pinned to the top of the viewport, carrying the strategy's return, win rate, copier count and months-live on the left; the selected baseline's return and benchmark type on the right; and a delta badge between them reading '+N.NN pts ahead of' or 'behind'. This band must stay legible at every scroll depth and in every filter state — never a tab, never a click.\n\n**Global state:** exactly two toggles, both living in that band. A time range (1M / 3M / YTD / 1Y / All) and a baseline (a broad market index vs a peer-median cohort). Between them they recompute four different surfaces from one dataset: the band's figures, a 24-bar monthly divergence chart, a month-detail strip, and the delta column of a positions table. A third, smaller interaction — a follow/copy toggle in the hero — increments the copier count so the band visibly responds.\n\n**Divergence chart:** 24 equal flex bars in a 144px box rising to 176px, split into two half-height halves around an implied zero line so positive months grow up and negative months grow down. Each bar is a real button with a descriptive aria-label giving both returns and the delta; selecting one drives the detail strip below. Bars outside the selected range drop to 35 percent opacity rather than disappearing, so the range toggle reads as a narrowing of the same series. Hold the vertical scale fixed across *both* baselines — computed once from the larger absolute delta — so switching baseline moves bars, not the axis. Label only every fourth month, keeping the others in the flow as invisible spacers.\n\n**Positions table:** semantic, with a caption, `scope` on every header, `aria-sort` on the sortable columns, and sort buttons inside the headers. `table-fixed` with an explicit percentage colgroup (roughly 34/20/16/15/15) and a 560px floor so the desktop never scrolls sideways. Above it, asset-class filter pills carrying live per-class counts and a 'showing N of M, X percent allocated' line that updates with them. Implement the empty state for a class with no positions.\n\n**Cohort gauge:** a fixed 280px rail beside the chart holding the strategy's percentile among an audited cohort, a filled track with a marker knob, a 0-100 scale, and an sr-only restatement of the value. Deliberately non-interactive — not every panel needs a control, but the number must never need one to be seen.\n\n**Palette:** near-black canvas, one card surface used at varying opacities, one hairline colour for every border. A single cyan accent for controls, focus rings, and *outperformance*; neutral greys for *underperformance*. No red anywhere on the page — a month behind an index is not a loss, and the red/green reflex says it is. Show selection as a lightness step inside a bar's existing colour, never as a hue change.\n\n**Type:** a wide display face for figures and titles only, body face for everything else. Exactly three weights — normal, medium, semibold. Every numeric surface is tabular-nums. Small labels are 11px uppercase at 0.1em tracking.\n\n**Determinism:** the 24 monthly rows are literal data authored once; every derived figure (cumulative return, win rate, percentile, deltas) is computed at render time with plain arithmetic. No Math.random, no Date.now, no new Date. All transitions gated behind motion-reduce."
+  },
+  "bl1": {
+    "id": "bl1",
+    "palette": [
+      {
+        "token": "zinc-950",
+        "hex": "#09090b",
+        "role": "Canvas",
+        "usage": "Page shell, the sticky header's 95 percent backdrop, the ring-offset on every focusable element, and the ink of labels sitting on a filled emerald surface"
+      },
+      {
+        "token": "zinc-900",
+        "hex": "#18181b",
+        "role": "Card and chrome surface",
+        "usage": "Feed cards, the compare table's caption and header rows, the search field, the sort select, the category pill's resting fill, the confidence badge, and the subscribe block"
+      },
+      {
+        "token": "zinc-800",
+        "hex": "#27272a",
+        "role": "Hairline and bar track",
+        "usage": "Every border and divider on the page, the rule between a card's metric column and its editorial column, and the unfilled track behind both comparison bars"
+      },
+      {
+        "token": "emerald-400",
+        "hex": "#00d492",
+        "role": "Accent and result encoding",
+        "usage": "The journal eyebrow, the logo tile, the subscribe CTA, active category pills, the sort arrow, focus rings, the headline effect-size figure on every card, and the *result* bar in each comparison pair"
+      },
+      {
+        "token": "emerald-300",
+        "hex": "#5ee9b5",
+        "role": "Accent hover",
+        "usage": "Hover fill of the subscribe buttons and hover text of the expanded row's 'Read the full report' link — a lift, not a darken, since the accent's ink is the canvas colour"
+      },
+      {
+        "token": "zinc-500",
+        "hex": "#71717b",
+        "role": "Baseline encoding",
+        "usage": "The *baseline* bar in every comparison pair, plus the search icon and the neutral sort indicator — the deliberate opposite of the accent, so 'before' and 'after' never read as two findings"
+      },
+      {
+        "token": "zinc-400",
+        "hex": "#9f9fa9",
+        "role": "Secondary ink",
+        "usage": "Dek and excerpt copy, byline metadata, table body labels, the result count, the section prose in the methodology trio, and inactive nav links"
+      },
+      {
+        "token": "zinc-50",
+        "hex": "#fafafa",
+        "role": "Primary ink",
+        "usage": "The h1, report titles, section headings, the summary counts, and the emphasised numbers inside the 'showing N of M' line"
+      }
+    ],
+    "typography": "JetBrains Mono Display — the mono entry in the repository's display allow-list — sets the wordmark, the h1, every report title, the three summary counts and the headline effect-size figure; Pretendard Variable carries all running copy, metadata and table cells. That pairing is the page's voice: a benchmark journal reads its own numbers in a machine face and its arguments in a text face. Exactly three weights route-wide — font-normal (dek, excerpt, prose, table cells), font-medium (nav, pills, buttons, table emphasis, badges) and font-semibold (h1, titles, headings, the effect-size figure). The h1 runs 36px to 48px with leading-tight and text-balance; the effect-size figure is 30px rising to 36px in the accent with tabular-nums; the journal eyebrow is 12px uppercase at 0.14em tracking. Every figure on the page — effect size, sample size, read time, publication date, the result counter — is tabular-nums, because the whole page exists to be compared column-wise.",
+    "spacing": "A `max-w-6xl` shell at 20px padding rising to 32px, shared by the header, the hero, the explorer and the closing bands. The hero runs 40px to 56px of top padding and closes on a wrap-flow definition list whose stat pairs use a 32px column gap, so three counts sit on one line at desktop and reflow cleanly on a phone. Feed cards are rounded-2xl at 20px rising to 24px padding, and each is internally a `grid-cols-[minmax(0,180px)_1fr]`: a fixed-cap metric column, a vertical rule, then the editorial column at a 24px gutter. Below `sm` that rule rotates — the metric column keeps a bottom border instead of a right one — so the evidence stays visually separated from the prose at every width. Cards stack at a 16px gap; the compare table is `table-fixed` with explicit percentage widths (30/14/16/12/14/10/4) over a 760px floor, so it scrolls locally only on small screens. The closing methodology trio sits above a 40px top border with a 32px gap, and the page ends on a 64px spacer so the last card never touches the footer.",
+    "philosophy": "Baseline was built with no type profile — only the shared core — and the freedom shows in what it chose to prove: that an index should let you judge a finding without opening it. Every entry in the feed carries its headline effect size as an oversized accented figure, then a two-bar baseline-versus-result comparison scaled to the larger of the pair, so the shape of the claim is visible in the list. Those bars replace cover art entirely; for a benchmark journal the evidence *is* the image, and inline SVG has the additional virtue of never being a network dependency or an off-topic stock photograph. One filtered list feeds two display modes — a chart-forward feed and a semantic sortable table — with independent ordering state, because a card list and a table read naturally in different default orders, and the compare table expands methodology inline through a disclosure rather than navigating away, keeping the whole comparison on one page. Confidence is never colour: each level pairs its own icon with its own written label, so the distinction survives greyscale. Author marks are deterministic monograms whose hue is derived from an integer seed inside a narrow green band, which keeps twelve avatars inside one accent system instead of introducing twelve unrelated hues. The mobile navigation is a real disclosure panel rather than links that vanish below a breakpoint — a defect the earlier round of this page type shipped, and the reason this one carries a labelled, aria-expanded hamburger over a normal-flow panel with no focus-trap machinery.",
+    "dosDonts": [
+      {
+        "do": "Print each report's effect size and a baseline-vs-result bar pair directly in the index.",
+        "dont": "Reduce the index to titles and deks; a journal you must open to compare has not indexed anything."
+      },
+      {
+        "do": "Build the card's visual from the data — inline SVG bars scaled to the larger of the pair.",
+        "dont": "Give each entry a photographic cover; it is a network dependency and it is off-topic by construction."
+      },
+      {
+        "do": "Encode result in the accent and baseline in neutral grey.",
+        "dont": "Colour both bars the same; the reader then has to consult the labels to know which way the finding runs."
+      },
+      {
+        "do": "Give the feed and the table independent sort state over one filtered list.",
+        "dont": "Force one ordering on both; newest-first is right for a feed and effect-size is right for a comparison."
+      },
+      {
+        "do": "Pair each confidence level with its own icon and written label.",
+        "dont": "Signal confidence by colour alone — high, medium and exploratory must survive greyscale."
+      },
+      {
+        "do": "Expand a table row's methodology inline through a disclosure with aria-expanded and aria-controls.",
+        "dont": "Navigate away to show a two-sentence method note; leaving the page destroys the comparison you just built."
+      },
+      {
+        "do": "Move the nav into a real labelled disclosure panel below the md breakpoint.",
+        "dont": "Let primary navigation disappear on mobile with nothing standing in for it."
+      }
+    ],
+    "agentPrompt": "# Recreate: Baseline (a public benchmark journal index)\n\nBuild a dark editorial index for an engineering benchmark journal. The thesis is single: a reader should be able to judge a finding *from the index*, and open a report only for the detail.\n\n**Header:** sticky, translucent over the canvas, with a compact logo tile, a wordmark in the mono display face, primary nav, and a subscribe CTA. Below the md breakpoint the nav moves into a real disclosure panel toggled by a labelled hamburger carrying aria-expanded and aria-controls — a normal-flow panel, not a modal overlay, so it needs no focus trap and stays reachable by keyboard.\n\n**Hero:** a small uppercase eyebrow in the accent at wide tracking, an h1 of about 36-48px in the mono display face with balanced wrapping, a paragraph stating the rule the journal holds itself to, and a wrap-flow definition list of three counts (published reports, categories, contributing engineers), each with an icon tile and a tabular-nums figure.\n\n**The explorer (the core):** one filtered list feeding two display modes.\n\n- *Feed mode* — single-column cards, rounded-2xl, each an internal grid of a capped ~180px metric column, a vertical rule, and an editorial column. The metric column carries an oversized accented effect-size figure with a trend icon and the word improvement or regression, the metric's label, and two comparison bars — baseline in neutral grey, result in the accent — each scaled to the larger of the pair with its value printed at the row's right edge. The editorial column carries a category badge, a confidence badge, the title as a link in the mono face, the excerpt, and a byline row with a deterministic monogram avatar, date, read time and sample size. Below sm the internal rule rotates from a right border to a bottom border so the evidence stays separated at every width.\n- *Compare mode* — a semantic table where each report is one row: title, category, effect size, sample, confidence, published, and a disclosure. Column headers that sort are real buttons with `aria-sort` on the parent `th`; the caption states the current sort in words. Expanding a row reveals its methodology note and a link inline rather than navigating away.\n\nGive the two modes independent ordering state — newest-first suits the feed, effect size suits the table.\n\n**Filtering:** category pills (multi-select, aria-pressed), a search field matching title, dek, excerpt, author and category label, and a live 'showing N of M reports' counter in a status region. Implement the zero-result state with a dashed panel and a clear-filters button, plus a persistent clear-all control whenever any filter is active.\n\n**Confidence encoding:** three levels, each with its own icon *and* its own written label inside a bordered pill. Never colour alone.\n\n**Avatars:** deterministic inline-SVG monograms whose fill hue is derived from an integer seed constrained to a narrow green band, so every author mark belongs to the same accent system. No remote image host anywhere on the page.\n\n**Palette:** near-black canvas, one card surface, one hairline colour. A single emerald accent carrying the eyebrow, active pills, focus rings, the CTA, and the *result* bar; a mid grey carrying the *baseline* bar. Hover states on the accent lift rather than darken, because their ink is the canvas colour.\n\n**Type:** mono display face for the wordmark, h1, report titles and headline figures; body face for everything running. Exactly three weights — normal, medium, semibold. Every figure is tabular-nums.\n\n**Closing bands:** a three-column methodology / datasets / about trio above a top border, then a subscribe block, then the footer. Deterministic data throughout; no clock, no randomness; all transitions gated behind motion-reduce."
+  },
+  "ab1": {
+    "id": "ab1",
+    "palette": [
+      {
+        "token": "zinc-950",
+        "hex": "#09090b",
+        "role": "Canvas",
+        "usage": "Page shell, the inset cards inside the mission and values panels at 60 percent, the ring-offset colour, and the ink of the label on the filled blue CTA"
+      },
+      {
+        "token": "zinc-900",
+        "hex": "#18181b",
+        "role": "Section wash",
+        "usage": "Used only at low opacity — 30 percent to tint the alternating mission and values sections, 40 percent for the org and detail panels, 60 percent for row hover. There is no fully opaque card on this page"
+      },
+      {
+        "token": "zinc-800",
+        "hex": "#27272a",
+        "role": "Structure line",
+        "usage": "Every section boundary, card border, the org tree's trunk and its horizontal ticks into each node, the milestone rail, and the dividers between value rows — the line work *is* the page's illustration"
+      },
+      {
+        "token": "blue-400",
+        "hex": "#51a2ff",
+        "role": "Accent",
+        "usage": "The eyebrow, the three mission icon tiles, the active regroup button, the selected value's ordinal and its left rule, milestone years and dots, the CTA fill, the skip link, and every focus ring"
+      },
+      {
+        "token": "blue-300",
+        "hex": "#8ec5ff",
+        "role": "Accent hover",
+        "usage": "Hover fill of the 'Email the team' CTA — lighter rather than darker, because the button's label is painted in the canvas colour"
+      },
+      {
+        "token": "monogram-60a5fa",
+        "hex": "#60a5fa",
+        "role": "Person accent (1 of 4)",
+        "usage": "Border and initials of a person's monogram. Twelve people cycle through exactly four fixed literals, so a face is always the same colour and the roster never introduces a thirteenth hue"
+      },
+      {
+        "token": "monogram-818cf8",
+        "hex": "#818cf8",
+        "role": "Person accent (indigo end)",
+        "usage": "The coolest of the four monogram literals; with the sky and blue values it forms a narrow band around the page accent rather than a rainbow of identities"
+      },
+      {
+        "token": "monogram-plate",
+        "hex": "#0a0a0c",
+        "role": "Monogram plate",
+        "usage": "Fill behind every monogram's stroked outline — a shade under the canvas so the mark reads as a cut-out tile rather than a floating letter"
+      },
+      {
+        "token": "zinc-400",
+        "hex": "#9f9fa9",
+        "role": "Body ink",
+        "usage": "Every paragraph, node blurb, role line, stat label and unselected value label — the page's default reading colour, with zinc-50 reserved for names and headings"
+      }
+    ],
+    "typography": "Archivo Display, via the wide display variable, carries the wordmark, the h1, the four hero statistics, the value ordinals and the milestone years — display and figures only; Pretendard Variable carries every sentence on the page. Exactly three weights route-wide, and this route names them in its own header comment: font-normal (all prose, node blurbs, roles), font-semibold (section headings, names, subheads, buttons, ordinals) and font-bold (the h1 and the hero statistics). The h1 runs 36px to 60px at leading-[1.05] with tight tracking; the eyebrow is 14px uppercase at 0.2em tracking in the accent; section headings hold a steady 24px semibold so the five bands read as siblings rather than as a descending outline. Statistics, ordinals and years are tabular-nums, which is what keeps the four-across statistics row optically even when '2018' sits beside '61%'.",
+    "spacing": "A single `max-w-6xl` shell at 16px rising to 24px padding, and a single sectioning rule: every band is separated by a top border and alternate bands take a 30 percent surface wash, so the page's structure is drawn with hairlines and tone rather than with cards. The hero runs 64px to 96px of top padding and closes with a statistics list above its own 32px top border — the figure row reads as a rule under the argument, not as a widget. Content sections settle at 64px vertical padding. The org tree is built from real geometry: a left border 16px in (24px at sm) with 24px of padding, each node absolutely positioning a 24px horizontal tick back to that trunk, and node panels laid out two-up at sm. The values block is `lg:grid-cols-[320px_1fr]` at a 40px gutter — a fixed master column and a fluid detail panel — and the milestones are an ordered list on a 24px-inset left rail with dots pulled out 29px so they sit centred on the line.",
+    "philosophy": "Ordinal was built with no type profile — the shared core only — and it uses that freedom to argue that an about page is a claim about structure, so the org chart should be the artifact rather than a headshot grid. The People section is one hierarchical view carrying two interactions at once: a regroup toggle that re-slices the same twelve people by function or by region, and per-node expand/collapse. Both are rebuilt from a single roster array rather than a second copy of the data, which is what makes the regroup a genuine re-slice instead of two hand-authored trees, and switching grouping resets to first-node-open rather than carrying over ids that do not exist in the new shape. The tree is drawn as an actual tree — a shared trunk with a horizontal tick into each node — because a divide-y list collapsing and expanding reads as toggling rows, not as opening a branch. Values are a master-detail list, and the page is explicit about what it refused: not a tablist, not an accordion, not a carousel, with arrow-key roving added on top of native Tab order rather than replacing it. The milestones are static on purpose — four facts do not need a mechanism — and that restraint is the thesis of the whole page: interaction appears only where the content genuinely has two shapes. Even the identity marks follow the rule, cycling twelve people through four fixed hex literals inside a narrow band around the page accent, so a roster adds people without adding colours.",
+    "dosDonts": [
+      {
+        "do": "Rebuild both groupings from one roster array so the regroup is a real re-slice.",
+        "dont": "Author two separate trees; they drift on the first hire and the toggle becomes a lie."
+      },
+      {
+        "do": "Reset to first-node-open when the grouping changes.",
+        "dont": "Carry the open node id across a regroup — function ids and region ids are disjoint, so the panel silently opens nothing."
+      },
+      {
+        "do": "Draw the hierarchy as a trunk with a tick into each node.",
+        "dont": "Use a divide-y list with chevrons; collapsing then reads as hiding a row rather than closing a branch."
+      },
+      {
+        "do": "Build the values selector from plain buttons with aria-current and one shared detail panel.",
+        "dont": "Reach for role=tab, an accordion, or a carousel — none of them describe a list that never grows and never auto-advances."
+      },
+      {
+        "do": "Leave the milestones and the three mission cards completely static.",
+        "dont": "Add a mechanism to four dated facts just to raise the interaction count."
+      },
+      {
+        "do": "Cycle every person's monogram through a fixed four-value accent set inside the page's own hue band.",
+        "dont": "Derive an identity colour per person across the full wheel; twelve unrelated hues destroy the single-accent system."
+      }
+    ],
+    "agentPrompt": "# Recreate: Ordinal (a company About page built around its org structure)\n\nBuild a dark about page for a compliance-workflow company whose product enforces the *order* of an approval chain. The page should argue that thesis with its own structure: the org chart is the artifact, not a headshot grid.\n\n**Shell:** one content width at 16-24px padding, used by every band. A slim header with the wordmark in the wide display face and a single outlined 'See open roles' link. A skip link that becomes visible on focus. Sections are separated by top borders, with alternating bands taking a very low-opacity surface wash — the page is drawn with hairlines and tone, never with floating cards.\n\n**Hero:** an uppercase eyebrow in the accent at 0.2em tracking, an h1 of 36-60px at leading-[1.05] in the display face, a paragraph of plain product prose, and a four-across statistics list sitting above its own top border so the figures read as a rule under the argument. Statistics are display-face, bold, tabular-nums.\n\n**Mission band:** three static cards, each with an accent-tinted icon tile, a subhead and two sentences. No mechanism here — it is informational, and adding one would be padding.\n\n**People band (interactions 1 and 2, combined in one view):**\n\n- A regroup toggle — a two-button segmented control with aria-pressed, not a native select — that re-slices the *same* roster by function or by region. Both groupings must be derived from one array of people, so nodes and membership are computed, never duplicated.\n- Per-node expand/collapse: each node is a real button with aria-expanded and aria-controls driving the native `hidden` attribute on its panel. Lay it out as an actual tree — a left trunk line with a short horizontal tick into each node — rather than a divide-y list, so opening a node reads as opening a branch.\n- On regroup, reset to first-node-open. Never carry an open id across the switch: the two id sets are disjoint and the panel would open nothing.\n- Node panels list members two-up at sm, each row a deterministic inline-SVG monogram (stroked outline on a plate a shade under the canvas) with name and role.\n\n**Values band (interaction 3):** master-detail, explicitly not tabs. A fixed ~320px master column of plain buttons carrying aria-current, and one fluid detail panel that swaps content. The selected row takes an accent tint, an accent ordinal, and an accent left rule. Add arrow-key roving *on top of* native Tab order, never as a replacement for it. It is not an accordion (the list never grows) and not a carousel (no auto-advance, no next/prev).\n\n**Milestones:** a static ordered list on an inset left rail, with dots pulled out to sit centred on the line and years set in the display face in the accent. Four facts need no mechanism.\n\n**Palette:** near-black canvas, one surface used only at 30/40/60 percent, one hairline colour for all structure, and a single blue accent for the eyebrow, icon tiles, active states, ordinals, years, the CTA and every focus ring. Person monograms cycle through exactly four fixed literals inside a narrow band around that accent — a growing roster must not grow the palette.\n\n**Type:** wide display face for the wordmark, h1, statistics, ordinals and years; body face for every sentence. Exactly three weights — normal, semibold, bold. Section headings hold one steady size so the bands read as siblings.\n\n**Discipline:** all counts derived at module scope from the literal arrays via length and filter, so server and client agree. No Math.random, no Date.now, no new Date. Every transition gated behind motion-reduce."
+  },
+  "ct1": {
+    "id": "ct1",
+    "palette": [
+      {
+        "token": "zinc-950",
+        "hex": "#09090b",
+        "role": "Canvas",
+        "usage": "Page shell, the sticky header at 95 percent, the modal scrim at 70 percent with a backdrop blur, the drawer body, the ring-offset colour, and the ink of labels on filled emerald surfaces"
+      },
+      {
+        "token": "zinc-900",
+        "hex": "#18181b",
+        "role": "Card surface",
+        "usage": "Every result card in both grid and list view, the search field, the sort select, the view-toggle track, the filter chips, the load-more button, and the drawer's stat block at 60 percent"
+      },
+      {
+        "token": "zinc-800",
+        "hex": "#27272a",
+        "role": "Hairline and thumbnail plate",
+        "usage": "Every border and divider, the active view-toggle cell, card hover fill at 70 percent, and — critically — the reserved fill behind each square brand tile, so the grid's geometry holds before any mark paints"
+      },
+      {
+        "token": "zinc-700",
+        "hex": "#3f3f46",
+        "role": "Control edge",
+        "usage": "Chip borders, the rating pills' resting outline, the load-more button's edge, and the off state of the verified-only switch — a step brighter than the page hairline so controls separate from structure"
+      },
+      {
+        "token": "emerald-400",
+        "hex": "#00d492",
+        "role": "Accent",
+        "usage": "The logo tile, focus rings on every control, the mobile filter-count badge, the checkbox accent colour, active rating pills, the empty-state and mobile-apply buttons, and the Verified status marker"
+      },
+      {
+        "token": "emerald-500",
+        "hex": "#00bc7d",
+        "role": "Switch on",
+        "usage": "The verified-only switch when engaged — a darker step than the accent so the filled track reads as a surface rather than as another button"
+      },
+      {
+        "token": "emerald-300",
+        "hex": "#5ee9b5",
+        "role": "Accent (text and selection)",
+        "usage": "The 'Clear all' link in the applied-filter bar, the active rating pill's label, and the installed state in the drawer — the lighter step used wherever the accent has to be read as text on a dark surface"
+      },
+      {
+        "token": "amber-400",
+        "hex": "#ffb900",
+        "role": "Rating and beta marker",
+        "usage": "The filled rating star on every card and in the drawer, plus the Beta status — always beside an icon and a written word, never carrying the meaning alone"
+      },
+      {
+        "token": "zinc-400",
+        "hex": "#9f9fa9",
+        "role": "Metadata ink",
+        "usage": "Card descriptions, category labels, install and review counts, facet counts in the rail, the 'In review' status, and the no-filters-applied line"
+      }
+    ],
+    "typography": "Space Grotesk Display, the grotesk entry in the repository's allow-list, is used twice and only twice — the Loopwire wordmark and the 'Browse integrations' h1 — with Pretendard Variable carrying every other string on the page. That restraint is deliberate for a catalog: the display face marks the room, and the 27 cards that follow must all read as the same kind of object. Exactly three weights route-wide: font-normal (descriptions, facet labels, helper copy), font-medium (chips, sort select, inactive controls, category and status labels) and font-semibold (card names, section legends, prices, buttons, the h1). The h1 sits at 24px with tight tracking; card names are 16px semibold and truncate to one line; descriptions clamp to two lines in grid and one in list, so cards stay a fixed shape regardless of copy length. Every count is tabular-nums — installs, reviews, ratings, facet counts, the result total and the 'N remaining' figure — which is what lets a column of cards be scanned vertically.",
+    "spacing": "An unusually wide `max-w-[1600px]` shell at 16 / 24 / 32px padding, because the page's argument is density. Three stacked chrome bands precede the content: a sticky header that compresses its own vertical padding from 16px to 10px once the page scrolls past 8px, an applied-filter bar at 12px, then the body. The body is `lg:grid-cols-[260px_1fr]` with a 32px gutter, the rail sticky at 112px so it clears the compressed header. The result grid steps 1 / 2 / 3 / 4 columns at sm / xl / 2xl with a 16px gap, and every card is `min-w-0` with a rounded-xl 16px box. Grid cards reserve a square aspect-ratio plate for the mark; list rows reserve a fixed 80px, 96px at sm — the box exists before the mark does, so nothing reflows. The rail is a 28px-spaced stack of fieldsets with 10px between rows. Pagination is explicit: nine per page, with a centred load-more button 32px below the grid.",
+    "philosophy": "Loopwire is the archetype original for this repository's left-rail catalog — a filter rail beside a dense result grid — and later rounds reused the skeleton often enough that the differentiation lens has cited it; this is the work those descend from. Its central decision is that filter state must be legible from the screen alone: every applied facet appears as a removable chip in a bar of its own, with a live result count beside it and a persistent clear-all, and the rail's per-facet counts are computed by re-running the filter with that facet's own selection skipped, so a category still shows how many results selecting it would add rather than collapsing to zero. One operation updates the count, the grid, the chips and the empty state together. The empty state is a first-class path with its own recovery button, not an afterthought. Pagination is a real load-more with a stated remaining count rather than infinite scroll, so nothing becomes unreachable. Card thumbnails are generated marks derived from each slug — hue, split angle, background glyph and monogram all from one hash — after the earlier round shipped these cards against a random photo host and put moss on a CRM sync and wooden planks on a bookkeeping tool; a marketplace card carries the app's mark, and a photograph there reads as a placeholder nobody replaced. The scroll behaviour the type profile permits is used once and conservatively: the header compresses, and cards enter with a stagger capped at eleven so a long grid never queues a multi-second reveal.",
+    "dosDonts": [
+      {
+        "do": "Compute each facet's count by re-running the filter with that facet's own selection skipped.",
+        "dont": "Count against the fully filtered set — every unselected option then reads zero and the rail stops being navigable."
+      },
+      {
+        "do": "Render every applied filter as a removable chip with a live result count and a persistent clear-all.",
+        "dont": "Leave the active state visible only as a checked box inside a rail that scrolls out of view."
+      },
+      {
+        "do": "Generate card marks deterministically from the item's slug — hue, split angle, glyph and monogram from one hash.",
+        "dont": "Point thumbnails at a random image host; the seed may be fixed but the *subject* is not, and a CRM card gets a photo of moss."
+      },
+      {
+        "do": "Reserve the thumbnail's box — a square plate in grid, a fixed 80/96px tile in list — before the mark paints.",
+        "dont": "Let the image define the card's geometry; the grid then reflows as marks resolve."
+      },
+      {
+        "do": "Ship the zero-result state with its own recovery button, and reset pagination whenever the filter signature changes.",
+        "dont": "Leave a stale page-size across a filter change, or treat the empty path as an edge case."
+      },
+      {
+        "do": "Cap the card entrance stagger at roughly eleven items.",
+        "dont": "Stagger a full page of results by index; the last card then arrives seconds after the first."
+      },
+      {
+        "do": "Give the drawer and mobile filter sheet a real Escape handler, an initial focus target, and a restored body overflow on close.",
+        "dont": "Ship a dialog whose only exit is the mouse."
+      }
+    ],
+    "agentPrompt": "# Recreate: Loopwire (integrations marketplace catalog)\n\nBuild a dark, dense integrations marketplace: a left filter rail beside a result grid. The grid is the protagonist — every other element exists to narrow it.\n\n**Shell:** an unusually wide content cap (around 1600px) at 16 / 24 / 32px padding, because this page's argument is density. Three chrome bands stack above the content: a sticky header, an applied-filter bar, then the body.\n\n**Header:** logo tile and wordmark in the grotesk display face, a search field, a sort select showing its current value in the option text ('Sort: Most installed'), a grid/list view toggle, and — below lg — a Filters button carrying a live count badge. The header compresses its own vertical padding once the page scrolls past a few pixels; that is the page's entire scroll-linked treatment, and it must be gated behind motion-reduce.\n\n**Applied-filter bar:** the result count in tabular figures, then every active facet as a removable chip with an X and an sr-only 'remove filter' label, then a clear-all link. When nothing is applied, say so in words rather than collapsing the bar — the height should not jump as the reader filters.\n\n**Filter rail (260px, sticky below the header):** fieldsets with legends for category checkboxes, pricing checkboxes, a minimum-rating pill group, and a verified-only switch built as a real `role=switch` with aria-checked. Every category and pricing row carries a live count, and those counts must be computed by re-running the filter with *that facet's own* selection skipped — otherwise every unselected option reads zero the moment one is chosen and the rail stops being navigable. Below lg, the same component renders inside a modal sheet with an initial focus target, an Escape handler, restored body overflow on close, and an apply button stating the result count.\n\n**Result grid:** 1 / 2 / 3 / 4 columns at sm / xl / 2xl, 16px gap, every item `min-w-0`. Each card is a button opening a detail drawer, and carries: a thumbnail, a category label with an icon, a status marker (verified / beta / in review, each an icon plus a word plus a colour), the name truncated to one line, a description clamped to two, then a footer row of price, installs and a star rating with review count. List view rearranges the same content around a fixed 80/96px tile. Cards enter with a rise stagger capped at about eleven items so a long grid never queues a multi-second reveal.\n\n**Thumbnails:** never a photograph and never a remote host. Derive each mark from the item's slug with a stable string hash: a hue, a second hue a fifth of the wheel away, a gradient angle, one of four oversized background glyphs bled off the tile's corner, and a monogram. Reserve the tile's box — a square aspect ratio in grid, a fixed tile in list — so the geometry holds before anything paints.\n\n**Detail drawer:** a right-side dialog with aria-modal and a labelled title, opened by card selection. Centre the mark on a plain field rather than cropping it to a banner. Include a long description, capability tags, a three-cell stat block, and an install toggle with aria-pressed and an sr-only status announcement.\n\n**Empty and paging states:** implement the zero-result path as a real screen — dashed panel, icon, explanation, and a clear-all button. Page nine results at a time with an explicit load-more button that names how many remain; never infinite scroll alone. Reset pagination whenever the filter or sort signature changes, computed during render rather than in an effect.\n\n**Palette:** near-black canvas, one card surface, one hairline colour, and one control-edge grey a step brighter than the hairline. A single emerald accent for focus rings, active states and the verified marker, with a lighter step wherever it must be read as text and a darker step for the filled switch. Amber for star ratings and the beta marker — always beside an icon and a word.\n\n**Type:** the grotesk display face exactly twice (wordmark and h1); body face everywhere else. Three weights only — normal, medium, semibold. Every count is tabular-nums.\n\n**Determinism:** fixed integration data, derived tags and ordering computed at module scope. No Math.random, no Date.now."
+  },
+  "sc1": {
+    "id": "sc1",
+    "palette": [
+      {
+        "token": "scene-black",
+        "hex": "#010102",
+        "role": "Canvas",
+        "usage": "Painted twice — a fixed viewport layer behind the canvas, and an absolute document-height layer behind that. Near-pure black rather than the house canvas token, because under additive blending a grey backdrop lifts the darkest channel of every faint particle and flattens colour and contrast at once"
+      },
+      {
+        "token": "accent-teal",
+        "hex": "#2de2c5",
+        "role": "Accent",
+        "usage": "The hero eyebrow, the accented headline line, every section tag, the proof labels, the Specimen pill fill, and every focus ring — the page's only chrome colour"
+      },
+      {
+        "token": "accent-teal-lift",
+        "hex": "#63f0da",
+        "role": "Accent hover",
+        "usage": "Hover fill of the single filled control on the page; the accent lifts rather than darkens because the pill's label is near-black"
+      },
+      {
+        "token": "pill-ink",
+        "hex": "#03120f",
+        "role": "Ink on accent",
+        "usage": "The Specimen pill's label — a deep green-black chosen against the teal fill, because white on this teal never reaches AA"
+      },
+      {
+        "token": "copy",
+        "hex": "#c9d6d4",
+        "role": "Body ink",
+        "usage": "Every paragraph that sits over the particle field, measured against the scene's near-black rather than picked by eye"
+      },
+      {
+        "token": "muted",
+        "hex": "#9bafac",
+        "role": "Label ink",
+        "usage": "Nav links, the scroll cue, the footer note and the footer eyebrow — the quietest value the page allows itself over an additively lit field"
+      },
+      {
+        "token": "white",
+        "hex": "#ffffff",
+        "role": "Display ink and core particles",
+        "usage": "The display headline, the statements, the proof figures, all hairline dividers at 10 percent — and the most-weighted entries of the field's core palette, which is what keeps the interior of a silhouette achromatic while its rim carries colour"
+      },
+      {
+        "token": "rim-teal",
+        "hex": "#2bf2d9",
+        "role": "Rim particle",
+        "usage": "The heaviest entry in the rim palette (rgb 0.17, 0.95, 0.85), applied by a continuous depth ramp rather than a switch so the boundary reads as a dense edge of the same material instead of a neon outline stuck around a shape"
+      }
+    ],
+    "typography": "Archivo Display through the wide display variable, applied by inline style so the allow-list check can see it, with Pretendard Variable underneath as the body fallback. Exactly three weights across the route, and the extralight is the voice: font-extralight (the display headline, every statement, the proof figures), font-normal (body copy, inherited by anything unset) and font-semibold (the wordmark and all small caps type). Every size is fluid rather than stepped — display at clamp(2.4rem, 5.6vw, 7.5rem) with leading-[1.02] and -0.045em tracking, statements at clamp(1.4rem, 2.55vw, 2.7rem), body at clamp(1rem, 1.15vw, 1.35rem) at 1.6 leading, small caps at clamp(0.7rem, 0.8vw, 1rem) semibold uppercase at 0.16em, and the proof figures at clamp(2.6rem, 3.4vw, 4rem) with tabular-nums and -0.04em tracking. Text over the field gets a zero-offset halo and nothing else: body copy takes an 8px black glow, statements sitting inside the dispersed field take 16px, and the display sizes take none at all — they are large and opaque enough already, and an offset shadow makes type read as stuck to the background rather than floating over it.",
+    "spacing": "There is no fixed max-width anywhere on this page. One shell — `w-[min(100%-2.75rem,82vw)]`, falling back to the viewport minus a fixed gutter below md — carries the header, every band and the footer, so gutters stay proportional instead of stranding the content in the middle of a 1920 viewport. The header is a clamp(4.5rem, 5.6vw, 6.8rem) zone with its row bottom-aligned inside it, fixed over the content with a gradient scrim behind it (masked to transparent, never a bar) so copy and particles cannot pass through the nav. Bands are viewport-scaled rather than padded: the hero is a min-h-dvh centred column, and each of the three manifesto paragraphs owns its own min-h-dvh so the copy is read *through* the dispersed field one statement at a time. The proof and method rows are hairline-divided cells with no gap — divide-x at sm, divide-y below — at 56px and 80px of vertical padding with the first and last cells flush to the shell edges. The closing band carries 95dvh of bottom padding, and that number is load-bearing: the final scroll positions have to land with the copy gone and the last silhouette alone in frame, or the payoff of the whole scroll is something the visitor never sees.",
+    "philosophy": "KEPT is a scene page, which in this repository means one fixed WebGL2 layer is the spine of the entire document and the copy is a caption track passing over it. Eighteen thousand points morph through four states — dust vortex, orbital rings, a sneaker, the wordmark — driven by nothing but `scrollY / (scrollHeight - innerHeight)`, with no pinned sections and no content swapping in place, because a scene that is a pure function of scroll offset is the only kind that can be screenshotted twice and compared. The determinism contract is the page's real architecture: scatter comes from an inline seeded PRNG, and exactly one clock exists — an idle drift term that goes to zero under the capture freeze flag and under prefers-reduced-motion, with the animation loop stopping entirely rather than repainting a still frame at 60fps. The entry bloom is written as a mount transition rather than a running term, so a frozen frame is identical to what it would be if the bloom did not exist, and the page copy says all of this out loud, because a work whose argument is 'this can be verified' cannot misdescribe itself. Silhouettes are rasterised and sampled boundary-shell first rather than solved parametrically, which is why the shoe keeps a toe spring and a collar instead of reading as a lump; the emitted shells make the particle index monotone in depth, so colour and size can be graded by index alone without breaking the point-to-point correspondence the morph depends on. Handoffs are a swirl, not an explosion — inner particles rotate further than outer ones and the angle is exactly zero at both ends of every transition, so each of the four states settles face-on. Text never rides a scroll-linked opacity ramp, because contrast is audited at scroll zero; the strong fades all live on the canvas, and a second black layer spans the whole document behind everything purely so the below-the-fold footer resolves its background against black instead of falling through to the body's light scheme.",
+    "dosDonts": [
+      {
+        "do": "Put the scene in one fixed layer at the page root and drive it from whole-document scroll progress.",
+        "dont": "Nest the canvas inside a section or pin sections to swap content — the axis breaks the moment that section ends."
+      },
+      {
+        "do": "Paint the backdrop as a separate layer *behind* the canvas.",
+        "dont": "Put a background colour on the wrapper; the canvas disappears behind it with no error, no warning and no gate failure."
+      },
+      {
+        "do": "Allow exactly one clock, zeroed under the capture flag and under reduced motion, with the render loop halting in both cases.",
+        "dont": "Drive any part of the scene from elapsed time without an off switch — two captures of the same commit then differ and blind comparison collapses."
+      },
+      {
+        "do": "Let reduced motion gate *above* every other animation flag, with transition durations at zero.",
+        "dont": "Hang the reveal on a mount or curtain flag alone; a reduced-motion visitor still watches it run, and the landing frame moves with hydration timing."
+      },
+      {
+        "do": "Rasterise recognisable silhouettes and sample them boundary-shell first.",
+        "dont": "Build forms from trigonometric parameter equations — the result is a blob nobody can name."
+      },
+      {
+        "do": "Return rotation to zero at every stage, not just at scroll 0 and 1.",
+        "dont": "Use a single half-cycle across four states; the two middle silhouettes then sit permanently yawed and a shoe at 45 degrees is a lump."
+      },
+      {
+        "do": "Keep body copy at full opacity with a zero-offset halo, and add a second document-height black layer behind everything.",
+        "dont": "Fade text on a scroll-linked ramp, or rely on a viewport-sized backdrop — below-the-fold copy is then audited against the body's light scheme."
+      },
+      {
+        "do": "End the page with roughly a viewport of bottom padding.",
+        "dont": "Let the closing copy sit over the final silhouette; the payoff of the entire scroll lands in that last frame."
+      }
+    ],
+    "agentPrompt": "# Recreate: KEPT (a scene page carried by one particle field)\n\nBuild a page whose spine is a single fixed WebGL2 particle layer. The copy is not decorated by the scene — it passes over it like a caption track.\n\n**Architecture:** one canvas at the page root, `fixed inset-0`, behind the content, `aria-hidden` and never taking pointer events. Behind it, two black layers: a fixed viewport one, and an `absolute inset-0` one spanning the whole *document*. The second is not cosmetic — an audit resolves an element's background from what overlaps its rect, so with only a viewport-sized layer the footer falls through to the body's light scheme and fails contrast. Never put a background colour on the content wrapper: it paints over the canvas and blanks the field with no error anywhere.\n\n**The field:** roughly 18,000 points in one draw call, morphing continuously through four silhouette states — a dust vortex, orbital rings, a recognisable object, and the wordmark. The only input is document scroll progress; there are no pinned sections and nothing swaps content in place. Recognisable forms are drawn once onto an offscreen 2D canvas and their opaque pixels sampled by a seeded generator, binned into depth shells emitted outermost-first. Solve the vortex and the rings parametrically — rasterising an exact equation only adds error. Always supply a fallback for the empty-raster case, or the field silently disappears.\n\n**Transitions:** hand off with a swirl, not an explosion. Every particle rotates about the axis by an amount that falls off with radius, so the inner mass turns further than the rim and one silhouette unwinds into the next. Square the sine so the ends flatten — a plain sine still has the middle of the object rotated tens of degrees at the scroll position where it is supposed to be parked. With four states, rotation must return to zero at *each* of them, not only at scroll 0 and 1. Keep per-particle lag short enough that no particle straddles two segments.\n\n**Determinism (non-negotiable):** an inline seeded PRNG, never Math.random. Exactly one clock — a small idle drift — pinned to zero under a capture freeze flag injected before the first frame and under prefers-reduced-motion, with the render loop stopping entirely in either case rather than repainting a still frame. Write the entry bloom as a mount transition that starts *finished* when frozen, so a captured frame is identical to one from a build without it. Everything else is a pure function of scroll offset and pointer position.\n\n**Pointer:** two responses, both pure functions of position with no easing timer, so they stop the instant the cursor does and contribute nothing when no cursor exists. A local lens that opens and brightens the sculpture underneath it, and a depth-layered parallax on the ambient background particles. Aspect-correct the pointer before use, and define an off-screen sentinel for absence.\n\n**Density and colour:** split the palette into rim and core sets and mix them with a continuous depth ramp, never a binary switch — a hard split paints a neon sticker around the shape. Keep the rim chromatic and the core mostly achromatic so overlapping particles do not wash every silhouette white. Reserve a few percent of the field as an ambient layer that skips the morph and holds its own scattered home in every buffer, so no frame is ever empty between states. Scale point size with openness so the field goes fine-grained as it closes, and give the ambient layer a linear size curve rather than the sculpture's heavy tail.\n\n**Layout:** no fixed max-width anywhere. One fluid shell around 82vw, falling back to the viewport minus a fixed gutter on phones. A fixed header with a gradient scrim behind it — masked to transparent, never a bar — so copy and particles cannot pass through the nav. Give each statement its own full-viewport band so it is read through the dispersed field. Divide the proof and method rows with hairlines and no gap. End with roughly a viewport of bottom padding so the last scroll positions hand the frame to the final silhouette alone.\n\n**Type:** one wide display face, three weights only — extralight for display and statements, normal for body, semibold for small caps. Every size fluid via clamp. Text stays at full opacity: contrast is audited at scroll zero, so a scroll-linked opacity ramp on text reads as a failure regardless of how it looks mid-scroll. Separation comes from a zero-offset halo on body copy only.\n\n**Accessibility:** split-character reveals render their glyphs `aria-hidden` with the real sentence carried by an sr-only copy. The page must read identically with the canvas absent."
   }
 }

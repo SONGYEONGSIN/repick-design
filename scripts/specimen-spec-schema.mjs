@@ -6,6 +6,8 @@ export const SUBSET_IDS = [
   "v0", "v6", "v7", "v8", "v9", "v10",
   // 배치 1 (2026-08-14): native 7종
   "n1", "n2", "n3", "n4", "n5", "n6", "n7",
+  // 배치 2a (2026-08-14): 신규 타입 7종
+  "lg1", "nf1", "pf1", "bl1", "ab1", "ct1", "sc1",
 ];
 
 export function validateSpec(spec) {
