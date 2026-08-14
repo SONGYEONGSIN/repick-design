@@ -69,3 +69,24 @@ test('banList — 이미 고르게 퍼져 있으면 금지 없음', () => {
   assert.deepEqual(b.theme, []);
   assert.deepEqual(b.accent, []);
 });
+
+/* ───────── theme 판별 — 픽셀 실측을 진실로 고정 (2026-08-14, Q26) ─────────
+   옛 정규식은 `\b`가 `/` 앞에서 성립해 `bg-white/5`(다크 UI의 반투명 오버레이)를 라이트 캔버스로
+   셌고, `walk`는 하위 라우트까지 재귀해 `/`가 v6~v11 을, `/dash`가 13개를 함께 읽었다. 스크린샷
+   픽셀 평균 휘도를 진실로 두고 41작품을 채점하니 **36/41 → 41/41**이 됐다. 아래는 그 진실에서
+   뽑은 대표 사례다 — 회귀하면 여기서 걸린다. */
+
+test('themeOf — 불투명도 오버레이는 캔버스로 세지 않는다', () => {
+  // 다크 캔버스 + 반투명 흰 보더 다수 = 다크 (옛 정규식은 light 로 읽었다)
+  const darkWithWhiteOverlays = 'bg-zinc-950 ' + 'bg-white/5 border-white/10 hover:bg-white/10 '.repeat(8);
+  assert.equal(themeOf(darkWithWhiteOverlays), 'dark');
+  // 라이트 캔버스 + 반투명 검정 구분선 = 라이트 (반대 방향도 같게)
+  const lightWithBlackOverlays = 'bg-white ' + 'bg-black/5 border-black/10 '.repeat(8);
+  assert.equal(themeOf(lightWithBlackOverlays), 'light');
+});
+
+test('themeOf — 불투명도 없는 배경은 그대로 센다', () => {
+  assert.equal(themeOf('bg-zinc-950 bg-zinc-900'), 'dark');
+  assert.equal(themeOf('bg-white bg-zinc-50'), 'light');
+  assert.equal(themeOf('<div />'), 'unknown');
+});
