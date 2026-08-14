@@ -31,6 +31,15 @@ description: 자율 진화 주간 반증 (다중 타깃) — evolve/dash 누적�
      - `singleScreen: true` — 스크롤하지 않고 한 화면에서 끝나는 페이지(login·404 계열).
      - `viewportPreview: true` — 섹션을 뷰포트 단위로 짠 페이지(`min-h-dvh`/`h-screen` + 세로 중앙 정렬). **`scene` 타입은 정의상 여기 해당한다.** 안 켜면 2400px 뷰포트에서 히어로 하나가 2400px이 되고 중앙 정렬된 콘텐츠가 카드 창 아래로 내려가, 카드가 검은 여백만 보인다(2026-08-02 `sc1` 실증).
      판별: `grep -E "min-h-dvh|min-h-screen|h-screen" <승격경로>` 결과가 `items-center`/`justify-center`와 같은 줄에 있으면 `viewportPreview`. 루트 래퍼 한 줄뿐이면 불필요.
+4-0. **승격본 스펙 등재 (필수)** — 킵한 작품은 **같은 PR에서** `app/src/lib/specimen-specs.data.json`에 상세 스펙을 넣고 `scripts/specimen-spec-schema.mjs`의 `SUBSET_IDS`에 id를 추가한다. `scripts/specimen-works-coverage.test.mjs`가 **`works.ts`를 진실 집합으로** 두고 강제하므로, 빠뜨리면 `npm test`가 그 작품 id를 지목하며 실패한다.
+   **왜 절차에 넣었나**: 스펙은 그동안 사후 배치로 메웠고, 2026-08-14에 48/48을 채운 바로 다음 주 승격(`v12`·`n8`·`n9`)이 3작품 구멍을 다시 냈다. 기존 `specimen-subset-complete` 테스트는 `SUBSET_IDS`와 데이터 파일만 대조하는데 **둘 다 손으로 유지하는 목록이라, 승격을 빠뜨리면 양쪽이 완벽히 일관된 채로 갤러리에 "Full spec coming soon"이 뜬다.** 규칙을 절차에만 적으면 같은 일이 반복되므로 계측을 함께 둔다.
+   **값은 실측으로 채운다** — 소스를 읽어 추정하지 마라:
+   - **테마·색**: 렌더된 픽셀에서 뽑는다(`getComputedStyle`로 배경·전경 빈도 집계). 소스 정규식은 반투명 오버레이를 라이트 캔버스로 오판한다([[curation-criteria]] Q26).
+   - **활자·웨이트·스케일**: 렌더 실측. 클래스를 세면 클래스 없는 기본 굵기를 못 본다.
+   - **hex**: Tailwind 유틸리티를 쓴 곳은 v4 토큰값과 대조한다(손 변환은 틀린다 — 네 배치 183건 중 1건 오차가 그렇게 났다). 리터럴은 리터럴대로 적되 같은 라우트에서 유틸리티와 어긋나면 그 사실을 적는다.
+   - 스키마는 `validateSpec`으로 확인한다(palette ≥3 · dosDonts ≥3 · 네 서술 필드).
+   native 작품은 웹과 같은 스키마를 쓰되 폭 390에서 측정한다.
+
 4-1. **승격본 lint 확인 (필수)** — 킵한 작품을 옮긴 직후 `cd app && npx eslint src --max-warnings=0`을 돌려 위반 0을 확인한다. 하드게이트(static·weights·sweep·a11y·perf)에는 **eslint가 없어서**, 라운드는 통과했는데 카탈로그에 lint 에러가 들어오는 일이 두 번 반복됐다(2026-08-01 `auto-404-r1` 승격: effect 내 setState + 원시 `<a>` 2건). 게이트가 안 보는 것은 승격이 봐야 한다.
 
 5. **위키 마감** — index.md에 승격/신규 노트 등재 반영 → `node scripts/wiki-lint.mjs` 재실행, 위반 0 확인(승격이 만든 깨진 링크·미등재 즉시 수정).
