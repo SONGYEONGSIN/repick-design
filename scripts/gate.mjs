@@ -111,10 +111,33 @@ export function normalizeTypes(errors, files) {
   };
 }
 
-export function normalizeA11y(score) {
-  if (score === 'unavailable') return { name: 'a11y', pass: true, detail: 'unavailable', violations: [] };
+/**
+ * The accessibility score, plus the audits that failed outright.
+ *
+ * `/developers` failed `heading-order` (`score: 0`, binary) and passed the gate with 98. The canon
+ * writes heading skips as an absolute prohibition; the instrument is a **weighted average against a
+ * threshold**, so any audit worth less than five points slips through — and audits carrying zero
+ * weight fail while the page scores a perfect 100 (`d45`, `d41`: `label-content-name-mismatch`).
+ * An absolute rule cannot be enforced by an averaging instrument.
+ *
+ * The verdict is deliberately unchanged: a retroactive scan of 41 works found **18** failing at
+ * least one binary audit, so hard-failing on any of them would break 44% of the catalogue — the
+ * same wall the font-weight rule hit. What changes is visibility. Until now the failing audit ids
+ * never reached the gate at all: `runLighthouse` returned two numbers. Fifteen works passed while
+ * carrying a named accessibility defect nobody could see.
+ */
+export function normalizeA11y(result) {
+  if (result === 'unavailable') return { name: 'a11y', pass: true, detail: 'unavailable', violations: [] };
+  // 숫자만 넘어오는 호출부(레거시·테스트)도 그대로 받는다 — 점수는 언제나 첫 번째 신호다.
+  const score = typeof result === 'number' ? result : result.score;
+  const failedAudits = typeof result === 'number' ? [] : (result.failedAudits ?? []);
   const pass = score >= 95;
-  return { name: 'a11y', pass, detail: String(score), violations: pass ? [] : [{ score, threshold: 95 }] };
+  return {
+    name: 'a11y',
+    pass,
+    detail: failedAudits.length ? `${score} · 실패 감사 ${failedAudits.join(' · ')}` : String(score),
+    violations: pass ? [] : [{ score, threshold: 95, failedAudits }],
+  };
 }
 
 export function normalizePerf(score) {
@@ -285,6 +308,10 @@ function runLighthouse(url, preset) {
     return {
       a11y: Math.round((j.categories.accessibility.score ?? 0) * 100),
       perf: Math.round((j.categories.performance.score ?? 0) * 100),
+      // 이진 판정 감사만. `manual`·`notApplicable`·`informative` 는 실패가 아니다.
+      failedAudits: Object.values(j.audits)
+        .filter((a) => a.scoreDisplayMode === 'binary' && a.score !== null && a.score < 1)
+        .map((a) => a.id),
     };
   } catch {
     return 'unavailable';
@@ -451,6 +478,8 @@ export function worstLighthouse(results) {
   return {
     a11y: Math.min(...results.map((r) => r.a11y)),
     perf: Math.min(...results.map((r) => r.perf)),
+    // 데스크톱·모바일 합집합 — 한쪽에서만 터지는 감사(모바일 target-size)를 다른 쪽이 지우면 안 된다.
+    failedAudits: [...new Set(results.flatMap((r) => r.failedAudits ?? []))].sort(),
   };
 }
 
@@ -524,7 +553,7 @@ export async function runWeb({ routes, files, base, appRoot = 'app/src/app', fon
     ),
     normalizeSweep(sweep),
     normalizeConsole(sweepRaw.consoleMessages ?? 'unavailable'),
-    normalizeA11y(lh === 'unavailable' ? 'unavailable' : lh.a11y),
+    normalizeA11y(lh === 'unavailable' ? 'unavailable' : { score: lh.a11y, failedAudits: lh.failedAudits }),
     normalizePerf(lh === 'unavailable' ? 'unavailable' : lh.perf),
   ];
   return buildVerdict('web', gates);
