@@ -35,7 +35,13 @@ tags: [principles, brief]
 | 무작위 이미지 서비스 금지 (picsum·loremflickr·source.unsplash 등) | static `no-random-image-host` | 하드페일 |
 | 전 폭 페이지·테이블 오버플로 0 (1280/1440/1920 + 모바일 390) | sweep | 하드페일 |
 | Lighthouse 접근성 **95 이상** | a11y | 하드페일 |
+| ↳ 실패한 개별 감사 id (`heading-order`·`button-name`·`color-contrast` 등) | a11y `detail` | **기록만** — 아래 참조 |
 | Lighthouse 성능 | perf | 기록만(탈락 미적용) |
+
+> **점수 95는 절대 규칙을 강제하지 못한다** (2026-08-14 커버리지 감사). §2의 조항들은 **절대 금지**로 적혀 있는데 a11y 계측은 **가중 평균의 임계값**이라, 5점 미만짜리 감사는 무엇이든 통과한다. `/developers`가 `heading-order`를 명시적으로 실패(`score:0`)하고 **98점으로 통과**했고, 가중치 0인 감사는 **총점 100을 받고도 실패**한다(`d45`·`d41`의 `label-content-name-mismatch`).
+> **41작품 소급**: 전 감사 통과 **23** · 점수는 통과인데 감사 실패 **15** · 점수 미달 **3**(`d32` 84 · `d35` 91 · `d37` 94 — 오늘 게이트를 돌리면 탈락한다). 감사 1건이라도 실패하면 하드페일로 두면 **44%가 깨지므로** 지금은 기록만 한다(웨이트 3종이 41% 위반으로 기록전용에 머문 것과 같은 벽).
+> 실패 감사 집계: `button-name` 7 · `color-contrast` 6 · `label-content-name-mismatch` 3 · `skip-link` 2 · `target-size`·`listitem`·`heading-order`·`dlitem`·`definition-list`·`aria-required-parent`·`aria-required-children` 각 1.
+> **좁은 승격 경로**: 정본이 절대 금지로 적었고 소급 위반이 ≤2건인 감사부터 하드페일로 올린다. 그 전에 위반작을 고친다.
 
 ## 2. 접근성·견고성 (judge 렌즈1이 대조)
 
