@@ -1,5 +1,12 @@
 // scripts/specimen-spec-schema.mjs — G2 rich-spec completeness gate (shared by tests).
-export const SUBSET_IDS = ["d29", "d30", "d31", "d32", "d33", "d34", "d35", "d36", "d37", "d38", "d39", "d40", "v0", "v6", "v7", "v8", "v9", "v10"];
+// 스펙 완전성 게이트가 지키는 작품 목록. 배치로 늘린다 — 여기에 없는 id 의 스펙을 데이터에
+// 넣으면 "no strays" 테스트가 실패하고, 넣으면 그때부터 이 검사가 그 작품까지 지킨다.
+export const SUBSET_IDS = [
+  "d29", "d30", "d31", "d32", "d33", "d34", "d35", "d36", "d37", "d38", "d39", "d40",
+  "v0", "v6", "v7", "v8", "v9", "v10",
+  // 배치 1 (2026-08-14): native 7종
+  "n1", "n2", "n3", "n4", "n5", "n6", "n7",
+];
 
 export function validateSpec(spec) {
   const errs = [];
