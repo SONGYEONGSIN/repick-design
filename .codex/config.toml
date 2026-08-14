@@ -1,6 +1,0 @@
-[mcp_servers.refero]
-command = "npx"
-args = [
-    "-y",
-    "fidgetcoding-refero-mcp",
-]
