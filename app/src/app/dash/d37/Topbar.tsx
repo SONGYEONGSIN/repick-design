@@ -64,7 +64,7 @@ export default function Topbar({ onOpenPalette, onOpenMobileNav }: { onOpenPalet
         )}
       >
         <Search size={16} aria-hidden="true" className="shrink-0" />
-        <span className="hidden truncate sm:inline">Search channels, tiers, outcomes</span>
+        <span className="sr-only truncate sm:not-sr-only sm:inline">Search channels, tiers, outcomes</span>
         <span
           aria-hidden="true"
           className={cx("ml-auto hidden shrink-0 rounded-md border px-1.5 py-0.5 text-[11px] font-medium sm:inline-flex", BORDER, "bg-white dark:bg-zinc-950", TEXT_CAPTION)}
@@ -78,7 +78,7 @@ export default function Topbar({ onOpenPalette, onOpenMobileNav }: { onOpenPalet
           type="button"
           className={cx(
             "hidden h-11 items-center gap-1.5 rounded-lg px-3.5 text-sm font-medium sm:inline-flex",
-            "bg-sky-600 text-white hover:bg-sky-500 active:bg-sky-700",
+            "bg-sky-700 text-white hover:bg-sky-700 active:bg-sky-800",
             TRANSITION,
             FOCUS_RING,
           )}
