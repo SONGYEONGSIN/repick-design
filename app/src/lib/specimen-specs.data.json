@@ -3069,5 +3069,318 @@
       }
     ],
     "agentPrompt": "# Recreate: Kestrel integration (four strata of sync state, written for the bad Tuesday)\n\nBuild a dark integration page for a two-way sync between a CRM and a billing system, aimed at someone who already connected it and is now debugging it.\n\n**Palette:** `zinc-950` canvas, used deliberately as the fill of the statistic tiles and disconnect cards — those grids are drawn as one-pixel gaps over `zinc-800`, so the canvas colour is what makes the cells read as cells and the gaps become the rules. `zinc-900` for the table header row, the run and precedence cards at 40% alpha, queue rows, and the solid summary bar. `zinc-800` for every border; `zinc-700` for resting control outlines. Text runs `zinc-400` for column headers, timestamps, identifiers and footnotes, `zinc-300` for prose and explanations, `zinc-50` for display values. Accent is orange split by job: `orange-400` for operation (hand-back button fill on near-black text, checkbox and radio accent, the border of a flipped rule, every focus ring) and `orange-300` for text-size marks (the jump link, direction glyphs, the unsaved-preview note). Status is a fixed three-way vocabulary: `amber-400` at 30% border and 10% fill for degraded and partial and held, `emerald-300` for complete and stays and handed back, `rose-300` for does not cross and stops, over a 20% rose tint on each refused row.\n\n**Type:** the grotesk display face on values as well as headings — h1, section headings, statistic figures, run numbers, the two competing values in a precedence row, and queue record labels — so everything a reader compares is in the same voice. Field names and identifiers in mono at xs, which is what makes the table read as configuration. Exactly three weights and no bold anywhere: normal, medium, semibold, keeping the hierarchy flat enough for four parallel strata. Uppercase tracked labels at xs. Tabular numerals on statistics, run numbers, read and written counts, identifiers and both selection counts.\n\n**Layout:** max-w-6xl, px-4 to px-8, pt-10 and a deep pb-24. Header closes on a divider at pb-10; the four strata open at even pt-12 and pt-14 intervals because none is subordinate. The field table is fixed-layout with an explicit 24/22/24/30 column group, cells top-aligned so a long explanation does not centre against a short field name, and a visually hidden caption plus column and row scopes. Runs and precedence rows are rounded-xl cards at p-4 to p-5 in a 3-unit stack, a run's disclosure opening a nested darker panel with a divided definition list. The queue is one rounded container of divided rows closed by a solid bar carrying the count sentence and the hand-back button.\n\n**Behavior:** seventeen field rows, eleven crossing and six refused, each refusal carrying arithmetic rather than an assertion. Six runs, each row self-sufficient — window, direction, counts, verdict chip, headline — with a disclosure that adds only the rejected records by name; key rows on a composite of both counterpart names, because more than one row legitimately has no counterpart. Four precedence rows, each with radios flipping the winner for that field only, a live sentence naming the surviving value and its downstream cost, an explicit unsaved-preview note and an undo to the saved rule. A queue of held records with checkboxes, a summary counting the selection by target system, and a hand-back action moving them to a queued state. Wire the strata together: one rejection should appear in a run detail and again by the same identifier in the queue. Close with what stays, what stops and what expires on disconnect. No clock, no random source, and every headline count derived from the rows beneath it.\n\n**Feel:** a status page a vendor would be slightly uncomfortable publishing — refusals as first-class rows, an incident traceable across three sections, and an honest answer about what breaks quietly when you turn it off."
+  },
+  "pd1": {
+    "id": "pd1",
+    "palette": [
+      {
+        "token": "slate-50",
+        "hex": "#f8fafc",
+        "role": "Canvas",
+        "usage": "The page ground behind everything — the only surface that is not white, which is what lets each rounded-2xl panel read as a raised plate without a shadow"
+      },
+      {
+        "token": "white",
+        "hex": "#ffffff",
+        "role": "Panel surface",
+        "usage": "All six console panels, the grade and switch chips under the hero art, and the sticky toolbar (at 95% with a backdrop blur, so the console grid stays faintly legible passing beneath it)"
+      },
+      {
+        "token": "slate-900",
+        "hex": "#0f172b",
+        "role": "Answers",
+        "usage": "The h1, the hero price, the running order total, every spec value, review titles and the rating average — reserved for the value half of a label/value pair"
+      },
+      {
+        "token": "slate-600",
+        "hex": "#45556c",
+        "role": "Labels",
+        "usage": "The other half of every pair: dt terms, meter captions, the trust row, review bodies, the console's uppercase eyebrow and the footer. Label and value differ by color and weight, never by size"
+      },
+      {
+        "token": "slate-200",
+        "hex": "#e2e8f0",
+        "role": "Hairlines",
+        "usage": "One border value for the whole page — panel outlines, the rule above the hero price, the divider under the toolbar, the dashed rule closing each spec row, and the unselected radio-card border"
+      },
+      {
+        "token": "sky-700",
+        "hex": "#0069a8",
+        "role": "Accent (single)",
+        "usage": "The page's only accent: both Add-to-cart buttons, all six panel glyphs, the feel meters and rating-distribution fills, filled stars, the border of a selected grade/switch/add-on, and every focus-visible ring"
+      },
+      {
+        "token": "sky-50",
+        "hex": "#f0f9ff",
+        "role": "Accent wash",
+        "usage": "The rounded tile behind each panel's lucide icon, and the fill of a selected radio card, checked add-on or active star filter — the wash proposes the selection, the sky-700 border confirms it"
+      },
+      {
+        "token": "amber-600",
+        "hex": "#e17100",
+        "role": "Low-stock meter",
+        "usage": "The fulfillment stock bar flips from sky-700 to amber-600 only when the chosen grade holds three or fewer units — Grade C at 3 is the state that shows it"
+      },
+      {
+        "token": "amber-700",
+        "hex": "#bb4d00",
+        "role": "Low-stock text",
+        "usage": "The 'Low stock in this grade' line, always alongside a TriangleAlert glyph so the scarcity signal never rides on the bar's color alone"
+      },
+      {
+        "token": "#b45309",
+        "hex": "#b45309",
+        "role": "Switch swatch — Amber Tactile (default)",
+        "usage": "A hex literal in data.ts, injected as an inline background into the SVG keyboard's home-row keys, the hero chip dot, the toolbar pill dot and the picker dot. Not a v4 token value — v4's amber-700 is #bb4d00 — so these three swatches are deliberately outside the utility palette and read as product data, never as chrome"
+      },
+      {
+        "token": "#b91c1c",
+        "hex": "#b91c1c",
+        "role": "Switch swatch — Garnet Linear",
+        "usage": "Same literal treatment: it tints four keys of the generated keyboard and three dots, and appears nowhere else — no button, border or text ever takes a switch color"
+      },
+      {
+        "token": "#1d4ed8",
+        "hex": "#1d4ed8",
+        "role": "Switch swatch — Cobalt Clicky",
+        "usage": "The third literal. Because the three swatches sit far apart in hue, the illustration answers 'which switch did I pick' at a glance while the accent stays a single blue"
+      }
+    ],
+    "typography": "Pretendard Variable throughout, with a wide display grotesque (--font-display-wide) applied to exactly one element on the page: the h1. Exactly three weights route-wide — font-normal for every body run and label, font-medium for control labels, chips, buttons, dd values and filter pills, font-semibold for the h1, the six panel h2s, the hero price and the order total. font-normal is written explicitly rather than inherited, so a rendered-weight probe measures three and not four. Scale: h1 text-4xl → sm:text-5xl with tracking-tight, hero price text-3xl, panel headings text-base, body text-sm, metadata text-xs; the console is introduced by a single text-xs uppercase tracked label rather than another large heading, which keeps the h1 unrivalled. Every numeral on the page carries tabular-nums — prices, add-on deltas, grams of actuation force, dB, millimetres of travel, unit counts, star averages, review counts, helpful counts and distribution percentages — so figures stay column-aligned while a picker changes them underneath.",
+    "spacing": "max-w-[1280px] on a 4/8px rhythm; panels are rounded-2xl at p-5 → sm:p-6 with a uniform gap-5. The hero is a two-column grid — copy, rating link, a price/ships row divided by a rule, a full-width CTA and a trust row on the left; a 4:3 generated keyboard with grade and switch chips beneath on the right — and it reverses order on mobile so the illustration leads. Beneath it the console is a 12-column grid in three bands: 5/4/3 (Configure · Feel & sound · Fulfillment), then 7/5 (Specifications · Compatibility & bundle), then a full 12 for Reviews. The decision that defines this work is that nothing collapses into tabs: at desktop all six panels are on screen at once and the only element that moves is the toolbar. Every anchor target carries scroll-mt-24 so the sticky toolbar never covers the heading it just jumped to, hero and console are separated by mt-14, and inside a panel the vertical steps are limited to 2 / 2.5 / 4 / 5 — a small enough set that six independently authored panels still share one internal rhythm.",
+    "philosophy": "Anvil TKL-75 argues that a product page can be a console rather than a story. Two axes — condition grade and switch — are the page's only state, held once at the top and passed down as props, and six panels read them simultaneously: change the grade and the hero price, the toolbar total, the stock bar and its low-stock warning, the warranty and ship line, the live first spec group and the reviews panel's 'buyers of this grade' count all move on the same render, because none of them owns a second copy of the number. The purchase decision is exposed twice at rest — a full-size price and Add-to-cart in the hero, and a toolbar that is sticky from first paint rather than a header that materialises after scrolling — so the two facts that end a purchase are never a scroll away. Its craft decisions are all refusals: the deepest proof (actuation force, sound level and travel for the switch actually chosen) opens without a click instead of hiding in accordion four; the product is drawn from primitives and tinted by the selected switch rather than fetched from an image host, so the gallery answers 'what does this switch look like' even when the network does not; and the specification lists keep icons out of the <dl> entirely, putting the section glyph in the accordion trigger above so the list stays dl > div > (dt, dd). That last one is not a stylistic preference — the extra wrapper an icon introduces inside a <dl> is precisely what broke axe's definition-list and dlitem rules in this type's first round, and this page is what the corrected structure looks like.",
+    "dosDonts": [
+      {
+        "do": "Hold grade and switch as the page's only two state atoms and pass them to every panel as props.",
+        "dont": "Let a panel keep a local copy of the price or re-derive it from a constant — six panels will agree at the default selection and diverge the moment a picker moves."
+      },
+      {
+        "do": "Put a real price and a real Add-to-cart in the hero and in a toolbar that is sticky from first paint.",
+        "dont": "Count a header that only appears after scrolling, or an anchor link down to a buy box, as the second exposure."
+      },
+      {
+        "do": "Keep the section glyph in the accordion trigger and leave the list as dl > div > (dt, dd).",
+        "dont": "Wrap dt and dd in an icon row inside the <dl> — that extra level is the exact structure that failed axe definition-list/dlitem here before."
+      },
+      {
+        "do": "Open the first specification group by default and build it from the live selection, so measured force, dB and travel for the chosen switch are readable immediately.",
+        "dont": "Make the first accordion a static overview that never changes — the strongest evidence ends up behind the one click nobody makes."
+      },
+      {
+        "do": "Give the toolbar's icon-only controls explicit aria-labels for the widths where their text collapses.",
+        "dont": "Hide a button's label behind sm:inline and ship it nameless on mobile — that is what dropped this route to a11y 91 at 390px before the fix."
+      },
+      {
+        "do": "Draw the product from primitives and tint it with the selected switch's swatch.",
+        "dont": "Hotlink a product photo — a configurator whose gallery is a broken grey box has lost the only thing the gallery was for."
+      }
+    ],
+    "agentPrompt": "# Recreate: Anvil TKL-75 (certified-refurbished keyboard, configuration console)\n\nBuild a light product-detail page for a resale marketplace whose organizing claim is that every consequence of a choice is already on screen.\n\n**Palette:** `slate-50` canvas with `white` panels; `slate-900` for answers and `slate-600` for labels; `slate-200` as the single hairline value for panel borders, dividers and the dashed rule under each spec row. `sky-700` is the only accent — both Add-to-cart buttons, all panel glyphs, meter and distribution fills, filled stars, selected-option borders and every focus ring — with `sky-50` as the wash behind panel icons and under a selected option. `amber-600` and `amber-700` appear only when the chosen grade holds three or fewer units, and never without a warning glyph beside them. The three switch swatches are hex literals in the data file (a deep red, a burnt amber, a cobalt) injected as inline background colors: they are product data, and must never be reused as a button, border or text color.\n\n**Type:** Pretendard Variable everywhere, with one wide display grotesque on the h1 alone. Exactly three weights — normal / medium / semibold — with normal written explicitly rather than inherited. h1 4xl→5xl, hero price 3xl, panel headings base, body sm, meta xs; introduce the console with a single xs uppercase tracked label rather than a competing large heading. Every numeral tabular: prices, add-on deltas, grams, decibels, millimetres, stock counts, ratings, review and helpful counts, percentages.\n\n**Layout:** a toolbar sticky from first paint (brand, product name, a grade·switch pill with a color dot, stock count, running total, compact Add to cart) above a two-column hero — SKU line, h1, a rating link that jumps to reviews, a price/ships row divided by a rule, a full-width Add to cart, a three-item trust row on the left; a 4:3 generated keyboard illustration with grade and switch chips beneath on the right, order-reversed on mobile. Then a 12-column console in three bands: 5/4/3 (Configure your unit · Feel & sound · Fulfillment), 7/5 (Specifications · Compatibility & bundle), 12 (Reviews). All six panels visible at once at desktop. No tabs anywhere.\n\n**Behavior:** condition grade and switch are the page's only state, held once and passed down. Changing either recomputes on the same render: hero price, toolbar total, three feel meters, the stock bar and its low-stock warning, warranty and ship estimate, the live first spec group, the order summary, and the reviews line reporting how many of the six reviews came from buyers of the selected grade. Bundle add-ons are a second, independent way to move the same total. The spec accordion keeps every list flat — dl > div > (dt, dd) — with the section glyph in the trigger above, never inside the list; the first group starts open and is the one built from the live selection. Star filters narrow the review list behind an aria-live count. Everything deterministic: no Math.random, no Date.now, no new Date — review dates are display strings and ordering uses a hand-set integer.\n\n**Feel:** a bench-tested instrument being configured, not a narrative being told. Nothing that decides a purchase waits behind a scroll, a tab or a hover."
+  },
+  "pw1": {
+    "id": "pw1",
+    "palette": [
+      {
+        "token": "white",
+        "hex": "#ffffff",
+        "role": "Canvas — diagnosis pane",
+        "usage": "The left (persuasion) pane, the sticky header at 95% with a backdrop blur, and the cards that sit inside the right pane: the recommended-plan block, the four comparison rows and the three FAQ disclosures"
+      },
+      {
+        "token": "slate-50",
+        "hex": "#f8fafc",
+        "role": "Canvas — sizing pane",
+        "usage": "The right (calculator) pane's ground. It is the only tonal difference between the two halves, and together with a single border it is what makes the page read as two panes rather than one wide grid"
+      },
+      {
+        "token": "slate-900",
+        "hex": "#0f172b",
+        "role": "Primary text",
+        "usage": "The date-stamped h1, both section h2s, the recommended plan name, the large price, the current slider value, and the emphasized event counts set inside the running paragraph"
+      },
+      {
+        "token": "slate-600",
+        "hex": "#45556c",
+        "role": "Body text",
+        "usage": "The paragraph that states the overage and the loss-nothing guarantee, calculator instructions, FAQ answers, the headroom sentence and the plan feature list"
+      },
+      {
+        "token": "slate-200",
+        "hex": "#e2e8f0",
+        "role": "Hairlines",
+        "usage": "The header underline, the seam between the two panes (border-t on mobile, flipped to border-l at lg), comparison-row and FAQ borders, and the segmented control's outline. The slider's unfilled track hardcodes this exact value as a literal inside its inline gradient"
+      },
+      {
+        "token": "teal-700",
+        "hex": "#00786f",
+        "role": "Accent — actions",
+        "usage": "The Upgrade button that names the live plan and price, the inline link from the diagnosis paragraph down to the plan, the upgraded value in each comparison row, and the skip link's focus state"
+      },
+      {
+        "token": "teal-600",
+        "hex": "#009689",
+        "role": "Accent — data and selection",
+        "usage": "Unpaused bars in the usage chart, the plan feature bullets, the recommended card's border at 30% opacity, the border and fill of a selected billing period or retention option, the range input's accent, and every focus-visible ring"
+      },
+      {
+        "token": "red-700",
+        "hex": "#c10007",
+        "role": "Blocked state — text",
+        "usage": "The 'Starter plan · event collection blocked' pill above the h1, set on a red-50 fill with a Lock glyph — the only red type on the page, and it names the state in words rather than implying it"
+      },
+      {
+        "token": "red-100",
+        "hex": "#ffe2e2",
+        "role": "Blocked state — paused bars",
+        "usage": "The fill of every chart period after the cap was reached, drawn with a dashed red-400 border, a CircleSlash glyph above the figure and an sr-only ' — paused' in the axis label, so the pause is stated four ways of which color is only one"
+      },
+      {
+        "token": "#0f766e",
+        "hex": "#0f766e",
+        "role": "Slider filled track (raw literal)",
+        "usage": "Written directly into the range input's inline linear-gradient as the filled portion. It is the older Tailwind v3 teal-700; this repo's v4 theme resolves teal-700 to #00786f, so the track the reader drags is a fractionally different teal from the button it is sizing"
+      }
+    ],
+    "typography": "Pretendard Variable only — this route declares no display face at all, which is the right call for a page whose job is to be read quickly rather than admired. Exactly three weights: font-normal for body copy, control captions, FAQ answers and axis labels; font-medium for the blocked badge, control labels, the seat count, the upgraded half of each comparison row and both buttons; font-semibold for the h1, the two section h2s, the plan name and the price. Scale: h1 text-3xl → sm:text-4xl held to max-w-[26ch] so the date-stamped sentence breaks across two full lines instead of orphaning a word; the price is text-4xl, section headings text-lg, control labels and body text-sm, chart labels and legends text-xs, and the retention notes drop to text-[11px]. Every figure is tabular-nums, including the counts set inline inside the running paragraph and the 'Billed $X annually' line — which matters here more than usual, because a slider is moving those digits and a proportional font would make the paragraph twitch on every step.",
+    "spacing": "max-w-[1180px] divided by a plain grid-cols-1 lg:grid-cols-2 — no sticky rail, no scroll-triggered staging, no reveal. Each pane owns its padding (px-5 py-8 → sm:px-8 sm:py-10 → lg:py-12) and the seam between them is a single border that flips orientation: border-t on mobile, lg:border-t-0 lg:border-l above, so the panes stack in diagnosis-then-remedy order on a phone and sit as equals on a desktop. The chart is a fixed h-44 frame with h-28 bars, so switching the 7/30/90-day window never changes the block's height and nothing below it jumps. Vertical rhythm inside a pane is mt-8 to mt-10 between blocks and mt-4 to mt-5 within one. Radius carries hierarchy: the recommended-plan card is rounded-2xl, secondary cards rounded-xl, controls rounded-lg, badges fully round — so the one element that must never be missed is also the softest shape on the page.",
+    "philosophy": "Fathomline treats a paywall as an incident report with a remedy attached rather than as a price list. The h1 is not a value proposition but a dated event — new events stopped recording on the 29th — and the paragraph beneath it gives the exact overage against the exact limit and then, in the same breath, promises that nothing already captured was lost; putting that sentence anywhere else turns a cap notice into a threat. The structural claim is the split: diagnosis on the left, sizing on the right, both permanently visible, distinguished by one tonal step and one border rather than by a wizard step or a scroll. That arrangement only works because plan and price are derived exactly once at the top and handed to both panes, so no control can produce a state where the left pane recommends a plan the right pane is not selling — the failure mode this type reproduces most reliably is a sizing module that computes live while the headline and the CTA read a hardcoded plan constant, agreeing at the default slider position and lying at every other. The evidence is built to be read, not decoded: the calculator opens on the account's real measured volume rather than a round marketing number, the chart's weekly buckets sum to the same figure the headline quotes, every bar prints its own count as DOM text instead of relying on shape, and the periods after the cap are marked by a dashed border, a glyph and screen-reader text in addition to their fill. Scroll choreography is available to this page type and this page declines it, because the six things a blocked user needs are the six things that should already be on screen.",
+    "dosDonts": [
+      {
+        "do": "Derive the recommended plan and its price once at the top and pass both panes the same two values.",
+        "dont": "Let the sizing module compute a live recommendation while a headline, summary bar or CTA reads a hardcoded plan constant — it agrees at the default slider position and misquotes the price everywhere else."
+      },
+      {
+        "do": "Put the loss-nothing guarantee in the same paragraph as the overage figure.",
+        "dont": "File it under an FAQ — a cap notice without that sentence beside it reads as a threat rather than a diagnosis."
+      },
+      {
+        "do": "Start the calculator on the account's real measured volume, the same figure the headline quotes and the chart buckets sum to.",
+        "dont": "Start on a round marketing number the reader has to correct before anything on the page is about them."
+      },
+      {
+        "do": "Mark the paused periods with a dashed border, a CircleSlash glyph and screen-reader text as well as the fill.",
+        "dont": "Let red alone carry 'this is where collection stopped' — it is the one moment on the page that has to survive a colour-blind reading."
+      },
+      {
+        "do": "Keep diagnosis and remedy as two permanently visible panes told apart by one tonal step and one border.",
+        "dont": "Sequence them as wizard steps — a blocked user should never advance a screen to reach a price, and remounting steps loses keyboard focus to the body."
+      },
+      {
+        "do": "Print each bar's exact value as real text above it and re-window the data behind a labelled button group.",
+        "dont": "Build the chart out of shapes a screen reader has to infer, or let the frame's height change when the window changes."
+      }
+    ],
+    "agentPrompt": "# Recreate: Fathomline (hard paywall, split-screen diagnosis and sizing)\n\nBuild the upgrade page a product-analytics account lands on after burning through its monthly tracked-event allowance mid-cycle. The reader is not a prospect; they are a customer whose collection stopped four days ago.\n\n**Palette:** `white` for the left diagnosis pane and the sticky header; `slate-50` for the right sizing pane — that single tonal step plus one border is the entire split. `slate-900` for the headline, plan name and price; `slate-600` for body; `slate-200` for every hairline. `teal-700` for actions (the upgrade button, the inline link to the plan, the upgraded value in each comparison row) and `teal-600` for data and selection (chart bars, feature bullets, selected control borders, focus rings, the range accent). Red appears only for the blocked state: a `red-700` label on a `red-50` pill with a lock glyph, and `red-100` fills for the paused chart periods.\n\n**Type:** Pretendard Variable, no display face — this page is read, not admired. Exactly three weights: normal / medium / semibold. Headline 3xl→4xl held to about 26 characters per line so the dated sentence breaks in two full lines rather than orphaning a word; price 4xl; section headings lg; body sm; chart labels xs down to 11px for the retention notes. Every figure tabular, including counts set inline inside a paragraph, because a slider is moving them.\n\n**Layout:** a sticky header with the brand and the workspace name, then a single two-column grid at about 1180px. Left pane: blocked badge, a dated headline ('New events stopped recording Jul 29'), a paragraph giving events tracked against the limit and the overage and stating that nothing already captured was lost, an inline link naming the recommended plan and its live price, a day-by-day usage chart with a 7/30/90-day button group, and four before/after rows listing what stays locked. Right pane: an always-visible recommended-plan card (plan name, big price, billing note, a two-up billing period control, the plan's feature list, and an upgrade button that names the plan and price), then the calculator — an events slider, a seat stepper with min/max clamping, a three-up retention selector — and a compact FAQ.\n\n**Behavior:** one lifted calculation. Recommended plan is a pure function of events and retention; price is a pure function of plan, events, seats and billing period. Both are computed once and passed to both panes, so every surface always quotes the same number. Retention above 30 days or volume above the ceiling promotes the recommendation to the higher tier, and the feature list, included-seat note and headroom sentence all follow. Open the slider on the account's real measured volume; make the chart's buckets sum to the same figure the headline quotes. Mark paused periods with a dashed border, a glyph and screen-reader text in addition to fill, and print every bar's value as real text. Fix the chart frame's height so re-windowing never shifts the page. Deterministic throughout: no Math.random, no Date.now, no new Date; currency and thousands separators formatted by hand rather than through a locale lookup.\n\n**Feel:** an incident report with a remedy attached. No scroll choreography, no reveal, no step counter — everything a blocked user needs is already on screen, and the two panes never disagree."
+  },
+  "mk1": {
+    "id": "mk1",
+    "palette": [
+      {
+        "token": "zinc-50",
+        "hex": "#fafafa",
+        "role": "Canvas",
+        "usage": "The sheet's ground, one step off white so the white cells of every grid read as printed panels laid on paper"
+      },
+      {
+        "token": "white",
+        "hex": "#ffffff",
+        "role": "Cell surface",
+        "usage": "The three review stamps, all twelve fact cards, the four brand-color cells, the boilerplate figure, the format panel and the three contact cards — every unit of content is a white cell"
+      },
+      {
+        "token": "zinc-200",
+        "hex": "#e4e4e7",
+        "role": "Grid substrate",
+        "usage": "Sits behind the gap-px lists so the 1px gutters between white cells become the rules. No cell carries its own border, which is why the fact grid never doubles a line at a seam. Also the divider between style-rule rows"
+      },
+      {
+        "token": "zinc-900",
+        "hex": "#18181b",
+        "role": "Ink and rules",
+        "usage": "The h1, fact values, headings and the wordmark; the 2px rules under 'The record' and above the footer; the active segmented-control fill; the mark's rounded square; and the code preview block. It is also the exact value printed as the 'Yard Black' brand hex, so that swatch and its caption agree"
+      },
+      {
+        "token": "zinc-600",
+        "hex": "#52525c",
+        "role": "Secondary voice",
+        "usage": "Every explanatory paragraph, every fact detail line, the verification captions, and the recurring 11px uppercase eyebrow at 0.18–0.2em tracking that labels the press-record strip, the stamps, the fact cards and the preview figcaption"
+      },
+      {
+        "token": "amber-500",
+        "hex": "#fe9a00",
+        "role": "Signal",
+        "usage": "The 1px full-width bar that opens the page, the chevron strokes in the mark, the solid Copy buttons on the record and boilerplate, and the 'Copied' confirmation state"
+      },
+      {
+        "token": "amber-700",
+        "hex": "#bb4d00",
+        "role": "Verification marks",
+        "usage": "The ShieldCheck on each fact's verified-by line, the Check beside each correct spelling, the Mail glyph on each contact — amber is reserved for the act of confirming something"
+      },
+      {
+        "token": "amber-800",
+        "hex": "#973c00",
+        "role": "Subtitle",
+        "usage": "The single display line under the h1 ('Media kit for people who have to get it right') — the only large amber text on the sheet, and the page's thesis statement"
+      },
+      {
+        "token": "orange-800",
+        "hex": "#9f2d00",
+        "role": "Error tone",
+        "usage": "The X and the strikethrough on every wrong form in the write-this-not-this table, and the 2px top border of the manual-copy panel that appears when a browser refuses the clipboard. The kit names this color Signal Rust and its own rules forbid using it for the lockup"
+      },
+      {
+        "token": "stone-50",
+        "hex": "#fafaf9",
+        "role": "Terminal Paper swatch",
+        "usage": "The painted swatch for the brand color of that name — and it matches the hex printed beneath it exactly, as does Yard Black"
+      },
+      {
+        "token": "#d97706",
+        "hex": "#d97706",
+        "role": "Printed brand hex — Tolvan Amber (raw literal)",
+        "usage": "Printed as the fact and handed to the clipboard verbatim by the Copy button beneath it. The swatch above the caption is painted with the amber-600 utility, which under this repo's v4 theme resolves to #e17100 — so this is one of two cards where the value a journalist copies and the value they see are not the same"
+      },
+      {
+        "token": "#9a3412",
+        "hex": "#9a3412",
+        "role": "Printed brand hex — Signal Rust (raw literal)",
+        "usage": "The same arrangement: the printed literal is the copy payload, while the swatch is painted with the orange-800 utility at #9f2d00 here. Two of the four brand cards agree with their swatch and two do not"
+      }
+    ],
+    "typography": "Pretendard Variable for prose and a grotesque display face (--font-display-grotesk) for every display surface: the h1, the subtitle, all six section h2s, each of the twelve fact values, the boilerplate blockquote and the TOLVAN wordmark — display type is used only where a fact is being asserted, never for a paragraph. Exactly three weights: font-normal, declared explicitly on both the main element and the KitBody root so the rendered weight is a deliberate 400 rather than an inherited default; font-medium for eyebrows, stamp values, correct spellings, contact names and segmented controls; font-semibold for the h1 at text-5xl → sm:text-7xl with leading-[0.95], the section h2s and the fact values. The sheet's recurring meta voice is an 11px uppercase run at 0.18–0.2em tracking, used for the press-record header strip, the stamp labels, the twelve fact labels and the preview figcaption — it is what makes the page read as a document with a masthead rather than a marketing landing. Every date, headcount, dollar figure and word count carries tabular-nums, and each verification date sits in a time element whose ISO value is the same string the copy payload emits.",
+    "spacing": "max-w-6xl at px-5 → sm:px-8 → lg:px-10, pt-10 and pb-20, with every section separated by exactly mt-14 — a press sheet's regular column advance rather than a designed crescendo. The structural signature is the gap-px grid: the three-cell stamp strip, the twelve fact cards and the four color cells are white panels laid over a zinc-200 ground inside an overflow-hidden rounded-xl, so the 1px gutters are the rules and no cell owns a border. The rules that need weight are 2px zinc-900, used exactly twice — under 'The record' and above the footer — and the page opens on a 1px full-width amber bar rather than a logo. The fact grid runs 1 → sm:2 → lg:3 and each card is a flex column with mt-auto pushing its Copy button down, so twelve cards of unequal prose length still land their actions on a common baseline. The style-rule rows use an asymmetric three-track grid (0.9fr / 0.9fr / 1.4fr) so the correct form, the wrong form and the reason each hold a fixed lane, and the clipboard-failure panel is a fixed bottom strip capped at max-h-40 with select-all text inside.",
+    "philosophy": "Tolvan Systems' press record is built on the claim that a media kit is judged by whether a reporter can file a correct paragraph, not by whether a logo archive downloads. It says so outright in its opening — a logo is easy to replace, a wrong founding year lives in the archive forever — and then it puts the twelve facts a story can actually get wrong at the top of the sheet: the legal entity suffix, the founding year, the headcount and its payroll close date, the round size as distinct from the valuation that was never disclosed, a surname that ends in -sen and not -son, a hyphenated surname with no space, a pronunciation that is not an acronym. Each carries the ISO date it was last checked and the name and title of the person who will confirm it on the phone, and those three confirmers reappear in a roster with matching titles and real coverage boundaries — legal and trademark, anything with a number in it, names and pronunciation. The manipulation is the second argument: switching Plain, Markdown and BibTeX does not change what is on the page, it changes the shape a fact leaves in, and every payload at every format carries the source line, the verification date and the confirmer with it. Because the product is the clipboard, the clipboard's failure is designed too — a refused write raises a fixed bottom panel holding the exact payload as select-all text, labelled with which fact and which format, rather than a toast that says copying failed. This is also the work that declined the shape its round converged on: it renders no misuse examples at all, refuses the preview-surface device that would have made the sheet a master-detail browser, and lets its enumeration be twelve pieces of provenance rather than twelve homogeneous assets.",
+    "dosDonts": [
+      {
+        "do": "Lead with the facts a story can be wrong about — legal suffix, founding year, the surname trap, round size versus valuation — each with the ISO date it was checked and the named person who will confirm it.",
+        "dont": "Open with a logo archive and leave the facts as a footnote; the correction a reporter files is never about the logo."
+      },
+      {
+        "do": "Give each confirmer a real coverage boundary and repeat them in a roster with matching titles and reply times.",
+        "dont": "Attribute all twelve facts to one generic press address — an unattributed fact is a rumour with better typography."
+      },
+      {
+        "do": "Let the control change only the shape a fact leaves in, and keep every fact fully readable at rest.",
+        "dont": "Hide content behind the format toggle — a press sheet that requires a click to be read has failed before the deadline."
+      },
+      {
+        "do": "Attach the source URL, the verification ISO date and the confirmer to every payload the Copy button emits, in all three formats.",
+        "dont": "Copy a bare value — the provenance is the product, and a pasted number without it is unverifiable at the other end."
+      },
+      {
+        "do": "Design the clipboard refusal: a fixed panel holding the exact payload as select-all text, labelled with which fact and which format it was cut in.",
+        "dont": "Fire a failure toast and discard the string the reader asked for."
+      },
+      {
+        "do": "Build every enumeration as white cells over a zinc-200 ground with gap-px, so the 1px gutters are the rules.",
+        "dont": "Give each card its own border — every interior seam doubles to 2px and the grid stops reading as one sheet."
+      },
+      {
+        "do": "Make the printed hex and the painted swatch the same value, since the printed one is what gets copied.",
+        "dont": "Print a legacy hex against a utility-painted swatch — Yard Black and Terminal Paper agree here, but Tolvan Amber prints #d97706 beside an amber-600 swatch that renders #e17100, and Signal Rust prints #9a3412 beside an orange-800 swatch that renders #9f2d00."
+      }
+    ],
+    "agentPrompt": "# Recreate: Tolvan Systems press record (media kit as a fact ledger)\n\nBuild a press sheet for a freight-terminal software company on the premise that a media kit is judged by whether a reporter can file a correct paragraph, not by whether a logo archive downloads.\n\n**Palette:** `zinc-50` canvas with `white` content cells and `zinc-200` as the substrate those cells sit on. `zinc-900` for ink, the wordmark, the two 2px section rules and the active segmented-control fill. `zinc-600` for every explanatory paragraph and for the 11px uppercase eyebrows. Amber is the signal and it is graded: `amber-500` for the 1px bar that opens the page, the mark's chevron, the solid Copy buttons and the copied state; `amber-700` for verification glyphs; `amber-800` for the one display subtitle. `orange-800` is the error tone — the X and strikethrough on wrong forms, and the border of the clipboard-failure panel. Whatever hexes you print in the brand-color section must be the same values the swatches beside them are painted with, because the printed hex is what the Copy button hands over.\n\n**Type:** Pretendard Variable for prose, a grotesque display face for assertions only — the h1, the subtitle, all section headings, the twelve fact values, the boilerplate quote and the wordmark. Exactly three weights, with normal declared explicitly rather than inherited. h1 at 5xl→7xl with tight leading; section headings 2xl→3xl; body sm at generous leading; and a recurring 11px uppercase run at 0.18–0.2em tracking for the masthead strip, stamp labels, fact labels and figcaptions. Dates, headcounts, dollar figures and word counts tabular; each verification date in a time element carrying the ISO value the copy payload uses.\n\n**Layout:** open on a 1px amber rule and a three-part uppercase strip (section name, sheet number, press URL) — not a logo. Then the h1, a one-line thesis, a short paragraph, and a three-cell stamp strip: last full review, next scheduled review, corrections address. Below: a format panel (Plain / Markdown / BibTeX with a live preview of what a copy looks like right now), the record itself as twelve fact cards on a 1→2→3 grid, a write-this-not-this table on an asymmetric three-track grid, three approved boilerplate lengths with word counts, a mark-and-color section, and three named contacts. Every list is white cells over a zinc-200 ground with 1px gaps, all sections separated by the same vertical step, and each card is a flex column that pushes its Copy button to a common baseline.\n\n**Behavior:** the format control changes only the shape a fact leaves in — nothing on screen is hidden behind it. Every payload, in every format, carries the source URL, the verification date and the confirmer. A boilerplate control switches between three approved lengths and prints each one's word count. Copy failure is a designed state: raise a fixed bottom panel with the exact payload as select-all text, labelled with which fact and which format, plus a dismiss control; announce copy results through a polite live region. Content requirements: legal entity name with its wrong forms, founding year with the incorporation date, headcount with its payroll close, funding total separated from the round, two executives with real spelling traps, product names with capitalization rules, pronunciation, ownership status, and customer counts — each with a date and a named confirmer whose coverage matches their role. Deterministic throughout, and no misuse rendered in broken contrast: this sheet proves correctness with facts, not with failed lockups.\n\n**Feel:** a document of record. Regular column advance, no crescendo, no hero image — the reader is on deadline and the page's only job is to be right and to be carried away intact."
   }
 }
