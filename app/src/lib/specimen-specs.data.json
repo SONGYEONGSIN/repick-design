@@ -3968,5 +3968,234 @@
       }
     ],
     "agentPrompt": "# Recreate: Portlane (dark freight & logistics operations console)\n\nBuild a dark three-pane freight operations console for tracking shipments, forecasting fleet on-time performance and comparing carrier reliability in one view.\n\n**Shell.** A 240px `zinc-950` sidebar (brand lockup, a network switcher listbox, two labelled nav sections with lucide icons and an active pill, a user block) and a 64px sticky topbar at `zinc-950/90` with backdrop blur, carrying a Cmd-K search trigger, a primary New shipment button, an alerts button and an account menu. Main is `mx-auto max-w-[1920px]`, px-4 / sm:px-6 / lg:px-8, py-6.\n\n**Three panes** as a gap-4 `xl:flex-row`: a 320px shipment rail, a `min-w-0 flex-1` centre column holding the trend card above the carrier scorecard, and a 320px (2xl:360px) column holding the shipment detail pane above the tracking-event feed. Below xl they stack in that order. Cards are rounded-2xl, `zinc-900/60` inside a `white/10` hairline, px-5 pb-5.\n\n**The dominant chart is the piece to get right.** A fleet on-time trend across a fixed 760x240 viewBox stretched with `preserveAspectRatio=\"none\"`. History draws as a solid near-white line; the forecast continues as a dashed rose line with a filled confidence band at 16%; when a shipment is selected, that carrier's actual series overlays as a dashed neutral grey. Three series, three line treatments, no third accent hue.\n\nThe chart must read without interaction: a permanently drawn dashed today divider, solid markers at today and at the forecast end, and **always-on percentage-offset labels** anchored to both — today's value, and the forecast end's projected range. The crosshair tooltip is an addition on top of that, not the mechanism. Give the plot `role=\"slider\"` with `aria-valuetext` and make Arrow keys, Home and End move the same crosshair a pointer does.\n\n**Period toggle:** 30D / 60D / 90D as a roving-tabindex tablist with arrow-key navigation, driving a tabpanel. Do not offer a short recent window, and hold the forecast horizon fixed at six days across all three — a projection whose length tracks the toggle changes meaning silently.\n\n**The rail is a real table.** `table-fixed` at 48/28/24 percent with no min-width, a caption, `aria-sort` on each header and a sort button inside it; plus a search field and status filter chips above. Rows are `th scope=\"row\"` wrapping a full-width selection button. Give it its own `xl:max-h-[560px]` scroll region so a long list never drives page height past the chart.\n\n**Selection sync.** Picking a lane must, in one tick: overlay that carrier on the chart, rewrite the trend card's description line, highlight that carrier's row in the scorecard, repopulate the detail pane and swap the event feed. The Cmd-K palette writes to the same state. The carrier scorecard aggregates from the same series the chart renders — never a second hand-authored set of numbers.\n\n**Palette.** `zinc-950` canvas, `zinc-900/60` cards, `rose-500` for the brand tile, primary button and low-alpha selection tints, `rose-400` as the single focus-ring colour. Status is a four-rung ladder — emerald on-time, amber at-risk, rose delayed, zinc delivered — always a dot plus an abbreviated word. ETA deltas carry a sign, an icon and a figure. Hold every muted line at `zinc-400`; nothing dimmer.\n\n**Type.** Pretendard, with `--font-display-grotesk` in exactly two places: the wordmark and the hero on-time percentage. Exactly three weights: 400 / 500 / 600. 11px uppercase tracked labels; a fractional body ladder (13.5 / 13 / 11.5 / 11 / 10px) so a 320px rail row carries lane, carrier and delta without truncation. Everything numeric is tabular-nums, hours to one decimal.\n\n**Determinism and edges.** Every value is a pure function of a fixed seed and every date label is offset arithmetic from a fixed anchor — no Math.random, no Date.now, no live date objects. Reset palette state by comparing to previous state during render, not by setting state inside an effect. Flip the carrier annotation to the left of its point past about 68% of the plot width, or it runs past the page edge at 390px. Give the Cmd-K trigger an accessible name that survives its label being hidden at narrow widths.\n"
+  },
+  "v12": {
+    "id": "v12",
+    "palette": [
+      {
+        "token": "bg",
+        "hex": "#0b0b0f",
+        "role": "Page ground",
+        "usage": "The landing's outermost ground. Everything else is a lift off this, never a tint of it — the dark here is near-black rather than a blue-grey, so the single violet accent reads as the only chromatic event on the page."
+      },
+      {
+        "token": "surface",
+        "hex": "#111116",
+        "role": "Raised panels",
+        "usage": "The inspector device, the four spec-sheet cards, the FAQ rows. Measured on eight elements — a single raised step, not a ladder of five greys, which is what keeps a dark page from turning muddy."
+      },
+      {
+        "token": "fg",
+        "hex": "#ffffff",
+        "role": "Primary text",
+        "usage": "Headlines, card titles, verdict labels. Pure white rather than an off-white: on #0b0b0f the extra contrast buys headroom for the mono display face, which renders visually lighter than a grotesk at the same weight."
+      },
+      {
+        "token": "muted",
+        "hex": "#a1a1aa",
+        "role": "Secondary text",
+        "usage": "Findings copy, spec-sheet rows, FAQ answers — 59 text nodes, the most-used foreground on the page. 8.6:1 on the ground, which clears AA with room to spare and is the reason the page can carry this much prose without a second surface tone."
+      },
+      {
+        "token": "accent",
+        "hex": "#6e56cf",
+        "role": "Accent fill",
+        "usage": "CTA pills, the active layer chip, the filled verdict badge, the confidence bar. Five painted elements on the whole page — the near-monochrome rule means the accent has to earn each appearance."
+      },
+      {
+        "token": "accent-ink",
+        "hex": "#ffffff",
+        "role": "Text on accent fill",
+        "usage": "White, not dark ink. On #6e56cf white measures 5.39:1 and dark ink 3.64:1, so body-size text on the fill needs white to clear AA. This work is the reason the canon says so — it shipped with dark ink at a11y 96 and the round's own gate caught it."
+      },
+      {
+        "token": "accent-tint",
+        "hex": "#b6a6f0",
+        "role": "Accent on dark",
+        "usage": "The idle layer chip's icon and label, where the accent must read as text rather than as a fill. Derived light rather than the accent itself: #6e56cf as small text on the ground is 3.73:1 and would fail, this tint is 9.1:1."
+      },
+      {
+        "token": "ink",
+        "hex": "#171717",
+        "role": "Ink on light insets",
+        "usage": "The few light-on-dark inversions — the photo caption plate and the pull-quote mark. Reserved for genuinely light grounds; it is never placed on the accent fill."
+      }
+    ],
+    "typography": "Two faces, one of which is a display: Pretendard Variable for body and Korean, and --font-display-mono (JetBrains Mono Display) for headlines, the verdict labels and every number in the inspector. The mono face is the argument — a page about machine inspection reads its findings in the face a machine would print them in, and it makes the confidence percentages align without tabular-nums doing the work alone. Exactly three weights render: 400 for prose, 600 for labels and chips, 700 for the headline. Scale measured at 1440: 38.4px headline, 18px section leads, 16px body, 14px card rows, 12px chips, 11.52px eyebrows and findings — the 11.52px step carries 46 nodes, so it is the page's real workhorse and is why the muted tone had to be #a1a1aa rather than anything dimmer.",
+    "spacing": "A 6/4/8 base rhythm rather than a strict 4 or 8 grid: 6px is the most-used gap (24 occurrences — chip rows, badge-to-label, rail segments), 4px binds icon to text, 8px separates card rows, 12px and 16px handle card interiors, and 32px/96px set section breathing. The hero is a 12-column asymmetric split rather than a centred stack, with the inspector device on the wide side and the findings column narrow beside it; below lg the two swap into a single column and the findings move after the product cards, because the first fold must keep the listing cards visible. Body measure is capped by ch, not px — max-w-[58ch] on editorial prose and FAQ answers, which measures 62–68 characters and sits under the 75-character ceiling the canon defines as the only failure direction.",
+    "philosophy": "The proof is the resting state, and the interaction sharpens it rather than revealing it. On load the photo already carries a verdict badge, a confidence bar and a finding — nothing has to be clicked to learn what the AI concluded. Toggling one of the three inspection layers (condition, authenticity, price fairness) recomputes four surfaces at once: the badge label, the bar width and percentage, the highlighted region drawn over the photo, and the finding sentence. That is the difference between a control that discloses content and a control that changes an answer.\n\nThe page also settles an argument the loop had been having with itself for six rounds. Macro skeletons had been converging, so this round assigned each candidate a different one; this candidate drew the inspector hero, and the assignment worked — the skeletons genuinely diverged. What did not diverge was the closing CTA band, which came out identical across all three. The lesson recorded in the canon is that convergence moves down a level rather than disappearing, and that assignment should stop at the macro skeleton rather than chase it downward.\n\nIt won from a complete three-way draw. Lens 1 ranked it second, lens 2 third, lens 3 first; the tie-break rule excluded lens 1's leader because lens 3 had placed that candidate last, and the remainder resolved to this one. Second use of that rule.",
+    "dosDonts": [
+      {
+        "do": "Put white on the accent fill for any text at body size. Measure it: #ffffff on #6e56cf is 5.39:1, dark ink is 3.64:1.",
+        "dont": "Follow the older instinct that a bright fill wants dark ink. It holds for ≥24px and for non-text, and fails everything else — this page shipped at a11y 96 for exactly that reason."
+      },
+      {
+        "do": "Show a verdict, a confidence value and a finding before any interaction happens.",
+        "dont": "Hide the proof behind the toggle. A control that reveals content is a disclosure widget, not a demonstration."
+      },
+      {
+        "do": "Let one toggle move several surfaces — badge, bar, photo highlight and sentence together.",
+        "dont": "Recompute a single number. One moving figure reads as a counter, not as a model changing its mind."
+      },
+      {
+        "do": "Keep the listing cards inside the first fold, moving the findings column below them on narrow screens.",
+        "dont": "Push the product below the hero on mobile to protect the hero's composition. The canon puts product and proof in the first fold, and the hero is what yields."
+      },
+      {
+        "do": "Derive a lighter tint (#b6a6f0) when the accent has to act as small text.",
+        "dont": "Use #6e56cf itself for small text on the dark ground — it measures 3.73:1 and fails."
+      },
+      {
+        "do": "Use the mono display face for findings and figures, where machine-printed is the point.",
+        "dont": "Extend it to body prose. Two display faces in one work is a canon violation, and mono at paragraph length costs more reading speed than it buys in character."
+      },
+      {
+        "do": "Add contain:layout to a mobile-only horizontal scroller nested inside a grid.",
+        "dont": "Assume the local overflow stays local — with three or more cards it leaks into document.documentElement.scrollWidth and the sweep gate fails at widths that look fine by eye."
+      }
+    ],
+    "agentPrompt": "Build a dark landing page whose hero is an AI inspection device rather than a headline.\n\nGround #0b0b0f with a single raised surface #111116 — one step, not a ladder. White #ffffff for headlines, #a1a1aa for the prose that carries most of the page. One accent, #6e56cf, painted on no more than five elements; text sitting on that fill is white (5.39:1), never dark ink (3.64:1, fails AA at body size). When the accent must act as small text instead of a fill, derive #b6a6f0.\n\nTwo faces: Pretendard for body, one display face for headlines, verdict labels and every figure — a monospace display reads as machine-printed and suits an inspection subject. Exactly three weights: 400/600/700. Scale 38.4 / 18 / 16 / 14 / 12 / 11.52px, and expect the 11.52px step to carry the most nodes, which is why the muted tone cannot go dimmer than #a1a1aa.\n\nThe hero: one real product photo, three inspection layers as toggle chips (condition, authenticity, price fairness). On load the page already shows a verdict badge, a confidence bar with its percentage, a highlighted region on the photo and a finding sentence. Toggling a layer recomputes all four at once. Do not gate the proof behind the interaction.\n\nBelow the hero, four spec-sheet listing cards — and they must be inside the first fold at every width. On narrow screens move the findings column below the cards rather than pushing the cards down. If you use a mobile-only horizontal scroller for the cards, add contain:layout to it, or the local overflow will leak into the document's scrollWidth once there are three or more.\n\nThen editorial long-form in three image/text blocks, an FAQ accordion, a single pull quote, a closing CTA. Cap prose by ch, not px — 58ch lands at 62–68 characters, under the 75-character ceiling.\n\nNo ghost numbers, no numbered sections, no three-column value split, no stat strip. Those skeletons are taken."
+  },
+  "n8": {
+    "id": "n8",
+    "palette": [
+      {
+        "token": "bg",
+        "hex": "#ffffff",
+        "role": "Screen ground",
+        "usage": "Pure white across all four wizard steps, measured on thirteen elements — the only surface tone in the screen. A creation flow that tints its steps to signal progress ends up teaching the tint instead of the task."
+      },
+      {
+        "token": "fg",
+        "hex": "#18181b",
+        "role": "Primary text",
+        "usage": "Step titles, field labels, the price figure. Near-black rather than pure black, which is the native DNA's choice and keeps long-form entry from vibrating against the white ground."
+      },
+      {
+        "token": "secondary",
+        "hex": "#52525b",
+        "role": "Supporting text",
+        "usage": "Field help, the suggested-price reference, review-step values. Nine nodes — the tier that carries the wizard's explanations, and the reason the muted tier below it had to stay above the dark-on-light floor."
+      },
+      {
+        "token": "muted",
+        "hex": "#71717a",
+        "role": "Muted labels",
+        "usage": "Step counter, section captions, the placeholder state of unfilled fields. Fifteen nodes, the most-used foreground: on white it measures 4.6:1, which clears AA on this ground but would not on a tinted one — which is another reason the screen has exactly one surface."
+      },
+      {
+        "token": "accent",
+        "hex": "#4f46e5",
+        "role": "Accent",
+        "usage": "The active step marker and the Publish affordance. A single appearance per screen state — the band is the only place the flow raises its voice, and it earns it by being the thing that gates completion."
+      }
+    ],
+    "typography": "System face throughout (-apple-system on the render), per the native DNA — a creation flow borrows the platform's own voice rather than announcing a brand mid-task. Four weights render: 300 for the step counter, 400 for field values and help, 600 for labels and the band's status sentence, 700 for step titles and the price figure. Scale measured at 390: 26px price figure, 22px step titles (six nodes — one per step plus the review summary), 20px section heads, 16px field values, 13px help text, 12px captions, 11px the step counter and unit suffixes, which carries twelve nodes and is therefore the tier that decides whether the form is scannable. Currency and figures use tabular alignment, but never in the same text node as the ₩ sign — RN Web renders that combination with a visible gap, a defect the previous round recorded.",
+    "spacing": "4px is the base unit and the dominant gap (ten occurrences — label to field, icon to text, chip rows). 8px separates fields within a group, 12px separates groups, 16px sets the screen's horizontal inset, 20px and 24px handle the space above and below the fixed bands. The screen is three fixed regions and one scrolling one: a step tracker pinned to the top, a FlatList per step in the middle, and the action band pinned to the bottom. Each step renders exactly one list rather than nesting them — a category grid of eight and a condition list of five are laid out as wrapped rows inside a single list's sections, because nesting a FlatList inside a FlatList is the fastest way to break scroll behaviour on both platforms.",
+    "philosophy": "The bottom band is a state machine, not a button. It never sits there as a dimmed Publish waiting for the form to be finished. Instead it names what is still missing — one sentence, in priority order when several things are — and pressing it jumps to the step that owns that gap. Publish appears only once nothing is left to say. That inverts the usual arrangement, where the control is present from the start and the user has to discover why it will not respond.\n\nThat pattern is not new here; it is the second round to use it. It was established one round earlier as a single checklist that scored inline checks, and this screen extends it across four ordered steps, which is what made it a reproduction rather than a variation. The canon now states the rule in the general form the two rounds share: a fixed bottom band is judged by whether it does work, not by whether it exists — say what is open, jump to it, and refuse to price a state that cannot be fixed.\n\nStep transitions are announced rather than left to visual change: the band carries an alert role and the step tracker a polite live region, so the flow is followable without watching it.",
+    "dosDonts": [
+      {
+        "do": "Make the bottom band say what is still missing and jump to that step when pressed.",
+        "dont": "Render a disabled Publish and let the user hunt for the reason. A dimmed control communicates that something is wrong, not what."
+      },
+      {
+        "do": "Announce step changes through an alert role and a polite live region.",
+        "dont": "Rely on the tracker's visual state alone — the whole point of a wizard is that position is meaning."
+      },
+      {
+        "do": "Lay each step out as one list, with grouped rows inside it.",
+        "dont": "Nest a FlatList inside a FlatList to fit a category grid and a condition list on the same step."
+      },
+      {
+        "do": "Keep one surface tone for every step.",
+        "dont": "Tint steps to signal progress. The tracker already carries position, and a second signal for the same fact costs a colour you will want later."
+      },
+      {
+        "do": "Put the ₩ sign in its own text node beside the tabular figure.",
+        "dont": "Combine them in one node — RN Web renders a visible gap between the sign and the digits when tabular-nums is applied."
+      },
+      {
+        "do": "Order the missing-field message by priority when several are open at once.",
+        "dont": "List them all in the band. It is a sentence, not a validation summary; the summary belongs on the review step."
+      }
+    ],
+    "agentPrompt": "Build a four-step seller wizard for a mobile marketplace: photos, category and condition, price, review and publish.\n\nOne surface only — white ground, near-black #18181b for titles and values, #52525b for explanations, #71717a for captions and the step counter, and a single accent #4f46e5 that appears on the active step marker and on the publish affordance. Nowhere else.\n\nSystem face, four weights (300/400/600/700). Scale 26 / 22 / 20 / 16 / 13 / 12 / 11px, with 11px carrying the counters and unit suffixes.\n\nThree fixed regions and one scrolling one: a step tracker pinned top, the step's content in the middle, an action band pinned bottom. Each step renders exactly one list — group rows inside it rather than nesting a second list.\n\nThe band is the design. It is not a disabled Publish. At any moment it states, in one sentence, what is still missing — priority-ordered when several things are — and pressing it moves to the step that owns that gap. Publish appears only when nothing is left to say. Give the band an alert role and the tracker a polite live region so the flow can be followed without watching it.\n\nSpacing: 4px base, 8px within a group, 12px between groups, 16px screen inset, 20–24px around the fixed bands.\n\nCurrency: keep the ₩ sign in its own text node next to the tabular figure, never inside it.\n\nDo not build this as a persistent list, a chronological thread, a checklist with a scoring band, or a single continuously-scrolling settings screen. Those screens exist."
+  },
+  "n9": {
+    "id": "n9",
+    "palette": [
+      {
+        "token": "accent",
+        "hex": "#4f46e5",
+        "role": "Timeline rail + completed steps",
+        "usage": "The most-painted colour on the screen — eleven elements. The rail itself, the filled markers of completed steps, and the confirm band when it appears. Unusually heavy accent use for this catalogue, and it is doing structural work rather than decorative: the rail is the sequence."
+      },
+      {
+        "token": "bg",
+        "hex": "#ffffff",
+        "role": "Screen ground + cards",
+        "usage": "Ground and the item summary and courier cards alike — nine elements. The cards are separated by border and elevation rather than by tone, which leaves the accent free to mean progress and nothing else."
+      },
+      {
+        "token": "fg",
+        "hex": "#18181b",
+        "role": "Step titles",
+        "usage": "The four step names and the item title. Six nodes — a deliberately small set, because on a timeline the reader's eye should land on position first and prose second."
+      },
+      {
+        "token": "secondary",
+        "hex": "#52525b",
+        "role": "Dates and detail",
+        "usage": "Actual and estimated dates, the expanded detail line under each step. Eight nodes, the largest text tier — a status timeline is mostly dates, and this is the tone they are read in."
+      },
+      {
+        "token": "muted",
+        "hex": "#71717a",
+        "role": "Captions and pending steps",
+        "usage": "Section captions and the labels of steps not yet reached. Seven nodes. Pending steps are muted in tone as well as unfilled in marker, so the state reads without relying on the marker shape alone."
+      },
+      {
+        "token": "ink-strong",
+        "hex": "#27272a",
+        "role": "Current step emphasis",
+        "usage": "The single current step's title, one tick darker than the others. Three nodes — the only place the screen uses a fourth grey, and it exists because exactly one step is ever current."
+      },
+      {
+        "token": "on-accent",
+        "hex": "#ffffff",
+        "role": "Text on accent",
+        "usage": "The confirm band's label and the numerals inside filled markers. White on #4f46e5 measures 6.5:1 — comfortably above AA, which is what lets the band carry body-size text."
+      }
+    ],
+    "typography": "System face, three weights (400 for dates and detail, 600 for step titles and the band label, 700 for the order figure). Scale measured at 390: 28px order total, 17px item title, 16px step titles (nine nodes), 14px the band label, 13px dates and detail (nine nodes), 12px captions and status pills (eleven nodes — the largest tier), 11px the tracking-number monospace run. Dates use tabular figures so the actual and estimated columns align down the rail; the alignment is the reason a reader can tell at a glance which steps ran late without reading a single number.",
+    "spacing": "8px and 12px carry the screen almost alone — 8px between a step marker and its label, 12px between rail segments, with 3px reserved for the tight gap between a date and its qualifier. 20px sets the vertical rhythm between cards, 16px the horizontal inset. The rail is a fixed-width column on the left with the step content flowing beside it, so a step's height is set by its own content and the rail stretches to match; that is what keeps a delivered step with three detail lines from breaking the rail's continuity. The confirm band is the only fixed chrome, and it is absent until it has something to do.",
+    "philosophy": "The chrome appears only when it has work. While the reader is moving down four ordered steps there is no fixed band at all — the screen is a plain timeline. Once the order reaches Delivered, a Confirm receipt band takes the bottom of the screen. Before that point the same slot holds a banner naming the next step and its estimate instead, so the space is never a dimmed control waiting for permission.\n\nThat is the hypothesis this screen exists to hold. The catalogue already carries a screen with no fixed band at all and screens whose band is a state machine present from the start; this one proposes a third position — that the band's presence should itself be conditional on the state. It was not the round's winner. It was kept anyway, because dropping it would have left the open question about fixed bands with two positions and no artefact for the third.\n\nExactly one step is ever current, and step order is fixed rather than user-decided. That is what separates this from a checklist: the reader cannot reorder or skip, so the design owes them a clear answer to 'where is this now' before it owes them any controls at all.",
+    "dosDonts": [
+      {
+        "do": "Let the fixed band be absent until the state gives it something to do.",
+        "dont": "Reserve the slot with a dimmed control. An empty band teaches the reader to ignore the bottom of the screen."
+      },
+      {
+        "do": "Fill the slot with a next-step banner and its estimate while the terminal action is unavailable.",
+        "dont": "Leave the space blank — the reader's question before delivery is when, and the slot is where they will look for it."
+      },
+      {
+        "do": "Mark exactly one step as current, and mute the ones not yet reached.",
+        "dont": "Let several steps read as active. A fixed sequence with two current positions is a checklist wearing a rail."
+      },
+      {
+        "do": "Use tabular figures for the actual and estimated dates so the columns align down the rail.",
+        "dont": "Left-align mixed-width dates — the reader loses the ability to spot a late step without reading each one."
+      },
+      {
+        "do": "Let the rail carry the accent, since the sequence is the screen's structure.",
+        "dont": "Spend the accent on the cards as well. Eleven painted elements is already a lot; spread it further and progress stops being the thing it signals."
+      },
+      {
+        "do": "Compute the current index and next step from the data.",
+        "dont": "Hard-code the delivered state to make the band visible in a screenshot. The pre-delivery path has to exist in code even when the dummy data does not exercise it."
+      }
+    ],
+    "agentPrompt": "Build a post-purchase order status screen for mobile: four ordered steps — payment confirmed, seller shipped, in transit, delivered — connected by a vertical rail.\n\nWhite ground. #18181b for step titles, #27272a one tick darker for the single current step, #52525b for dates and detail, #71717a for captions and steps not yet reached. One accent, #4f46e5, and spend it on the rail and the completed markers — it is structure, not decoration. White on the accent (6.5:1) for the band label and marker numerals.\n\nSystem face, three weights (400/600/700). Scale 28 / 17 / 16 / 14 / 13 / 12 / 11px. Tabular figures for dates, so actual and estimated align down the rail.\n\nSpacing 8px marker-to-label, 12px between rail segments, 3px date-to-qualifier, 20px between cards, 16px inset. The rail is a fixed-width left column with content flowing beside it, stretching to match each step's own height.\n\nThe rule that matters: the fixed bottom band exists only when it has work. Before delivery the slot holds a banner naming the next step and its estimate. Once delivered, it becomes a Confirm receipt band. Never a dimmed control waiting for permission, and never blank.\n\nExactly one step is current; order is fixed and not user-decided. Compute the current index and the next step from the data rather than hard-coding a state — the pre-delivery path must exist even if your dummy order is already delivered.\n\nAdd an item summary card and a tap-to-reveal courier and tracking card. Do not build this as a chat thread, a togglable checklist, a settings list, or a filterable feed."
   }
 }
