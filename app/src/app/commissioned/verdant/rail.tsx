@@ -91,7 +91,7 @@ export function CardPanel({
         <p className="mt-5 text-xs text-zinc-400">{UI.linked[lang]}</p>
         <p
           className="mt-1 text-lg tracking-wide text-zinc-50 tabular-nums"
-          style={{ fontFamily: "var(--font-display-mono)" }}
+          style={{ fontFamily: "var(--font-mono)" }}
         >
           {revealed ? card.full : `···· ···· ···· ${card.last4}`}
         </p>

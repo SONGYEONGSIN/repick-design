@@ -356,6 +356,56 @@ export function countFontWeights(sources) {
 }
 
 /**
+ * Counts the distinct *display* faces a route uses.
+ *
+ * design-principles §Typography allows one display face per work and forbids a second. Nothing
+ * enforced it. `no-unlisted-font` tests **membership** — is this variable on the whitelist — so a
+ * work using grotesk in four files and mono in a fifth passes every file individually. The
+ * violation only exists across the work, which is why this is counted per *route* like the weights
+ * rule, not per file.
+ *
+ * `--font-sans` and `--font-mono` are body faces, not display faces, and are deliberately not
+ * counted: dashboards set `--font-mono` on tabular figures constantly, and counting it would make
+ * nearly every work a violation, which is the fastest way to get a rule ignored.
+ *
+ * Found by the spec-writing pass over d44 (`commissioned/verdant/rail.tsx:94`), the one violation in
+ * a retroactive scan of 41 works — 17 use exactly one face, 23 use none. A hard fail costs the
+ * existing catalog nothing, which is the opposite of what the same scan said about weights (41%
+ * off-count, so that one stayed record-only).
+ */
+export function countDisplayFaces(sources) {
+  const seen = new Set();
+  for (const src of sources) {
+    const code = src.replace(/\/\*[\s\S]*?\*\//g, '').replace(/(?<!:)\/\/.*$/gmu, '');
+    for (const m of code.matchAll(/var\(--font-(display-[a-z]+)\)/g)) seen.add(m[1]);
+  }
+  const faces = [...seen].sort();
+  return { count: faces.length, faces };
+}
+
+/** Display-face violations for the static gate. Two or more faces is a hard fail; one or none passes. */
+export function normalizeDisplayFaces({ count, faces }) {
+  if (count < 2) return [];
+  return [{
+    rule: 'multi-display-face',
+    detail: `디스플레이 활자 ${count}종 — ${faces.join(' · ')}. 한 작품에 한 종만 (design-principles §Typography)`,
+  }];
+}
+
+/**
+ * The same rule, applied per route rather than to the union of every file in scope.
+ *
+ * One gate call routinely covers several routes, and the union of two compliant works looks exactly
+ * like one non-compliant work: verdant (grotesk) plus hopline (mono) in a single invocation reported
+ * a violation neither of them has. The rule's unit is the work, so the grouping has to survive all
+ * the way to the count — flattening first destroys the only distinction that matters.
+ */
+export function displayFaceViolations(groups) {
+  return groups.flatMap(({ route, sources }) =>
+    normalizeDisplayFaces(countDisplayFaces(sources)).map((v) => ({ route, ...v })));
+}
+
+/**
  * Record-only, deliberately — the count is reported, never failed on.
  *
  * Q13 asked for this to become a hard gate on "exactly three weights". Measuring first said no:
@@ -438,8 +488,16 @@ export async function runWeb({ routes, files, base, appRoot = 'app/src/app', fon
   const { checkSource } = await import('./dash-static-check.mjs');
   const { runSweep, evaluateSweep } = await import('./dash-sweep.mjs');
   const tsxFiles = files.length ? files : routes.flatMap((r) => filesForRoute(r, appRoot));
-  const staticViolations = tsxFiles.flatMap((f) =>
-    checkSource(readFileSync(f, 'utf8'), fontVars ? { fontVars } : {}).map((v) => ({ file: f, ...v })));
+  // 라우트별 묶음을 유지한다 — 작품 단위 규칙은 파일 하나만 봐도, 전부 합쳐 봐도 틀린 답을 낸다.
+  // `--files`로 직접 준 경우는 그 자체가 한 작품이다.
+  const faceGroups = files.length
+    ? [{ route: null, sources: files.map((f) => readFileSync(f, 'utf8')) }]
+    : routes.map((r) => ({ route: r, sources: filesForRoute(r, appRoot).map((f) => readFileSync(f, 'utf8')) }));
+  const staticViolations = [
+    ...tsxFiles.flatMap((f) =>
+      checkSource(readFileSync(f, 'utf8'), fontVars ? { fontVars } : {}).map((v) => ({ file: f, ...v }))),
+    ...displayFaceViolations(faceGroups),
+  ];
   const sweepRaw = await runSweep(base, routes);
   const sweep = evaluateSweep(sweepRaw);
   // Every route, not just the first: measuring routes[0] alone reported a passing score while other
