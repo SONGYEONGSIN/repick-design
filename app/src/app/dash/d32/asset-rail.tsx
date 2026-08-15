@@ -157,7 +157,7 @@ export default function AssetRail() {
   return (
     <aside aria-label="Asset list" className="flex w-full shrink-0 flex-col border-b border-white/5 lg:w-56 lg:border-b-0 lg:border-r xl:w-72 2xl:w-80">
       <div className="p-3">
-        <div role="search" className="flex h-11 items-center gap-2 rounded-lg border border-white/10 bg-white/5 px-3">
+        <div role="search" className="flex h-11 items-center gap-2 rounded-lg border border-white/10 bg-white/5 px-3 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-400">
           <Search aria-hidden="true" className="size-4 shrink-0 text-zinc-400" />
           <input
             type="text"

@@ -80,7 +80,7 @@ export default function CommandPalette({
     <div className="fixed inset-0 z-50 flex items-start justify-center p-4 pt-[12vh]">
       <button type="button" aria-label="Close command palette" onClick={onClose} className="absolute inset-0 bg-black/60 backdrop-blur-sm" />
       <div role="dialog" aria-modal="true" aria-label="Search incidents, services and engineers" onKeyDown={onKeyDown} className={cx("relative w-full max-w-lg overflow-hidden rounded-2xl border shadow-xl shadow-black/40", BORDER, "bg-zinc-900")}>
-        <div className={cx("flex items-center gap-2 border-b px-3.5", BORDER)}>
+        <div className={cx("flex items-center gap-2 border-b px-3.5 focus-within:ring-2 focus-within:ring-inset focus-within:ring-teal-400", BORDER)}>
           <Search size={17} aria-hidden="true" className={TEXT_CAPTION} />
           <input
             ref={inputRef}

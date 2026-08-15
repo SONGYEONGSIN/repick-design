@@ -27,9 +27,12 @@ import {
 const MotionLink = motion.create(Link);
 
 const focusRing =
-  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-stone-50 focus-visible:ring-orange-700";
+  // v3식 `ring-2` + `ring-offset-*` 조합은 Tailwind v4 에서 링 조각을 `oklab(0 0 0 / 0)` 으로,
+// 즉 **완전 투명**으로 칠한다. 클래스도 붙어 있고 `:focus-visible` 도 매칭되는데 아무것도 안 보인다 —
+// 소스만 읽어서는 절대 안 보이고 렌더를 재야 드러난다. outline 계열은 v4 에서 그대로 그려진다.
+  "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-700";
 const focusRingOnDark =
-  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-stone-900 focus-visible:ring-orange-400";
+  "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-400";
 
 const VIEWPORT = { once: true, margin: "-100px" } as const;
 

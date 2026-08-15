@@ -39,7 +39,7 @@ function GlobalSearch() {
   return (
     <div ref={containerRef} className="relative min-w-0">
       {open ? (
-        <div role="search" className="flex h-11 w-56 items-center gap-2 rounded-lg border border-white/10 bg-white/5 px-3 sm:w-72">
+        <div role="search" className="flex h-11 w-56 items-center gap-2 rounded-lg border border-white/10 bg-white/5 px-3 sm:w-72 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-400">
           <Search aria-hidden="true" className="size-4 shrink-0 text-zinc-400" />
           <input
             ref={inputRef}

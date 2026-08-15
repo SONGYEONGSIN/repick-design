@@ -100,7 +100,7 @@ export function ShipmentRail() {
       </div>
 
       <div className="px-1">
-        <div role="search" className="flex h-11 items-center gap-2 rounded-lg border border-white/10 bg-white/5 px-3">
+        <div role="search" className="flex h-11 items-center gap-2 rounded-lg border border-white/10 bg-white/5 px-3 focus-within:ring-2 focus-within:ring-inset focus-within:ring-rose-400">
           <Search aria-hidden="true" className="size-4 shrink-0 text-zinc-400" />
           <input
             type="text"

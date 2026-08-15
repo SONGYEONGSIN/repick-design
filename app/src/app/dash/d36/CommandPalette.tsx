@@ -83,7 +83,7 @@ export default function CommandPalette({
         onKeyDown={onKeyDown}
         className={cx("relative w-full max-w-lg overflow-hidden rounded-2xl border shadow-xl", BORDER, "bg-white dark:bg-zinc-900")}
       >
-        <div className={cx("flex items-center gap-2 border-b px-3.5", BORDER)}>
+        <div className={cx("flex items-center gap-2 border-b px-3.5 focus-within:ring-2 focus-within:ring-inset focus-within:ring-violet-600", BORDER)}>
           <Search size={17} aria-hidden="true" className={TEXT_CAPTION} />
           <input
             ref={inputRef}

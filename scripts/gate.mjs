@@ -9,6 +9,31 @@ export function normalizeStatic(violations) {
   return { name: 'static', pass, detail: pass ? '위반 0' : `위반 ${violations.length}`, violations };
 }
 
+/**
+ * Focus has to be visible, and the browser is the only thing that can say so.
+ *
+ * This was the last clause in `page-brief-core` §2 with no instrument. A static rule cannot answer
+ * it: the indicator is often on an ancestor (`focus-within` on a search row) or painted from
+ * component state (an SVG segment highlighting itself from `onFocus`), and a first attempt at
+ * reading one element's class list called three of fourteen findings wrong. Lighthouse does not
+ * audit it either — focus visibility is one of its manual checks. So eleven works shipped a search
+ * field that stripped the outline and gave nothing back, every one of them scoring a11y 100.
+ *
+ * The measurement lives in `dash-sweep`, which already has a browser open, and it drives focus with
+ * **real Tab presses**: scripted `.focus()` leaves `:focus-visible` styles unapplied on some
+ * elements, which reported working buttons as broken.
+ */
+export function normalizeFocus(result) {
+  const failures = result?.failures ?? [];
+  const pass = result?.pass === true;
+  return {
+    name: 'focus',
+    pass,
+    detail: pass ? '포커스 표시 0건 누락' : `${failures.length}건 — ${failures.slice(0, 4).map((f) => f.sel).join(' · ')}`,
+    violations: failures,
+  };
+}
+
 export function normalizeSweep(result) {
   const failures = result.failures ?? [];
   const pass = result.pass === true;
@@ -545,7 +570,7 @@ export async function runWeb({ routes, files, base, appRoot = 'app/src/app', fon
       violations: [{ rule: 'empty-scope', detail: 'routes·files 모두 비어 있어 어떤 게이트도 실측하지 않았다' }] }]);
   }
   const { checkSource } = await import('./dash-static-check.mjs');
-  const { runSweep, evaluateSweep } = await import('./dash-sweep.mjs');
+  const { runSweep, evaluateSweep, evaluateFocus } = await import('./dash-sweep.mjs');
   const tsxFiles = files.length ? files : routes.flatMap((r) => filesForRoute(r, appRoot));
   // 라우트별 묶음을 유지한다 — 작품 단위 규칙은 파일 하나만 봐도, 전부 합쳐 봐도 틀린 답을 낸다.
   // `--files`로 직접 준 경우는 그 자체가 한 작품이다.
@@ -559,6 +584,7 @@ export async function runWeb({ routes, files, base, appRoot = 'app/src/app', fon
   ];
   const sweepRaw = await runSweep(base, routes);
   const sweep = evaluateSweep(sweepRaw);
+  const focus = evaluateFocus(sweepRaw);
   // Every route, not just the first: measuring routes[0] alone reported a passing score while other
   // routes in the same call were below the threshold, which reads as assurance the run never gave.
   // Both viewports, worst taken. The desktop preset was the only one measured, and sweep already
@@ -582,6 +608,7 @@ export async function runWeb({ routes, files, base, appRoot = 'app/src/app', fon
         : countFontWeights(tsxFiles.map((f) => readFileSync(f, 'utf8'))),
     ),
     normalizeSweep(sweep),
+    normalizeFocus(focus),
     normalizeConsole(sweepRaw.consoleMessages ?? 'unavailable'),
     normalizeA11y(lh === 'unavailable' ? 'unavailable' : { score: lh.a11y, failedAudits: lh.failedAudits }),
     normalizePerf(lh === 'unavailable' ? 'unavailable' : lh.perf),
