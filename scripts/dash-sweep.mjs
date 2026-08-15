@@ -67,8 +67,11 @@ export function evaluateFocus(measurements) {
     for (const f of m.focusables ?? []) {
       const painted = String(f.after ?? '').replace(/[#~]/g, '') !== '';
       if (painted && f.after !== f.before) continue;
-      failures.push({ route: m.route, width: m.width, kind: 'focus-invisible', sel: f.sel,
-        detail: '포커스해도 보이는 표시가 생기지 않는다 — outline-none 을 걸었으면 링을 함께 준다 (page-brief-core §2)' });
+      // `button#10` 같은 DOM 순서만 주면 designer 가 소스에서 그 요소를 못 찾는다 — 1-fix 루프에
+      // 넘어가는 값은 행동으로 옮길 수 있어야 한다. 라벨과 클래스 앞머리를 함께 싣는다.
+      const hint = [f.label && `"${f.label}"`, f.cls && `class="${f.cls}"`].filter(Boolean).join(' ');
+      failures.push({ route: m.route, width: m.width, kind: 'focus-invisible', sel: f.sel, label: f.label, cls: f.cls,
+        detail: `포커스해도 보이는 표시가 생기지 않는다${hint ? ` — ${hint}` : ''} · outline-none 을 걸었으면 링을 함께 준다 (page-brief-core §2)` });
     }
   }
   return { pass: failures.length === 0, failures };
@@ -148,7 +151,12 @@ export async function runSweep(baseUrl, routes, widths = sweepWidths()) {
             .slice(0, 40)
             .forEach((el, i) => {
               el.setAttribute('data-sweep-i', String(i));
-              focusables.push({ sel: `${el.tagName.toLowerCase()}#${i}`, before: ringSig(el), after: null });
+              focusables.push({
+                sel: `${el.tagName.toLowerCase()}#${i}`,
+                label: (el.getAttribute('aria-label') || el.textContent || '').trim().replace(/\s+/g, ' ').slice(0, 44),
+                cls: (el.getAttribute('class') || '').slice(0, 72),
+                before: ringSig(el), after: null,
+              });
             });
           window.__sweepSig = ringSig;
         }

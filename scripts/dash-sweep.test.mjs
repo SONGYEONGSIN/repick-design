@@ -84,3 +84,14 @@ test('evaluateFocus — 상시 shadow-sm 위에 링이 얹히면 통과', () => 
   ] }]);
   assert.equal(r.pass, true);
 });
+
+test('evaluateFocus — 위반에 요소를 찾을 단서를 싣는다', () => {
+  // `button#10` 은 DOM 순서일 뿐이라 designer 가 소스에서 그 요소를 못 찾는다. 1-fix 루프에
+  // 넘어가는 값이 행동으로 옮길 수 없으면 게이트가 실패를 알려도 고칠 수가 없다.
+  const r = evaluateFocus([{ route: '/x', width: 1440, focusables: [
+    { sel: 'button#10', before: '#~#~#~#', after: '#~#~#~#', label: 'Mon 10:00 · 11 bookings', cls: 'h-full flex-1 focus-visible:outline-none' },
+  ] }]);
+  assert.equal(r.failures.length, 1);
+  assert.match(r.failures[0].detail, /Mon 10:00/);
+  assert.match(r.failures[0].detail, /focus-visible:outline-none/);
+});
