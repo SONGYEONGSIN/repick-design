@@ -45,11 +45,11 @@ export function Topbar({ onOpenMobileNav, onOpenCommand }: TopbarProps) {
       <button
         type="button"
         onClick={onOpenCommand}
-        className="flex h-11 w-full max-w-xs items-center gap-2 rounded-lg border border-zinc-200 bg-zinc-50 px-3 text-left text-[13px] text-zinc-400 transition-colors hover:border-zinc-300 hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 sm:max-w-sm"
+        className="flex h-11 w-full max-w-xs items-center gap-2 rounded-lg border border-zinc-200 bg-zinc-50 px-3 text-left text-[13px] text-zinc-500 transition-colors hover:border-zinc-300 hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 sm:max-w-sm"
       >
         <Search className="h-4 w-4 shrink-0" aria-hidden="true" />
         <span className="flex-1 truncate">Search everything…</span>
-        <kbd className="hidden shrink-0 items-center gap-0.5 rounded border border-zinc-200 bg-white px-1.5 py-0.5 text-[10px] font-medium text-zinc-400 sm:flex">
+        <kbd className="hidden shrink-0 items-center gap-0.5 rounded border border-zinc-200 bg-white px-1.5 py-0.5 text-[10px] font-medium text-zinc-500 sm:flex">
           ⌘K
         </kbd>
       </button>
@@ -101,7 +101,7 @@ export function Topbar({ onOpenMobileNav, onOpenCommand }: TopbarProps) {
                 {NOTIFICATIONS.map((n) => (
                   <li key={n.id} className="border-b border-zinc-50 px-3.5 py-2.5 last:border-0">
                     <p className="text-[13px] leading-snug text-zinc-700">{n.title}</p>
-                    <p className="mt-0.5 text-[11.5px] text-zinc-400">{n.time}</p>
+                    <p className="mt-0.5 text-[11.5px] text-zinc-500">{n.time}</p>
                   </li>
                 ))}
               </ul>
@@ -124,7 +124,7 @@ export function Topbar({ onOpenMobileNav, onOpenCommand }: TopbarProps) {
               height={32}
               className="h-8 w-8 rounded-full object-cover"
             />
-            <ChevronDown className="h-3.5 w-3.5 text-zinc-400" aria-hidden="true" />
+            <ChevronDown className="h-3.5 w-3.5 text-zinc-500" aria-hidden="true" />
           </button>
           {accountOpen ? (
             <div
@@ -141,7 +141,7 @@ export function Topbar({ onOpenMobileNav, onOpenCommand }: TopbarProps) {
                 role="menuitem"
                 className="flex w-full items-center gap-2.5 px-3.5 py-2 text-left text-[13px] text-zinc-700 hover:bg-zinc-50 focus-visible:outline-none focus-visible:bg-zinc-50"
               >
-                <User className="h-4 w-4 text-zinc-400" aria-hidden="true" />
+                <User className="h-4 w-4 text-zinc-500" aria-hidden="true" />
                 Profile
               </button>
               <button
@@ -149,7 +149,7 @@ export function Topbar({ onOpenMobileNav, onOpenCommand }: TopbarProps) {
                 role="menuitem"
                 className="flex w-full items-center gap-2.5 px-3.5 py-2 text-left text-[13px] text-zinc-700 hover:bg-zinc-50 focus-visible:outline-none focus-visible:bg-zinc-50"
               >
-                <Settings2 className="h-4 w-4 text-zinc-400" aria-hidden="true" />
+                <Settings2 className="h-4 w-4 text-zinc-500" aria-hidden="true" />
                 Settings
               </button>
               <div className="my-1 border-t border-zinc-100" />

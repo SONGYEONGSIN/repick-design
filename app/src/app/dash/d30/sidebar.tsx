@@ -72,7 +72,7 @@ function WorkspaceSwitcher() {
         <span className="shrink-0 rounded border border-zinc-200 px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-zinc-500">
           {active.plan}
         </span>
-        <ChevronDown className="h-3.5 w-3.5 shrink-0 text-zinc-400" aria-hidden="true" />
+        <ChevronDown className="h-3.5 w-3.5 shrink-0 text-zinc-500" aria-hidden="true" />
       </button>
 
       {open ? (
@@ -125,7 +125,7 @@ function SidebarContent() {
       <nav aria-label="Main menu" className="flex-1 space-y-5 overflow-y-auto px-3 pb-4">
         {NAV_SECTIONS.map((section) => (
           <div key={section.label}>
-            <p className="px-2 text-[11px] font-semibold uppercase tracking-wide text-zinc-400">
+            <p className="px-2 text-[11px] font-semibold uppercase tracking-wide text-zinc-500">
               {section.label}
             </p>
             <ul className="mt-1.5 space-y-0.5">
@@ -176,7 +176,7 @@ function SidebarContent() {
           </span>
           <button
             type="button"
-            className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg text-zinc-400 transition-colors hover:bg-zinc-50 hover:text-zinc-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-1"
+            className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg text-zinc-500 transition-colors hover:bg-zinc-50 hover:text-zinc-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-1"
             aria-label="Open settings"
             title="Settings"
           >
@@ -213,7 +213,7 @@ export function Sidebar({ mobileOpen, onCloseMobile }: SidebarProps) {
               type="button"
               onClick={onCloseMobile}
               aria-label="Close menu"
-              className="absolute right-2 top-2 flex h-9 w-9 items-center justify-center rounded-lg text-zinc-400 hover:bg-zinc-50 hover:text-zinc-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500"
+              className="absolute right-2 top-2 flex h-9 w-9 items-center justify-center rounded-lg text-zinc-500 hover:bg-zinc-50 hover:text-zinc-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500"
             >
               <X className="h-4 w-4" aria-hidden="true" />
             </button>

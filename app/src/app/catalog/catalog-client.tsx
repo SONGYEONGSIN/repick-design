@@ -346,7 +346,7 @@ export default function CatalogClient() {
               }`}
             >
               <LayoutGrid className="h-4 w-4 flex-none" aria-hidden="true" />
-              <span className="hidden sm:inline">Grid</span>
+              <span className="sr-only sm:not-sr-only sm:inline">Grid</span>
             </button>
             <button
               type="button"
@@ -357,7 +357,7 @@ export default function CatalogClient() {
               }`}
             >
               <List className="h-4 w-4 flex-none" aria-hidden="true" />
-              <span className="hidden sm:inline">List</span>
+              <span className="sr-only sm:not-sr-only sm:inline">List</span>
             </button>
           </div>
 

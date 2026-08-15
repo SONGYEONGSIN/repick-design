@@ -44,7 +44,7 @@ export default function StatusFilter({ value, onChange, counts }: StatusFilterPr
               <span className={`size-1.5 rounded-full ${DOT_CLASS[opt]}`} aria-hidden="true" />
             )}
             {opt === "all" ? "All" : statusLabel(opt)}
-            <span className="tabular-nums text-[11px] text-zinc-500">{counts[opt]}</span>
+            <span className="tabular-nums text-[11px] text-zinc-400">{counts[opt]}</span>
           </button>
         );
       })}

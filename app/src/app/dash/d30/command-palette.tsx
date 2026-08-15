@@ -93,7 +93,7 @@ export function CommandPalette({ open, onClose, onSelectEventType }: CommandPale
         className="relative w-full max-w-lg overflow-hidden rounded-xl border border-zinc-200 bg-white shadow-2xl"
       >
         <div className="flex h-12 items-center gap-2 border-b border-zinc-100 px-3.5">
-          <Search className="h-4 w-4 shrink-0 text-zinc-400" aria-hidden="true" />
+          <Search className="h-4 w-4 shrink-0 text-zinc-500" aria-hidden="true" />
           <input
             ref={inputRef}
             autoFocus
@@ -102,15 +102,15 @@ export function CommandPalette({ open, onClose, onSelectEventType }: CommandPale
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Search pages, event types…"
             aria-label="Quick search input"
-            className="h-full flex-1 border-0 bg-transparent text-[14px] text-zinc-900 outline-none placeholder:text-zinc-400"
+            className="h-full flex-1 border-0 bg-transparent text-[14px] text-zinc-900 outline-none placeholder:text-zinc-500"
           />
-          <kbd className="rounded border border-zinc-200 px-1.5 py-0.5 text-[10px] font-medium text-zinc-400">
+          <kbd className="rounded border border-zinc-200 px-1.5 py-0.5 text-[10px] font-medium text-zinc-500">
             Esc
           </kbd>
         </div>
         <ul role="listbox" aria-label="Search results" className="max-h-80 overflow-y-auto p-1.5">
           {filtered.length === 0 ? (
-            <li className="px-3 py-6 text-center text-[13px] text-zinc-400">
+            <li className="px-3 py-6 text-center text-[13px] text-zinc-500">
               No results found
             </li>
           ) : (
@@ -126,9 +126,9 @@ export function CommandPalette({ open, onClose, onSelectEventType }: CommandPale
                     onClick={item.onSelect}
                     className="flex w-full items-center gap-2.5 rounded-lg px-2.5 py-2 text-left text-[13px] text-zinc-700 hover:bg-zinc-50 focus-visible:outline-none focus-visible:bg-zinc-50 disabled:pointer-events-none disabled:opacity-40"
                   >
-                    <Icon className="h-4 w-4 shrink-0 text-zinc-400" aria-hidden="true" />
+                    <Icon className="h-4 w-4 shrink-0 text-zinc-500" aria-hidden="true" />
                     <span className="flex-1 truncate">{item.label}</span>
-                    <span className="shrink-0 text-[11px] text-zinc-400">{item.hint}</span>
+                    <span className="shrink-0 text-[11px] text-zinc-500">{item.hint}</span>
                   </button>
                 </li>
               );

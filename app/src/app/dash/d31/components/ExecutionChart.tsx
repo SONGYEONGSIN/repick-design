@@ -212,7 +212,7 @@ export default function ExecutionChart({ series, periodLabel }: ExecutionChartPr
         </table>
       </div>
 
-      <div className="mt-3 flex items-center gap-4 text-xs text-zinc-500">
+      <div className="mt-3 flex items-center gap-4 text-xs text-zinc-400">
         <span className="flex items-center gap-1.5">
           <span className="h-0.5 w-3 rounded-full bg-indigo-400" aria-hidden="true" />
           Success

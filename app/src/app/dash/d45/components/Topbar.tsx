@@ -44,7 +44,7 @@ function UserMenu() {
         onClick={() => setOpen((v) => !v)}
         aria-haspopup="menu"
         aria-expanded={open}
-        aria-label="Open account menu"
+        aria-label="PN — open account menu"
         className={cn(
           "flex h-11 items-center gap-1.5 rounded-lg border border-white/10 bg-white/5 pl-1.5 pr-2 outline-none transition-colors",
           "hover:bg-white/10 focus-visible:ring-2 focus-visible:ring-rose-400 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950",
@@ -121,7 +121,7 @@ export function Topbar({ onOpenMobileMenu }: { onOpenMobileMenu: () => void }) {
         <button
           type="button"
           className={cn(
-            "hidden h-11 items-center gap-1.5 rounded-lg bg-rose-500 px-3.5 text-sm font-semibold text-white outline-none transition-colors sm:flex",
+            "hidden h-11 items-center gap-1.5 rounded-lg bg-rose-700 px-3.5 text-sm font-semibold text-white outline-none transition-colors sm:flex",
             "hover:bg-rose-400 focus-visible:ring-2 focus-visible:ring-rose-300 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950 active:bg-rose-600",
           )}
         >

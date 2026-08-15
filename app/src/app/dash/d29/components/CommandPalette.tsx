@@ -74,7 +74,7 @@ export function CommandPalette({ open, onClose }: { open: boolean; onClose: () =
         className="relative w-full max-w-lg overflow-hidden rounded-xl border border-zinc-200 bg-white shadow-xl"
       >
         <div className="flex h-12 items-center gap-2.5 border-b border-zinc-100 px-4">
-          <Search className="h-4 w-4 shrink-0 text-zinc-400" aria-hidden="true" />
+          <Search className="h-4 w-4 shrink-0 text-zinc-500" aria-hidden="true" />
           <input
             ref={inputRef}
             type="text"
@@ -82,9 +82,9 @@ export function CommandPalette({ open, onClose }: { open: boolean; onClose: () =
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Search projects, tasks, people…"
             aria-label="Search query"
-            className="h-full flex-1 border-0 bg-transparent text-sm text-zinc-900 placeholder:text-zinc-400 focus:outline-none"
+            className="h-full flex-1 border-0 bg-transparent text-sm text-zinc-900 placeholder:text-zinc-500 focus:outline-none"
           />
-          <kbd className="shrink-0 rounded border border-zinc-200 px-1.5 py-0.5 text-[10px] font-medium text-zinc-400">
+          <kbd className="shrink-0 rounded border border-zinc-200 px-1.5 py-0.5 text-[10px] font-medium text-zinc-500">
             ESC
           </kbd>
         </div>
@@ -126,7 +126,7 @@ export function CommandPalette({ open, onClose }: { open: boolean; onClose: () =
 function ResultGroup({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <div className="mb-1">
-      <p className="px-3 py-1 text-[11px] font-semibold tracking-wide text-zinc-400 uppercase">{label}</p>
+      <p className="px-3 py-1 text-[11px] font-semibold tracking-wide text-zinc-500 uppercase">{label}</p>
       <ul>{children}</ul>
     </div>
   );
@@ -148,7 +148,7 @@ function ResultItem({
         onClick={onClose}
         className="flex min-h-[44px] w-full items-center gap-2.5 rounded-lg px-3 text-left text-sm text-zinc-700 hover:bg-zinc-50 focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:outline-none"
       >
-        <Icon className="h-4 w-4 shrink-0 text-zinc-400" aria-hidden="true" />
+        <Icon className="h-4 w-4 shrink-0 text-zinc-500" aria-hidden="true" />
         <span className="truncate">{label}</span>
       </button>
     </li>

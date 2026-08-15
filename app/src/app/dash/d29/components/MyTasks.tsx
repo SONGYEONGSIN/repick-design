@@ -80,7 +80,7 @@ function ViewToggleButton({
       aria-pressed={active}
       aria-label={label}
       className={`inline-flex h-9 w-9 items-center justify-center rounded-md focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:outline-none ${
-        active ? "bg-white text-indigo-600 shadow-sm" : "text-zinc-400 hover:text-zinc-600"
+        active ? "bg-white text-indigo-600 shadow-sm" : "text-zinc-500 hover:text-zinc-600"
       }`}
     >
       <Icon className="h-4 w-4" aria-hidden="true" />
@@ -113,7 +113,7 @@ function TaskRow({ task }: { task: Task }) {
         className="h-4 w-4 shrink-0 rounded border-zinc-300 text-indigo-600 focus-visible:ring-2 focus-visible:ring-indigo-500"
       />
       <div className="min-w-0 flex-1">
-        <p className={`truncate text-sm font-medium ${isDone ? "text-zinc-400 line-through" : "text-zinc-900"}`}>
+        <p className={`truncate text-sm font-medium ${isDone ? "text-zinc-500 line-through" : "text-zinc-900"}`}>
           {task.title}
         </p>
         <p className="truncate text-xs text-zinc-500">{project.name}</p>
@@ -136,7 +136,7 @@ function BoardView({ tasks }: { tasks: Task[] }) {
           <div key={col.key} className="min-w-0 rounded-lg bg-zinc-50 p-3">
             <div className="mb-2 flex items-center justify-between px-1">
               <h3 className="text-xs font-semibold tracking-wide text-zinc-500 uppercase">{col.label}</h3>
-              <span className="text-xs font-medium tabular-nums text-zinc-400">{columnTasks.length}</span>
+              <span className="text-xs font-medium tabular-nums text-zinc-500">{columnTasks.length}</span>
             </div>
             <ul className="space-y-2">
               {columnTasks.map((task) => {
@@ -149,7 +149,7 @@ function BoardView({ tasks }: { tasks: Task[] }) {
                   >
                     <p
                       className={`text-sm font-medium ${
-                        task.status === "done" ? "text-zinc-400 line-through" : "text-zinc-900"
+                        task.status === "done" ? "text-zinc-500 line-through" : "text-zinc-900"
                       }`}
                     >
                       {task.title}
@@ -157,13 +157,13 @@ function BoardView({ tasks }: { tasks: Task[] }) {
                     <p className="mt-1 truncate text-xs text-zinc-500">{project.name}</p>
                     <div className="mt-2 flex items-center justify-between">
                       <Badge className={priority.className}>{priority.label}</Badge>
-                      <span className="text-xs tabular-nums text-zinc-400">{formatDate(task.dueDate)}</span>
+                      <span className="text-xs tabular-nums text-zinc-500">{formatDate(task.dueDate)}</span>
                     </div>
                   </li>
                 );
               })}
               {columnTasks.length === 0 ? (
-                <li className="rounded-lg border border-dashed border-zinc-200 p-3 text-center text-xs text-zinc-400">
+                <li className="rounded-lg border border-dashed border-zinc-200 p-3 text-center text-xs text-zinc-500">
                   None
                 </li>
               ) : null}

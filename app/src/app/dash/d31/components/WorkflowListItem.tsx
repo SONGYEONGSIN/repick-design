@@ -41,10 +41,10 @@ export default function WorkflowListItem({ workflow, selected, onSelect }: Workf
           <Sparkline
             values={workflow.sparkline}
             label={`${workflow.name} execution trend, last 7 days`}
-            className={`h-4 w-10 shrink-0 ${selected ? "text-indigo-300" : "text-zinc-600"}`}
+            className={`h-4 w-10 shrink-0 ${selected ? "text-indigo-300" : "text-zinc-400"}`}
           />
         </div>
-        <div className="mt-1 flex items-center justify-between gap-2 pl-3.5 text-xs text-zinc-500">
+        <div className="mt-1 flex items-center justify-between gap-2 pl-3.5 text-xs text-zinc-400">
           <span className="truncate">{workflow.category}</span>
           <span className="shrink-0 tabular-nums">
             {formatPercent(successRate, 0)} · {formatNumber(workflow.executions)} runs

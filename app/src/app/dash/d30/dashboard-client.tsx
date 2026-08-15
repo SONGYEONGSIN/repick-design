@@ -223,7 +223,7 @@ function UpcomingMeetings({ selectedType }: { selectedType: EventTypeId | "all" 
               <tr key={m.id} className="transition-colors hover:bg-zinc-50">
                 <td className="whitespace-nowrap px-3 py-3 text-zinc-900 tabular-nums">
                   {formatDateLong(m.dateISO)} <span className="font-medium">{m.time}</span>
-                  <span className="ml-1 text-xs text-zinc-400">· {m.durationMin} min</span>
+                  <span className="ml-1 text-xs text-zinc-500">· {m.durationMin} min</span>
                 </td>
                 <td className="px-3 py-3">
                   <p className="font-medium text-zinc-900">{m.guestName}</p>
@@ -242,7 +242,7 @@ function UpcomingMeetings({ selectedType }: { selectedType: EventTypeId | "all" 
                 </td>
                 <td className="whitespace-nowrap px-3 py-3 text-zinc-600">
                   <span className="inline-flex items-center gap-1.5">
-                    <LocIcon size={14} aria-hidden="true" className="text-zinc-400" />
+                    <LocIcon size={14} aria-hidden="true" className="text-zinc-500" />
                     {host?.name} · {LOCATION_LABEL[m.location]}
                   </span>
                 </td>
@@ -368,7 +368,7 @@ export function DashboardClient() {
               </Card>
             </div>
 
-            <footer className="mt-10 border-t border-zinc-200 pt-5 pb-2 text-xs text-zinc-400">
+            <footer className="mt-10 border-t border-zinc-200 pt-5 pb-2 text-xs text-zinc-500">
               Data is a static demo snapshot · as of 2026-01-12
             </footer>
           </main>

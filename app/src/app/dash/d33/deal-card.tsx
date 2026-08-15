@@ -62,7 +62,7 @@ export function DealCard({ deal }: { deal: Deal }) {
           <span className="truncate text-xs text-zinc-500">{owner.name}</span>
         </div>
         <div className="flex shrink-0 items-center gap-2.5 text-[11px] whitespace-nowrap tabular-nums">
-          <span className="inline-flex items-center gap-1 text-zinc-400">
+          <span className="inline-flex items-center gap-1 text-zinc-500">
             <Timer className="h-3 w-3" aria-hidden="true" />
             {deal.daysInStage}d in stage
           </span>
