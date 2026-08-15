@@ -102,10 +102,10 @@ export function LineChart({ points, width, height, accessibilityLabel, formatY =
         <Line x1={ax} y1={PAD.t} x2={ax} y2={s.baseline} stroke={tokens.color.faint} strokeWidth={1} strokeDasharray="3 3" />
         <Circle cx={ax} cy={ay} r={3.5} fill={tokens.color.accent} />
         <Rect x={bx} y={by} width={bw} height={bh} rx={6} fill={tokens.color.ink} />
-        <SvgText x={bx + 8} y={by + 13} fill={tokens.color.faint} fontSize={10}>
+        <SvgText x={bx + 8} y={by + 13} fill={tokens.color.onInkMuted} fontSize={10}>
           {points[active].day}
         </SvgText>
-        <SvgText x={bx + 8} y={by + 26} fill="#ffffff" fontSize={12} fontWeight="700">
+        <SvgText x={bx + 8} y={by + 26} fill={tokens.color.onInk} fontSize={12} fontWeight="700">
           {formatY(points[active].price)}
         </SvgText>
       </Svg>
