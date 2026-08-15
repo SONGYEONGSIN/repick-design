@@ -139,7 +139,7 @@ export default function TicketRail({
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Search tickets…"
             className={cx(
-              "h-9 w-full rounded-lg border pl-8 pr-2.5 text-sm outline-none",
+              "h-9 w-full rounded-lg border pl-8 pr-2.5 text-sm",
               BORDER,
               "bg-white",
               TEXT_PRIMARY,

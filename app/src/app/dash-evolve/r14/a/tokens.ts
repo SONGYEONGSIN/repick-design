@@ -48,7 +48,7 @@ export const DISPLAY_FONT = { fontFamily: "var(--font-display-wide)" } as const;
 
 /* Brand accent — teal. UI chrome only (buttons, active states, focus outlines, selected rows, chart line). */
 export const ACCENT_TEXT = "text-teal-700";
-export const ACCENT_SOLID = "bg-teal-600 text-white hover:bg-teal-500 active:bg-teal-700";
+export const ACCENT_SOLID = "bg-teal-700 text-white hover:bg-teal-600 active:bg-teal-800";
 export const ACCENT_SUBTLE = "bg-teal-50 text-teal-800";
 export const ACCENT_BORDER = "border-teal-200";
 export const ACCENT_RING = "ring-1 ring-inset ring-teal-200";
