@@ -100,7 +100,7 @@ export function QueueTrendCard() {
         </span>
       </div>
 
-      <div className="relative mt-3">
+      <div className="relative mt-7">
         <svg
           viewBox={`0 0 ${CHART_W} ${CHART_H}`}
           width="100%"

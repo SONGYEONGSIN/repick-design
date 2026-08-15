@@ -52,7 +52,7 @@ export default function CausewayClient() {
       <div className="flex min-w-0 flex-1 flex-col">
         <Topbar onOpenPalette={() => setPaletteOpen(true)} onOpenMobileNav={() => setMobileNavOpen(true)} />
 
-        <div id="main-content" className="flex min-h-0 flex-1 overflow-hidden">
+        <main id="main-content" className="flex min-h-0 flex-1 overflow-hidden">
           <div className={cx("shrink-0 overflow-hidden border-r lg:block lg:w-[380px]", BORDER, mobileDetailOpen ? "hidden" : "block w-full")}>
             <TicketRail selectedTicketId={selectedTicketId} onSelectTicket={selectTicket} accountFilter={accountFilter} onClearAccountFilter={() => setAccountFilter(null)} />
           </div>
@@ -60,7 +60,7 @@ export default function CausewayClient() {
           <div className={cx("min-w-0 flex-1 overflow-y-auto [scrollbar-width:thin]", mobileDetailOpen ? "block" : "hidden lg:block")}>
             <DetailPane ticket={ticket} period={period} onPeriodChange={setPeriod} onSelectTicket={selectTicket} onFilterAccount={filterAccount} onBackToList={() => setMobileDetailOpen(false)} />
           </div>
-        </div>
+        </main>
       </div>
 
       {paletteOpen ? <CommandPalette onClose={() => setPaletteOpen(false)} onSelectTicket={selectTicket} onFilterAccount={filterAccount} /> : null}
