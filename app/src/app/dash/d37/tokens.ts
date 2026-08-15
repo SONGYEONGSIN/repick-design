@@ -38,7 +38,10 @@ export const FOCUS_RING_INSET =
   "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-sky-600 dark:focus-visible:ring-sky-400";
 /** For SVG shapes (rect/path) — outline-based; outline renders more reliably than the ring utility inside SVG. */
 export const SVG_FOCUS =
-  "outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600 dark:focus-visible:outline-sky-400";
+  // `outline-none` 을 앞에 두면 안 된다 — Tailwind v4 에서 그것이 `--tw-outline-style: none` 을
+// 세우고, 뒤의 `focus-visible:outline` 이 그 변수를 읽어 **스스로를 취소**한다. 폭과 색은
+// 적용되는데 style 만 none 으로 남아 아무것도 안 그려진다(실측: `outline: none 2px sky`).
+  "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600 dark:focus-visible:outline-sky-400";
 
 export const HOVER_ACTIVE_BG = "hover:bg-zinc-50 active:bg-zinc-100 dark:hover:bg-zinc-800 dark:active:bg-zinc-700";
 export const HOVER_ROW = "hover:bg-zinc-50 dark:hover:bg-white/[0.03]";

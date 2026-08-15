@@ -1,7 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import {
-  normalizeStatic, normalizeSweep, normalizeA11y, A11Y_HARD_AUDITS, normalizePerf,
+  normalizeStatic, normalizeSweep, normalizeFocus, normalizeA11y, A11Y_HARD_AUDITS, normalizePerf,
   normalizeNativeRun, buildVerdict, parseArgs, filesForRoute, worstLighthouse,
   parseNativeTsc, screenSourceDir,
   countFontWeights, normalizeWeights, countDisplayFaces, normalizeDisplayFaces, displayFaceViolations, renderedWeights, normalizeLint, normalizeRoutes, parseTscOutput, normalizeTypes, normalizeConsole,
@@ -176,6 +176,22 @@ test('normalizeA11y — 실패한 감사를 detail에 싣는다 (점수가 통�
   assert.equal(v.pass, true, '승격 안 된 감사는 점수 임계만 본다');
   assert.match(v.detail, /98/);
   assert.match(v.detail, /tap-targets/);
+});
+
+test('normalizeFocus — 표시 없는 요소가 있으면 하드페일', () => {
+  // 정본 §2 의 마지막 미계측 조항이었다. 정적 규칙은 링이 조상이나 상태에 있을 때를 못 가리고,
+  // Lighthouse 는 포커스 가시성을 감사하지 않는다 — 그래서 11작품이 a11y 100 을 받고도
+  // 키보드 사용자에게 자기 위치를 알려주지 않았다.
+  const v = normalizeFocus({ pass: false, failures: [{ route: '/x', sel: 'input#3', kind: 'focus-invisible' }] });
+  assert.equal(v.pass, false);
+  assert.equal(v.name, 'focus');
+  assert.match(v.detail, /input#3/);
+});
+
+test('normalizeFocus — 전부 표시되면 통과', () => {
+  const v = normalizeFocus({ pass: true, failures: [] });
+  assert.equal(v.pass, true);
+  assert.match(v.detail, /표시 0/);
 });
 
 test('normalizeA11y — 승격된 감사는 점수와 무관하게 하드페일', () => {

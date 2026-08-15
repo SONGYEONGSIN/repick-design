@@ -124,7 +124,8 @@ export function BookingTrendChart({ data }: BookingTrendChartProps) {
               onMouseLeave={() => setActiveIndex(null)}
               onFocus={() => setActiveIndex(i)}
               onBlur={() => setActiveIndex(null)}
-              className="h-full flex-1 focus-visible:outline-none"
+              // outline 만 지우고 아무것도 안 주면 포커스가 보이지 않는다. 막대는 얇아 링을 안쪽으로 둔다.
+              className="h-full flex-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-indigo-500"
               aria-label={`${p.label} · ${p.bookings} bookings · ${p.conversionRate}% conversion`}
             />
           ))}

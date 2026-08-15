@@ -106,7 +106,7 @@ export function CommandPalette() {
         aria-label="Shipment command palette"
         className="relative z-10 w-full max-w-lg overflow-hidden rounded-2xl border border-white/10 bg-zinc-900 shadow-2xl"
       >
-        <div className="flex h-14 items-center gap-2.5 border-b border-white/10 px-4">
+        <div className="flex h-14 items-center gap-2.5 border-b border-white/10 px-4 focus-within:ring-2 focus-within:ring-inset focus-within:ring-rose-400">
           <Search aria-hidden="true" className="size-4 shrink-0 text-zinc-400" />
           <input
             ref={inputRef}

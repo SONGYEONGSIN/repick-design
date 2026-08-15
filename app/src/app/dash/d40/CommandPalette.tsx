@@ -45,7 +45,7 @@ export default function CommandPalette({
         onClick={(e) => e.stopPropagation()}
         className={cx("w-full max-w-lg overflow-hidden rounded-2xl border shadow-lg", BORDER, "bg-white dark:bg-zinc-900")}
       >
-        <div className={cx("flex items-center gap-2.5 border-b px-4", BORDER)}>
+        <div className={cx("flex items-center gap-2.5 border-b px-4 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600", BORDER)}>
           <Search size={16} aria-hidden="true" className={TEXT_CAPTION} />
           <input
             ref={inputRef}
