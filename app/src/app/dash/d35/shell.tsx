@@ -431,7 +431,7 @@ export function CommandPalette({ onClose, onSelectHolding }: { onClose: () => vo
     <div className="fixed inset-0 z-[60] flex items-start justify-center px-4 pt-[12vh]" role="dialog" aria-modal="true" aria-label="Command palette">
       <button type="button" aria-label="Close" onClick={onClose} className="absolute inset-0 bg-zinc-900/40 backdrop-blur-sm" />
       <div className={cx("relative w-full max-w-lg overflow-hidden rounded-2xl border shadow-2xl", BORDER, "bg-white dark:bg-zinc-900")}>
-        <div className={cx("flex items-center gap-2.5 border-b px-4", BORDER)}>
+        <div className={cx("flex items-center gap-2.5 border-b px-4 focus-within:ring-2 focus-within:ring-inset focus-within:ring-violet-600", BORDER)}>
           <Search size={17} aria-hidden="true" className={TEXT_CAPTION} />
           <input
             ref={inputRef}

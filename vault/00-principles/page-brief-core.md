@@ -34,6 +34,7 @@ tags: [principles, brief]
 | 다크 보조텍스트 `dark:text-*-500/600` 금지 (하한 zinc-400) | static `no-dark-dim-text` | 하드페일 |
 | 무작위 이미지 서비스 금지 (picsum·loremflickr·source.unsplash 등) | static `no-random-image-host` | 하드페일 |
 | 전 폭 페이지·테이블 오버플로 0 (1280/1440/1920 + 모바일 390) | sweep | 하드페일 |
+| **포커스 표시** — Tab 으로 닿는 요소는 포커스 시 보이는 변화가 있어야 한다 | `focus` (sweep 브라우저에 얹음) | 하드페일 |
 | Lighthouse 접근성 **95 이상** | a11y | 하드페일 |
 | ↳ 승격된 감사 실패 — `heading-order` · `definition-list` · `target-size` · `skip-link` · `color-contrast` · `button-name` · `label-content-name-mismatch` | a11y | **하드페일** (점수와 무관) |
 | ↳ 그 밖의 실패 감사 id | a11y `detail` | **기록만** — 아래 참조 |
@@ -60,6 +61,10 @@ tags: [principles, brief]
 
 - 단일 `h1`, 헤딩 레벨 스킵 금지, 시맨틱 테이블(`caption`/`scope`/`aria-sort`)
 - 포커스 가시(`outline-none` 단독 금지 — 반드시 `focus-visible` 링과 함께)
+  **2026-08-16부터 게이트가 강제한다** — `focus` 관문이 sweep 의 브라우저에서 **실제 Tab 으로** 이동하며 포커스 전후의 보이는 픽셀(outline·그림자·배경·불투명도·클립·위치·변형·크기, SVG 는 자식의 fill/stroke 까지)이 달라지는지 본다. 소급 42작품 0건.
+  **정적 규칙으로는 못 잰다.** 표시가 **조상**에 있거나(`focus-within` 을 검색 행에 건다) **상태로 그려지는**(SVG 세그먼트가 `onFocus` 로 자기 채움을 바꾼다) 경우가 흔하고, 요소 하나의 클래스만 읽는 첫 시도는 14건 중 3건을 거짓으로 짚었다. Lighthouse 도 포커스 가시성은 **수동 점검 항목**이라 감사하지 않는다 — 그래서 11작품이 a11y 100 을 받고도 키보드 사용자에게 자기 위치를 안 알려줬다.
+  **스크립트 `.focus()` 로 재면 안 된다.** 같은 요소에서도 `:focus-visible` 스타일이 안 켜지는 경우가 있어(`/dash/d31` 버튼·`/dash/d37` SVG) 정상 작품을 위반으로 보고한다. 키보드 사용자가 하는 그대로 Tab 을 눌러야 한다.
+  **클래스가 붙어 있어도 안 그려질 수 있다** — 이것이 이 계측의 진짜 수확이다. v3식 `ring-2` + `ring-offset-*` 는 Tailwind v4 에서 링을 `oklab(0 0 0 / 0)`, 즉 **완전 투명**으로 칠하고, `outline-none` 을 앞에 둔 `focus-visible:outline` 은 `--tw-outline-style: none` 을 읽어 **스스로를 취소**한다. 둘 다 소스만 읽으면 정상으로 보인다 — **챔피언 `/` 와 `/dash/d37` 이 그 상태로 있었다.**
 - 대비 AA, **색만으로 의미 전달 금지**(색 + 텍스트/아이콘 병행)
 - 키보드 전 경로 도달, `prefers-reduced-motion` 게이팅(진입 `opacity:0` 잔존 금지)
 - **상태 분기 대비** — 정적·Lighthouse 게이트는 기본 렌더 뷰만 스캔한다. 필터·토글로만 도달하는 보조 상태의 텍스트도 대비 규칙을 동일 적용한다. 하한은 **표면 톤 조건부**다: 다크 보조텍스트 zinc-400 미만 금지 · 라이트는 **순백/거의 순백(zinc-50 이하) 표면에서 zinc-500 하한, muted 톤 표면(zinc-100 이상 — 세그먼트·탭 트랙·필 등)에서 zinc-600 하한**. zinc-500은 순백 위에서만 안전한 값이다(실측: `neutral-500` on `neutral-100` = 4.34:1로 하드게이트 미달 → `neutral-600` 7.18:1). 근거는 [[curation-criteria]] "Q10 판정". **다크 쪽 하한은 정적 규칙 `no-dark-dim-text`가 토큰 수준에서 강제한다** — Lighthouse는 호스트가 렌더한 스킴만 감사하므로 `dark:text-*-500`은 측정 시점에 따라 통과/실패가 갈린다(`auto-login-r1`이 라운드에서 100, 재측정에서 96 — [[curation-criteria]] "Q11 판정").

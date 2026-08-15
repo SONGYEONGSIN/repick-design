@@ -31,6 +31,49 @@ export function evaluateSweep(measurements) {
   return { pass: failures.length === 0, failures };
 }
 
+/**
+ * Focus must be visible, and only a render can say whether it is.
+ *
+ * `page-brief-core` §2 forbids a bare `outline-none`, and nothing measured it: the static rules do
+ * not know the class, and Lighthouse does not audit focus visibility (it is a manual check). Eleven
+ * works shipped a search input that removed the outline and put nothing back — `/dash/d32`'s topbar
+ * field scored a11y 100 while a keyboard user had no way to tell it was focused.
+ *
+ * A static rule cannot settle this. The indicator is frequently on an **ancestor** (`focus-within`
+ * on the search row) or drawn from **component state** (an SVG segment that paints its own highlight
+ * from an `onFocus` handler). Both are correct, and both are invisible to a check that reads one
+ * element's class list — the first attempt at exactly that reported fourteen violations of which
+ * three were false. So the question is asked of the browser instead, which sweep already has open.
+ *
+ * `before`/`after` are a *signature of visible paint* — outline plus the non-transparent box-shadow
+ * segments — across the element and three ancestors. Two earlier shapes of this check were wrong and
+ * both failed the same way, by scoring something that does not depend on focus:
+ *
+ * - **"is a ring present?"** passed every palette input on the dialog's own `shadow-xl`.
+ * - **"did any computed value change?"** failed working buttons, because `outline-width` flips
+ *   3px→1px on focus while `outline-style` stays `none` — a change that paints nothing.
+ * - **"is a ring present *now* but not before?"** still failed buttons carrying `shadow-sm`, whose
+ *   permanent drop shadow reads as a ring at both ends.
+ *
+ * Signatures fix all three: the drop shadow appears in `before` and `after` alike and cancels, while
+ * a focus ring adds a segment that was not there. The rule is that the visible paint must *differ*
+ * and the focused state must be non-empty.
+ */
+export function evaluateFocus(measurements) {
+  const failures = [];
+  for (const m of measurements) {
+    // 포커스 링은 뷰포트 폭에 걸리지 않는다. 폭마다 재면 같은 결함을 여섯 번 보고한다.
+    if (m.width !== 1440) continue;
+    for (const f of m.focusables ?? []) {
+      const painted = String(f.after ?? '').replace(/[#~]/g, '') !== '';
+      if (painted && f.after !== f.before) continue;
+      failures.push({ route: m.route, width: m.width, kind: 'focus-invisible', sel: f.sel,
+        detail: '포커스해도 보이는 표시가 생기지 않는다 — outline-none 을 걸었으면 링을 함께 준다 (page-brief-core §2)' });
+    }
+  }
+  return { pass: failures.length === 0, failures };
+}
+
 export async function runSweep(baseUrl, routes, widths = sweepWidths()) {
   const { chromium } = await import('playwright');
   const browser = await chromium.launch({
@@ -52,7 +95,7 @@ export async function runSweep(baseUrl, routes, widths = sweepWidths()) {
       await page.setViewportSize({ width, height: 900 });
       await page.goto(baseUrl + route, { waitUntil: 'load' });
       await page.waitForTimeout(500); // 차트/폰트 렌더 안정화 (dev HMR 소켓 때문에 networkidle 대신 load 사용)
-      const m = await page.evaluate(() => {
+      const m = await page.evaluate(async () => {
         const doc = document.documentElement;
         const els = [...document.querySelectorAll('table, [class*="overflow-x"]')];
         // 텍스트를 직접 가진 요소의 계산된 굵기 — 클래스가 없어 preflight 400으로 그려지는
@@ -67,7 +110,50 @@ export async function runSweep(baseUrl, routes, widths = sweepWidths()) {
           .filter((el) => [...el.childNodes].some((n) => n.nodeType === 3 && n.textContent.trim()))
           .map((el) => Number(getComputedStyle(el).fontWeight))
           .filter((n) => Number.isFinite(n));
+        // 포커스 표시 실측. 요소를 실제로 포커스해 보고 **보이는** 링이 자기 자신이나 가까운
+        // 조상에 새로 생기는지 본다. 판정은 여기서 하지 않는다 — `evaluateFocus`가 안다.
+        const ringSig = (el) => {
+          const paint = (n) => {
+            const st = getComputedStyle(n);
+            const ol = st.outlineStyle !== 'none' && parseFloat(st.outlineWidth) > 0
+              ? `o:${st.outlineStyle}:${st.outlineWidth}:${st.outlineColor}` : '';
+            // 보이는 그림자 조각만. 투명 조각과 0폭 조각은 서명에서 뺀다 — 그것들은 늘 있다.
+            const sh = (st.boxShadow && st.boxShadow !== 'none' ? st.boxShadow : '')
+              .split(/,(?![^(]*\))/)
+              .filter((x) => !/rgba\(0, 0, 0, 0\)/.test(x) && !/0px 0px 0px 0px/.test(x))
+              .join('|');
+            // 포커스 표시는 링만이 아니다. 스킵 링크는 `sr-only`에서 풀려 **보이게** 되고, SVG 세그먼트는
+            // `onFocus`가 세운 상태로 채움을 바꿔 그린다. 둘 다 정당한 표시인데 outline·box-shadow 만
+            // 보면 거짓 위반이 된다 — 소급 스캔 39건 중 33건이 이 둘이었다. 포커스로 달라지는 픽셀을
+            // 넓게 서명한다: 크기·위치·클립·배경·불투명도·변형, 그리고 SVG 채움까지.
+            const box = n.getBoundingClientRect();
+            return [ol, sh, st.backgroundColor, st.opacity, st.clipPath, st.position, st.transform,
+              st.fill, st.stroke, st.strokeWidth, Math.round(box.width), Math.round(box.height)].join(':');
+          };
+          let n = el, out = [];
+          for (let i = 0; i < 4 && n; i++, n = n.parentElement) out.push(paint(n));
+          // 자식이 대신 그리는 경우(SVG 세그먼트 하이라이트)까지 본다.
+          const kids = [...el.querySelectorAll('*')].slice(0, 20).map((k) => {
+            const s2 = getComputedStyle(k);
+            return [s2.fill, s2.stroke, s2.strokeWidth, s2.opacity, s2.backgroundColor].join(':');
+          });
+          return out.join('~') + '||' + kids.join('~');
+        };
+        // 여기서는 **미포커스 서명만** 뜬다. 포커스는 아래 Playwright 쪽에서 실제 Tab 으로 준다.
+        const FOCUSABLE = 'a[href], button:not([disabled]), input:not([disabled]), select, textarea, [tabindex]:not([tabindex="-1"])';
+        const focusables = [];
+        if (innerWidth === 1440) {
+          [...document.querySelectorAll(FOCUSABLE)]
+            .filter((el) => el.offsetParent !== null || getComputedStyle(el).position === 'fixed')
+            .slice(0, 40)
+            .forEach((el, i) => {
+              el.setAttribute('data-sweep-i', String(i));
+              focusables.push({ sel: `${el.tagName.toLowerCase()}#${i}`, before: ringSig(el), after: null });
+            });
+          window.__sweepSig = ringSig;
+        }
         return {
+          focusables,
           fontWeights: [...new Set(weights)],
           scrollWidth: doc.scrollWidth,
           clientWidth: doc.clientWidth,
@@ -78,6 +164,28 @@ export async function runSweep(baseUrl, routes, widths = sweepWidths()) {
           })),
         };
       });
+      // 포커스는 **실제 Tab 으로** 준다. 스크립트 `el.focus()` 는 같은 요소에서도 `:focus-visible`
+      // 스타일을 안 켜는 경우가 있어(`/dash/d31` 버튼과 `/dash/d37` SVG 가 그랬다 — Tab 으로는
+      // `outline: solid 2px` 가 멀쩡히 나온다) 정상 작품을 위반으로 보고한다. 키보드 사용자가 하는
+      // 그대로가 유일하게 믿을 수 있는 계측이다.
+      if (width === 1440 && m.focusables?.length) {
+        const seen = new Map();
+        for (let i = 0; i < m.focusables.length + 8 && seen.size < m.focusables.length; i++) {
+          await page.keyboard.press('Tab');
+          const hit = await page.evaluate(() => {
+            const el = document.activeElement;
+            if (!el || el === document.body) return null;
+            const idx = el.getAttribute('data-sweep-i');
+            return idx === null ? null : { idx: Number(idx), sig: window.__sweepSig(el) };
+          });
+          if (hit && !seen.has(hit.idx)) seen.set(hit.idx, hit.sig);
+        }
+        // Tab 으로 도달 못 한 요소는 판정 대상이 아니다 — 키보드로 못 가는 것은 다른 결함이고,
+        // 이 계측이 답할 질문이 아니다.
+        m.focusables = m.focusables
+          .map((f, i) => (seen.has(i) ? { ...f, after: seen.get(i) } : null))
+          .filter(Boolean);
+      }
       measurements.push({ route, width, ...m });
     }
   }
