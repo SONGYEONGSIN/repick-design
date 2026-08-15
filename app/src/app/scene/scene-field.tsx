@@ -36,7 +36,23 @@ import {
  * If WebGL2 is unavailable the effect returns and leaves an empty transparent layer.
  */
 
+/**
+ * Particle budget, split by input type.
+ *
+ * The vertex shader runs once per particle per frame, so the count *is* this page's dominant cost —
+ * clamping `devicePixelRatio` does nothing about it. Phones were drawing all 18k into a 390px
+ * viewport, where the same count reads **denser** than on desktop because the frame is a fraction of
+ * the area. Cutting it is not a downgrade; it holds the apparent density roughly constant.
+ *
+ * The branch reads `pointer: coarse`, not a width breakpoint: a narrow desktop window still has a
+ * real GPU, and reading width would drop the count on every resize.
+ *
+ * The mobile figure is the canon's measured one (`brief-scene` §5-2, from `/motion-pilot`) rather
+ * than a ratio of the desktop budget — the target is set by the 390px viewport both pages draw into,
+ * not by whatever this page happens to spend on desktop.
+ */
 const COUNT = 18000;
+const MOBILE_COUNT = 11000;
 /**
  * Share of the field that never joins a silhouette. brief-scene measures the reference at ~3.5%;
  * the value is nudged up because this scene's states are sparser than the reference's, and the
@@ -314,36 +330,40 @@ export default function SceneField() {
     gl.linkProgram(prog);
     gl.useProgram(prog);
 
+    // 초기화 시 한 번만 결정한다 — 아래 버퍼가 전부 이 수로 만들어지므로, 리사이즈로 바뀌면
+    // drawArrays 범위와 어긋난다 (brief-scene §5-2).
+    const N = window.matchMedia("(pointer: coarse)").matches ? MOBILE_COUNT : COUNT;
+
     const rand = mulberry32(20260801);
-    const fallback = () => scatter(COUNT, rand);
-    const dust = dustVortex(COUNT, rand);
-    const rings = orbitalField(COUNT, rand);
-    const shoe = sneaker(COUNT, rand);
-    const mark = wordmark("KEPT", COUNT, rand);
-    const A = flatten(dust, COUNT);
-    const B = flatten(rings, COUNT);
-    const C = flatten(shoe.length ? shoe : fallback(), COUNT);
-    const D = flatten(mark.length ? mark : fallback(), COUNT);
+    const fallback = () => scatter(N, rand);
+    const dust = dustVortex(N, rand);
+    const rings = orbitalField(N, rand);
+    const shoe = sneaker(N, rand);
+    const mark = wordmark("KEPT", N, rand);
+    const A = flatten(dust, N);
+    const B = flatten(rings, N);
+    const C = flatten(shoe.length ? shoe : fallback(), N);
+    const D = flatten(mark.length ? mark : fallback(), N);
 
     // The trailing slice keeps a wide scatter home in all four buffers, so it is untouched by the
     // morph and the frame is never empty between states.
-    const drift = ambientDrift(COUNT, rand);
-    const ambStart = Math.round(COUNT * (1 - AMBIENT_SHARE));
-    const amb = new Float32Array(COUNT);
-    for (let i = ambStart; i < COUNT; i++) {
+    const drift = ambientDrift(N, rand);
+    const ambStart = Math.round(N * (1 - AMBIENT_SHARE));
+    const amb = new Float32Array(N);
+    for (let i = ambStart; i < N; i++) {
       amb[i] = 1;
       const home = drift[i];
       for (const buf of [A, B, C, D]) buf.set(home, i * 3);
     }
 
-    const col = new Float32Array(COUNT * 3);
-    const seed = new Float32Array(COUNT);
-    const rim = new Float32Array(COUNT);
+    const col = new Float32Array(N * 3);
+    const seed = new Float32Array(N);
+    const rim = new Float32Array(N);
     // sampleRaster emits its boundary shell first, so the same leading indices are rim points in
     // every rasterised state — which is what lets colour and size be baked once without breaking the
     // particle-to-particle correspondence the morph relies on.
-    const rimSpan = COUNT * RIM_SHARE;
-    for (let i = 0; i < COUNT; i++) {
+    const rimSpan = N * RIM_SHARE;
+    for (let i = 0; i < N; i++) {
       const t = Math.pow(Math.max(0, 1 - i / rimSpan), 0.7);
       const pal = rand() < t ? RIM_PALETTE : CORE_PALETTE;
       col.set(pal[Math.floor(rand() * pal.length)], i * 3);
@@ -458,7 +478,7 @@ export default function SceneField() {
       gl.uniform2f(uOrbit, orbiting ? pt[0] * 0.5 : 0, orbiting ? -pt[1] * 0.28 : 0);
       gl.uniform1f(uIdle, idle);
       gl.uniform1f(uGather, gather);
-      gl.drawArrays(gl.POINTS, 0, COUNT);
+      gl.drawArrays(gl.POINTS, 0, N);
 
       // Keep the loop alive only while something is actually moving. Frozen, it stops after this
       // frame and the canvas costs nothing until the next scroll or pointer event.
