@@ -136,10 +136,21 @@ export function normalizeTypes(errors, files) {
  * four was down to a handful of works (`heading-order` 1, `definition-list` 1, `target-size` 1,
  * `skip-link` 2); those five were fixed first, taking the catalogue to zero.
  *
- * `color-contrast` (6 works), `button-name` (5) and `label-content-name-mismatch` (3) stay
- * record-only for now — same rule, they simply have not been fixed down to zero yet.
+ * Second wave (2026-08-16): `color-contrast` (was 6 works), `button-name` (5) and
+ * `label-content-name-mismatch` (3) joined after the same procedure — twelve works fixed first, then
+ * a full dual-preset rescan confirmed zero, then the rule. These three were the ones that had been
+ * left record-only precisely because they had not been driven to zero yet; nothing about the rule
+ * changed, only the count.
+ *
+ * `button-name` was one defect repeated five times: a search control whose label is `sm:inline`, so
+ * below that breakpoint only an `aria-hidden` icon remains and the accessible name is empty. The fix
+ * is `sr-only sm:not-sr-only`, never `aria-label` — an added label disagrees with the visible ⌘K and
+ * simply moves the failure to `label-content-name-mismatch`.
  */
-export const A11Y_HARD_AUDITS = new Set(['heading-order', 'definition-list', 'target-size', 'skip-link']);
+export const A11Y_HARD_AUDITS = new Set([
+  'heading-order', 'definition-list', 'target-size', 'skip-link',
+  'color-contrast', 'button-name', 'label-content-name-mismatch',
+]);
 
 export function normalizeA11y(result) {
   if (result === 'unavailable') return { name: 'a11y', pass: true, detail: 'unavailable', violations: [] };

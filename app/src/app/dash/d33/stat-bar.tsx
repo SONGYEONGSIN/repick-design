@@ -31,7 +31,7 @@ export function StatBar({ data }: { data: StatBarData }) {
       <div className="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
         <div className="min-w-0 flex-1">
           <div className="mb-3 flex items-center gap-2">
-            <h2 id="pipeline-stats-heading" className="text-[11px] font-semibold tracking-wide text-zinc-400 uppercase">
+            <h2 id="pipeline-stats-heading" className="text-[11px] font-semibold tracking-wide text-zinc-500 uppercase">
               Pipeline summary
             </h2>
             <span className="inline-flex items-center gap-1 rounded-full border border-zinc-200 bg-zinc-50 px-2 py-0.5 text-[11px] font-medium text-zinc-500">
@@ -46,13 +46,13 @@ export function StatBar({ data }: { data: StatBarData }) {
                 key={s.label}
                 className={`min-w-0 xl:px-5 xl:first:pl-0 ${i > 0 ? "xl:border-l xl:border-zinc-200" : ""}`}
               >
-                <dt className="truncate text-[11px] font-medium tracking-wide text-zinc-400 uppercase">
+                <dt className="truncate text-[11px] font-medium tracking-wide text-zinc-500 uppercase">
                   {s.label}
                 </dt>
                 <dd className="mt-1 text-lg font-semibold tracking-tight text-zinc-900 tabular-nums">
                   {s.value}
                 </dd>
-                <dd className="mt-0.5 text-[11px] text-zinc-400 tabular-nums">{s.sub}</dd>
+                <dd className="mt-0.5 text-[11px] text-zinc-500 tabular-nums">{s.sub}</dd>
               </div>
             ))}
           </dl>

@@ -66,10 +66,10 @@ export function ForecastChart({
   return (
     <div className="w-full">
       <div className="mb-1.5 flex items-baseline justify-between">
-        <span className="text-[11px] font-medium tracking-wide text-zinc-400 uppercase">
+        <span className="text-[11px] font-medium tracking-wide text-zinc-500 uppercase">
           Weighted forecast trend
         </span>
-        <span className="text-[11px] text-zinc-400">
+        <span className="text-[11px] text-zinc-500">
           High {max}
           {unit} · Low {min}
           {unit}

@@ -97,7 +97,7 @@ export default function OrgBreakdown() {
                 </span>
                 <ChevronDown
                   aria-hidden="true"
-                  className={`mt-1.5 h-5 w-5 flex-none text-zinc-500 transition-transform motion-reduce:transition-none ${
+                  className={`mt-1.5 h-5 w-5 flex-none text-zinc-400 transition-transform motion-reduce:transition-none ${
                     isOpen ? "rotate-180" : ""
                   }`}
                 />

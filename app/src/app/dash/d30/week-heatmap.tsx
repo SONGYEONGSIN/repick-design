@@ -36,7 +36,7 @@ export function WeekHeatmap({ eventTypeId, eventTypeLabel }: WeekHeatmapProps) {
           role="status"
           className="pointer-events-none absolute -top-1 right-0 z-10 rounded-lg border border-zinc-200 bg-white px-2.5 py-1.5 shadow-md"
         >
-          <p className="whitespace-nowrap text-[11px] font-medium text-zinc-400">
+          <p className="whitespace-nowrap text-[11px] font-medium text-zinc-500">
             {HEAT_DAYS[active.dayIdx]} {HEAT_HOURS[active.hourIdx]}:00
           </p>
           <p className="whitespace-nowrap text-[13px] font-semibold tabular-nums text-zinc-900">
@@ -61,7 +61,7 @@ export function WeekHeatmap({ eventTypeId, eventTypeLabel }: WeekHeatmapProps) {
               <th
                 key={day}
                 scope="col"
-                className="pb-1 text-center text-[11px] font-semibold uppercase tracking-wide text-zinc-400"
+                className="pb-1 text-center text-[11px] font-semibold uppercase tracking-wide text-zinc-500"
               >
                 {day}
               </th>
@@ -73,7 +73,7 @@ export function WeekHeatmap({ eventTypeId, eventTypeLabel }: WeekHeatmapProps) {
             <tr key={hour}>
               <th
                 scope="row"
-                className="w-10 pr-1 text-right text-[11px] tabular-nums font-normal text-zinc-400"
+                className="w-10 pr-1 text-right text-[11px] tabular-nums font-normal text-zinc-500"
               >
                 {hour}:00
               </th>
@@ -95,7 +95,9 @@ export function WeekHeatmap({ eventTypeId, eventTypeLabel }: WeekHeatmapProps) {
                       }}
                       className={cn(
                         "flex h-9 w-full min-w-9 items-center justify-center rounded-md text-[11px] font-medium tabular-nums transition-transform focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 motion-safe:hover:scale-[1.06] motion-reduce:transition-none",
-                        intensity > 0.55 ? "text-white" : "text-zinc-700",
+                        // 흰 글자는 이 램프 어디서도 AA 를 못 넘는다 — 최대 알파(0.70)에서도 3.41:1 이다.
+                        // 전 구간을 넘는 것은 zinc-900 뿐이라(최악 5.19:1) 강도 분기를 없앤다.
+                        "text-zinc-900",
                         isActive && "ring-2 ring-indigo-500",
                       )}
                     >

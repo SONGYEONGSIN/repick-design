@@ -78,7 +78,7 @@ export function Sidebar({
         <nav className="flex-1 space-y-6 overflow-y-auto px-3 py-6" aria-label="Main menu">
           {NAV_SECTIONS.map((section) => (
             <div key={section.label}>
-              <h3 className="px-3 text-[11px] font-semibold tracking-wide text-zinc-400 uppercase">
+              <h3 className="px-3 text-[11px] font-semibold tracking-wide text-zinc-500 uppercase">
                 {section.label}
               </h3>
               <ul className="mt-2 space-y-0.5">
@@ -118,7 +118,7 @@ export function Sidebar({
             <button
               type="button"
               aria-label="Settings"
-              className="inline-flex h-11 w-11 items-center justify-center rounded-lg text-zinc-400 hover:bg-zinc-100 hover:text-zinc-700 focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 focus-visible:outline-none"
+              className="inline-flex h-11 w-11 items-center justify-center rounded-lg text-zinc-500 hover:bg-zinc-100 hover:text-zinc-700 focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 focus-visible:outline-none"
             >
               <Settings className="h-4 w-4" aria-hidden="true" />
             </button>
@@ -149,7 +149,7 @@ function WorkspaceSwitcher() {
           <span className="block truncate text-sm font-semibold text-zinc-900">{active}</span>
           <span className="block text-[11px] text-zinc-500">Waypoint</span>
         </span>
-        <ChevronsUpDown className="h-3.5 w-3.5 shrink-0 text-zinc-400" aria-hidden="true" />
+        <ChevronsUpDown className="h-3.5 w-3.5 shrink-0 text-zinc-500" aria-hidden="true" />
       </button>
 
       {open ? (

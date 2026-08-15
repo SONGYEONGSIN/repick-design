@@ -87,11 +87,11 @@ export default function WorkflowListRail({ selectedId, onSelect, open, onClose }
 
         <div className="shrink-0 space-y-2.5 px-4 pt-3 pb-3 sm:px-5">
           <div className="flex items-center justify-between text-xs">
-            <span className="text-zinc-500">
+            <span className="text-zinc-400">
               Executions (30d){" "}
               <span className="font-medium tabular-nums text-zinc-200">{formatNumber(overview.total)}</span>
             </span>
-            <span className="text-zinc-500">
+            <span className="text-zinc-400">
               Success rate{" "}
               <span className="font-medium tabular-nums text-emerald-400">{formatPercent(overview.successRate)}</span>
             </span>
@@ -105,7 +105,7 @@ export default function WorkflowListRail({ selectedId, onSelect, open, onClose }
           </label>
           <div className="relative">
             <Search
-              className="pointer-events-none absolute top-1/2 left-2.5 size-3.5 -translate-y-1/2 text-zinc-500"
+              className="pointer-events-none absolute top-1/2 left-2.5 size-3.5 -translate-y-1/2 text-zinc-400"
               aria-hidden="true"
             />
             <input
@@ -114,14 +114,14 @@ export default function WorkflowListRail({ selectedId, onSelect, open, onClose }
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Search by name or category"
-              className="h-10 w-full rounded-lg border border-white/10 bg-white/[0.03] pr-3 pl-8 text-sm text-zinc-200 placeholder:text-zinc-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-400"
+              className="h-10 w-full rounded-lg border border-white/10 bg-white/[0.03] pr-3 pl-8 text-sm text-zinc-200 placeholder:text-zinc-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-400"
             />
           </div>
 
           <StatusFilter value={statusFilter} onChange={setStatusFilter} counts={statusCounts} />
 
           <div className="flex items-center justify-end gap-1.5">
-            <label htmlFor="workflow-sort" className="text-xs text-zinc-500">
+            <label htmlFor="workflow-sort" className="text-xs text-zinc-400">
               Sort
             </label>
             <select
@@ -144,7 +144,7 @@ export default function WorkflowListRail({ selectedId, onSelect, open, onClose }
           className={`min-h-0 flex-1 overflow-y-auto px-2 pb-2 sm:px-3 ${scrollStyles.thinScroll}`}
         >
           {filteredSorted.length === 0 ? (
-            <p className="px-2.5 py-8 text-center text-sm text-zinc-500">No workflows match your filters.</p>
+            <p className="px-2.5 py-8 text-center text-sm text-zinc-400">No workflows match your filters.</p>
           ) : (
             <ul className="space-y-0.5">
               {filteredSorted.map((w) => (

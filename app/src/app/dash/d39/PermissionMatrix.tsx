@@ -285,7 +285,9 @@ function ToggleCell({
       type="button"
       role="switch"
       aria-checked={allowed}
-      aria-label={`${permissionLabel} for ${roleLabel}: ${allowed ? "Allowed" : "Denied"}`}
+      // 셀에 보이는 글자는 Yes/No 인데 이름은 Allowed/Denied 라 어긋났다.
+          // 보이는 낱말을 앞머리로 두고 뜻을 뒤에 붙인다.
+          aria-label={`${permissionLabel} for ${roleLabel}: ${allowed ? "Yes, allowed" : "No, denied"}`}
       onClick={() => onToggle(permId, roleId)}
       onKeyDown={(e) => onKeyDown(e, permId, roleId)}
       className={cx(

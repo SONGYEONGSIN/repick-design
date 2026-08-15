@@ -34,7 +34,7 @@ export function KpiCard({
   return (
     <article className="flex min-w-0 flex-col gap-3 rounded-xl border border-zinc-200 bg-white p-4 shadow-sm">
       <div className="flex items-center justify-between gap-2">
-        <p className="text-[11px] font-semibold uppercase tracking-wide text-zinc-400">
+        <p className="text-[11px] font-semibold uppercase tracking-wide text-zinc-500">
           {label}
         </p>
         <span
@@ -63,7 +63,7 @@ export function KpiCard({
           ) : null}
           {deltaText}
         </span>
-        {helpText ? <span className="truncate text-[11.5px] text-zinc-400">{helpText}</span> : null}
+        {helpText ? <span className="truncate text-[11.5px] text-zinc-500">{helpText}</span> : null}
       </div>
     </article>
   );

@@ -24,7 +24,7 @@ export default function Card({ id, headingId, title, description, action, childr
             <h2 id={headingId} className="text-sm font-semibold text-zinc-100">
               {title}
             </h2>
-            {description && <p className="mt-0.5 text-xs text-zinc-500">{description}</p>}
+            {description && <p className="mt-0.5 text-xs text-zinc-400">{description}</p>}
           </div>
           {action}
         </div>

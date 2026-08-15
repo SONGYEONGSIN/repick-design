@@ -54,7 +54,7 @@ export function BookingTrendChart({ data }: BookingTrendChartProps) {
           )}
           style={{ left: `${active ? (active.x / WIDTH) * 100 : 50}%` }}
         >
-          <p className="whitespace-nowrap text-[11px] font-medium text-zinc-400">
+          <p className="whitespace-nowrap text-[11px] font-medium text-zinc-500">
             {active?.label}
           </p>
           <p className="whitespace-nowrap text-[13px] font-semibold tabular-nums text-zinc-900">
@@ -131,7 +131,7 @@ export function BookingTrendChart({ data }: BookingTrendChartProps) {
         </div>
       </div>
 
-      <div className="mt-1 flex text-[11px] tabular-nums text-zinc-400">
+      <div className="mt-1 flex text-[11px] tabular-nums text-zinc-500">
         {points.map((p, i) => (
           <span key={p.dateISO} className="flex-1 text-center">
             {i % labelStep === 0 ? p.label : ""}

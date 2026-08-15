@@ -37,7 +37,7 @@ export default function Topbar({ onOpenPalette, onOpenMobileNav }: { onOpenPalet
         className={cx("ml-1 flex h-11 flex-1 items-center gap-2 rounded-lg border pl-3 pr-2.5 text-left text-sm sm:max-w-sm", BORDER, "bg-zinc-900 hover:bg-zinc-800", TEXT_CAPTION, TRANSITION, FOCUS_RING)}
       >
         <Search size={16} aria-hidden="true" className="shrink-0" />
-        <span className="hidden truncate sm:inline">Search incidents, services, engineers</span>
+        <span className="sr-only truncate sm:not-sr-only sm:inline">Search incidents, services, engineers</span>
         <span aria-hidden="true" className={cx("ml-auto hidden shrink-0 rounded-md border px-1.5 py-0.5 text-[11px] font-medium sm:inline-flex", BORDER, "bg-zinc-950", TEXT_CAPTION)}>
           &#8984;K
         </span>

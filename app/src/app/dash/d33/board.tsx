@@ -52,7 +52,7 @@ function BoardColumn({ stage, deals }: { stage: Stage; deals: Deal[] }) {
       {/* Card stack — internal scroll on lg (thin scrollbar), natural expansion on mobile */}
       <div className="flex flex-col gap-2.5 p-2.5 lg:min-h-0 lg:flex-1 lg:overflow-y-auto lg:[scrollbar-width:thin]">
         {deals.length === 0 ? (
-          <p className="rounded-lg border border-dashed border-zinc-200 px-3 py-6 text-center text-xs text-zinc-400">
+          <p className="rounded-lg border border-dashed border-zinc-200 px-3 py-6 text-center text-xs text-zinc-500">
             No deals match the current filters.
           </p>
         ) : (

@@ -104,7 +104,7 @@ function OwnerFilter({ value, onChange }: { value: string; onChange: (id: string
         aria-expanded={open}
         className="inline-flex h-11 items-center gap-2 rounded-lg border border-zinc-200 bg-white px-3 text-sm font-medium text-zinc-700 hover:bg-zinc-50 focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 focus-visible:outline-none"
       >
-        <Users className="h-4 w-4 text-zinc-400" aria-hidden="true" />
+        <Users className="h-4 w-4 text-zinc-500" aria-hidden="true" />
         <span className="whitespace-nowrap">Rep: {label}</span>
       </button>
       {open ? (
@@ -179,7 +179,7 @@ function SortMenu({
         aria-expanded={open}
         className="inline-flex h-11 items-center gap-2 rounded-lg border border-zinc-200 bg-white px-3 text-sm font-medium text-zinc-700 hover:bg-zinc-50 focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 focus-visible:outline-none"
       >
-        <ArrowUpDown className="h-4 w-4 text-zinc-400" aria-hidden="true" />
+        <ArrowUpDown className="h-4 w-4 text-zinc-500" aria-hidden="true" />
         <span className="whitespace-nowrap">Sort: {active.label}</span>
       </button>
       {open ? (
