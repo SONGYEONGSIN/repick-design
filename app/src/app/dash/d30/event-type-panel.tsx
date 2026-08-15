@@ -26,7 +26,7 @@ export function EventTypePanel({ period, selected, onSelect }: EventTypePanelPro
         <span className="h-2 w-2 shrink-0 rounded-full bg-zinc-400" aria-hidden="true" />
         <span className="min-w-0 flex-1">
           <span className="block truncate text-[13px] font-medium text-zinc-900">All</span>
-          <span className="block text-[11.5px] text-zinc-500">All event types</span>
+          <span className="block text-[11.5px] text-zinc-600">All event types</span>
         </span>
         <span className="shrink-0 text-[13px] font-semibold tabular-nums text-zinc-900">
           {formatNumber(total)}
@@ -55,9 +55,9 @@ export function EventTypePanel({ period, selected, onSelect }: EventTypePanelPro
               <span className="block truncate text-[13px] font-medium text-zinc-900">
                 {t.name}
               </span>
-              <span className="flex items-center gap-1 text-[11.5px] text-zinc-500">
+              <span className="flex items-center gap-1 text-[11.5px] text-zinc-600">
                 <DeltaIcon
-                  className={cn("h-3 w-3", t.conversionRate >= 45 ? "text-emerald-500" : "text-zinc-400")}
+                  className={cn("h-3 w-3", t.conversionRate >= 45 ? "text-emerald-500" : "text-zinc-500")}
                   aria-hidden="true"
                 />
                 {formatPercent(t.conversionRate)} conversion · {t.durationMin} min

@@ -57,7 +57,7 @@ export function KpiRow() {
             </div>
             <p className="mt-3 text-2xl font-semibold tabular-nums text-zinc-900">
               {formatNumber(item.value)}
-              <span className="ml-1 text-sm font-medium text-zinc-400">{item.unit}</span>
+              <span className="ml-1 text-sm font-medium text-zinc-500">{item.unit}</span>
             </p>
           </Card>
         );

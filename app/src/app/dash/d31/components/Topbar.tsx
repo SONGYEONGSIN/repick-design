@@ -21,11 +21,11 @@ export default function Topbar({ onMenuClick }: TopbarProps) {
 
       <button
         type="button"
-        className="flex min-h-[44px] flex-1 items-center gap-2.5 rounded-lg border border-white/10 bg-white/[0.03] px-3 text-sm text-zinc-500 transition-colors hover:border-white/20 hover:text-zinc-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-400 sm:max-w-xs"
+        className="flex min-h-[44px] flex-1 items-center gap-2.5 rounded-lg border border-white/10 bg-white/[0.03] px-3 text-sm text-zinc-400 transition-colors hover:border-white/20 hover:text-zinc-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-400 sm:max-w-xs"
       >
         <Search className="size-4 shrink-0" aria-hidden="true" />
         <span className="min-w-0 flex-1 truncate text-left">Search workflows, executions, integrations</span>
-        <kbd className="hidden shrink-0 items-center gap-0.5 rounded border border-white/10 bg-white/[0.05] px-1.5 py-0.5 text-[10px] font-medium text-zinc-500 sm:inline-flex">
+        <kbd className="hidden shrink-0 items-center gap-0.5 rounded border border-white/10 bg-white/[0.05] px-1.5 py-0.5 text-[10px] font-medium text-zinc-400 sm:inline-flex">
           ⌘K
         </kbd>
       </button>
@@ -51,7 +51,7 @@ export default function Topbar({ onMenuClick }: TopbarProps) {
             />
           </summary>
           <div className="absolute right-0 z-40 mt-2 w-72 rounded-xl border border-white/10 bg-zinc-900 p-1.5 text-sm shadow-xl">
-            <p className="px-2.5 py-2 text-[11px] font-medium uppercase tracking-wider text-zinc-500">3 notifications</p>
+            <p className="px-2.5 py-2 text-[11px] font-medium uppercase tracking-wider text-zinc-400">3 notifications</p>
             <p className="rounded-lg px-2.5 py-2 text-zinc-300">
               Failure rate spiked in the Stripe payment webhook workflow.
             </p>
@@ -69,10 +69,10 @@ export default function Topbar({ onMenuClick }: TopbarProps) {
               height={32}
               className="size-8 rounded-full object-cover ring-1 ring-white/10"
             />
-            <ChevronDown className="hidden size-3.5 text-zinc-500 sm:block" aria-hidden="true" />
+            <ChevronDown className="hidden size-3.5 text-zinc-400 sm:block" aria-hidden="true" />
           </summary>
           <div className="absolute right-0 z-40 mt-2 w-48 rounded-xl border border-white/10 bg-zinc-900 p-1.5 text-sm shadow-xl">
-            <p className="truncate px-2.5 py-1.5 text-xs text-zinc-500">dowoon@acme.io</p>
+            <p className="truncate px-2.5 py-1.5 text-xs text-zinc-400">dowoon@acme.io</p>
             <button
               type="button"
               className="flex min-h-[36px] w-full items-center rounded-md px-2.5 text-left text-zinc-300 hover:bg-white/[0.06] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-400"

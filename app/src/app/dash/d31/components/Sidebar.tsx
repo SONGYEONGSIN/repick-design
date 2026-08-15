@@ -60,7 +60,7 @@ function SidebarContent() {
       <details className="mx-3 mb-2 rounded-lg border border-white/10 bg-white/[0.03] open:bg-white/[0.05]">
         <summary className="flex min-h-[44px] cursor-pointer list-none items-center justify-between gap-2 rounded-lg px-3 py-2 text-sm font-medium text-zinc-200 focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-indigo-400 [&::-webkit-details-marker]:hidden">
           <span className="min-w-0 truncate">Acme Workspace</span>
-          <ChevronsUpDown className="size-3.5 shrink-0 text-zinc-500" aria-hidden="true" />
+          <ChevronsUpDown className="size-3.5 shrink-0 text-zinc-400" aria-hidden="true" />
         </summary>
         <div className="border-t border-white/10 p-1.5 text-sm">
           <button
@@ -81,7 +81,7 @@ function SidebarContent() {
       <nav aria-label="Main menu" className="flex-1 space-y-5 overflow-y-auto px-3 pb-4">
         {NAV_SECTIONS.map((section) => (
           <div key={section.label}>
-            <h2 className="px-2.5 text-[11px] font-medium uppercase tracking-wider text-zinc-600">
+            <h2 className="px-2.5 text-[11px] font-medium uppercase tracking-wider text-zinc-400">
               {section.label}
             </h2>
             <ul className="mt-1.5 space-y-0.5">
@@ -117,9 +117,9 @@ function SidebarContent() {
           />
           <span className="min-w-0 flex-1">
             <span className="block truncate text-sm font-medium text-zinc-200">Dowoon Kim</span>
-            <span className="block truncate text-xs text-zinc-500">dowoon@acme.io</span>
+            <span className="block truncate text-xs text-zinc-400">dowoon@acme.io</span>
           </span>
-          <ChevronsUpDown className="size-3.5 shrink-0 text-zinc-500" aria-hidden="true" />
+          <ChevronsUpDown className="size-3.5 shrink-0 text-zinc-400" aria-hidden="true" />
         </summary>
         <div className="mt-1 space-y-0.5 border-t border-white/10 pt-1.5 text-sm">
           <button

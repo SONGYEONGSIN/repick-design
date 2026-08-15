@@ -65,7 +65,7 @@ export default function DashboardClient() {
             <h2 id="execution-log-heading" className="text-sm font-semibold text-zinc-100">
               Execution history
             </h2>
-            <p className="mt-0.5 truncate text-xs text-zinc-500">Recent runs of {workflow.name} — click a header to sort</p>
+            <p className="mt-0.5 truncate text-xs text-zinc-400">Recent runs of {workflow.name} — click a header to sort</p>
             <div className="mt-3">
               <ExecutionLogTable workflowId={workflow.id} />
             </div>

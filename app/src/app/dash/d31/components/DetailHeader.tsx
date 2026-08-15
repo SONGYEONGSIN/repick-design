@@ -34,11 +34,11 @@ export default function DetailHeader({ workflow, period, onPeriodChange, onOpenL
         <div className="min-w-0 flex-1">
           <div className="flex flex-wrap items-center gap-2">
             <StatusBadge status={workflow.lastStatus} />
-            <span className="text-xs text-zinc-500">{workflow.category}</span>
+            <span className="text-xs text-zinc-400">{workflow.category}</span>
             <span aria-hidden="true" className="text-zinc-700">
               ·
             </span>
-            <span className="font-mono text-xs tabular-nums text-zinc-500">{workflow.id}</span>
+            <span className="font-mono text-xs tabular-nums text-zinc-400">{workflow.id}</span>
           </div>
           <h2 className="mt-1.5 text-xl font-semibold tracking-tight text-balance text-zinc-50 sm:text-2xl xl:truncate">
             {workflow.name}

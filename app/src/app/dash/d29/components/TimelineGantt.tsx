@@ -43,7 +43,7 @@ export function TimelineGantt() {
       />
       <div className="px-5 py-5">
         <div className="relative">
-          <div className="mb-2 flex justify-between text-[11px] font-medium tracking-wide text-zinc-400 uppercase">
+          <div className="mb-2 flex justify-between text-[11px] font-medium tracking-wide text-zinc-500 uppercase">
             {MONTH_MARKERS.map((m) => (
               <span key={m.iso}>{m.label}</span>
             ))}
@@ -56,7 +56,7 @@ export function TimelineGantt() {
               style={{ left: `${todayLeft}%` }}
               aria-hidden="true"
             >
-              <span className="absolute -top-5 -translate-x-1/2 text-[10px] font-semibold whitespace-nowrap text-rose-500">
+              <span className="absolute -top-5 -translate-x-1/2 text-[10px] font-semibold whitespace-nowrap text-rose-700">
                 Today
               </span>
             </div>

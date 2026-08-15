@@ -54,10 +54,10 @@ export default function ExecutionLogTable({ workflowId }: ExecutionLogTableProps
         <caption className="sr-only">Recent execution history for the selected workflow — sortable by run ID, trigger, duration, start time, and status</caption>
         <thead>
           <tr className="border-b border-white/10 text-left">
-            <th scope="col" className="px-4 py-3 text-[11px] font-medium uppercase tracking-wider text-zinc-500">
+            <th scope="col" className="px-4 py-3 text-[11px] font-medium uppercase tracking-wider text-zinc-400">
               Run ID
             </th>
-            <th scope="col" className="px-4 py-3 text-[11px] font-medium uppercase tracking-wider text-zinc-500">
+            <th scope="col" className="px-4 py-3 text-[11px] font-medium uppercase tracking-wider text-zinc-400">
               Trigger
             </th>
             {COLUMNS.map((col) => {
@@ -68,7 +68,7 @@ export default function ExecutionLogTable({ workflowId }: ExecutionLogTableProps
                   <button
                     type="button"
                     onClick={() => handleSort(col.key)}
-                    className="inline-flex min-h-[32px] items-center gap-1 rounded-md px-1.5 text-[11px] font-medium uppercase tracking-wider text-zinc-500 transition-colors hover:text-zinc-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-400"
+                    className="inline-flex min-h-[32px] items-center gap-1 rounded-md px-1.5 text-[11px] font-medium uppercase tracking-wider text-zinc-400 transition-colors hover:text-zinc-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-400"
                   >
                     {col.label}
                     {active ? (
@@ -78,13 +78,13 @@ export default function ExecutionLogTable({ workflowId }: ExecutionLogTableProps
                         <ArrowDown className="size-3" aria-hidden="true" />
                       )
                     ) : (
-                      <ArrowUpDown className="size-3 text-zinc-600" aria-hidden="true" />
+                      <ArrowUpDown className="size-3 text-zinc-400" aria-hidden="true" />
                     )}
                   </button>
                 </th>
               );
             })}
-            <th scope="col" className="px-4 py-3 text-right text-[11px] font-medium uppercase tracking-wider text-zinc-500">
+            <th scope="col" className="px-4 py-3 text-right text-[11px] font-medium uppercase tracking-wider text-zinc-400">
               Status
             </th>
           </tr>
@@ -125,7 +125,7 @@ export default function ExecutionLogTable({ workflowId }: ExecutionLogTableProps
           })}
           {rows.length === 0 && (
             <tr>
-              <td colSpan={5} className="px-4 py-10 text-center text-sm text-zinc-500">
+              <td colSpan={5} className="px-4 py-10 text-center text-sm text-zinc-400">
                 No execution history for this workflow yet.
               </td>
             </tr>

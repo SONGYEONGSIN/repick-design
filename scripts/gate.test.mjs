@@ -171,10 +171,11 @@ test('normalizeA11y — 실패한 감사를 detail에 싣는다 (점수가 통�
   // 5점 미만짜리 감사는 무엇이든 통과한다. 가중치 0인 감사는 총점 100 을 받고도 실패한다(d45·d41).
   // 판정은 그대로 두고 **보이게** 만든다 — 41작품 소급에서 15작품이 이 상태로 조용히 지나갔다.
   // 2026-08-14 승격 이후 `heading-order` 는 하드페일이므로 여기서는 아직 기록전용인 감사로 확인한다.
-  const v = normalizeA11y({ score: 98, failedAudits: ['button-name'] });
+  // 2026-08-16 2차 승격 이후 button-name 도 하드페일이므로 아직 기록전용인 감사로 확인한다.
+  const v = normalizeA11y({ score: 98, failedAudits: ['tap-targets'] });
   assert.equal(v.pass, true, '승격 안 된 감사는 점수 임계만 본다');
   assert.match(v.detail, /98/);
-  assert.match(v.detail, /button-name/);
+  assert.match(v.detail, /tap-targets/);
 });
 
 test('normalizeA11y — 승격된 감사는 점수와 무관하게 하드페일', () => {
@@ -190,20 +191,35 @@ test('normalizeA11y — 승격된 감사는 점수와 무관하게 하드페일'
 test('normalizeA11y — 승격 안 된 감사는 여전히 기록만', () => {
   // color-contrast 6건 · button-name 5건 · label-content-name-mismatch 3건은 아직 위반이 많아
   // 하드페일로 올리면 카탈로그가 깨진다. 보이되 떨어뜨리지 않는다.
-  const v = normalizeA11y({ score: 96, failedAudits: ['color-contrast'] });
+  const v = normalizeA11y({ score: 96, failedAudits: ['tap-targets'] });
   assert.equal(v.pass, true);
-  assert.match(v.detail, /color-contrast/);
+  assert.match(v.detail, /tap-targets/);
 });
 
 test('normalizeA11y — 승격 감사와 기록 감사가 섞이면 하드페일하되 둘 다 보인다', () => {
-  const v = normalizeA11y({ score: 97, failedAudits: ['color-contrast', 'skip-link'] });
+  const v = normalizeA11y({ score: 97, failedAudits: ['tap-targets', 'skip-link'] });
   assert.equal(v.pass, false);
   assert.match(v.detail, /skip-link/);
-  assert.match(v.detail, /color-contrast/);
+  assert.match(v.detail, /tap-targets/);
 });
 
-test('A11Y_HARD_AUDITS — 승격 목록은 소급 위반 0인 넷뿐이다', () => {
-  assert.deepEqual([...A11Y_HARD_AUDITS].sort(), ['definition-list', 'heading-order', 'skip-link', 'target-size']);
+test('A11Y_HARD_AUDITS — 2차 승격으로 일곱이 된다', () => {
+  // 1차(2026-08-15) 넷은 소급 위반이 각 1~2건이었다. 2차(2026-08-16)의 셋은 6·5·3건이라
+  // 먼저 12작품을 고쳐 0으로 내린 뒤 올렸다 — 순서는 언제나 고치고 나서 올린다.
+  assert.deepEqual([...A11Y_HARD_AUDITS].sort(), [
+    'button-name', 'color-contrast', 'definition-list', 'heading-order',
+    'label-content-name-mismatch', 'skip-link', 'target-size',
+  ]);
+});
+
+test('normalizeA11y — 2차 승격분도 점수와 무관하게 하드페일', () => {
+  // color-contrast 는 지금까지 가장 많이 실패한 감사였다(6작품). 100점을 받고도 이 감사를
+  // 실패하는 페이지가 있었으므로(가중치 구조상) 점수만 보는 판정은 여기서도 무력하다.
+  for (const audit of ['color-contrast', 'button-name', 'label-content-name-mismatch']) {
+    const v = normalizeA11y({ score: 100, failedAudits: [audit] });
+    assert.equal(v.pass, false, `${audit} 는 하드페일이어야 한다`);
+    assert.equal(v.violations[0].rule, 'a11y-audit');
+  }
 });
 
 test('normalizeA11y — 감사 전원 통과면 detail이 점수만 남는다', () => {

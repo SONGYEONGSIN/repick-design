@@ -11,7 +11,7 @@ export default function CreditsCard() {
     <section aria-labelledby="credits-card-heading" className="rounded-xl border border-white/10 bg-zinc-900/60 p-4 shadow-sm sm:p-5">
       <div className="flex items-center justify-between">
         <h2 id="credits-card-heading" className="flex items-center gap-2 text-sm font-semibold text-zinc-100">
-          <CreditCard className="size-4 text-zinc-500" aria-hidden="true" />
+          <CreditCard className="size-4 text-zinc-400" aria-hidden="true" />
           Credit usage
         </h2>
         {nearLimit && (
@@ -25,7 +25,7 @@ export default function CreditsCard() {
         <span className="text-xl font-semibold tabular-nums text-zinc-50">
           {formatNumber(CREDITS.used)}
         </span>
-        <span className="text-sm tabular-nums text-zinc-500">/ {formatNumber(CREDITS.total)}</span>
+        <span className="text-sm tabular-nums text-zinc-400">/ {formatNumber(CREDITS.total)}</span>
       </div>
 
       <div className="mt-3">
@@ -39,11 +39,11 @@ export default function CreditsCard() {
 
       <dl className="mt-4 flex items-center justify-between border-t border-white/5 pt-3 text-xs">
         <div>
-          <dt className="text-zinc-500">Next billing date</dt>
+          <dt className="text-zinc-400">Next billing date</dt>
           <dd className="mt-0.5 tabular-nums text-zinc-300">{formatDate(CREDITS.renewalDate)}</dd>
         </div>
         <div className="text-right">
-          <dt className="text-zinc-500">Estimated charge</dt>
+          <dt className="text-zinc-400">Estimated charge</dt>
           <dd className="mt-0.5 tabular-nums text-zinc-300">{formatKRW(CREDITS.estimatedBillingKRW)}</dd>
         </div>
       </dl>

@@ -35,8 +35,8 @@ tags: [principles, brief]
 | 무작위 이미지 서비스 금지 (picsum·loremflickr·source.unsplash 등) | static `no-random-image-host` | 하드페일 |
 | 전 폭 페이지·테이블 오버플로 0 (1280/1440/1920 + 모바일 390) | sweep | 하드페일 |
 | Lighthouse 접근성 **95 이상** | a11y | 하드페일 |
-| ↳ 승격된 감사 실패 — `heading-order` · `definition-list` · `target-size` · `skip-link` | a11y | **하드페일** (점수와 무관) |
-| ↳ 그 밖의 실패 감사 id (`color-contrast`·`button-name`·`label-content-name-mismatch` 등) | a11y `detail` | **기록만** — 아래 참조 |
+| ↳ 승격된 감사 실패 — `heading-order` · `definition-list` · `target-size` · `skip-link` · `color-contrast` · `button-name` · `label-content-name-mismatch` | a11y | **하드페일** (점수와 무관) |
+| ↳ 그 밖의 실패 감사 id | a11y `detail` | **기록만** — 아래 참조 |
 | Lighthouse 성능 | perf | 기록만(탈락 미적용) |
 
 > **점수 95는 절대 규칙을 강제하지 못한다** (2026-08-14 커버리지 감사). §2의 조항들은 **절대 금지**로 적혀 있는데 a11y 계측은 **가중 평균의 임계값**이라, 5점 미만짜리 감사는 무엇이든 통과한다. `/developers`가 `heading-order`를 명시적으로 실패(`score:0`)하고 **98점으로 통과**했고, 가중치 0인 감사는 **총점 100을 받고도 실패**한다(`d45`·`d41`의 `label-content-name-mismatch`).
@@ -50,7 +50,11 @@ tags: [principles, brief]
 >   - `ig1` `dl > div` 안에 `<p>`가 있었다(자식은 `dt`·`dd` 뿐) → 두 번째 `dd`
 >   - `pf1` 막대 24개가 390px에서 11.5px라 포인터 타깃 최소치(24×24) 미달 → 바닥 24px + 좁은 폭에서만 가로 흐름
 >   - `d29`·`d33` 사이드바 앵커가 **존재하지 않는 id**를 가리켰다(클릭이 아무 일도 안 한다) → `#main-content`(d35가 이미 쓰던 관례)
-> **아직 기록전용**: `color-contrast` 6 · `button-name` 5 · `label-content-name-mismatch` 3. 규칙이 달라서가 아니라 **아직 0으로 못 내려서**다. 고치는 대로 같은 절차로 올린다.
+> **좁은 승격 2차 완료** (2026-08-16): `color-contrast`·`button-name`·`label-content-name-mismatch` **셋을 마저 올려 7감사가 하드페일**이다. 1차 넷은 소급 위반이 각 1~2건이었지만 이 셋은 6·5·3건이라, **12작품을 먼저 고쳐 0으로 내린 뒤** 규칙을 세웠다. 절차는 1차와 같다 — 고치고 → 전수 재스캔으로 0 확인 → 승격.
+>   - `button-name` 5건은 **같은 결함이 다섯 번**이었다: 검색 컨트롤의 라벨이 `sm:inline`이라 그 아래 폭에서 `aria-hidden` 아이콘만 남아 접근 이름이 빈다. 해법은 `sr-only sm:not-sr-only`이고 **`aria-label`이 아니다** — 라벨을 달면 보이는 `⌘K`와 어긋나 `label-content-name-mismatch`로 옮겨간다(2026-08-14 실증).
+>   - `color-contrast` 6건은 세 부류였다. **다크 작품의 `text-zinc-500`**(4.01·3.87 — 하한은 zinc-400), **라이트 작품의 `text-zinc-400` on 순백**(2.62 — 하한은 zinc-500), **틴트 표면의 `text-zinc-500`**(indigo-50 위 4.31 — §2가 말한 zinc-600 하한이 실제로 걸린 첫 사례).
+>   - `/dash/d30` 히트맵은 **분기로 못 고쳤다.** 흰 글자가 강도 램프 어디서도 AA를 못 넘고(최대 알파에서도 3.41:1), 전 구간을 넘는 것은 `zinc-900`뿐이라(최악 5.19:1) 강도 분기를 없앴다. **읽기 전에 램프 전체를 계산해야 보이는 종류의 결함이다.**
+>   - 채움 위 흰 글자는 `rose-500`(3.75)에서 **`rose-600`(4.53)이 아니라 `rose-700`(6.03)**으로 갔다. 4.53은 여유가 0.03이라 "딱 맞음"이고, 폭 규칙의 16px 여유와 같은 이유로 쓰지 않는다.
 
 ## 2. 접근성·견고성 (judge 렌즈1이 대조)
 

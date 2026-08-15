@@ -54,7 +54,7 @@ export function ActivityFeed() {
                     <span className="font-medium text-zinc-900">{activity.target}</span>
                     {` · ${activity.action}`}
                   </p>
-                  <p className="mt-0.5 text-xs text-zinc-400">
+                  <p className="mt-0.5 text-xs text-zinc-500">
                     {project.name} · {activity.time}
                   </p>
                 </div>

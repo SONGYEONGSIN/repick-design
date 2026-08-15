@@ -192,7 +192,8 @@ export default function HoplineDashboard() {
 
             <button
               type="button"
-              aria-label={t.header.account}
+              // 보이는 글자(이니셜)가 접근 이름에 그대로 들어 있어야 한다 — 아니면 어긋난다.
+              aria-label={`${t.header.accountInitials} — ${t.header.account}`}
               className={`${CTRL} w-11 border border-zinc-200 bg-white text-zinc-700 hover:border-zinc-300`}
               style={{ fontFamily: "var(--font-display-mono)"}}
             >

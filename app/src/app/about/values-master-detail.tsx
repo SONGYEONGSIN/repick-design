@@ -43,7 +43,7 @@ export default function ValuesMasterDetail() {
                 }`}
               >
                 <span
-                  className={`text-sm font-semibold tabular-nums ${isActive ? "text-blue-400" : "text-zinc-500"}`}
+                  className={`text-sm font-semibold tabular-nums ${isActive ? "text-blue-400" : "text-zinc-400"}`}
                   style={{ fontFamily: "var(--font-display-wide)" }}
                 >
                   {v.ordinal}
