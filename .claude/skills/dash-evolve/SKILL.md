@@ -108,6 +108,8 @@ native는 웹 라우트가 아니라 RN 화면이라 아래 규약을 따른다.
 ## 1. RETRIEVE
 다음을 전부 읽어 생성 컨텍스트를 구성한다:
 - BRIEF 전문 (정본 — 읽기 전용)
+- **`vault/00-principles/page-brief-core.md` 전문 — 타깃과 무관하게 항상**. BRIEF 는 이것을 `[[page-brief-core]] 전 항목 준수`라고 **가리키기만 하고**(프로파일은 코어를 복사하지 않는 것이 조직 원칙이다) 내용을 담지 않는다. 카탈로그에 대해 바로 아래 적어 둔 그 원칙이 코어에도 똑같이 걸린다 — **링크만 두면 designer 가 로드 못 한다.**
+  2026-08-16 에 이게 실제로 물렸다: 그날 `focus` 관문을 세우면서 **클래스가 붙어 있어도 안 그려지는 죽은 관용구 2종**(v4 에서 투명해지는 `ring`+`ring-offset`, 스스로를 취소하는 `outline-none`+`focus-visible:outline`)을 코어 §2 에 적었는데, dash·landing 라운드는 코어를 안 읽어 **그 경고가 designer 에게 닿지 않았다.** 새 관문이 무엇을 잡는지 모른 채 후보를 만들면 1-fix 를 쓰고도 같은 자리에서 다시 걸린다.
 - DELTAS 전체 (격리 delta — status가 refuted가 아닌 최신 entry들)
 - `vault/00-principles/curation-criteria.md` (meta-기준 — judge·정제 프롬프트에 주입)
 - **참조 카탈로그** (`vault/20-catalog/` — 정량 결정 규칙층; BRIEF가 `[[링크]]`로 가리키는 실체를 여기서 **실제로 읽어 컨텍스트에 싣는다**. 링크만 두면 designer가 로드 못 함):
