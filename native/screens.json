@@ -25,5 +25,14 @@
   },
   "order-status": {
     "check": "Order status"
+  },
+  "evolve-r6-a": {
+    "check": "Payouts"
+  },
+  "evolve-r6-b": {
+    "check": "Discover Listings"
+  },
+  "evolve-r6-c": {
+    "check": "Seller verification"
   }
 }
