@@ -34,5 +34,14 @@
   },
   "evolve-r6-c": {
     "check": "Seller verification"
+  },
+  "evolve-r7-b": {
+    "check": "Search Results"
+  },
+  "evolve-r7-c": {
+    "check": "Price Alerts"
+  },
+  "evolve-r7-a": {
+    "check": "Disputes & Returns"
   }
 }

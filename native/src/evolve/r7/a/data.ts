@@ -102,5 +102,6 @@ export const MIN_DESCRIPTION_LENGTH = 20;
 export const MIN_PHOTOS = 2;
 export const MAX_PHOTOS = 5;
 
+export const NEW_CASE_ID = "d-1129";
 export const NEW_CASE_LABEL = "Case D-1129";
 export const SUBMITTED_DATE_LABEL = "Aug 16, 2026";
