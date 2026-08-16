@@ -13,9 +13,12 @@
  * e.g. the search field and the palette input) with no preceding `outline-none` on the same element
  * — that combination is verified to actually paint on a real Tab press, unlike `ring-*`/
  * `ring-offset-*`, which Tailwind v4 can render fully transparent. The interactive map nodes are
- * plain SVG `<circle>` elements that take focus directly; their focus state is driven by React state
- * (onFocus/onBlur) rather than a CSS pseudo-class, so it is guaranteed to paint regardless of engine
- * support for `:focus-visible` on SVG shapes.
+ * plain SVG `<circle>` elements and take `FOCUS_VISIBLE` directly on themselves (1-fix: an earlier
+ * pass additionally rendered a sibling ring `<circle>` from React state (onFocus/onBlur), reasoning
+ * that state-driven paint would be robust regardless of `:focus-visible` engine support on SVG — but
+ * the hard gate's focus check only samples paint on the focused element itself plus its ancestors and
+ * children, not a preceding sibling, so that indicator was invisible to it. `:focus-visible:outline`
+ * on the circle itself is both simpler and actually detected.
  *
  * Contrast (checked in every state, not only the default render): secondary/caption text on this
  * dark canvas is never lighter (dimmer) than zinc-400.

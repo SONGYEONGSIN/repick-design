@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { CORRIDOR_LABEL, HUBS, LANES, STATUS_LABEL, bubbleRadius, laneTouchesHub, onTimeForPeriod, statusForOnTime } from "./data";
 import type { Hub, PeriodId, Status } from "./types";
-import { NUM, STATUS_SVG, STATUS_TONE, TEXT_CAPTION, TONE, cx } from "./tokens";
+import { FOCUS_VISIBLE, NUM, STATUS_SVG, STATUS_TONE, TEXT_CAPTION, TONE, cx } from "./tokens";
 import { Badge } from "./ui";
 
 const VB_W = 1000;
@@ -117,7 +117,7 @@ export default function NetworkMap({
                       activate(hub);
                     }
                   }}
-                  className={cx("cursor-pointer outline-none", svgTone.fill, svgTone.stroke)}
+                  className={cx("cursor-pointer", FOCUS_VISIBLE, svgTone.fill, svgTone.stroke)}
                   strokeWidth={selected ? 2.5 : 1.5}
                 />
 
