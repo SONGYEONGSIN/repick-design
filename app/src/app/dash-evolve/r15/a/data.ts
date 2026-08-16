@@ -165,6 +165,44 @@ export const EDGES: TopoEdge[] = [
   { id: "e26", source: "recommendation-engine", target: "redis-cache", health: "critical", latencyMs: 680, errorRatePct: 5.2 },
 ];
 
+/** Always-visible latency badge position for each non-healthy edge, nudged off the raw line midpoint
+ *  whenever that midpoint would land inside another node's chip — a structural consequence of the
+ *  layered grid (any edge spanning exactly two tier-rows has its linear midpoint fall precisely on
+ *  the skipped tier's y-coordinate). Pure deterministic geometry (perpendicular offset, tested both
+ *  directions, first collision-free candidate wins) — nothing here is random or seeded per-render. */
+function computeBadgePos(e: TopoEdge): { x: number; y: number } {
+  const s = NODE_MAP[e.source];
+  const t = NODE_MAP[e.target];
+  const midX = (s.x + t.x) / 2;
+  const midY = (s.y + t.y) / 2;
+  const dx = t.x - s.x;
+  const dy = t.y - s.y;
+  const len = Math.sqrt(dx * dx + dy * dy) || 1;
+  const perpX = -dy / len;
+  const perpY = dx / len;
+
+  const clearOf = (x: number, y: number) => NODES.every((n) => n.id === e.source || n.id === e.target || Math.hypot(x - n.x, y - n.y) >= 55);
+
+  let x = midX;
+  let y = midY;
+  if (!clearOf(x, y)) {
+    outer: for (const off of [26, 38, 50]) {
+      for (const sign of [1, -1]) {
+        const cx = midX + perpX * off * sign;
+        const cy = midY + perpY * off * sign;
+        if (clearOf(cx, cy)) {
+          x = cx;
+          y = cy;
+          break outer;
+        }
+      }
+    }
+  }
+  return { x: Math.round(x * 100) / 100, y: Math.round(y * 100) / 100 };
+}
+
+export const EDGE_BADGE_POS: Record<string, { x: number; y: number }> = Object.fromEntries(EDGES.map((e) => [e.id, computeBadgePos(e)]));
+
 /* --------------------------------------------------- Derived aggregates (computed, not typed in) */
 
 export const HEALTHY_COUNT = NODES.filter((n) => n.health === "healthy").length;

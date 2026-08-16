@@ -17,7 +17,7 @@
 
 import { AlertOctagon, AlertTriangle, CheckCircle2 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
-import { CANVAS_H, CANVAS_W, EDGES, NODES, NODE_MAP, TIER_LABEL, TIER_ORDER, type NodeId } from "./data";
+import { CANVAS_H, CANVAS_W, EDGES, EDGE_BADGE_POS, NODES, NODE_MAP, TIER_LABEL, TIER_ORDER, type NodeId } from "./data";
 import { formatMs } from "./format";
 import { HEALTH_LABEL, HEALTH_TONE, TEXT_CAPTION, cx } from "./tokens";
 
@@ -63,8 +63,7 @@ export default function TopologyGraph({ selectedId, onSelect }: { selectedId: No
             const widths: Record<string, number> = { healthy: 1.25, degraded: 2, critical: 2.5 };
             const baseOpacity: Record<string, number> = { healthy: 0.32, degraded: 0.8, critical: 0.95 };
             const opacity = dimmed ? baseOpacity[e.health] * 0.25 : isConnected ? 1 : baseOpacity[e.health];
-            const midX = Math.round(((source.x + target.x) / 2) * 100) / 100;
-            const midY = Math.round(((source.y + target.y) / 2) * 100) / 100;
+            const badgePos = EDGE_BADGE_POS[e.id];
             const showBadge = e.health !== "healthy" && !dimmed;
             return (
               <g key={e.id}>
@@ -73,7 +72,7 @@ export default function TopologyGraph({ selectedId, onSelect }: { selectedId: No
                 ) : null}
                 <line x1={source.x} y1={source.y} x2={target.x} y2={target.y} stroke={tone.stroke} strokeOpacity={opacity} strokeWidth={widths[e.health]} strokeLinecap="round" />
                 {showBadge ? (
-                  <g transform={`translate(${midX}, ${midY})`}>
+                  <g transform={`translate(${badgePos.x}, ${badgePos.y})`}>
                     <rect x={-22} y={-9} width={44} height={16} rx={8} fill="#09090b" stroke={tone.stroke} strokeOpacity="0.5" />
                     <text x={0} y={3} textAnchor="middle" fontSize="9.5" fontWeight="600" fill={tone.stroke} className="tabular-nums">
                       {formatMs(e.latencyMs)}
