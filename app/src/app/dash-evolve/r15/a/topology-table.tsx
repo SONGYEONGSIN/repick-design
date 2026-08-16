@@ -91,7 +91,7 @@ export default function TopologyTable({ selectedId, onSelect }: { selectedId: No
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Filter by service, owner, tier…"
             aria-label="Filter services by name, owner, or tier"
-            className={cx("h-full flex-1 bg-transparent text-xs outline-none", TEXT_PRIMARY, "placeholder:text-zinc-500")}
+            className={cx("h-full flex-1 bg-transparent text-xs outline-none", TEXT_PRIMARY, "placeholder:text-zinc-400")}
           />
         </div>
         <div className="flex flex-wrap items-center gap-1.5" role="group" aria-label="Filter by status">

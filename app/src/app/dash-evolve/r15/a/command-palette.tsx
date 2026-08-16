@@ -45,7 +45,7 @@ export default function CommandPalette({ onClose, onSelectNode }: { onClose: () 
             type="text"
             placeholder="Jump to a service, owner, or tier…"
             aria-label="Search services, owners, or tiers"
-            className={cx("h-12 flex-1 bg-transparent text-sm outline-none", TEXT_PRIMARY, "placeholder:text-zinc-500")}
+            className={cx("h-12 flex-1 bg-transparent text-sm outline-none", TEXT_PRIMARY, "placeholder:text-zinc-400")}
           />
           <button type="button" onClick={onClose} aria-label="Close command palette" className={cx("grid h-8 w-8 shrink-0 place-items-center rounded-lg", HOVER_ACTIVE_BG, TRANSITION, FOCUS_RING)}>
             <X size={15} aria-hidden="true" className={TEXT_CAPTION} />
