@@ -188,17 +188,15 @@ test('normalizeFocus — 표시 없는 요소가 있으면 하드페일', () => 
   assert.match(v.detail, /input#3/);
 });
 
-test('normalizeFocus — 상태 뒤 위반은 기록만, 기본 뷰 위반은 하드페일', () => {
-  // 상태를 열어 재기 시작한 첫날 카탈로그 14작품이 전부 걸렸다(팔레트 옵션이 탭 순서에 있는데
-  // 활성 항목 말고는 표시가 없다). 하드페일로 두면 그 14작품이 즉시 게이트를 못 넘는다 —
-  // a11y 감사가 밟은 경로 그대로, 먼저 보이게 하고 0으로 내린 뒤 올린다.
-  const rec = normalizeFocus({ pass: false, failures: [{ route: '/x', sel: 'button#1003', state: 'palette' }] });
-  assert.equal(rec.pass, true, '상태 뒤 위반은 아직 기록만');
-  assert.match(rec.detail, /기록 1/);
-  assert.match(rec.detail, /palette/);
+test('normalizeFocus — 상태 뒤 위반도 하드페일 (2026-08-17 승격)', () => {
+  // 켠 첫날 3작품 11요소가 걸렸고 — `d45` 옵션 8 · `d33`·`d29` 팔레트 입력 각 1 — 고쳐서 0으로
+  // 내린 뒤 올렸다. 상태 뒤라고 덜 중요한 결함이 아니다: 팔레트는 ⌘K 한 번이면 열린다.
+  const st = normalizeFocus({ pass: false, failures: [{ route: '/x', sel: 'button#1003', state: 'palette' }] });
+  assert.equal(st.pass, false);
+  assert.match(st.detail, /palette/);
 
   const hard = normalizeFocus({ pass: false, failures: [{ route: '/x', sel: 'input#3', state: 'default' }] });
-  assert.equal(hard.pass, false, '기본 뷰는 하드페일 유지');
+  assert.equal(hard.pass, false, '기본 뷰도 그대로 하드페일');
 });
 
 test('normalizeFocus — 전부 표시되면 통과', () => {
