@@ -95,3 +95,21 @@ test('evaluateFocus — 위반에 요소를 찾을 단서를 싣는다', () => {
   assert.match(r.failures[0].detail, /Mon 10:00/);
   assert.match(r.failures[0].detail, /focus-visible:outline-none/);
 });
+
+test('evaluateFocus — 어느 상태에서 났는지 보고한다', () => {
+  // 기본 뷰만 스캔하는 게 focus·color-contrast 공통 한계였다. 상태를 열어 재기 시작하면
+  // "어디서 났나"가 없으면 designer 가 재현을 못 한다 — 팔레트 안인지 탭 전환 뒤인지가 갈린다.
+  const r = evaluateFocus([{ route: '/x', width: 1440, focusables: [
+    { sel: 'input#40', state: 'palette', before: '#~#~#~#', after: '#~#~#~#', label: 'Search', cls: 'outline-none' },
+  ] }]);
+  assert.equal(r.failures.length, 1);
+  assert.equal(r.failures[0].state, 'palette');
+  assert.match(r.failures[0].detail, /palette/);
+});
+
+test('evaluateFocus — 기본 뷰 위반은 state 를 default 로 둔다', () => {
+  const r = evaluateFocus([{ route: '/x', width: 1440, focusables: [
+    { sel: 'button#2', before: '#~#~#~#', after: '#~#~#~#' },
+  ] }]);
+  assert.equal(r.failures[0].state, 'default');
+});
