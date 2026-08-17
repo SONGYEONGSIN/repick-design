@@ -81,7 +81,7 @@ export function CommandPalette({ open, onClose }: { open: boolean; onClose: () =
         aria-label="Quick search"
         className="relative w-full max-w-lg overflow-hidden rounded-xl border border-zinc-200 bg-white shadow-xl"
       >
-        <div className="flex h-12 items-center gap-2.5 border-b border-zinc-100 px-4">
+        <div className="flex h-12 items-center gap-2.5 border-b border-zinc-100 px-4 focus-within:ring-2 focus-within:ring-inset focus-within:ring-blue-500">
           <Search className="h-4 w-4 shrink-0 text-zinc-500" aria-hidden="true" />
           <input
             ref={inputRef}
