@@ -142,6 +142,10 @@ export function CommandPalette() {
                   id={`cmdk-option-${s.id}`}
                   type="button"
                   role="option"
+                  // 콤보박스 옵션은 탭 순서에 두지 않는다 — 포커스는 입력에 머물고 활성 항목은
+                  // `aria-activedescendant` 가 가리킨다. 탭으로 닿게 두면 활성 항목이 아닌 옵션에
+                  // 포커스가 앉는데 그 상태를 그리는 스타일이 없어 어디 있는지 알 수 없다.
+                  tabIndex={-1}
                   aria-selected={s.id === selectedShipmentId}
                   onMouseEnter={() => setActiveIndex(i)}
                   onClick={() => {

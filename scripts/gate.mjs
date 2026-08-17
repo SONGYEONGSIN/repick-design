@@ -25,23 +25,18 @@ export function normalizeStatic(violations) {
  */
 export function normalizeFocus(result) {
   const failures = result?.failures ?? [];
-  // 기본 렌더 뷰는 하드페일, **상태를 열어야 닿는 것은 아직 기록만**.
-  //
-  // 상태 측정을 켠 첫날 카탈로그 14작품이 전부 걸렸다 — 팔레트 옵션이 탭 순서에 있는데 활성 항목
-  // 말고는 표시가 없다. 그런데 고치는 방법이 한 속성이 아니다: `tabIndex={-1}` 만 주면 탭에서
-  // 빠지는 대신 `aria-activedescendant` 가 없는 11작품에서는 스크린리더가 활성 항목을 아예 못
-  // 읽는다. 콤보박스 패턴을 완결해야 하는 일이라 하드페일로 두면 14작품이 즉시 못 넘는다.
-  // a11y 감사가 밟은 경로 그대로 — 보이게 하고, 0으로 내리고, 그 다음 올린다.
-  const hard = failures.filter((f) => (f.state ?? 'default') === 'default');
-  const recorded = failures.filter((f) => (f.state ?? 'default') !== 'default');
-  const pass = hard.length === 0;
-  const rec = recorded.length
-    ? ` · 기록 ${recorded.length}건(${[...new Set(recorded.map((f) => f.state))].join(' ')})`
-    : '';
+  const pass = failures.length === 0;
+  // 상태 뒤 위반도 하드페일이다 (2026-08-17 승격). 켠 날은 기록만이었다 — 3작품 11요소가 걸렸고
+  // 고치는 방법이 한 속성이 아니었기 때문이다(`tabIndex={-1}` 만 주면 `aria-activedescendant` 가
+  // 없는 곳에서 스크린리더가 활성 항목을 못 읽는다). 셋을 콤보박스 패턴 완결로 0 으로 내린 뒤 올렸다.
+  // 상태 뒤라고 덜 중요한 결함이 아니다 — 팔레트는 ⌘K 한 번이면 열린다.
+  const byState = [...new Set(failures.map((f) => f.state ?? 'default'))];
   return {
     name: 'focus',
     pass,
-    detail: (pass ? '포커스 표시 0건 누락' : `${hard.length}건 — ${hard.slice(0, 4).map((f) => f.sel).join(' · ')}`) + rec,
+    detail: pass
+      ? '포커스 표시 0건 누락'
+      : `${failures.length}건 [${byState.join(' ')}] — ${failures.slice(0, 4).map((f) => f.sel).join(' · ')}`,
     violations: failures,
   };
 }

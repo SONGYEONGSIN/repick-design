@@ -92,6 +92,11 @@ async function probeState(page, state, open, revert) {
   const opened = await open();
   if (!opened) { if (revert) await revert(); return []; }
   await page.waitForTimeout(250);
+  // 팔레트는 열릴 때 입력을 **자동 포커스**한다. 그대로 기준선을 찍으면 이미 링이 켜진 상태가
+  // `before` 가 되고, Tab 으로 같은 요소에 다시 오면 `before === after` 라 거짓 위반이 된다
+  // (`d34`·`d33`·`d29` 가 그렇게 잡혔다 — 링은 멀쩡히 그려지고 있었다).
+  await page.evaluate(() => document.activeElement instanceof HTMLElement && document.activeElement.blur());
+  await page.waitForTimeout(200);
   const fresh = await page.evaluate(() => {
     const F = 'a[href], button:not([disabled]), input:not([disabled]), select, textarea, [tabindex]:not([tabindex="-1"])';
     const out = [];
