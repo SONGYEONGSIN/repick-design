@@ -1,4 +1,4 @@
-// native/src/evolve/r1/b/data.ts — offer negotiation thread (deterministic dummy data).
+// native/src/offer-thread/data.ts — offer negotiation thread (deterministic dummy data).
 // No Math.random / Date.now / new Date(): every timestamp is a fixed relative string and every
 // amount is a fixed integer. All derived numbers come from pure functions of those fixed values.
 // Self-contained on purpose — an evolve candidate must not depend on another screen's domain module.

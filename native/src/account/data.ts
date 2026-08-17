@@ -1,4 +1,4 @@
-// native/src/evolve/r2/c/data.ts — auto-native-r2 candidate c (Account & Preferences)
+// native/src/account/data.ts — auto-native-r2 candidate c (Account & Preferences)
 // Deterministic dummy data only — no Math.random / Date.now / argument-less new Date().
 // Adjustable settings below start from a fixed initial value; the *change* happens via
 // user interaction (useState in Preferences.tsx) — that is fine, determinism only governs
