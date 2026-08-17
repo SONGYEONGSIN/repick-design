@@ -69,12 +69,64 @@ export function evaluateFocus(measurements) {
       if (painted && f.after !== f.before) continue;
       // `button#10` 같은 DOM 순서만 주면 designer 가 소스에서 그 요소를 못 찾는다 — 1-fix 루프에
       // 넘어가는 값은 행동으로 옮길 수 있어야 한다. 라벨과 클래스 앞머리를 함께 싣는다.
+      const state = f.state ?? 'default';
       const hint = [f.label && `"${f.label}"`, f.cls && `class="${f.cls}"`].filter(Boolean).join(' ');
-      failures.push({ route: m.route, width: m.width, kind: 'focus-invisible', sel: f.sel, label: f.label, cls: f.cls,
-        detail: `포커스해도 보이는 표시가 생기지 않는다${hint ? ` — ${hint}` : ''} · outline-none 을 걸었으면 링을 함께 준다 (page-brief-core §2)` });
+      // 상태를 열어 재기 시작하면 "어디서 났나"가 없으면 designer 가 재현을 못 한다.
+      failures.push({ route: m.route, width: m.width, kind: 'focus-invisible', sel: f.sel, state, label: f.label, cls: f.cls,
+        detail: `[${state}] 포커스해도 보이는 표시가 생기지 않는다${hint ? ` — ${hint}` : ''} · outline-none 을 걸었으면 링을 함께 준다 (page-brief-core §2)` });
     }
   }
   return { pass: failures.length === 0, failures };
+}
+
+/**
+ * 상태를 하나 열고, **그 상태에서 새로 나타난** 포커스 가능 요소만 잰다.
+ *
+ * 기존 요소를 다시 재지 않는 것이 핵심이다 — 기본 뷰에서 이미 통과한 것을 상태마다 반복 보고하면
+ * 같은 결함이 여러 줄로 불어나 어느 것이 새 정보인지 알 수 없게 된다.
+ *
+ * 되돌리기(`revert`)는 팔레트처럼 닫을 수 있는 상태에만 준다. 뷰 토글은 되돌리지 않는다 — 다음
+ * 토글이 그 위에서 열리는 것이 실제 사용 경로에 가깝고, 되돌리려다 클릭을 두 배로 늘릴 이유가 없다.
+ */
+async function probeState(page, state, open, revert) {
+  const opened = await open();
+  if (!opened) { if (revert) await revert(); return []; }
+  await page.waitForTimeout(250);
+  const fresh = await page.evaluate(() => {
+    const F = 'a[href], button:not([disabled]), input:not([disabled]), select, textarea, [tabindex]:not([tabindex="-1"])';
+    const out = [];
+    let n = Number(document.body.getAttribute('data-sweep-next') || '1000');
+    for (const el of document.querySelectorAll(F)) {
+      if (el.hasAttribute('data-sweep-i')) continue;               // 기본 뷰에서 이미 잰 것
+      if (!(el.offsetParent !== null || getComputedStyle(el).position === 'fixed')) continue;
+      if (out.length >= 20) break;
+      el.setAttribute('data-sweep-i', String(n));
+      out.push({ sel: `${el.tagName.toLowerCase()}#${n}`,
+        label: (el.getAttribute('aria-label') || el.textContent || '').trim().replace(/\s+/g, ' ').slice(0, 44),
+        cls: (el.getAttribute('class') || '').slice(0, 72),
+        before: window.__sweepSig(el), after: null });
+      n++;
+    }
+    document.body.setAttribute('data-sweep-next', String(n));
+    return out;
+  });
+  if (!fresh.length) { if (revert) await revert(); return []; }
+  const seen = new Map();
+  for (let i = 0; i < fresh.length + 10 && seen.size < fresh.length; i++) {
+    await page.keyboard.press('Tab');
+    const hit = await page.evaluate(() => {
+      const el = document.activeElement;
+      if (!el || el === document.body) return null;
+      const idx = el.getAttribute('data-sweep-i');
+      return idx === null ? null : { idx: Number(idx), sig: window.__sweepSig(el) };
+    });
+    if (hit && !seen.has(hit.idx)) seen.set(hit.idx, hit.sig);
+  }
+  const out = fresh
+    .map((f) => { const i = Number(f.sel.split('#')[1]); return seen.has(i) ? { ...f, after: seen.get(i), state } : null; })
+    .filter(Boolean);
+  if (revert) await revert();
+  return out;
 }
 
 export async function runSweep(baseUrl, routes, widths = sweepWidths()) {
@@ -191,8 +243,37 @@ export async function runSweep(baseUrl, routes, widths = sweepWidths()) {
         // Tab 으로 도달 못 한 요소는 판정 대상이 아니다 — 키보드로 못 가는 것은 다른 결함이고,
         // 이 계측이 답할 질문이 아니다.
         m.focusables = m.focusables
-          .map((f, i) => (seen.has(i) ? { ...f, after: seen.get(i) } : null))
+          .map((f, i) => (seen.has(i) ? { ...f, after: seen.get(i), state: 'default' } : null))
           .filter(Boolean);
+
+        // 기본 렌더 뷰만 스캔하면 **토글 뒤의 컨트롤은 영영 안 본다.** 2026-08-15·16 이틀 연속,
+        // 서로 다른 경로로 그게 샜다 — `r14` 는 커맨드 팔레트 입력, `r15` 는 뷰 토글 뒤의 Table 필터.
+        // 둘 다 게이트를 통과하고 judge 가 소스에서 잡았다. 그래서 상태를 열어서도 잰다.
+        // 여는 것은 두 가지로 좁힌다: ⌘K 팔레트(Escape 로 되돌아온다)와 **켜는 방향의 토글**
+        // (`aria-pressed="false"` / 선택 안 된 탭). 뷰를 바꾸는 컨트롤이라 파괴적이지 않다.
+        m.focusables.push(...(await probeState(page, 'palette', async () => {
+          await page.keyboard.press('Meta+k');
+          await page.waitForTimeout(400);
+          return page.evaluate(() => !!document.querySelector('[role="dialog"],[aria-modal="true"]'));
+        }, () => page.keyboard.press('Escape'))));
+
+        for (let t = 0; t < 6; t++) {
+          const got = await probeState(page, `toggle:${t}`, async () => {
+            return page.evaluate((t) => {
+              // `.click()` 이 없는 요소가 있다 — `/dash/d37` 의 Sankey 는 SVG `rect`·`path` 에
+              // `aria-pressed` 를 달아서, 거르지 않으면 프로브가 그 라우트에서 통째로 죽는다.
+              const cands = [...document.querySelectorAll('[aria-pressed="false"],[role="tab"][aria-selected="false"]')]
+                .filter((el) => el.offsetParent !== null && typeof el.click === 'function');
+              const el = cands[0];
+              if (!el) return false;
+              el.setAttribute('data-sweep-toggled', String(t));
+              el.click();
+              return true;
+            }, t);
+          });
+          if (!got.length && !(await page.evaluate(() => !!document.querySelector('[data-sweep-toggled]')))) break;
+          m.focusables.push(...got);
+        }
       }
       measurements.push({ route, width, ...m });
     }
