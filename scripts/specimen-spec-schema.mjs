@@ -16,6 +16,10 @@ export const SUBSET_IDS = [
   "v11", "d41", "d42", "d43", "d44", "d45",
   // 2026-08-15 주간 반증 승격분 — 이 줄부터는 승격과 같은 PR에서 채운다(specimen-works-coverage 가 강제)
   "v12", "n8", "n9",
+  // 2026-08-17 주간 반증 승격분 (auto-dash-r14/c · auto-native-r6/c)
+  "d46", "n10",
+  // auto-dash-r15/c · auto-native-r7/a
+  "d47", "n11",
 ];
 
 export function validateSpec(spec) {
