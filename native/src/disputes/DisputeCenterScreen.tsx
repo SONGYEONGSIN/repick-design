@@ -1,4 +1,4 @@
-// native/src/evolve/r7/a/DisputeCenterScreen.tsx — auto-native-r7 candidate a.
+// native/src/disputes/DisputeCenterScreen.tsx — auto-native-r7 candidate a.
 //
 // Dispute & Return Center: a buyer's single screen for tracking open/past disputes on completed
 // orders AND building a new return/dispute request against the one order still inside its return
@@ -29,7 +29,7 @@ import {
   TextInput,
   View,
 } from "react-native";
-import { tokens } from "../../../tokens";
+import { tokens } from "../tokens";
 import {
   ELIGIBLE_ORDER,
   MAX_PHOTOS,

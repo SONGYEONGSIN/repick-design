@@ -26,16 +26,10 @@
   "order-status": {
     "check": "Order status"
   },
-  "evolve-r7-b": {
-    "check": "Search Results"
-  },
-  "evolve-r7-c": {
-    "check": "Price Alerts"
-  },
-  "evolve-r7-a": {
-    "check": "Disputes & Returns"
-  },
   "verification": {
     "check": "Seller verification"
+  },
+  "disputes": {
+    "check": "Disputes & Returns"
   }
 }

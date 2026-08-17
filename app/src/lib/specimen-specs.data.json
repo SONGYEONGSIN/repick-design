@@ -4361,5 +4361,169 @@
       }
     ],
     "agentPrompt": "Build a seller verification flow for a mobile marketplace: identity documents, then payout account, then review.\n\nOne white surface, `#e4e4e7` lines between steps, `#18181b` for titles and entered values, `#52525b` for the summaries of completed steps, `#71717a` for help text and steps not yet reached. One accent `#4f46e5`, on the open step's marker and the submit affordance only.\n\nSystem face, three weights (400/600/700). Scale 28 / 16 / 15 / 14 / 13 / 12 / 11px, with 12px carrying the most nodes.\n\nAn accordion, not a wizard and not a long form: exactly one step open, satisfied steps collapsed to a title plus a one-line summary so the shape of the whole task stays visible.\n\nThe band is the design. It states, in one sentence, what is still missing, and pressing it opens the step that owns that gap. Submit appears only when nothing is left to say — never a dimmed control waiting for permission, and never an empty reserved space. Give the band an alert role and the accordion a polite live region.\n\nSpacing: 2px label-to-line, 12px between fields and rows, 16px screen inset, 20–24px around the band.\n\nIf you show currency anywhere, keep the tabular-figure style off any text subtree containing the currency glyph — nesting depth is what matters, not sibling order."
+  },
+  "d47": {
+    "id": "d47",
+    "palette": [
+      {
+        "token": "bg",
+        "hex": "#09090b",
+        "role": "Page ground",
+        "usage": "zinc-950. The darkest tone on the page and the only one used as ground — five elements. A confidence band is read as an area of light against dark, so the ground has to sit below every chart surface rather than beside it."
+      },
+      {
+        "token": "surface",
+        "hex": "#18181b",
+        "role": "Panels",
+        "usage": "zinc-900 on the forecast card, the variant table and the significance panel — 15 elements, the most-painted surface. One raised step, not a ladder."
+      },
+      {
+        "token": "surface-2",
+        "hex": "#27272a",
+        "role": "Table rows + inset headers",
+        "usage": "zinc-800 for the row banding and the panel headers. The second step exists only where a panel needs internal structure; nothing else earns it."
+      },
+      {
+        "token": "fg",
+        "hex": "#fafafa",
+        "role": "Primary text",
+        "usage": "Experiment names, lift figures, headings. 49 nodes. zinc-50 rather than pure white — on a near-black ground the fractional drop keeps the large numerals from blooming."
+      },
+      {
+        "token": "muted",
+        "hex": "#9f9fa9",
+        "role": "Secondary text",
+        "usage": "Axis labels, table meta, panel captions. 65 nodes, the largest text tier. zinc-400 is the canon's dark-surface floor and this page sits on it exactly — anything dimmer fails AA at the 11px step below."
+      },
+      {
+        "token": "line",
+        "hex": "#d4d4d8",
+        "role": "Emphasised values",
+        "usage": "zinc-300 for the values that carry the argument inside a muted row — the p-value and the sample counts. One tier above muted so the eye can find them without a colour."
+      },
+      {
+        "token": "accent",
+        "hex": "#00d3f2",
+        "role": "Accent — the variant line",
+        "usage": "cyan-400. The treatment line on the forecast chart and the active experiment marker. Chosen against a catalogue already eight works deep in violet-hex; seven painted elements plus the chart stroke."
+      },
+      {
+        "token": "ok",
+        "hex": "#00d492",
+        "role": "Significant lift",
+        "usage": "emerald-400 for a result that has cleared the interval. Paired with the word and the p-value, never the hue alone — the whole point of the page is that significance is a claim with a condition."
+      },
+      {
+        "token": "risk",
+        "hex": "#ff637e",
+        "role": "Significant drop",
+        "usage": "rose-400, same pairing rule. Applied only when the band has separated downward; an unresolved test gets the muted tone, not a warning colour."
+      }
+    ],
+    "typography": "Pretendard, no display face, exactly three weights (400 body, 500 table figures and axis, 600 headings and experiment names). Scale at 1440: 24px the headline lift figure, 16px panel titles, 14px table rows and body (50 nodes), 12px meta and chips (56 nodes — the largest tier), 11px the axis and footnotes (25), 10px and 9px the band legend and confidence annotations. Every figure is tabular so the variant table's columns and the chart's axis share one rhythm. The 9–11px tiers doing real work are why the muted tone had to stop at zinc-400: the canon's dark floor is not a preference here, it is the binding constraint.",
+    "spacing": "`10px 12px` is the dominant padding (42 occurrences — every card interior), with 4px binding label to value, 6px and 8px on chips and legend entries, 12px between panels. The shell is `min-h-dvh` with a fixed sidebar and a scrolling main; the forecast chart owns the top of the main column and the variant table sits under it, because the chart is the argument and the table is the evidence for it.",
+    "philosophy": "The page argues with a band, not a number.\n\nAn A/B console usually reports a lift figure and decorates it with a significance asterisk. That inverts the epistemics: the figure looks like the finding and the uncertainty looks like a footnote. Here the forecast chart carries a solid historical line and a shaded 95% interval, so a lift that has not separated from control is **visibly not separated** — you see two overlapping bands rather than read a number and then check whether you are allowed to believe it.\n\nEverything else follows from that. Significance colours appear only once the band has actually separated; an unresolved test gets the muted tone rather than a warning hue, because colouring an inconclusive result is the same mistake as the asterisk. The variant table sits below the chart as evidence, not above it as a summary.\n\nIt won from a **complete three-way draw** — lens 1 ranked b first, lens 2 ranked a first, lens 3 ranked c first. The tie-break rule excluded lens 1's leader because lens 3 had placed it last, and the remainder resolved to c. Third use of that rule.\n\nThe same round surfaced two findings that are not about this work: lens 3 found that a and b converged on an identical detail-panel interaction model **despite being assigned different dominant visualizations**, and lens 1 found a focus defect in a's table view that the gate could not reach because it sits behind a view toggle.",
+    "dosDonts": [
+      {
+        "do": "Draw the confidence interval as a shaded band around the line.",
+        "dont": "Report a lift figure with a significance asterisk. That makes the uncertainty a footnote to the finding when it is a property of it."
+      },
+      {
+        "do": "Leave an unresolved test in the muted tone.",
+        "dont": "Colour it amber or grey-green as a third state — an inconclusive result is not a mild version of a conclusion."
+      },
+      {
+        "do": "Put the variant table below the chart, as evidence.",
+        "dont": "Lead with the table and chart the winner. The chart is the argument; the table supports it."
+      },
+      {
+        "do": "Stop the muted tone at zinc-400 on this ground.",
+        "dont": "Go dimmer for the 9–11px annotation tiers — that is where the dark floor binds, and those tiers carry the band's legend."
+      },
+      {
+        "do": "Pair every significance colour with the word and the p-value.",
+        "dont": "Encode the verdict in hue alone on a page whose subject is how much you are allowed to conclude."
+      },
+      {
+        "do": "Pick an accent the catalogue is not already saturated with (cyan against eight violet works).",
+        "dont": "Choose the accent by taste alone — the diversity count exists because twenty works once came out in one hue."
+      },
+      {
+        "do": "Use tabular figures across both the table and the chart axis.",
+        "dont": "Let the two carry different rhythms; the reader is comparing them constantly."
+      }
+    ],
+    "agentPrompt": "Build an A/B testing console whose dominant visualization is a forecast chart with a confidence band.\n\nDark ground `#09090b`, one raised surface `#18181b`, a second step `#27272a` only where a panel needs internal structure. `#fafafa` for primary text, `#9f9fa9` for the largest text tier — and do not go dimmer, because the 9–11px annotation tiers sit on this ground and zinc-400 is the floor. `#d4d4d8` for the values that carry the argument inside a muted row.\n\nOne accent, cyan `#00d3f2`, for the treatment line and the active marker. Significance colours `#00d492` / `#ff637e` appear **only** once the interval has separated; an unresolved test stays muted.\n\nPretendard, no display face, three weights (400/500/600). Scale 24 / 16 / 14 / 12 / 11 / 10 / 9px, with 12px carrying the most nodes. Tabular figures everywhere — the table's columns and the chart's axis must share one rhythm.\n\nThe chart is the argument: a solid historical line plus a shaded 95% interval, so a lift that has not separated from control looks unseparated rather than reading as a number with an asterisk. Put the variant table underneath as evidence.\n\nShell: `min-h-dvh`, fixed sidebar, scrolling main. Card padding `10px 12px`, 4px label-to-value, 12px between panels.\n\nDo not report significance as a decorated figure, and do not give an inconclusive result its own colour."
+  },
+  "n11": {
+    "id": "n11",
+    "palette": [
+      {
+        "token": "bg",
+        "hex": "#ffffff",
+        "role": "Screen ground + cards",
+        "usage": "White for the ground and the dispute cards alike — seven elements. Cards are separated by elevation and spacing rather than tone, which keeps a list of disputes from reading as a list of alerts."
+      },
+      {
+        "token": "fg",
+        "hex": "#18181b",
+        "role": "Order titles + amounts",
+        "usage": "Order names, refund amounts, the card headings. 11 nodes — a dispute screen is read by finding your order first, and this is the tier that answers that."
+      },
+      {
+        "token": "ink2",
+        "hex": "#27272a",
+        "role": "Timeline step labels",
+        "usage": "The step names inside an expanded card. 10 nodes. One tick below the title so an opened card's history reads as detail rather than as a second list of headings."
+      },
+      {
+        "token": "muted",
+        "hex": "#71717a",
+        "role": "Dates + status lines",
+        "usage": "Timestamps, status text, the window countdown. 11 nodes, tied for largest — a dispute is mostly dates, and this is the tone they are read in."
+      },
+      {
+        "token": "secondary",
+        "hex": "#52525b",
+        "role": "Body explanation",
+        "usage": "The one-line reason under each timeline step. Between the step label and the timestamps so an expanded card has three legible tiers rather than two."
+      },
+      {
+        "token": "accent",
+        "hex": "#4f46e5",
+        "role": "New request affordance",
+        "usage": "Per the native DNA's single accent. It appears on exactly one control — the button that starts a return against the one order still inside its window. Nowhere else, because everything else on this screen is history."
+      }
+    ],
+    "typography": "System face, three weights (400 for dates and explanation, 600 for step labels and the action, 700 for the screen heading and amounts). Scale at 390: 28px the screen heading, 16px order titles and amounts (6 nodes), 14px the action label, 13px step labels (8), 12px timestamps and status (14 — the largest tier), 11px the window countdown, 10px the card badges. No tabular figures: there are no aligned columns here, and the canon's `fontVariant` nesting caution applies only where a currency glyph would share a text subtree.",
+    "spacing": "`0px 12px` is the dominant padding (10 occurrences — card horizontal inset with vertical handled by the timeline rhythm), 4px binds a step marker to its label, 8px separates steps, 12px separates cards, `12px 16px` sets the screen inset. Cards expand in place rather than pushing to a detail screen, so the spacing has to hold both states: collapsed cards are a title plus a status line, expanded ones add a vertical timeline.",
+    "philosophy": "The screen refuses a request it already knows will be rejected.\n\nA return window is a fact the app has. The usual shape is to let the buyer pick any order, fill in a reason, attach photos, and then fail at submit with a message about eligibility — collecting effort and spending it. Here the new-request affordance is bound to the one order still inside its window, and every other order shows its history instead. The refusal happens where it costs nothing.\n\nOpen and past disputes are expandable timeline cards, not a list that navigates away. A dispute is a sequence — filed, seller responded, escalated, resolved — and the question a buyer has is where in that sequence they are. Pushing it to a detail screen answers that question one tap later than necessary.\n\nIt won 2-1 — lens 1 and lens 2 (DNA compliance and mobile completeness) against lens 3 (screen-type novelty), the fourth time that split has decided a native round. Lens 3's objection was specific and worth keeping: the state-machine band here is structurally very close to the previous round's, down to the style block and the jump-to fallback. Lens 1 and lens 2 counted **the same code** as a faithful implementation of an established idiom. That disagreement is recorded as an open question rather than a judging error — reuse and novelty pull against each other, and the loop has not decided which the archetype lens should reward.",
+    "dosDonts": [
+      {
+        "do": "Bind the new-request control to the orders that are actually eligible.",
+        "dont": "Let the buyer build a request and fail at submit — that spends their effort to tell them something you knew at the start."
+      },
+      {
+        "do": "Expand disputes in place as timeline cards.",
+        "dont": "Navigate to a detail screen. The buyer's question is where in the sequence this is, and that is a one-glance answer."
+      },
+      {
+        "do": "Show the window countdown on the eligible order.",
+        "dont": "Hide the deadline until the request is started — the countdown is the reason the control exists."
+      },
+      {
+        "do": "Keep the accent on the single action and nowhere else.",
+        "dont": "Colour the dispute statuses with it. Everything but that one control is history, and history does not need the loudest tone."
+      },
+      {
+        "do": "Give collapsed cards a title plus one status line.",
+        "dont": "Collapse to the title alone — the buyer scanning the list is looking for state, not for names."
+      },
+      {
+        "do": "Read the screen as three text tiers when expanded (step label, explanation, timestamp).",
+        "dont": "Flatten explanation and timestamp into one tone — an expanded timeline with two tiers stops being scannable at the fourth step."
+      }
+    ],
+    "agentPrompt": "Build a disputes and returns screen for a marketplace buyer.\n\nWhite ground and white cards, separated by elevation and spacing rather than tone. `#18181b` for order titles and amounts, `#27272a` for timeline step labels, `#52525b` for the one-line explanation under each step, `#71717a` for dates and status. One accent `#4f46e5`, on exactly one control.\n\nSystem face, three weights (400/600/700). Scale 28 / 16 / 14 / 13 / 12 / 11 / 10px, with 12px carrying the most nodes.\n\nTwo things live here: existing disputes as **expandable timeline cards** (filed → seller responded → escalated → resolved), and one affordance to start a new return.\n\nThe rule that matters: bind that affordance to the orders still inside their return window, and show the countdown there. Do not let the buyer assemble a request you already know is ineligible and fail them at submit — refuse where it costs nothing.\n\nCollapsed cards are a title plus one status line; expanded ones add the vertical timeline. Expand in place, never navigate away.\n\nSpacing: `0px 12px` card inset, 4px marker-to-label, 8px between steps, 12px between cards, `12px 16px` screen inset.\n\nKeep the accent off the dispute statuses — everything but the new-request control is history."
   }
 }

@@ -18,6 +18,8 @@ export const SUBSET_IDS = [
   "v12", "n8", "n9",
   // 2026-08-17 주간 반증 승격분 (auto-dash-r14/c · auto-native-r6/c)
   "d46", "n10",
+  // auto-dash-r15/c · auto-native-r7/a
+  "d47", "n11",
 ];
 
 export function validateSpec(spec) {

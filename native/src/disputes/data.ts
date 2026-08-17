@@ -1,4 +1,4 @@
-// native/src/evolve/r7/a/data.ts — auto-native-r7 candidate a (Dispute & Return Center).
+// native/src/disputes/data.ts — auto-native-r7 candidate a (Dispute & Return Center).
 // Deterministic dummy data only — no Math.random / Date.now / argument-less new Date() anywhere.
 // Every date/time is a fixed literal label; "today" is treated as Sun, Aug 16 2026 to match the
 // generation date, but that is a literal string, never derived from the real clock.
