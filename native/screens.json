@@ -25,5 +25,11 @@
   },
   "order-status": {
     "check": "Order status"
+  },
+  "verification": {
+    "check": "Seller verification"
+  },
+  "disputes": {
+    "check": "Disputes & Returns"
   }
 }
