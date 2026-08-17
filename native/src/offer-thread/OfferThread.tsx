@@ -1,4 +1,4 @@
-// native/src/evolve/r1/b/OfferThread.tsx — auto-native-r1 candidate b.
+// native/src/offer-thread/OfferThread.tsx — auto-native-r1 candidate b.
 // Buyer↔seller negotiation thread: a time-ordered stream (messages · structured offer cards ·
 // system events) under a pinned live-offer strip, over a persistent action bar.
 // The proof this screen exists to give — what is on the table and what lands in the account —

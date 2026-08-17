@@ -1,4 +1,4 @@
-// native/src/evolve/r2/c/Preferences.tsx — auto-native-r2 candidate c.
+// native/src/account/Preferences.tsx — auto-native-r2 candidate c.
 // A configuration screen, not a browse/detail/negotiation screen: the primary interaction is
 // adjusting persistent preferences (toggles, a segmented choice, two live-adjustable numeric
 // thresholds) grouped under an identity summary. Every row applies live — there is no deferred,
