@@ -1,4 +1,4 @@
-// native/src/evolve/r6/c/data.ts — auto-native-r6 candidate c.
+// native/src/verification/data.ts — auto-native-r6 candidate c.
 // Deterministic dummy data for the Seller Verification screen: a 4-step identity/payout
 // verification flow (identity document capture, payout account, required attestations,
 // review + submit-for-review). No Math.random / Date.now / bare `new Date()` anywhere.

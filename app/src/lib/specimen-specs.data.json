@@ -4197,5 +4197,169 @@
       }
     ],
     "agentPrompt": "Build a post-purchase order status screen for mobile: four ordered steps — payment confirmed, seller shipped, in transit, delivered — connected by a vertical rail.\n\nWhite ground. #18181b for step titles, #27272a one tick darker for the single current step, #52525b for dates and detail, #71717a for captions and steps not yet reached. One accent, #4f46e5, and spend it on the rail and the completed markers — it is structure, not decoration. White on the accent (6.5:1) for the band label and marker numerals.\n\nSystem face, three weights (400/600/700). Scale 28 / 17 / 16 / 14 / 13 / 12 / 11px. Tabular figures for dates, so actual and estimated align down the rail.\n\nSpacing 8px marker-to-label, 12px between rail segments, 3px date-to-qualifier, 20px between cards, 16px inset. The rail is a fixed-width left column with content flowing beside it, stretching to match each step's own height.\n\nThe rule that matters: the fixed bottom band exists only when it has work. Before delivery the slot holds a banner naming the next step and its estimate. Once delivered, it becomes a Confirm receipt band. Never a dimmed control waiting for permission, and never blank.\n\nExactly one step is current; order is fixed and not user-decided. Compute the current index and the next step from the data rather than hard-coding a state — the pre-delivery path must exist even if your dummy order is already delivered.\n\nAdd an item summary card and a tap-to-reveal courier and tracking card. Do not build this as a chat thread, a togglable checklist, a settings list, or a filterable feed."
+  },
+  "d46": {
+    "id": "d46",
+    "palette": [
+      {
+        "token": "bg",
+        "hex": "#ffffff",
+        "role": "Canvas + cards",
+        "usage": "The ground and every panel share one white — 63 painted elements. A dispatch console is read across three zones at once, and a second surface tone would make the eye rank them before the data does."
+      },
+      {
+        "token": "surface",
+        "hex": "#f4f4f5",
+        "role": "Time grid + rail rows",
+        "usage": "zinc-100 on the calendar grid and the unassigned ticket rows. One step off the canvas, used only where a region needs to read as a container rather than as content — 27 elements, all structural."
+      },
+      {
+        "token": "fg",
+        "hex": "#18181b",
+        "role": "Primary text",
+        "usage": "Crew names, ticket titles, times. 151 nodes — by far the largest tier, because a dispatch board is mostly proper nouns and clock values that have to be read at a glance."
+      },
+      {
+        "token": "secondary",
+        "hex": "#52525c",
+        "role": "Supporting text",
+        "usage": "Addresses, ticket meta, column headers. 84 nodes. zinc-600 rather than zinc-500 because several of these sit on the zinc-100 grid, where the canon's muted-surface floor applies."
+      },
+      {
+        "token": "muted",
+        "hex": "#71717b",
+        "role": "Muted labels",
+        "usage": "Time-axis labels, empty-slot hints, counts. 87 nodes. zinc-500 is safe here only on the white canvas — the same tone on the grid would fall under 4.5:1."
+      },
+      {
+        "token": "accent",
+        "hex": "#fe9a00",
+        "role": "Accent fill",
+        "usage": "The active-day marker and the assign affordance. Amber, chosen against a catalogue where violet-hex is the most-used accent at eight works — six painted elements on the page."
+      },
+      {
+        "token": "accent-ink",
+        "hex": "#bb4d00",
+        "role": "Accent as text",
+        "usage": "amber-700 where the accent has to be read rather than filled. #fe9a00 as small text on white is 2.1:1 and would fail; this reads at 4.8:1."
+      },
+      {
+        "token": "ok",
+        "hex": "#007a55",
+        "role": "On-time state",
+        "usage": "emerald-700 on an emerald-50 chip. Paired with a word, never colour alone — a dispatch board is scanned by people who may not distinguish the green from the red at speed."
+      },
+      {
+        "token": "risk",
+        "hex": "#c10007",
+        "role": "Late state",
+        "usage": "red-700 on a red-50 chip. Same pairing rule as the on-time state; the chip carries the minutes, not just the hue."
+      }
+    ],
+    "typography": "Pretendard throughout with no display face — the console's job is density, and a second face at this scale costs more than it says. Exactly three weights render: 400 for body, 500 for the time-axis and meta, 600 for names and headings. Scale measured at 1440: 16px section heads, 14px ticket titles and crew names (93 nodes), 13px addresses, 12px meta and chips (95 nodes), 11.5px the assignment cells, 11px the time axis and counts (111 nodes — the largest tier). The 11px step doing the most work is what forced the muted tone up to zinc-500 on white and zinc-600 on the grid; a dimmer grey at that size would not have cleared AA on either surface. All clock values and load figures are tabular so the columns align down the grid.",
+    "spacing": "A 4px base carrying 153 gaps — by a wide margin the dominant rhythm, because the time grid's rows and the ticket rail's rows both step in 4s. 10px and 12px handle card interiors, 6px and 8px the chip and badge padding. The shell is `h-dvh overflow-hidden`: the page itself never scrolls, and each of the three zones (crew rail, time grid, ticket rail) owns its own scroll. That is why the work carries no preview flag — thirteen dashboard works in the catalogue use the same fixed-shell shape and none of them do either.",
+    "philosophy": "Dispatch is a calendar first and a board second. The day's assignments sit on a time grid rather than in status columns, because the question a dispatcher asks is *when is this crew free*, not *what stage is this ticket in* — and a board answers the second while hiding the first.\n\nDragging an assignment moves two things at once: the schedule and the load figures beside it. That is the round's requirement that manipulation must strengthen the proof rather than reveal it — the load numbers are visible before any drag, and the drag changes them.\n\nThe unassigned work stays in a rail rather than behind a tab. A tab would make \"what is still unassigned\" a question you have to ask; the rail makes it a thing you cannot avoid seeing. That is also why the rail sits beside the grid rather than above it — vertical space is the grid's, and the grid is the argument.\n\nIt won 3-0. Lens 1 ranked it first on brief compliance, lens 2 on commercial completeness, lens 3 on archetype novelty — the second and third places differed between lenses but the winner did not.",
+    "dosDonts": [
+      {
+        "do": "Put the day on a time axis and let status be a property of an assignment.",
+        "dont": "Build status columns and add a date filter. That answers what stage, and dispatch asks when."
+      },
+      {
+        "do": "Show the load figures before any drag, and recompute them during it.",
+        "dont": "Reveal the load only after an assignment lands — a control that discloses is not a control that demonstrates."
+      },
+      {
+        "do": "Keep unassigned work in a persistent rail.",
+        "dont": "Put it behind a tab. Anything a dispatcher must not forget cannot require a click to remember."
+      },
+      {
+        "do": "Use zinc-600 for supporting text that sits on the zinc-100 grid.",
+        "dont": "Reuse the zinc-500 that works on the white canvas — on the grid it falls under 4.5:1, which is the muted-surface floor the canon names."
+      },
+      {
+        "do": "Pair every state colour with a word (on time, 12m late).",
+        "dont": "Encode lateness in hue alone — a dispatch board is scanned fast and often by people who cannot separate the two greens."
+      },
+      {
+        "do": "Let each of the three zones own its scroll under an `h-dvh overflow-hidden` shell.",
+        "dont": "Let the page scroll. Once the grid can leave the viewport, the time axis stops being a fixed reference."
+      },
+      {
+        "do": "Reach for amber when the catalogue is already eight works deep in violet.",
+        "dont": "Pick the accent by taste alone — the diversity check exists because twenty works came out in one hue before anyone counted."
+      }
+    ],
+    "agentPrompt": "Build a dispatch console for a field-service team, and make it a calendar first.\n\nOne white ground, one raised tone (`#f4f4f5`) for the time grid and the ticket rail. `#18181b` for names and times, `#52525c` for supporting text, `#71717b` for axis labels — and note that the muted tone must go one step darker on the grid than on the canvas, or it falls under AA. One accent, amber `#fe9a00`, on no more than six elements; when the accent has to be read as text use `#bb4d00`.\n\nPretendard only, no display face, exactly three weights (400/500/600). Scale 16 / 14 / 13 / 12 / 11.5 / 11px, and expect 11px to carry the most nodes — that is what sets the floor on your greys. Tabular figures for every clock value and load number.\n\nThree zones under an `h-dvh overflow-hidden` shell: crew rail, time grid, unassigned ticket rail. The page never scrolls; each zone owns its own.\n\nThe grid is the argument. Assignments sit on a time axis, and dragging one recomputes both the schedule and the crew load figures beside it — the load must be visible before the drag, not revealed by it.\n\nUnassigned work stays in a persistent rail, never behind a tab.\n\nState colours (on time, late) always carry a word, never hue alone.\n\nDo not build status columns with a date filter, and do not put the load behind a hover."
+  },
+  "n10": {
+    "id": "n10",
+    "palette": [
+      {
+        "token": "bg",
+        "hex": "#ffffff",
+        "role": "Screen ground + cards",
+        "usage": "White across the whole flow — 17 painted elements. A verification screen asks for documents and bank details; a tinted surface would read as a state the user has to interpret while already being asked to interpret a lot."
+      },
+      {
+        "token": "border",
+        "hex": "#e4e4e7",
+        "role": "Accordion dividers",
+        "usage": "The only structural tone on the screen — four elements, one per collapsed step. Steps are separated by a line rather than by a surface, which keeps the closed state quiet enough that the open one reads as the single place to look."
+      },
+      {
+        "token": "fg",
+        "hex": "#18181b",
+        "role": "Step titles + values",
+        "usage": "Step names, entered values, the submit label. 12 nodes — deliberately few, because in an accordion only one step's content is present at a time and the eye should land on that one."
+      },
+      {
+        "token": "muted",
+        "hex": "#71717a",
+        "role": "Help text + pending steps",
+        "usage": "Field help, document requirements, and the labels of steps not yet reached. 21 nodes, the largest tier — a verification flow is mostly explanation, and this is the tone it is read in."
+      },
+      {
+        "token": "secondary",
+        "hex": "#52525b",
+        "role": "Completed step summaries",
+        "usage": "The one-line summary a step collapses into once satisfied. One tick darker than the help text so a finished step reads as settled rather than as another instruction."
+      },
+      {
+        "token": "accent",
+        "hex": "#4f46e5",
+        "role": "Active step + submit",
+        "usage": "The open step's marker and the submit affordance, per the native DNA's single-accent rule. It appears only where the flow is asking for something right now."
+      }
+    ],
+    "typography": "System face, per the native DNA — a screen collecting identity documents borrows the platform's voice rather than announcing a brand. Three weights: 400 for help and values, 600 for step titles and the band label, 700 for the heading. Scale measured at 390: 28px screen heading, 16px step titles (7 nodes), 15px entered values, 14px the band label, 13px help text (10 nodes), 12px captions and status lines (11 nodes — the largest tier), 11px document requirements. Nothing here uses tabular figures: there are no columns to align, and the canon's `fontVariant` caution applies only where a currency glyph would share a text subtree.",
+    "spacing": "2px and 12px do most of the work — 2px binds a label to the line beneath it (12 occurrences), 12px separates fields and accordion rows (10). 16px sets the screen inset, 8px the chip padding, and 20–24px the space around the fixed band. The accordion is the layout: exactly one step is open, collapsed steps are a title plus a one-line summary, and the whole flow fits without the user ever losing the sense of how many steps remain.",
+    "philosophy": "The bottom band is a state machine, and this is the third round to prove the pattern.\n\nIt never sits there as a dimmed Submit. It names what is still missing — one sentence — and pressing it opens the step that owns that gap. Submit appears only once there is nothing left to say. Step changes are announced through an alert role and a polite live region, because in a flow where position is meaning, a purely visual change is not a change for everyone.\n\nThe catalogue now carries this pattern in three shapes: a single checklist that scores inline checks, a four-step creation wizard, and this accordion. Three different screen types, three independent rounds, the same rule winning each time — which is what took it from a provisional observation to the native canon.\n\nThe accordion earns its place by what it does to the closed steps. A wizard hides everything but the current step; a plain form shows everything at once and lets the user drown. Collapsing a satisfied step to a title plus its summary keeps the whole shape of the task visible while asking for one thing.",
+    "dosDonts": [
+      {
+        "do": "Make the bottom band state what is still missing and open that step when pressed.",
+        "dont": "Render a disabled Submit. A dimmed control says something is wrong, not what."
+      },
+      {
+        "do": "Announce step transitions with an alert role and a polite live region.",
+        "dont": "Rely on the accordion's visual state alone — position is the meaning here."
+      },
+      {
+        "do": "Collapse a satisfied step to its title plus a one-line summary.",
+        "dont": "Hide it entirely. The user needs the shape of the whole task while answering one part of it."
+      },
+      {
+        "do": "Keep exactly one step open.",
+        "dont": "Let two expand at once — an accordion with two open panels is a long form with extra chrome."
+      },
+      {
+        "do": "Separate steps with a line and one surface tone.",
+        "dont": "Tint the completed steps. The band already carries progress, and a second signal for it costs a colour you will want for the accent."
+      },
+      {
+        "do": "Let the band disappear rather than sit idle when there is nothing to say.",
+        "dont": "Reserve the space. An empty band teaches the reader to stop looking at the bottom of the screen."
+      }
+    ],
+    "agentPrompt": "Build a seller verification flow for a mobile marketplace: identity documents, then payout account, then review.\n\nOne white surface, `#e4e4e7` lines between steps, `#18181b` for titles and entered values, `#52525b` for the summaries of completed steps, `#71717a` for help text and steps not yet reached. One accent `#4f46e5`, on the open step's marker and the submit affordance only.\n\nSystem face, three weights (400/600/700). Scale 28 / 16 / 15 / 14 / 13 / 12 / 11px, with 12px carrying the most nodes.\n\nAn accordion, not a wizard and not a long form: exactly one step open, satisfied steps collapsed to a title plus a one-line summary so the shape of the whole task stays visible.\n\nThe band is the design. It states, in one sentence, what is still missing, and pressing it opens the step that owns that gap. Submit appears only when nothing is left to say — never a dimmed control waiting for permission, and never an empty reserved space. Give the band an alert role and the accordion a polite live region.\n\nSpacing: 2px label-to-line, 12px between fields and rows, 16px screen inset, 20–24px around the band.\n\nIf you show currency anywhere, keep the tabular-figure style off any text subtree containing the currency glyph — nesting depth is what matters, not sibling order."
   }
 }

@@ -1,4 +1,4 @@
-// native/src/evolve/r6/c/SellerVerificationScreen.tsx — auto-native-r6 candidate c.
+// native/src/verification/SellerVerificationScreen.tsx — auto-native-r6 candidate c.
 //
 // Seller Verification: a 4-step identity/seller-verification flow (identity document capture,
 // payout method, required attestations, review + a real terminal "Submit for review" action).
@@ -21,7 +21,7 @@ import {
   Text,
   View,
 } from "react-native";
-import { tokens } from "../../../tokens";
+import { tokens } from "../tokens";
 import {
   ATTESTATION_ITEMS,
   DOCUMENT_ITEMS,
