@@ -1,0 +1,186 @@
+"use client";
+
+import { useState } from "react";
+import {
+  ChevronsUpDown,
+  FileClock,
+  KanbanSquare,
+  LifeBuoy,
+  ScrollText,
+  Server,
+  Settings,
+  ShieldHalf,
+  X,
+} from "lucide-react";
+import { Avatar } from "./ui";
+import { CURRENT_USER_ID, getTeamMember } from "./data";
+
+const NAV_SECTIONS = [
+  {
+    label: "Vulnerabilities",
+    items: [
+      { id: "queue", label: "Remediation queue", icon: KanbanSquare, active: true },
+      { id: "assets", label: "Assets", icon: Server, active: false },
+      { id: "scanners", label: "Scanner sources", icon: ShieldHalf, active: false },
+    ],
+  },
+  {
+    label: "Reporting",
+    items: [
+      { id: "sla", label: "SLA reports", icon: FileClock, active: false },
+      { id: "audit", label: "Audit log", icon: ScrollText, active: false },
+    ],
+  },
+];
+
+const WORKSPACES = ["Northwind Security", "Northwind APAC AppSec", "Personal sandbox"];
+
+export function Sidebar({ mobileOpen, onCloseMobile }: { mobileOpen: boolean; onCloseMobile: () => void }) {
+  const me = getTeamMember(CURRENT_USER_ID)!;
+
+  return (
+    <>
+      {mobileOpen ? (
+        <button
+          type="button"
+          tabIndex={-1}
+          aria-label="Close sidebar"
+          onClick={onCloseMobile}
+          className="fixed inset-0 z-40 bg-zinc-900/30 lg:hidden"
+        />
+      ) : null}
+
+      <aside
+        className={`fixed inset-y-0 left-0 z-50 flex w-64 shrink-0 -translate-x-full flex-col border-r border-zinc-200 bg-white transition-transform duration-200 motion-reduce:transition-none lg:static lg:z-0 lg:translate-x-0 ${
+          mobileOpen ? "translate-x-0" : ""
+        }`}
+        aria-label="Main sidebar"
+      >
+        <div className="flex h-14 items-center justify-between gap-2 px-4">
+          <WorkspaceSwitcher />
+          <button
+            type="button"
+            onClick={onCloseMobile}
+            aria-label="Close sidebar"
+            className="inline-flex h-11 w-11 items-center justify-center rounded-lg text-zinc-500 hover:bg-zinc-100 hover:text-zinc-900 focus-visible:ring-2 focus-visible:ring-teal-600 focus-visible:ring-offset-2 focus-visible:outline-none lg:hidden"
+          >
+            <X className="h-4 w-4" aria-hidden="true" />
+          </button>
+        </div>
+
+        <nav className="flex-1 space-y-6 overflow-y-auto px-3 py-4" aria-label="Main menu">
+          {NAV_SECTIONS.map((section) => (
+            <div key={section.label}>
+              <h2 className="px-3 text-[11px] font-semibold tracking-wide text-zinc-500 uppercase">
+                {section.label}
+              </h2>
+              <ul className="mt-2 space-y-0.5">
+                {section.items.map((item) => {
+                  const Icon = item.icon;
+                  return (
+                    <li key={item.id}>
+                      <a
+                        href="#main-content"
+                        aria-current={item.active ? "page" : undefined}
+                        className={`flex min-h-[44px] items-center gap-2.5 rounded-lg px-3 text-sm font-medium transition-colors focus-visible:ring-2 focus-visible:ring-teal-600 focus-visible:ring-offset-2 focus-visible:outline-none ${
+                          item.active ? "bg-teal-50 text-teal-800" : "text-zinc-600 hover:bg-zinc-100 hover:text-zinc-900"
+                        }`}
+                      >
+                        <Icon className="h-4 w-4 shrink-0" aria-hidden="true" />
+                        {item.label}
+                      </a>
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
+          ))}
+        </nav>
+
+        <div className="border-t border-zinc-100 p-3">
+          <a
+            href="#main-content"
+            className="mb-1 flex min-h-[44px] items-center gap-2.5 rounded-lg px-3 text-sm font-medium text-zinc-500 hover:bg-zinc-100 hover:text-zinc-900 focus-visible:ring-2 focus-visible:ring-teal-600 focus-visible:ring-offset-2 focus-visible:outline-none"
+          >
+            <LifeBuoy className="h-4 w-4 shrink-0" aria-hidden="true" />
+            Help &amp; docs
+          </a>
+          <div className="flex items-center gap-2.5 rounded-lg px-2 py-2">
+            <Avatar src={me.avatarUrl} name={me.name} size="md" />
+            <div className="min-w-0 flex-1">
+              <p className="truncate text-sm font-medium text-zinc-900">{me.name}</p>
+              <p className="truncate text-xs text-zinc-500">{me.role}</p>
+            </div>
+            <button
+              type="button"
+              aria-label="Settings"
+              className="inline-flex h-11 w-11 items-center justify-center rounded-lg text-zinc-500 hover:bg-zinc-100 hover:text-zinc-700 focus-visible:ring-2 focus-visible:ring-teal-600 focus-visible:ring-offset-2 focus-visible:outline-none"
+            >
+              <Settings className="h-4 w-4" aria-hidden="true" />
+            </button>
+          </div>
+        </div>
+      </aside>
+    </>
+  );
+}
+
+function WorkspaceSwitcher() {
+  const [open, setOpen] = useState(false);
+  const [active, setActive] = useState(WORKSPACES[0]);
+
+  return (
+    <div className="relative flex-1">
+      <button
+        type="button"
+        onClick={() => setOpen((v) => !v)}
+        aria-haspopup="listbox"
+        aria-expanded={open}
+        className="flex min-h-[44px] w-full items-center gap-2 rounded-lg px-2 py-1.5 text-left hover:bg-zinc-100 focus-visible:ring-2 focus-visible:ring-teal-600 focus-visible:ring-offset-2 focus-visible:outline-none"
+      >
+        <span
+          className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-teal-700 text-xs font-bold text-white"
+          style={{ fontFamily: "var(--font-display-mono)" }}
+        >
+          W
+        </span>
+        <span className="min-w-0 flex-1">
+          <span
+            className="block truncate text-sm font-semibold text-zinc-900"
+            style={{ fontFamily: "var(--font-display-mono)" }}
+          >
+            Warden
+          </span>
+          <span className="block truncate text-[11px] text-zinc-500">{active}</span>
+        </span>
+        <ChevronsUpDown className="h-3.5 w-3.5 shrink-0 text-zinc-500" aria-hidden="true" />
+      </button>
+
+      {open ? (
+        <div
+          role="listbox"
+          aria-label="Select workspace"
+          className="absolute top-full left-0 z-30 mt-1 w-full min-w-[240px] rounded-xl border border-zinc-200 bg-white p-1.5 shadow-lg"
+        >
+          {WORKSPACES.map((ws) => (
+            <button
+              key={ws}
+              type="button"
+              role="option"
+              aria-selected={ws === active}
+              onClick={() => {
+                setActive(ws);
+                setOpen(false);
+              }}
+              className={`flex min-h-[44px] w-full items-center rounded-lg px-2.5 text-sm focus-visible:ring-2 focus-visible:ring-teal-600 focus-visible:outline-none ${
+                ws === active ? "bg-teal-50 font-medium text-teal-800" : "text-zinc-700 hover:bg-zinc-100"
+              }`}
+            >
+              {ws}
+            </button>
+          ))}
+        </div>
+      ) : null}
+    </div>
+  );
+}
