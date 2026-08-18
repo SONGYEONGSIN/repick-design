@@ -31,5 +31,14 @@
   },
   "disputes": {
     "check": "Disputes & Returns"
+  },
+  "evolve-r8-c": {
+    "check": "Review order"
+  },
+  "evolve-r8-a": {
+    "check": "Mina Cho"
+  },
+  "evolve-r8-b": {
+    "check": "Write a review"
   }
 }
