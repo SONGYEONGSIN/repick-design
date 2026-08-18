@@ -13,6 +13,9 @@ import { ListingCreateScreen } from "./listing/ListingCreateScreen";
 import { CheckoutScreen } from "./evolve/r8/c/CheckoutScreen";
 import { SellerStorefrontScreen } from "./evolve/r8/a/SellerStorefrontScreen";
 import { WriteReviewScreen } from "./evolve/r8/b/WriteReviewScreen";
+import { MeetupSpotScreen } from "./evolve/r9/a/MeetupSpotScreen";
+import { SellerTrustProfileScreen } from "./evolve/r9/b/SellerTrustProfileScreen";
+import { MeetupSlotGridScreen } from "./evolve/r9/c/MeetupSlotGridScreen";
 
 const COMPONENTS = {
   watchlist: WatchList,
@@ -29,6 +32,9 @@ const COMPONENTS = {
   "evolve-r8-c": CheckoutScreen,
   "evolve-r8-a": SellerStorefrontScreen,
   "evolve-r8-b": WriteReviewScreen,
+  "evolve-r9-a": MeetupSpotScreen,
+  "evolve-r9-b": SellerTrustProfileScreen,
+  "evolve-r9-c": MeetupSlotGridScreen,
 } as const satisfies Record<string, ComponentType>;
 
 export type ScreenSlug = keyof typeof COMPONENTS;

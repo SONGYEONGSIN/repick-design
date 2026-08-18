@@ -40,5 +40,14 @@
   },
   "evolve-r8-b": {
     "check": "Write a review"
+  },
+  "evolve-r9-a": {
+    "check": "Pick a meetup spot"
+  },
+  "evolve-r9-b": {
+    "check": "Stress-test the number"
+  },
+  "evolve-r9-c": {
+    "check": "Find a time with"
   }
 }
