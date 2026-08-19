@@ -31,5 +31,11 @@
   },
   "disputes": {
     "check": "Disputes & Returns"
+  },
+  "review": {
+    "check": "Write a review"
+  },
+  "meetup-time": {
+    "check": "Find a time with"
   }
 }
