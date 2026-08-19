@@ -83,7 +83,7 @@ export default function HeroSection() {
             </a>
           </div>
 
-          <p className="mt-8 max-w-[480px] text-sm font-normal leading-[1.6] text-[#A1A1AA]">
+          <p className="mt-8 max-w-[400px] text-sm font-normal leading-[1.6] text-[#A1A1AA]">
             <span className="font-semibold text-white">Why this match:</span>{" "}
             {listing.aiTag}
           </p>

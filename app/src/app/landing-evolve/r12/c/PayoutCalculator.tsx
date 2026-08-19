@@ -134,7 +134,7 @@ export default function PayoutCalculator() {
                   </p>
                 </div>
               </div>
-              <p className="mt-2 text-xs font-normal text-[#A1A1AA]">
+              <p className="mt-2 max-w-[370px] text-xs font-normal text-[#A1A1AA]">
                 Point estimate {money(point)}, net {money(net)} after the flat $2
                 processing fee — the range above just widens it ±5% for
                 unphotographed wear.
