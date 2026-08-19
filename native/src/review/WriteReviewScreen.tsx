@@ -1,4 +1,4 @@
-// native/src/evolve/r8/b/WriteReviewScreen.tsx — auto-native-r8 candidate b.
+// native/src/review/WriteReviewScreen.tsx — auto-native-r8 winner (promoted).
 //
 // Post-transaction review composer: a single continuous form, not a wizard, not a chronological
 // thread, not a checklist-with-band. Macro shape is (a) a read-only summary of what/who is being
@@ -28,7 +28,7 @@ import {
   type ListRenderItem,
 } from "react-native";
 import Svg, { Polygon } from "react-native-svg";
-import { tokens } from "../../../tokens";
+import { tokens } from "../tokens";
 import {
   FEEDBACK_MAX_LENGTH,
   QUICK_TAGS,

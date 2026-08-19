@@ -1,4 +1,4 @@
-// native/src/evolve/r8/b/data.ts — deterministic dummy data for the "Write a Review" composer.
+// native/src/review/data.ts — deterministic dummy data for the "Write a Review" composer.
 // No Math.random / Date.now / argless `new Date()` anywhere in this file — every value below is a
 // fixed literal or derived from fixed literals.
 

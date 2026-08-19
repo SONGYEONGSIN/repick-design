@@ -4525,5 +4525,343 @@
       }
     ],
     "agentPrompt": "Build a disputes and returns screen for a marketplace buyer.\n\nWhite ground and white cards, separated by elevation and spacing rather than tone. `#18181b` for order titles and amounts, `#27272a` for timeline step labels, `#52525b` for the one-line explanation under each step, `#71717a` for dates and status. One accent `#4f46e5`, on exactly one control.\n\nSystem face, three weights (400/600/700). Scale 28 / 16 / 14 / 13 / 12 / 11 / 10px, with 12px carrying the most nodes.\n\nTwo things live here: existing disputes as **expandable timeline cards** (filed → seller responded → escalated → resolved), and one affordance to start a new return.\n\nThe rule that matters: bind that affordance to the orders still inside their return window, and show the countdown there. Do not let the buyer assemble a request you already know is ineligible and fail them at submit — refuse where it costs nothing.\n\nCollapsed cards are a title plus one status line; expanded ones add the vertical timeline. Expand in place, never navigate away.\n\nSpacing: `0px 12px` card inset, 4px marker-to-label, 8px between steps, 12px between cards, `12px 16px` screen inset.\n\nKeep the accent off the dispute statuses — everything but the new-request control is history."
+  },
+  "d48": {
+    "id": "d48",
+    "palette": [
+      {
+        "token": "bg",
+        "hex": "#ffffff",
+        "role": "Canvas + panels",
+        "usage": "White for the app ground and every panel alike — 15 painted elements. A twin-region console is read as two things being held against each other, and a second surface tone would rank them before the numbers do."
+      },
+      {
+        "token": "surface",
+        "hex": "#f4f4f5",
+        "role": "Inset rows",
+        "usage": "zinc-100 where a region panel needs internal structure — table banding and the metric rail. Nine elements, all structural."
+      },
+      {
+        "token": "accent-wash",
+        "hex": "#ecfdf5",
+        "role": "Comparison field",
+        "usage": "emerald-50 behind the shared metric table — the most-painted background at 23 elements. It marks the region where the two panes actually meet, so the eye finds the comparison rather than the panels."
+      },
+      {
+        "token": "accent-wash-2",
+        "hex": "#f0fdfa",
+        "role": "Secondary field",
+        "usage": "teal-50 on the delta column only. One step off the comparison field, used where a value is a difference rather than a reading."
+      },
+      {
+        "token": "fg",
+        "hex": "#171717",
+        "role": "Primary text",
+        "usage": "Region names, metric values, table figures. 102 nodes at #171717 with a further 58 at the near-identical #18181b, together the largest tier — the page is mostly proper nouns and numbers that have to be read at a glance. Two inks this close is a seam, not a decision; one of them should have been chosen."
+      },
+      {
+        "token": "muted",
+        "hex": "#71717b",
+        "role": "Labels + axis",
+        "usage": "zinc-500 for metric labels, column heads and time-axis values. 44 nodes. Safe here because every one of them sits on the white canvas, not on the zinc-100 rail."
+      },
+      {
+        "token": "secondary",
+        "hex": "#52525c",
+        "role": "Supporting text",
+        "usage": "zinc-600 for the notes that sit on the zinc-100 rail — one step darker than the canvas muted, because the canon's muted-surface floor binds there."
+      },
+      {
+        "token": "accent",
+        "hex": "#009689",
+        "role": "Accent fill",
+        "usage": "teal-600 on the active region marker and the compare affordance. Chosen against a catalogue eight works deep in violet-hex — two painted elements plus the chart strokes."
+      },
+      {
+        "token": "accent-ink",
+        "hex": "#007a55",
+        "role": "Accent as text",
+        "usage": "emerald-700 where the accent has to be read rather than filled — 24 nodes, the delta figures. #009689 as small text on white would not clear AA; this does."
+      },
+      {
+        "token": "risk",
+        "hex": "#c70036",
+        "role": "Regression",
+        "usage": "rose-700 where a delta runs the wrong way. Paired with a sign and a word, never hue alone — a comparison console is scanned fast by people who may not separate the two directions at speed."
+      }
+    ],
+    "typography": "Pretendard throughout, with Space Grotesk Display on exactly two nodes (the region names) — the one place a proper noun has to read as a label rather than as data. Weights render as **exactly three** (400 body 145 nodes, 500 the metric rail and axis 94, 600 headings and region names 26). A fourth weight (700) appears in the DOM but only inside the `sr-only` table that gives the latency chart its text alternative — it is not visible typography, and the `weights` gate counts it, which is a known instrument over-count. Scale at 1440: 20px the region headings, 18px the delta figures, 16px the body tier (102 nodes — the largest), 15px, 14px table rows (53), 12px meta and chips (55), 11px the axis and column heads (35), 10px the footnotes. All figures tabular so the two panes' columns line up down the page — that alignment is the whole point of a twin layout.",
+    "spacing": "`10px 12px` is the dominant padding (54 occurrences — every panel interior), with `2px 8px` and `2px 6px` on the chips and badges, `8px 12px` and `8px 10px` on the rail rows. A 4px base carries 36 gaps, then 8px (18), 6px (17), 10px (14) and 12px (11). The shell is `min-h-dvh` with a fixed sidebar; the two region panes sit side by side above the shared metric table, so a difference is read horizontally and its evidence vertically.",
+    "philosophy": "The two panes are the argument, not two copies of a page.\n\nA comparison console usually gives you one panel and a dropdown, which makes the reader hold the previous value in their head. Here both regions are rendered at once and the shared metric table carries a delta column, so a difference is read **as a difference** rather than as two numbers the reader has to subtract.\n\nThat is also why the comparison field gets the strongest background wash — emerald-50 on 23 elements, more than any other surface. The panels are white and the place where they meet is tinted, so the eye lands on the comparison rather than on either side of it.\n\nPicking a region on either side recomputes both panels, the shared table and the delta column together. There is no state where one pane is fresh and the other is stale.\n\nIt won 2-1 — lens 1 and lens 2 against lens 3, the same split that decided three of this period's four rounds across all three targets. That pattern is recorded as an open question rather than a judging error: the novelty lens is structurally alone, because brief-compliance and commercial completeness support each other while differentiation can conflict with both.",
+    "dosDonts": [
+      {
+        "do": "Render both regions at once and put the delta in the shared table.",
+        "dont": "Give one panel and a dropdown. That makes the reader subtract, which is the work the page exists to do."
+      },
+      {
+        "do": "Tint the field where the two panes meet, not the panes themselves.",
+        "dont": "Give each region its own surface tone — that ranks the sides before the numbers do."
+      },
+      {
+        "do": "Recompute both panes, the table and the delta from one region change.",
+        "dont": "Let one pane refresh while the other holds a previous reading."
+      },
+      {
+        "do": "Use zinc-600 for supporting text on the zinc-100 rail and zinc-500 only on white.",
+        "dont": "Reuse one muted tone across both surfaces — the muted-surface floor binds on the rail."
+      },
+      {
+        "do": "Pair every regression colour with a sign and a word.",
+        "dont": "Encode direction in hue alone on a page whose subject is which way a difference runs."
+      },
+      {
+        "do": "Keep every figure tabular so the two panes' columns align.",
+        "dont": "Let the panes carry different number rhythms — the reader is comparing them line by line."
+      },
+      {
+        "do": "Give the latency chart a table alternative in `sr-only`.",
+        "dont": "Read the `weights` gate's count as visible typography when a page does this — the sr-only `<th>` inherits UA bold and shows up as a fourth weight."
+      }
+    ],
+    "agentPrompt": "Build a twin-region comparison console where the two panes are the argument.\n\nWhite ground and white panels, `#f4f4f5` for inset rows. Tint the field where the panes meet — `#ecfdf5` behind the shared metric table (make it the most-painted background), `#f0fdfa` on the delta column only. `#171717` for names and values, `#71717b` for labels on white, `#52525c` for supporting text on the zinc-100 rail. One accent, teal `#009689`, on the active region marker and the compare control; when the accent has to be read as text use `#007a55`.\n\nPretendard, with a second display face on **only** the region names. Exactly three visible weights (400/500/600). Scale 20 / 18 / 16 / 15 / 14 / 12 / 11 / 10px, with 16px carrying the most nodes. Tabular figures everywhere — the two panes' columns must align.\n\nShell: `min-h-dvh`, fixed sidebar. Two region panes side by side, shared metric table underneath with a delta column. Panel padding `10px 12px`, 4px base gap.\n\nPicking a region on either side recomputes **both** panels, the shared table and the delta together — never leave one pane stale.\n\nRegression colours always carry a sign and a word, never hue alone.\n\nGive any chart a `sr-only` table alternative. Do not build one panel with a dropdown."
+  },
+  "v13": {
+    "id": "v13",
+    "palette": [
+      {
+        "token": "paper",
+        "hex": "#f5f5f2",
+        "role": "Page ground",
+        "usage": "A warm off-white, not pure white — 14 painted elements. A ledger is read as a document, and paper stock is the first thing that says so."
+      },
+      {
+        "token": "card",
+        "hex": "#ffffff",
+        "role": "Ledger + listing cards",
+        "usage": "Pure white lifted off the paper — 15 elements. The ledger card is the one surface that has to read as an artefact laid on the page rather than part of it."
+      },
+      {
+        "token": "ink",
+        "hex": "#12120f",
+        "role": "Amounts + headings",
+        "usage": "69 nodes. Near-black with a hint of warmth so it belongs to the paper rather than sitting on top of it."
+      },
+      {
+        "token": "muted",
+        "hex": "#5b5b55",
+        "role": "Body + line items",
+        "usage": "106 nodes — by far the largest tier. A ledger is mostly explanation of how each number was arrived at, and this is the tone that carries it. Warm grey rather than neutral, at 6.4:1 on the paper."
+      },
+      {
+        "token": "rule",
+        "hex": "#e2e2dc",
+        "role": "Ledger rules",
+        "usage": "The only structural tone — row separators inside the ledger. Rows are divided by a line, never by a second surface, because a banded ledger reads as a table and this is not one."
+      },
+      {
+        "token": "accent",
+        "hex": "#0f766e",
+        "role": "Accent fill",
+        "usage": "teal-700 on the total's left rule, the CTA fill and the share bars — 11 elements. One hex does fill, border and small text alike: 5.01:1 on the paper, 5.47:1 for white on it, so no lighter tint had to be derived."
+      },
+      {
+        "token": "accent-deep",
+        "hex": "#0b4f4a",
+        "role": "Accent on tint",
+        "usage": "The darker step used only where the accent sits on its own `#e3f1ef` wash — four nodes. The lighter accent would not clear AA there."
+      },
+      {
+        "token": "accent-wash",
+        "hex": "#e3f1ef",
+        "role": "Evidence tint",
+        "usage": "Behind the audit-trail entries, four elements. It marks what is evidence rather than claim."
+      }
+    ],
+    "typography": "Pretendard for everything except the display face — Archivo (`--font-display-wide`) on 20 nodes: the h1, every amount, the section numbers and the statistics. Exactly three weights render (600 on 113 nodes, 400 on 68, 800 on 21) with `font-medium` and `font-bold` unused and `<strong>`/`<b>`/`<th>` avoided entirely, so no UA default leaks a fourth. Scale at 1440: 41.6px the hero total, 15.2px the body, 14.4px, 13.6px, 12.8px, 12.48px, 11.52px, 11.2px, and 10.88px carrying the most nodes (79) — the eyebrow and label tier. Body paragraphs are capped at 470px and evidence cards at 440px, computed from a measured average advance of **0.44em** rather than the 0.5em that three candidates in this round assumed and all three overshot with.",
+    "spacing": "`10px 20px` is the dominant padding (14 occurrences — every ledger row), then `14px 20px` on the card headers and `12px 20px` on the audit entries. An 8px base carries 23 gaps, with 16px (15), 10px (12), 12px (8) and a 40px step between sections. The page root is `min-h-dvh` on the paper tone; the hero puts the total and the ledger card side by side so the conclusion and its breakdown are in the first fold together, and the listing rail sits above the ledger at narrow widths so the canon's first-fold rule still holds.",
+    "philosophy": "The conclusion is given first and the scroll spends it.\n\nMost value-proposition pages accumulate toward a number at the end, which means the first screen has no argument in it. Here the total sits in the hero — a settled figure against the inspection fee — and scrolling breaks it into evidence, one line at a time, with a sticky counter that keeps the total on screen at every scroll position.\n\nThe ledger writes a zero. One entry is a loss escrow already covered, and it is carried at $0 rather than folded into the total. That costs the page its biggest possible number and buys the only thing a ledger has to sell — a page that argues with money has to be able to write a zero, and the audit entry says so in as many words.\n\nEvery row carries an **I would have caught this** toggle, so a sceptical reader can write off their own claims and watch what survives. Two write-offs still leave a figure larger than the fee. The argument is stronger for inviting the objection than it would be for hiding it.\n\nIt won 2-1 — lens 1 and lens 2 against lens 3, which ranked it **last** and said so specifically: the form is a table, and a table is exactly what the ledger shape resolves to. That objection is recorded rather than dismissed.",
+    "dosDonts": [
+      {
+        "do": "Put the total in the first fold and use the scroll to break it into evidence.",
+        "dont": "Accumulate toward a number at the end — that leaves the first screen with no argument in it."
+      },
+      {
+        "do": "Keep a running counter on screen so the conclusion is present at every scroll position.",
+        "dont": "Let the total leave the viewport once the breakdown starts."
+      },
+      {
+        "do": "Carry a genuine zero and say why it is there.",
+        "dont": "Fold a covered loss into the total to make the figure bigger — the zero is what makes the rest credible."
+      },
+      {
+        "do": "Let the reader write off individual lines and watch the remainder.",
+        "dont": "Hide the objection. A number that survives a sceptic is worth more than a larger one that does not."
+      },
+      {
+        "do": "Divide ledger rows with a rule and one surface step.",
+        "dont": "Band the rows with a second tone — that turns the ledger into a table, which is the form this page has to stay clear of."
+      },
+      {
+        "do": "Compute body width from a measured 0.44em average advance.",
+        "dont": "Assume 0.5em, and do not use `ch` — `ch` is the advance of `0` and runs 35% wide, so `62ch` renders 84 characters."
+      },
+      {
+        "do": "Avoid `<strong>`, `<b>` and `<th>` so no UA default leaks a fourth weight.",
+        "dont": "Rely on counting declared classes — the rendered default is what the rule measures."
+      }
+    ],
+    "agentPrompt": "Build a landing page whose hero is a settled ledger, not a promise.\n\nWarm paper `#f5f5f2` ground with white `#ffffff` cards lifted off it. `#12120f` for amounts and headings, `#5b5b55` for body and line items (make this the largest text tier), `#e2e2dc` for ledger rules. One accent, teal `#0f766e`, used for fill, border and small text alike — it clears AA on the paper at 5.01:1, so derive no lighter tint; use `#0b4f4a` only where the accent sits on its own `#e3f1ef` wash.\n\nPretendard with Archivo (`--font-display-wide`) on the h1, every amount and the section numbers. Exactly three weights (400/600/800). Never use `<strong>`, `<b>` or `<th>` — the UA default would leak a fourth. Scale 41.6 / 15.2 / 14.4 / 13.6 / 12.8 / 11.2 / 10.88px, with the smallest tier carrying the most nodes.\n\n**Body width: compute it from an average advance of 0.44em, not 0.5em, and do not use `ch`.** Cap body paragraphs near 470px at 15px type — that lands around 70 characters, under the 75 limit with room.\n\nThe total goes in the first fold with the listing cards, and scrolling breaks it into evidence line by line with a sticky counter keeping the total on screen. Carry one entry at genuine $0 and justify it in the text. Give every row an \"I would have caught this\" toggle so a sceptic can write off their own claims and see what survives.\n\nDivide ledger rows with a rule, never with a second surface tone — the page must not resolve into a comparison table.\n\nSpacing: `10px 20px` ledger rows, `14px 20px` card headers, 8px base gap, 40px between sections."
+  },
+  "n12": {
+    "id": "n12",
+    "palette": [
+      {
+        "token": "bg",
+        "hex": "#ffffff",
+        "role": "Screen ground + cards",
+        "usage": "White for the ground and every card — nine elements. A review composer asks for judgement, and a tinted surface would read as a state the writer has to interpret while already being asked to form one."
+      },
+      {
+        "token": "fg",
+        "hex": "#18181b",
+        "role": "Headings + the score",
+        "usage": "Screen heading and the rating value. Five nodes, deliberately few — the eye should land on the star row, not on a field of headings."
+      },
+      {
+        "token": "ink2",
+        "hex": "#27272a",
+        "role": "Entered text + tag labels",
+        "usage": "10 nodes, the largest ink tier. What the buyer has actually written or chosen sits one tick below the headings, so the composer reads as their words rather than as the app's."
+      },
+      {
+        "token": "muted",
+        "hex": "#71717a",
+        "role": "Help + placeholders",
+        "usage": "Field help, character counts and the untaken tags. Seven nodes. A composer is mostly guidance until the writer fills it, and this is the tone that guidance is read in."
+      },
+      {
+        "token": "secondary",
+        "hex": "#52525b",
+        "role": "Summary line",
+        "usage": "The one-line restatement of what the review currently says. Between the entered text and the help so the summary reads as a consequence rather than as another instruction."
+      },
+      {
+        "token": "accent",
+        "hex": "#4f46e5",
+        "role": "Selected state + submit",
+        "usage": "Per the native DNA's single accent. Chosen tags and the filled stars carry it, and so does the submit control — the only three places the screen registers a decision. White sits on it at 6.4:1."
+      }
+    ],
+    "typography": "System face, per the native DNA — a screen collecting someone's own words borrows the platform's voice rather than announcing a brand. Three weights render (600 on 12 nodes, 700 on 10, 400 on 5). Scale at 390: 26px the screen heading, 15px entered text, 14px the tag labels, 13px the largest tier (10 nodes — help and the summary line), 12px the counts, 11px the captions. No tabular figures: there are no aligned columns here, and the canon's `fontVariant` nesting caution applies only where a currency glyph would share a text subtree.",
+    "spacing": "`0px 16px` is the dominant inset (six occurrences — the screen gutter), with `16px 20px` on the star block, `16px 16px` on the text field and `12px 12px` on the tag chips. An 8px base carries the tag wrap, 12px separates the three input blocks and 2px binds a label to the line beneath it. The three inputs stack in one scroll rather than stepping through a wizard, because a review is one judgement expressed three ways and splitting it into screens would make it feel like three.",
+    "philosophy": "The tags are printed back into the summary, so the score is never left as a bare number.\n\nA star rating on its own is an assertion with no content — 4 stars from one buyer and 4 from another can mean opposite things. Here the chips the buyer selects are restated in a summary line underneath, so the rating arrives already qualified by what it is a rating *of*. The free text then adds what the chips could not carry, rather than repeating them.\n\nThat ordering matters. Stars first because it is the cheapest thing to ask, tags second because they turn the number into a claim, and prose last because by then the writer knows what they are elaborating on.\n\nIt won 2-1 — lens 1 and lens 2 against lens 3, the same split that decided three of this period's four rounds. Lens 3 preferred a different candidate's screen type; the objection is on the archetype, not on the execution.",
+    "dosDonts": [
+      {
+        "do": "Print the selected tags back into a summary line under the rating.",
+        "dont": "Leave a star score standing alone — the same number means different things from different buyers."
+      },
+      {
+        "do": "Order the inputs stars, then tags, then prose.",
+        "dont": "Open with the text field. The writer does not yet know what they are elaborating on."
+      },
+      {
+        "do": "Keep all three inputs in one scroll.",
+        "dont": "Split a single judgement into a three-step wizard — it makes one act feel like three."
+      },
+      {
+        "do": "Put the accent only on chosen tags, filled stars and submit.",
+        "dont": "Colour the unselected chips with it. The accent marks a decision, and an unmade decision is not one."
+      },
+      {
+        "do": "Set entered text one tick below the headings.",
+        "dont": "Give the buyer's words the same ink as the app's labels — the composer should read as theirs."
+      },
+      {
+        "do": "Use the system face and three weights.",
+        "dont": "Introduce a brand face on a screen that is collecting someone else's voice."
+      }
+    ],
+    "agentPrompt": "Build a review composer for a marketplace buyer: a star rating, tag chips, and free text.\n\nWhite ground and white cards. `#18181b` for the heading and the score, `#27272a` for entered text and tag labels (make this the largest ink tier), `#52525b` for the summary line, `#71717a` for help and untaken tags. One accent `#4f46e5`, on exactly three things — chosen tags, filled stars, and submit. White on the accent, never dark ink.\n\nSystem face, three weights (400/600/700). Scale 26 / 15 / 14 / 13 / 12 / 11px, with 13px carrying the most nodes.\n\nThe rule that matters: **the tags the buyer picks are restated in a summary line under the rating**, so the score never stands as a bare number. Order the inputs stars → tags → prose, and keep all three in one scroll rather than a wizard.\n\nSpacing: `0px 16px` screen gutter, `16px 20px` star block, `16px 16px` text field, `12px 12px` chips, 8px tag wrap, 12px between blocks.\n\nDo not colour unselected chips with the accent, and do not open with the text field."
+  },
+  "n13": {
+    "id": "n13",
+    "palette": [
+      {
+        "token": "bg",
+        "hex": "#ffffff",
+        "role": "Screen ground + grid cells",
+        "usage": "White for the ground and for every cell that is not selected — 27 elements, the most-painted surface. A matrix is read by finding the exceptions, so the default state has to be quiet enough that the marked cells carry all the signal."
+      },
+      {
+        "token": "ink",
+        "hex": "#27272a",
+        "role": "Chosen cell fill + proof strip",
+        "usage": "13 elements. A picked slot inverts to ink rather than taking the accent, so selection reads as a commitment while the accent stays reserved for what is merely possible."
+      },
+      {
+        "token": "accent",
+        "hex": "#4f46e5",
+        "role": "Overlap fill + send",
+        "usage": "Per the native DNA's single accent — eight elements. It marks only the cells where both calendars are open, plus the send control. Nothing that is not a mutual slot ever carries it."
+      },
+      {
+        "token": "fg",
+        "hex": "#18181b",
+        "role": "Headline + day labels",
+        "usage": "Eight nodes. The screen heading and the column heads, which are the two things a reader has to fix before the grid means anything."
+      },
+      {
+        "token": "muted",
+        "hex": "#71717a",
+        "role": "Time gutter + inspector body",
+        "usage": "14 nodes, the largest tier. The hour bands, the legend and the per-cell explanation — a grid is mostly labels around its edges, and this is the tone they are read in."
+      },
+      {
+        "token": "secondary",
+        "hex": "#52525b",
+        "role": "Supporting lines",
+        "usage": "The deal line and the state sentences under the inspector. One tick above muted so an opened cell reads as three tiers rather than two."
+      },
+      {
+        "token": "on-ink",
+        "hex": "#ffffff",
+        "role": "Text on filled cells",
+        "usage": "Four nodes — the check glyph and the counts that sit on ink or accent fills. White clears AA on both; the light-surface muted tones would not."
+      }
+    ],
+    "typography": "System face, three weights (700 on 23 nodes, 400 on nine, 600 on six). Scale at 390: 26px the screen heading, 18px the proof count, 15px the day numbers, 13px the inspector body, 12px the deal line, 11px the legend, 10px carrying the most nodes (11 — the hour gutter and cell counts). `tabular-nums` is applied to exactly five leaf `Text` nodes — the proof count, the day numbers, the day pills, the hour range and the inspector's overlap line — and the one `₩` glyph on the screen sits in a `Text` with no `fontVariant` and no `Text` ancestor at all, so the RN Web cascade cannot reach it.",
+    "spacing": "A 4px base carries 25 gaps — by a wide margin the dominant rhythm, because the grid's rows and columns both step in 4s. Then 3px (nine), 2px (six) and 5px (four) inside the cell glyphs, 8px and 12px between blocks. Cells compute to **56.4 × 56pt** at 390 (`390 − 32 padding − 56 gutter − 20 gap ÷ 5 columns`), clearing the 44×44 minimum on both axes with no `hitSlop` — deliberately, because hitSlop on adjacent grid cells overlaps and steals neighbouring taps.",
+    "philosophy": "The grid answers a question a list cannot.\n\nCoordinating a meetup is usually a list of proposed times with radio buttons, which answers *which one do you prefer*. The real question is *where do our two calendars overlap*, and that is a property of a two-axis crossing — you cannot see it in one column.\n\nEach cell encodes both calendars as a two-bar glyph: top bar is you, bottom bar is them, filled means free. Four states become four **shapes** before they are ever four colours, and the legend teaches that grammar at the same scale as the cells. Colour only marks the mutual slots, so a reader who cannot separate the hues still reads the grid.\n\nThe strongest move is on the near-misses. Tapping a slot only the other party has opened offers **I can make it** — which turns a non-overlap into an overlap on the spot and raises the count above. The manipulation does not reveal the proof; it adds to it.\n\nThere is no fixed bottom chrome anywhere. The band's two jobs are split — a standing counter at the top says how many slots hold right now, and a per-cell readout below the grid says why a cell is blocked and where to go instead. The judging lens called that a replacement rather than an evasion, and it is the round's evidence that the band pattern's essence is the two jobs, not the position.\n\nIt won 3-0, the only unanimous round of the period.",
+    "dosDonts": [
+      {
+        "do": "Encode the four availability states as four shapes, with colour marking only the overlaps.",
+        "dont": "Give each state its own hue — the grid stops working for anyone who cannot separate them."
+      },
+      {
+        "do": "Teach the glyph grammar in a legend rendered at the same scale as the cells.",
+        "dont": "Explain the encoding in prose. The reader is about to parse twenty of them."
+      },
+      {
+        "do": "Let a tap on a near-miss slot add your own availability and raise the count.",
+        "dont": "Make manipulation reveal the proof — it should strengthen it. The overlaps are visible before any tap."
+      },
+      {
+        "do": "Size cells so they clear 44×44 on their own.",
+        "dont": "Use `hitSlop` on adjacent grid cells — the slop regions overlap and steal each other's taps."
+      },
+      {
+        "do": "Split the band's two jobs — a standing count above, a per-cell explanation below.",
+        "dont": "Assume the jobs require a fixed bottom band. The position is a common solution, not the requirement."
+      },
+      {
+        "do": "Invert a chosen cell to ink and keep the accent for what is merely possible.",
+        "dont": "Use the accent for both — then selection and opportunity read the same."
+      },
+      {
+        "do": "Keep `tabular-nums` on leaf `Text` nodes with no `₩` anywhere below them.",
+        "dont": "Judge it by sibling order — RN Web cascades `fontVariant` to nested `Text`, so nesting depth is the test."
+      }
+    ],
+    "agentPrompt": "Build a meetup-time picker as a five-day by four-band availability matrix, not a list of proposed times.\n\nWhite ground and white unselected cells (make white the most-painted surface). `#27272a` fills a chosen cell — selection inverts to ink. One accent `#4f46e5` marks **only** the cells where both calendars are open, plus the send control. `#18181b` for the heading and day labels, `#71717a` for the hour gutter and inspector body (largest tier), `#52525b` for supporting lines, white for text on filled cells.\n\nSystem face, three weights (400/600/700). Scale 26 / 18 / 15 / 13 / 12 / 11 / 10px, with 10px carrying the most nodes.\n\nEach cell carries a two-bar glyph — top bar you, bottom bar them, filled means free — so four states are four **shapes** before they are colours. Put a legend above the grid at the same cell scale.\n\nSize cells to clear 44×44 on their own (at 390: `390 − 32 − 56 gutter − 20 gap ÷ 5 ≈ 56pt`). **Do not use `hitSlop` on grid cells** — adjacent slop regions steal each other's taps.\n\nTapping a slot only the other party has opened offers \"I can make it\", which turns it into an overlap and raises the standing count. Overlaps are visible before any tap.\n\n**No fixed bottom chrome.** Split the band's two jobs: a standing counter at the top says how many slots hold right now, and a per-cell readout below the grid says why a cell is blocked and where to go instead.\n\nSpacing: 4px base (the grid steps in 4s), 3px and 2px inside the glyphs, 8–12px between blocks.\n\nKeep `tabular-nums` on leaf `Text` nodes only, and make sure no `₩` sits anywhere below one — RN Web cascades `fontVariant` into nested `Text`."
   }
 }

@@ -10,12 +10,8 @@ import { SellerVerificationScreen } from "./verification/SellerVerificationScree
 import { DisputeCenterScreen } from "./disputes/DisputeCenterScreen";
 import { OrderTrackingScreen } from "./order-status/OrderTrackingScreen";
 import { ListingCreateScreen } from "./listing/ListingCreateScreen";
-import { CheckoutScreen } from "./evolve/r8/c/CheckoutScreen";
-import { SellerStorefrontScreen } from "./evolve/r8/a/SellerStorefrontScreen";
-import { WriteReviewScreen } from "./evolve/r8/b/WriteReviewScreen";
-import { MeetupSpotScreen } from "./evolve/r9/a/MeetupSpotScreen";
-import { SellerTrustProfileScreen } from "./evolve/r9/b/SellerTrustProfileScreen";
-import { MeetupSlotGridScreen } from "./evolve/r9/c/MeetupSlotGridScreen";
+import { WriteReviewScreen } from "./review/WriteReviewScreen";
+import { MeetupSlotGridScreen } from "./meetup-time/MeetupSlotGridScreen";
 
 const COMPONENTS = {
   watchlist: WatchList,
@@ -29,12 +25,8 @@ const COMPONENTS = {
   disputes: DisputeCenterScreen,
   "order-status": OrderTrackingScreen,
   listing: ListingCreateScreen,
-  "evolve-r8-c": CheckoutScreen,
-  "evolve-r8-a": SellerStorefrontScreen,
-  "evolve-r8-b": WriteReviewScreen,
-  "evolve-r9-a": MeetupSpotScreen,
-  "evolve-r9-b": SellerTrustProfileScreen,
-  "evolve-r9-c": MeetupSlotGridScreen,
+  review: WriteReviewScreen,
+  "meetup-time": MeetupSlotGridScreen,
 } as const satisfies Record<string, ComponentType>;
 
 export type ScreenSlug = keyof typeof COMPONENTS;

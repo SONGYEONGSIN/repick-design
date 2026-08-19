@@ -1,4 +1,4 @@
-// native/src/evolve/r8/c/MeetupSlotGridScreen.tsx — auto-native-r8 candidate c.
+// native/src/meetup-time/MeetupSlotGridScreen.tsx — auto-native-r9 winner (promoted).
 //
 // Meetup Slot Grid: two people picking one time to hand an item over in person. The screen's
 // argument is a 2-axis matrix (5 days across × 4 time bands down), not a list, because the
@@ -29,7 +29,7 @@ import {
   Text,
   View,
 } from "react-native";
-import { tokens } from "../../../tokens";
+import { tokens } from "../tokens";
 import {
   BANDS,
   DAYS,

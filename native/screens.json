@@ -32,22 +32,10 @@
   "disputes": {
     "check": "Disputes & Returns"
   },
-  "evolve-r8-c": {
-    "check": "Review order"
-  },
-  "evolve-r8-a": {
-    "check": "Mina Cho"
-  },
-  "evolve-r8-b": {
+  "review": {
     "check": "Write a review"
   },
-  "evolve-r9-a": {
-    "check": "Pick a meetup spot"
-  },
-  "evolve-r9-b": {
-    "check": "Stress-test the number"
-  },
-  "evolve-r9-c": {
+  "meetup-time": {
     "check": "Find a time with"
   }
 }

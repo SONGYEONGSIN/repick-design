@@ -1,4 +1,4 @@
-// native/src/evolve/r8/c/data.ts — auto-native-r8 candidate c (Meetup Slot Grid).
+// native/src/meetup-time/data.ts — auto-native-r9 winner (promoted).
 //
 // Deterministic dummy data only: no Math.random, no Date.now, no argument-less new Date().
 // Every weekday name, date number and time label below is a hand-written literal. The window is
