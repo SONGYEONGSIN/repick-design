@@ -10,6 +10,8 @@ import { SellerVerificationScreen } from "./verification/SellerVerificationScree
 import { DisputeCenterScreen } from "./disputes/DisputeCenterScreen";
 import { OrderTrackingScreen } from "./order-status/OrderTrackingScreen";
 import { ListingCreateScreen } from "./listing/ListingCreateScreen";
+import { WriteReviewScreen } from "./review/WriteReviewScreen";
+import { MeetupSlotGridScreen } from "./meetup-time/MeetupSlotGridScreen";
 
 const COMPONENTS = {
   watchlist: WatchList,
@@ -23,6 +25,8 @@ const COMPONENTS = {
   disputes: DisputeCenterScreen,
   "order-status": OrderTrackingScreen,
   listing: ListingCreateScreen,
+  review: WriteReviewScreen,
+  "meetup-time": MeetupSlotGridScreen,
 } as const satisfies Record<string, ComponentType>;
 
 export type ScreenSlug = keyof typeof COMPONENTS;

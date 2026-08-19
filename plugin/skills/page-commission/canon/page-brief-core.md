@@ -75,6 +75,10 @@ tags: [principles, brief]
   **클래스가 붙어 있어도 안 그려질 수 있다** — 이것이 이 계측의 진짜 수확이다. v3식 `ring-2` + `ring-offset-*` 는 Tailwind v4 에서 링을 `oklab(0 0 0 / 0)`, 즉 **완전 투명**으로 칠하고, `outline-none` 을 앞에 둔 `focus-visible:outline` 은 `--tw-outline-style: none` 을 읽어 **스스로를 취소**한다. 둘 다 소스만 읽으면 정상으로 보인다 — **챔피언 `/` 와 `/dash/d37` 이 그 상태로 있었다.**
 - 대비 AA, **색만으로 의미 전달 금지**(색 + 텍스트/아이콘 병행)
 - 키보드 전 경로 도달, `prefers-reduced-motion` 게이팅(진입 `opacity:0` 잔존 금지)
+- **기본 뷰가 아닌 것은 designer 가 직접 감사한다 (2026-08-19 편입)** — 게이트가 검사하는 DOM 은 **기본 렌더뿐이고**, 그 밖의 상호작용 상태에 있는 컨트롤은 검증되지 않는다. **페이지에 뷰/탭 전환·모달·스크롤 리빌이 하나라도 있으면, 기본 뷰가 아닌 나머지 상태의 포커스·대비를 스스로 감사해야 한다 — 게이트 통과가 그 상태들을 검증하지 않는다.**
+  같은 결함 클래스가 **네 가지 다른 트리거**로 재현됐다([[curation-criteria]] "재현 판정은 결함 클래스로 한다"):
+  ① **모달** — `auto-dash-r14/b` 커맨드 팔레트 입력이 `outline-none` 만 걸린 채 a11y 100·focus 0건으로 통과 ② **뷰 토글** — `auto-dash-r15/a` Table 뷰 필터 input 의 포커스 표시가 실질 0이었으나 기본 뷰가 `graph` 라 그 DOM 이 아예 없었다 ③ **스크롤 리빌** — `auto-landing-r11/b` 의 3분할 넘버가 `bg-zinc-50` 위 **1.23:1** 인데 `initial opacity:0` 때문에 axe 가 건너뛰었다(같은 색의 폴드 위 노드만 잡혔다) ④ **상태 분기 대비** — 아래 항목.
+  ①②는 2026-08-17 에 `focus` 관문이 상태를 열어 재도록 승격돼 **기계가 잡는다**(위 §1 표). ③④는 아직 아무도 안 잰다 — `color-contrast` 는 여전히 기본 렌더 뷰만 보고, `whileInView` 를 쓴 페이지는 **폴드 아래 전부가 사각지대**다([[questions-queue]] Q33·Q36).
 - **상태 분기 대비** — 정적·Lighthouse 게이트는 기본 렌더 뷰만 스캔한다. 필터·토글로만 도달하는 보조 상태의 텍스트도 대비 규칙을 동일 적용한다. 하한은 **표면 톤 조건부**다: 다크 보조텍스트 zinc-400 미만 금지 · 라이트는 **순백/거의 순백(zinc-50 이하) 표면에서 zinc-500 하한, muted 톤 표면(zinc-100 이상 — 세그먼트·탭 트랙·필 등)에서 zinc-600 하한**. zinc-500은 순백 위에서만 안전한 값이다(실측: `neutral-500` on `neutral-100` = 4.34:1로 하드게이트 미달 → `neutral-600` 7.18:1). 근거는 [[curation-criteria]] "Q10 판정". **다크 쪽 하한은 정적 규칙 `no-dark-dim-text`가 토큰 수준에서 강제한다** — Lighthouse는 호스트가 렌더한 스킴만 감사하므로 `dark:text-*-500`은 측정 시점에 따라 통과/실패가 갈린다(`auto-login-r1`이 라운드에서 100, 재측정에서 96 — [[curation-criteria]] "Q11 판정").
 - **sr-only 앵커** — `position:absolute` 기반 sr-only가 `overflow-x-auto` 클리핑 컨테이너(가로 스크롤 테이블, 그 `<td>` 셀 포함) 안에 있으면, 자기 자신이나 가장 가까운 감싸는 요소에 `position:relative`가 있어야 한다. 없으면 containing block이 클리핑 컨테이너를 건너뛰어 스크롤되지 않은 좌표로 페인트되고 `document.scrollWidth`를 오염시킨다 — 모바일 390px에서만 터진다. 상세: [[dash-brief-v3]] §그리드 크래프트 룰.
 
