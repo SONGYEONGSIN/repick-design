@@ -131,7 +131,7 @@ export default function ProofClosing() {
             <h2 className="text-[clamp(1.9rem,5vw,2.75rem)] font-extrabold tracking-[-0.02em] text-white">
               Your next match might already be live.
             </h2>
-            <p className="mt-4 max-w-[480px] text-[15px] leading-[1.6] text-zinc-400">
+            <p className="mt-4 max-w-[460px] text-[15px] leading-[1.6] text-zinc-400">
               Set a saved search once. Cascade keeps watching, grading and verifying so you don’t have to refresh.
             </p>
           </div>
@@ -147,29 +147,6 @@ export default function ProofClosing() {
           </div>
         </div>
       </motion.section>
-
-      <footer className="px-6 py-12 lg:px-10">
-        <div className="mx-auto flex max-w-[1400px] flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
-          <div>
-            <p className="text-base font-extrabold tracking-[-0.02em] text-white">Cascade</p>
-            <p className="mt-1 text-xs font-normal text-zinc-400">A live matching concept for repick.</p>
-          </div>
-          <nav aria-label="Footer" className="flex flex-wrap gap-x-6 gap-y-2 text-xs font-normal text-zinc-400">
-            <a href="#stream" className={`transition hover:text-white ${focusRing}`}>
-              Live feed
-            </a>
-            <a href="#how-it-works" className={`transition hover:text-white ${focusRing}`}>
-              How it works
-            </a>
-            <a href="#proof" className={`transition hover:text-white ${focusRing}`}>
-              Trust
-            </a>
-          </nav>
-        </div>
-        <p className="mx-auto mt-8 max-w-[1400px] text-xs font-normal text-zinc-400">
-          All listings, prices and match scores on this page are illustrative sample data.
-        </p>
-      </footer>
     </>
   );
 }

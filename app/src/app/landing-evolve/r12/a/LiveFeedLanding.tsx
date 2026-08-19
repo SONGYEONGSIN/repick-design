@@ -86,41 +86,8 @@ export default function LiveFeedLanding() {
   const visible = visibleWindow(filtered, startIndex, STREAM_WINDOW);
 
   return (
-    <div className="bg-[#0B0B0F]">
-      <a
-        href="#main-content"
-        className={`sr-only focus-visible:not-sr-only focus-visible:fixed focus-visible:left-4 focus-visible:top-4 focus-visible:z-50 focus-visible:rounded-full focus-visible:bg-white focus-visible:px-4 focus-visible:py-2 focus-visible:text-sm focus-visible:font-semibold focus-visible:text-[#0B0B0F] ${focusRing}`}
-      >
-        Skip to main content
-      </a>
-
-      <header className="sticky top-0 z-40 border-b border-white/10 bg-[#0B0B0F]/90 backdrop-blur">
-        <div className="mx-auto flex h-16 max-w-[1400px] items-center justify-between px-6 lg:px-10">
-          <a href="#top" className={`text-lg font-extrabold tracking-[-0.02em] text-white ${focusRing}`}>
-            Cascade
-          </a>
-          <nav aria-label="Primary" className="hidden items-center gap-8 text-sm font-normal text-zinc-400 md:flex">
-            <a href="#stream" className={`transition hover:text-white ${focusRing}`}>
-              Live feed
-            </a>
-            <a href="#how-it-works" className={`transition hover:text-white ${focusRing}`}>
-              How it works
-            </a>
-            <a href="#proof" className={`transition hover:text-white ${focusRing}`}>
-              Trust
-            </a>
-          </nav>
-          <a
-            href="#cta"
-            className={`inline-flex h-10 items-center justify-center rounded-full bg-[#4F46E5] px-5 text-sm font-semibold text-white transition hover:bg-[#4338CA] ${focusRing}`}
-          >
-            Get started
-          </a>
-        </div>
-      </header>
-
-      <main id="main-content">
-        <section id="top" className="border-b border-white/10 px-6 pb-16 pt-14 lg:px-10 lg:pb-24 lg:pt-20">
+    <>
+      <section id="top" className="border-b border-white/10 px-6 pb-16 pt-14 lg:px-10 lg:pb-24 lg:pt-20">
           <div className="mx-auto grid max-w-[1400px] grid-cols-1 gap-12 lg:grid-cols-12 lg:items-start lg:gap-8">
             <div className="lg:col-span-5">
               <p className="text-xs font-semibold tracking-[0.28em] text-[#A5B4FC]">LIVE MATCH FEED</p>
@@ -270,7 +237,7 @@ export default function LiveFeedLanding() {
               <h2 className="mt-4 text-[clamp(1.9rem,5vw,2.6rem)] font-extrabold tracking-[-0.02em] text-white">
                 Three checks run before a listing ever reaches your feed.
               </h2>
-              <p className="mt-4 max-w-[560px] text-[15px] leading-[1.6] text-zinc-400">
+              <p className="mt-4 max-w-[460px] text-[15px] leading-[1.6] text-zinc-400">
                 Switch categories above and these numbers recompute — they describe the {categoryLabel.toLowerCase()}{" "}
                 listings currently in your feed, not a fixed example.
               </p>
@@ -314,8 +281,7 @@ export default function LiveFeedLanding() {
             </div>
           </div>
         </section>
-      </main>
-    </div>
+    </>
   );
 }
 

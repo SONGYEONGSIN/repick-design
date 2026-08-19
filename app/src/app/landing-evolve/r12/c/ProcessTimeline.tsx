@@ -34,10 +34,15 @@ import {
  * *reveals progress* rather than *switching a panel* — see candidates/c.md for the full contrast with
  * `auto-landing-r10/b`'s horizontal `tablist` stepper.
  *
- * `prefers-reduced-motion`: the line renders fully drawn (`pathLength: 1`, no scroll subscription
- * driving it) and every stage renders as already reached — a static, fully legible list instead of a
- * scroll-linked reveal, exactly as the brief requires. Nothing here is ever painted at `opacity: 0`
- * waiting on a viewport callback; the reduced branch simply stops animating, it does not hide content.
+ * `prefers-reduced-motion`: the line renders fully drawn and every stage reads as already reached —
+ * a static, fully legible list instead of a scroll-linked reveal, exactly as the brief requires. That
+ * swap is done with `motion-reduce:`/`motion-safe:` CSS, not by branching the JSX on the
+ * `useReducedMotion()` return value: that hook resolves to `null` during SSR and only settles
+ * client-side after mount, so branching element types on it produced a real hydration mismatch in
+ * testing (the animated path's `pathLength` got stuck at 0). CSS media queries are identical on
+ * server and client and need no mount timing, so the static/animated choice lives there instead —
+ * see the comment above the line's `<svg>` pair. Nothing here is ever painted at `opacity: 0` waiting
+ * on a viewport callback; the reduced-motion version simply never animates, it does not hide content.
  */
 export default function ProcessTimeline() {
   const reduced = useReducedMotion();
@@ -75,14 +80,23 @@ export default function ProcessTimeline() {
         </header>
 
         <div ref={trackRef} className="relative mt-16 md:mt-20">
-          {/* connecting line — static track always visible, colored overlay draws with scroll */}
+          {/* connecting line — static track always visible, colored overlay draws with scroll.
+              The animated/static choice is made in *CSS* (`motion-reduce:`/`motion-safe:`), not by
+              branching on the `reduced` JS flag: `useReducedMotion()` resolves to `null` during SSR
+              and only settles client-side after mount, so a JS-branched element type here (plain
+              `<path>` vs `<motion.path>`) diverges between the server-rendered markup and the first
+              client render whenever the visitor actually has reduced motion on — a hydration
+              mismatch that left the animated path's `pathLength` stuck at 0 in testing. Rendering
+              both elements unconditionally and letting a CSS media query decide which one paints
+              sidesteps the mismatch entirely: the DOM is identical on server and client, and the
+              visual choice reacts to `prefers-reduced-motion` live, not to a value snapshotted once. */}
           <div
             aria-hidden
             className="pointer-events-none absolute left-[14px] top-4 bottom-4 w-1"
           >
             <div className="absolute inset-0 rounded-full bg-white/10" />
             <svg
-              className="absolute inset-0 h-full w-full"
+              className="absolute inset-0 hidden h-full w-full motion-safe:block"
               viewBox="0 0 4 1000"
               preserveAspectRatio="none"
             >
@@ -99,21 +113,52 @@ export default function ProcessTimeline() {
                 stroke="url(#trace-line-gradient)"
                 strokeWidth="4"
                 strokeLinecap="round"
-                style={{ pathLength: reduced ? 1 : scrollYProgress }}
+                style={{ pathLength: scrollYProgress }}
+              />
+            </svg>
+            <svg
+              className="absolute inset-0 hidden h-full w-full motion-reduce:block"
+              viewBox="0 0 4 1000"
+              preserveAspectRatio="none"
+            >
+              <defs>
+                <linearGradient id="trace-line-gradient-static" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stopColor={ROSE} />
+                  <stop offset="30%" stopColor={ROSE} />
+                  <stop offset="55%" stopColor={CYAN} />
+                  <stop offset="100%" stopColor={CYAN} />
+                </linearGradient>
+              </defs>
+              <path
+                d="M2 0 L2 1000"
+                stroke="url(#trace-line-gradient-static)"
+                strokeWidth="4"
+                strokeLinecap="round"
               />
             </svg>
           </div>
 
           <ol className="flex flex-col gap-12 md:gap-16">
             {STAGES.map((stage, i) => {
-              const reached = reduced || active >= i;
+              // Same reasoning as the line above: `reached` is derived only from scroll-driven
+              // state, identical on server and client at mount (both start at `active === 0`), so
+              // there is nothing here for hydration to disagree about. The "every stage already
+              // reached" look reduced motion asks for is applied as a `motion-reduce:` class
+              // override below, not by folding `reduced` into this boolean.
+              const reached = active >= i;
               const isOpen = expanded === stage.id;
               const sideColorText = stage.side === "seller" ? "text-[#fb7185]" : "text-[#22d3ee]";
-              const dotClass = reached
-                ? stage.side === "seller"
-                  ? "border-[#e11d48] bg-[#e11d48] text-white"
-                  : "border-[#0e7490] bg-[#0e7490] text-white"
-                : "border-white/15 bg-[#14151C] text-white/40";
+              const dotClass = cx(
+                reached
+                  ? stage.side === "seller"
+                    ? "border-[#e11d48] bg-[#e11d48] text-white"
+                    : "border-[#0e7490] bg-[#0e7490] text-white"
+                  : "border-white/15 bg-[#14151C] text-white/40",
+                // reduced motion: every stage reads as already reached, regardless of scroll state
+                stage.side === "seller"
+                  ? "motion-reduce:border-[#e11d48] motion-reduce:bg-[#e11d48] motion-reduce:text-white"
+                  : "motion-reduce:border-[#0e7490] motion-reduce:bg-[#0e7490] motion-reduce:text-white",
+              );
               const Icon = stage.icon;
               const panelId = `panel-${stage.id}`;
               const buttonId = `button-${stage.id}`;

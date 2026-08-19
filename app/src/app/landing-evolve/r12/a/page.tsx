@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { SkipLink, SiteHeader, SiteFooter } from "./Chrome";
 import LiveFeedLanding from "./LiveFeedLanding";
 import ProofClosing from "./ProofClosing";
 
@@ -10,9 +11,14 @@ export const metadata: Metadata = {
 
 export default function Page() {
   return (
-    <>
-      <LiveFeedLanding />
-      <ProofClosing />
-    </>
+    <div className="bg-[#0B0B0F]">
+      <SkipLink />
+      <SiteHeader />
+      <main id="main-content">
+        <LiveFeedLanding />
+        <ProofClosing />
+      </main>
+      <SiteFooter />
+    </div>
   );
 }
