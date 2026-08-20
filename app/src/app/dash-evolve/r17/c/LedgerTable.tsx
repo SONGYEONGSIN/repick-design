@@ -75,10 +75,16 @@ function TypeFilter({ value, onChange }: { value: DriverType | "all"; onChange: 
   );
 }
 
-function ShareBar({ share, selected }: { share: number; selected: boolean }) {
+/**
+ * The share bar is scaled against the LARGEST share in view, not against a full 100% track: at
+ * 100% the 3.2% driver would draw a 1px stub that reads as a rendering fault. The exact figure
+ * sits immediately to its left, so the bar only has to carry rank at a glance.
+ */
+function ShareBar({ share, maxShare, selected }: { share: number; maxShare: number; selected: boolean }) {
+  const w = Math.max(6, Math.round((share / maxShare) * 1000) / 10);
   return (
     <span aria-hidden="true" className={cx("ml-2 hidden h-1.5 w-10 shrink-0 overflow-hidden rounded-full 2xl:inline-block", SURFACE_INSET)}>
-      <span className="block h-full rounded-full" style={{ width: `${Math.round(share * 10) / 10}%`, backgroundColor: selected ? CHART.decrease : CHART.increase }} />
+      <span className="block h-full rounded-full" style={{ width: `${w}%`, backgroundColor: selected ? CHART.decrease : CHART.increase }} />
     </span>
   );
 }
@@ -120,6 +126,7 @@ export default function LedgerTable({
   }, [bridge, dirFilter, typeFilter, sortKey, sortDir]);
 
   const shown = rows.reduce((a, r) => a + r.amount, 0);
+  const maxShare = Math.max(1, ...rows.map((r) => r.share));
   const shownShare = rows.reduce((a, r) => a + r.share, 0);
   const filtering = dirFilter !== "all" || typeFilter !== "all";
 
@@ -220,7 +227,7 @@ export default function LedgerTable({
                   <td className="whitespace-nowrap px-3 py-2.5 text-right">
                     <span className="inline-flex items-center justify-end">
                       <span className={cx("text-sm font-medium", NUM, TEXT_PRIMARY)}>{formatPct(row.share)}</span>
-                      <ShareBar share={row.share} selected={selected} />
+                      <ShareBar share={row.share} maxShare={maxShare} selected={selected} />
                     </span>
                   </td>
                 </tr>

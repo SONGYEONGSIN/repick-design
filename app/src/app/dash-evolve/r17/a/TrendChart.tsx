@@ -89,7 +89,7 @@ export default function TrendChart({
   const tooltipLeft = Math.min(80, Math.max(20, xFor(shownIndex)));
 
   return (
-    <div>
+    <div className="flex h-full flex-col">
       <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
         <div className="min-w-0">
           <div className="flex items-center gap-1.5">
@@ -125,7 +125,7 @@ export default function TrendChart({
         onFocus={() => onActiveIndexChange(activeIndex ?? n - 1)}
         onBlur={() => onActiveIndexChange(null)}
         onKeyDown={onKeyDown}
-        className={cx("relative mt-3 h-[176px] w-full cursor-crosshair rounded-xl border", BORDER, "bg-zinc-950/40", FOCUS)}
+        className={cx("relative mt-3 min-h-[176px] w-full flex-1 cursor-crosshair rounded-xl border", BORDER, "bg-zinc-950/40", FOCUS)}
       >
         <svg viewBox="0 0 100 100" preserveAspectRatio="none" className="h-full w-full" aria-hidden="true">
           {gridLines.map((y) => (
