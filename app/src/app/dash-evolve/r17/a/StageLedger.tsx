@@ -91,13 +91,11 @@ export default function StageLedger({
                 <td className={cx("px-2 py-1 text-right text-sm font-semibold whitespace-nowrap", NUM, s.dropped === 0 ? TEXT_CAPTION : TEXT_PRIMARY)}>
                   {s.dropped === 0 ? "—" : fmtPct(s.dropRatePct)}
                 </td>
-                <td className="hidden py-1 pl-2 pr-1 lg:table-cell">
-                  {/* The sparkline needs ~64px of its own; below 2xl this column is too narrow to
-                      carry it and the number, and the number is the part that has to survive. */}
+                {/* Pass rate is 100 − drop rate, so it is the column that yields below 2xl rather
+                    than letting any of the four independent figures compress out of legibility. */}
+                <td className="hidden py-1 pl-2 pr-1 2xl:table-cell">
                   <span className="flex items-center justify-end gap-2">
-                    <span className="hidden 2xl:block">
-                      <Sparkline values={series} />
-                    </span>
+                    <Sparkline values={series} />
                     <span className={cx("shrink-0 text-right text-sm font-normal whitespace-nowrap", NUM, TEXT_SECONDARY)}>{fmtPct(s.passRatePct)}</span>
                   </span>
                 </td>

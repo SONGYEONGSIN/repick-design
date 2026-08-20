@@ -47,10 +47,10 @@ const FILTERS: { id: FilterId; label: string }[] = [
 const SLA_ORDER: Record<SlaState, number> = { "on-track": 0, "at-risk": 1, breached: 2 };
 
 const COLUMNS: { key: SortKey | null; label: string; width: string; align: "left" | "right" }[] = [
-  { key: "id", label: "RMA", width: "w-[13%]", align: "left" },
-  { key: null, label: "Unit", width: "w-[22%]", align: "left" },
-  { key: "merchant", label: "Merchant", width: "w-[15%]", align: "left" },
-  { key: null, label: "Hold reason", width: "w-[19%]", align: "left" },
+  { key: "id", label: "RMA", width: "w-[12%]", align: "left" },
+  { key: null, label: "Unit", width: "w-[19%]", align: "left" },
+  { key: "merchant", label: "Merchant", width: "w-[17%]", align: "left" },
+  { key: null, label: "Hold reason", width: "w-[21%]", align: "left" },
   { key: "dwellHours", label: "Dwell", width: "w-[10%]", align: "right" },
   { key: "valueUsd", label: "Value", width: "w-[9%]", align: "right" },
   { key: "sla", label: "SLA", width: "w-[12%]", align: "left" },

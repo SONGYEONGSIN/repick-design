@@ -105,12 +105,12 @@ export default function ConsoleClient() {
               }
             />
             <StatTile
-              label="Selected stage pass rate"
+              label="Stage pass rate"
               value={stage.dropped === 0 ? "—" : fmtPct(stage.passRatePct)}
               Icon={Layers}
               emphasis
               sub={
-                <span className={cx("truncate text-xs font-normal", TEXT_CAPTION)}>
+                <span className={cx("text-xs font-normal leading-snug", TEXT_CAPTION)}>
                   {stage.name} · {stage.dropped === 0 ? "terminal stage" : `${fmtPct(stage.dropRatePct)} drop-off`}
                 </span>
               }
