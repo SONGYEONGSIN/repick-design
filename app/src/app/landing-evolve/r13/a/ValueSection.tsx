@@ -61,8 +61,8 @@ export default function ValueSection() {
             {VALUE_PARTS.map((part, i) => {
               const Icon = part.icon;
               return (
-                <Reveal key={part.kicker} delay={i * 0.06}>
-                  <li className="flex gap-5">
+                <li key={part.kicker}>
+                  <Reveal delay={i * 0.06} className="flex gap-5">
                     <span
                       aria-hidden
                       className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-[#b45309]/40 bg-[#b45309]/10 text-[#fbbf24]"
@@ -80,8 +80,8 @@ export default function ValueSection() {
                         {part.body}
                       </p>
                     </div>
-                  </li>
-                </Reveal>
+                  </Reveal>
+                </li>
               );
             })}
           </ol>

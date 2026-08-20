@@ -205,6 +205,7 @@ export default function LandingClient() {
           </motion.div>
 
           {/* the spec grid */}
+          <h2 className="sr-only">Matched listings</h2>
           <motion.div
             id="grid"
             initial={reduced ? false : { opacity: 0, y: 20 }}
