@@ -127,7 +127,10 @@ export default function TrendChart({
         onKeyDown={onKeyDown}
         className={cx("relative mt-3 min-h-[176px] w-full flex-1 cursor-crosshair rounded-xl border", BORDER, "bg-zinc-950/40", FOCUS)}
       >
-        <svg viewBox="0 0 100 100" preserveAspectRatio="none" className="h-full w-full" aria-hidden="true">
+        {/* Absolutely positioned so the SVG never contributes its own intrinsic 1:1 aspect height:
+            with `h-full` inside a flexible parent the viewBox ratio would resolve to ~600px and the
+            card would grow to fit the chart instead of the chart filling the card. */}
+        <svg viewBox="0 0 100 100" preserveAspectRatio="none" className="absolute inset-0 h-full w-full" aria-hidden="true">
           {gridLines.map((y) => (
             <line key={y} x1="0" y1={y} x2="100" y2={y} stroke="#ffffff" strokeOpacity="0.08" strokeWidth="1" vectorEffect="non-scaling-stroke" />
           ))}

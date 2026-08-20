@@ -224,7 +224,9 @@ export function Tabs<T extends string>({
             role="tab"
             id={`tab-${tab.id}`}
             aria-selected={active}
-            aria-controls={`panel-${tab.id}`}
+            /* Only the selected tab's panel is mounted, so an inactive tab must not point
+               `aria-controls` at an id that is not in the document. */
+            aria-controls={active ? `panel-${tab.id}` : undefined}
             onClick={() => onChange(tab.id)}
             className={cx(
               "-mb-px min-h-11 border-b-2 px-0.5 text-xs",

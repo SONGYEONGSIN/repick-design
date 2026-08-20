@@ -165,12 +165,12 @@ export default function ConsoleClient() {
               <StageLedger stages={pipeline.stages} selectedId={stage.id} onSelect={setStageId} periodId={periodId} periodLabel={period.longLabel} />
             </Card>
 
-            <Card id="trend-card" className="col-span-12 min-w-0 xl:col-span-5">
+            <Card id="trend-card" className="col-span-12 flex min-w-0 flex-col xl:col-span-5">
               <CardHeader
                 title="Conversion over time"
                 description={`${stage.name} pass rate against end-to-end recovery, ${period.longLabel.toLowerCase()}.`}
               />
-              <div className="mt-4">
+              <div className="mt-4 flex-1">
                 <TrendChart
                   points={trend}
                   activeIndex={crosshairIndex}
