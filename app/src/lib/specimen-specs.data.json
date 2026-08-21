@@ -4863,5 +4863,341 @@
       }
     ],
     "agentPrompt": "Build a meetup-time picker as a five-day by four-band availability matrix, not a list of proposed times.\n\nWhite ground and white unselected cells (make white the most-painted surface). `#27272a` fills a chosen cell — selection inverts to ink. One accent `#4f46e5` marks **only** the cells where both calendars are open, plus the send control. `#18181b` for the heading and day labels, `#71717a` for the hour gutter and inspector body (largest tier), `#52525b` for supporting lines, white for text on filled cells.\n\nSystem face, three weights (400/600/700). Scale 26 / 18 / 15 / 13 / 12 / 11 / 10px, with 10px carrying the most nodes.\n\nEach cell carries a two-bar glyph — top bar you, bottom bar them, filled means free — so four states are four **shapes** before they are colours. Put a legend above the grid at the same cell scale.\n\nSize cells to clear 44×44 on their own (at 390: `390 − 32 − 56 gutter − 20 gap ÷ 5 ≈ 56pt`). **Do not use `hitSlop` on grid cells** — adjacent slop regions steal each other's taps.\n\nTapping a slot only the other party has opened offers \"I can make it\", which turns it into an overlap and raises the standing count. Overlaps are visible before any tap.\n\n**No fixed bottom chrome.** Split the band's two jobs: a standing counter at the top says how many slots hold right now, and a per-cell readout below the grid says why a cell is blocked and where to go instead.\n\nSpacing: 4px base (the grid steps in 4s), 3px and 2px inside the glyphs, 8–12px between blocks.\n\nKeep `tabular-nums` on leaf `Text` nodes only, and make sure no `₩` sits anywhere below one — RN Web cascades `fontVariant` into nested `Text`."
+  },
+  "d49": {
+    "id": "d49",
+    "palette": [
+      {
+        "token": "bg",
+        "hex": "#09090b",
+        "role": "App ground",
+        "usage": "zinc-950. The darkest tone and the only ground — a waterfall is read as bars rising and falling against a baseline, so the field behind them has to sit below every surface rather than beside it."
+      },
+      {
+        "token": "surface",
+        "hex": "#18181b",
+        "role": "Panels",
+        "usage": "zinc-900 on the bridge card, the variance ledger and the driver rail — six elements. One raised step, not a ladder."
+      },
+      {
+        "token": "surface-veil",
+        "hex": "#ffffff",
+        "role": "Translucent inset",
+        "usage": "White at 4% opacity, the most-painted surface at 32 elements — row banding and inset headers inside the panels. On a near-black ground a veil reads as depth where a second opaque tone would read as a second panel."
+      },
+      {
+        "token": "line",
+        "hex": "#d4d4d8",
+        "role": "Emphasised values",
+        "usage": "zinc-300 on 33 nodes — the figures that carry the argument inside a muted row. One tier above muted so the eye finds them without a colour."
+      },
+      {
+        "token": "fg",
+        "hex": "#fafafa",
+        "role": "Primary text",
+        "usage": "Driver names, closing figures, headings. 75 nodes. zinc-50 rather than pure white — on a near-black ground the fractional drop keeps the large numerals from blooming."
+      },
+      {
+        "token": "muted",
+        "hex": "#9f9fa9",
+        "role": "Labels + axis",
+        "usage": "zinc-400 on 100 nodes, the largest tier. This is the canon's dark-surface floor and the page sits on it exactly — the 10–11px tiers below carry the axis, and anything dimmer fails AA there."
+      },
+      {
+        "token": "accent",
+        "hex": "#9ae600",
+        "role": "Accent fill",
+        "usage": "lime-400 on the active driver and the reconcile affordance. Lime was the least-used accent in the catalogue at one work when this round ran — three painted elements plus the bar strokes."
+      },
+      {
+        "token": "accent-ink",
+        "hex": "#bbf451",
+        "role": "Accent as text",
+        "usage": "lime-300 where the accent has to be read rather than filled — four nodes. The fill tone as small text on zinc-950 clears large-text only; this clears body."
+      },
+      {
+        "token": "accent-wash",
+        "hex": "#93e200",
+        "role": "Bar tint",
+        "usage": "Lime at 10% opacity behind the summed segments, four elements. It marks which bars belong to the running total rather than to a single driver."
+      }
+    ],
+    "typography": "Pretendard throughout, with JetBrains Mono Display on exactly two nodes — the closing figure and the reconciliation delta, the two numbers that have to be compared digit by digit. Weights render as **exactly three** (500 on 112 nodes — the driver rail and axis, 400 on 60, 600 on 46 for headings). Scale at 1440: 28px the closing figure, 26px and 24px the bridge endpoints, 18px panel titles, 15px, 14px the ledger rows (56 nodes), 12px meta (42), 11px carrying the most nodes (95 — the axis and driver labels), 10px the footnotes. The 11px tier doing the most work is what pins the muted tone at zinc-400: on this ground that is the floor, not a preference.",
+    "spacing": "`10px 12px` is the dominant padding (52 occurrences — every panel interior), then `8px 12px` and `8px 10px` on the rail rows and `0px 2px` on the bar segments. A 4px base carries 28 gaps, with 2px (23), 6px (22), 12px (21), 8px (18) and a 1px hairline used ten times between adjacent bars. The shell is `min-h-dvh` with a fixed sidebar; the bridge occupies the top of the main column and the variance ledger sits under it, because the waterfall is the argument and the ledger is the evidence for it.",
+    "philosophy": "A variance is a chain of causes, not a single delta.\n\nThe usual reconciliation view gives you last period, this period, and a difference — which leaves the reader to ask *why* and the analyst to answer it somewhere else. Here the bridge from one closing figure to the other **is** the page: every driver is a signed bar, and the bars have to sum back to the closing figure. If they do not, the page is wrong and says so.\n\nThat constraint is what makes the form honest. A dashboard can show any number it likes; a waterfall that must reconcile cannot hide a driver, because leaving one out breaks the sum visibly.\n\nSelecting a driver recomputes the ledger, the commitment panel and the running total together — there is no state where the bars and the ledger disagree.\n\nIt won 2-1, with lens 1 (brief compliance) dissenting. That was the fourth consecutive round where lens 1 stood alone, a run that began the week the canon absorbed four new clauses — recorded as an open question rather than a judging error.",
+    "dosDonts": [
+      {
+        "do": "Make the drivers sum back to the closing figure and show the sum.",
+        "dont": "Report a variance as one delta with the drivers listed elsewhere — that hands the reader the question instead of the answer."
+      },
+      {
+        "do": "Use a translucent white veil for inset rows on a near-black ground.",
+        "dont": "Introduce a second opaque tone — on this ground it reads as a second panel rather than as depth."
+      },
+      {
+        "do": "Stop the muted tone at zinc-400.",
+        "dont": "Go dimmer for the 10–11px axis tiers — that is where the dark floor binds, and those tiers carry the driver labels."
+      },
+      {
+        "do": "Reserve the mono face for the two figures that get compared digit by digit.",
+        "dont": "Set the whole ledger in mono — the alignment argument only applies where two numbers are read against each other."
+      },
+      {
+        "do": "Recompute the ledger and the running total from the same driver selection.",
+        "dont": "Let the bars and the ledger hold different states, even briefly."
+      },
+      {
+        "do": "Pair every sign with a direction word, not just a colour.",
+        "dont": "Encode gain and loss in hue alone on a page whose subject is which way each driver ran."
+      },
+      {
+        "do": "Pick the accent from the catalogue's least-used hue when the round allows it.",
+        "dont": "Reach for the house violet — the diversity count exists because twenty works once came out in one hue."
+      }
+    ],
+    "agentPrompt": "Build a reconciliation console as a waterfall, where the bridge from last period to this one is the page.\n\nDark ground `#09090b`, one raised surface `#18181b`, and a translucent white veil (4% opacity) for inset rows — make the veil the most-painted surface. `#fafafa` for primary text, `#9f9fa9` for labels and axis (largest tier), `#d4d4d8` for the figures that carry the argument inside a muted row. Do not go dimmer than zinc-400: the 10–11px axis tiers sit on this ground.\n\nOne accent, lime `#9ae600` for fills, `#bbf451` where it must be read as text, and a 10% tint marking segments that belong to the running total.\n\nPretendard, with a mono display face on **exactly two** nodes — the closing figure and the reconciliation delta. Exactly three weights (400/500/600). Scale 28 / 26 / 24 / 18 / 15 / 14 / 12 / 11 / 10px, with 11px carrying the most nodes.\n\nShell: `min-h-dvh`, fixed sidebar. Waterfall at the top of the main column, variance ledger underneath. Panel padding `10px 12px`, 4px base gap, 1px hairlines between adjacent bars.\n\n**The drivers must sum back to the closing figure, and the page must show the sum.** Selecting a driver recomputes the ledger, the commitments and the running total together.\n\nEvery sign carries a direction word, never hue alone.\n\nDo not report a variance as one delta with the drivers listed somewhere else."
+  },
+  "v14": {
+    "id": "v14",
+    "palette": [
+      {
+        "token": "bg",
+        "hex": "#0b0c10",
+        "role": "Page ground",
+        "usage": "Near-black with a cool cast — six elements plus the page ground. A timeline that draws itself needs the drawn line to be the brightest thing on screen, which only works against a ground this dark."
+      },
+      {
+        "token": "surface",
+        "hex": "#14151c",
+        "role": "Step cards",
+        "usage": "One raised step for the timeline's step cards, six elements. `#1b1c24` appears twice above it where a card needs internal structure."
+      },
+      {
+        "token": "veil",
+        "hex": "#ffffff",
+        "role": "Hairlines + insets",
+        "usage": "White at 2% for inset rows (10 elements) and 10% for hairlines (five). On this ground opacity is cheaper than a tone ladder."
+      },
+      {
+        "token": "fg",
+        "hex": "#ffffff",
+        "role": "Headline + figures",
+        "usage": "55 nodes. Pure white here rather than an off-white, because the display face runs to 48px and the ground is dark enough to carry it without blooming."
+      },
+      {
+        "token": "muted",
+        "hex": "#a1a1aa",
+        "role": "Body + step prose",
+        "usage": "zinc-400 on 57 nodes, the largest tier — and the dark-surface floor. The 10.4–10.88px eyebrow tiers sit on this ground, so nothing dimmer is available."
+      },
+      {
+        "token": "accent-seller",
+        "hex": "#e11d48",
+        "role": "Accent A — what the seller claimed",
+        "usage": "rose-600 as fill (five elements), `#fb7185` as text (nine nodes). One half of a functional dual accent: this colour marks values the seller submitted."
+      },
+      {
+        "token": "accent-verified",
+        "hex": "#06b6d4",
+        "role": "Accent B — what the check found",
+        "usage": "cyan-500 as fill (four elements) with `#0e7490` as the deep step and `#22d3ee` as text (seven nodes). The other half: values the inspection produced."
+      }
+    ],
+    "typography": "Pretendard only — no display face at all, which is unusual for this catalogue and deliberate: the argument is carried by the drawn line and the figures, and a second face would compete with both. Exactly three weights (600 on 70 nodes, 400 on 33, 800 on 26). Scale at 1440: 48px the headline, 24px the step figures (seven nodes), 20px, 18px, 16px, 14px the body (46 — the largest tier), 12px meta, 10.88px the eyebrows (31 nodes) and 10.4px the smallest captions. Body width is computed from the canon's measured 0.44em average advance rather than from `ch`.",
+    "spacing": "`24px 24px` is the dominant card padding (nine occurrences), with `0px 32px` on the section gutter and a striking `128px 0px` used three times — the vertical air that lets the timeline read as a journey rather than a list. `8px 0px` and `20px 0px` handle the step rhythm. A 12px base carries ten gaps, then 8px (nine), 16px (eight), 4px (four) and a 64px step between sections. The page is `min-h-screen` on the near-black ground, with the timeline running the full height of the middle band.",
+    "philosophy": "The scroll is the argument, and the two accents say whose claim each number is.\n\nMost landing pages use scroll to reveal things that were already decided. Here `scrollYProgress` drives the SVG `pathLength` directly, so the line is drawn by the reader's own progress — the process is not illustrated, it is performed.\n\nThe payout calculator at the end shares the same `settle()` function as the timeline steps. That is the difference between a demo and a claim: the number you land on is the one the story just walked you through, computed the same way.\n\nThe dual accent is the page's other structural idea. Rose marks what the seller submitted; cyan marks what the check found. The colours do not decorate — they answer *whose claim is this*, and every figure on the page belongs to one side or the other. This is the work that opened the canon's dual-accent clause, on a single round's evidence and with the reviewing lens explicitly recording that the singular wording said otherwise.\n\nIt won 2-1, with lens 1 dissenting on exactly that point.",
+    "dosDonts": [
+      {
+        "do": "Drive the drawn line from scroll progress so the process is performed, not illustrated.",
+        "dont": "Reveal a finished graphic on scroll — that is decoration wearing the shape of an argument."
+      },
+      {
+        "do": "Share one calculation function between the narrative steps and the closing calculator.",
+        "dont": "Compute the final number separately. Two code paths mean two claims, and the reader cannot tell which one is true."
+      },
+      {
+        "do": "Split the two accents by whose claim a value is, and say so in one sentence.",
+        "dont": "Use a second accent because the palette felt thin — if you cannot name the axis it divides, it is a near-monochrome violation."
+      },
+      {
+        "do": "Keep the accent total small even when there are two of them.",
+        "dont": "Treat a dual accent as licence for twice the area — the canon's 'minimal' applies to the sum."
+      },
+      {
+        "do": "Drop the display face entirely when the line and the figures carry the page.",
+        "dont": "Add a second face out of habit — here it would compete with the two things doing the work."
+      },
+      {
+        "do": "Stop the muted tone at zinc-400 on this ground.",
+        "dont": "Go dimmer for the 10.4px eyebrow tier — that is the floor, not a starting point."
+      },
+      {
+        "do": "Compute body width from 0.44em.",
+        "dont": "Use `ch` — it is the advance of `0` and runs about a third wide."
+      }
+    ],
+    "agentPrompt": "Build a landing page as a vertical process timeline where scrolling is the argument.\n\nNear-black `#0b0c10` ground, one raised card tone `#14151c`, and white at 2% / 10% for insets and hairlines rather than a tone ladder. `#ffffff` for the headline and figures, `#a1a1aa` for body and step prose (largest tier, and the dark floor — do not go dimmer).\n\n**Two accents, split by whose claim a value is**: rose `#e11d48` fill / `#fb7185` text for what the seller submitted, cyan `#06b6d4` fill / `#22d3ee` text for what the check found. You must be able to say in one sentence what axis the two colours divide — if you cannot, use one. Keep the accent total minimal even with two.\n\nPretendard only, **no display face**. Exactly three weights (400/600/800). Scale 48 / 24 / 20 / 18 / 16 / 14 / 12 / 10.88 / 10.4px, with 14px carrying the most nodes. Compute body width from a 0.44em average advance; do not use `ch`.\n\nDrive the SVG `pathLength` from `scrollYProgress` so the line is drawn by the reader's own scroll. **The closing calculator must share the same settle function as the timeline steps** — one code path, one claim.\n\nSpacing: `24px 24px` cards, `0px 32px` gutter, `128px 0px` for the vertical air that makes the timeline a journey, 12px base gap, 64px between sections. Root `min-h-screen` on the dark ground.\n\nDo not reveal a finished graphic on scroll, and do not compute the final number separately from the steps."
+  },
+  "v15": {
+    "id": "v15",
+    "palette": [
+      {
+        "token": "bg",
+        "hex": "#ffffff",
+        "role": "Page ground + cards",
+        "usage": "White for the ground and the listing cards alike — 10 elements. A spec grid is read by comparing rows across, and a tinted card would rank the rows before the specs do."
+      },
+      {
+        "token": "surface",
+        "hex": "#f4f4f5",
+        "role": "Grid rows + rails",
+        "usage": "zinc-100 on the spec grid's banding and the filter rail — 14 elements, the most-painted surface. It exists only where a region needs to read as a container."
+      },
+      {
+        "token": "surface-2",
+        "hex": "#fafafa",
+        "role": "Inset headers",
+        "usage": "zinc-50, nine elements. The second step appears only inside a panel that already has internal structure."
+      },
+      {
+        "token": "fg",
+        "hex": "#09090b",
+        "role": "Prices + headings",
+        "usage": "zinc-950 on 33 nodes. The prices are what the budget slider moves, so they take the strongest ink on the page."
+      },
+      {
+        "token": "secondary",
+        "hex": "#52525c",
+        "role": "Spec values",
+        "usage": "zinc-600 on 55 nodes, the largest tier — the spec cells themselves. zinc-600 rather than zinc-500 because most of them sit on the zinc-100 grid, where the canon's muted-surface floor binds."
+      },
+      {
+        "token": "muted",
+        "hex": "#71717b",
+        "role": "Labels + captions",
+        "usage": "zinc-500 on 23 nodes, used only where the label sits on the white ground rather than on the grid."
+      },
+      {
+        "token": "accent",
+        "hex": "#007a55",
+        "role": "Accent — in-budget",
+        "usage": "emerald-700 for fills (10 elements) and as text (15 nodes) alike. One hex serves both because emerald-700 on white clears body AA, so no lighter tint had to be derived."
+      }
+    ],
+    "typography": "Pretendard with JetBrains Mono Display on 27 nodes — every spec figure and the sparkline's axis, so the grid's columns and the chart share one rhythm. Exactly three weights (600 on 95 nodes, 400 on 23, 800 on 21). Scale at 1440: 18px the prices (11 nodes), 15.2px, 14px the body (15), 12px, 11.52px the spec labels (22), 10.88px, 10.56px, 10.4px carrying the most nodes (30 — the grid's cell labels), and 9.92px the smallest annotations. The sub-11px tiers doing this much work are why the secondary tone had to sit at zinc-600 on the grid.",
+    "spacing": "`2px 6px` is the dominant padding (18 occurrences — every spec cell), then `2px 8px` on the chips, `6px 12px` and `10px 10px` on the card interiors and `16px 16px` on the section blocks. A 12px base carries 13 gaps, with 8px (11), 6px and 4px (six each), and 28–32px between sections. The root is `min-h-screen` on white; the budget control sits above the grid so the thing that moves everything is read before what it moves.",
+    "philosophy": "One control moves five proof surfaces, so the page demonstrates its matching instead of describing it.\n\nA budget slider that only filters a list is a filter. Here moving it recomputes the spec grid, the sparkline, the match figures, the ranking and the reasoning sentence — five surfaces from one input. The claim *we match you to the right listing* is not written on the page; it happens while you drag.\n\nThat is the canon's manipulation rule at its strictest reading. A single indicator moving is the minimum bar; the round's judging lens separates the top by how many independent proof surfaces recompute together.\n\nThe spec grid earns the mono face. Every figure in it gets compared to the figure above and below, and the sparkline's axis has to line up with the same rhythm — a proportional face would break the comparison the page exists to make.\n\nIt won 2-1, with lens 1 dissenting: the badges sit as an overlay on the photo, which the canon forbids because a failed image leaves alt text colliding with them. That objection is recorded rather than dismissed.",
+    "dosDonts": [
+      {
+        "do": "Make one control recompute several independent proof surfaces.",
+        "dont": "Move a single figure and call it demonstration — that is the minimum bar, not the argument."
+      },
+      {
+        "do": "Set the spec figures and the chart axis in the same mono face.",
+        "dont": "Let the grid and the chart carry different rhythms; the reader is comparing them constantly."
+      },
+      {
+        "do": "Use zinc-600 for values that sit on the zinc-100 grid.",
+        "dont": "Reuse the zinc-500 that works on white — on the grid it falls under the muted-surface floor."
+      },
+      {
+        "do": "Put the budget control above the grid.",
+        "dont": "Bury the thing that moves everything below what it moves."
+      },
+      {
+        "do": "Use one emerald hex for fill and text alike when it clears body AA on white.",
+        "dont": "Derive a lighter tint out of habit — that is a dark-ground problem, not a light-ground one."
+      },
+      {
+        "do": "Place listing badges in a row separated from the photo.",
+        "dont": "Overlay them on the image — this work does, and the canon's clause exists because a failed image leaves alt text colliding with the badges."
+      },
+      {
+        "do": "Keep exactly three weights and avoid `<strong>`/`<b>`/`<th>`.",
+        "dont": "Count declared classes only — the rendered UA default is what the rule measures."
+      }
+    ],
+    "agentPrompt": "Build a landing page whose budget slider moves five proof surfaces at once.\n\nWhite ground and white cards, `#f4f4f5` for the spec grid's banding and rails (make it the most-painted surface), `#fafafa` for inset headers. `#09090b` for prices and headings, `#52525c` for spec values on the grid (largest tier — zinc-600, because the muted floor binds there), `#71717b` only for labels on white. One accent, emerald `#007a55`, for fill and text alike — it clears body AA on white, so derive no lighter tint.\n\nPretendard with a mono display face on every spec figure and the sparkline axis, so the grid and the chart share one rhythm. Exactly three weights (400/600/800); avoid `<strong>`, `<b>` and `<th>` so no UA default leaks a fourth. Scale 18 / 15.2 / 14 / 12 / 11.52 / 10.88 / 10.4 / 9.92px, with 10.4px carrying the most nodes.\n\n**One control, five surfaces**: moving the budget recomputes the spec grid, the sparkline, the match figures, the ranking and the reasoning sentence together. A single figure moving is the minimum bar, not the argument.\n\nPut the budget control above the grid.\n\nSpacing: `2px 6px` spec cells, `2px 8px` chips, `16px 16px` section blocks, 12px base gap, 28–32px between sections. Root `min-h-screen` on white.\n\n**Put the listing badges in a row separated from the photo, not overlaid on it** — a failed image leaves alt text colliding with an overlay."
+  },
+  "n14": {
+    "id": "n14",
+    "palette": [
+      {
+        "token": "bg",
+        "hex": "#ffffff",
+        "role": "Screen ground + rows",
+        "usage": "White for the ground and every unread-neutral row — 10 elements. An inbox is scanned for exceptions, so the default row has to be quiet enough that the marked ones carry all the signal."
+      },
+      {
+        "token": "accent",
+        "hex": "#4f46e5",
+        "role": "Unread + primary action",
+        "usage": "Per the native DNA's single accent — 13 elements, the most-painted surface after white. It marks unread state and the compose control, and nothing else."
+      },
+      {
+        "token": "ink2",
+        "hex": "#27272a",
+        "role": "Swipe backdrop + preview",
+        "usage": "Nine elements. The archive backdrop revealed under a swipe takes ink rather than a warning hue, because archiving is not destructive and colouring it as though it were would misstate the action."
+      },
+      {
+        "token": "fg",
+        "hex": "#18181b",
+        "role": "Screen heading + names",
+        "usage": "Five nodes. The heading and the counterparty names — the two things a reader fixes before the list means anything."
+      },
+      {
+        "token": "muted",
+        "hex": "#71717a",
+        "role": "Timestamps + preview text",
+        "usage": "15 nodes, the largest ink tier. An inbox is mostly timestamps and message previews, and this is the tone they are read in."
+      },
+      {
+        "token": "secondary",
+        "hex": "#52525b",
+        "role": "Supporting lines",
+        "usage": "The subtitle and the per-row status lines. One tick above muted so a row reads as three tiers rather than two."
+      },
+      {
+        "token": "on-accent",
+        "hex": "#ffffff",
+        "role": "Text on accent and ink",
+        "usage": "18 nodes — the unread counts, the swipe label and the compose control. White clears AA on both the indigo and the ink; the light-surface muted tones would not."
+      }
+    ],
+    "typography": "System face, per the native DNA. **Four weights render (400 on 18 nodes, 800 on 16, 700 on 13, 600 on three) — the canon asks for exactly three, and this is a violation that shipped.** The native gate has only four steps (`tsc·export·render·iframe`) and no `weights` gate, so nothing measured it during the round; it was caught at promotion by rendering the screen and counting. Scale at 390: 28px the screen heading, 15px the counterparty names (14 nodes), 13px the message previews (10), 12px the timestamps, 11px carrying the most nodes (18 — the labels and counts).",
+    "spacing": "`12px 12px` is the dominant padding (seven occurrences — every row interior), with `0px 16px` and `0px 20px` on the screen gutter, `0px 5px` inside the unread badges and a `40px 0px` block above the list. A 6px base carries 14 gaps, then 8px (eight), 4px, 12px and 3px (seven each). Rows are separated by spacing rather than by a second surface, which keeps a list of conversations from reading as a list of alerts.",
+    "philosophy": "This is an index of counterparties, not a thread.\n\nThe catalogue already has `offer-thread` — one conversation, chronological, with a negotiation state machine pinned to the bottom. That screen answers *where are we in this deal*. An inbox answers a different question — *which of my conversations needs me* — and answering it requires N counterparties in one list, no fixed band, and a scanning vocabulary rather than a reading one.\n\nArchive is reachable two ways on purpose. The swipe gesture carries it, and an always-visible More button carries the same action — with the swipe backdrop hidden from the accessibility tree so the duplicate does not read twice. The gesture is an accelerator; the button is the contract.\n\nUnread is carried by three signals — weight, a numeric badge and a dot — rather than by colour alone. That is the canon's rule applied at the density where it actually matters, since an inbox is scanned faster than anything else in the app.\n\nIt won 2-1. Lens 1 preferred a different candidate and specifically docked this one for a swipe gesture with no resting-state visual hint, which the catalogue's gesture-affordance guidance calls for. That objection stands in the record alongside the weight violation above.",
+    "dosDonts": [
+      {
+        "do": "Build an inbox as an index of counterparties with no fixed band.",
+        "dont": "Reuse the single-thread shape — that answers where a deal stands, not which conversation needs you."
+      },
+      {
+        "do": "Offer archive through both a swipe and an always-visible button.",
+        "dont": "Ship the gesture alone. The button is the contract; the gesture is the accelerator."
+      },
+      {
+        "do": "Hide the swipe backdrop from the accessibility tree when a visible control carries the same action.",
+        "dont": "Expose both — the duplicate reads twice and neither reading is complete."
+      },
+      {
+        "do": "Carry unread on three signals: weight, count and dot.",
+        "dont": "Let colour alone mark it, in the screen that gets scanned fastest of any."
+      },
+      {
+        "do": "Give the archive backdrop the ink tone.",
+        "dont": "Colour it as a warning — archiving is reversible and a red backdrop misstates the action."
+      },
+      {
+        "do": "Count the rendered weights before promoting a native screen.",
+        "dont": "Trust the native gate on typography — it has four steps and none of them is `weights`, which is how this screen shipped with four."
+      },
+      {
+        "do": "Give a swipe gesture a resting-state visual hint.",
+        "dont": "Leave it entirely hidden until the finger moves — this screen does, and the judging lens docked it for exactly that."
+      }
+    ],
+    "agentPrompt": "Build a chat inbox for a marketplace — an index of counterparties, not a single thread.\n\nWhite ground and white rows. One accent `#4f46e5` on unread state and the compose control only — make it the most-painted surface after white. `#27272a` for the swipe-archive backdrop (ink, not a warning hue — archiving is reversible). `#18181b` for the heading and names, `#71717a` for timestamps and previews (largest tier), `#52525b` for supporting lines, white for text on accent and ink.\n\nSystem face, and **exactly three weights** — count the rendered result, not the declared classes. The native gate has no `weights` step, so nothing will catch a fourth for you.\n\nScale 28 / 15 / 13 / 12 / 11px, with 11px carrying the most nodes.\n\nNo fixed bottom band. Rows separated by spacing, never by a second surface tone.\n\n**Archive reachable two ways**: a swipe, and an always-visible More button carrying the same action — with the swipe backdrop hidden from the accessibility tree so it does not read twice. Give the swipe a resting-state visual hint.\n\nUnread carries three signals — weight, numeric badge and dot — never colour alone.\n\nSpacing: `12px 12px` row interiors, `0px 16px` screen gutter, 6px base gap.\n\nDo not reuse the single-thread shape with a negotiation band."
   }
 }
