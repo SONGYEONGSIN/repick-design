@@ -45,6 +45,10 @@ tags: [index]
 - [[motion.catalog]] — 모션 패턴 16종 강도 티어 (dash 절제 / landing 적극, framer-motion·CSS 재해석)
 
 ## 세대 기록 (20-generations — 라운드별 DECISION, evolve 브랜치에서 누적)
+- [[20-generations/2026-08-20-auto-dash-r17/DECISION|2026-08-20-auto-dash-r17]]
+- [[20-generations/2026-08-20-auto-landing-r13/DECISION|2026-08-20-auto-landing-r13]]
+- [[20-generations/2026-08-19-auto-landing-r12/DECISION|2026-08-19-auto-landing-r12]]
+- [[20-generations/2026-08-19-auto-native-r10/DECISION|2026-08-19-auto-native-r10]]
 - [[20-generations/2026-08-18-auto-dash-r16/DECISION|2026-08-18-auto-dash-r16]]
 - [[20-generations/2026-08-18-auto-native-r8/DECISION|2026-08-18-auto-native-r8]]
 - [[20-generations/2026-08-16-auto-native-r7/DECISION|2026-08-16-auto-native-r7]]

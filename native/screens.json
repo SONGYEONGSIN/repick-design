@@ -37,5 +37,8 @@
   },
   "meetup-time": {
     "check": "Find a time with"
+  },
+  "chat": {
+    "check": "Messages"
   }
 }
