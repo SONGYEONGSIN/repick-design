@@ -5,7 +5,7 @@
 freeze hash: `5318b55a1c53ca5f326302634637be589c1ef5fd` (판정 중 재확인, 불변 확인)
 
 ## 하드게이트
-3후보 전원 통과. 상세는 [[SCORES]]. 첫 합산 실행에서 a11y 96·color-contrast 플레이크가 있었으나 개별 후보 3건 재확인 전원 pass, 합산 재실행도 100 — Lighthouse 실행별 변동으로 판단(1-fix 대상 아님, 코드 수정 없음).
+3후보 전원 통과. 상세는 [[20-generations/2026-08-19-auto-landing-r12/SCORES|SCORES]]. 첫 합산 실행에서 a11y 96·color-contrast 플레이크가 있었으나 개별 후보 3건 재확인 전원 pass, 합산 재실행도 100 — Lighthouse 실행별 변동으로 판단(1-fix 대상 아님, 코드 수정 없음).
 
 **환경 고지**: 샌드박스 egress 프록시가 `images.unsplash.com`을 차단해 3후보 전원 스크린샷에서 이미지가 회색 플레이스홀더로 찍힘 — 코드는 고정 unsplash photo-ID URL을 정상 참조하며 컨테이너 aspect-ratio 예약도 정상 작동(레이아웃 안 무너짐). judge에게 사전 고지해 감점 대상에서 제외시킴.
 

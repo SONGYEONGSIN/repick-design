@@ -1,4 +1,4 @@
-// native/src/evolve/r10/b/data.ts — auto-native-r10 candidate b.
+// native/src/chat/data.ts — auto-native-r10 winner (promoted).
 // Deterministic dummy data for the Chat Inbox (message list) screen. No Math.random/Date.now/
 // bare `new Date()` — every value below is a fixed literal or a pure function of one.
 

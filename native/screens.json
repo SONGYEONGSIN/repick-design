@@ -38,13 +38,7 @@
   "meetup-time": {
     "check": "Find a time with"
   },
-  "evolve-r10-a": {
-    "check": "Browse"
-  },
-  "evolve-r10-b": {
+  "chat": {
     "check": "Messages"
-  },
-  "evolve-r10-c": {
-    "check": "Report this listing"
   }
 }

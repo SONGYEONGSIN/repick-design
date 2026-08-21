@@ -5,7 +5,7 @@
 freeze hash: `4d162a18542b48a0407cca638b4f7a12bfb75c73` (판정 중 불변 확인)
 
 ## 하드게이트
-3후보 전원 12/12 통과(1차, 1-fix 불요). 상세는 [[SCORES]].
+3후보 전원 12/12 통과(1차, 1-fix 불요). 상세는 [[20-generations/2026-08-19-auto-native-r10/SCORES|SCORES]].
 
 ## JUDGE 패널 (3렌즈 병렬, 블라인드)
 
@@ -30,7 +30,7 @@ freeze hash: `4d162a18542b48a0407cca638b4f7a12bfb75c73` (판정 중 불변 확�
 **오케스트레이터 육안 검증**: c-390.png/c-768.png의 "₩820,000"에서 취소선형 아티팩트를 직접 확인(2렌즈 독립 보고와 합치). 동일 코드 패턴을 쓴 a-390.png/a-768.png의 "₩189,000"/"₩128,000"은 무결점 확인 — 대조 성립.
 
 ## LEARN
-`auto-native-r10/b` delta 1건을 [[native-deltas-provisional]]에 append: tabular-nums+₩ 아티팩트가 **중첩 없이도** 재발 — GENERATION.md §1의 "중첩 깊이가 기준"이라는 현재 처방으로는 이번 사례(둘 다 비중첩 단일 노드, a는 무결점·c는 재발)를 설명하지 못한다. Level L1, status provisional.
+`auto-native-r10/b` delta 1건을 `vault/00-principles/native-deltas-provisional.jsonl`에 append: tabular-nums+₩ 아티팩트가 **중첩 없이도** 재발 — GENERATION.md §1의 "중첩 깊이가 기준"이라는 현재 처방으로는 이번 사례(둘 다 비중첩 단일 노드, a는 무결점·c는 재발)를 설명하지 못한다. Level L1, status provisional.
 
 ## 정제 게이트
 - L2/L3 재승격 대상 없음(이번 라운드 delta는 기존 L2 조항과 **충돌**하는 새 관측이라 승격이 아니라 질문으로 올림).

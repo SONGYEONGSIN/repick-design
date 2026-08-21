@@ -1,4 +1,4 @@
-// native/src/evolve/r10/b/ChatInbox.tsx — auto-native-r10 candidate b.
+// native/src/chat/ChatInbox.tsx — auto-native-r10 winner (promoted).
 // Screen type: Chat Inbox — a list of conversation threads (repick buyer↔seller messaging).
 // Distinct from the catalog's `offer-thread` (a single negotiation's structured, time-ordered
 // detail view): this screen is the index in front of it — one row per counterpart, no offer
@@ -29,7 +29,7 @@ import {
   type ThreadMessage,
   type ThreadStatus,
 } from "./data";
-import { tokens } from "../../../tokens";
+import { tokens } from "../tokens";
 
 const HIT_SLOP = { top: 8, bottom: 8, left: 8, right: 8 };
 const ROW_HEIGHT = 88;

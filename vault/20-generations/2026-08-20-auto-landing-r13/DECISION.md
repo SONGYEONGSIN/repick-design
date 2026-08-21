@@ -18,7 +18,7 @@
 - **a**: a11y 93→100 — `ol > Reveal(div) > li` 를 `ol > li > Reveal` 로 평탄화(`list`·`listitem` 감사 실패 해소).
 - **b**: a11y 98→100 — 스펙 그리드 앞에 `sr-only h2` 추가(`heading-order` 감사 실패 해소, 점수는 이미 통과였으나 승격 감사라 하드페일).
 
-상세: [[SCORES]]
+상세: [[20-generations/2026-08-20-auto-landing-r13/SCORES|SCORES]]
 
 ## JUDGE 패널 (§4) — 2:1 다수결, 승자 **b**
 

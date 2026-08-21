@@ -16,7 +16,7 @@
 
 **전원 9관문 1차 통과 · 1-fix 0회** — a11y 100/100/100. designer 3명이 자기 폴더 내 자체검증(tsc·정적·Tab 포커스·스크린샷·폭 스윕)을 거쳐 제출. `auto-landing-r9` 이후 두 번째 무수정 통과 라운드.
 
-상세: [[SCORES]]
+상세: [[20-generations/2026-08-20-auto-dash-r17/SCORES|SCORES]]
 
 ## JUDGE 패널 (§4) — 2:1 다수결, 승자 **c**
 
