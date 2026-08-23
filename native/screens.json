@@ -49,5 +49,14 @@
   },
   "evolve-r11-c": {
     "check": "Priced against what you actually sell"
+  },
+  "evolve-r12-a": {
+    "check": "Request a return"
+  },
+  "evolve-r12-b": {
+    "check": "Saved Search Alerts"
+  },
+  "evolve-r12-c": {
+    "check": "Authentication Certificate"
   }
 }
