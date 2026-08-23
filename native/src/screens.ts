@@ -13,6 +13,9 @@ import { ListingCreateScreen } from "./listing/ListingCreateScreen";
 import { WriteReviewScreen } from "./review/WriteReviewScreen";
 import { MeetupSlotGridScreen } from "./meetup-time/MeetupSlotGridScreen";
 import { ChatInboxScreen } from "./chat/ChatInbox";
+import { PayoutStatementScreen } from "./evolve/r11/a/PayoutStatementScreen";
+import { ShippingMethodScreen } from "./evolve/r11/b/ShippingMethodScreen";
+import { MembershipTiersScreen } from "./evolve/r11/c/MembershipTiersScreen";
 
 const COMPONENTS = {
   watchlist: WatchList,
@@ -29,6 +32,9 @@ const COMPONENTS = {
   review: WriteReviewScreen,
   "meetup-time": MeetupSlotGridScreen,
   chat: ChatInboxScreen,
+  "evolve-r11-a": PayoutStatementScreen,
+  "evolve-r11-b": ShippingMethodScreen,
+  "evolve-r11-c": MembershipTiersScreen,
 } as const satisfies Record<string, ComponentType>;
 
 export type ScreenSlug = keyof typeof COMPONENTS;
