@@ -608,3 +608,24 @@ test('normalizeNativeRun — 기존 3인자 호출 호환 유지', () => {
   const gates = normalizeNativeRun('watchlist', out, true);
   assert.ok(gates.every((g) => g.pass));
 });
+
+test('filesForRoute — 라우트 그룹 안의 작품도 찾는다', () => {
+  // Next 의 라우트 그룹 `(marketing)` 은 URL 에 나타나지 않는다. `appRoot + route` 로 경로를
+  // 만들면 `/v16` → `app/src/app/v16` 을 찾다가 ENOENT 로 죽고, 그래서 **승격된 랜딩 12작품
+  // (`v0`·`v6`~`v16`)이 승격 이후 한 번도 게이트를 받지 않았다.** 2026-08-24 apply 에서 실제로
+  // 물렸다 — `v16` 보수가 `font-semibold` 를 넣어 웨이트를 4종으로 만들었는데 게이트로 확인이
+  // 불가능해 손으로 렌더 실측해서 잡았다. ([[questions-queue]] Q45)
+  const files = filesForRoute('/v16');
+  assert.ok(files.length > 0, '라우트 그룹 안이라도 파일을 찾아야 한다');
+  assert.ok(files.some((f) => f.endsWith('page.tsx')));
+  assert.ok(
+    files.every((f) => f.startsWith('app/src/app/(marketing)/v16/')),
+    '실제 디스크 경로를 반환한다 — URL 경로가 아니라',
+  );
+});
+
+test('filesForRoute — 그룹 없는 라우트는 동작이 바뀌지 않는다', () => {
+  // 회귀 방지. 기존 호출부(`/dash/dN`·`/…-evolve/rN/v`)는 그룹을 안 쓰므로 그대로여야 한다.
+  const files = filesForRoute('/dash/d29');
+  assert.ok(files.every((f) => f.startsWith('app/src/app/dash/d29/')));
+});
