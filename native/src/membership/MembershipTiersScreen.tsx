@@ -9,7 +9,7 @@ import {
   View,
 } from "react-native";
 
-import { tokens } from "../../../tokens";
+import { tokens } from "../tokens";
 import {
   BANDS,
   DEFAULT_STEP_INDEX,

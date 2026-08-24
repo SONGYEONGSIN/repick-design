@@ -114,7 +114,47 @@ export default function Page() {
       };
 
   return (
-    <main className="min-h-dvh overflow-x-clip bg-[#0B0B0F] font-normal text-white antialiased">
+    <div className="min-h-dvh overflow-x-clip bg-[#0B0B0F] font-normal text-white antialiased">
+      <a
+        href="#appraise"
+        className="sr-only focus-visible:not-sr-only focus-visible:absolute focus-visible:top-3 focus-visible:left-3 focus-visible:z-50 focus-visible:rounded-full focus-visible:bg-white focus-visible:px-4 focus-visible:py-2 focus-visible:text-[13px] focus-visible:font-medium focus-visible:text-[#0B0B0F] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#A5C0FF]"
+      >
+        Skip to the appraisal
+      </a>
+
+      <header className="border-b border-white/10 px-5 py-4 sm:px-8 lg:px-12">
+        <div className="mx-auto flex w-full max-w-[1240px] items-center justify-between gap-6">
+          <span className="text-[15px] font-extrabold tracking-[-0.02em]">Repick</span>
+          <nav aria-label="Sections" className="hidden items-center gap-6 sm:flex">
+            <a
+              href="#appraise"
+              className="text-[13px] text-[#A1A1AA] transition-colors hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#A5C0FF]"
+            >
+              The band
+            </a>
+            <a
+              href="#comps"
+              className="text-[13px] text-[#A1A1AA] transition-colors hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#A5C0FF]"
+            >
+              Comparable sales
+            </a>
+            <a
+              href="#why"
+              className="text-[13px] text-[#A1A1AA] transition-colors hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#A5C0FF]"
+            >
+              Where width goes
+            </a>
+          </nav>
+          <a
+            href="#appraise"
+            className="rounded-full bg-[#2563EB] px-4 py-2 text-[13px] font-medium text-white transition-colors hover:bg-[#1B49CC] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#A5C0FF]"
+          >
+            Price my item
+          </a>
+        </div>
+      </header>
+
+      <main>
       {/* ---------------------------------------------------------------- HERO */}
       <section className="border-b border-white/10 px-5 pt-20 pb-16 sm:px-8 lg:px-12 lg:pt-28 lg:pb-24">
         <div className="mx-auto w-full max-w-[1240px]">
@@ -561,7 +601,7 @@ export default function Page() {
       </section>
 
       {/* --------------------------------------------------------- COMPARABLES */}
-      <section className="border-b border-white/10 px-5 py-24 sm:px-8 lg:px-12 lg:py-28">
+      <section id="comps" className="border-b border-white/10 px-5 py-24 sm:px-8 lg:px-12 lg:py-28">
         <div className="mx-auto w-full max-w-[1240px]">
           <div className="grid grid-cols-1 gap-10 lg:grid-cols-12 lg:gap-12">
             <Reveal className="lg:col-span-4">
@@ -640,7 +680,7 @@ export default function Page() {
       </section>
 
       {/* ----------------------------------------------------------- THREE UPS */}
-      <section className="border-b border-white/10 px-5 py-24 sm:px-8 lg:px-12 lg:py-28">
+      <section id="why" className="border-b border-white/10 px-5 py-24 sm:px-8 lg:px-12 lg:py-28">
         <div className="mx-auto w-full max-w-[1240px]">
           <Reveal>
             <p className={EYEBROW}>WHY A BAND</p>
@@ -806,12 +846,34 @@ export default function Page() {
         </div>
       </section>
 
+      </main>
+
       <footer className="border-t border-white/10 px-5 py-10 sm:px-8 lg:px-12">
-        <div className="mx-auto flex w-full max-w-[1240px] flex-wrap items-center justify-between gap-4">
+        <div className="mx-auto flex w-full max-w-[1240px] flex-wrap items-center justify-between gap-6">
           <span className="text-[13px] font-medium tracking-[-0.02em]">Repick</span>
-          <span className={CAPTION}>SELLER-SIDE APPRAISAL · SAMPLE DATA</span>
+          <nav aria-label="Footer" className="flex flex-wrap items-center gap-x-6 gap-y-2">
+            <a
+              href="#appraise"
+              className="text-[13px] text-[#A1A1AA] transition-colors hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#A5C0FF]"
+            >
+              How the band is built
+            </a>
+            <a
+              href="#comps"
+              className="text-[13px] text-[#A1A1AA] transition-colors hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#A5C0FF]"
+            >
+              Where the sales come from
+            </a>
+            <a
+              href="#why"
+              className="text-[13px] text-[#A1A1AA] transition-colors hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#A5C0FF]"
+            >
+              What narrows it
+            </a>
+          </nav>
+          <span className={CAPTION}>SELLER-SIDE APPRAISAL</span>
         </div>
       </footer>
-    </main>
+    </div>
   );
 }

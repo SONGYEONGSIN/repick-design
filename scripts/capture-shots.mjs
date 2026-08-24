@@ -117,6 +117,14 @@ export async function capture(opts, chromium) {
     await page.addInitScript(() => { window.__SPECIMEN_FREEZE__ = true; });
     page.on("pageerror", (e) => errors.push(`${width}: ${e.message.slice(0, 120)}`));
     await page.goto(base + route, { waitUntil: "networkidle" });
+    // Next's dev indicator paints a fixed badge in the bottom-left of every capture. The gate and
+    // these shots deliberately read the same dev server — that shared origin is what lets a frozen
+    // hash mean "the gate and the judge saw one artefact" — so the fix is to hide the badge, not to
+    // capture somewhere else. It occluded a heading at 390px in `auto-landing-r14` (`b-390.png`:
+    // "CHEAPEST TWO METROS" read as "PEST TWO…") and a judge spent budget ruling it an artefact.
+    await page.addStyleTag({
+      content: "nextjs-portal,[data-nextjs-toast],#__next-build-watcher{display:none!important}",
+    }).catch(() => {});
     await page.waitForTimeout(600);
 
     // Scroll-through pass: walk the page once so in-view reveals fire before any frame is captured.

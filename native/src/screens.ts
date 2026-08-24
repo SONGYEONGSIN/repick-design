@@ -13,12 +13,10 @@ import { ListingCreateScreen } from "./listing/ListingCreateScreen";
 import { WriteReviewScreen } from "./review/WriteReviewScreen";
 import { MeetupSlotGridScreen } from "./meetup-time/MeetupSlotGridScreen";
 import { ChatInboxScreen } from "./chat/ChatInbox";
-import { PayoutStatementScreen } from "./evolve/r11/a/PayoutStatementScreen";
-import { ShippingMethodScreen } from "./evolve/r11/b/ShippingMethodScreen";
-import { MembershipTiersScreen } from "./evolve/r11/c/MembershipTiersScreen";
 import { ReturnRequestScreen } from "./evolve/r12/a/ReturnRequestScreen";
 import { SavedSearchAlertsScreen } from "./evolve/r12/b/SavedSearchAlertsScreen";
 import { AuthenticationCertificateScreen } from "./evolve/r12/c/AuthenticationCertificateScreen";
+import { MembershipTiersScreen } from "./membership/MembershipTiersScreen";
 
 const COMPONENTS = {
   watchlist: WatchList,
@@ -35,12 +33,10 @@ const COMPONENTS = {
   review: WriteReviewScreen,
   "meetup-time": MeetupSlotGridScreen,
   chat: ChatInboxScreen,
-  "evolve-r11-a": PayoutStatementScreen,
-  "evolve-r11-b": ShippingMethodScreen,
-  "evolve-r11-c": MembershipTiersScreen,
   "evolve-r12-a": ReturnRequestScreen,
   "evolve-r12-b": SavedSearchAlertsScreen,
   "evolve-r12-c": AuthenticationCertificateScreen,
+  membership: MembershipTiersScreen,
 } as const satisfies Record<string, ComponentType>;
 
 export type ScreenSlug = keyof typeof COMPONENTS;

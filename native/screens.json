@@ -41,13 +41,7 @@
   "chat": {
     "check": "Messages"
   },
-  "evolve-r11-a": {
-    "check": "Seven lines, one number."
-  },
-  "evolve-r11-b": {
-    "check": "How should it travel?"
-  },
-  "evolve-r11-c": {
+  "membership": {
     "check": "Priced against what you actually sell"
   },
   "evolve-r12-a": {
