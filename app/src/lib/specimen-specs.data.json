@@ -5199,5 +5199,173 @@
       }
     ],
     "agentPrompt": "Build a chat inbox for a marketplace — an index of counterparties, not a single thread.\n\nWhite ground and white rows. One accent `#4f46e5` on unread state and the compose control only — make it the most-painted surface after white. `#27272a` for the swipe-archive backdrop (ink, not a warning hue — archiving is reversible). `#18181b` for the heading and names, `#71717a` for timestamps and previews (largest tier), `#52525b` for supporting lines, white for text on accent and ink.\n\nSystem face, and **exactly three weights** — count the rendered result, not the declared classes. The native gate has no `weights` step, so nothing will catch a fourth for you.\n\nScale 28 / 15 / 13 / 12 / 11px, with 11px carrying the most nodes.\n\nNo fixed bottom band. Rows separated by spacing, never by a second surface tone.\n\n**Archive reachable two ways**: a swipe, and an always-visible More button carrying the same action — with the swipe backdrop hidden from the accessibility tree so it does not read twice. Give the swipe a resting-state visual hint.\n\nUnread carries three signals — weight, numeric badge and dot — never colour alone.\n\nSpacing: `12px 12px` row interiors, `0px 16px` screen gutter, 6px base gap.\n\nDo not reuse the single-thread shape with a negotiation band."
+  },
+  "v16": {
+    "id": "v16",
+    "palette": [
+      {
+        "token": "bg",
+        "hex": "#0b0b0f",
+        "role": "Page ground",
+        "usage": "The canon's dark ground, used flat — only two elements paint it explicitly because everything above it is a translucent veil rather than a second tone."
+      },
+      {
+        "token": "veil-2",
+        "hex": "#ffffff",
+        "role": "Panel surfaces (2% / 3% / 4%)",
+        "usage": "White at three opacities carries every raised surface — 39 elements across the three steps, more than any opaque tone. On a near-black ground a veil reads as depth where a tone ladder reads as separate panels."
+      },
+      {
+        "token": "fg",
+        "hex": "#ffffff",
+        "role": "Headline + figures",
+        "usage": "69 nodes. Pure white rather than an off-white because the display face runs to 41.6px and the ground is dark enough to carry it."
+      },
+      {
+        "token": "muted",
+        "hex": "#a1a1aa",
+        "role": "Body + comp rows",
+        "usage": "110 nodes, the largest tier by a wide margin — and the canon's dark floor. The 10px and 11px tiers carry 81 nodes between them, so nothing dimmer is available."
+      },
+      {
+        "token": "accent",
+        "hex": "#2563eb",
+        "role": "Accent fill",
+        "usage": "blue-600 on the band bar, the primary control and the header CTA — three painted elements plus the band tints. White on it is 5.17:1, which is why fills carry white text and never dark ink."
+      },
+      {
+        "token": "accent-tint",
+        "hex": "#a5c0ff",
+        "role": "Accent as text",
+        "usage": "30 nodes — eyebrows, trait tags, focus rings. The base blue is 3.80:1 on this ground, below body AA; this derived tint is 10.84:1. Deriving the tint rather than using the fill tone as text is the whole discipline of the accent clause."
+      },
+      {
+        "token": "band-wash",
+        "hex": "#2666e6",
+        "role": "Band interior",
+        "usage": "The accent at 8% behind the price band itself — 11 elements. It marks the interval as a region rather than as two endpoints."
+      },
+      {
+        "token": "ghost",
+        "hex": "#6b6b78",
+        "role": "Ghost numbers",
+        "usage": "Five nodes — the section numerals. Deliberately at 3.74:1 rather than the near-invisible tone the name suggests: `aria-hidden` is not a contrast exemption, and this work failed its first gate at 1.15:1. The hierarchy is recovered by size and tracking, not by colour."
+      }
+    ],
+    "typography": "Pretendard for text with Archivo (`--font-display-wide`) on 26 nodes — the h1, every price figure and the section numerals. Exactly three weights render (500 on 99 nodes, 400 on 96, 800 on 22); `font-semibold` and `<strong>`/`<b>`/`<th>` are absent so no UA default leaks a fourth. Scale at 1440: 41.6px the headline, 28px the band endpoints, 19px the lede, 16px, 15px body, 13px the comp rows (41 nodes), 12px and 11px meta, 10px carrying the most nodes (51 — the stat labels and trait tags). Body caps are computed from the canon's 0.44em average advance: 520px at 17px ≈ 69.5 characters, 488px at 16px ≈ 69.3, 440px at 15px ≈ 66.7. `ch` is not used anywhere.",
+    "spacing": "`10px 14px` and `12px 16px` carry the trait chips and cards (25 occurrences together), `4px 8px` the tags, `24px 24px` the panels, and a `112px 48px` block sets the section rhythm at six places. A 12px base carries 16 gaps, then 8px (14), 16px (7) and 24px (4). The shell is `min-h-dvh` on the dark ground with a bordered header above `<main>` and a footer below it; the hero puts the band and three listing cards side by side so the conclusion and the products are in the first fold together.",
+    "philosophy": "A price is a band, and the width of that band is what the page admits it does not know.\n\nEvery appraisal tool returns a number, which is a claim of precision nobody has. Here the answer opens at its widest defensible interval — ±41.0% — and each trait the seller confirms takes width out of it, down to ±13.4% with four answers. The seller is not being asked to fill a form to get a result; they already have the result, and the form is what sharpens it.\n\nThe strongest move is the reversal. Clicking a chosen trait again withdraws it and the band **widens**, with the copy saying so — *widening is allowed*. If the claim is that width equals knowledge, then it has to be possible to go back to knowing less. Without the reversal the narrowing is just an animation.\n\nTwelve completed sales sit as ticks on the same axis, and the page counts how many still fall inside the band — 11 of 12 at rest, 4 of 12 when narrowed hard. That count is a self-refutation device, not decoration: *when too few land inside, the band is wrong, not the market*. Narrowing costs evidence, and the page says the price of its own confidence out loud.\n\nIt won 2-1 with lens 2 dissenting on completeness — the judged version had no header, no nav and a footer that said \"SAMPLE DATA\". Those were repaired before promotion, which is recorded rather than hidden.",
+    "dosDonts": [
+      {
+        "do": "Open at the widest defensible band and let input take width out of it.",
+        "dont": "Return a single figure — that is a claim of precision no appraisal has."
+      },
+      {
+        "do": "Let the reader withdraw an answer and watch the band widen.",
+        "dont": "Make narrowing one-way. If width means knowledge, going back to knowing less has to be possible."
+      },
+      {
+        "do": "Plot the comparable sales on the same axis and count how many stay inside.",
+        "dont": "Put the comps in a separate table — the count only means something as an intersection of band geometry and tick position."
+      },
+      {
+        "do": "Say what a shrinking count implies (\"the band is wrong, not the market\").",
+        "dont": "Let the reader narrow to a flattering number without showing what it cost in evidence."
+      },
+      {
+        "do": "Derive a light tint for accent text and keep the base tone for fills.",
+        "dont": "Use the fill blue as small text — it is 3.80:1 on this ground, under body AA."
+      },
+      {
+        "do": "Keep ghost numerals above 3:1 and kill the hierarchy with size, weight and tracking.",
+        "dont": "Paint them near the background because they are called ghosts — `aria-hidden` is not a contrast exemption, and this work failed its first gate that way."
+      },
+      {
+        "do": "Compute body width from a 0.44em average advance.",
+        "dont": "Use `ch` — it is the advance of `0` and runs about a third wide."
+      }
+    ],
+    "agentPrompt": "Build a seller-side appraisal landing where the answer is a range, not a number.\n\nDark ground `#0b0b0f`. Carry every raised surface with **white at 2–4% opacity** rather than a tone ladder — make the veils the most-painted surface. `#ffffff` for the headline and figures, `#a1a1aa` for body and comp rows (largest tier, and the dark floor — do not go dimmer). One accent, blue `#2563eb`, for the band bar and controls; **derive `#a5c0ff` for all accent text and focus rings** — the base tone is 3.80:1 here, under body AA. Put the accent at 8% behind the band interior.\n\nPretendard with Archivo (`--font-display-wide`) on the h1, price figures and section numerals. **Exactly three weights (400/500/800)** — no `font-semibold`, no `<strong>`/`<b>`/`<th>`. Scale 41.6 / 28 / 19 / 16 / 15 / 13 / 12 / 11 / 10px, with 10px carrying the most nodes. Compute body caps from **0.44em** (520px@17px ≈ 69 chars); never use `ch`.\n\n**Ghost numerals must clear 3:1** (`#6b6b78` works). `aria-hidden` is not a contrast exemption. Recover their recessiveness with size (80px → 32px), weight (800 → 500) and tracking (`+0.12em`), not with colour.\n\nOpen the band at its widest defensible interval (±41%) with the price and three listing cards **in the first fold**. Each trait confirmed narrows it; **clicking a chosen trait again withdraws it and the band widens** — say so in the copy.\n\nPlot twelve completed sales as ticks on the same axis and count how many stay inside the band. Write the consequence: *when too few land inside, the band is wrong, not the market*.\n\nGive the page a real `<header>` with nav anchors that resolve, wrap the content in `<main>`, and write a footer with links. Do not label your own data as samples."
+  },
+  "n15": {
+    "id": "n15",
+    "palette": [
+      {
+        "token": "bg",
+        "hex": "#ffffff",
+        "role": "Screen ground + cards",
+        "usage": "White for the ground and every card — a screen whose job is arithmetic should not ask the reader to interpret a surface tone while interpreting numbers."
+      },
+      {
+        "token": "accent",
+        "hex": "#4f46e5",
+        "role": "Winning stretch + commit",
+        "usage": "Per the native DNA's single accent — three painted elements. It fills the stretch of the volume axis where the recommended tier wins, and the commit control. Nothing that is not the current answer carries it."
+      },
+      {
+        "token": "fg",
+        "hex": "#18181b",
+        "role": "Tier names + headings",
+        "usage": "12 nodes, the largest ink tier. The verdict headline and the tier names are what a reader fixes before the axis means anything."
+      },
+      {
+        "token": "money",
+        "hex": "#27272a",
+        "role": "Every currency figure",
+        "usage": "10 nodes. All amounts sit one tick below the headings at 14px/800, inline inside sentences rather than as standalone display numbers — this screen has no large figure anywhere."
+      },
+      {
+        "token": "muted",
+        "hex": "#71717a",
+        "role": "Labels + axis",
+        "usage": "Seven nodes — the stat labels and the axis captions."
+      },
+      {
+        "token": "secondary",
+        "hex": "#52525b",
+        "role": "Section labels + body",
+        "usage": "Six nodes. Sits between the money tier and the muted labels so an opened tier reads as three levels rather than two."
+      },
+      {
+        "token": "border",
+        "hex": "#e4e4e7",
+        "role": "Rails + dividers",
+        "usage": "The unwon stretches of the volume axis and the card dividers. Structure is a line, never a second surface."
+      }
+    ],
+    "typography": "System face, per the native DNA. **Four weights render (800 on 15 nodes, 700 on 10, 600 on eight, 400 on six) — the canon asks for exactly three, and this shipped as a violation.** All three candidates in the round rendered four; the native gate has only `tsc·export·render·iframe` and no `weights` step, so nothing measured it and the judging lens ruled it non-differentiating. Scale at 390: 28px the screen heading, 24px the verdict tier name, 22px, 15px the tier conditions, 14px carrying the most nodes (15 — every currency figure), 13px, 12px, 11px the axis and stat labels, 9px the smallest caption.",
+    "spacing": "`16px 16px` and `16px 20px` set the card interiors, `0px 4px` the inline figures, `0px 12px` the screen gutter. The stepper controls are 56×56 and the tier segments 52pt tall — both clear the 44 minimum without `hitSlop`. The axis is a single horizontal rail with the winning stretch filled, so the layout has no grid: it is one line with a marker on it and cards beneath.",
+    "philosophy": "The screen answers with your own number in it, not with a feature column.\n\nA membership page normally sets three tiers side by side and lets the reader work out which one applies to them. On a phone that is a three-column comparison table, which is a desktop form wearing a mobile layout — and it answers *what do the tiers contain*, when the question is *which one is cheaper for me*.\n\nHere one volume axis is divided into the stretches each tier wins, and the reader's position is a marker on it. The verdict is a sentence — *at ₩3,200,000 in monthly sales you hand over ₩122,700 in fees, ₩62,900 under Basic* — with the reader's own figure inside it. Moving the stepper does not just change the number; it changes **which tier is the answer**, and the copy explains how far the current position sits past the line where that flip happened.\n\nThe break-even points are solved in closed form rather than looked up, which is what makes the axis honest: *nothing overtakes Elite above ₩1,538,462* is a claim about the intersection of three cost functions, and no table can state it.\n\nThe bottom band is a four-state machine and it empties itself. When the current tier is already optimal there is no button — only a sentence — because a dimmed control says something is wrong without saying what.\n\nIt won 2-1. Lens 1 preferred a candidate whose band physically scrolled the reader to the blocking step; the objection was that this screen's alert re-fires on every stepper press rather than only when the answer flips.",
+    "dosDonts": [
+      {
+        "do": "Divide one axis into the stretches each option wins and put the reader on it.",
+        "dont": "Set the tiers side by side — a three-column comparison is a desktop table on a phone, and it answers the wrong question."
+      },
+      {
+        "do": "Write the verdict as a sentence containing the reader's own figure.",
+        "dont": "Show a feature matrix and let them do the arithmetic."
+      },
+      {
+        "do": "Solve the break-even points in closed form and state them.",
+        "dont": "Hard-code a recommendation — the axis is only honest if the boundaries are computed."
+      },
+      {
+        "do": "Let the stepper change which tier is the answer, not just the numbers.",
+        "dont": "Recompute figures while the recommendation stays put — then the control is a calculator, not an argument."
+      },
+      {
+        "do": "Empty the bottom band when there is nothing to do.",
+        "dont": "Leave a dimmed button. A disabled control says something is wrong without saying what."
+      },
+      {
+        "do": "Fire the state-change alert only when the answer actually flips.",
+        "dont": "Recompute the alert string from the input value — this screen does, so every stepper press re-announces, and the judging lens docked it for that."
+      },
+      {
+        "do": "Count the rendered weights before promoting a native screen.",
+        "dont": "Trust the native gate on typography — it has four steps and none is `weights`, which is how this screen shipped with four."
+      }
+    ],
+    "agentPrompt": "Build a membership-tier screen as a break-even ruler, not a comparison table.\n\nWhite ground and white cards, `#e4e4e7` rails and dividers — structure is a line, never a second surface. One accent `#4f46e5` filling only the stretch of the axis where the recommended tier wins, plus the commit control. `#18181b` for tier names and headings, `#27272a` for every currency figure, `#52525b` for section labels, `#71717a` for axis captions.\n\nSystem face, and **exactly three weights** — count the rendered result. The native gate has no `weights` step, so nothing will catch a fourth for you.\n\nScale 28 / 24 / 22 / 15 / 14 / 13 / 12 / 11 / 9px, with 14px carrying the most nodes. **Keep every amount inline inside a sentence at body size** — this screen has no large display figure anywhere, and that is the point.\n\nDivide one monthly-volume axis into the stretches each tier wins and put a marker at the reader's position. Solve the break-even points in closed form — `(upperFee − lowerFee) / (lowerRate − upperRate)` — and state them (*nothing overtakes Elite above ₩1,538,462*).\n\nThe stepper must change **which tier is the answer**, not only the figures, and the copy must say how far the current position sits past the flip.\n\nBottom band is a four-state machine that **empties itself** when the current tier is already optimal — a sentence, no button. Keep one live region on the band container and the `alert` role on the transition line only, and **fire it when the answer flips, not on every input change**.\n\nStepper 56×56, tier segments 52pt — clear 44 without `hitSlop`."
   }
 }
