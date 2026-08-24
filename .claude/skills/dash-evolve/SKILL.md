@@ -168,6 +168,9 @@ native는 웹 라우트가 아니라 RN 화면이라 아래 규약을 따른다.
 - dev 서버: 3100 응답 확인(`curl -s -o /dev/null -w '%{http_code}' http://localhost:3100/`), 없으면 `cd app && npm run dev` 백그라운드 기동(이 라운드가 띄웠으면 마지막에 종료). gate.mjs 웹 브랜치가 sweep·Lighthouse 대상으로 3100을 쓴다.
 - **후보별 게이트**: 각 후보 v ∈ {a,b,c}에 대해 `node scripts/gate.mjs --target web --routes /<TARGET>-evolve/r<N>/<v>` 실행 → 공통 판정 verdict `{pass, gates:[{name:'static',…},{name:'sweep',…},{name:'a11y',…},{name:'perf',…}], violations}`. 디스패처가 정적(이미지 규칙 3종 포함 — 원시 img·alt 누락·unoptimized)·sweep(전 폭 오버플로, 랜딩도 동일 그리드 룰)·a11y·perf를 전부 실행·판정한다.
 - **1-fix 루프**: `pass:false`면 `verdict.violations`(위반 상세 — `gate`명 + file/route/line 태그)를 해당 designer v에 전달해 **1회 수정** 후 같은 명령 재실행. 재통과 → 생존, 재실패 → 탈락. (후보별 단일 라우트라 violations가 전부 그 후보 소속 — demux 불필요.)
+  - **`blockedBy` 가 붙은 실패는 그 후보의 1-fix 기회를 소모하지 않는다 (2026-08-24 신설).** native 는 한 RN 프로젝트를 공유해 **전역 `tsc` 가 한 번에 돈다** — 한 후보가 컴파일을 깨면 나머지 후보의 `export`·`render`·`iframe` 이 전부 `미실행` 실패로 찍힌다. 게이트는 귀속을 정확히 적어 준다(`다른 후보(evolve-r11-c)의 에러로 전역 tsc가 중단됨`). **그 필드를 읽어라** — 원인 후보만 고치고 전원 재게이트한다.
+    실측(`auto-native-r11`): c 의 `tsc` 에러 2건이 a·b 의 6단계를 막았고 a·b 의 `tsc` 자체는 `에러 0` 이었다. 규칙을 문면대로 읽으면 **자기 잘못이 아닌 이유로 1회 기회를 쓴 것**이 된다. 웹은 라우트별로 격리되므로 이 분기는 native 전용이다.
+    **전역 `tsc` 를 후보별로 쪼개지 마라** — 그러면 "후보가 `screens.ts` 를 깨뜨렸다" 같은 **진짜 공유 결함**을 못 잡는다. 전역인 것이 목적이다. ([[questions-queue]] Q41)
 - **게이트 기준**(디스패처 강제, SKILL 별도 규칙 불요): a11y < 95 = 하드페일 / Lighthouse 실행 불가 = `unavailable`(하드페일 아님) / perf = 항상 통과(기록만 — dev 서버 측정치 탈락 미적용).
 - 각 후보 `verdict.gates`를 `vault/20-generations/<run>/SCORES.md`에 표로 기록.
 - **native의 경우**: 3100 dev 서버 불요(gate.mjs native 브랜치가 Expo Web 8091을 자체 export·serve). `node scripts/gate.mjs --target native --screens evolve-r<N>-a evolve-r<N>-b evolve-r<N>-c` → verdict(후보×4게이트 `<slug>/<tsc|export|render|iframe>`). `pass:false`면 `verdict.violations`(screen/step 태그)를 해당 후보 designer에 1회 수정 후 재호출. 화면별 4단계 전부 pass여야 그 후보 생존.
