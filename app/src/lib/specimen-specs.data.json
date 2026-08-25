@@ -5367,5 +5367,200 @@
       }
     ],
     "agentPrompt": "Build a membership-tier screen as a break-even ruler, not a comparison table.\n\nWhite ground and white cards, `#e4e4e7` rails and dividers — structure is a line, never a second surface. One accent `#4f46e5` filling only the stretch of the axis where the recommended tier wins, plus the commit control. `#18181b` for tier names and headings, `#27272a` for every currency figure, `#52525b` for section labels, `#71717a` for axis captions.\n\nSystem face, and **exactly three weights** — count the rendered result. The native gate has no `weights` step, so nothing will catch a fourth for you.\n\nScale 28 / 24 / 22 / 15 / 14 / 13 / 12 / 11 / 9px, with 14px carrying the most nodes. **Keep every amount inline inside a sentence at body size** — this screen has no large display figure anywhere, and that is the point.\n\nDivide one monthly-volume axis into the stretches each tier wins and put a marker at the reader's position. Solve the break-even points in closed form — `(upperFee − lowerFee) / (lowerRate − upperRate)` — and state them (*nothing overtakes Elite above ₩1,538,462*).\n\nThe stepper must change **which tier is the answer**, not only the figures, and the copy must say how far the current position sits past the flip.\n\nBottom band is a four-state machine that **empties itself** when the current tier is already optimal — a sentence, no button. Keep one live region on the band container and the `alert` role on the transition line only, and **fire it when the answer flips, not on every input change**.\n\nStepper 56×56, tier segments 52pt — clear 44 without `hitSlop`."
+  },
+  "v17": {
+    "id": "v17",
+    "palette": [
+      {
+        "token": "canvas",
+        "hex": "#0b0b0f",
+        "role": "Page ground",
+        "usage": "The near-black canvas the whole page sits on. A negotiation transcript is read line by line, so the ground stays out of the way and the only bright things are the words being exchanged."
+      },
+      {
+        "token": "fg",
+        "hex": "#ffffff",
+        "role": "Headline + agent turns",
+        "usage": "58 text nodes — the largest ink tier. The hero headline and every line the buyer-agent actually says. If it is speech, it is white."
+      },
+      {
+        "token": "muted",
+        "hex": "#a1a1aa",
+        "role": "Body + seller turns",
+        "usage": "73 nodes, the most frequent ink. Explanatory body and the seller's replies sit one tier down, so the transcript reads as two voices without using two hues."
+      },
+      {
+        "token": "accent",
+        "hex": "#6ee7b7",
+        "role": "Derived figures + eyebrow",
+        "usage": "30 nodes. Emerald-300 marks every number the engine derived — settled price, savings, match figures — and the eyebrow label. Nothing static carries it."
+      },
+      {
+        "token": "accent-fill",
+        "hex": "#047857",
+        "role": "Filled controls + quote mark",
+        "usage": "Emerald-700 as the only large filled surface (8 regions). Dark enough to hold white text at body size, which the lighter accent-300 could not."
+      },
+      {
+        "token": "dim",
+        "hex": "#6b6b78",
+        "role": "Turn ordinals",
+        "usage": "Three nodes only — the 01/02/03 markers down the transcript. Deliberately the faintest tier so the numbering never competes with the speech."
+      }
+    ],
+    "typography": "Pretendard Variable for all prose (150 nodes) with JetBrains Mono Display on 17 nodes only — the eyebrow, the price figures and the turn ordinals. Three weights measured at render: 400 body, 500 the workhorse (82 nodes), 800 for the display headline. The scale runs 10px labels to 54px headline, with 15px line-height on the 10px mono labels — tight, because those are machine-labels and not reading text. Body column caps at 520px; the shell at 1240px.",
+    "spacing": "An 4/8/12/16/20/24 base with 40/48 reserved for section breaks. Gap 8px is the default rhythm (22 regions), padding 10px and 16px carry the transcript bubbles. Radius: 6/12/16 plus a fully-rounded pill, and asymmetric 16px 4px 16px 16px on speech bubbles so each turn points at its speaker.",
+    "philosophy": "The proof is a conversation. One deterministic function derives the whole multi-turn negotiation — every reply, the settled price and the no-deal branch — from two controls (price ceiling and bargaining style), so no combination produces a transcript that fails to reflect its own inputs. The page contains no chart at all; the causal chain from control to outcome is what makes it a demonstration rather than a claim, and the closing CTA quotes the same derived number rather than a written-in one.",
+    "agentPrompt": "Build a dark landing whose central proof is a generated conversation, not a visualisation. Write one pure deterministic function that takes every control value and returns the full transcript, the settled outcome and the failure branch — then render only what that function returned, including in the closing CTA. Give the two speakers different ink tiers rather than different hues, mark derived figures with a single accent, and keep every static number out of the accent colour so a reader can tell computed from written by colour alone.",
+    "dosDonts": [
+      {
+        "do": "Derive every visible outcome from one function of the control state, closing CTA included.",
+        "dont": "Hard-code the closing summary — a page arguing that input changes everything must not end on a fixed number."
+      },
+      {
+        "do": "Separate the two voices by ink tier (white vs zinc-400) inside one hue family.",
+        "dont": "Give each speaker its own colour — the accent has to stay reserved for derived figures."
+      },
+      {
+        "do": "Use the darker accent-700 for filled surfaces carrying text, the lighter accent-300 for figures on the dark ground.",
+        "dont": "Put body-size white text on accent-300; it fails contrast at that size."
+      },
+      {
+        "do": "Keep mono to labels, prices and ordinals (17 nodes of 167).",
+        "dont": "Set the transcript itself in mono — it is speech and reads as prose."
+      }
+    ]
+  },
+  "n16": {
+    "id": "n16",
+    "palette": [
+      {
+        "token": "bg",
+        "hex": "#ffffff",
+        "role": "Screen ground + cards",
+        "usage": "White ground and white cards. A certificate is a document; the surface should read as paper, not as an app chrome."
+      },
+      {
+        "token": "accent",
+        "hex": "#4f46e5",
+        "role": "Verified seal + pass marks",
+        "usage": "Six filled regions and four ink nodes — the seal band at the head of the certificate and the per-checkpoint Passed marks. The native DNA's single accent, spent only on what the authentication actually concluded."
+      },
+      {
+        "token": "fg",
+        "hex": "#18181b",
+        "role": "Certificate title + item name",
+        "usage": "Ten nodes. The document title and the item it certifies — what a reader fixes on before any checkpoint means anything."
+      },
+      {
+        "token": "body",
+        "hex": "#27272a",
+        "role": "Reference codes + values",
+        "usage": "Five nodes, one tick below the headings. Serial numbers and checkpoint values sit here so they read as data rather than as prose."
+      },
+      {
+        "token": "secondary",
+        "hex": "#52525b",
+        "role": "Checkpoint labels",
+        "usage": "12 nodes — the label side of every checkpoint row."
+      },
+      {
+        "token": "muted",
+        "hex": "#71717a",
+        "role": "Eyebrow + captions",
+        "usage": "13 nodes, the most frequent and faintest tier — the ITEM AUTHENTICATION eyebrow and the small print under each section."
+      }
+    ],
+    "typography": "-apple-system throughout, per the native DNA. Three weights at render: 400, 600 and a dominant 700 (26 of 50 text nodes) — a document sets more of itself in bold than an app screen does, because most of its text is labels and values rather than sentences. Scale 10–26px with the mass at 11–15px and a single 26px document title. Line-height 19px on 13px body.",
+    "spacing": "tokens.space multiples only: 8/12/16/20 padding, 12px the default gap with 2/3/4px used inside stacked label-value pairs. Radius 6/12/14/20 — the largest on the seal band, the smallest on inline chips.",
+    "philosophy": "This screen is a completed record, so the bottom band is a standing action bar rather than a state machine. There is no blocked step left to explain — the canonical blocked/ready/done band would have to invent a workflow that already finished. Share and Download each produce a real result, announced through the one live region the screen owns. The judgement about which band belongs here is written into the file header rather than left implicit.",
+    "agentPrompt": "Build a native certificate screen for an authentication that has already concluded. Decide the bottom band by asking what the screen is: if nothing is blocked, do not build a state machine — build a standing action bar whose buttons return real results. Register exactly one accessibilityLiveRegion=polite container and put accessibilityRole=alert only on the sentence that changes. Spend the single accent on the verdict and nothing else, and write the reasoning for the band choice into the file header so the next reader does not re-derive it.",
+    "dosDonts": [
+      {
+        "do": "Choose the band form from what the screen does — completed record gets a standing action bar.",
+        "dont": "Reuse the blocked/ready/done state machine because other screens have one; on a finished record it has nothing to say."
+      },
+      {
+        "do": "Keep one live-region container and put alert on the transition sentence only.",
+        "dont": "Add a second live region for the action feedback — two regions announcing at once tell the reader nothing."
+      },
+      {
+        "do": "Let every band button return a visible result (share target, saved file).",
+        "dont": "Leave a disabled control on a screen where nothing is pending."
+      },
+      {
+        "do": "Spend the accent on the verdict marks and the seal.",
+        "dont": "Tint labels or captions with it — on a document, accent means concluded."
+      }
+    ]
+  },
+  "n17": {
+    "id": "n17",
+    "palette": [
+      {
+        "token": "bg",
+        "hex": "#ffffff",
+        "role": "Screen ground + cards",
+        "usage": "White throughout. Money screens should not ask a reader to interpret a surface tone while interpreting a balance."
+      },
+      {
+        "token": "band",
+        "hex": "#18181b",
+        "role": "Bottom state-machine band",
+        "usage": "Two regions — the fixed band, dark so it reads as a separate plane from the form above it. It is the only inverted surface on the screen."
+      },
+      {
+        "token": "fg",
+        "hex": "#18181b",
+        "role": "Headline + primary amounts",
+        "usage": "Five nodes. The screen title and the figures a reader is deciding about."
+      },
+      {
+        "token": "money",
+        "hex": "#27272a",
+        "role": "Currency figures",
+        "usage": "Five nodes. Amounts sit one tick below headings, inline in sentences rather than as standalone display numbers."
+      },
+      {
+        "token": "secondary",
+        "hex": "#52525b",
+        "role": "Body sentences",
+        "usage": "Four nodes — the explanatory line under the title and the account description."
+      },
+      {
+        "token": "muted",
+        "hex": "#71717a",
+        "role": "Clearing captions",
+        "usage": "Three nodes — pending-clearance and availability captions, the faintest tier."
+      },
+      {
+        "token": "accent",
+        "hex": "#4f46e5",
+        "role": "Verified mark + selected preset",
+        "usage": "Two nodes only. The single native accent, spent on the verified bank badge and the active amount preset."
+      }
+    ],
+    "typography": "-apple-system per the native DNA. Four weights measured at render (400/600/700/800) — heavier than the three-weight web rule, which native does not impose; the 800 is a single node, the withdrawal figure. Scale 12–34px with the mass at 12–15px and one 34px amount. Line-height 20px on 14px body.",
+    "spacing": "tokens.space multiples: 16 and 20px padding carry the cards and the band, 8/12/16 gaps. Radius 12px on cards, 6px on inline chips — a flatter radius set than the certificate screen, which suits a form rather than a document.",
+    "philosophy": "Destructive confirmation without a separate alert. Rather than opening a native Alert for the withdrawal, the bottom state-machine band turns itself into a Cancel/Confirm row — so the confirmation happens inside the container that is already wired for live-region announcement, and the confirmation sentence is announced by the same region that announced everything before it. No new modal component, no second live region, and the confirmation inherits an idiom the catalogue has already validated.",
+    "agentPrompt": "Build a native payout screen where withdrawing requires confirmation. Do not open a system Alert — transform the existing bottom state-machine band into a Cancel/Confirm row so the confirmation happens inside the container that already carries accessibilityLiveRegion=polite, and let the same region announce the confirmation sentence. Keep the band as the single owner of every stage (form, confirm, processing, done). Spend the single accent on the verified account badge and the active preset only, and keep every amount inline in a sentence rather than as a standalone display number except the one being withdrawn.",
+    "dosDonts": [
+      {
+        "do": "Turn the existing band into a Cancel/Confirm row for destructive confirmation.",
+        "dont": "Open a separate native Alert — it leaves the validated live-region container and adds a second announcement surface."
+      },
+      {
+        "do": "Let one container own every stage transition (form → confirm → processing → done).",
+        "dont": "Give each stage its own live region; the reader cannot tell which announcement is new."
+      },
+      {
+        "do": "Say what cannot be undone in the confirm copy itself, inside the announced region.",
+        "dont": "Rely on button labels alone to convey that the action is destructive."
+      },
+      {
+        "do": "Reserve the accent for the verified badge and the active preset.",
+        "dont": "Tint the amount with it — the figure is data, not a verdict."
+      }
+    ]
   }
 }

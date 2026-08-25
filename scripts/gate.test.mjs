@@ -608,3 +608,43 @@ test('normalizeNativeRun — 기존 3인자 호출 호환 유지', () => {
   const gates = normalizeNativeRun('watchlist', out, true);
   assert.ok(gates.every((g) => g.pass));
 });
+
+test('filesForRoute — 라우트 그룹 안의 작품도 찾는다', () => {
+  // Next 의 라우트 그룹 `(marketing)` 은 URL 에 나타나지 않는다. `appRoot + route` 로 경로를
+  // 만들면 `/v16` → `app/src/app/v16` 을 찾다가 ENOENT 로 죽고, 그래서 **승격된 랜딩 12작품
+  // (`v0`·`v6`~`v16`)이 승격 이후 한 번도 게이트를 받지 않았다.** 2026-08-24 apply 에서 실제로
+  // 물렸다 — `v16` 보수가 `font-semibold` 를 넣어 웨이트를 4종으로 만들었는데 게이트로 확인이
+  // 불가능해 손으로 렌더 실측해서 잡았다. ([[questions-queue]] Q45)
+  const files = filesForRoute('/v16');
+  assert.ok(files.length > 0, '라우트 그룹 안이라도 파일을 찾아야 한다');
+  assert.ok(files.some((f) => f.endsWith('page.tsx')));
+  assert.ok(
+    files.every((f) => f.startsWith('app/src/app/(marketing)/v16/')),
+    '실제 디스크 경로를 반환한다 — URL 경로가 아니라',
+  );
+});
+
+test('filesForRoute — 그룹 없는 라우트는 동작이 바뀌지 않는다', () => {
+  // 회귀 방지. 기존 호출부(`/dash/dN`·`/…-evolve/rN/v`)는 그룹을 안 쓰므로 그대로여야 한다.
+  const files = filesForRoute('/dash/d29');
+  assert.ok(files.every((f) => f.startsWith('app/src/app/dash/d29/')));
+});
+
+test('filesForRoute — 챔피언(`/`)은 자식 라우트를 자기 스코프로 삼지 않는다', () => {
+  // 같은 함수의 반대 방향 결함. `/` 는 ENOENT 로 죽지 않는 대신 **앱 트리 전체 491 파일**을
+  // 자기 스코프로 반환했다(자식 라우트 `page.tsx` 64개 포함). 그러면 다른 작품의 위반이 `/` 의
+  // 위반으로 보고되고, 작품 단위 규칙(웨이트·활자 face group)은 491 파일을 한 작품으로 세어
+  // 언제나 실패한다 — 즉 챔피언도 실질적으로 게이트 밖이었다.
+  // 라우트 디렉토리는 `page.tsx` 를 가진 디렉토리다. 그 아래 또 `page.tsx` 가 있으면 자식 라우트고,
+  // 자식 라우트는 별개의 검사 단위다. 영향 범위 실측: 자식을 가진 작품 라우트는 `/` 하나뿐이다.
+  const files = filesForRoute('/');
+  assert.ok(files.every((f) => f.startsWith('app/src/app/(marketing)/')), '`/` 의 라우트 디렉토리는 (marketing)');
+  assert.equal(files.filter((f) => f.endsWith('/page.tsx')).length, 1, '자기 page.tsx 하나뿐');
+  assert.ok(!files.some((f) => /\/v\d+\//.test(f)), '자식 라우트 v6~v16 을 빨아들이지 않는다');
+});
+
+test('filesForRoute — 잎 라우트의 스코프는 그대로다', () => {
+  // 회귀 방지. 자식 라우트 제외 규칙이 잎 라우트의 하위 폴더(컴포넌트·data)를 잘라내면 안 된다.
+  assert.ok(filesForRoute('/dash/d29').length >= 20);
+  assert.ok(filesForRoute('/v12').length >= 10);
+});
