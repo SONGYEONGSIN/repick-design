@@ -40,7 +40,20 @@ description: 자율 진화 주간 반증 (다중 타깃) — evolve/dash 누적�
    - 스키마는 `validateSpec`으로 확인한다(palette ≥3 · dosDonts ≥3 · 네 서술 필드).
    native 작품은 웹과 같은 스키마를 쓰되 폭 390에서 측정한다.
 
-4-1. **승격본 lint 확인 (필수)** — 킵한 작품을 옮긴 직후 `cd app && npx eslint src --max-warnings=0`을 돌려 위반 0을 확인한다. 하드게이트(static·weights·sweep·a11y·perf)에는 **eslint가 없어서**, 라운드는 통과했는데 카탈로그에 lint 에러가 들어오는 일이 두 번 반복됐다(2026-08-01 `auto-404-r1` 승격: effect 내 setState + 원시 `<a>` 2건). 게이트가 안 보는 것은 승격이 봐야 한다.
+4-1. **승격본 검사 (필수) — 게이트 + lint 둘 다.** 킵한 작품을 옮긴 직후 **승격된 라우트에 게이트를 다시 돌린다**:
+
+   ```bash
+   node scripts/gate.mjs --target web --routes /<새 라우트>      # 예: /v17 · /dash/d50 · /careers-4
+   node scripts/gate.mjs --target native --screens <name>        # native 킵은 permanent 슬러그로
+   ```
+
+   **왜 승격 후에 또 돌리나**: 후보는 evolve 경로(`/landing-evolve/rN/v`)에서만 게이트를 받았다. `git mv` 자체는 내용을 안 바꾸니 그 시점까지는 안전하지만, **§4의 이동·경로 수정·§4-0 스펙 작업이 전부 그 뒤에 온다.** 2026-08-24 apply 에서 실제로 물렸다 — `v16` 헤더를 보수하면서 `font-semibold` 가 들어가 웨이트가 4종이 됐고, 손으로 렌더를 재서야 잡았다. 오래도록 이걸 못 돌린 이유는 게이트가 라우트 그룹을 못 봐 `(marketing)/v*` 에서 ENOENT 로 죽었기 때문이고, **그 결함은 2026-08-25 에 고쳐졌다**([[questions-queue]] Q45 · `172ceaf`·`0fe47d5`). 이제 돌아가니 돌린다.
+
+   **`pass` 만 보지 마라 — 기록 전용 관문의 `detail` 을 눈으로 읽는다.** 위 사고에서 실제로 문 것은 `weights` 인데 그 관문은 `pass:true` 고정이다. 같은 소급 스캔에서 **챔피언 `/`(v0)도 웨이트 4종**으로 드러났고, pass/fail 만 봤다면 둘 다 못 잡았다. 최소한 `weights` 의 종수와 `perf` 점수는 읽고 넘어간다. (native 게이트는 `tsc·export·render·iframe` 4관문뿐이라 읽을 기록 전용 항목이 없다 — 웨이트를 안 재는 것은 별건이다.)
+
+   비용은 라우트당 약 6분(tsc·lint·sweep·Lighthouse 2회)이다 — 2026-08-25 에 12작품을 이 방식으로 소급 스캔해 실측했다. dev 서버 3100 이 필요하다(§4 다른 단계와 동일).
+
+   **그다음 `cd app && npx eslint src --max-warnings=0`** 을 돌려 위반 0을 확인한다. 게이트의 `lint` 관문은 **스코프 파일만** 보므로 이것과 겹치지 않는다 — 승격이 다른 파일(`works.ts`·`screens.ts`·스펙 데이터)을 건드리기 때문에 전체 `src` 검사가 따로 필요하다. 라운드는 통과했는데 카탈로그에 lint 에러가 들어오는 일이 두 번 반복됐다(2026-08-01 `auto-404-r1` 승격: effect 내 setState + 원시 `<a>` 2건). 게이트가 안 보는 것은 승격이 봐야 한다.
 
 5. **위키 마감** — index.md에 승격/신규 노트 등재 반영 → `node scripts/wiki-lint.mjs` 재실행, 위반 0 확인(승격이 만든 깨진 링크·미등재 즉시 수정).
 6. 반영 커밋(evolve/dash) → `cd app && npx next build` 통과 확인 → `gh pr merge <num> --squash` (PR 제목 conventional 확인. `--delete-branch` 금지 — evolve/dash는 상시 브랜치).

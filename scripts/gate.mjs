@@ -1,4 +1,4 @@
-import { readFileSync, readdirSync } from 'node:fs';
+import { existsSync, readFileSync, readdirSync } from 'node:fs';
 import { spawnSync } from 'node:child_process';
 import { pathToFileURL } from 'node:url';
 
@@ -347,9 +347,79 @@ export function parseArgs(argv) {
 
 /* ───────── 웹 브랜치 (IO) ───────── */
 
+/**
+ * URL 라우트를 디스크 디렉토리로 옮긴다.
+ *
+ * Next 의 **라우트 그룹**(`(marketing)`)은 URL 에 나타나지 않으므로 `appRoot + route` 가 성립하지
+ * 않는다. 그래서 `/v16` 은 `app/src/app/v16` 을 찾다 ENOENT 로 죽었고, **승격된 랜딩 12작품
+ * (`v0`·`v6`~`v16`)이 승격 이후 한 번도 게이트를 받지 않았다.**
+ *
+ * 2026-08-24 apply 에서 실제로 물렸다 — `v16` 에 헤더를 보수하면서 `font-semibold` 가 들어가
+ * 웨이트가 4종이 됐는데, 게이트로 확인할 수 없어 손으로 렌더를 재서 잡았다. 자동으로는 안 잡혔을
+ * 자리다. ([[questions-queue]] Q45)
+ *
+ * 세그먼트를 하나씩 내려가며 직접 이름이 없으면 `(…)` 그룹 디렉토리 안을 본다. 그룹은 중첩될 수
+ * 있으므로 재귀로 찾되, **URL 에 안 나타나는 것만** 건너뛴다 — 라우트를 마음대로 재해석하지 않는다.
+ *
+ * 같은 함수가 **반대 방향으로도** 틀렸다. 챔피언 `/` 는 ENOENT 로 죽는 대신 `app/src/app` 을 통째로
+ * 반환해 **앱 트리 491 파일**(자식 라우트 `page.tsx` 64개 포함)을 자기 스코프로 삼았다 — 다른 작품의
+ * 위반이 `/` 의 위반으로 보고되고, 작품 단위 규칙(웨이트·활자 face group)은 491 파일을 한 작품으로
+ * 세어 언제나 실패한다. 즉 챔피언도 실질적으로 게이트 밖이었다.
+ * **라우트 디렉토리는 `page.tsx` 를 가진 디렉토리**이고, 그 아래 또 `page.tsx` 가 있으면 **자식 라우트**라
+ * 별개의 검사 단위다. 자식을 가진 작품 라우트는 실측 결과 `/` 하나뿐이라 나머지는 스코프가 그대로다.
+ */
+function groupDirs(dir) {
+  try {
+    return readdirSync(dir, { withFileTypes: true })
+      .filter((e) => e.isDirectory() && e.name.startsWith('(') && e.name.endsWith(')'))
+      .map((e) => e.name);
+  } catch {
+    return [];
+  }
+}
+
+const isRouteDir = (dir) => existsSync(`${dir}/page.tsx`) || existsSync(`${dir}/page.ts`);
+
+function resolveRouteDir(appRoot, segments) {
+  if (segments.length === 0) {
+    if (isRouteDir(appRoot)) return appRoot;
+    // 그룹만 있는 자리 — `/` 의 실체는 `app/src/app/page.tsx` 가 아니라 `(marketing)/page.tsx` 다.
+    for (const g of groupDirs(appRoot)) {
+      const found = resolveRouteDir(`${appRoot}/${g}`, []);
+      if (found) return found;
+    }
+    return null;
+  }
+  const [head, ...rest] = segments;
+  const direct = `${appRoot}/${head}`;
+  if (existsSync(direct)) {
+    const found = resolveRouteDir(direct, rest);
+    if (found) return found;
+  }
+  for (const g of groupDirs(appRoot)) {
+    const found = resolveRouteDir(`${appRoot}/${g}`, segments);
+    if (found) return found;
+  }
+  return null;
+}
+
+/** 이 파일이 `dir` 아래 **다른 라우트**에 속하는가. 그룹 세그먼트는 라우트 경계가 아니다. */
+function underChildRoute(dir, relPath) {
+  const parts = relPath.split('/').slice(0, -1);
+  let cur = dir;
+  for (const p of parts) {
+    cur += `/${p}`;
+    if (!(p.startsWith('(') && p.endsWith(')')) && isRouteDir(cur)) return true;
+  }
+  return false;
+}
+
 export function filesForRoute(route, appRoot = 'app/src/app') {
-  const dir = appRoot + route;
+  const segments = route.split('/').filter(Boolean);
+  const dir = resolveRouteDir(appRoot, segments);
+  if (!dir) throw new Error(`라우트 디렉토리를 찾지 못했다: ${route} (appRoot ${appRoot})`);
   return readdirSync(dir, { recursive: true })
+    .filter((f) => typeof f !== 'string' || !underChildRoute(dir, f))
     // `.ts`도 포함한다. 오래도록 `.tsx`만 봤고, 그래서 각 작품의 `data.ts`·`tokens.ts`가 정적
     // 검사를 한 번도 받지 않았다 — 하필 `data.ts`가 더미 데이터가 사는 곳이라 `no-random`
     // (`Math.random`/`Date.now`)이 가장 나올 법한 자리다. 결정론 규칙의 주 검사 대상이 검사망

@@ -1,4 +1,4 @@
-// native/src/evolve/r12/c/data.ts — auto-native-r12 candidate c: Item Authentication Certificate.
+// native/src/certificate/data.ts — auto-native-r12 candidate c: Item Authentication Certificate.
 //
 // All values are fixed literals — no Math.random / Date.now / argument-less `new Date()` — so the
 // screen renders identically on every load.
