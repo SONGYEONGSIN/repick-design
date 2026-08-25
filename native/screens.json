@@ -44,22 +44,10 @@
   "membership": {
     "check": "Priced against what you actually sell"
   },
-  "evolve-r12-a": {
-    "check": "Request a return"
-  },
-  "evolve-r12-b": {
-    "check": "Saved Search Alerts"
-  },
-  "evolve-r12-c": {
+  "certificate": {
     "check": "Authentication Certificate"
   },
-  "evolve-r13-a": {
+  "payout": {
     "check": "Withdraw funds"
-  },
-  "evolve-r13-b": {
-    "check": "Set Up Your Store"
-  },
-  "evolve-r13-c": {
-    "check": "Support Center"
   }
 }

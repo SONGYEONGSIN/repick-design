@@ -1,4 +1,4 @@
-// native/src/evolve/r12/c/AuthenticationCertificateScreen.tsx — auto-native-r12 candidate c.
+// native/src/certificate/AuthenticationCertificateScreen.tsx — auto-native-r12 candidate c.
 //
 // Item Authentication Certificate: the completed *result* of an item-level authentication check,
 // shown as a certificate-style record (reference photo, item meta, an overall verdict, and five
@@ -22,7 +22,7 @@ import {
   SafeAreaView,
   StyleSheet,
 } from "react-native";
-import { tokens } from "../../../tokens";
+import { tokens } from "../tokens";
 import {
   CERTIFICATE_ID,
   CHECKPOINTS,

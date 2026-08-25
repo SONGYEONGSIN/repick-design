@@ -1,4 +1,4 @@
-// native/src/evolve/r13/a/data.ts — deterministic dummy data for PayoutScreen
+// native/src/payout/data.ts — deterministic dummy data for PayoutScreen
 // No Math.random / Date.now / argument-less `new Date()` anywhere below.
 
 export type PresetAmount = {

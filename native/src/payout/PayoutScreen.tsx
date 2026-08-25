@@ -8,7 +8,7 @@ import {
   ScrollView,
   StyleSheet,
 } from "react-native";
-import { tokens } from "../../../tokens";
+import { tokens } from "../tokens";
 import {
   AVAILABLE_BALANCE_WON,
   PENDING_CLEARANCE_WON,
