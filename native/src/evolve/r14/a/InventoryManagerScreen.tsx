@@ -14,10 +14,6 @@
 // in the slim status line under the header, which is mounted for the screen's whole lifetime, so
 // both ends of a transition can be announced through it: entering/leaving selection mode, and
 // batch-action results. The toolbar itself carries no separate live region.
-export function InventoryManagerScreen() {
-  return <InventoryManagerScreenInner />;
-}
-
 import { useEffect, useState } from "react";
 import {
   View,
@@ -50,7 +46,7 @@ function plural(n: number): string {
   return n === 1 ? "" : "s";
 }
 
-function InventoryManagerScreenInner() {
+export function InventoryManagerScreen() {
   const [listings, setListings] = useState<Listing[]>(LISTINGS);
   const [tab, setTab] = useState<ListingTab>("all");
   const [selectionMode, setSelectionMode] = useState(false);
@@ -318,83 +314,87 @@ function InventoryManagerScreenInner() {
     const selected = selectedIds.has(item.id);
     const isActive = item.status === "active";
     return (
-      <Pressable
-        onPress={() => handleRowPress(item.id)}
-        onLongPress={() => handleRowLongPress(item.id)}
-        disabled={processing}
-        accessibilityRole="button"
-        accessibilityLabel={`${item.title}, ${formatWon(item.priceWon)}, ${
-          isActive ? "active" : "paused"
-        }${selectionMode ? (selected ? ", selected" : ", not selected") : ""}`}
-        accessibilityState={selectionMode ? { selected } : undefined}
-        style={({ pressed }) => [
-          styles.row,
-          selected && styles.rowSelected,
-          pressed && styles.rowPressed,
-        ]}
-      >
+      // A plain View, not a Pressable, wraps the row: the checkbox and the content area below
+      // are two SIBLING Pressables, never nested inside one another. A checkbox nested inside an
+      // outer accessible Pressable would be invisible to VoiceOver/TalkBack (the outer element
+      // swallows its children into one node) — keeping them siblings keeps both independently
+      // reachable and keeps their accessibilityLabel/State each honest about what tapping it does.
+      <View style={[styles.row, selected && styles.rowSelected]}>
         <Pressable
           onPress={() => handleCheckboxPress(item.id)}
           disabled={processing}
           hitSlop={HIT_SLOP}
           accessibilityRole="checkbox"
           accessibilityLabel={`Select ${item.title}`}
-          accessibilityState={{ checked: selected }}
+          accessibilityState={{ checked: selected, disabled: processing }}
           style={styles.checkboxTouch}
         >
-          <View
-            style={[styles.checkbox, selected && styles.checkboxChecked]}
-          >
+          <View style={[styles.checkbox, selected && styles.checkboxChecked]}>
             {selected && <Text style={styles.checkboxGlyph}>{"✓"}</Text>}
           </View>
         </Pressable>
 
-        <View style={styles.thumb}>
-          <Text style={styles.thumbGlyph}>{"▤"}</Text>
-        </View>
+        <Pressable
+          onPress={() => handleRowPress(item.id)}
+          onLongPress={() => handleRowLongPress(item.id)}
+          disabled={processing}
+          accessibilityRole="button"
+          accessibilityLabel={`${item.title}, ${formatWon(item.priceWon)}, ${
+            isActive ? "active" : "paused"
+          }${selectionMode ? (selected ? ", selected" : ", not selected") : ""}`}
+          accessibilityState={selectionMode ? { selected } : undefined}
+          style={({ pressed }) => [
+            styles.rowContent,
+            pressed && styles.rowPressed,
+          ]}
+        >
+          <View style={styles.thumb}>
+            <Text style={styles.thumbGlyph}>{"▤"}</Text>
+          </View>
 
-        <View style={styles.rowBody}>
-          <Text style={styles.rowTitle} numberOfLines={1}>
-            {item.title}
-          </Text>
-          <Text style={styles.rowCategory} numberOfLines={1}>
-            {item.category}
-          </Text>
+          <View style={styles.rowBody}>
+            <Text style={styles.rowTitle} numberOfLines={1}>
+              {item.title}
+            </Text>
+            <Text style={styles.rowCategory} numberOfLines={1}>
+              {item.category}
+            </Text>
 
-          <View style={styles.rowMetaLine}>
-            <Text style={styles.rowPrice}>{formatWon(item.priceWon)}</Text>
-            <View style={styles.statusBadge}>
-              <View
-                style={[
-                  styles.statusDot,
-                  isActive ? styles.statusDotActive : styles.statusDotPaused,
-                ]}
-              />
-              <Text
-                style={[
-                  styles.statusText,
-                  isActive ? styles.statusTextActive : styles.statusTextPaused,
-                ]}
-              >
-                {isActive ? "Active" : "Paused"}
+            <View style={styles.rowMetaLine}>
+              <Text style={styles.rowPrice}>{formatWon(item.priceWon)}</Text>
+              <View style={styles.statusBadge}>
+                <View
+                  style={[
+                    styles.statusDot,
+                    isActive ? styles.statusDotActive : styles.statusDotPaused,
+                  ]}
+                />
+                <Text
+                  style={[
+                    styles.statusText,
+                    isActive ? styles.statusTextActive : styles.statusTextPaused,
+                  ]}
+                >
+                  {isActive ? "Active" : "Paused"}
+                </Text>
+              </View>
+            </View>
+
+            <View style={styles.rowMetaLine}>
+              <Text style={styles.rowSubMeta}>
+                {formatCount(item.views)} views · {formatCount(item.likes)} likes
+                · {item.postedLabel}
               </Text>
             </View>
-          </View>
 
-          <View style={styles.rowMetaLine}>
-            <Text style={styles.rowSubMeta}>
-              {formatCount(item.views)} views · {formatCount(item.likes)} likes ·{" "}
-              {item.postedLabel}
-            </Text>
+            {item.relisted && (
+              <View style={styles.relistedPill}>
+                <Text style={styles.relistedPillText}>Relisted</Text>
+              </View>
+            )}
           </View>
-
-          {item.relisted && (
-            <View style={styles.relistedPill}>
-              <Text style={styles.relistedPillText}>Relisted</Text>
-            </View>
-          )}
-        </View>
-      </Pressable>
+        </Pressable>
+      </View>
     );
   };
 
@@ -620,15 +620,21 @@ const styles = StyleSheet.create({
 
   row: {
     flexDirection: "row",
-    gap: tokens.space(3),
-    paddingHorizontal: tokens.space(5),
-    paddingVertical: tokens.space(3),
+    alignItems: "flex-start",
+    paddingLeft: tokens.space(3),
     borderBottomWidth: 1,
     borderBottomColor: tokens.color.border,
-    alignItems: "flex-start",
   },
   rowSelected: {
     backgroundColor: "#eef2ff", // accent-tinted selection wash; only non-token color, kept local
+  },
+  rowContent: {
+    flex: 1,
+    flexDirection: "row",
+    alignItems: "flex-start",
+    gap: tokens.space(3),
+    paddingRight: tokens.space(5),
+    paddingVertical: tokens.space(3),
   },
   rowPressed: {
     backgroundColor: tokens.color.border,
@@ -638,7 +644,6 @@ const styles = StyleSheet.create({
     minHeight: 44,
     alignItems: "center",
     justifyContent: "center",
-    marginLeft: -tokens.space(2),
   },
   checkbox: {
     width: 22,
