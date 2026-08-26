@@ -4,7 +4,7 @@ import { Bell, Download, HelpCircle, LogOut, Menu, Search, Settings } from "luci
 import Image from "next/image";
 import { useState } from "react";
 import { CURRENT_USER, NOTIFICATIONS } from "./data";
-import { ACCENT_SOLID, BORDER, FOCUS, HOVER_BG, PANEL_BG, SURFACE_INSET, TEXT_AUX, TEXT_PRIMARY, TRANSITION, cx } from "./tokens";
+import { ACCENT_SOLID, BORDER, FOCUS, HOVER_BG, PANEL_BG, SURFACE_INSET, TEXT_AUX, TEXT_MUTED, TEXT_PRIMARY, TRANSITION, cx } from "./tokens";
 import { useOutsideClose } from "./ui";
 
 export default function Topbar({ onOpenPalette, onOpenMobileNav }: { onOpenPalette: () => void; onOpenMobileNav: () => void }) {
@@ -24,7 +24,7 @@ export default function Topbar({ onOpenPalette, onOpenMobileNav }: { onOpenPalet
         type="button"
         onClick={onOpenPalette}
         aria-haspopup="dialog"
-        className={cx("ml-1 flex h-11 flex-1 items-center gap-2 rounded-lg border pl-3 pr-2.5 text-left text-sm font-normal sm:max-w-md", BORDER, SURFACE_INSET, HOVER_BG, TEXT_AUX, TRANSITION, FOCUS)}
+        className={cx("ml-1 flex h-11 flex-1 items-center gap-2 rounded-lg border pl-3 pr-2.5 text-left text-sm font-normal sm:max-w-md", BORDER, SURFACE_INSET, HOVER_BG, TEXT_MUTED, TRANSITION, FOCUS)}
       >
         <Search size={16} aria-hidden="true" className="shrink-0" />
         <span className="sr-only truncate sm:not-sr-only sm:inline">Search work orders and lines</span>

@@ -17,6 +17,7 @@ import {
   NUM,
   SURFACE_INSET,
   TEXT_AUX,
+  TEXT_MUTED,
   TEXT_PRIMARY,
   TRANSITION,
   cx,
@@ -83,32 +84,32 @@ export default function CadenceClient() {
           <h2 className="sr-only font-medium">Schedule summary</h2>
           <dl className="mt-4 grid grid-cols-12 gap-3">
             <div className={cx("col-span-12 rounded-2xl border p-4 sm:col-span-6 xl:col-span-3", BORDER, SURFACE_INSET)}>
-              <dt className={cx("text-[11px] font-medium uppercase tracking-[0.08em]", TEXT_AUX)}>Open work orders</dt>
+              <dt className={cx("text-[11px] font-medium uppercase tracking-[0.08em]", TEXT_MUTED)}>Open work orders</dt>
               <dd className="mt-1.5">
                 <span className={cx("flex items-center gap-1.5 text-2xl font-semibold leading-none", NUM, TEXT_PRIMARY)}>
                   <ClipboardList size={17} aria-hidden="true" className={TEXT_AUX} />
                   {formatInt(summary.open)}
                 </span>
-                <span className={cx("mt-2 block text-[11px] font-normal", TEXT_AUX)}>{`of ${formatInt(summary.total)} total · ${summary.scopeLabel}`}</span>
+                <span className={cx("mt-2 block text-[11px] font-normal", TEXT_MUTED)}>{`of ${formatInt(summary.total)} total · ${summary.scopeLabel}`}</span>
               </dd>
             </div>
 
             <div className={cx("col-span-12 rounded-2xl border p-4 sm:col-span-6 xl:col-span-3", BORDER, SURFACE_INSET)}>
-              <dt className={cx("text-[11px] font-medium uppercase tracking-[0.08em]", TEXT_AUX)}>On-time rate</dt>
+              <dt className={cx("text-[11px] font-medium uppercase tracking-[0.08em]", TEXT_MUTED)}>On-time rate</dt>
               <dd className="mt-1.5">
                 <span className={cx("block text-2xl font-semibold leading-none", NUM, TEXT_PRIMARY)}>{formatPct(summary.onTimeRate)}</span>
-                <span className={cx("mt-2 block text-[11px] font-normal", TEXT_AUX)}>{`complete or on track · holds excluded`}</span>
+                <span className={cx("mt-2 block text-[11px] font-normal", TEXT_MUTED)}>{`complete or on track · holds excluded`}</span>
               </dd>
             </div>
 
             <div className={cx("col-span-12 rounded-2xl border p-4 sm:col-span-6 xl:col-span-3", summary.atRiskCount + summary.delayedCount > 0 ? "border-amber-200 bg-amber-50/70" : cx(BORDER, SURFACE_INSET))}>
-              <dt className={cx("text-[11px] font-medium uppercase tracking-[0.08em]", summary.atRiskCount + summary.delayedCount > 0 ? "text-amber-800" : TEXT_AUX)}>At risk or delayed</dt>
+              <dt className={cx("text-[11px] font-medium uppercase tracking-[0.08em]", summary.atRiskCount + summary.delayedCount > 0 ? "text-amber-800" : TEXT_MUTED)}>At risk or delayed</dt>
               <dd className="mt-1.5">
                 <span className={cx("flex items-center gap-1.5 text-2xl font-semibold leading-none", NUM, TEXT_PRIMARY)}>
                   <AlertTriangle size={17} aria-hidden="true" className={summary.atRiskCount + summary.delayedCount > 0 ? "text-amber-700" : TEXT_AUX} />
                   {formatInt(summary.atRiskCount + summary.delayedCount)}
                 </span>
-                <span className={cx("mt-2 block text-[11px] font-normal", summary.atRiskCount + summary.delayedCount > 0 ? "text-amber-800" : TEXT_AUX)}>
+                <span className={cx("mt-2 block text-[11px] font-normal", summary.atRiskCount + summary.delayedCount > 0 ? "text-amber-800" : TEXT_MUTED)}>
                   {`${summary.atRiskCount} at risk · ${summary.delayedCount} delayed`}
                 </span>
               </dd>

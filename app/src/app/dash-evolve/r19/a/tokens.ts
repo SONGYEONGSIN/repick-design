@@ -19,10 +19,16 @@
  * Every status pairs an icon with the color (never color alone): confirmed = emerald-700 check,
  * pending = amber-700 clock, conflict = rose-700 triangle. All three measured >=5:1 on white.
  *
- * FOCUS: `outline-none` never stands alone — every focusable element pairs it with a real
- * `focus-visible:outline`, never the `ring`/`ring-offset` idiom (Tailwind v4 paints that fully
- * transparent). Secondary text floors hold in every reachable state, including filter/sort results
- * and the empty day cell, not just the first render.
+ * FOCUS: a real `focus-visible:outline` (width + offset + color), never the `ring`/`ring-offset`
+ * idiom (Tailwind v4 paints that fully transparent). `outline-none` is deliberately NOT included
+ * here at all — this codebase's Tailwind v4 build resolves `outline-style` through a single
+ * `--tw-outline-style` custom property, so an `outline-none` class earlier in the same element's
+ * class list sets that property to `none` and the later `focus-visible:outline` never overrides it
+ * back, leaving the element with a real outline color/width but no visible ring at all (confirmed
+ * against this route's actual gate run). The fix is to just not emit `outline-none` in the first
+ * place, which is what every focusable element in this route does. Secondary text floors hold in
+ * every reachable state, including filter/sort results and the empty day cell, not just the first
+ * render.
  */
 
 export function cx(...parts: Array<string | false | null | undefined>): string {
@@ -53,7 +59,7 @@ export const ACCENT_SUBTLE = "border border-sky-200 bg-sky-50 text-sky-700";
 export const ACCENT_BORDER = "border-sky-300";
 export const ACCENT_FILL = "bg-sky-600";
 
-export const FOCUS = "outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600";
+export const FOCUS = "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600";
 export const FOCUS_WITHIN = "focus-within:outline focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-sky-600";
 
 export const HOVER_BG = "hover:bg-zinc-50 active:bg-zinc-100";

@@ -13,6 +13,7 @@ import {
   PANEL_BG,
   SURFACE_INSET,
   TEXT_AUX,
+  TEXT_MUTED,
   TEXT_PRIMARY,
   TRANSITION,
   cx,
@@ -36,7 +37,7 @@ function WorkspaceSwitcher() {
         <span className={cx("grid h-7 w-7 shrink-0 place-items-center rounded-md text-[11px] font-semibold", ACCENT_SUBTLE)}>{ws.name.slice(0, 1)}</span>
         <span className="min-w-0 flex-1">
           <span className={cx("block truncate text-sm font-medium", TEXT_PRIMARY)}>{ws.name}</span>
-          <span className={cx("block truncate text-[11px] font-normal", TEXT_AUX)}>{ws.plan}</span>
+          <span className={cx("block truncate text-[11px] font-normal", TEXT_MUTED)}>{ws.plan}</span>
         </span>
         <ChevronsUpDown size={15} aria-hidden="true" className={TEXT_AUX} />
       </button>
@@ -99,7 +100,7 @@ function SidebarBody() {
                       <span aria-disabled="true" className={cx("flex min-h-11 cursor-not-allowed items-center gap-3 rounded-lg px-2.5 py-2 text-sm font-medium", TEXT_AUX)}>
                         <item.Icon size={17} aria-hidden="true" />
                         {item.label}
-                        <span className={cx("ml-auto rounded-full border px-1.5 py-0.5 text-[10px] font-medium", BORDER, SURFACE_INSET, TEXT_AUX)}>Soon</span>
+                        <span className={cx("ml-auto rounded-full border px-1.5 py-0.5 text-[10px] font-medium", BORDER, SURFACE_INSET, TEXT_MUTED)}>Soon</span>
                       </span>
                     </li>
                   );

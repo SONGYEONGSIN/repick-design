@@ -51,6 +51,14 @@ export default function CommandPalette({ onClose, onRun }: { onClose: () => void
   // index a click reports always point at the same command.
   const flatMatches = useMemo(() => groups.flatMap((g) => g.items), [groups]);
 
+  // Command id → its position in `flatMatches`, computed once per list instead of by mutating a
+  // counter while rendering (that mutation is a render-purity violation the lint gate flags).
+  const indexById = useMemo(() => {
+    const map = new Map<string, number>();
+    flatMatches.forEach((c, i) => map.set(c.id, i));
+    return map;
+  }, [flatMatches]);
+
   function runByIndex(index: number) {
     const item = flatMatches[index];
     if (item) {
@@ -71,8 +79,6 @@ export default function CommandPalette({ onClose, onRun }: { onClose: () => void
       runByIndex(activeIndex);
     }
   }
-
-  let flatIndex = -1;
 
   return (
     <div className="fixed inset-0 z-50 flex items-start justify-center bg-zinc-900/40 px-4 pt-20 sm:pt-24" role="presentation" onClick={onClose}>
@@ -111,8 +117,7 @@ export default function CommandPalette({ onClose, onRun }: { onClose: () => void
                 <Eyebrow>{KIND_LABEL[group.kind]}</Eyebrow>
               </div>
               {group.items.map((item) => {
-                flatIndex += 1;
-                const index = flatIndex;
+                const index = indexById.get(item.id) ?? 0;
                 const active = index === activeIndex;
                 const Icon = KIND_ICON[item.kind];
                 return (

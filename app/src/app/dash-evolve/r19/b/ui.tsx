@@ -3,7 +3,7 @@
 import type { LucideIcon } from "lucide-react";
 import type { ReactNode, RefObject } from "react";
 import { useEffect, useRef, useState } from "react";
-import { BORDER, CARD, FOCUS, SURFACE_INSET, TEXT_AUX, TEXT_PRIMARY, TRANSITION, cx } from "./tokens";
+import { BORDER, CARD, FOCUS, SURFACE_INSET, TEXT_AUX, TEXT_MUTED, TEXT_PRIMARY, TRANSITION, cx } from "./tokens";
 
 /* ------------------------------------------------------------------------- Card */
 
@@ -117,7 +117,7 @@ export function Segmented<T extends string>({
               "h-9 rounded-lg px-3 text-xs",
               TRANSITION,
               FOCUS,
-              active ? "bg-zinc-900 font-semibold text-white" : cx("font-medium", TEXT_AUX, "hover:bg-white hover:text-zinc-900"),
+              active ? "bg-zinc-900 font-semibold text-white" : cx("font-medium", TEXT_MUTED, "hover:bg-white hover:text-zinc-900"),
             )}
           >
             {opt.label}

@@ -4,7 +4,7 @@ import { Search, X } from "lucide-react";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { LINES, SEARCH_ENTRIES } from "./data";
 import type { LineId } from "./data";
-import { BORDER, FOCUS, HOVER_BG, SURFACE_INSET, TEXT_AUX, TEXT_PRIMARY, TRANSITION, cx } from "./tokens";
+import { BORDER, FOCUS, HOVER_BG, TEXT_AUX, TEXT_PRIMARY, TRANSITION, cx } from "./tokens";
 import { Eyebrow } from "./ui";
 
 /**

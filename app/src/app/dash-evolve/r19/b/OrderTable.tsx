@@ -4,7 +4,7 @@ import { ArrowDown, ArrowUp, ArrowUpDown, Check, ChevronDown, Search } from "luc
 import { useMemo, useState } from "react";
 import { LINES, LINE_BY_ID, STATUS_ICON, WORK_ORDERS, dueOffset, formatInt, formatShort } from "./data";
 import type { LineId, WorkOrder } from "./data";
-import { BORDER, FOCUS, NUM, STATUS_BADGE, STATUS_LABEL, SURFACE_INSET, TEXT_AUX, TEXT_PRIMARY, TEXT_SECONDARY, TRANSITION, cx } from "./tokens";
+import { BORDER, FOCUS, NUM, STATUS_BADGE, STATUS_LABEL, SURFACE_INSET, TEXT_AUX, TEXT_MUTED, TEXT_PRIMARY, TEXT_SECONDARY, TRANSITION, cx } from "./tokens";
 import type { OrderStatus } from "./tokens";
 import { Card, CardHead, ProgressBar, useOutsideClose } from "./ui";
 
@@ -140,7 +140,7 @@ export default function OrderTable() {
                   "h-8 rounded-lg px-2.5 text-[11px]",
                   TRANSITION,
                   FOCUS,
-                  active ? "bg-zinc-900 font-semibold text-white" : cx("font-medium", TEXT_AUX, "hover:bg-white hover:text-zinc-900"),
+                  active ? "bg-zinc-900 font-semibold text-white" : cx("font-medium", TEXT_MUTED, "hover:bg-white hover:text-zinc-900"),
                 )}
               >
                 {s === "all" ? "All" : STATUS_LABEL[s]}
@@ -175,7 +175,7 @@ export default function OrderTable() {
                       className={cx(
                         "inline-flex items-center gap-1 rounded text-[11px] font-medium uppercase tracking-[0.08em]",
                         col.align === "right" && "flex-row-reverse",
-                        active ? TEXT_PRIMARY : TEXT_AUX,
+                        active ? TEXT_PRIMARY : TEXT_MUTED,
                         "hover:text-zinc-900",
                         TRANSITION,
                         FOCUS,

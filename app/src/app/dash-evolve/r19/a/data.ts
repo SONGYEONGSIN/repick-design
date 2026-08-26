@@ -2,6 +2,10 @@ import type { LucideIcon } from "lucide-react";
 import { BarChart3, Building2, CalendarClock, Inbox, LayoutGrid, Settings, Users } from "lucide-react";
 import type { BookingStatus } from "./tokens";
 
+// Re-exported so consumers can import the status type alongside `Booking`/`ResourceId` from this
+// module instead of reaching into `./tokens` separately for it.
+export type { BookingStatus };
+
 /* --------------------------------------------------------------------- Brand / chrome */
 
 export const BRAND = { name: "Corridor", tagline: "Workplace booking console", Icon: CalendarClock };

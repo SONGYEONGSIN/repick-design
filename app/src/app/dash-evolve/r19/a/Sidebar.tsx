@@ -7,9 +7,11 @@ import { BRAND, CURRENT_USER, NAV_SECTIONS, WORKSPACES } from "./data";
 import { ACCENT_SUBTLE, ACCENT_TEXT, BORDER, FOCUS, HOVER_BG, PANEL_BG, SURFACE_INSET, TEXT_CAPTION, TEXT_PRIMARY, TRANSITION, cx } from "./tokens";
 import { Eyebrow, useOutsideClose } from "./ui";
 
+type Workspace = (typeof WORKSPACES)[number];
+
 function WorkspaceSwitcher() {
   const [open, setOpen] = useState(false);
-  const [ws, setWs] = useState(WORKSPACES[0]);
+  const [ws, setWs] = useState<Workspace>(WORKSPACES[0]);
   const ref = useOutsideClose(open, () => setOpen(false));
 
   return (
