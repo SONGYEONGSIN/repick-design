@@ -49,5 +49,14 @@
   },
   "payout": {
     "check": "Withdraw funds"
+  },
+  "evolve-r14-a": {
+    "check": "My Listings"
+  },
+  "evolve-r14-b": {
+    "check": "Invite friends, earn rewards"
+  },
+  "evolve-r14-c": {
+    "check": "Wallet"
   }
 }
