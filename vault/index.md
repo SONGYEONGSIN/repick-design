@@ -45,7 +45,7 @@ tags: [index]
 - [[motion.catalog]] — 모션 패턴 16종 강도 티어 (dash 절제 / landing 적극, framer-motion·CSS 재해석)
 
 ## 세대 기록 (20-generations — 라운드별 DECISION, evolve 브랜치에서 누적)
-- [[20-generations/2026-08-20-auto-dash-r17/DECISION|2026-08-20-auto-dash-r17]]
+- [[20-generations/2026-08-26-auto-native-r14/DECISION|2026-08-26-auto-native-r14]] (native 14라운드째 — 무인 2연속 라운드의 1라운드째, 미채움 큐 0 → dash/landing/native 난수에서 native 당첨 — 승자 c — Wallet & Transaction History(잔액 상시노출+필터가능 거래원장), 3파전 완전 동률(렌즈1=b·렌즈2=a·렌즈3=c) → curation-criteria tie-break 예외 적용(렌즈3이 렌즈1 1위 b를 최하위 판정 → b 제외 → 렌즈1 재적용 c>a) — 신규 델타: no-op Pressable 자체는 정당한 자리표시자이나 실제로 안 일어나는 동작을 accessibilityHint로 약속하면 안 된다(`auto-native-r8` delta 정교화, c의 Withdraw 버튼 사례) — 렌즈1이 a에서 하드코딩 hex 2건 지적(게이트 미검출 — 기존 Q34 native 게이트 격차 재확인, 신규 질문 미등재) — 3후보 전원 12/12 게이트 1차 통과)
 - [[20-generations/2026-08-20-auto-landing-r13/DECISION|2026-08-20-auto-landing-r13]]
 - [[20-generations/2026-08-19-auto-landing-r12/DECISION|2026-08-19-auto-landing-r12]]
 - [[20-generations/2026-08-19-auto-native-r10/DECISION|2026-08-19-auto-native-r10]]
