@@ -2,7 +2,7 @@
 
 import type { LucideIcon } from "lucide-react";
 import type { ElementType, ReactNode } from "react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { BORDER, CARD, FOCUS, NUM, SURFACE_INSET, TEXT_CAPTION, TEXT_PRIMARY, TRANSITION, cx } from "./tokens";
 
 /* ------------------------------------------------------------------------------------- Card */
@@ -64,17 +64,6 @@ export function Eyebrow({ children, className }: { children: ReactNode; classNam
   return <span className={cx("text-[11px] font-medium uppercase tracking-[0.08em]", TEXT_CAPTION, className)}>{children}</span>;
 }
 
-/* ------------------------------------------------------------------------------------ Badge */
-
-export function Badge({ children, className, Icon }: { children: ReactNode; className?: string; Icon?: LucideIcon }) {
-  return (
-    <span className={cx("inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-[11px] font-medium leading-none", BORDER, SURFACE_INSET, TEXT_CAPTION, className)}>
-      {Icon ? <Icon size={11} aria-hidden="true" /> : null}
-      {children}
-    </span>
-  );
-}
-
 /* ---------------------------------------------------------------------------------- Avatar */
 
 /** Deterministic hue from a name — no `Math.random`, same name always paints the same tile. */
@@ -104,8 +93,16 @@ export function InitialsAvatar({ name, size = 24, className }: { name: string; s
   );
 }
 
-/* --------------------------------------------------------------------------- Stat item (dl) */
+/* ----------------------------------------------------------------------------- Stat item */
 
+/**
+ * Deliberately NOT a `dt`/`dd` pair — this sits inside a plain `<div>` metrics row, not a `<dl>`.
+ * An earlier draft wrapped these in `<dl>`, but the icon chip and the nested layout meant
+ * the direct children of `dl` were `<div>`s that did not resolve to a clean `dt+, dd+` group,
+ * which is exactly the `definition-list` failure class page-brief-core calls out (`ig1`'s `dl > div
+ * > p` bug). Plain paragraphs sidestep that audit's applicability entirely without losing anything
+ * visually or for a screen reader, which still gets label → value → hint in document order.
+ */
 export function StatItem({
   Icon,
   label,
@@ -125,8 +122,8 @@ export function StatItem({
         <Icon size={14} aria-hidden="true" className={TEXT_CAPTION} />
       </span>
       <div className="min-w-0">
-        <dt className={cx("text-[11px] font-medium uppercase tracking-[0.08em]", TEXT_CAPTION)}>{label}</dt>
-        <dd className={cx("text-lg font-medium leading-tight", NUM, valueClassName ?? TEXT_PRIMARY)}>{value}</dd>
+        <p className={cx("text-[11px] font-medium uppercase tracking-[0.08em]", TEXT_CAPTION)}>{label}</p>
+        <p className={cx("text-lg font-medium leading-tight", NUM, valueClassName ?? TEXT_PRIMARY)}>{value}</p>
         {hint ? <p className={cx("text-[11px]", TEXT_CAPTION)}>{hint}</p> : null}
       </div>
     </div>
@@ -198,25 +195,11 @@ export function useOutsideClose(open: boolean, onClose: () => void) {
 /* ------------------------------------------------------------------------------------ HoverTip */
 
 /**
- * Hover + focus tooltip, keyboard reachable (opens on `onFocus`, closes on `onBlur`, so a Tab user
- * gets the same disclosure a mouse user does). The trigger's OWN visible text already carries the
- * headline number — this only adds the breakdown behind it, per charts.catalog "value must not be
- * hover-only".
+ * Hover + focus tooltip content, keyboard reachable — every trigger that renders one opens it on
+ * `onFocus` and closes on `onBlur` too, so a Tab user gets the same disclosure a mouse user does.
+ * The trigger's OWN visible text always already carries the headline number; this only adds the
+ * breakdown behind it, per charts.catalog "value must not be hover-only".
  */
-export function useHoverTip(id: string) {
-  const [openId, setOpenId] = useState<string | null>(null);
-  const open = openId === id;
-  return {
-    open,
-    bind: {
-      onMouseEnter: () => setOpenId(id),
-      onMouseLeave: () => setOpenId((k) => (k === id ? null : k)),
-      onFocus: () => setOpenId(id),
-      onBlur: () => setOpenId((k) => (k === id ? null : k)),
-    },
-  };
-}
-
 export function HoverTip({ id, children, className }: { id: string; children: ReactNode; className?: string }) {
   return (
     <div id={id} role="tooltip" className={cx("pointer-events-none absolute z-30 rounded-lg border px-2.5 py-2 text-xs shadow-lg", BORDER, "bg-zinc-900 text-white", className)}>

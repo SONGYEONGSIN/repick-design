@@ -74,7 +74,7 @@ export default function ResourceRail({
                   <KindIcon size={13} aria-hidden="true" className={isSelected ? ACCENT_TEXT : TEXT_CAPTION} />
                   <span className="min-w-0 flex-1">
                     <span className={cx("block truncate text-[13px] font-medium", TEXT_PRIMARY)}>{resource.name}</span>
-                    <span className={cx("block truncate text-[11px]", TEXT_CAPTION)}>
+                    <span className={cx("block truncate text-[11px]", TEXT_CAPTION_MUTED)}>
                       {resource.kind} · Floor {resource.floor} · Cap {resource.capacity}
                     </span>
                   </span>

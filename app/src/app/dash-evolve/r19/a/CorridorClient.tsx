@@ -110,13 +110,13 @@ export default function CorridorClient() {
                 />
               </div>
 
-              <dl className="flex flex-wrap gap-x-8 gap-y-3">
+              <div className="flex flex-wrap gap-x-8 gap-y-3">
                 <StatItem Icon={ListChecks} label="Bookings this week" value={weekStats.total} />
                 <StatItem Icon={CheckCircle2} label="Confirmed" value={weekStats.confirmed} />
                 <StatItem Icon={Clock} label="Pending" value={weekStats.pending} valueClassName={weekStats.pending > 0 ? "text-amber-700" : undefined} />
                 <StatItem Icon={AlertTriangle} label="Conflicts" value={weekStats.conflict} valueClassName={weekStats.conflict > 0 ? "text-rose-700" : undefined} />
                 <StatItem Icon={Gauge} label="Avg occupancy" value={formatPercent(weekStats.avgOccupancyPct)} hint={formatHours(filteredBookings.reduce((s, b) => s + b.durationHours, 0))} />
-              </dl>
+              </div>
             </header>
 
             <div className="lg:grid lg:grid-cols-12 lg:gap-4">

@@ -54,10 +54,10 @@ function LineFilter({ value, onChange }: { value: LineId | "all"; onChange: (v: 
                   onChange(opt);
                   setOpen(false);
                 }}
-                className={cx("flex min-h-9 w-full items-center gap-2 rounded-lg px-2.5 py-1.5 text-left text-sm font-medium", TRANSITION, FOCUS, selected ? "bg-indigo-50 text-indigo-700" : cx(TEXT_PRIMARY, "hover:bg-zinc-100"))}
+                className={cx("flex min-h-9 w-full items-center gap-2 rounded-lg px-2.5 py-1.5 text-left text-sm font-medium", TRANSITION, FOCUS, selected ? "bg-cyan-50 text-cyan-700" : cx(TEXT_PRIMARY, "hover:bg-zinc-100"))}
               >
                 <span className="min-w-0 flex-1 truncate">{label}</span>
-                {selected ? <Check size={14} aria-hidden="true" className="text-indigo-600" /> : null}
+                {selected ? <Check size={14} aria-hidden="true" className="text-cyan-600" /> : null}
               </button>
             );
           })}
@@ -182,7 +182,7 @@ export default function OrderTable() {
                       )}
                     >
                       {col.label}
-                      <Icon size={11} aria-hidden="true" className={active ? "text-indigo-600" : undefined} />
+                      <Icon size={11} aria-hidden="true" className={active ? "text-cyan-600" : undefined} />
                     </button>
                   </th>
                 );

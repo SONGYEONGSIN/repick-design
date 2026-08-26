@@ -42,6 +42,8 @@ function sortValue(b: Booking, key: SortKey): number | string {
       return STATUS_ORDER[b.status];
     case "attendees":
       return b.attendees;
+    default:
+      return "";
   }
 }
 
@@ -108,14 +110,14 @@ export default function BookingsTable({
             <tr className={cx("border-b", BORDER)}>
               {COLS.map((c) => {
                 const active = sortKey === c.key;
-                const ariaSort = active ? (sortDir === "asc" ? "ascending" : "descending") : "none";
+                const ariaSort: "ascending" | "descending" | "none" = active ? (sortDir === "asc" ? "ascending" : "descending") : "none";
                 return (
-                  <th key={c.key} scope="col" aria-sort={ariaSort} className="px-2 py-2 text-left">
+                  <th key={c.key} scope="col" aria-sort={ariaSort} className="px-2 py-1 text-left">
                     <button
                       type="button"
                       onClick={() => toggleSort(c.key)}
                       className={cx(
-                        "flex items-center gap-1 rounded text-[11px] font-medium uppercase tracking-wide",
+                        "flex min-h-6 items-center gap-1 rounded px-1 text-[11px] font-medium uppercase tracking-wide",
                         TRANSITION,
                         FOCUS,
                         active ? "text-sky-700" : TEXT_CAPTION,

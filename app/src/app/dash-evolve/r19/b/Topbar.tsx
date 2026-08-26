@@ -51,7 +51,7 @@ export default function Topbar({ onOpenPalette, onOpenMobileNav }: { onOpenPalet
             className={cx("relative grid h-11 w-11 place-items-center rounded-full border text-sm font-medium", BORDER, SURFACE_INSET, HOVER_BG, TRANSITION, FOCUS)}
           >
             <Bell size={17} aria-hidden="true" className={TEXT_AUX} />
-            <span className="absolute right-2.5 top-2.5 h-1.5 w-1.5 rounded-full bg-indigo-600" aria-hidden="true" />
+            <span className="absolute right-2.5 top-2.5 h-1.5 w-1.5 rounded-full bg-cyan-600" aria-hidden="true" />
             <span className="sr-only">{`Notifications, ${NOTIFICATIONS.length} unread`}</span>
           </button>
           {notifOpen ? (

@@ -58,7 +58,7 @@ function WorkspaceSwitcher() {
                 className={cx("flex min-h-11 w-full items-center gap-2 rounded-lg px-2.5 py-2 text-left", TRANSITION, FOCUS, selected ? ACCENT_SUBTLE : HOVER_BG)}
               >
                 <span className="min-w-0 flex-1">
-                  <span className={cx("block truncate text-sm font-medium", selected ? "text-indigo-700" : TEXT_PRIMARY)}>{w.name}</span>
+                  <span className={cx("block truncate text-sm font-medium", selected ? "text-cyan-700" : TEXT_PRIMARY)}>{w.name}</span>
                   <span className={cx("block truncate text-[11px] font-normal", TEXT_AUX)}>{w.plan}</span>
                 </span>
                 {selected ? <Check size={15} aria-hidden="true" className={cx("shrink-0", ACCENT_TEXT)} /> : null}
@@ -75,7 +75,7 @@ function SidebarBody() {
   return (
     <div className="flex h-full flex-col">
       <div className="flex h-11 shrink-0 items-center gap-2 px-4">
-        <span className="grid h-7 w-7 shrink-0 place-items-center rounded-[9px] bg-indigo-600 text-white">
+        <span className="grid h-7 w-7 shrink-0 place-items-center rounded-[9px] bg-cyan-700 text-white">
           <BRAND.Icon size={16} aria-hidden="true" strokeWidth={2.25} />
         </span>
         <span className={cx("text-[15px] font-semibold leading-none tracking-tight", TEXT_PRIMARY)} style={{ fontFamily: "var(--font-display-mono)" }}>

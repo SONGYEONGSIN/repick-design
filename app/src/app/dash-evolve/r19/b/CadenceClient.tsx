@@ -114,7 +114,7 @@ export default function CadenceClient() {
               </dd>
             </div>
 
-            <div className={cx("col-span-12 rounded-2xl border p-4 sm:col-span-6 xl:col-span-3", summary.utilizationPct > 100 ? "border-amber-200 bg-amber-50/70" : "border-indigo-200 bg-indigo-50/70")}>
+            <div className={cx("col-span-12 rounded-2xl border p-4 sm:col-span-6 xl:col-span-3", summary.utilizationPct > 100 ? "border-amber-200 bg-amber-50/70" : "border-cyan-200 bg-cyan-50/70")}>
               <dt className={cx("text-[11px] font-medium uppercase tracking-[0.08em]", summary.utilizationPct > 100 ? "text-amber-800" : ACCENT_TEXT)}>
                 {summary.utilizationPct > 100 ? "Line utilization — over capacity" : "Line utilization"}
               </dt>
@@ -123,10 +123,10 @@ export default function CadenceClient() {
                   className={cx("flex items-center gap-1.5 text-[26px] font-semibold leading-none tracking-tight", TEXT_PRIMARY)}
                   style={{ fontFamily: "var(--font-display-mono)" }}
                 >
-                  <Gauge size={18} aria-hidden="true" className={summary.utilizationPct > 100 ? "text-amber-700" : "text-indigo-600"} />
+                  <Gauge size={18} aria-hidden="true" className={summary.utilizationPct > 100 ? "text-amber-700" : "text-cyan-600"} />
                   {formatPct(summary.utilizationPct)}
                 </span>
-                <span className={cx("mt-2 block text-[11px] font-normal tabular-nums", summary.utilizationPct > 100 ? "text-amber-800" : "text-indigo-800")}>
+                <span className={cx("mt-2 block text-[11px] font-normal tabular-nums", summary.utilizationPct > 100 ? "text-amber-800" : "text-cyan-800")}>
                   {`${formatInt(summary.plannedHours)} of ${formatInt(summary.capacityHrs)} hrs planned`}
                 </span>
               </dd>
@@ -145,7 +145,7 @@ export default function CadenceClient() {
                     <button
                       type="button"
                       onClick={() => setFocusLineId(null)}
-                      className={cx("inline-flex h-9 items-center gap-1.5 rounded-xl border border-indigo-200 bg-indigo-50 px-2.5 text-xs font-medium text-indigo-700", TRANSITION, FOCUS, "hover:bg-indigo-100")}
+                      className={cx("inline-flex h-9 items-center gap-1.5 rounded-xl border border-cyan-200 bg-cyan-50 px-2.5 text-xs font-medium text-cyan-700", TRANSITION, FOCUS, "hover:bg-cyan-100")}
                     >
                       {`Focused: ${LINE_BY_ID[focusLineId].name}`}
                       <X size={12} aria-hidden="true" />
@@ -158,7 +158,7 @@ export default function CadenceClient() {
             />
 
             <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-1.5">
-              <LegendKey swatch="#4f46e5" label="On track" />
+              <LegendKey swatch="#0e7490" label="On track" />
               <LegendKey swatch="#047857" label="Complete" />
               <LegendKey swatch="#92400e" label="At risk" />
               <LegendKey swatch="#9f1239" label="Delayed" />

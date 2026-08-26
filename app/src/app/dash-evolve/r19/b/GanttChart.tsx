@@ -117,7 +117,7 @@ export default function GanttChart({
           ))}
           {showToday ? (
             <span
-              className="absolute top-0.5 -translate-x-1/2 whitespace-nowrap rounded-full bg-indigo-600 px-1.5 py-0.5 text-[9px] font-semibold uppercase tracking-wide text-white"
+              className="absolute top-0.5 -translate-x-1/2 whitespace-nowrap rounded-full bg-cyan-700 px-1.5 py-0.5 text-[9px] font-semibold uppercase tracking-wide text-white"
               style={{ left: `${xFor(TODAY_OFFSET)}px` }}
             >
               Today
@@ -140,7 +140,7 @@ export default function GanttChart({
         {showToday ? (
           <div
             aria-hidden="true"
-            className="absolute top-0 bottom-0 w-px bg-indigo-300"
+            className="absolute top-0 bottom-0 w-px bg-cyan-600"
             style={{ left: `${LABEL_W + xFor(TODAY_OFFSET)}px` }}
           />
         ) : null}
@@ -167,15 +167,15 @@ export default function GanttChart({
                   BORDER,
                   TRANSITION,
                   FOCUS,
-                  focused ? "border-l-4 border-l-indigo-600 bg-indigo-50/70" : "hover:bg-zinc-50",
+                  focused ? "border-l-4 border-l-cyan-600 bg-cyan-50/70" : "hover:bg-zinc-50",
                 )}
                 style={{ width: LABEL_W }}
               >
-                <span className={cx("grid h-8 w-8 shrink-0 place-items-center rounded-lg border", focused ? "border-indigo-300 bg-indigo-100 text-indigo-700" : cx(BORDER, "bg-zinc-100", TEXT_AUX))}>
+                <span className={cx("grid h-8 w-8 shrink-0 place-items-center rounded-lg border", focused ? "border-cyan-300 bg-cyan-100 text-cyan-700" : cx(BORDER, "bg-zinc-100", TEXT_AUX))}>
                   <row.line.Icon size={15} aria-hidden="true" />
                 </span>
                 <span className="min-w-0 flex-1">
-                  <span className={cx("flex items-center gap-1 truncate text-sm font-medium", focused ? "text-indigo-700" : TEXT_PRIMARY)}>
+                  <span className={cx("flex items-center gap-1 truncate text-sm font-medium", focused ? "text-cyan-700" : TEXT_PRIMARY)}>
                     {row.line.name}
                     {focused ? <Pin size={11} aria-hidden="true" className="shrink-0" /> : null}
                   </span>
@@ -186,7 +186,7 @@ export default function GanttChart({
                 <span className="sr-only">{focused ? `${row.line.name} is the focused line. Activate to clear focus.` : `Focus schedule on ${row.line.name}.`}</span>
               </button>
 
-              <div className={cx("relative min-w-0 flex-1 overflow-hidden border-t", BORDER, focused && "bg-indigo-50/30")}>
+              <div className={cx("relative min-w-0 flex-1 overflow-hidden border-t", BORDER, focused && "bg-cyan-50/30")}>
                 {orderedBars(row.line.id).map((o) => {
                   const seg = segment(o);
                   const chart = STATUS_CHART[o.status];
@@ -199,7 +199,7 @@ export default function GanttChart({
                       {isHovered ? (
                         <span
                           aria-hidden="true"
-                          className="pointer-events-none absolute z-10 rounded-[9px] border-2 border-indigo-500"
+                          className="pointer-events-none absolute z-10 rounded-[9px] border-2 border-cyan-600"
                           style={{
                             left: `${r2(seg.left - 3)}px`,
                             width: `${r2(seg.width + 6)}px`,
@@ -321,18 +321,18 @@ export function MobileScheduleList({
         const focused = row.emphasis === "focused";
         const utilization = lineUtilization(row.line.id);
         return (
-          <div key={row.line.id} className={cx("rounded-xl border p-3", focused ? "border-indigo-300 bg-indigo-50/60" : cx(BORDER, "bg-white"))}>
+          <div key={row.line.id} className={cx("rounded-xl border p-3", focused ? "border-cyan-300 bg-cyan-50/60" : cx(BORDER, "bg-white"))}>
             <button
               type="button"
               onClick={() => onToggleFocus(row.line.id)}
               aria-pressed={focused}
               className={cx("flex w-full min-h-11 items-center gap-2.5 rounded-lg text-left", TRANSITION, FOCUS)}
             >
-              <span className={cx("grid h-8 w-8 shrink-0 place-items-center rounded-lg border", focused ? "border-indigo-300 bg-indigo-100 text-indigo-700" : cx(BORDER, "bg-zinc-100", TEXT_AUX))}>
+              <span className={cx("grid h-8 w-8 shrink-0 place-items-center rounded-lg border", focused ? "border-cyan-300 bg-cyan-100 text-cyan-700" : cx(BORDER, "bg-zinc-100", TEXT_AUX))}>
                 <row.line.Icon size={15} aria-hidden="true" />
               </span>
               <span className="min-w-0 flex-1">
-                <span className={cx("flex items-center gap-1 truncate text-sm font-semibold", focused ? "text-indigo-700" : TEXT_PRIMARY)}>
+                <span className={cx("flex items-center gap-1 truncate text-sm font-semibold", focused ? "text-cyan-700" : TEXT_PRIMARY)}>
                   {row.line.name}
                   {focused ? <Pin size={11} aria-hidden="true" /> : <PinOff size={11} aria-hidden="true" className={TEXT_AUX} />}
                 </span>

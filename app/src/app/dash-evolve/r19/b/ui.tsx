@@ -84,7 +84,7 @@ export function ProgressBar({ value, className, trackClassName, barClassName }: 
   const clamped = Math.max(0, Math.min(100, value));
   return (
     <span aria-hidden="true" className={cx("block h-1.5 w-full overflow-hidden rounded-full", SURFACE_INSET, trackClassName, className)}>
-      <span className={cx("block h-full rounded-full bg-indigo-600", barClassName)} style={{ width: `${clamped}%` }} />
+      <span className={cx("block h-full rounded-full bg-cyan-700", barClassName)} style={{ width: `${clamped}%` }} />
     </span>
   );
 }

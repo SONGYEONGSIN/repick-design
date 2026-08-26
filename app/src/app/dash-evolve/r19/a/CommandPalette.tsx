@@ -5,7 +5,7 @@ import type { LucideIcon } from "lucide-react";
 import type { KeyboardEvent as ReactKeyboardEvent } from "react";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { PALETTE_COMMANDS, type PaletteCommand } from "./data";
-import { BORDER, FOCUS, TEXT_CAPTION, TEXT_PRIMARY, TRANSITION, cx } from "./tokens";
+import { BORDER, FOCUS, TEXT_CAPTION, TEXT_CAPTION_MUTED, TEXT_PRIMARY, TRANSITION, cx } from "./tokens";
 import { Eyebrow } from "./ui";
 
 const KIND_ICON: Record<PaletteCommand["kind"], LucideIcon> = {
@@ -46,8 +46,13 @@ export default function CommandPalette({ onClose, onRun }: { onClose: () => void
     [matches],
   );
 
+  // Flattened in the SAME order the groups render in (jump, view, resource, filter) — not the
+  // order `matches` holds them in — so the `activeIndex` a keyboard user moves through and the
+  // index a click reports always point at the same command.
+  const flatMatches = useMemo(() => groups.flatMap((g) => g.items), [groups]);
+
   function runByIndex(index: number) {
-    const item = matches[index];
+    const item = flatMatches[index];
     if (item) {
       onRun(item);
       onClose();
@@ -57,7 +62,7 @@ export default function CommandPalette({ onClose, onRun }: { onClose: () => void
   function onInputKeyDown(e: ReactKeyboardEvent<HTMLInputElement>) {
     if (e.key === "ArrowDown") {
       e.preventDefault();
-      setActiveIndex((i) => Math.min(matches.length - 1, i + 1));
+      setActiveIndex((i) => Math.min(flatMatches.length - 1, i + 1));
     } else if (e.key === "ArrowUp") {
       e.preventDefault();
       setActiveIndex((i) => Math.max(0, i - 1));
@@ -86,10 +91,10 @@ export default function CommandPalette({ onClose, onRun }: { onClose: () => void
             role="combobox"
             aria-expanded="true"
             aria-controls="palette-listbox"
-            aria-activedescendant={matches[activeIndex] ? `cmd-${matches[activeIndex].id}` : undefined}
+            aria-activedescendant={flatMatches[activeIndex] ? `cmd-${flatMatches[activeIndex].id}` : undefined}
             placeholder="Search views, resources or a status filter…"
             aria-label="Search views, resources or a status filter"
-            className={cx("h-9 min-w-0 flex-1 rounded-md bg-transparent px-1 text-sm font-normal", TEXT_PRIMARY, "placeholder:text-zinc-400", FOCUS)}
+            className={cx("h-9 min-w-0 flex-1 rounded-md bg-transparent px-1 text-sm font-normal", TEXT_PRIMARY, "placeholder:text-zinc-500", FOCUS)}
           />
           <button type="button" onClick={onClose} className={cx("grid h-9 w-9 shrink-0 place-items-center rounded-lg text-sm font-medium", "hover:bg-zinc-100", TRANSITION, FOCUS)}>
             <X size={15} aria-hidden="true" className={TEXT_CAPTION} />
@@ -98,7 +103,7 @@ export default function CommandPalette({ onClose, onRun }: { onClose: () => void
         </div>
 
         <div id="palette-listbox" role="listbox" aria-label="Commands" className="max-h-[60vh] overflow-y-auto p-2 [scrollbar-width:thin]">
-          {matches.length === 0 ? <p className={cx("px-2.5 py-6 text-center text-sm", TEXT_CAPTION)}>No matching commands.</p> : null}
+          {flatMatches.length === 0 ? <p className={cx("px-2.5 py-6 text-center text-sm", TEXT_CAPTION)}>No matching commands.</p> : null}
 
           {groups.map((group) => (
             <div key={group.kind} className="mb-1 last:mb-0">
@@ -125,7 +130,7 @@ export default function CommandPalette({ onClose, onRun }: { onClose: () => void
                     <Icon size={15} aria-hidden="true" className={cx("shrink-0", TEXT_CAPTION)} />
                     <span className="min-w-0 flex-1 truncate">
                       {item.label}
-                      <span className={cx("ml-2 text-[11px]", TEXT_CAPTION)}>{item.hint}</span>
+                      <span className={cx("ml-2 text-[11px]", TEXT_CAPTION_MUTED)}>{item.hint}</span>
                     </span>
                   </button>
                 );

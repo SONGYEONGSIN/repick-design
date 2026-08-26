@@ -34,7 +34,7 @@ export default function MonthOverview({ headingId }: { headingId: string }) {
       <div aria-label={`${MONTH_LABEL} booking volume by day`} className="w-full">
         <div className="grid grid-cols-7 gap-1.5">
           {WEEKDAY_LABELS.map((label) => (
-            <span key={label} aria-hidden="true" className={cx("pb-1 text-center text-[11px] font-medium uppercase tracking-wide", TEXT_CAPTION)}>
+            <span key={label} className={cx("pb-1 text-center text-[11px] font-medium uppercase tracking-wide", TEXT_CAPTION)}>
               {label}
             </span>
           ))}
@@ -46,6 +46,10 @@ export default function MonthOverview({ headingId }: { headingId: string }) {
           {MONTH_DAYS.map((md) => {
             const showTip = tipDay === md.day;
             const tipDomId = `month-tip-${md.day}`;
+            // Which weekday column this day falls in (0=Mon…6=Sun) — used to keep the tooltip from
+            // being centered past the viewport edge for cells near the left or right of the grid.
+            const col = (MONTH_LEADING_BLANKS + md.day - 1) % 7;
+            const tipAlign = col <= 1 ? "left-0" : col >= 5 ? "right-0" : "left-1/2 -translate-x-1/2";
             return (
               <div key={md.day} className="relative">
                 <button
@@ -65,7 +69,7 @@ export default function MonthOverview({ headingId }: { headingId: string }) {
                   style={{ minHeight: 56 }}
                 >
                   <span className={cx("flex items-center gap-1 text-[12px] font-medium", TEXT_PRIMARY)}>
-                    <span className="sr-only">Aug </span>
+                    <span className="sr-only">{WEEKDAY_LABELS[col]}, Aug </span>
                     {md.day}
                     {md.hasConflict ? <AlertTriangle size={10} aria-hidden="true" className="text-rose-600" /> : null}
                   </span>
@@ -76,7 +80,7 @@ export default function MonthOverview({ headingId }: { headingId: string }) {
                   {md.hasConflict ? <span className="sr-only">, has a scheduling conflict</span> : null}
                 </button>
                 {showTip ? (
-                  <HoverTip id={tipDomId} className="left-1/2 top-full mt-1 w-40 -translate-x-1/2">
+                  <HoverTip id={tipDomId} className={cx("top-full mt-1 w-36 max-w-[calc(100vw-2rem)]", tipAlign)}>
                     <p className="font-medium">Aug {md.day}, 2026</p>
                     <p className="mt-1 text-zinc-300">
                       {md.count} booking{md.count === 1 ? "" : "s"} · {md.utilizationPct}% of the tracked baseline

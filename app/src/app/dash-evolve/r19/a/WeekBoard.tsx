@@ -123,9 +123,13 @@ export default function WeekBoard({ bookings, capacityDivisor, headingId }: { bo
         </div>
 
         <div className="mt-1 flex">
-          <div className="flex w-12 shrink-0 flex-col text-right text-[10px]" style={{ height: ROW_HEIGHT_PX }}>
+          <div className="relative w-12 shrink-0 text-right text-[10px]" style={{ height: ROW_HEIGHT_PX }}>
             {TICKS.map((h) => (
-              <span key={h} className={cx("relative -top-1.5 pr-2", TEXT_CAPTION)} style={{ height: `${100 / (TICKS.length - 1)}%` }}>
+              <span
+                key={h}
+                className={cx("absolute right-2 -translate-y-1/2", TEXT_CAPTION)}
+                style={{ top: `${r2(((h - WINDOW_START_HOUR) / WINDOW_HOURS) * 100)}%` }}
+              >
                 {h > 12 ? `${h - 12}p` : h === 12 ? "12p" : `${h}a`}
               </span>
             ))}
