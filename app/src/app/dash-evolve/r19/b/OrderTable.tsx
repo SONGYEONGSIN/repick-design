@@ -123,7 +123,7 @@ export default function OrderTable() {
             onChange={(e) => setQuery(e.target.value)}
             type="text"
             placeholder="Search id or SKU…"
-            className={cx("h-full min-w-0 flex-1 rounded-md bg-transparent text-xs font-normal", TEXT_PRIMARY, "placeholder:text-zinc-400", FOCUS)}
+            className={cx("h-full min-w-0 flex-1 rounded-md bg-transparent text-xs font-normal", TEXT_PRIMARY, "placeholder:text-zinc-600", FOCUS)}
           />
         </label>
         <div role="radiogroup" aria-label="Filter ledger by status" className={cx("inline-flex flex-wrap items-center gap-1 rounded-xl border p-0.5", BORDER, SURFACE_INSET)}>

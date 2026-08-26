@@ -59,7 +59,7 @@ export default function CommandPalette({
             type="text"
             placeholder="Search work orders or jump to a production line…"
             aria-label="Search work orders or jump to a production line"
-            className={cx("h-9 min-w-0 flex-1 rounded-md bg-transparent px-1 text-sm font-normal", TEXT_PRIMARY, "placeholder:text-zinc-400", FOCUS)}
+            className={cx("h-9 min-w-0 flex-1 rounded-md bg-transparent px-1 text-sm font-normal", TEXT_PRIMARY, "placeholder:text-zinc-500", FOCUS)}
           />
           <button type="button" onClick={onClose} className={cx("grid h-9 w-9 shrink-0 place-items-center rounded-lg text-sm font-medium", HOVER_BG, TRANSITION, FOCUS)}>
             <X size={15} aria-hidden="true" className={TEXT_AUX} />
