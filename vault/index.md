@@ -21,6 +21,7 @@ tags: [index]
 - [[brief-careers]] — 타입 프로파일 `careers` (**오픈 롤 상시노출** 하드 기준, 보상은 입력 축·계산 방식을 먼저 정한다, 인터랙션 최소 3종)
 - [[curation-criteria]] — 지식 정제 meta-기준 (L1~L3 레벨·승격 규칙)
 - [[questions-queue]] — 정제 게이트 질문 큐 (대기/아카이브)
+- [[reassign-queue]] — 재배정 큐 (형태가 아니라 규칙 위반으로 탈락한 후보의 형태 — 다음 라운드가 읽는다)
 - [[MEMORY]] — 학습 인덱스 (200줄 cap)
 
 ## 원장 (30-ledger — append-only 로그층)
@@ -51,6 +52,7 @@ tags: [index]
 - [[20-generations/2026-08-19-auto-landing-r12/DECISION|2026-08-19-auto-landing-r12]]
 - [[20-generations/2026-08-19-auto-native-r10/DECISION|2026-08-19-auto-native-r10]]
 - [[20-generations/2026-08-18-auto-dash-r16/DECISION|2026-08-18-auto-dash-r16]]
+- [[20-generations/2026-08-20-auto-dash-r17/DECISION|2026-08-20-auto-dash-r17]]
 - [[20-generations/2026-08-18-auto-native-r8/DECISION|2026-08-18-auto-native-r8]]
 - [[20-generations/2026-08-16-auto-native-r7/DECISION|2026-08-16-auto-native-r7]]
 - [[20-generations/2026-08-16-auto-dash-r15/DECISION|2026-08-16-auto-dash-r15]]
