@@ -61,7 +61,7 @@ export const CLOSING = ["Motion you can measure.", "Attune answers the hand."];
 export const FOOTER_NAV = [
   { href: "#manifesto", label: "Manifesto" },
   { href: "#technique", label: "Technique" },
-  { href: "/gallery", label: "Specimen" },
+  { href: "/", label: "Specimen" },
 ];
 
 /**

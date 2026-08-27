@@ -103,7 +103,7 @@ export function WorkCard({ work, lang, label }: { work: Work; lang: Lang; label:
     <a href={href}
       onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)}
       onFocus={() => setHover(true)} onBlur={() => setHover(false)}
-      className="group flex min-w-0 flex-col overflow-hidden rounded-xl border border-zinc-200 bg-white transition duration-200 hover:-translate-y-0.5 hover:border-zinc-400 hover:shadow-sm active:translate-y-0 active:shadow-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-900 focus-visible:ring-offset-2 motion-reduce:hover:translate-y-0">
+      className="group flex min-w-0 flex-col overflow-hidden rounded-xl border border-zinc-200 bg-white transition duration-200 hover:-translate-y-0.5 hover:border-zinc-400 hover:shadow-sm active:translate-y-0 active:shadow-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zinc-900 motion-reduce:hover:translate-y-0">
       {/* `min-h` rather than a fixed height, and the grid is `items-start` so a row never stretches its
           shorter cards. A mobile work (previewH 520) beside desktop ones (340) used to leave 182px of
           measured dead space under the badge; stretching the *preview* into that slack only moved the
@@ -145,7 +145,7 @@ export function WorkCard({ work, lang, label }: { work: Work; lang: Lang; label:
         <p className="mt-1 line-clamp-2 text-xs leading-relaxed text-zinc-500 group-hover:line-clamp-none">{work.desc[lang]}</p>
         {label && (
           <div className="mt-2.5">
-            <span className="rounded-full bg-zinc-100 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-zinc-500">{label}</span>
+            <span className="rounded-full bg-zinc-100 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-zinc-600">{label}</span>
           </div>
         )}
       </div>

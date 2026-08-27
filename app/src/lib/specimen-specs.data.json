@@ -645,73 +645,6 @@
     ],
     "agentPrompt": "# Recreate: Wavelength (on-call rotation console)\n\nBuild a dark-committed (zinc-950, no light variant) SRE on-call console dominated by a radial dial.\n\n**Palette (dark-native):** `zinc-950` canvas, `zinc-900` cards with a hairline `white/10` border, `teal-500` as the *only* UI-chrome accent (buttons, focus rings, active nav — paired `teal-300` text and `teal-400` `#2dd4bf` for the ring's live 'now' needle), `amber-400` for the independent selected-incident pin overlay, and a separate 6-hue categorical 'engineer tone' palette (teal/violet/amber/rose/indigo/emerald) reserved strictly for ring-segment identity — never reused as chrome.\n\n**Type:** Pretendard Variable, `tabular-nums` on every incident/duration figure; ring-segment SVG labels use a stroke-halo (paint-order: stroke) so text stays legible over any of the six arc tones.\n\n**Layout:** a sidebar + topbar shell, a header with inline open-incident/on-call/responder stats, a coverage card holding the dominant 24h/7-day radial dial (arrow-key roving focus per segment, a live now-needle, an independent amber pin marking the selected incident's hour), and a master-detail row below — a fixed-width incident rail beside a flexible detail panel with a triggered→acknowledged→resolved timeline and runbook checklist.\n\n**Feel:** the dial is the instrument. One chrome accent (teal), one categorical ring palette kept structurally separate from it, one incident selection synced across the ring, rail, and detail panel."
   },
-  "v0": {
-    "id": "v0",
-    "palette": [
-      {
-        "token": "stone-900",
-        "hex": "#1c1917",
-        "role": "Ink",
-        "usage": "Primary headings and body emphasis (hero H1, section H2s, product/testimonial titles); also the solid dark fill for primary buttons (bg-stone-900) and the hero/CTA image overlay tint (bg-stone-900/75, /50)"
-      },
-      {
-        "token": "orange-700",
-        "hex": "#ca3500",
-        "role": "Accent",
-        "usage": "The single interactive/brand accent — the brand mark badge, the 'AI Taste Match' eyebrow icon, the italic 'Again' emphasis in both hero and final-CTA headlines, feature-icon glyphs, comparison-table checkmarks, discount percentages, and every focus ring (focus-visible:ring-orange-700)"
-      },
-      {
-        "token": "stone-600",
-        "hex": "#57534d",
-        "role": "Muted",
-        "usage": "Body copy, nav links, testimonial roles, and secondary metadata (brand name above product titles)"
-      },
-      {
-        "token": "stone-400",
-        "hex": "#a6a09b",
-        "role": "Faint",
-        "usage": "Low-emphasis iconography — the comparison table's 'X' (direct-buying) icon and the FAQ accordion chevron"
-      },
-      {
-        "token": "stone-200",
-        "hex": "#e7e5e4",
-        "role": "Border",
-        "usage": "Hairline card/section borders throughout (header, feature images, product cards, FAQ wrapper, comparison table)"
-      },
-      {
-        "token": "stone-50",
-        "hex": "#fafaf9",
-        "role": "Surface",
-        "usage": "Page canvas background, the sticky header's translucent fill (bg-stone-50/85 backdrop-blur), and hover/skip-link surfaces"
-      }
-    ],
-    "typography": "System sans (font-sans) for all body/heading copy, with the brand mark drawn as a tuning glyph inside a rounded accent badge rather than set type, so the lockup stays crisp at any size. Headlines use fluid clamp() sizing (hero clamp(2.5rem,6vw,4.5rem), section clamp(2rem,4vw,3rem)) at tracking-[-0.01em] and leading-[1.05]–[1.1]; body copy sits at text-lg leading-relaxed with the same -0.01em tracking. tabular-nums is applied to every match-percentage, price, discount, and stat figure (AI Match 96%, 128,000+, 94%, 4.9/5).",
-    "spacing": "rounded-full on every button, pill badge, and avatar; rounded-3xl (24px) on feature imagery, step cards, product cards, testimonial cards, and the FAQ/comparison-table wrappers; rounded-[2rem] on the hero product photo and rounded-[2.5rem] on the full-bleed final-CTA banner. min-h-11 (44px) touch targets on every link/button. Sections are separated by hairline border-b border-stone-200 rules and run a consistent py-24 rhythm inside a max-w-7xl px-6/lg:px-8 container.",
-    "philosophy": "The production champion: a warm, light editorial landing that deliberately swaps the gallery's common cool zinc/slate neutrals for warm stone, paired with a single burnt-orange (orange-700) accent used only for interactive/brand moments — never as a decorative fill beyond a soft orange-50 icon-chip tint. The hero is a centered editorial split — a large parallax-scrolled product photograph with a floating 'AI Match 96%' badge and a second overlapping photo collage — rather than a rectangular bento or dashboard-style layout. A 'direct buying vs AI match' comparison table and three alternating image/text feature blocks build the case with real fashion photography (Unsplash), and a stat/quote testimonials band closes the argument in numbers before the final CTA. That final CTA and the footer are the landing's only dark surfaces (stone-900/75 overlay, stone-950 footer) — an intentional, singular tonal inversion reserved for the funnel's last moment, never used earlier on the page.",
-    "dosDonts": [
-      {
-        "do": "Reserve orange-700 for the single interactive/brand accent — icons, the 'Again' emphasis word, discount %, checkmarks, and focus rings.",
-        "dont": "Use orange as a decorative background fill outside the soft orange-50 icon-chip tint, or introduce a second saturated accent hue."
-      },
-      {
-        "do": "Keep the page canvas stone-50 with white (or stone-100/70) card/section surfaces bordered in stone-200.",
-        "dont": "Place a stone-50 card directly on the stone-50 canvas with no border — the hairline is what reads as a distinct surface."
-      },
-      {
-        "do": "Use tabular-nums on every price, discount %, and stat figure so numerals stay aligned across breakpoints.",
-        "dont": "Let prices, match percentages, or stats reflow inconsistently between the showcase grid and the stats band."
-      },
-      {
-        "do": "Keep the final CTA and footer as the page's only dark (stone-900/950) surfaces, reserved for the funnel's last moment.",
-        "dont": "Introduce a dark section earlier in the page — that dilutes the single tonal inversion's contrast and impact."
-      },
-      {
-        "do": "Alternate feature image/text sides with consistent aspect-[4/5] photography across all three feature blocks.",
-        "dont": "Mix aspect ratios or image treatments within the alternating feature sequence — it breaks the editorial rhythm."
-      }
-    ],
-    "agentPrompt": "# Recreate: Champion Landing (editorial split-hero landing)\n\nBuild a warm, light editorial marketing landing — the production champion, at route `/`.\n\n**Palette:** stone neutrals — `stone-900` (#1c1917) ink for headings and solid dark buttons, `stone-600` (#57534d) muted body/nav copy, `stone-400` (#a6a09b) for faint iconography (the comparison table's 'X' icon, FAQ chevron), `stone-200` (#e7e5e4) hairline borders, `stone-50` (#fafaf9) page canvas/header surface — plus a single burnt-orange accent, `orange-700` (#ca3500), reserved for brand/interactive moments only (the brand mark badge, icon glyphs, the italic 'Again' emphasis, checkmarks, discount %, and every focus ring).\n\n**Type:** system sans throughout, the brand mark is a tuning glyph in a rounded accent badge, not set type. Fluid clamp() headline sizes at tracking-[-0.01em], text-lg leading-relaxed body. `tabular-nums` on every match %, price, and stat.\n\n**Layout:** sticky translucent header (nav + mobile drawer), a centered editorial hero (parallax product photo, floating 'AI Match 96%' badge, overlapping secondary photo), a trust-logo strip, a 3-step 'how it works' list, a 'direct buying vs AI match' comparison table, three alternating image/text feature blocks, a 4-up product showcase grid with like buttons, a stats + testimonial band, an FAQ accordion, and a full-bleed dark final CTA before a near-black footer.\n\n**Feel:** warm and unhurried, not clinical — stone neutrals instead of cool grays, one accent used sparingly, real fashion photography carrying the emotional weight, and a single deliberate light-to-dark tonal inversion saved for the very end of the funnel."
-  },
   "v6": {
     "id": "v6",
     "palette": [
@@ -5562,5 +5495,72 @@
         "dont": "Tint the amount with it — the figure is data, not a verdict."
       }
     ]
+  },
+  "v18": {
+    "id": "v18",
+    "palette": [
+      {
+        "token": "stone-900",
+        "hex": "#1c1917",
+        "role": "Ink",
+        "usage": "Primary headings and body emphasis (hero H1, section H2s, product/testimonial titles); also the solid dark fill for primary buttons (bg-stone-900) and the hero/CTA image overlay tint (bg-stone-900/75, /50)"
+      },
+      {
+        "token": "orange-700",
+        "hex": "#ca3500",
+        "role": "Accent",
+        "usage": "The single interactive/brand accent — the brand mark badge, the 'AI Taste Match' eyebrow icon, the italic 'Again' emphasis in both hero and final-CTA headlines, feature-icon glyphs, comparison-table checkmarks, discount percentages, and every focus ring (focus-visible:ring-orange-700)"
+      },
+      {
+        "token": "stone-600",
+        "hex": "#57534d",
+        "role": "Muted",
+        "usage": "Body copy, nav links, testimonial roles, and secondary metadata (brand name above product titles)"
+      },
+      {
+        "token": "stone-400",
+        "hex": "#a6a09b",
+        "role": "Faint",
+        "usage": "Low-emphasis iconography — the comparison table's 'X' (direct-buying) icon and the FAQ accordion chevron"
+      },
+      {
+        "token": "stone-200",
+        "hex": "#e7e5e4",
+        "role": "Border",
+        "usage": "Hairline card/section borders throughout (header, feature images, product cards, FAQ wrapper, comparison table)"
+      },
+      {
+        "token": "stone-50",
+        "hex": "#fafaf9",
+        "role": "Surface",
+        "usage": "Page canvas background, the sticky header's translucent fill (bg-stone-50/85 backdrop-blur), and hover/skip-link surfaces"
+      }
+    ],
+    "typography": "System sans (font-sans) for all body/heading copy, with the brand mark drawn as a tuning glyph inside a rounded accent badge rather than set type, so the lockup stays crisp at any size. Headlines use fluid clamp() sizing (hero clamp(2.5rem,6vw,4.5rem), section clamp(2rem,4vw,3rem)) at tracking-[-0.01em] and leading-[1.05]–[1.1]; body copy sits at text-lg leading-relaxed with the same -0.01em tracking. tabular-nums is applied to every match-percentage, price, discount, and stat figure (AI Match 96%, 128,000+, 94%, 4.9/5).",
+    "spacing": "rounded-full on every button, pill badge, and avatar; rounded-3xl (24px) on feature imagery, step cards, product cards, testimonial cards, and the FAQ/comparison-table wrappers; rounded-[2rem] on the hero product photo and rounded-[2.5rem] on the full-bleed final-CTA banner. min-h-11 (44px) touch targets on every link/button. Sections are separated by hairline border-b border-stone-200 rules and run a consistent py-24 rhythm inside a max-w-7xl px-6/lg:px-8 container.",
+    "philosophy": "The production champion: a warm, light editorial landing that deliberately swaps the gallery's common cool zinc/slate neutrals for warm stone, paired with a single burnt-orange (orange-700) accent used only for interactive/brand moments — never as a decorative fill beyond a soft orange-50 icon-chip tint. The hero is a centered editorial split — a large parallax-scrolled product photograph with a floating 'AI Match 96%' badge and a second overlapping photo collage — rather than a rectangular bento or dashboard-style layout. A 'direct buying vs AI match' comparison table and three alternating image/text feature blocks build the case with real fashion photography (Unsplash), and a stat/quote testimonials band closes the argument in numbers before the final CTA. That final CTA and the footer are the landing's only dark surfaces (stone-900/75 overlay, stone-950 footer) — an intentional, singular tonal inversion reserved for the funnel's last moment, never used earlier on the page.",
+    "dosDonts": [
+      {
+        "do": "Reserve orange-700 for the single interactive/brand accent — icons, the 'Again' emphasis word, discount %, checkmarks, and focus rings.",
+        "dont": "Use orange as a decorative background fill outside the soft orange-50 icon-chip tint, or introduce a second saturated accent hue."
+      },
+      {
+        "do": "Keep the page canvas stone-50 with white (or stone-100/70) card/section surfaces bordered in stone-200.",
+        "dont": "Place a stone-50 card directly on the stone-50 canvas with no border — the hairline is what reads as a distinct surface."
+      },
+      {
+        "do": "Use tabular-nums on every price, discount %, and stat figure so numerals stay aligned across breakpoints.",
+        "dont": "Let prices, match percentages, or stats reflow inconsistently between the showcase grid and the stats band."
+      },
+      {
+        "do": "Keep the final CTA and footer as the page's only dark (stone-900/950) surfaces, reserved for the funnel's last moment.",
+        "dont": "Introduce a dark section earlier in the page — that dilutes the single tonal inversion's contrast and impact."
+      },
+      {
+        "do": "Alternate feature image/text sides with consistent aspect-[4/5] photography across all three feature blocks.",
+        "dont": "Mix aspect ratios or image treatments within the alternating feature sequence — it breaks the editorial rhythm."
+      }
+    ],
+    "agentPrompt": "# Recreate: Champion Landing (editorial split-hero landing)\n\nBuild a warm, light editorial marketing landing — the production champion, at route `/`.\n\n**Palette:** stone neutrals — `stone-900` (#1c1917) ink for headings and solid dark buttons, `stone-600` (#57534d) muted body/nav copy, `stone-400` (#a6a09b) for faint iconography (the comparison table's 'X' icon, FAQ chevron), `stone-200` (#e7e5e4) hairline borders, `stone-50` (#fafaf9) page canvas/header surface — plus a single burnt-orange accent, `orange-700` (#ca3500), reserved for brand/interactive moments only (the brand mark badge, icon glyphs, the italic 'Again' emphasis, checkmarks, discount %, and every focus ring).\n\n**Type:** system sans throughout, the brand mark is a tuning glyph in a rounded accent badge, not set type. Fluid clamp() headline sizes at tracking-[-0.01em], text-lg leading-relaxed body. `tabular-nums` on every match %, price, and stat.\n\n**Layout:** sticky translucent header (nav + mobile drawer), a centered editorial hero (parallax product photo, floating 'AI Match 96%' badge, overlapping secondary photo), a trust-logo strip, a 3-step 'how it works' list, a 'direct buying vs AI match' comparison table, three alternating image/text feature blocks, a 4-up product showcase grid with like buttons, a stats + testimonial band, an FAQ accordion, and a full-bleed dark final CTA before a near-black footer.\n\n**Feel:** warm and unhurried, not clinical — stone neutrals instead of cool grays, one accent used sparingly, real fashion photography carrying the emotional weight, and a single deliberate light-to-dark tonal inversion saved for the very end of the funnel."
   }
 }

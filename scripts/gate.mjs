@@ -403,13 +403,22 @@ function resolveRouteDir(appRoot, segments) {
   return null;
 }
 
-/** 이 파일이 `dir` 아래 **다른 라우트**에 속하는가. 그룹 세그먼트는 라우트 경계가 아니다. */
+/**
+ * 이 파일이 `dir` 아래 **다른 라우트**에 속하는가.
+ *
+ * 라우트 경계는 두 가지다 — 자기 `page.tsx` 를 가진 디렉토리, 그리고 **라우트 그룹**. 그룹 안의
+ * 파일(그룹 자신의 `layout.tsx` 포함)은 그 그룹의 라우트들에 속하지 부모 라우트에 속하지 않는다.
+ * 2026-08-27 에 갤러리가 `/` 로 오면서 이게 실제로 갈렸다: `/` 가 `app/src/app` 으로 풀리자
+ * `(app)/layout.tsx`·`(marketing)/layout.tsx` 가 `/` 의 스코프로 딸려 들어왔는데, 둘 다 `/` 에는
+ * 적용되지 않는 layout 이다. 그룹이 `dir` **자신**일 때(`/` 가 `(marketing)` 으로 풀리던 그전
+ * 상태)는 그룹 세그먼트가 `relPath` 에 없으므로 이 규칙에 걸리지 않는다.
+ */
 function underChildRoute(dir, relPath) {
   const parts = relPath.split('/').slice(0, -1);
   let cur = dir;
   for (const p of parts) {
     cur += `/${p}`;
-    if (!(p.startsWith('(') && p.endsWith(')')) && isRouteDir(cur)) return true;
+    if ((p.startsWith('(') && p.endsWith(')')) || isRouteDir(cur)) return true;
   }
   return false;
 }
