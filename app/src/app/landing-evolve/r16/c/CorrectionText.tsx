@@ -20,7 +20,7 @@ export default function CorrectionText({ active }: { active: ReadonlySet<Categor
   const shouldReduce = useReducedMotion();
 
   return (
-    <p className="max-w-[496px] text-[15px] leading-[1.6] text-zinc-800 sm:text-[16px]">
+    <p className="max-w-[480px] text-[15px] leading-[1.6] text-zinc-800 sm:text-[16px]">
       {REDLINE_TEMPLATE.map((segment, i) => {
         if (typeof segment === "string") {
           return <span key={`t-${i}`}>{segment}</span>;

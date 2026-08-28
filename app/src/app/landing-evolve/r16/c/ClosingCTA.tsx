@@ -35,11 +35,11 @@ export default function ClosingCTA({
       >
         <h2
           style={DISPLAY_FONT}
-          className="max-w-[560px] text-[clamp(1.75rem,1.4rem+1.6vw,2.75rem)] font-bold tracking-[-0.02em] text-zinc-900"
+          className="max-w-[560px] text-[clamp(1.75rem,1.4rem_+_1.6vw,2.75rem)] font-bold tracking-[-0.02em] text-zinc-900"
         >
           Ready to see your own redline?
         </h2>
-        <p className="mt-4 max-w-[480px] text-[15px] leading-[1.6] text-zinc-600">
+        <p className="mt-4 max-w-[460px] text-[15px] leading-[1.6] text-zinc-600">
           Right now the example above is checking{" "}
           <span className="tabular-nums font-medium text-zinc-800">
             {activeCount} of {categoryTotal}

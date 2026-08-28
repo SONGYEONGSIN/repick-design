@@ -28,7 +28,7 @@ export default function EvidenceList({ active }: { active: ReadonlySet<Category>
 
   if (corrections.length === 0) {
     return (
-      <p className="mt-4 rounded-lg border border-dashed border-zinc-200 px-3 py-3 text-[13px] text-zinc-500">
+      <p className="mt-4 max-w-[400px] rounded-lg border border-dashed border-zinc-200 px-3 py-3 text-[13px] leading-[1.6] text-zinc-500">
         No categories selected — turn on a filter above to see repick&apos;s evidence for this
         listing.
       </p>
@@ -66,7 +66,7 @@ export default function EvidenceList({ active }: { active: ReadonlySet<Category>
               <div className="overflow-hidden">
                 <p
                   id={panelId}
-                  className="px-3 pb-3 text-[13px] leading-[1.6] text-zinc-600"
+                  className="max-w-[380px] px-3 pb-3 text-[13px] leading-[1.6] text-zinc-600"
                 >
                   {correction.reason}
                 </p>

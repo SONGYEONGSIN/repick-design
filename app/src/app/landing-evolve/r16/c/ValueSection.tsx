@@ -15,11 +15,11 @@ export default function ValueSection() {
     <section className="mx-auto max-w-[1240px] px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
       <h2
         style={DISPLAY_FONT}
-        className="max-w-[560px] text-[clamp(1.75rem,1.4rem+1.6vw,2.75rem)] font-bold tracking-[-0.02em] text-zinc-900"
+        className="max-w-[560px] text-[clamp(1.75rem,1.4rem_+_1.6vw,2.75rem)] font-bold tracking-[-0.02em] text-zinc-900"
       >
         What repick checks
       </h2>
-      <p className="mt-3 max-w-[480px] text-[15px] leading-[1.6] text-zinc-600">
+      <p className="mt-3 max-w-[460px] text-[15px] leading-[1.6] text-zinc-600">
         Every listing above is verified across these three claim types. Toggle them in the redline
         above to see how each one changes what you&apos;re shown.
       </p>

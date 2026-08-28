@@ -11,7 +11,7 @@ export default function SocialProof() {
       <div className="mx-auto max-w-[1240px] px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
         <h2
           style={DISPLAY_FONT}
-          className="max-w-[560px] text-[clamp(1.75rem,1.4rem+1.6vw,2.75rem)] font-bold tracking-[-0.02em] text-zinc-900"
+          className="max-w-[560px] text-[clamp(1.75rem,1.4rem_+_1.6vw,2.75rem)] font-bold tracking-[-0.02em] text-zinc-900"
         >
           Trusted by both sides of the deal
         </h2>
@@ -34,7 +34,7 @@ export default function SocialProof() {
               </p>
               <p
                 style={DISPLAY_FONT}
-                className="mt-1 break-words tabular-nums tracking-[0.12em] text-[clamp(1.5rem,1.2rem+1vw,2.25rem)] font-bold text-zinc-900"
+                className="mt-1 break-words tabular-nums tracking-[0.12em] text-[clamp(1.5rem,1.2rem_+_1vw,2.25rem)] font-bold text-zinc-900"
               >
                 {stat.value}
               </p>
