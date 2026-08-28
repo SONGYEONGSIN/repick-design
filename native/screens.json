@@ -58,5 +58,14 @@
   },
   "evolve-r14-c": {
     "check": "Wallet"
+  },
+  "evolve-r15-a": {
+    "check": "Active Listings"
+  },
+  "evolve-r15-b": {
+    "check": "Build a bundle offer"
+  },
+  "evolve-r15-c": {
+    "check": "Choose a Safe Exchange Location"
   }
 }
