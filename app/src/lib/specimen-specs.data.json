@@ -5562,5 +5562,257 @@
       }
     ],
     "agentPrompt": "# Recreate: Champion Landing (editorial split-hero landing)\n\nBuild a warm, light editorial marketing landing — the production champion, at route `/`.\n\n**Palette:** stone neutrals — `stone-900` (#1c1917) ink for headings and solid dark buttons, `stone-600` (#57534d) muted body/nav copy, `stone-400` (#a6a09b) for faint iconography (the comparison table's 'X' icon, FAQ chevron), `stone-200` (#e7e5e4) hairline borders, `stone-50` (#fafaf9) page canvas/header surface — plus a single burnt-orange accent, `orange-700` (#ca3500), reserved for brand/interactive moments only (the brand mark badge, icon glyphs, the italic 'Again' emphasis, checkmarks, discount %, and every focus ring).\n\n**Type:** system sans throughout, the brand mark is a tuning glyph in a rounded accent badge, not set type. Fluid clamp() headline sizes at tracking-[-0.01em], text-lg leading-relaxed body. `tabular-nums` on every match %, price, and stat.\n\n**Layout:** sticky translucent header (nav + mobile drawer), a centered editorial hero (parallax product photo, floating 'AI Match 96%' badge, overlapping secondary photo), a trust-logo strip, a 3-step 'how it works' list, a 'direct buying vs AI match' comparison table, three alternating image/text feature blocks, a 4-up product showcase grid with like buttons, a stats + testimonial band, an FAQ accordion, and a full-bleed dark final CTA before a near-black footer.\n\n**Feel:** warm and unhurried, not clinical — stone neutrals instead of cool grays, one accent used sparingly, real fashion photography carrying the emotional weight, and a single deliberate light-to-dark tonal inversion saved for the very end of the funnel."
+  },
+  "d50": {
+    "id": "d50",
+    "palette": [
+      {
+        "token": "canvas",
+        "hex": "#ffffff",
+        "role": "Page ground",
+        "usage": "White page with zinc-100 (#f4f4f5, 24 regions) as the recessed surface behind cards and rails. A schedule is read as rows; the ground stays neutral so the only colour on screen carries status."
+      },
+      {
+        "token": "fg",
+        "hex": "#18181b",
+        "role": "Primary ink",
+        "usage": "130 text nodes, by far the largest tier — task names, the product title and every figure a reader compares. Everything else steps down from here."
+      },
+      {
+        "token": "body",
+        "hex": "#3f3f46",
+        "role": "Secondary ink",
+        "usage": "74 nodes. Controls, filter labels and inline descriptions sit one tick below the primary tier."
+      },
+      {
+        "token": "muted",
+        "hex": "#71717b",
+        "role": "Column captions",
+        "usage": "57 nodes — the faintest reading tier, used for section captions and axis labels."
+      },
+      {
+        "token": "lane-a",
+        "hex": "#0e7490",
+        "role": "On-track lane fill",
+        "usage": "Cyan-700 across 9 filled bar regions. Lane colour encodes schedule state, not category — a bar's hue is a claim about whether it will land."
+      },
+      {
+        "token": "lane-b",
+        "hex": "#047857",
+        "role": "Completed lane fill",
+        "usage": "Emerald-700, 7 regions, paired with an emerald-50 (#ecfdf5) track so a completed bar reads against its own rail."
+      },
+      {
+        "token": "status-ink",
+        "hex": "#973c00",
+        "role": "At-risk text",
+        "usage": "Amber-800 as text, not fill — 'At risk or delayed' is written in words and coloured, never coloured alone."
+      }
+    ],
+    "typography": "Pretendard Variable on 327 nodes with JetBrains Mono Display on exactly 2 — the mono is reserved for the schedule's numeric readout, not for the table. Three weights measured at render (400 / 500 / 600) with 500 as the workhorse (173 nodes): a gantt is mostly labels, and labels want medium rather than regular. The scale is deliberately compressed — 131 nodes at 12px, 66 at 11px, and a single 28px title. Line-height 16.5px on 12px body keeps rows dense enough that a quarter fits without scrolling.",
+    "spacing": "A 2/6/10/12 base — padding 12px (233 regions) and 10px (221) do almost all the work, with 8/16/20 reserved for card and rail edges. Gap 8px is the default rhythm (175). Radius: fully-rounded pills for status chips (175), then 4/6/8/12/16 for cards and bars. Content columns cap at 448px and 672px inside a full-width shell.",
+    "philosophy": "Selection deliberately does not propagate everywhere. Pinning a row header recomputes the KPI summary only and leaves the ledger table untouched — the non-connection is written into a comment so a later reader does not 'fix' it. Hovering or focusing a bar opens an ephemeral inspector that changes no state at all. The point is that a dashboard's differentiation is not whether it wires selection through one builder or many siblings, but whether every widget must answer a selection: splitting the response into a partial recompute plus a non-persistent readout is what keeps this from reading as a standard master-detail.",
+    "agentPrompt": "Build a roadmap gantt where selection has a deliberately limited blast radius. Split the response into two kinds: a click that partially recomputes one summary region (and leave the rest wired to nothing, with a comment saying so), and a hover/focus that opens an inspector holding no state. Do not route one selectedId through every sibling widget, and do not route it through a single builder that recomputes the whole page either — both read as master-detail. Encode schedule state in the bar fill and repeat it in words, and keep the type scale compressed enough that a full quarter fits without scrolling.",
+    "dosDonts": [
+      {
+        "do": "Say in a comment which widgets deliberately do not react to a selection.",
+        "dont": "Wire every widget to the selection because it is available — full recompute reads as a conventional master-detail."
+      },
+      {
+        "do": "Use hover/focus for a readout that changes no state.",
+        "dont": "Persist hover state — an ephemeral inspector stops being ephemeral the moment it writes."
+      },
+      {
+        "do": "Repeat lane colour in words ('At risk or delayed').",
+        "dont": "Let the bar fill be the only carrier of schedule state."
+      },
+      {
+        "do": "Render board/lane columns with CSS Grid and per-column overflow-y.",
+        "dont": "Introduce a wide overflow-x-auto container — two of them on one page leak documentElement.scrollWidth at narrow widths."
+      }
+    ]
+  },
+  "v19": {
+    "id": "v19",
+    "palette": [
+      {
+        "token": "canvas",
+        "hex": "#ffffff",
+        "role": "Page ground",
+        "usage": "White, with sky-50 (#f0f9ff, 15 regions) as the tint behind the redline panel — the correction surface is the only tinted plane on the page."
+      },
+      {
+        "token": "accent",
+        "hex": "#0369a1",
+        "role": "Insertions + headline + CTA fill",
+        "usage": "Sky-700 on 25 text nodes and 2 filled regions. It marks what the AI added — inserted text, the live confidence figure, the section headline — so accent means 'this is the correction', not 'this is important'."
+      },
+      {
+        "token": "fg",
+        "hex": "#18181b",
+        "role": "Brand + primary ink",
+        "usage": "25 nodes. The wordmark and the headings a reader fixes before reading any diff."
+      },
+      {
+        "token": "muted",
+        "hex": "#71717b",
+        "role": "Eyebrow + captions",
+        "usage": "29 nodes, the most frequent tier — the eyebrow line and the small print under each card."
+      },
+      {
+        "token": "body",
+        "hex": "#3f3f46",
+        "role": "Counters + controls",
+        "usage": "19 nodes: the '4 of 4' counter and the category filter labels."
+      },
+      {
+        "token": "strike",
+        "hex": "#27272a",
+        "role": "Struck-through original text",
+        "usage": "10 nodes. The seller's original wording stays near-black rather than greyed — the strike-through carries the meaning, and dimming it as well would say the original was wrong rather than replaced."
+      }
+    ],
+    "typography": "Pretendard Variable on 119 nodes with Space Grotesk Display on 8 — the display face is confined to the headline and the large figures. Three weights at render (400 / 500 / 700), 500 dominant. The scale is unusually wide for a landing: 42 nodes at 12px against a single 79px headline, with 44/36/34px display steps between. Line-height 18px on 12px caption text and 25.6px on body.",
+    "spacing": "12/24 padding carries the hero and the panel, 4/8/16/32 the smaller pieces. Gap 6px is the densest rhythm (15 regions) — a diff view wants its lines close. Radius: fully-rounded chips (25), then 12/16/24 for cards. The shell caps at 1240px, prose blocks at 480–560px, and the listing cards at 380px.",
+    "philosophy": "The proof is a tracked-changes document. Strikethrough and insertion show exactly what the AI corrected in a seller's listing, which makes the correction auditable rather than asserted — the reader sees the original claim and the replacement in the same line. Everything the page needs to prove itself sits inside the hero component: headline, category filter, live confidence score and fully tagged listing cards, visible without scrolling. That last part is the load-bearing structural choice — two sibling candidates put their cards in a following section and both were marked down for it.",
+    "agentPrompt": "Build a landing whose central proof is a redline — show the AI's corrections as strikethrough plus insertion on the seller's own text, so the original and the replacement are visible together. Put the headline, the filter control, the live score and the fully tagged listing cards inside the hero component itself, not in a following section: anything in a sibling section falls below the fold at some viewport height. Reserve the accent for inserted text and derived figures, and keep struck-through original text at full ink so the strike carries the meaning rather than the dimming.",
+    "dosDonts": [
+      {
+        "do": "Place the proof cards inside the hero component's own grid.",
+        "dont": "Put them in the next section — 'above the fold' is not a property you can guarantee once you split components."
+      },
+      {
+        "do": "Keep struck-through original text at full ink.",
+        "dont": "Dim it as well — strike plus dim says the original was wrong, not replaced."
+      },
+      {
+        "do": "Spend the accent on insertions and derived figures only.",
+        "dont": "Tint headings with it; then accent means emphasis and the diff loses its code."
+      },
+      {
+        "do": "Let the category filter recompute the score and the cards together.",
+        "dont": "Leave a control that changes the cards but not the figure that summarises them."
+      }
+    ]
+  },
+  "n18": {
+    "id": "n18",
+    "palette": [
+      {
+        "token": "bg",
+        "hex": "#ffffff",
+        "role": "Screen ground + cards",
+        "usage": "White throughout. A ledger asks the reader to interpret figures; a tinted surface would add a second thing to interpret."
+      },
+      {
+        "token": "secondary",
+        "hex": "#52525b",
+        "role": "Transaction descriptions",
+        "usage": "34 nodes, the largest tier — every row's description line. A ledger is mostly this tier, which is why it is not the darkest ink."
+      },
+      {
+        "token": "money",
+        "hex": "#27272a",
+        "role": "Amounts",
+        "usage": "20 nodes. Figures sit one tick above the descriptions so a column of amounts reads as a column without needing a rule between them."
+      },
+      {
+        "token": "fg",
+        "hex": "#18181b",
+        "role": "Balance + screen title",
+        "usage": "17 nodes including the standing balance, the only figure set at 32px."
+      },
+      {
+        "token": "accent",
+        "hex": "#4f46e5",
+        "role": "Withdraw entry point",
+        "usage": "The single native accent, spent on two nodes and one filled region — the Withdraw affordance. Nothing else on a read-only screen earns it."
+      }
+    ],
+    "typography": "-apple-system per the native DNA. Four weights at render (400 / 600 / 700 / 800) — heavier than the three-weight web rule, which native does not impose; 800 carries the standing balance. Scale 11–32px with the mass at 11–15px and one 32px balance. Line-height 16px on 12px rows keeps the ledger dense.",
+    "spacing": "16px padding on nearly every card (16 regions) with 20/32 for the balance header. Gap 12px between rows, 3px inside stacked label-value pairs. A single radius — 12px on all 17 rounded surfaces, which is what makes a long list read as one object rather than many.",
+    "philosophy": "A completed record, so the screen is read-only and the bottom band is not a state machine — there is nothing blocked to explain. The balance stays visible while the transaction list filters in place, and deposits and withdrawals are separated by sign and type label rather than by colour, so the distinction survives for a reader who cannot use hue. The Withdraw control is an entry point to another screen and nothing more: it deliberately carries no accessibilityHint, because a hint promising navigation that does not happen lies to exactly the users who cannot check.",
+    "agentPrompt": "Build a native read-only ledger. Keep the balance visible while the list filters in place, and separate credits from debits by sign and an explicit type label rather than by colour. If a control is a placeholder for a flow that does not exist yet, leave it as a no-op — but do not attach an accessibilityHint describing what it would do, because a screen-reader user cannot discover the hint was false. Spend the single accent on the one outgoing action and nothing else.",
+    "dosDonts": [
+      {
+        "do": "Separate credits and debits by sign plus a type label.",
+        "dont": "Encode direction in colour alone."
+      },
+      {
+        "do": "Leave a no-op placeholder control unlabelled by hint.",
+        "dont": "Promise navigation in accessibilityHint that the handler never performs."
+      },
+      {
+        "do": "Keep the balance visible while the list filters.",
+        "dont": "Make the reader leave the filter to re-check what they have."
+      },
+      {
+        "do": "Use one radius for every surface in a long list.",
+        "dont": "Vary radius per row type — the list stops reading as one object."
+      }
+    ]
+  },
+  "n19": {
+    "id": "n19",
+    "palette": [
+      {
+        "token": "bg",
+        "hex": "#ffffff",
+        "role": "Screen ground",
+        "usage": "White ground with zinc-200 (#e4e4e7, 9 regions) as the listing-thumbnail placeholder plane."
+      },
+      {
+        "token": "accent",
+        "hex": "#4f46e5",
+        "role": "Verification + discount marks",
+        "usage": "The largest accent presence in the native catalogue — 11 filled regions and 9 ink nodes, carrying the completed verification badges and the price-drop figures. On a storefront the accent is the reputation."
+      },
+      {
+        "token": "muted",
+        "hex": "#71717a",
+        "role": "Handle + captions",
+        "usage": "43 nodes, the most frequent tier — the @handle, stat captions and the sort control's current value."
+      },
+      {
+        "token": "fg",
+        "hex": "#18181b",
+        "role": "Seller name + listing titles",
+        "usage": "34 nodes. The name and the grid's titles."
+      },
+      {
+        "token": "on-accent",
+        "hex": "#ffffff",
+        "role": "Text on accent fills",
+        "usage": "13 nodes — the badge and action-bar labels that sit on the indigo fills."
+      },
+      {
+        "token": "body",
+        "hex": "#27272a",
+        "role": "Prices + sort labels",
+        "usage": "12 nodes, one tick under the titles."
+      }
+    ],
+    "typography": "-apple-system per the native DNA. Three weights at render (400 / 600 / 700) with 700 dominant at 65 of 115 nodes — a profile is mostly short labels and figures, and short labels want weight rather than size. Scale is the tightest in the native catalogue: 10–17px with a single 22px name. Line-height 17px on 13px.",
+    "spacing": "12px padding on 28 regions does nearly everything, with 2/6px inside badge and stat clusters and 16/20px at the card edges. Radius is deliberately varied here — 12 and 6px in equal measure (11 each) plus 18/32px on the avatar and pills, which is how a profile separates identity from inventory.",
+    "philosophy": "A public seller profile, and therefore a read-only screen: the bottom band is a standing action bar (Follow / Message), not a state machine, and that judgement is written into the file header rather than left implicit. The verification badges show only what is completed — no in-progress states — because a profile is a claim about what is already true. Reputation stats, badges and a sortable listing grid sit under one bar, so every affordance on the screen either says something about the seller or reorders what they sell.",
+    "agentPrompt": "Build a public seller profile as a read-only screen. Decide the bottom band by asking what the screen does: nothing is blocked, so build a standing action bar with real actions rather than a blocked/ready/done state machine, and write that reasoning into the file header. Show only completed verification states — a profile asserts what is already true, so an in-progress badge belongs on a different screen. Let the accent carry reputation (verification, price drops) and let the sort control actually reorder the grid.",
+    "dosDonts": [
+      {
+        "do": "Write the read-only judgement into the file header so the band choice is auditable.",
+        "dont": "Reuse the blocked/ready/done band on a screen with nothing blocked."
+      },
+      {
+        "do": "Show completed verification states only.",
+        "dont": "Render in-progress badges on a public profile — it advertises what is not yet true."
+      },
+      {
+        "do": "Let the accent mark reputation and price movement.",
+        "dont": "Spread it across headings; on a storefront that dilutes the one signal a buyer is looking for."
+      },
+      {
+        "do": "Vary radius between identity (avatar, pills) and inventory (cards).",
+        "dont": "Flatten everything to one radius — the profile and the grid stop being distinguishable."
+      }
+    ]
   }
 }

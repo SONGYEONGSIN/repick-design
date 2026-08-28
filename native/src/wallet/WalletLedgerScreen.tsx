@@ -1,4 +1,4 @@
-// native/src/evolve/r14/c/WalletLedgerScreen.tsx — auto-native-r14 candidate c.
+// native/src/wallet/WalletLedgerScreen.tsx — auto-native-r14 candidate c.
 // Screen type: Wallet & Transaction History — a read-only ledger, not the payout flow.
 // The balance and the full transaction list are the proof and stay visible by default;
 // the type filter narrows what's shown without ever hiding the balance card. There is no
@@ -7,7 +7,7 @@
 // a screen whose only job is to show what already happened.
 import { useMemo, useState } from "react";
 import { View, Text, FlatList, SafeAreaView, StyleSheet } from "react-native";
-import { tokens } from "../../../tokens";
+import { tokens } from "../tokens";
 import { CURRENT_BALANCE_WON, BALANCE_AS_OF, FILTERS, TRANSACTIONS, type FilterKey, type Transaction } from "./data";
 import { BalanceCard, FilterBar, TransactionRow, EmptyState } from "./components";
 

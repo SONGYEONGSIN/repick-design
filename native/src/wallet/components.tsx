@@ -1,6 +1,6 @@
-// native/src/evolve/r14/c/components.tsx — presentational pieces for the Wallet ledger screen.
+// native/src/wallet/components.tsx — presentational pieces for the Wallet ledger screen.
 import { View, Text, Pressable, StyleSheet } from "react-native";
-import { tokens } from "../../../tokens";
+import { tokens } from "../tokens";
 import {
   TYPE_META,
   formatWon,

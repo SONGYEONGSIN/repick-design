@@ -16,12 +16,8 @@ import { ChatInboxScreen } from "./chat/ChatInbox";
 import { AuthenticationCertificateScreen } from "./certificate/AuthenticationCertificateScreen";
 import { MembershipTiersScreen } from "./membership/MembershipTiersScreen";
 import { PayoutScreen } from "./payout/PayoutScreen";
-import { InventoryManagerScreen } from "./evolve/r14/a/InventoryManagerScreen";
-import { InviteRewardsScreen } from "./evolve/r14/b/InviteRewardsScreen";
-import { WalletLedgerScreen } from "./evolve/r14/c/WalletLedgerScreen";
-import { SellerStorefrontScreen } from "./evolve/r15/a/SellerStorefrontScreen";
-import { BundleOfferBuilderScreen } from "./evolve/r15/b/BundleOfferBuilderScreen";
-import { SafeExchangeLocationPickerScreen } from "./evolve/r15/c/SafeExchangeLocationPickerScreen";
+import { WalletLedgerScreen } from "./wallet/WalletLedgerScreen";
+import { SellerStorefrontScreen } from "./storefront/SellerStorefrontScreen";
 
 const COMPONENTS = {
   watchlist: WatchList,
@@ -41,12 +37,8 @@ const COMPONENTS = {
   certificate: AuthenticationCertificateScreen,
   membership: MembershipTiersScreen,
   payout: PayoutScreen,
-  "evolve-r14-a": InventoryManagerScreen,
-  "evolve-r14-b": InviteRewardsScreen,
-  "evolve-r14-c": WalletLedgerScreen,
-  "evolve-r15-a": SellerStorefrontScreen,
-  "evolve-r15-b": BundleOfferBuilderScreen,
-  "evolve-r15-c": SafeExchangeLocationPickerScreen,
+  wallet: WalletLedgerScreen,
+  storefront: SellerStorefrontScreen,
 } as const satisfies Record<string, ComponentType>;
 
 export type ScreenSlug = keyof typeof COMPONENTS;

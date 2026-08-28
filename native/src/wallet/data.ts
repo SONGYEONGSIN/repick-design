@@ -1,4 +1,4 @@
-// native/src/evolve/r14/c/data.ts — deterministic dummy data for Wallet & Transaction History.
+// native/src/wallet/data.ts — deterministic dummy data for Wallet & Transaction History.
 // No Math.random / Date.now / argument-less `new Date()` anywhere below — every value here is a
 // fixed literal or a pure computation over fixed literals.
 

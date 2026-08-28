@@ -50,22 +50,10 @@
   "payout": {
     "check": "Withdraw funds"
   },
-  "evolve-r14-a": {
-    "check": "My Listings"
-  },
-  "evolve-r14-b": {
-    "check": "Invite friends, earn rewards"
-  },
-  "evolve-r14-c": {
+  "wallet": {
     "check": "Wallet"
   },
-  "evolve-r15-a": {
+  "storefront": {
     "check": "Active Listings"
-  },
-  "evolve-r15-b": {
-    "check": "Build a bundle offer"
-  },
-  "evolve-r15-c": {
-    "check": "Choose a Safe Exchange Location"
   }
 }

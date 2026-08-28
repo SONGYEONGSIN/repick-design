@@ -1,4 +1,4 @@
-// native/src/evolve/r15/a/data.ts — deterministic dummy data for SellerStorefrontScreen.
+// native/src/storefront/data.ts — deterministic dummy data for SellerStorefrontScreen.
 // No Math.random / Date.now / argument-less `new Date()` anywhere below — every value is a
 // fixed literal or computed from fixed literals.
 

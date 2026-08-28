@@ -1,4 +1,4 @@
-// native/src/evolve/r15/a/SellerStorefrontScreen.tsx — auto-native-r15 candidate a.
+// native/src/storefront/SellerStorefrontScreen.tsx — auto-native-r15 candidate a.
 //
 // Seller Storefront: a public-facing profile page for viewing ONE seller — genuinely new relative
 // to the existing catalog. It is not `account` (that's the viewer's OWN settings) and not
@@ -21,7 +21,7 @@ import {
   SafeAreaView,
   StyleSheet,
 } from "react-native";
-import { tokens } from "../../../tokens";
+import { tokens } from "../tokens";
 import {
   FOLLOW_FEEDBACK,
   LISTINGS,
