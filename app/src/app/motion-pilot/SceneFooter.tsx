@@ -49,7 +49,7 @@ export default function SceneFooter() {
             className="mt-12"
           >
             <Link
-              href="/gallery"
+              href="/"
               className={`${MARK} ${PILL} focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#a894f7] focus-visible:ring-offset-4 focus-visible:ring-offset-black`}
             >
               See the specimen
