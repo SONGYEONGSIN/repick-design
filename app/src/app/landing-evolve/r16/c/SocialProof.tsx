@@ -34,7 +34,7 @@ export default function SocialProof() {
               </p>
               <p
                 style={DISPLAY_FONT}
-                className="mt-1 tabular-nums tracking-[0.12em] text-[clamp(1.5rem,1.2rem+1vw,2.25rem)] font-bold text-zinc-900"
+                className="mt-1 break-words tabular-nums tracking-[0.12em] text-[clamp(1.5rem,1.2rem+1vw,2.25rem)] font-bold text-zinc-900"
               >
                 {stat.value}
               </p>

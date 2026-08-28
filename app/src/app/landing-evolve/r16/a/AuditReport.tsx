@@ -125,7 +125,7 @@ export default function AuditReport({ activeId, onSelect }: AuditReportProps) {
                   <span>This quarter</span>
                   <span className="tabular-nums">{active.thisQuarter}</span>
                 </div>
-                <div className="mt-1.5 h-2.5 w-full rounded-full bg-zinc-200">
+                <div className="mt-1.5 h-2.5 w-full rounded-full bg-zinc-100">
                   <div
                     className="h-2.5 rounded-full"
                     style={{
@@ -140,7 +140,7 @@ export default function AuditReport({ activeId, onSelect }: AuditReportProps) {
                   <span>Last quarter</span>
                   <span className="tabular-nums">{active.lastQuarter}</span>
                 </div>
-                <div className="mt-1.5 h-2.5 w-full rounded-full bg-zinc-200">
+                <div className="mt-1.5 h-2.5 w-full rounded-full bg-zinc-100">
                   <div
                     className="h-2.5 rounded-full bg-zinc-500"
                     style={{ width: `${barWidth(active.lastQuarter)}%` }}
