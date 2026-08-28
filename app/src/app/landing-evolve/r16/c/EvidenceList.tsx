@@ -49,7 +49,7 @@ export default function EvidenceList({ active }: { active: ReadonlySet<Category>
               aria-expanded={open}
               aria-controls={panelId}
               onClick={() => toggle(correction.id)}
-              className="flex w-full items-center gap-2 px-3 py-2.5 text-left text-[13px] font-medium text-zinc-700 transition-colors hover:bg-zinc-50 focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-[#0369a1]"
+              className="flex w-full items-center gap-2 px-3 py-2.5 text-left text-[13px] font-medium text-zinc-700 transition-colors hover:bg-zinc-50 focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-[#0369a1]"
             >
               <Icon className="h-3.5 w-3.5 shrink-0 text-[#0369a1]" aria-hidden="true" />
               <span className="min-w-0 flex-1 truncate">{meta.label} evidence</span>

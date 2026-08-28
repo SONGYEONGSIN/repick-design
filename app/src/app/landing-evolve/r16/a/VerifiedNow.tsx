@@ -75,7 +75,7 @@ export default function VerifiedNow() {
                 onClick={() => scrollToIndex(index - 1)}
                 disabled={index === 0}
                 aria-label="Show previous listing"
-                className="flex h-9 w-9 items-center justify-center rounded-full border border-zinc-300 text-zinc-600 focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#C2410C] disabled:opacity-30 hover:enabled:border-zinc-500 hover:enabled:text-zinc-900"
+                className="flex h-9 w-9 items-center justify-center rounded-full border border-zinc-300 text-zinc-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#C2410C] disabled:opacity-30 hover:enabled:border-zinc-500 hover:enabled:text-zinc-900"
               >
                 <ChevronLeft aria-hidden="true" className="h-4 w-4" />
               </button>
@@ -84,7 +84,7 @@ export default function VerifiedNow() {
                 onClick={() => scrollToIndex(index + 1)}
                 disabled={index === total - 1}
                 aria-label="Show next listing"
-                className="flex h-9 w-9 items-center justify-center rounded-full border border-zinc-300 text-zinc-600 focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#C2410C] disabled:opacity-30 hover:enabled:border-zinc-500 hover:enabled:text-zinc-900"
+                className="flex h-9 w-9 items-center justify-center rounded-full border border-zinc-300 text-zinc-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#C2410C] disabled:opacity-30 hover:enabled:border-zinc-500 hover:enabled:text-zinc-900"
               >
                 <ChevronRight aria-hidden="true" className="h-4 w-4" />
               </button>

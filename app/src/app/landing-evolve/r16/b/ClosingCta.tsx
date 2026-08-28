@@ -43,14 +43,14 @@ export default function ClosingCta({ radiusKm, within, band }: ClosingCtaProps) 
         <div className="mt-8 flex flex-wrap items-center gap-4">
           <a
             href="#radius-control"
-            className="inline-flex items-center gap-2 rounded-full bg-lime-400 px-5 py-2.5 text-[14px] font-bold text-[#0B0B0F] transition-transform hover:scale-[1.02] focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white active:scale-[0.98]"
+            className="inline-flex items-center gap-2 rounded-full bg-lime-400 px-5 py-2.5 text-[14px] font-bold text-[#0B0B0F] transition-transform hover:scale-[1.02] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white active:scale-[0.98]"
           >
             Browse comparables
             <ArrowRight aria-hidden="true" className="h-4 w-4" />
           </a>
           <a
             href="#radius-control"
-            className="inline-flex items-center gap-2 rounded-full border border-zinc-700 px-5 py-2.5 text-[14px] font-medium text-zinc-200 transition-colors hover:border-zinc-500 focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#a3e635]"
+            className="inline-flex items-center gap-2 rounded-full border border-zinc-700 px-5 py-2.5 text-[14px] font-medium text-zinc-200 transition-colors hover:border-zinc-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#a3e635]"
           >
             <SlidersHorizontal aria-hidden="true" className="h-4 w-4 text-lime-400" />
             Adjust your radius

@@ -62,7 +62,7 @@ export default function Hero({
         <div className="mt-6 flex flex-wrap items-center gap-4">
           <a
             href="#radius-control"
-            className="inline-flex items-center gap-2 rounded-full bg-lime-400 px-5 py-2.5 text-[14px] font-bold text-[#0B0B0F] transition-transform hover:scale-[1.02] focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white active:scale-[0.98]"
+            className="inline-flex items-center gap-2 rounded-full bg-lime-400 px-5 py-2.5 text-[14px] font-bold text-[#0B0B0F] transition-transform hover:scale-[1.02] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white active:scale-[0.98]"
           >
             See matches near you
             <ArrowRight aria-hidden="true" className="h-4 w-4" />

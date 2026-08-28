@@ -54,7 +54,7 @@ export default function ClosingCTA({
         </p>
         <a
           href="#top"
-          className="mt-8 inline-flex items-center gap-2 rounded-full bg-[#0369a1] px-6 py-3 text-[14px] font-medium text-white transition-colors hover:bg-[#075985] focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#0369a1] active:scale-[0.98]"
+          className="mt-8 inline-flex items-center gap-2 rounded-full bg-[#0369a1] px-6 py-3 text-[14px] font-medium text-white transition-colors hover:bg-[#075985] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#0369a1] active:scale-[0.98]"
         >
           Get matched to verified listings
           <ArrowRight className="h-4 w-4" aria-hidden="true" />

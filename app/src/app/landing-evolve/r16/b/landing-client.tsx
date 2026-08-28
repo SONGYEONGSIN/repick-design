@@ -27,7 +27,7 @@ export default function LandingClient() {
           <span className="text-[15px] font-bold tracking-[-0.02em] text-white">repick</span>
           <a
             href="#radius-control"
-            className="rounded-full border border-zinc-700 px-3.5 py-1.5 text-[12px] font-medium text-zinc-200 transition-colors hover:border-zinc-500 focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#a3e635]"
+            className="rounded-full border border-zinc-700 px-3.5 py-1.5 text-[12px] font-medium text-zinc-200 transition-colors hover:border-zinc-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#a3e635]"
           >
             Search near you
           </a>

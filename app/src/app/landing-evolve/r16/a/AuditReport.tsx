@@ -71,7 +71,7 @@ export default function AuditReport({ activeId, onSelect }: AuditReportProps) {
                     type="button"
                     onClick={() => onSelect(category.id)}
                     aria-current={isActive ? "true" : undefined}
-                    className="w-full rounded-xl border px-4 py-3 text-left transition-colors focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#C2410C]"
+                    className="w-full rounded-xl border px-4 py-3 text-left transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#C2410C]"
                     style={{
                       borderColor: isActive ? ACCENT_TEXT : "#e4e4e7",
                       backgroundColor: isActive ? ACCENT_TINT : "#ffffff",

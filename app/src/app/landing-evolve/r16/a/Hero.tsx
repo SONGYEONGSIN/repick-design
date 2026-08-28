@@ -48,7 +48,7 @@ export default function Hero() {
             happened.{" "}
             <a
               href="#audit-report"
-              className="font-semibold text-[#C2410C] underline underline-offset-2 focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#C2410C] rounded-sm"
+              className="font-semibold text-[#C2410C] underline underline-offset-2 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#C2410C] rounded-sm"
             >
               See the full rationale
             </a>
@@ -59,7 +59,7 @@ export default function Hero() {
         <div className="mt-9 flex flex-wrap items-center gap-x-6 gap-y-3">
           <motion.a
             href="#verified-now"
-            className="inline-flex items-center gap-2 rounded-full bg-[#C2410C] px-6 py-3 text-sm font-semibold text-white focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#C2410C] motion-reduce:transition-none"
+            className="inline-flex items-center gap-2 rounded-full bg-[#C2410C] px-6 py-3 text-sm font-semibold text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#C2410C] motion-reduce:transition-none"
             whileHover={shouldReduceMotion ? undefined : { scale: 1.03 }}
             whileTap={shouldReduceMotion ? undefined : { scale: 0.97 }}
             transition={{ duration: 0.15 }}
@@ -69,7 +69,7 @@ export default function Hero() {
           </motion.a>
           <a
             href="#audit-report"
-            className="text-sm font-normal text-zinc-500 underline underline-offset-2 focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#C2410C] rounded-sm hover:text-zinc-900"
+            className="text-sm font-normal text-zinc-500 underline underline-offset-2 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#C2410C] rounded-sm hover:text-zinc-900"
           >
             Read the full disclosure
           </a>

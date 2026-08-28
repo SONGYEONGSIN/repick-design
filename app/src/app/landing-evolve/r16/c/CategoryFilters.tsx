@@ -32,8 +32,8 @@ export default function CategoryFilters({
             onClick={() => onToggle(cat)}
             className={
               isActive
-                ? "inline-flex items-center gap-1.5 rounded-full border border-[#0369a1] bg-[#f0f9ff] px-3 py-1.5 text-[13px] font-medium text-[#0369a1] transition-colors focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#0369a1]"
-                : "inline-flex items-center gap-1.5 rounded-full border border-zinc-200 bg-white px-3 py-1.5 text-[13px] font-medium text-zinc-600 transition-colors hover:border-zinc-300 focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#0369a1]"
+                ? "inline-flex items-center gap-1.5 rounded-full border border-[#0369a1] bg-[#f0f9ff] px-3 py-1.5 text-[13px] font-medium text-[#0369a1] transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#0369a1]"
+                : "inline-flex items-center gap-1.5 rounded-full border border-zinc-200 bg-white px-3 py-1.5 text-[13px] font-medium text-zinc-600 transition-colors hover:border-zinc-300 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#0369a1]"
             }
           >
             <Icon className="h-3.5 w-3.5" aria-hidden="true" />

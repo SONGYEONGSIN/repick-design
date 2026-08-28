@@ -55,7 +55,7 @@ export default function ClosingCta({ category }: ClosingCtaProps) {
 
           <motion.a
             href="#verified-now"
-            className="mt-7 inline-flex items-center gap-2 rounded-full bg-[#C2410C] px-6 py-3 text-sm font-semibold text-white focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#C2410C] motion-reduce:transition-none"
+            className="mt-7 inline-flex items-center gap-2 rounded-full bg-[#C2410C] px-6 py-3 text-sm font-semibold text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#C2410C] motion-reduce:transition-none"
             whileHover={shouldReduceMotion ? undefined : { scale: 1.03 }}
             whileTap={shouldReduceMotion ? undefined : { scale: 0.97 }}
             transition={{ duration: 0.15 }}

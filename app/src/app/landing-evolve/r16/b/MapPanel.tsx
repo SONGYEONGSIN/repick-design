@@ -147,7 +147,7 @@ export default function MapPanel({
           value={radiusKm}
           onChange={(e) => onRadiusChange(Number(e.target.value))}
           aria-valuetext={`${formatRadius(radiusKm)} kilometers`}
-          className="mt-2 h-2 w-full cursor-pointer appearance-none rounded-full bg-zinc-800 focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#a3e635] [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:border-2 [&::-webkit-slider-thumb]:border-[#0B0B0F] [&::-webkit-slider-thumb]:bg-lime-400 [&::-moz-range-thumb]:h-4 [&::-moz-range-thumb]:w-4 [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:border-2 [&::-moz-range-thumb]:border-[#0B0B0F] [&::-moz-range-thumb]:bg-lime-400"
+          className="mt-2 h-2 w-full cursor-pointer appearance-none rounded-full bg-zinc-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#a3e635] [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:border-2 [&::-webkit-slider-thumb]:border-[#0B0B0F] [&::-webkit-slider-thumb]:bg-lime-400 [&::-moz-range-thumb]:h-4 [&::-moz-range-thumb]:w-4 [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:border-2 [&::-moz-range-thumb]:border-[#0B0B0F] [&::-moz-range-thumb]:bg-lime-400"
         />
         <div className="mt-1 flex justify-between text-[10px] tabular-nums text-zinc-400">
           <span>{RADIUS_MIN} km</span>
@@ -164,7 +164,7 @@ export default function MapPanel({
               type="button"
               onClick={() => onRadiusChange(preset.km)}
               aria-pressed={active}
-              className={`rounded-full border px-3 py-1.5 text-[12px] font-medium transition-colors focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#a3e635] ${
+              className={`rounded-full border px-3 py-1.5 text-[12px] font-medium transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#a3e635] ${
                 active
                   ? "border-lime-400 bg-lime-400/10 text-lime-300"
                   : "border-zinc-700 text-zinc-300 hover:border-zinc-500"
