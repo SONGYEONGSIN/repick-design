@@ -21,7 +21,7 @@ function ShowcaseTile({ work, duplicate }: { work: Work; duplicate: boolean }) {
   return (
     <li aria-hidden={duplicate || undefined} className="shrink-0">
       <a href={`/gallery/${work.id}`} tabIndex={duplicate ? -1 : 0}
-        className="relative block h-[200px] w-[320px] overflow-hidden rounded-xl border border-zinc-200 bg-white transition duration-200 hover:-translate-y-0.5 hover:border-zinc-400 hover:shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-900 focus-visible:ring-offset-2">
+        className="relative block h-[200px] w-[320px] overflow-hidden rounded-xl border border-zinc-200 bg-white transition duration-200 hover:-translate-y-0.5 hover:border-zinc-400 hover:shadow-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zinc-900">
         <span aria-hidden="true" className="absolute inset-0 block">
           {mobile ? (
             <iframe src={work.route} loading="lazy" tabIndex={-1} title=""

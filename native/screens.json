@@ -49,5 +49,11 @@
   },
   "payout": {
     "check": "Withdraw funds"
+  },
+  "wallet": {
+    "check": "Wallet"
+  },
+  "storefront": {
+    "check": "Active Listings"
   }
 }

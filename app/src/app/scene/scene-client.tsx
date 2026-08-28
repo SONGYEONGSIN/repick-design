@@ -132,7 +132,7 @@ export default function SceneClient() {
             {/* The two section links drop below `sm` — they are anchors to bands the reader scrolls
                 through anyway, so nothing becomes unreachable. The one destination that is not
                 reachable by scrolling keeps its place at every width. */}
-            <Link href="/gallery" className={`${MARK} ${PILL} ${FOCUS}`}>
+            <Link href="/" className={`${MARK} ${PILL} ${FOCUS}`}>
               Specimen
             </Link>
           </nav>
@@ -315,7 +315,7 @@ export default function SceneClient() {
                 {n.label}
               </a>
             ))}
-            <Link href="/gallery" className={`${MARK} ${MUTED} rounded transition-colors hover:text-white ${FOCUS}`}>
+            <Link href="/" className={`${MARK} ${MUTED} rounded transition-colors hover:text-white ${FOCUS}`}>
               Specimen
             </Link>
           </nav>

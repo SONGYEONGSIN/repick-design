@@ -21,6 +21,7 @@ tags: [index]
 - [[brief-careers]] — 타입 프로파일 `careers` (**오픈 롤 상시노출** 하드 기준, 보상은 입력 축·계산 방식을 먼저 정한다, 인터랙션 최소 3종)
 - [[curation-criteria]] — 지식 정제 meta-기준 (L1~L3 레벨·승격 규칙)
 - [[questions-queue]] — 정제 게이트 질문 큐 (대기/아카이브)
+- [[reassign-queue]] — 재배정 큐 (형태가 아니라 규칙 위반으로 탈락한 후보의 형태 — 다음 라운드가 읽는다)
 - [[MEMORY]] — 학습 인덱스 (200줄 cap)
 
 ## 원장 (30-ledger — append-only 로그층)
@@ -45,11 +46,17 @@ tags: [index]
 - [[motion.catalog]] — 모션 패턴 16종 강도 티어 (dash 절제 / landing 적극, framer-motion·CSS 재해석)
 
 ## 세대 기록 (20-generations — 라운드별 DECISION, evolve 브랜치에서 누적)
-- [[20-generations/2026-08-20-auto-dash-r17/DECISION|2026-08-20-auto-dash-r17]]
+- [[20-generations/2026-08-28-auto-native-r15/DECISION|2026-08-28-auto-native-r15]] (native 15라운드째 — 무인 2연속 실행의 2라운드째, PAGE_TYPES 미채움 0 → dash/native 난수(landing은 1라운드째에 이미 소진해 제외)에서 native 당첨 — 3렌즈 1-1-1 완전동률(렌즈1=b·렌즈2=c·렌즈3=a) → curation-criteria tie-break 예외 2번째 독립 재현(r13과 동형: 렌즈3이 렌즈1 1위 b를 최하위 판정 → b 제외 → 렌즈1 재적용 a>c) → 승자 a(Seller Storefront, 판매자 공개 프로필). b(Bundle Offer Builder)는 §3 상태기계를 유일하게 완전구현했으나 화면명이 약속한 협상 메커니즘 부재로 렌즈3 최하위 · c(Safe-Exchange Location Picker)는 렌즈2 1위였으나 §3 절반만 구현. 3후보 전원 12/12 게이트 1차 클린. 신규 delta: 화면명이 함의하는 핵심 메커니즘(협상 등)을 실제로 안 배선하면 스캐폴딩이 정교해도 렌즈3이 얕은 재탕으로 강등)
+- [[20-generations/2026-08-28-auto-landing-r16/DECISION|2026-08-28-auto-landing-r16]] (landing 16라운드째 — 무인 2연속 실행의 1라운드째, PAGE_TYPES 미채움 0 → dash/landing/native 난수에서 landing 당첨 — 승자 c(AI Redline, 트랙-체인지 리드라인 히어로), 2:1 다수결(렌즈1=c·렌즈2=c·렌즈3=b). a(Quarterly Disclosure)는 reassign-queue #2 소비(auto-landing-r14/c aria-label 수정 반영, 규칙위반 없이 순수 경합 패배 — 큐 아카이브 이동)·b(Comparables Radius, 렌즈3 1위 신규 아키타입)는 둘 다 정본 §Landing구조1(첫폴드 매물+증명) 위반으로 렌즈1·2 공통 감점. b의 Unsplash 이미지 파손은 샌드박스 아웃바운드 차단 환경 아티팩트(r12·r15 재현, DECISION에 정정). 3후보 전원 1차 게이트에서 focus 하드페일(오케스트레이터 GENERATE 프롬프트의 `outline-none`+`focus-visible:outline` 죽은 관용구 오지시가 원인) → 1-fix로 전원 통과, a11y 100. 신규 delta: 문서 트랙-체인지(redline)가 output-visualization 축의 3번째 검증 형태(데이터위젯·대화형에 이어) + "증명 카드는 히어로 다음 섹션이 아니라 히어로 컴포넌트 자체 안에 있어야 폴드 보장" 구조 교훈)
+- [[20-generations/2026-08-27-auto-dash-r21/DECISION|2026-08-27-auto-dash-r21]] (dash 21라운드째 — 무인 2연속 실행의 2라운드째, PAGE_TYPES 미채움 0 → dash/landing/native 난수에서 dash 재당첨. **이 세션에 Agent 서브에이전트 도구가 없어 GENERATE·JUDGE 전 단계를 세션 자신이 직접 순차 수행**(round 1과 동일 이탈, DECISION.md 상단에 명시) — 승자 a(Meridian, 보드/칸반 중심 지원 트리아지 콘솔 — 최근 라운드 미사용 매크로 버킷), 2:1 다수결(렌즈1=a·렌즈2=c·렌즈3=a). 3후보 전원 하드게이트 1차 클린(1-fix 루프 미소모) — b(Vantage, 마스터-디테일 벤더리스크 등록부)·c(Flowline, 히어로+단일예측차트 인라인스탯 변주)도 강력했으나 근소 차. 신규 delta: 보드/칸반 아키타입은 N열을 가로스크롤 아닌 CSS Grid(열별 독립 세로스크롤)로 전개하면 `overflow-x-auto`를 아예 안 써도 돼 r20/a 결함 클래스(두 개의 독립 넓은 스크롤러 상호작용) 자체가 발생할 수 없음 — L1 적재, r20/a와 클러스터링 검토 결과 재현 아닌 인접 예방 교훈으로 판정)
+- [[20-generations/2026-08-27-auto-dash-r20/DECISION|2026-08-27-auto-dash-r20]] (dash 20라운드째 — 무인 실행, PAGE_TYPES 미채움 0 → dash 당첨. **이 세션에 Agent 서브에이전트 도구가 없어 GENERATE·JUDGE 전 단계를 세션 자신이 직접 순차 수행**(DECISION.md 상단에 편차 명시) — 승자 c(Lockstep, 피드중심 배포콘솔+SLO 불릿그리드), 2:1 다수결(렌즈1=c·렌즈2=b·렌즈3=c). a(Ridge, 코호트 삼각행렬+기준행고정)는 reassign-queue #2 소비(auto-dash-r18/c 영문 재구현) — 규칙위반 없이 순수 경합 패배, 큐는 아카이브 이동. 신규 delta: 한 페이지에 독립된 두 개의 넓은 overflow-x-auto 스크롤러가 공존하면 각각은 정상 클리핑돼도 390px에서 documentElement.scrollWidth가 부풀 수 있음을 A/B 토글로 격리 확인(근본원인 미특정, 퍼센트컬럼 table-fixed 교체로 해소) — L1 적재)
+- [[20-generations/2026-08-26-auto-dash-r19/DECISION|2026-08-26-auto-dash-r19]] (dash 19라운드째 — 무인 2연속 라운드의 2라운드째, native(1라운드) 제외 후 dash/landing 난수에서 dash 당첨 — 승자 b(Cadence, 로드맵/간트 생산라인 스케줄), 2:1 다수결(렌즈1=b·렌즈2=c·렌즈3=b) — a(Corridor, 캘린더/보드)는 1-fix 후에도 a11y color-contrast 재발로 탈락, 생존 2개(b/c)로 판정. 신규 delta: r17/r18의 "단일 재인코딩 빌더" 처방을 문자 그대로 따라도(c) 선택→전면재계산이면 여전히 관습적 master-detail로 읽힌다 — 선택 파급범위를 부분재계산/비영속반응으로 분리하는 것이 진짜 차별화축. GENERATE 단계 banList 실측으로 grotesk 회피)
+- [[20-generations/2026-08-26-auto-native-r14/DECISION|2026-08-26-auto-native-r14]] (native 14라운드째 — 무인 2연속 라운드의 1라운드째, 미채움 큐 0 → dash/landing/native 난수에서 native 당첨 — 승자 c — Wallet & Transaction History(잔액 상시노출+필터가능 거래원장), 3파전 완전 동률(렌즈1=b·렌즈2=a·렌즈3=c) → curation-criteria tie-break 예외 적용(렌즈3이 렌즈1 1위 b를 최하위 판정 → b 제외 → 렌즈1 재적용 c>a) — 신규 델타: no-op Pressable 자체는 정당한 자리표시자이나 실제로 안 일어나는 동작을 accessibilityHint로 약속하면 안 된다(`auto-native-r8` delta 정교화, c의 Withdraw 버튼 사례) — 렌즈1이 a에서 하드코딩 hex 2건 지적(게이트 미검출 — 기존 Q34 native 게이트 격차 재확인, 신규 질문 미등재) — 3후보 전원 12/12 게이트 1차 통과)
 - [[20-generations/2026-08-20-auto-landing-r13/DECISION|2026-08-20-auto-landing-r13]]
 - [[20-generations/2026-08-19-auto-landing-r12/DECISION|2026-08-19-auto-landing-r12]]
 - [[20-generations/2026-08-19-auto-native-r10/DECISION|2026-08-19-auto-native-r10]]
 - [[20-generations/2026-08-18-auto-dash-r16/DECISION|2026-08-18-auto-dash-r16]]
+- [[20-generations/2026-08-20-auto-dash-r17/DECISION|2026-08-20-auto-dash-r17]]
 - [[20-generations/2026-08-18-auto-native-r8/DECISION|2026-08-18-auto-native-r8]]
 - [[20-generations/2026-08-16-auto-native-r7/DECISION|2026-08-16-auto-native-r7]]
 - [[20-generations/2026-08-16-auto-dash-r15/DECISION|2026-08-16-auto-dash-r15]]

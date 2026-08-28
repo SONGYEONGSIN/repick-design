@@ -16,15 +16,15 @@ export default function DetailClient({ work, spec, similar }: { work: Work; spec
     <div className="min-h-screen bg-white text-zinc-900">
       <main className="mx-auto max-w-5xl px-6 py-12 md:px-10">
         <div className="flex items-center justify-between gap-4">
-          <nav className="font-mono text-[11px] uppercase tracking-[0.2em] text-zinc-400">
-            <Link href="/gallery" className="hover:text-zinc-700">{d.home}</Link>
+          <nav className="font-mono text-[11px] uppercase tracking-[0.2em] text-zinc-500">
+            <Link href="/" className="hover:text-zinc-700">{d.home}</Link>
             <span className="px-1.5">/</span>
             <span className="text-zinc-600">{categoryLabel(work.category, lang)}</span>
           </nav>
           <div role="group" aria-label={t.langLabel} className="inline-flex shrink-0 rounded-lg border border-zinc-200 p-0.5">
             {(["en", "ko"] as const).map((l) => (
               <button key={l} type="button" aria-pressed={lang === l} onClick={() => pickLang(l)}
-                className={`h-7 rounded-md px-2.5 text-xs font-semibold uppercase transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-900 ${lang === l ? "bg-zinc-900 text-white" : "text-zinc-500 hover:text-zinc-800"}`}>
+                className={`h-7 rounded-md px-2.5 text-xs font-semibold uppercase transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zinc-900 ${lang === l ? "bg-zinc-900 text-white" : "text-zinc-500 hover:text-zinc-800"}`}>
                 {l}
               </button>
             ))}
@@ -39,7 +39,7 @@ export default function DetailClient({ work, spec, similar }: { work: Work; spec
           <div className="flex flex-wrap items-center gap-2">
             {spec && <SpecActions work={work} spec={spec} d={d} />}
             <a href={work.route} target="_blank" rel="noreferrer"
-              className="shrink-0 rounded-lg bg-zinc-900 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-zinc-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-900 focus-visible:ring-offset-2">
+              className="shrink-0 rounded-lg bg-zinc-900 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-zinc-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zinc-900">
               {d.viewLive}
             </a>
           </div>
@@ -116,7 +116,7 @@ function CopyButton({ text, d }: { text: string; d: (typeof STRINGS)["en"]["deta
   return (
     <button type="button"
       onClick={() => { navigator.clipboard?.writeText(text); setDone(true); setTimeout(() => setDone(false), 1200); }}
-      className="rounded-md border border-zinc-200 px-2 py-0.5 text-[11px] font-semibold text-zinc-600 transition-colors hover:border-zinc-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-900">
+      className="rounded-md border border-zinc-200 px-2 py-0.5 text-[11px] font-semibold text-zinc-600 transition-colors hover:border-zinc-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zinc-900">
       {done ? d.copied : d.copy}
     </button>
   );
@@ -169,11 +169,11 @@ function SpecActions({ work, spec, d }: { work: Work; spec: WorkSpec; d: (typeof
   return (
     <>
       <button type="button" onClick={copy}
-        className="shrink-0 rounded-lg border border-zinc-300 px-4 py-2 text-sm font-semibold text-zinc-800 transition-colors hover:border-zinc-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-900 focus-visible:ring-offset-2">
+        className="shrink-0 rounded-lg border border-zinc-300 px-4 py-2 text-sm font-semibold text-zinc-800 transition-colors hover:border-zinc-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zinc-900">
         {copied ? d.copied : d.copyDesignMd}
       </button>
       <button type="button" onClick={download}
-        className="shrink-0 rounded-lg px-3 py-2 text-sm font-semibold text-zinc-500 transition-colors hover:text-zinc-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-900">
+        className="shrink-0 rounded-lg px-3 py-2 text-sm font-semibold text-zinc-500 transition-colors hover:text-zinc-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zinc-900">
         {d.downloadMd}
       </button>
     </>
