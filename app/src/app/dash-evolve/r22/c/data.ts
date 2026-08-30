@@ -290,7 +290,7 @@ const AUG_DAYS_30 = Array.from({ length: 30 }, (_, i) => `Aug ${i + 1}`);
 
 /** Splits a period into the chart's time buckets. */
 export function bucketsFor(period: PeriodDef): Bucket[] {
-  const { startDay, endDay } = periodRange(period);
+  const { startDay } = periodRange(period);
 
   if (period.id === "7d") {
     const labels = AUG_DAYS_30.slice(23, 30);

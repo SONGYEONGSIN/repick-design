@@ -311,6 +311,7 @@ export function SelectPopover({
         ref={triggerRef}
         id={id}
         type="button"
+        role="combobox"
         aria-haspopup="listbox"
         aria-expanded={open}
         aria-controls={`${id}-list`}

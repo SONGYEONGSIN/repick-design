@@ -2,7 +2,7 @@
 
 import { ChevronRight, Database, Globe, KeyRound, Settings2, ShieldCheck, UserCog } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
-import { Fragment } from "react";
+import { Fragment, useMemo } from "react";
 import { actorById, dayKey, formatDayLabel, formatTime, type AuditEvent } from "./data";
 import {
   BORDER,
@@ -51,7 +51,17 @@ export default function EventStream({
   onClearFilters: () => void;
   filtered: boolean;
 }) {
-  let lastDay = "";
+  // Derived up front (not mutated during the render walk below) — each entry knows whether it opens
+  // a new day divider by comparing to the previous event in the same pass, so the render loop only
+  // ever reads this precomputed array.
+  const withDividers = useMemo(
+    () =>
+      events.map((ev, i) => ({
+        event: ev,
+        showDivider: i === 0 || dayKey(ev.ts) !== dayKey(events[i - 1].ts),
+      })),
+    [events],
+  );
 
   return (
     <div>
@@ -78,12 +88,9 @@ export default function EventStream({
         </div>
       ) : (
         <ol className="relative max-h-[720px] overflow-y-auto pr-1 [scrollbar-width:thin]">
-          {events.map((ev, i) => {
+          {withDividers.map(({ event: ev, showDivider }, i) => {
             const actor = actorById(ev.actorId);
             const Icon = CATEGORY_ICON[ev.category];
-            const dk = dayKey(ev.ts);
-            const showDivider = dk !== lastDay;
-            lastDay = dk;
             const isLast = i === events.length - 1;
 
             return (
@@ -103,7 +110,6 @@ export default function EventStream({
                   <button
                     type="button"
                     onClick={() => onOpenEvent(ev)}
-                    aria-label={`${ev.summary}. ${SEVERITY_LABEL[ev.severity]} severity, ${OUTCOME_LABEL[ev.outcome]}. Actor ${actor.name}, at ${formatTime(ev.ts)}. Resource ${ev.resource}. From ${ev.ip}, ${ev.location}. Press Enter to open the event inspector.`}
                     className={cx(
                       "group relative mb-2 min-w-0 flex-1 rounded-xl border px-3.5 py-3 text-left",
                       BORDER_SOFT,
@@ -137,9 +143,18 @@ export default function EventStream({
                       <span className="min-w-0 max-w-full truncate">{ev.resource}</span>
                     </div>
 
+                    {/* Accessible name comes entirely from visible content above (time, summary,
+                        severity, outcome, actor, resource) — no aria-label override, so there is no
+                        risk of the announced name drifting from what's on screen. This sr-only span
+                        appends the same IP/location/request-id detail shown in the hover card below,
+                        so screen reader users get it too without duplicating it visually. */}
+                    <span className="sr-only">
+                      {`From ${ev.ip}, ${ev.location}. Request ${ev.requestId}.`}
+                    </span>
+
                     {/* Hover / keyboard-focus quick facts — purely additive, visual-only (the same
-                        information is already in this button's aria-label above), so it never
-                        changes accessible-name content and is safe to hide from assistive tech. */}
+                        information is already in the sr-only span above), so it never changes
+                        accessible-name content and is safe to hide from assistive tech. */}
                     <div
                       aria-hidden="true"
                       className={cx(
