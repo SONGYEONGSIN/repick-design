@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState, type ComponentType, type KeyboardEvent } from "react";
 import { Search, CornerDownLeft } from "lucide-react";
+import { FOCUS } from "./ui";
 
 export interface CommandItem {
   id: string;
@@ -89,7 +90,7 @@ export function CommandPalette({
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex justify-center bg-zinc-900/40 px-4 pt-[12vh]" role="presentation">
+    <div className="fixed inset-0 z-[60] flex justify-center bg-zinc-900/40 px-4 pt-[12vh]" role="presentation">
       <button aria-label="Close command palette" className="absolute inset-0" onClick={onClose} />
       <div
         ref={dialogRef}
@@ -129,7 +130,7 @@ export function CommandPalette({
                     type="button"
                     onMouseEnter={() => setActiveIndex(i)}
                     onClick={() => run(item)}
-                    className={`flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-left text-[13px] ${
+                    className={`flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-left text-[13px] ${FOCUS} ${
                       active ? "bg-teal-50 text-teal-800" : "text-zinc-700"
                     }`}
                   >

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState, type KeyboardEvent } from "react";
 import { Search, CornerDownLeft, X } from "lucide-react";
 import { CASES, STATUS_META, formatKrw } from "./data";
 import { Badge, FOCUS_LIGHT, cx } from "./ui";
@@ -31,7 +31,7 @@ export function CommandPalette({ onSelect, onClose }: { onSelect: (id: string) =
     setActiveIndex(0);
   }, [query]);
 
-  function onKeyDown(e: React.KeyboardEvent) {
+  function onKeyDown(e: KeyboardEvent) {
     if (e.key === "Escape") {
       onClose();
     } else if (e.key === "ArrowDown") {
