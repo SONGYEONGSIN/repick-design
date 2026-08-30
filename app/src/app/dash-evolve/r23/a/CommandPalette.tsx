@@ -27,9 +27,14 @@ export function CommandPalette({ onSelect, onClose }: { onSelect: (id: string) =
     );
   }, [query]);
 
-  useEffect(() => {
+  // Reset activeIndex when query changes, during render (not in an effect) — the documented React
+  // pattern for "adjust state when a value changes" that avoids react-hooks/set-state-in-effect and
+  // the extra-render cascade a setState-in-useEffect would otherwise cause.
+  const [prevQuery, setPrevQuery] = useState(query);
+  if (query !== prevQuery) {
+    setPrevQuery(query);
     setActiveIndex(0);
-  }, [query]);
+  }
 
   function onKeyDown(e: KeyboardEvent) {
     if (e.key === "Escape") {
