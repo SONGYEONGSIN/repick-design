@@ -67,7 +67,7 @@ export function QueryBar({
         <SelectPopover
           id="qb-metric"
           label="Metric"
-          icon={<BarChart3 size={16} className="shrink-0 text-zinc-500" aria-hidden="true" />}
+          icon={<BarChart3 size={16} className="shrink-0 text-zinc-400" aria-hidden="true" />}
           value={metric}
           options={metricOptions}
           onChange={(id) => onMetric(id as MetricId)}
@@ -82,7 +82,7 @@ export function QueryBar({
         <SelectPopover
           id="qb-dimension"
           label="Break down by"
-          icon={<Layers size={16} className="shrink-0 text-zinc-500" aria-hidden="true" />}
+          icon={<Layers size={16} className="shrink-0 text-zinc-400" aria-hidden="true" />}
           value={dimension}
           options={dimensionOptions}
           onChange={(id) => onDimension(id as DimensionId)}
@@ -94,7 +94,7 @@ export function QueryBar({
         />
       </div>
       <div className="col-span-12 lg:col-span-4">
-        <span className="mb-1.5 block text-[11px] font-medium uppercase tracking-wide text-zinc-500">Period</span>
+        <span className="mb-1.5 block text-[11px] font-medium uppercase tracking-wide text-zinc-400">Period</span>
         <Segmented ariaLabel="Period" options={periodOptions} value={period} onChange={onPeriod} />
       </div>
       <div className="col-span-12 flex justify-start lg:col-span-2 lg:justify-end">

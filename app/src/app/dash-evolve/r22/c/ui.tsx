@@ -1,6 +1,7 @@
 "use client";
 
-import type { KeyboardEvent, ReactNode, RefObject } from "react";
+import { useEffect, useRef, useState } from "react";
+import type { KeyboardEvent as ReactKeyboardEvent, ReactNode, RefObject } from "react";
 import { Check, ChevronDown, TrendingDown, TrendingUp } from "lucide-react";
 
 /**
@@ -152,7 +153,7 @@ export function Segmented<T extends string>({
             role="radio"
             aria-checked={selected}
             onClick={() => onChange(opt.id)}
-            className={`h-9 rounded-md px-3 text-[13px] font-medium transition-colors ${FOCUS_RING} ${
+            className={`h-9 rounded-md px-3 text-[13px] font-medium transition-colors motion-reduce:transition-none ${FOCUS_RING} ${
               selected ? "bg-white/10 text-zinc-50" : "text-zinc-400 hover:text-zinc-100"
             }`}
           >
@@ -200,6 +201,30 @@ export function Tabs<T extends string>({
       })}
     </div>
   );
+}
+
+/** Self-contained open/close state for a small chrome popover (workspace switcher, avatar menu, notifications). */
+export function useDismissablePopover<T extends HTMLElement>() {
+  const [open, setOpen] = useState(false);
+  const ref = useRef<T>(null);
+
+  useEffect(() => {
+    if (!open) return;
+    function onPointerDown(e: PointerEvent) {
+      if (!ref.current?.contains(e.target as Node)) setOpen(false);
+    }
+    function onKeyDown(e: KeyboardEvent) {
+      if (e.key === "Escape") setOpen(false);
+    }
+    document.addEventListener("pointerdown", onPointerDown);
+    document.addEventListener("keydown", onKeyDown);
+    return () => {
+      document.removeEventListener("pointerdown", onPointerDown);
+      document.removeEventListener("keydown", onKeyDown);
+    };
+  }, [open]);
+
+  return { open, setOpen, ref } as const;
 }
 
 export interface SelectOption {
@@ -254,7 +279,7 @@ export function SelectPopover({
     triggerRef.current?.focus();
   }
 
-  function onKeyDown(e: KeyboardEvent<HTMLButtonElement>) {
+  function onKeyDown(e: ReactKeyboardEvent<HTMLButtonElement>) {
     if (!open) {
       if (e.key === "ArrowDown" || e.key === "Enter" || e.key === " ") {
         e.preventDefault();
@@ -281,7 +306,7 @@ export function SelectPopover({
 
   return (
     <div className="relative min-w-0">
-      <span className="mb-1.5 block text-[11px] font-medium uppercase tracking-wide text-zinc-500">{label}</span>
+      <span className="mb-1.5 block text-[11px] font-medium uppercase tracking-wide text-zinc-400">{label}</span>
       <button
         ref={triggerRef}
         id={id}
@@ -296,7 +321,11 @@ export function SelectPopover({
       >
         {icon}
         <span className="min-w-0 flex-1 truncate">{selected?.label ?? "Select…"}</span>
-        <ChevronDown size={16} className={`shrink-0 text-zinc-500 transition-transform ${open ? "rotate-180" : ""}`} aria-hidden="true" />
+        <ChevronDown
+          size={16}
+          className={`shrink-0 text-zinc-400 transition-transform motion-reduce:transition-none ${open ? "rotate-180" : ""}`}
+          aria-hidden="true"
+        />
       </button>
       {open && (
         <ul
@@ -323,7 +352,7 @@ export function SelectPopover({
               >
                 <span className="flex min-w-0 flex-col">
                   <span className="truncate font-medium">{opt.label}</span>
-                  {opt.meta && <span className="truncate text-[11px] font-normal text-zinc-500">{opt.meta}</span>}
+                  {opt.meta && <span className="truncate text-[11px] font-normal text-zinc-400">{opt.meta}</span>}
                 </span>
                 {isSelected && <Check size={14} className="shrink-0 text-[#5b9bec]" aria-hidden="true" />}
               </li>

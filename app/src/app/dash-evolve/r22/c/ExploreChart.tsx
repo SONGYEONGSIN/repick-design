@@ -11,7 +11,7 @@ import {
   type TableRow,
 } from "./data";
 import { CATEGORICAL } from "./tokens";
-import { Badge, DeltaChip } from "./ui";
+import { Badge, DeltaChip, FOCUS_RING } from "./ui";
 
 const BAR_GAP = 3;
 const TARGET_WIDTH = 880;
@@ -75,16 +75,16 @@ export function ExploreChart({
     <div>
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div>
-          <p className="text-[11px] font-medium uppercase tracking-wide text-zinc-500">
+          <h2 className="text-[11px] font-medium uppercase tracking-wide text-zinc-400">
             {metric.label} · {dimension.label} · {period.label}
-          </p>
+          </h2>
           <div className="mt-1 flex flex-wrap items-baseline gap-3">
             <span className="[font-family:var(--font-display-mono)] text-3xl font-semibold tabular-nums text-zinc-50 sm:text-4xl">
               {formatByUnit(headline.value, metric.unit)}
             </span>
             <DeltaChip deltaPct={headline.deltaPct} isGood={headline.isGood} />
           </div>
-          <p className="mt-1 text-xs font-normal text-zinc-500">
+          <p className="mt-1 text-xs font-normal text-zinc-400">
             vs {formatByUnit(headline.priorValue, metric.unit)} prior {period.label.toLowerCase()}
           </p>
         </div>
@@ -214,7 +214,7 @@ export function ExploreChart({
                   metric.additive ? bucketTotals[i] : bucketBlended[i],
                   metric.unit,
                 )}`}
-                className="h-full outline-none focus-visible:bg-white/5"
+                className={`h-full rounded-sm focus-visible:bg-white/5 ${FOCUS_RING}`}
                 style={{ width: markWidth, marginRight: i === buckets.length - 1 ? 0 : BAR_GAP }}
                 onMouseEnter={() => setActiveIndex(i)}
                 onMouseLeave={() => setActiveIndex((cur) => (cur === i ? null : cur))}
@@ -237,7 +237,7 @@ export function ExploreChart({
                     top: PLOT_H + AXIS_H + 8,
                   }}
                 >
-                  <p className="text-[11px] font-medium uppercase tracking-wide text-zinc-500">{active.fullLabel}</p>
+                  <p className="text-[11px] font-medium uppercase tracking-wide text-zinc-400">{active.fullLabel}</p>
                   <ul className="mt-1.5 space-y-1">
                     {rows.map((row, ri) => (
                       <li key={row.category.id} className="flex items-center justify-between gap-2 text-xs">
