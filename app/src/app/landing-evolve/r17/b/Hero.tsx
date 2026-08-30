@@ -157,7 +157,9 @@ export default function Hero({ active, onToggle, selectedId, onSelect }: HeroPro
                 </span>
                 <div className="min-w-0">
                   <p className="truncate text-[15px] font-semibold text-white">{listing.name}</p>
-                  <p className="text-[12px] text-zinc-400">{listing.categoryLabel}</p>
+                  <p className="truncate text-[12px] text-zinc-400">
+                    {listing.categoryLabel} · {listing.conditionGrade}
+                  </p>
                 </div>
               </div>
               <div className="shrink-0 text-right">
