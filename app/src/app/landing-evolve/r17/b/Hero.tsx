@@ -105,7 +105,7 @@ export default function Hero({ active, onToggle, selectedId, onSelect }: HeroPro
                 );
               })}
             </div>
-            <p className="mt-3 max-w-[480px] text-[13px] leading-[1.55] text-zinc-400">
+            <p className="mt-3 max-w-[400px] text-[13px] leading-[1.55] text-zinc-400">
               Each check carries its own weight in the trust score below — authenticity counts
               for more than seller history. Turn checks off to see how the verdict shifts.
             </p>
