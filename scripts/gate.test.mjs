@@ -1,3 +1,6 @@
+import { mkdtempSync, mkdirSync, writeFileSync, rmSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import {
@@ -646,4 +649,26 @@ test('filesForRoute — 잎 라우트의 스코프는 그대로다', () => {
   // 회귀 방지. 자식 라우트 제외 규칙이 잎 라우트의 하위 폴더(컴포넌트·data)를 잘라내면 안 된다.
   assert.ok(filesForRoute('/dash/d29').length >= 20);
   assert.ok(filesForRoute('/v12').length >= 10);
+});
+
+test('filesForRoute — 아직 page.tsx 를 안 쓴 미완성 라우트도 경계로 본다', () => {
+  // 2026-08-30 실사고: 진행 중이던 `dash-evolve/r22/c` 가 아직 `page.tsx` 를 안 쓴 상태였고,
+  // "직속 page.tsx" 기준으로는 라우트 경계가 아니라서 그 파일들이 **`/` 의 스코프로 샜다**
+  // (`/` 는 앱 루트로 풀리므로 미완성 후보를 전부 빨아들인다). 기준을 "아래 어딘가에 라우트가
+  // 있는가"로 바꿔 고쳤다. 실제 트리로만 검증하면 라운드가 끝나는 순간 이 케이스가 사라져
+  // 테스트가 우연히 통과하므로, 픽스처로 고정한다.
+  const root = mkdtempSync(join(tmpdir(), 'gate-route-'));
+  mkdirSync(join(root, 'sub', 'done'), { recursive: true });
+  mkdirSync(join(root, 'sub', 'wip'), { recursive: true });
+  mkdirSync(join(root, 'components'), { recursive: true });
+  writeFileSync(join(root, 'page.tsx'), 'export default function P(){return null}');
+  writeFileSync(join(root, 'layout.tsx'), 'export default function L(){return null}');
+  writeFileSync(join(root, 'components', 'Widget.tsx'), 'export const W = 1;');
+  writeFileSync(join(root, 'sub', 'done', 'page.tsx'), 'export default function P(){return null}');
+  writeFileSync(join(root, 'sub', 'wip', 'ui.tsx'), 'export const U = 1;');   // 아직 page.tsx 없음
+
+  const files = filesForRoute('/', root).map((f) => f.slice(root.length + 1)).sort();
+  assert.deepEqual(files, ['components/Widget.tsx', 'layout.tsx', 'page.tsx'],
+    'colocated components/ 는 남고, page.tsx 가 아래 어딘가 있는 sub/ 는 통째로 빠진다');
+  rmSync(root, { recursive: true, force: true });
 });
