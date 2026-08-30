@@ -117,7 +117,7 @@ export default function Hero({ active, onToggle, selectedId, onSelect }: HeroPro
           <div
             role="group"
             aria-label="Choose a listing to inspect"
-            className="flex gap-2 overflow-x-auto pb-1 [scrollbar-width:thin]"
+            className="flex gap-2 overflow-x-auto pb-1 [scrollbar-width:thin] sm:flex-wrap sm:overflow-visible sm:pb-0"
           >
             {LISTINGS.map((l) => {
               const s = computeScore(l, active);
