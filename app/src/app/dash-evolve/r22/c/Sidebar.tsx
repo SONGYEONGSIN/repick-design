@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import {
   Aperture,
   Bookmark,
@@ -27,8 +27,10 @@ const NAV_ITEMS = [
 ];
 
 function SidebarBody({ onNavigate }: { onNavigate?: () => void }) {
-  const workspace = useDismissablePopover<HTMLDivElement>();
-  const account = useDismissablePopover<HTMLDivElement>();
+  const workspaceRef = useRef<HTMLDivElement>(null);
+  const workspace = useDismissablePopover(workspaceRef);
+  const accountRef = useRef<HTMLDivElement>(null);
+  const account = useDismissablePopover(accountRef);
   const activeWorkspaceIndex = 0;
 
   return (
@@ -42,7 +44,7 @@ function SidebarBody({ onNavigate }: { onNavigate?: () => void }) {
         </span>
       </div>
 
-      <div ref={workspace.ref} className="relative border-b border-white/10 p-3">
+      <div ref={workspaceRef} className="relative border-b border-white/10 p-3">
         <button
           type="button"
           aria-haspopup="listbox"
@@ -93,7 +95,7 @@ function SidebarBody({ onNavigate }: { onNavigate?: () => void }) {
         })}
       </nav>
 
-      <div ref={account.ref} className="relative border-t border-white/10 p-3">
+      <div ref={accountRef} className="relative border-t border-white/10 p-3">
         {account.open && (
           <ul role="menu" aria-label="Account" className="absolute bottom-[calc(100%+4px)] left-3 right-3 z-30 rounded-lg border border-white/10 bg-zinc-900 py-1 shadow-xl shadow-black/40">
             <li role="none">

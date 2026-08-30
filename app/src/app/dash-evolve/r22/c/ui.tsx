@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import type { KeyboardEvent as ReactKeyboardEvent, ReactNode, RefObject } from "react";
 import { Check, ChevronDown, TrendingDown, TrendingUp } from "lucide-react";
 
@@ -203,10 +203,19 @@ export function Tabs<T extends string>({
   );
 }
 
-/** Self-contained open/close state for a small chrome popover (workspace switcher, avatar menu, notifications). */
-export function useDismissablePopover<T extends HTMLElement>() {
+/**
+ * Self-contained open/close state for a small chrome popover (workspace
+ * switcher, avatar menu, notifications). Takes the container ref as an
+ * argument — created locally via `useRef` in the caller, same as every other
+ * dismiss-on-outside-click spot in this candidate (QueryBar's `rootRef`,
+ * CommandPalette's `inputRef`) — rather than creating and returning one.
+ * A ref threaded through a hook's *return* object is exactly the shape that
+ * trips `react-hooks/refs`: only `open`/`setOpen` are safe to read in render,
+ * so only those come back from here, and the ref itself only ever flows into
+ * a JSX `ref={...}` attribute at the call site.
+ */
+export function useDismissablePopover<T extends HTMLElement>(ref: RefObject<T | null>) {
   const [open, setOpen] = useState(false);
-  const ref = useRef<T>(null);
 
   useEffect(() => {
     if (!open) return;
@@ -222,9 +231,9 @@ export function useDismissablePopover<T extends HTMLElement>() {
       document.removeEventListener("pointerdown", onPointerDown);
       document.removeEventListener("keydown", onKeyDown);
     };
-  }, [open]);
+  }, [open, ref]);
 
-  return { open, setOpen, ref } as const;
+  return { open, setOpen } as const;
 }
 
 export interface SelectOption {

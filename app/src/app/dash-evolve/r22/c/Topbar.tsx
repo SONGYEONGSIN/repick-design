@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { useRef } from "react";
 import { Bell, LogOut, Menu, Plus, Search, User } from "lucide-react";
 import { FOCUS_RING, useDismissablePopover } from "./ui";
 
@@ -18,8 +19,10 @@ export function Topbar({
   onOpenPalette: () => void;
   onNewQuestion: () => void;
 }) {
-  const notifications = useDismissablePopover<HTMLDivElement>();
-  const account = useDismissablePopover<HTMLDivElement>();
+  const notificationsRef = useRef<HTMLDivElement>(null);
+  const notifications = useDismissablePopover(notificationsRef);
+  const accountRef = useRef<HTMLDivElement>(null);
+  const account = useDismissablePopover(accountRef);
 
   return (
     <header className="sticky top-0 z-20 flex h-14 items-center gap-2 border-b border-white/10 bg-zinc-950/90 px-4 backdrop-blur sm:px-6">
@@ -60,7 +63,7 @@ export function Topbar({
           <Plus size={18} aria-hidden="true" />
         </button>
 
-        <div ref={notifications.ref} className="relative">
+        <div ref={notificationsRef} className="relative">
           <button
             type="button"
             aria-haspopup="true"
@@ -88,7 +91,7 @@ export function Topbar({
           )}
         </div>
 
-        <div ref={account.ref} className="relative">
+        <div ref={accountRef} className="relative">
           <button
             type="button"
             aria-haspopup="menu"
