@@ -114,12 +114,11 @@ export function Calendar({
               onBlur={() => setHoveredIso((h) => (h === day.iso ? null : h))}
               aria-pressed={isSelected}
               aria-current={isToday ? "date" : undefined}
-              aria-label={`${formatLong(day.c)}. ${tooltipText(day)}`}
-              className={`relative flex flex-col justify-between rounded-lg border p-2 text-left transition-colors ${FOCUS} ${
+              className={`relative flex min-w-0 flex-col justify-between rounded-lg border p-2 text-left transition-colors ${FOCUS} ${
                 tone.bg
               } ${isSelected ? "border-2 border-teal-700" : `border ${tone.ring}`} ${
-                inMonth ? "" : "opacity-45"
-              } ${viewMode === "week" ? "min-h-[148px] p-3" : "min-h-[86px]"}`}
+                viewMode === "week" ? "min-h-[148px] p-3" : "min-h-[86px]"
+              }`}
             >
               <div className="flex items-center justify-between">
                 {isToday ? (
@@ -127,7 +126,7 @@ export function Calendar({
                     {day.c.d}
                   </span>
                 ) : (
-                  <span className={`text-[13px] font-medium tabular-nums ${inMonth ? "text-zinc-900" : "text-zinc-400"}`}>
+                  <span className={`text-[13px] font-medium tabular-nums ${inMonth ? "text-zinc-900" : "text-zinc-600"}`}>
                     {day.c.d}
                   </span>
                 )}
@@ -136,22 +135,34 @@ export function Calendar({
 
               <div className="mt-1 flex items-baseline gap-1">
                 <span className={`font-semibold tabular-nums ${viewMode === "week" ? "text-[22px]" : "text-[16px]"} ${
-                  day.tier === "none" ? "text-zinc-300" : "text-zinc-900"
+                  day.tier === "none" ? "text-zinc-600" : "text-zinc-900"
                 }`}>
                   {day.tier === "none" ? "—" : day.pickupCount}
                 </span>
                 {day.tier !== "none" ? (
-                  <span className="hidden text-[10px] text-zinc-400 sm:inline">
+                  <span className="hidden text-[10px] text-zinc-600 sm:inline">
                     {day.pickupCount === 1 ? "pickup" : "pickups"}
                   </span>
                 ) : null}
               </div>
 
+              {/* Screen-reader-only context, placed after the visible day-number
+                  and count so the computed accessible name is those visible
+                  digits (verbatim) followed by the full sentence explaining
+                  them — never a separately-authored aria-label that duplicates
+                  the same facts in different wording/order (label-content-
+                  name-mismatch). Leads with the weekday/date, THEN restates
+                  what the visible numbers mean, so it reads sensibly rather
+                  than interleaving with "27" / "6" out of context. */}
+              <span className="sr-only">
+                {formatLong(day.c)}. {tooltipText(day)}
+              </span>
+
               <div className="mt-auto space-y-1 pt-1" aria-hidden>
-                {/* Purely decorative here — the button's own aria-label above
-                    already states the hours/capacity/tier for screen readers,
-                    so this bar and its text are hidden from the a11y tree to
-                    avoid a duplicate, out-of-order announcement. */}
+                {/* Purely decorative here — the sr-only span above already
+                    states the hours/capacity/tier for screen readers, so this
+                    bar and its text are hidden from the a11y tree to avoid a
+                    duplicate, out-of-order announcement. */}
                 <Progress value={day.hoursBooked} max={Math.max(day.capacityMax, 1)} barClassName={tone.bar} trackClassName="bg-white/70" />
                 <span className={`hidden truncate text-[10px] tabular-nums sm:block ${tone.text}`}>
                   {day.hoursBooked}h / {day.capacityMax}h

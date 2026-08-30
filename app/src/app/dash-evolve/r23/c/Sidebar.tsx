@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { useState, type ComponentType } from "react";
 import {
   LayoutDashboard,
@@ -17,8 +16,7 @@ import {
   ChevronDown,
   X,
 } from "lucide-react";
-import { Popover, PopoverItem, FOCUS } from "./ui";
-import { avatarUrl } from "./data";
+import { Popover, PopoverItem, FOCUS, Avatar } from "./ui";
 
 interface NavItem {
   label: string;
@@ -64,7 +62,7 @@ export function Sidebar({ open, onClose }: { open: boolean; onClose: () => void 
             <span className="text-[17px] font-medium text-zinc-900">repick</span>
             <span className="text-[11px] font-medium uppercase tracking-[0.08em] text-teal-700">ops</span>
           </div>
-          <button onClick={onClose} className={`rounded-md p-1.5 text-zinc-400 hover:bg-zinc-100 lg:hidden ${FOCUS}`} aria-label="Close navigation">
+          <button onClick={onClose} className={`rounded-md p-1.5 text-zinc-500 hover:bg-zinc-100 lg:hidden ${FOCUS}`} aria-label="Close navigation">
             <X className="h-4 w-4" />
           </button>
         </div>
@@ -80,15 +78,15 @@ export function Sidebar({ open, onClose }: { open: boolean; onClose: () => void 
                 aria-expanded={isOpen}
                 className={`flex h-11 w-full items-center gap-2.5 rounded-lg border border-zinc-200 px-3 text-left hover:bg-zinc-50 ${FOCUS}`}
               >
-                <Building2 className="h-4 w-4 shrink-0 text-zinc-400" aria-hidden />
+                <Building2 className="h-4 w-4 shrink-0 text-zinc-500" aria-hidden />
                 <span className="min-w-0 flex-1 truncate text-[13px] font-medium text-zinc-800">{workspace}</span>
-                <ChevronDown className="h-3.5 w-3.5 shrink-0 text-zinc-400" aria-hidden />
+                <ChevronDown className="h-3.5 w-3.5 shrink-0 text-zinc-500" aria-hidden />
               </button>
             )}
           >
             {(close) => (
               <div>
-                <p className="px-2.5 pb-1.5 pt-1 text-[11px] font-medium uppercase tracking-[0.08em] text-zinc-400">
+                <p className="px-2.5 pb-1.5 pt-1 text-[11px] font-medium uppercase tracking-[0.08em] text-zinc-500">
                   Switch workspace
                 </p>
                 {WORKSPACES.map((w) => (
@@ -138,18 +136,12 @@ export function Sidebar({ open, onClose }: { open: boolean; onClose: () => void 
                 aria-expanded={isOpen}
                 className={`flex h-12 w-full items-center gap-2.5 rounded-lg px-2 text-left hover:bg-zinc-50 ${FOCUS}`}
               >
-                <Image
-                  src={avatarUrl("repick-jordan-ahn", 64)}
-                  alt="Jordan Ahn avatar"
-                  width={32}
-                  height={32}
-                  className="h-8 w-8 shrink-0 rounded-full object-cover"
-                />
+                <Avatar name="Jordan Ahn" size={32} />
                 <span className="min-w-0 flex-1">
                   <span className="block truncate text-[13px] font-medium text-zinc-900">Jordan Ahn</span>
                   <span className="block truncate text-[11px] text-zinc-500">Logistics Ops Lead</span>
                 </span>
-                <ChevronDown className="h-3.5 w-3.5 shrink-0 text-zinc-400" aria-hidden />
+                <ChevronDown className="h-3.5 w-3.5 shrink-0 text-zinc-500" aria-hidden />
               </button>
             )}
           >

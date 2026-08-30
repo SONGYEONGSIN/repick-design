@@ -1,9 +1,7 @@
 "use client";
 
-import Image from "next/image";
 import { Menu, Search, Plus, Bell, User, SlidersHorizontal, LogOut, TriangleAlert, Clock } from "lucide-react";
-import { Popover, PopoverItem, Badge, FOCUS } from "./ui";
-import { avatarUrl } from "./data";
+import { Popover, PopoverItem, Badge, FOCUS, Avatar } from "./ui";
 
 export function Topbar({
   onOpenDrawer,
@@ -25,11 +23,11 @@ export function Topbar({
       <button
         type="button"
         onClick={onOpenPalette}
-        className={`flex h-11 w-full max-w-md items-center gap-2.5 rounded-lg border border-zinc-200 bg-zinc-50 px-3.5 text-left text-zinc-500 hover:border-zinc-300 hover:bg-white ${FOCUS}`}
+        className={`flex h-11 w-full min-w-0 max-w-md items-center gap-2.5 rounded-lg border border-zinc-200 bg-zinc-50 px-3.5 text-left text-zinc-500 hover:border-zinc-300 hover:bg-white ${FOCUS}`}
       >
         <Search className="h-4 w-4 shrink-0" aria-hidden />
         <span className="min-w-0 flex-1 truncate text-[13px]">Search pickups, sellers, inspectors…</span>
-        <kbd className="hidden shrink-0 rounded border border-zinc-300 bg-white px-1.5 py-0.5 text-[10.5px] font-medium text-zinc-400 sm:inline-block">
+        <kbd className="hidden shrink-0 rounded border border-zinc-300 bg-white px-1.5 py-0.5 text-[10.5px] font-medium text-zinc-500 sm:inline-block">
           ⌘K
         </kbd>
       </button>
@@ -69,21 +67,21 @@ export function Topbar({
         >
           {() => (
             <div>
-              <p className="px-2.5 pb-1.5 pt-1 text-[11px] font-medium uppercase tracking-[0.08em] text-zinc-400">
+              <p className="px-2.5 pb-1.5 pt-1 text-[11px] font-medium uppercase tracking-[0.08em] text-zinc-500">
                 Notifications
               </p>
               <div className="flex items-start gap-2.5 rounded-lg px-2.5 py-2">
                 <TriangleAlert className="mt-0.5 h-3.5 w-3.5 shrink-0 text-red-600" aria-hidden />
                 <div className="min-w-0">
                   <p className="text-[12.5px] text-zinc-800">Thu Sep 3 is at capacity — 38h / 40h booked.</p>
-                  <p className="text-[11px] text-zinc-400">12 min ago</p>
+                  <p className="text-[11px] text-zinc-500">12 min ago</p>
                 </div>
               </div>
               <div className="flex items-start gap-2.5 rounded-lg px-2.5 py-2">
                 <Clock className="mt-0.5 h-3.5 w-3.5 shrink-0 text-amber-600" aria-hidden />
                 <div className="min-w-0">
                   <p className="text-[12.5px] text-zinc-800">2 items flagged this week are awaiting re-grade.</p>
-                  <p className="text-[11px] text-zinc-400">1 hr ago</p>
+                  <p className="text-[11px] text-zinc-500">1 hr ago</p>
                 </div>
               </div>
               <div className="flex items-start gap-2.5 rounded-lg px-2.5 py-2">
@@ -106,13 +104,7 @@ export function Topbar({
               aria-expanded={isOpen}
               className={`flex h-11 w-11 items-center justify-center rounded-full hover:opacity-90 ${FOCUS}`}
             >
-              <Image
-                src={avatarUrl("repick-jordan-ahn", 64)}
-                alt="Jordan Ahn avatar"
-                width={32}
-                height={32}
-                className="h-8 w-8 rounded-full object-cover"
-              />
+              <Avatar name="Jordan Ahn" size={32} />
             </button>
           )}
         >

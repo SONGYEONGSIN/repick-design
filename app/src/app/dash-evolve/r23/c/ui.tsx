@@ -42,7 +42,7 @@ export function CardHeader({
   action?: ReactNode;
 }) {
   return (
-    <div className="mb-4 flex items-start justify-between gap-3">
+    <div className="mb-4 flex min-w-0 items-start justify-between gap-3">
       <div className="min-w-0">
         <h2 className="truncate text-[13px] font-semibold text-zinc-900">{title}</h2>
         {subtitle ? <p className="mt-0.5 truncate text-[12px] text-zinc-500">{subtitle}</p> : null}
@@ -79,6 +79,49 @@ export function Badge({
     >
       {dotClassName ? <span className={`h-1.5 w-1.5 shrink-0 rounded-full ${dotClassName}`} aria-hidden /> : null}
       {children}
+    </span>
+  );
+}
+
+// ---------------------------------------------------------------------------
+// Avatar — generated initials-on-color badge. Replaces what were previously
+// picsum.photos URLs (banned: uncontrolled/off-topic image content). Fully
+// deterministic (a simple string hash, no Math.random) and needs no network
+// request. Colors are drawn from hues already used elsewhere on the page so
+// this doesn't introduce a new part of the palette.
+// ---------------------------------------------------------------------------
+const AVATAR_PALETTE = ["#0f766e", "#0d9488", "#3f3f46", "#27272a", "#52525b"];
+
+function hashName(name: string): number {
+  let h = 0;
+  for (let i = 0; i < name.length; i++) h = (h * 31 + name.charCodeAt(i)) | 0;
+  return Math.abs(h);
+}
+
+function initialsFor(name: string): string {
+  const parts = name.trim().split(/\s+/).filter(Boolean);
+  const first = parts[0]?.[0] ?? "";
+  const last = parts.length > 1 ? parts[parts.length - 1][0] : "";
+  return (first + last).toUpperCase();
+}
+
+export function Avatar({
+  name,
+  size = 32,
+  className = "",
+}: {
+  name: string;
+  size?: number;
+  className?: string;
+}) {
+  const bg = AVATAR_PALETTE[hashName(name) % AVATAR_PALETTE.length];
+  return (
+    <span
+      aria-hidden
+      className={`inline-flex shrink-0 items-center justify-center rounded-full font-semibold text-white ${className}`}
+      style={{ width: size, height: size, backgroundColor: bg, fontSize: Math.round(size * 0.38) }}
+    >
+      {initialsFor(name)}
     </span>
   );
 }
@@ -284,7 +327,7 @@ export function PopoverItem({
       onClick={onClick}
       className={`flex w-full items-center gap-2 rounded-lg px-2.5 py-2 text-left text-[13px] text-zinc-700 hover:bg-zinc-50 ${FOCUS}`}
     >
-      {icon ? <span className="text-zinc-400">{icon}</span> : null}
+      {icon ? <span className="text-zinc-500">{icon}</span> : null}
       <span className="min-w-0 flex-1 truncate">{children}</span>
     </button>
   );

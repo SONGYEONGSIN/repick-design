@@ -32,20 +32,38 @@ export function CommandPalette({
     [items, query]
   );
 
+  // Reset the query + selection when the dialog transitions to open, and
+  // re-clamp the selection whenever the query (and therefore the filtered
+  // list) changes — both adjusted during render (React's documented "adjust
+  // state when a value changes" pattern: compare against a value from the
+  // previous render, stored via useState) rather than inside a useEffect
+  // body, so no setState call runs inside an effect.
+  const [prevOpen, setPrevOpen] = useState(open);
+  if (open !== prevOpen) {
+    setPrevOpen(open);
+    if (open) {
+      setQuery("");
+      setActiveIndex(0);
+    }
+  }
+
+  const [prevQuery, setPrevQuery] = useState(query);
+  if (query !== prevQuery) {
+    setPrevQuery(query);
+    setActiveIndex(0);
+  }
+
+  // What's left here is a genuine DOM side effect (reading
+  // document.activeElement, moving focus) — that legitimately belongs in an
+  // effect, unlike the state resets above.
   useEffect(() => {
     if (open) {
       restoreFocusRef.current = document.activeElement as HTMLElement;
-      setQuery("");
-      setActiveIndex(0);
       requestAnimationFrame(() => inputRef.current?.focus());
     } else {
       restoreFocusRef.current?.focus?.();
     }
   }, [open]);
-
-  useEffect(() => {
-    setActiveIndex(0);
-  }, [query]);
 
   if (!open) return null;
 
@@ -101,25 +119,25 @@ export function CommandPalette({
         className="relative z-10 h-fit w-full max-w-lg overflow-hidden rounded-xl border border-zinc-200 bg-white shadow-2xl motion-safe:animate-[rise_150ms_ease-out]"
       >
         <div className="flex h-12 items-center gap-2.5 border-b border-zinc-100 px-4">
-          <Search className="h-4 w-4 shrink-0 text-zinc-400" aria-hidden />
+          <Search className="h-4 w-4 shrink-0 text-zinc-500" aria-hidden />
           <input
             ref={inputRef}
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             onKeyDown={onKeyDown}
             placeholder="Jump to a view or action…"
-            className="h-full min-w-0 flex-1 rounded bg-transparent text-[13.5px] text-zinc-900 placeholder:text-zinc-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-700"
+            className="h-full min-w-0 flex-1 rounded bg-transparent text-[13.5px] text-zinc-900 placeholder:text-zinc-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-700"
             aria-autocomplete="list"
             aria-controls="command-palette-list"
             aria-activedescendant={filtered[activeIndex] ? `cmd-${filtered[activeIndex].id}` : undefined}
             role="combobox"
             aria-expanded="true"
           />
-          <kbd className="shrink-0 rounded border border-zinc-200 px-1.5 py-0.5 text-[10px] text-zinc-400">esc</kbd>
+          <kbd className="shrink-0 rounded border border-zinc-200 px-1.5 py-0.5 text-[10px] text-zinc-500">esc</kbd>
         </div>
         <ul id="command-palette-list" role="listbox" className="max-h-80 overflow-y-auto p-1.5">
           {filtered.length === 0 ? (
-            <li className="px-3 py-6 text-center text-[12.5px] text-zinc-400">No matching actions.</li>
+            <li className="px-3 py-6 text-center text-[12.5px] text-zinc-500">No matching actions.</li>
           ) : (
             filtered.map((item, i) => {
               const Icon = item.icon;
@@ -134,9 +152,9 @@ export function CommandPalette({
                       active ? "bg-teal-50 text-teal-800" : "text-zinc-700"
                     }`}
                   >
-                    <Icon className="h-4 w-4 shrink-0 text-zinc-400" />
+                    <Icon className="h-4 w-4 shrink-0 text-zinc-500" />
                     <span className="min-w-0 flex-1 truncate">{item.label}</span>
-                    {item.hint ? <span className="shrink-0 text-[11px] text-zinc-400">{item.hint}</span> : null}
+                    {item.hint ? <span className="shrink-0 text-[11px] text-zinc-500">{item.hint}</span> : null}
                     {active ? <CornerDownLeft className="h-3.5 w-3.5 shrink-0 text-teal-600" /> : null}
                   </button>
                 </li>

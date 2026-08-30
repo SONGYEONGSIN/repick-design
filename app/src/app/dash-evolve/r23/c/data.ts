@@ -145,7 +145,7 @@ export const TIER_LABEL: Record<Tier, string> = {
 // Tier -> Tailwind classes. Every pairing audited against the zinc-600 /
 // amber-800 / red-700 floors noted in the report (all >= 6.8:1 on their tint).
 export const TIER_CLASSES: Record<Tier, { bg: string; text: string; bar: string; ring: string }> = {
-  none: { bg: "bg-zinc-50", text: "text-zinc-400", bar: "bg-zinc-200", ring: "border-zinc-100" },
+  none: { bg: "bg-zinc-50", text: "text-zinc-600", bar: "bg-zinc-200", ring: "border-zinc-100" },
   light: { bg: "bg-zinc-50", text: "text-zinc-600", bar: "bg-zinc-400", ring: "border-zinc-200" },
   moderate: { bg: "bg-zinc-100", text: "text-zinc-700", bar: "bg-zinc-500", ring: "border-zinc-200" },
   busy: { bg: "bg-amber-50", text: "text-amber-800", bar: "bg-amber-500", ring: "border-amber-200" },
@@ -228,9 +228,8 @@ export const INSPECTORS: Inspector[] = [
   { id: "insp-5", name: "Laura Kim", role: "Inspector", avatarSeed: "repick-laura-kim" },
 ];
 
-export function avatarUrl(seed: string, px = 64): string {
-  return `https://picsum.photos/seed/${seed}/${px}/${px}`;
-}
+// Avatars are rendered as generated initials-on-color badges (see Avatar in
+// ui.tsx) — no external image host, so nothing here needs a URL builder.
 
 // ---------------------------------------------------------------------------
 // Pickup queue — hand-authored for the current operating week (Aug 31 - Sep 6,

@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
 import { Info, PackageSearch, Users, ShieldAlert } from "lucide-react";
 import {
   fromISO,
@@ -15,7 +14,7 @@ import {
   TIER_CLASSES,
   TIER_LABEL,
 } from "./data";
-import { Card, Badge, Progress, Tabs, statusTone, riskTone } from "./ui";
+import { Card, Badge, Progress, Tabs, statusTone, riskTone, Avatar } from "./ui";
 
 type PanelTab = "items" | "inspectors" | "risk";
 
@@ -36,14 +35,14 @@ export function DayDetailPanel({ selectedIso }: { selectedIso: string }) {
     <Card className="flex h-full flex-col" padded={false}>
       <div className="border-b border-zinc-100 p-5">
         <div className="mb-3 flex items-center gap-2">
-          <p className="text-[11px] font-medium uppercase tracking-[0.08em] text-zinc-400">Pinned day</p>
+          <p className="text-[11px] font-medium uppercase tracking-[0.08em] text-zinc-500">Pinned day</p>
           {isToday ? <Badge tone="teal">Today</Badge> : null}
         </div>
         <h2 className="text-[16px] font-semibold text-zinc-900">{formatLong(civil)}</h2>
 
         <div className="mt-4 flex items-center justify-between">
           <span className="text-[20px] font-semibold tabular-nums text-zinc-900">
-            {cap.hoursBooked}h <span className="text-[13px] font-normal text-zinc-400">/ {cap.capacityMax}h</span>
+            {cap.hoursBooked}h <span className="text-[13px] font-normal text-zinc-500">/ {cap.capacityMax}h</span>
           </span>
           <Badge tone={cap.tier === "over" ? "red" : cap.tier === "busy" ? "amber" : "neutral"} dotClassName={tone.bar}>
             {TIER_LABEL[cap.tier]}
@@ -110,13 +109,7 @@ export function DayDetailPanel({ selectedIso }: { selectedIso: string }) {
                     const minutes = rows.filter((r) => r.inspectorId === id).reduce((s, r) => s + r.durationMin, 0);
                     return (
                       <li key={id} className="flex items-center gap-3 rounded-lg border border-zinc-100 p-2.5">
-                        <Image
-                          src={`https://picsum.photos/seed/${insp.avatarSeed}/64/64`}
-                          alt={`${insp.name} avatar`}
-                          width={36}
-                          height={36}
-                          className="h-9 w-9 shrink-0 rounded-full object-cover"
-                        />
+                        <Avatar name={insp.name} size={36} />
                         <div className="min-w-0 flex-1">
                           <p className="truncate text-[13px] font-medium text-zinc-900">{insp.name}</p>
                           <p className="truncate text-[11.5px] text-zinc-500">{insp.role}</p>

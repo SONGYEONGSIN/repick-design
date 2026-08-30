@@ -1,10 +1,9 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import Image from "next/image";
 import { ArrowUp, ArrowDown, ArrowUpDown, Filter, ListFilter } from "lucide-react";
-import { PICKUP_ROWS, inspectorById, avatarUrl, currency, type PickupRow, type PickupStatus } from "./data";
-import { Card, CardHeader, Badge, statusTone, riskTone, Popover, PopoverItem, FOCUS } from "./ui";
+import { PICKUP_ROWS, inspectorById, currency, type PickupRow, type PickupStatus } from "./data";
+import { Card, CardHeader, Badge, statusTone, riskTone, Popover, PopoverItem, FOCUS, Avatar } from "./ui";
 
 type SortKey = "when" | "item" | "seller" | "value" | "status";
 type SortDir = "asc" | "desc";
@@ -125,13 +124,7 @@ export function PickupTable() {
               </div>
               <div className="mt-2 flex items-center justify-between gap-2">
                 <div className="flex min-w-0 items-center gap-1.5">
-                  <Image
-                    src={avatarUrl(insp.avatarSeed, 64)}
-                    alt={`${insp.name} avatar`}
-                    width={18}
-                    height={18}
-                    className="h-[18px] w-[18px] shrink-0 rounded-full object-cover"
-                  />
+                  <Avatar name={insp.name} size={18} />
                   <span className="truncate text-[11.5px] text-zinc-500">{insp.name}</span>
                 </div>
                 <div className="flex shrink-0 gap-1.5">
@@ -204,18 +197,12 @@ export function PickupTable() {
                   </td>
                   <td className="py-2.5 pr-2">
                     <p className="truncate text-[13px] font-medium text-zinc-900">{r.item}</p>
-                    <p className="truncate text-[11px] text-zinc-400">{r.category}</p>
+                    <p className="truncate text-[11px] text-zinc-500">{r.category}</p>
                   </td>
                   <td className="truncate py-2.5 pr-2 text-[12.5px] text-zinc-700">{r.seller}</td>
                   <td className="py-2.5 pr-2">
                     <div className="flex min-w-0 items-center gap-2">
-                      <Image
-                        src={avatarUrl(insp.avatarSeed, 64)}
-                        alt={`${insp.name} avatar`}
-                        width={22}
-                        height={22}
-                        className="h-[22px] w-[22px] shrink-0 rounded-full object-cover"
-                      />
+                      <Avatar name={insp.name} size={22} />
                       <span className="truncate text-[12.5px] text-zinc-700">{insp.name}</span>
                     </div>
                   </td>
@@ -234,7 +221,7 @@ export function PickupTable() {
           </tbody>
           <tfoot>
             <tr>
-              <td colSpan={4} className="pt-3 text-[11.5px] text-zinc-400">
+              <td colSpan={4} className="pt-3 text-[11.5px] text-zinc-500">
                 {rows.length} of {PICKUP_ROWS.length} pickups shown
               </td>
               <td className="pt-3 text-right text-[12.5px] font-semibold tabular-nums text-zinc-900">
