@@ -55,7 +55,7 @@ export default function ClosingCTA({
                 {matches.length} live matches waiting in {categoryLabel}.
               </h2>
               <p className="mt-4 text-[16px] font-normal" style={{ color: COLOR.muted, lineHeight: 1.6, maxWidth: "500px" }}>
-                That count moves with the filter you set above — it's the same
+                That count moves with the filter you set above — it&apos;s the same
                 board, not a separate preview. Save the filter and we&rsquo;ll
                 tell you the moment a new pair threads.
               </p>
