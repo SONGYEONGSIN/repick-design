@@ -466,7 +466,7 @@ export default function RadarClient() {
                       </div>
                       <div className="min-w-0 flex-1">
                         <div className="flex items-start justify-between gap-2">
-                          <h3 className="truncate text-sm font-bold leading-tight">{item.name}</h3>
+                          <h3 className="min-w-0 flex-1 truncate text-sm font-bold leading-tight">{item.name}</h3>
                           <span className="shrink-0 font-mono text-lg font-bold tabular-nums text-teal-300">
                             {item.match}%
                           </span>
