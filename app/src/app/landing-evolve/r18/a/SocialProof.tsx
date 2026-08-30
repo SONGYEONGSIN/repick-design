@@ -106,7 +106,7 @@ export function SocialProof() {
                       aria-selected={i === index}
                       aria-label={`Testimonial ${i + 1} of ${TESTIMONIALS.length}`}
                       onClick={() => setIndex(i)}
-                      className={`rounded-full border transition-all ${FOCUS_RING}`}
+                      className="rounded-full border transition-all focus-visible:shadow-[0_0_0_2px_#7A4E0F]"
                       style={{
                         borderColor: i === index ? INK : BORDER,
                         backgroundColor: i === index ? INK : "transparent",

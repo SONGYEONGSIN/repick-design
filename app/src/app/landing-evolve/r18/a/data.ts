@@ -3,7 +3,12 @@
 // and client and on every reload.
 
 export const ACCENT = "#B8791A"; // base amber/brass — fills, borders, ≥24px (or ≥19px bold) text
-export const ACCENT_DEEP = "#8F5D12"; // darker tint — small text/icons/focus rings on light bg
+// Darker tint for small text/icons/focus rings on light bg. Was #8F5D12 (5.37:1 on flat bg, but
+// only 4.36:1 once composited under ACCENT_TINT_BG over the SURFACE card color #F1F0EC — axe's
+// hard-fail). Composite of rgba(184,121,26,0.12) over #F1F0EC ≈ #EAE2D3 (rel. luminance 0.7659).
+// #7A4E0F against that composite: (0.7659+0.05)/(0.0962+0.05) = 5.58:1 — clears the 4.5:1 floor
+// with margin, and still 6.39:1 on the plain page bg #FAFAF8 and 6.68:1 on white.
+export const ACCENT_DEEP = "#7A4E0F";
 export const ACCENT_TINT_BG = "rgba(184,121,26,0.12)"; // chip backgrounds behind ACCENT_DEEP text
 export const INK = "#111114";
 export const MUTED = "#6B6B72";

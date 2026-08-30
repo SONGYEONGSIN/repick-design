@@ -47,7 +47,7 @@ export function Hero({ stage, onStageChange }: { stage: number; onStageChange: (
             </h1>
             <p className="mt-6 max-w-[480px] text-base leading-[1.6]" style={{ color: MUTED }}>
               Scrub through the five stages one Repick item actually passed through. Nothing here is a
-              mock-up of a process — it's the real inspection record for the camera on the right, at
+              mock-up of a process — it&apos;s the real inspection record for the camera on the right, at
               whichever stage you land on.
             </p>
 
@@ -57,7 +57,7 @@ export function Hero({ stage, onStageChange }: { stage: number; onStageChange: (
                 className={`inline-flex items-center gap-2 rounded-sm px-5 py-3 text-sm font-semibold transition-colors ${FOCUS_RING}`}
                 style={{ backgroundColor: ACCENT, color: INK }}
               >
-                See what's listed right now
+                See what&apos;s listed right now
                 <ArrowRight size={16} aria-hidden="true" />
               </Link>
               <Link
