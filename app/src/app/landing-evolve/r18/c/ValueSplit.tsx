@@ -38,7 +38,7 @@ export function ValueSplit() {
           {COLUMNS.map((col, i) => (
             <Reveal key={col.label} delay={i * 0.08}>
               <col.icon className="h-5 w-5" style={{ color: ACCENT }} aria-hidden="true" />
-              <p className="mt-4 text-[11px] font-semibold uppercase text-[#71717A]" style={{ letterSpacing: "0.12em" }}>
+              <p className="mt-4 text-[11px] font-semibold uppercase text-[#A1A1AA]" style={{ letterSpacing: "0.12em" }}>
                 {col.label}
               </p>
               <p className="mt-2 max-w-[300px] text-[15px] font-normal leading-[1.6] text-[#A1A1AA]">{col.body}</p>

@@ -2,20 +2,25 @@
 
 import { useId, useState, type FormEvent } from "react";
 import { ArrowRight, Mail, CheckCircle2 } from "lucide-react";
-import { type MatchPair } from "./data";
+import { type CategoryId, type MatchPair } from "./data";
 import { COLOR } from "./theme";
 import { Eyebrow, Folio, Reveal, FOCUS_RING } from "./ui";
 
 export default function ClosingCTA({
   matches,
+  categoryId,
   categoryLabel,
 }: {
   matches: MatchPair[];
+  categoryId: CategoryId;
   categoryLabel: string;
 }) {
   const [email, setEmail] = useState("");
   const [subscribed, setSubscribed] = useState(false);
   const inputId = useId();
+  // "all" already reads as a plural noun phrase ("All matches"); every other
+  // category needs "matches" appended ("Cameras" -> "cameras matches").
+  const matchPhrase = categoryId === "all" ? categoryLabel.toLowerCase() : `${categoryLabel.toLowerCase()} matches`;
 
   function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -49,7 +54,7 @@ export default function ClosingCTA({
               >
                 {matches.length} live matches waiting in {categoryLabel}.
               </h2>
-              <p className="mt-4 text-[15px] font-normal" style={{ color: COLOR.muted, lineHeight: 1.6, maxWidth: "500px" }}>
+              <p className="mt-4 text-[16px] font-normal" style={{ color: COLOR.muted, lineHeight: 1.6, maxWidth: "500px" }}>
                 That count moves with the filter you set above — it's the same
                 board, not a separate preview. Save the filter and we&rsquo;ll
                 tell you the moment a new pair threads.
@@ -59,20 +64,20 @@ export default function ClosingCTA({
                 className={`mt-6 inline-flex items-center gap-2 rounded-md px-5 py-3 text-[14px] font-semibold transition-transform hover:-translate-y-0.5 ${FOCUS_RING}`}
                 style={{ background: COLOR.accent, color: COLOR.inkOnAccent }}
               >
-                See the {categoryLabel.toLowerCase()} board
+                See the live board
                 <ArrowRight className="h-4 w-4" aria-hidden="true" />
               </a>
             </div>
 
             <div className="rounded-md border p-5" style={{ borderColor: COLOR.border, background: COLOR.bgCard }}>
               <p className="text-[13px] font-semibold" style={{ color: COLOR.fg }}>
-                Get notified for new {categoryLabel.toLowerCase()} matches
+                Get notified for new {matchPhrase}
               </p>
               {subscribed ? (
                 <p className="mt-4 flex items-start gap-2 text-[13px] font-normal" style={{ color: COLOR.accentBright, lineHeight: 1.5 }}>
                   <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0" aria-hidden="true" />
-                  You&rsquo;re set — we&rsquo;ll email new {categoryLabel.toLowerCase()}{" "}
-                  matches as sellers list them.
+                  You&rsquo;re set — we&rsquo;ll email new {matchPhrase} as sellers
+                  list them.
                 </p>
               ) : (
                 <form onSubmit={handleSubmit} className="mt-4">

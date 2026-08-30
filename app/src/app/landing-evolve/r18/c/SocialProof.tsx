@@ -20,7 +20,7 @@ export function SocialProof() {
               >
                 {stat.value}
               </p>
-              <p className="mt-2 text-[12px] font-semibold uppercase text-[#71717A]" style={{ letterSpacing: "0.12em" }}>
+              <p className="mt-2 text-[12px] font-semibold uppercase text-[#A1A1AA]" style={{ letterSpacing: "0.12em" }}>
                 {stat.label}
               </p>
             </Reveal>
@@ -35,7 +35,7 @@ export function SocialProof() {
                 &ldquo;{t.quote}&rdquo;
               </p>
               <p className="mt-5 text-[13px] font-semibold text-white">{t.name}</p>
-              <p className="text-[12px] font-normal text-[#71717A]">{t.role}</p>
+              <p className="text-[12px] font-normal text-[#A1A1AA]">{t.role}</p>
             </Reveal>
           ))}
         </div>

@@ -20,7 +20,7 @@ export function Hero({
 }: {
   weights: WeightState;
   onWeightChange: (key: FactorKey, value: number) => void;
-  onPreset: (id: string, weights: WeightState) => void;
+  onPreset: (weights: WeightState) => void;
   activePreset: string | null;
   composite: number;
   contributions: WeightState;
@@ -63,7 +63,7 @@ export function Hero({
               See your weighted score
               <ArrowRight className="h-4 w-4" aria-hidden="true" />
             </a>
-            <span className="text-[13px] font-normal text-[#71717A]">No account needed to explore weights.</span>
+            <span className="text-[13px] font-normal text-[#A1A1AA]">No account needed to explore weights.</span>
           </div>
         </div>
 
@@ -88,10 +88,10 @@ export function Hero({
                   <p className="truncate text-[13px] font-semibold text-white">{REFERENCE_LISTING.title}</p>
                   <p className="mt-0.5 text-[12px] font-normal text-[#A1A1AA]">
                     ${REFERENCE_LISTING.price.toLocaleString()}{" "}
-                    <span className="text-[#71717A] line-through">${REFERENCE_LISTING.originalPrice.toLocaleString()}</span>{" "}
+                    <span className="text-[#A1A1AA] line-through">${REFERENCE_LISTING.originalPrice.toLocaleString()}</span>{" "}
                     <span style={{ color: ACCENT_BRIGHT }}>&minus;{pct}%</span>
                   </p>
-                  <p className="mt-1 flex items-center gap-1 text-[11px] font-normal text-[#71717A]">
+                  <p className="mt-1 flex items-center gap-1 text-[11px] font-normal text-[#A1A1AA]">
                     <ShieldCheck className="h-3.5 w-3.5" style={{ color: ACCENT_BRIGHT }} aria-hidden="true" />
                     Seller verified · Grade {REFERENCE_LISTING.conditionGrade}
                   </p>
@@ -104,7 +104,7 @@ export function Hero({
                 <button
                   key={preset.id}
                   type="button"
-                  onClick={() => onPreset(preset.id, preset.weights)}
+                  onClick={() => onPreset(preset.weights)}
                   aria-pressed={activePreset === preset.id}
                   className="rounded-full border px-3 py-1.5 text-[11px] font-semibold transition-colors duration-150 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
                   style={

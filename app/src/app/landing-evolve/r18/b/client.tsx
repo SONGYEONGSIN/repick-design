@@ -25,7 +25,7 @@ export default function MatchingBoardLanding() {
       <ProductPreview matches={matches} categoryLabel={categoryLabel} />
       <ValueSplit matches={matches} categoryLabel={categoryLabel} />
       <SocialProof />
-      <ClosingCTA matches={matches} categoryLabel={categoryLabel} />
+      <ClosingCTA matches={matches} categoryId={categoryId} categoryLabel={categoryLabel} />
     </main>
   );
 }

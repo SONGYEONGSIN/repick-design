@@ -18,17 +18,17 @@ function ProductCard({ card, index }: { card: (typeof PRODUCT_CARDS)[number]; in
       <div className="relative aspect-[4/3] w-full overflow-hidden rounded-t-2xl bg-[#1C1C22]">
         <Image src={card.image} alt={card.imageAlt} fill sizes="(min-width: 1024px) 33vw, 100vw" className="object-cover" />
         {/* Discount lives in a bottom scrim over the photo frame, not a floating badge that can collide with fallback alt text. */}
-        <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 to-transparent px-4 pb-3 pt-8">
+        <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/90 via-black/60 to-transparent px-4 pb-3 pt-10">
           <p className="text-[13px] font-semibold text-white">
             ${card.price.toLocaleString()}{" "}
-            <span className="text-[12px] font-normal text-white/60 line-through">${card.originalPrice.toLocaleString()}</span>{" "}
+            <span className="text-[12px] font-normal text-white/85 line-through">${card.originalPrice.toLocaleString()}</span>{" "}
             <span style={{ color: ACCENT_BRIGHT }}>&minus;{pct}%</span>
           </p>
         </div>
       </div>
 
       <div className="flex flex-1 flex-col p-5">
-        <p className="text-[11px] font-semibold uppercase text-[#71717A]" style={{ letterSpacing: "0.16em" }}>
+        <p className="text-[11px] font-semibold uppercase text-[#A1A1AA]" style={{ letterSpacing: "0.16em" }}>
           Fig. {String(index + 2).padStart(2, "0")}
         </p>
         <h3 className="mt-1.5 text-[15px] font-semibold text-white">{card.title}</h3>

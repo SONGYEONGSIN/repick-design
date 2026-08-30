@@ -31,14 +31,14 @@ export function ClosingCTA({ composite }: { composite: number }) {
             </span>
             {" "}is the score your weights produced.
           </h2>
-          <p className="mt-4 text-[15px] font-normal leading-[1.6] text-[#A1A1AA]">
+          <p className="mt-4 text-[16px] font-normal leading-[1.6] text-[#A1A1AA]">
             That number came from the sliders you left set above. Every listing on Repick carries the
             same four-factor math — get notified when re-weighting ships to your account.
           </p>
         </div>
 
         <form onSubmit={handleSubmit} noValidate className="w-full max-w-[380px] shrink-0">
-          <label htmlFor="cta-email" className="text-[12px] font-semibold uppercase text-[#71717A]" style={{ letterSpacing: "0.12em" }}>
+          <label htmlFor="cta-email" className="text-[12px] font-semibold uppercase text-[#A1A1AA]" style={{ letterSpacing: "0.12em" }}>
             Email
           </label>
           <div className="mt-2 flex flex-col gap-3 sm:flex-row">
@@ -55,7 +55,7 @@ export function ClosingCTA({ composite }: { composite: number }) {
                 placeholder="you@example.com"
                 aria-invalid={status === "invalid"}
                 aria-describedby="cta-email-status"
-                className="w-full rounded-lg border border-[#27272E] bg-[#0B0B0F] py-2.5 pl-9 pr-3 text-[14px] font-normal text-white placeholder:text-[#52525B] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
+                className="w-full rounded-lg border border-[#27272E] bg-[#0B0B0F] py-2.5 pl-9 pr-3 text-[14px] font-normal text-white placeholder:text-[#A1A1AA] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
                 style={{ outlineColor: ACCENT_BRIGHT }}
               />
             </div>

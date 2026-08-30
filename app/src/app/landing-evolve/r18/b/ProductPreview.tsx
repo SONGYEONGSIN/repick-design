@@ -116,7 +116,7 @@ export default function ProductPreview({
           <Folio index={2} total={5} label="Fig. 02" />
         </div>
 
-        <p className="mt-4 text-[15px] font-normal" style={{ color: COLOR.muted, lineHeight: 1.6, maxWidth: "500px" }}>
+        <p className="mt-4 text-[16px] font-normal" style={{ color: COLOR.muted, lineHeight: 1.6, maxWidth: "500px" }}>
           Currently showing {categoryLabel.toLowerCase()} — condition grade, seller
           verification, and the discount from list price, on every listing.
         </p>

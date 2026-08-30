@@ -25,7 +25,7 @@ export default function Hero({
       <div className="mx-auto max-w-[1200px]">
         <div className="flex items-start justify-between">
           <Eyebrow>Live matching board</Eyebrow>
-          <Folio index={1} total={5} label="The board" />
+          <Folio index={1} total={5} label="Fig. 01" />
         </div>
 
         <h1

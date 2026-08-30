@@ -25,7 +25,7 @@ export default function TrustScoreConsoleLanding() {
     setWeights((prev) => ({ ...prev, [key]: value }));
   }
 
-  function handlePreset(_id: string, next: WeightState) {
+  function handlePreset(next: WeightState) {
     setWeights(next);
   }
 

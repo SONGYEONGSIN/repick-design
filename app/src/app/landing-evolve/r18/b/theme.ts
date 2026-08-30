@@ -10,7 +10,10 @@ export const COLOR = {
   borderStrong: "rgba(255,255,255,0.16)",
   fg: "#FFFFFF",
   muted: "#A1A1AA",
-  mutedDim: "#71717A",
+  // Brightened from a first pass at #71717A (3.7:1 on the card surface,
+  // failing the 4.5:1 small-text floor once actually computed) — see
+  // candidates/b.md for the luminance math.
+  mutedDim: "#8E8E96",
   // Full accent hue (amber): fills, borders, bar fills, large/bold text.
   accent: "#F59E0B",
   // Brighter tint of the same hue: small text, icons, focus rings on dark bg.

@@ -75,10 +75,9 @@ export default function ValueSplit({
           <Folio index={3} total={5} label="Fig. 03" />
         </div>
 
-        <p className="mt-4 text-[15px] font-normal" style={{ color: COLOR.muted, lineHeight: 1.6, maxWidth: "500px" }}>
-          Move the filter above and these recalculate from the {stats.count}{" "}
-          live pairs currently on the board — nothing here is a fixed
-          illustration.
+        <p className="mt-4 text-[16px] font-normal" style={{ color: COLOR.muted, lineHeight: 1.6, maxWidth: "500px" }}>
+          Move the filter above and these recalculate live from the current
+          board — right now, {categoryLabel}.
         </p>
 
         <Reveal>
@@ -87,7 +86,7 @@ export default function ValueSplit({
               label="Avg. price fit"
               value={stats.priceFit}
               display={`${stats.priceFit}%`}
-              description={`How close the matched price lands to the buyer's stated budget, averaged across ${stats.count} ${categoryLabel.toLowerCase()} pairs.`}
+              description={`How close the matched price lands to the buyer's stated budget, averaged across the ${stats.count} live pairs shown above.`}
             />
             <StatBar
               label="Avg. condition confidence"

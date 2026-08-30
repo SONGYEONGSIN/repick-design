@@ -26,21 +26,21 @@ export default function SocialProof() {
         </h2>
 
         <Reveal>
-          <dl className="mt-10 grid grid-cols-1 gap-5 border-y py-8 sm:grid-cols-3" style={{ borderColor: COLOR.border }}>
+          <div className="mt-10 grid grid-cols-1 gap-5 border-y py-8 sm:grid-cols-3" style={{ borderColor: COLOR.border }}>
             {PROOF_STATS.map((stat) => (
               <div key={stat.label}>
-                <dt
+                <p
                   className="font-extrabold"
                   style={{ fontFamily: "var(--font-display-mono)", color: COLOR.accentBright, fontSize: "2rem", letterSpacing: "-0.02em" }}
                 >
                   {stat.value}
-                </dt>
-                <dd className="mt-1 text-[13px] font-normal" style={{ color: COLOR.muted, lineHeight: 1.5 }}>
+                </p>
+                <p className="mt-1 text-[13px] font-normal" style={{ color: COLOR.muted, lineHeight: 1.5 }}>
                   {stat.label}
-                </dd>
+                </p>
               </div>
             ))}
-          </dl>
+          </div>
         </Reveal>
 
         <div className="mt-10 grid grid-cols-1 gap-6 md:grid-cols-3">
