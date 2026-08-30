@@ -95,6 +95,7 @@ export function CommandPalette({ onClose, onSelect }: { onClose: () => void; onS
                   id={`palette-opt-${node.id}`}
                   type="button"
                   role="option"
+                  tabIndex={-1}
                   aria-selected={i === clampedIndex}
                   onMouseEnter={() => setActiveIndex(i)}
                   onClick={() => commit(node.id)}

@@ -79,6 +79,7 @@ export function NodelineClient() {
             </div>
 
             <Card className="mt-4">
+              <h2 className="sr-only">Key metrics</h2>
               <div className="grid grid-cols-2 divide-x divide-y divide-zinc-100 sm:grid-cols-5 sm:divide-y-0">
                 {KPI_ITEMS.map((item) => (
                   <div key={item.label} className="min-w-0 px-5 py-3.5">

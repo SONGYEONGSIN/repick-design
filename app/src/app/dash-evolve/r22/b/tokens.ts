@@ -4,19 +4,14 @@ import type { ServiceStatus } from "./data";
 // Single brand accent: teal. Contrast measured against a pure-white canvas (WCAG relative
 // luminance formula) so the two shades below are used for the roles they were checked against —
 // see candidate.md for the full calculation.
-//   teal-700 #0f766e  — 5.48:1 on #fff  → safe for text, icons, focus rings (AA normal text 4.5:1)
-//   teal-600 #0d9488  — 3.74:1 on #fff  → large-scale fills/graphic objects only (non-text 3:1),
-//                                          never body text or small labels
+//   teal-700 #0f766e  — 5.48:1 on #fff  → text, icons, and every HTML focus-visible ring (all of
+//                                          those are set as literal `teal-700` classes at their
+//                                          call sites, so Tailwind's static scanner picks them up)
+//   teal-600 #0d9488  — 3.74:1 on #fff  → large-scale fills / SVG graphic objects only (non-text
+//                                          floor 3:1) — used below for the graph's own selection
+//                                          ring, drawn as an SVG stroke rather than a CSS outline
 export const ACCENT = {
-  text: "text-teal-700",
-  textHover: "hover:text-teal-800",
-  bg: "bg-teal-700",
-  bgHover: "hover:bg-teal-800",
-  bgSoft: "bg-teal-50",
-  border: "border-teal-700",
-  ring: "ring-teal-700",
   stroke: "stroke-teal-600",
-  navActive: "bg-teal-50 text-teal-700",
 } as const;
 
 interface StatusMeta {

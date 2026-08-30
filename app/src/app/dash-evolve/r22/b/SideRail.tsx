@@ -64,6 +64,7 @@ export function InspectorPanel({ activeId, pinnedId, onClear }: InspectorProps) 
   if (!activeId) {
     return (
       <Card className="flex flex-col items-center gap-2 px-5 py-10 text-center">
+        <h2 className="sr-only">Service inspector</h2>
         <Network size={22} className="text-zinc-300" aria-hidden="true" />
         <p className="text-sm font-medium text-zinc-600">No service selected</p>
         <p className="text-xs leading-relaxed text-zinc-500">
@@ -86,6 +87,7 @@ export function InspectorPanel({ activeId, pinnedId, onClear }: InspectorProps) 
 
   return (
     <Card className="p-4">
+      <h2 className="sr-only">Service inspector</h2>
       <div className="flex items-start justify-between gap-2">
         <div className="min-w-0">
           <p className="truncate font-mono text-sm font-semibold text-zinc-900">{node.label}</p>

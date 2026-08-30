@@ -142,7 +142,6 @@ export const MEDIAN_P99_MS = (() => {
 
 export const intFormat = new Intl.NumberFormat("en-US");
 export const compactFormat = new Intl.NumberFormat("en-US", { notation: "compact", maximumFractionDigits: 1 });
-export const pctFormat = (v: number) => `${v.toFixed(2)}%`;
 
 /** Round a computed coordinate to 2 decimal places (hydration-safe formatting for any generated SVG geometry). */
 export function round2(n: number): number {

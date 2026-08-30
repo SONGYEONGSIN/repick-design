@@ -65,7 +65,7 @@ export function AdjacencyTable({ onSelectNode }: { onSelectNode: (id: string) =>
       <th
         scope="col"
         aria-sort={active ? (sortDir === "asc" ? "ascending" : "descending") : "none"}
-        className={`px-3 py-2.5 text-left text-[11px] font-semibold uppercase tracking-wide text-zinc-500 ${className}`}
+        className={`px-3 py-2.5 text-[11px] font-semibold uppercase tracking-wide text-zinc-500 ${className}`}
       >
         <button
           type="button"
@@ -100,18 +100,12 @@ export function AdjacencyTable({ onSelectNode }: { onSelectNode: (id: string) =>
             Full adjacency list for the service dependency graph — every call edge as Source, Target, calls per
             minute and worst-case status. This table is the accessible fallback for the graph above.
           </caption>
-          <colgroup>
-            <col style={{ width: "34%" }} />
-            <col style={{ width: "34%" }} />
-            <col style={{ width: "16%" }} />
-            <col style={{ width: "16%" }} />
-          </colgroup>
           <thead>
             <tr className="border-b border-zinc-200">
-              <SortHeader label="Source" sortField="source" />
-              <SortHeader label="Target" sortField="target" />
-              <SortHeader label="Calls/min" sortField="value" className="hidden text-right sm:table-cell" />
-              <SortHeader label="Status" sortField="status" />
+              <SortHeader label="Source" sortField="source" className="w-[38%] text-left sm:w-[34%]" />
+              <SortHeader label="Target" sortField="target" className="w-[38%] text-left sm:w-[34%]" />
+              <SortHeader label="Calls/min" sortField="value" className="hidden text-right sm:table-cell sm:w-[16%]" />
+              <SortHeader label="Status" sortField="status" className="w-[24%] text-left sm:w-[16%]" />
             </tr>
           </thead>
           <tbody>
@@ -124,7 +118,7 @@ export function AdjacencyTable({ onSelectNode }: { onSelectNode: (id: string) =>
                     <button
                       type="button"
                       onClick={() => onSelectNode(row.source)}
-                      className="truncate rounded font-mono text-[12.5px] text-zinc-700 outline-none hover:text-teal-700 hover:underline focus-visible:ring-2 focus-visible:ring-teal-700"
+                      className="block w-full truncate rounded text-left font-mono text-[12.5px] text-zinc-700 outline-none hover:text-teal-700 hover:underline focus-visible:ring-2 focus-visible:ring-teal-700"
                       title={row.source}
                     >
                       {row.source}
@@ -134,7 +128,7 @@ export function AdjacencyTable({ onSelectNode }: { onSelectNode: (id: string) =>
                     <button
                       type="button"
                       onClick={() => onSelectNode(row.target)}
-                      className="truncate rounded font-mono text-[12.5px] text-zinc-700 outline-none hover:text-teal-700 hover:underline focus-visible:ring-2 focus-visible:ring-teal-700"
+                      className="block w-full truncate rounded text-left font-mono text-[12.5px] text-zinc-700 outline-none hover:text-teal-700 hover:underline focus-visible:ring-2 focus-visible:ring-teal-700"
                       title={row.target}
                     >
                       {row.target}
