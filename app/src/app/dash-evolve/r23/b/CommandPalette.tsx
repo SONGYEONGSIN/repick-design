@@ -26,6 +26,26 @@ export function CommandPalette({
   const [highlight, setHighlight] = useState(0);
   const inputRef = useRef<HTMLInputElement>(null);
 
+  // Adjust state during render (React's documented pattern) instead of syncing it from an effect
+  // body — avoids the extra render-then-commit-then-effect-then-render-again cascade that
+  // `react-hooks/set-state-in-effect` flags. Each block tracks the previous value of the thing it
+  // watches and resets derived state inline when that value changes; React re-renders immediately
+  // with the adjusted state before anything paints, so there's no visible flicker.
+  const [prevOpen, setPrevOpen] = useState(open);
+  if (open !== prevOpen) {
+    setPrevOpen(open);
+    if (open) {
+      setQuery("");
+      setHighlight(0);
+    }
+  }
+
+  const [prevQuery, setPrevQuery] = useState(query);
+  if (query !== prevQuery) {
+    setPrevQuery(query);
+    setHighlight(0);
+  }
+
   const results = useMemo(() => {
     const q = query.trim().toLowerCase();
     if (!q) return WATCHLIST;
@@ -34,16 +54,14 @@ export function CommandPalette({
     );
   }, [query]);
 
+  // Focusing the input on open is a genuine DOM side effect (not a state-sync issue), so it stays
+  // in an effect.
   useEffect(() => {
     if (open) {
-      setQuery("");
-      setHighlight(0);
       const t = window.setTimeout(() => inputRef.current?.focus(), 0);
       return () => window.clearTimeout(t);
     }
   }, [open]);
-
-  useEffect(() => setHighlight(0), [query]);
 
   useEffect(() => {
     if (!open) return;

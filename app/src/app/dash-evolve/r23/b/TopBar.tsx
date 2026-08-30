@@ -51,6 +51,7 @@ export function TopBar({
         </button>
 
         <button
+          aria-label="Add to watchlist"
           className={`flex h-11 items-center gap-1.5 rounded-lg bg-amber-400 px-3 text-[12.5px] font-semibold text-zinc-950 transition-opacity hover:opacity-90 ${FOCUS_RING}`}
         >
           <Plus className="h-4 w-4" aria-hidden="true" />

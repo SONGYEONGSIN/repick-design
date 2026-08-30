@@ -144,13 +144,16 @@ function WatchlistRow({
       <button
         onClick={onSelect}
         aria-current={isActive ? "true" : undefined}
-        aria-label={`${item.name}, ${CATEGORY_LABEL[item.category]}, repick average ${fmtCompact(latest.repick)}, ${fmtSignedPct(change)} today${isPinnedFeed ? ", comp feed pinned to this item" : ""}`}
         className={`group flex w-full min-w-0 flex-col gap-1.5 rounded-lg border px-3 py-2.5 text-left transition-colors ${FOCUS_RING} ${
           isActive
             ? "border-amber-400/30 bg-amber-400/[0.07]"
             : "border-transparent hover:border-white/10 hover:bg-white/[0.03]"
         }`}
       >
+        {/* No separate aria-label here — the accessible name is built entirely from this visible
+            content plus a few sr-only spans that add context (full model name, "repick average",
+            "today", pinned status) without ever diverging from what's on screen, which is what
+            label-content-name-mismatch requires. */}
         <div className="flex min-w-0 items-center gap-2">
           <span
             className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-md ${
@@ -161,11 +164,13 @@ function WatchlistRow({
           </span>
           <span className="min-w-0 flex-1">
             <span className="block truncate text-[13px] font-medium text-zinc-100">{item.shortName}</span>
+            <span className="sr-only">{item.name}</span>
             <span className="block truncate text-[11px] text-zinc-400">{CATEGORY_LABEL[item.category]}</span>
           </span>
           {isPinnedFeed && (
             <span title="Comp feed pinned to this item" className="shrink-0 text-amber-300">
               <Pin className="h-3.5 w-3.5" aria-hidden="true" />
+              <span className="sr-only">Comp feed pinned to this item</span>
             </span>
           )}
         </div>
@@ -182,6 +187,7 @@ function WatchlistRow({
           />
           <span className="flex shrink-0 items-baseline gap-1">
             <span className="tabular-nums text-[12.5px] font-medium text-zinc-100">{fmtCompact(latest.repick)}</span>
+            <span className="sr-only">repick average price,</span>
             <span className="flex items-center gap-0.5 text-[11px] tabular-nums text-zinc-400">
               {rising ? (
                 <TrendingUp className="h-3 w-3" aria-hidden="true" />
@@ -190,6 +196,7 @@ function WatchlistRow({
               )}
               {fmtSignedPct(change)}
             </span>
+            <span className="sr-only">today</span>
           </span>
         </div>
       </button>
