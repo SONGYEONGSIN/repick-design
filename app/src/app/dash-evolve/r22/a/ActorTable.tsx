@@ -54,10 +54,10 @@ export default function ActorTable() {
       <div className="mt-3 overflow-hidden">
         <table className="w-full table-fixed border-collapse text-sm">
           <colgroup>
-            <col className="w-[46%]" />
-            <col className="w-[18%]" />
-            <col className="hidden w-[16%] sm:table-column" />
-            <col className="w-[20%] sm:w-[20%]" />
+            <col className="w-[28%]" />
+            <col className="w-[21%]" />
+            <col className="hidden w-[26%] sm:table-column" />
+            <col className="w-[25%]" />
           </colgroup>
           <thead>
             <tr className={cx("border-b", BORDER_SOFT)}>
@@ -65,8 +65,8 @@ export default function ActorTable() {
                 Actor
               </th>
               <SortHeader label="Events" active={sortKey === "events"} dir={sortDir} onClick={() => toggleSort("events")} className="text-right [&_button]:ml-auto" />
-              <SortHeader label="Critical" active={sortKey === "critical"} dir={sortDir} onClick={() => toggleSort("critical")} className="hidden text-right sm:table-cell [&_button]:ml-auto" />
-              <SortHeader label="Risk" active={sortKey === "risk"} dir={sortDir} onClick={() => toggleSort("risk")} className="text-right [&_button]:ml-auto" />
+              <SortHeader label="Critical" active={sortKey === "critical"} dir={sortDir} onClick={() => toggleSort("critical")} className="hidden pl-2 text-right sm:table-cell [&_button]:ml-auto" />
+              <SortHeader label="Risk" active={sortKey === "risk"} dir={sortDir} onClick={() => toggleSort("risk")} className="pl-2 text-right [&_button]:ml-auto" />
             </tr>
           </thead>
           <tbody>
@@ -84,11 +84,11 @@ export default function ActorTable() {
                     </div>
                   </td>
                   <td className={cx("whitespace-nowrap py-2 text-right text-xs font-medium", TEXT_MUTED, NUM)}>{r.events[win]}</td>
-                  <td className={cx("hidden whitespace-nowrap py-2 text-right text-xs font-medium sm:table-cell", r.critical[win] > 0 ? "text-rose-400" : TEXT_MUTED, NUM)}>{r.critical[win]}</td>
+                  <td className={cx("hidden whitespace-nowrap py-2 pl-2 text-right text-xs font-medium sm:table-cell", r.critical[win] > 0 ? "text-rose-400" : TEXT_MUTED, NUM)}>{r.critical[win]}</td>
                   <td className="py-2 pl-2">
-                    <div className="flex items-center justify-end gap-2">
-                      <span className={cx("w-7 shrink-0 text-right text-xs font-medium", TEXT_PRIMARY, NUM)}>{r.risk[win]}</span>
-                      <span className="w-12 shrink-0">
+                    <div className="flex items-center justify-end gap-1.5">
+                      <span className={cx("w-6 shrink-0 text-right text-xs font-medium", TEXT_PRIMARY, NUM)}>{r.risk[win]}</span>
+                      <span className="w-11 shrink-0">
                         <Progress value={r.risk[win]} label={`${actor.name} risk score`} />
                       </span>
                     </div>
