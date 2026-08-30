@@ -25,7 +25,7 @@ import {
   formatDateTime,
   buildTimeline,
 } from "./data";
-import { Card, Badge, Tabs, cx, FOCUS_LIGHT } from "./ui";
+import { Card, Badge, Tabs, ProgressBar, cx, FOCUS_LIGHT } from "./ui";
 import { ConfidenceGauge } from "./ConfidenceGauge";
 import { Timeline } from "./Timeline";
 
@@ -34,8 +34,8 @@ type TabKey = "overview" | "timeline" | "evidence";
 /**
  * Selection propagation, mode A — the "pin".
  *
- * `client.tsx` renders `<DetailPane key={c.id} case={c} />`. Keying on the case id means a rail-row
- * click doesn't patch this tree in place — it unmounts the previous case's DetailPane and mounts a
+ * `client.tsx` renders `<DetailPane key={selectedCase.id} c={selectedCase} />`. Keying on the case id
+ * means a rail-row click doesn't patch this tree in place — it unmounts the previous case's DetailPane and mounts a
  * fresh one, which is a deliberate, partial recompute: every piece of state that lives *inside*
  * DetailPane (active tab, the resolution-panel choice) resets to its default the moment the pin
  * changes case, exactly as if the analyst opened a new case fresh. What this does NOT do, on
@@ -150,6 +150,9 @@ function Overview({ c, verdictLabel }: { c: DisputeCase; verdictLabel: string })
               {c.listingGrade.label} · {c.listingGrade.score}
             </Badge>
           </div>
+          <div className="mt-2">
+            <ProgressBar value={c.listingGrade.score} tone="zinc" label={`Listing grade score, ${c.listingGrade.score} out of 100`} />
+          </div>
         </Card>
 
         <Card>
@@ -201,7 +204,7 @@ function PartyRow({ person }: { person: DisputeCase["buyer"] }) {
       <div className="min-w-0 flex-1">
         <p className="truncate text-[13px] font-medium text-zinc-900">{person.name}</p>
         <p className="text-[11px] text-zinc-500">
-          {person.role} · since {person.memberSince}
+          {person.role} · {person.orders} orders · since {person.memberSince}
         </p>
       </div>
       <div className="flex shrink-0 items-center gap-1 text-[12px] tabular-nums text-zinc-600">

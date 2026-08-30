@@ -108,7 +108,13 @@ export function ProgressBar({
       aria-label={label ?? "progress"}
       className="h-1.5 w-full overflow-hidden rounded-full bg-zinc-100"
     >
-      <div className={cx("h-full rounded-full transition-[width] duration-200 motion-reduce:transition-none", fill)} style={{ width: `${pct}%` }} />
+      {/* Animates `transform: scaleX(...)` rather than `width` — width/height/top/left are layout
+          properties and off-limits for animation per this project's dash motion rules; transform is
+          compositor-only and never triggers reflow. */}
+      <div
+        className={cx("h-full w-full origin-left rounded-full transition-transform duration-200 motion-reduce:transition-none", fill)}
+        style={{ transform: `scaleX(${pct / 100})` }}
+      />
     </div>
   );
 }

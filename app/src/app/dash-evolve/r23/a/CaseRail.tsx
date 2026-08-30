@@ -165,9 +165,11 @@ function CaseRow({ c, selected, onSelect }: { c: DisputeCase; selected: boolean;
         }
       }}
       className={cx(
-        "cursor-pointer border-b border-zinc-100 align-top transition-colors motion-reduce:transition-none",
+        // box-shadow focus rings are unreliable on <tr> (table-row painting can clip them behind
+        // cell backgrounds), so the whole-row focus indicator is a background swap instead — the
+        // "border/background swap" alternative this project's focus rules explicitly allow.
+        "cursor-pointer border-b border-zinc-100 align-top outline-none transition-colors motion-reduce:transition-none focus-visible:bg-amber-200",
         selected ? "bg-amber-50" : "bg-white hover:bg-zinc-50",
-        FOCUS_LIGHT,
       )}
     >
       <td className={cx("px-3 py-3", selected && "border-l-2 border-l-amber-700")}>

@@ -327,10 +327,6 @@ export function formatDateTime(iso: string): string {
   );
 }
 
-export function formatShortDate(iso: string): string {
-  return new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric" }).format(new Date(iso));
-}
-
 export function formatSla(hours: number | null): string {
   if (hours === null) return "—";
   if (hours < 0) return `Overdue ${Math.abs(hours)}h`;
