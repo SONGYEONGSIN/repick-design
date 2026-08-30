@@ -58,6 +58,7 @@ export function Topbar({ onOpenMenu, onOpenPalette }: { onOpenMenu: () => void; 
             onClick={() => setAccountOpen((v) => !v)}
             aria-expanded={accountOpen}
             aria-haspopup="menu"
+            aria-label="Account menu"
             className="flex h-11 items-center gap-1.5 rounded-lg pl-1 pr-2 outline-none hover:bg-zinc-100 focus-visible:ring-2 focus-visible:ring-teal-700 focus-visible:ring-offset-2"
           >
             <Image

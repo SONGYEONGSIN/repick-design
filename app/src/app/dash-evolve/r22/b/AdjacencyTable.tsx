@@ -19,6 +19,47 @@ const rows = EDGES.map((edge) => {
   return { source: src.label, target: tgt.label, value: edge.callsPerMin, status };
 });
 
+/** Module-level (not nested in AdjacencyTable's render body) so it is one stable component across
+ *  renders — a component function re-declared inside a parent's render body is a fresh identity
+ *  every render, which resets its own state and remounts its subtree on every parent re-render. This
+ *  one holds no state of its own, but the rule is enforced regardless of whether the bug would bite
+ *  today (react-hooks/static-components). Sort state lives in the parent and reaches this purely via
+ *  props. */
+function SortHeader({
+  label,
+  sortField,
+  sortKey,
+  sortDir,
+  onSort,
+  className = "",
+}: {
+  label: string;
+  sortField: SortKey;
+  sortKey: SortKey;
+  sortDir: SortDir;
+  onSort: (key: SortKey) => void;
+  className?: string;
+}) {
+  const active = sortKey === sortField;
+  const Icon = active ? (sortDir === "asc" ? ArrowUp : ArrowDown) : ArrowUpDown;
+  return (
+    <th
+      scope="col"
+      aria-sort={active ? (sortDir === "asc" ? "ascending" : "descending") : "none"}
+      className={`px-3 py-2.5 text-[11px] font-semibold uppercase tracking-wide text-zinc-500 ${className}`}
+    >
+      <button
+        type="button"
+        onClick={() => onSort(sortField)}
+        className="flex items-center gap-1 outline-none focus-visible:ring-2 focus-visible:ring-teal-700 focus-visible:ring-offset-2 rounded"
+      >
+        {label}
+        <Icon size={12} className={active ? "text-teal-700" : "text-zinc-500"} aria-hidden="true" />
+      </button>
+    </th>
+  );
+}
+
 /** This table owns its own sort/filter state and reads only the static EDGES data — it is never
  *  re-derived from graph selection, so pinning or hovering a node in ServiceGraph cannot change a
  *  single row here. That isolation is deliberate (see NodelineClient for the full boundary note). */
@@ -58,27 +99,6 @@ export function AdjacencyTable({ onSelectNode }: { onSelectNode: (id: string) =>
     }
   }
 
-  function SortHeader({ label, sortField, className = "" }: { label: string; sortField: SortKey; className?: string }) {
-    const active = sortKey === sortField;
-    const Icon = active ? (sortDir === "asc" ? ArrowUp : ArrowDown) : ArrowUpDown;
-    return (
-      <th
-        scope="col"
-        aria-sort={active ? (sortDir === "asc" ? "ascending" : "descending") : "none"}
-        className={`px-3 py-2.5 text-[11px] font-semibold uppercase tracking-wide text-zinc-500 ${className}`}
-      >
-        <button
-          type="button"
-          onClick={() => toggleSort(sortField)}
-          className="flex items-center gap-1 outline-none focus-visible:ring-2 focus-visible:ring-teal-700 focus-visible:ring-offset-2 rounded"
-        >
-          {label}
-          <Icon size={12} className={active ? "text-teal-700" : "text-zinc-500"} aria-hidden="true" />
-        </button>
-      </th>
-    );
-  }
-
   return (
     <div>
       <div className="flex flex-wrap items-center justify-between gap-3 border-b border-zinc-200 px-4 pt-3 sm:px-5">
@@ -102,10 +122,38 @@ export function AdjacencyTable({ onSelectNode }: { onSelectNode: (id: string) =>
           </caption>
           <thead>
             <tr className="border-b border-zinc-200">
-              <SortHeader label="Source" sortField="source" className="w-[38%] text-left sm:w-[34%]" />
-              <SortHeader label="Target" sortField="target" className="w-[38%] text-left sm:w-[34%]" />
-              <SortHeader label="Calls/min" sortField="value" className="hidden text-right sm:table-cell sm:w-[16%]" />
-              <SortHeader label="Status" sortField="status" className="w-[24%] text-left sm:w-[16%]" />
+              <SortHeader
+                label="Source"
+                sortField="source"
+                sortKey={sortKey}
+                sortDir={sortDir}
+                onSort={toggleSort}
+                className="w-[32%] text-left sm:w-[34%]"
+              />
+              <SortHeader
+                label="Target"
+                sortField="target"
+                sortKey={sortKey}
+                sortDir={sortDir}
+                onSort={toggleSort}
+                className="w-[32%] text-left sm:w-[34%]"
+              />
+              <SortHeader
+                label="Calls/min"
+                sortField="value"
+                sortKey={sortKey}
+                sortDir={sortDir}
+                onSort={toggleSort}
+                className="hidden text-right sm:table-cell sm:w-[16%]"
+              />
+              <SortHeader
+                label="Status"
+                sortField="status"
+                sortKey={sortKey}
+                sortDir={sortDir}
+                onSort={toggleSort}
+                className="w-[36%] text-left sm:w-[16%]"
+              />
             </tr>
           </thead>
           <tbody>

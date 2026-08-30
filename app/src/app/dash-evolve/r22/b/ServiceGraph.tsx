@@ -118,7 +118,12 @@ export function ServiceGraph({ encoding, pinnedId, activeId, onHover, onPin }: S
                 tabIndex={0}
                 role="button"
                 aria-pressed={isPinned}
-                aria-label={`${node.label}: ${meta.label}. ${node.latencyMs}ms p99 latency, ${node.errorRatePct.toFixed(2)}% error rate. Press Enter to inspect.`}
+                // The two visible <text> labels below render back-to-back with no separator between
+                // them (React inserts no whitespace text node between JSX siblings) — so the visible
+                // string is exactly `${node.label}${metricLabel}`. The accessible name has to contain
+                // that same run verbatim (a11y-audit `label-content-name-mismatch`), so metricLabel is
+                // spliced in immediately after node.label, ahead of the punctuation.
+                aria-label={`${node.label}${metricLabel}: ${meta.label}. ${node.latencyMs}ms p99 latency, ${node.errorRatePct.toFixed(2)}% error rate. Press Enter to inspect.`}
                 onMouseEnter={() => onHover(node.id)}
                 onMouseLeave={() => onHover(null)}
                 onFocus={() => onHover(node.id)}
