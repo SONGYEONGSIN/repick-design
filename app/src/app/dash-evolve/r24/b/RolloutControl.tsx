@@ -17,6 +17,34 @@ export default function RolloutControl({
 
   return (
     <div className={disabled ? "opacity-50" : ""}>
+      <style>{`
+        #rollout-slider::-webkit-slider-thumb {
+          -webkit-appearance: none;
+          appearance: none;
+          width: 16px;
+          height: 16px;
+          border-radius: 9999px;
+          background: #38bdf8;
+          border: 2px solid #082f49;
+          cursor: pointer;
+          margin-top: 0;
+        }
+        #rollout-slider::-moz-range-thumb {
+          width: 16px;
+          height: 16px;
+          border-radius: 9999px;
+          background: #38bdf8;
+          border: 2px solid #082f49;
+          cursor: pointer;
+        }
+        #rollout-slider::-moz-range-track {
+          background: transparent;
+        }
+        #rollout-slider:disabled::-webkit-slider-thumb,
+        #rollout-slider:disabled::-moz-range-thumb {
+          cursor: not-allowed;
+        }
+      `}</style>
       <div className="flex items-center gap-3">
         <label htmlFor="rollout-slider" className="sr-only">
           Rollout percentage
@@ -30,9 +58,9 @@ export default function RolloutControl({
           value={pct}
           disabled={disabled}
           onChange={(e) => onChange(clamp(Number(e.target.value)))}
-          className="h-2 min-w-0 flex-1 cursor-pointer appearance-none rounded-full accent-sky-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-400 disabled:cursor-not-allowed"
+          className="h-2 min-w-0 flex-1 cursor-pointer appearance-none rounded-full focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-400 disabled:cursor-not-allowed"
           style={{
-            background: `linear-gradient(to right, var(--rollout-fill, #38bdf8) ${pct}%, rgba(255,255,255,0.1) ${pct}%)`,
+            background: `linear-gradient(to right, #38bdf8 ${pct}%, rgba(255,255,255,0.1) ${pct}%)`,
           }}
         />
         <div className="flex shrink-0 items-center gap-1">

@@ -107,12 +107,14 @@ export function DropdownMenu({
   triggerContent,
   triggerClassName,
   align = "left",
+  openUp = false,
   children,
 }: {
   label: string;
   triggerContent: ReactNode;
   triggerClassName?: string;
   align?: "left" | "right";
+  openUp?: boolean;
   children: (close: () => void) => ReactNode;
 }) {
   const [open, setOpen] = useState(false);
@@ -140,9 +142,9 @@ export function DropdownMenu({
         <div
           role="menu"
           aria-label={label}
-          className={`absolute top-full z-30 mt-1.5 min-w-[13rem] overflow-hidden rounded-lg border border-zinc-200 bg-white py-1 shadow-lg ${
-            align === "right" ? "right-0" : "left-0"
-          }`}
+          className={`absolute z-30 min-w-[13rem] overflow-hidden rounded-lg border border-zinc-200 bg-white py-1 shadow-lg ${
+            openUp ? "bottom-full mb-1.5" : "top-full mt-1.5"
+          } ${align === "right" ? "right-0" : "left-0"}`}
         >
           {children(() => setOpen(false))}
         </div>

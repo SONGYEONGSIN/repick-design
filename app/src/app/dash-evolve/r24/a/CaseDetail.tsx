@@ -8,6 +8,7 @@ import {
   CalendarDays,
   CheckCircle2,
   ChevronDown,
+  DollarSign,
   Headphones,
   Info,
   MessageSquareText,
@@ -141,9 +142,13 @@ export function CaseDetail({
               </span>
             </div>
             <h2 className="mt-1 text-lg font-semibold leading-snug text-zinc-900">{kase.subject}</h2>
-            <div className="mt-2 flex flex-wrap items-center gap-1.5">
+            <div className="mt-2 flex flex-wrap items-center gap-2">
               <StatusBadge status={kase.status} />
               <PriorityBadge priority={kase.priority} />
+              <span className="inline-flex items-center gap-1.5 text-xs text-zinc-500">
+                <AgentAvatar agent={kase.assignee} size={16} />
+                {kase.assignee.name}
+              </span>
               <SlaPill kase={kase} />
             </div>
           </div>
@@ -423,7 +428,7 @@ export function CaseDetail({
               <InfoRow icon={Users} label="Seats">
                 <span className="tabular-nums">{kase.customer.seats}</span>
               </InfoRow>
-              <InfoRow icon={CalendarDays} label="MRR">
+              <InfoRow icon={DollarSign} label="MRR">
                 <span className="tabular-nums">{formatMrr(kase.customer.mrr)}</span>
               </InfoRow>
               <InfoRow icon={CalendarDays} label="Customer since">
@@ -432,7 +437,7 @@ export function CaseDetail({
               <InfoRow icon={Phone} label="Phone">
                 <span className="tabular-nums">{kase.customer.phone}</span>
               </InfoRow>
-              <InfoRow icon={Mail} label="Health">
+              <InfoRow icon={Activity} label="Health">
                 <HealthDot health={kase.customer.health} />
               </InfoRow>
             </dl>

@@ -14,11 +14,13 @@ function Popover({
   label,
   icon,
   badge,
+  panelRole,
   children,
 }: {
   label: string;
   icon: React.ReactNode;
   badge?: boolean;
+  panelRole?: "menu" | "region";
   children: (close: () => void) => React.ReactNode;
 }) {
   const [open, setOpen] = useState(false);
@@ -45,7 +47,7 @@ function Popover({
       <button
         type="button"
         aria-label={label}
-        aria-haspopup="menu"
+        aria-haspopup={panelRole === "region" ? "dialog" : "menu"}
         aria-expanded={open}
         onClick={() => setOpen((v) => !v)}
         className="relative flex size-11 items-center justify-center rounded-lg text-zinc-400 hover:bg-white/5 hover:text-zinc-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-400"
@@ -55,7 +57,7 @@ function Popover({
       </button>
       {open && (
         <div
-          role="menu"
+          role={panelRole ?? "menu"}
           aria-label={label}
           className="absolute right-0 top-[calc(100%+6px)] z-30 w-72 rounded-xl border border-white/10 bg-zinc-900 p-1.5 shadow-lg shadow-black/40"
         >
@@ -99,13 +101,13 @@ export default function Topbar({ onOpenMobileMenu }: { onOpenMobileMenu: () => v
           <span className="hidden sm:inline">New flag</span>
         </button>
 
-        <Popover label="Notifications" icon={<Bell className="size-[18px]" aria-hidden="true" />} badge>
+        <Popover label="Notifications" icon={<Bell className="size-[18px]" aria-hidden="true" />} badge panelRole="region">
           {() => (
             <div>
               <div className="px-2.5 py-2 text-[11px] font-medium uppercase tracking-wider text-zinc-400">Notifications</div>
               <ul>
                 {NOTIFICATIONS.map((n) => (
-                  <li key={n.id} role="menuitem" tabIndex={-1} className="rounded-lg px-2.5 py-2 text-sm hover:bg-white/[0.06]">
+                  <li key={n.id} className="rounded-lg px-2.5 py-2 text-sm hover:bg-white/[0.06]">
                     <p className="text-zinc-200">{n.text}</p>
                     <p className="mt-0.5 text-xs text-zinc-400">{n.time}</p>
                   </li>
@@ -115,7 +117,7 @@ export default function Topbar({ onOpenMobileMenu }: { onOpenMobileMenu: () => v
           )}
         </Popover>
 
-        <Popover label="Account menu" icon={<OwnerAvatar name="Sam Okafor" seed="sluice-current-user" size={26} />}>
+        <Popover label="Account menu" icon={<OwnerAvatar name="Sam Okafor" seed="sluice-current-user" size={26} />} panelRole="menu">
           {(close) => (
             <div>
               <div className="px-2.5 py-2 text-sm">
