@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { PauseCircle, PlayCircle, FilePen } from "lucide-react";
 import type { FlagStatus } from "./data";
 
@@ -92,14 +91,24 @@ export function Sparkline({ points, width = 64, height = 20 }: { points: number[
   );
 }
 
+/**
+ * Deterministic decorative avatar swatch — no remote image host (random or otherwise), so
+ * there's no photo-loading failure mode and no non-deterministic content. Rendered as a
+ * plain filled shape rather than initials text on purpose: this is used both standalone
+ * (next to the owner's real visible name) and inside an already-aria-labeled trigger
+ * button ("Account menu") — axe's label-content-name-mismatch check compares the button's
+ * accessible name against its CSS-visible text regardless of aria-hidden, so any visible
+ * initials characters here would still be flagged as a mismatch against "Account menu".
+ * A shape has no text to mismatch.
+ */
 export function OwnerAvatar({ name, seed, size = 24 }: { name: string; seed: string; size?: number }) {
+  const hash = (name + seed).split("").reduce((acc, ch) => acc + ch.charCodeAt(0), 0);
+  const bg = hash % 2 === 0 ? "bg-zinc-700" : "bg-zinc-600";
   return (
-    <Image
-      src={`https://picsum.photos/seed/${seed}/${size * 2}/${size * 2}`}
-      alt={`${name} avatar`}
-      width={size}
-      height={size}
-      className="shrink-0 rounded-full border border-white/10"
+    <span
+      aria-hidden="true"
+      style={{ width: size, height: size }}
+      className={`inline-flex shrink-0 rounded-full border border-white/10 ${bg}`}
     />
   );
 }

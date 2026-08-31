@@ -85,7 +85,7 @@ export function CaseRail({
           className={`flex w-full items-center justify-between rounded-md border border-zinc-200 bg-white px-2.5 py-1.5 text-xs font-medium text-zinc-700 hover:bg-zinc-50 ${FOCUS_RING}`}
         >
           <span>Filter: {STATUS_OPTIONS.find((o) => o.value === statusFilter)?.label}</span>
-          <ChevronDown className="size-3.5 text-zinc-400" aria-hidden="true" />
+          <ChevronDown className="size-3.5 text-zinc-500" aria-hidden="true" />
         </button>
         {filterOpen && (
           <div
@@ -136,7 +136,7 @@ export function CaseRail({
                 <div className="flex items-start justify-between gap-2">
                   <p className="truncate text-sm font-medium text-zinc-900">{c.subject}</p>
                   <Pin
-                    className={`mt-0.5 size-3.5 shrink-0 ${pinned ? "fill-teal-600 text-teal-600" : "text-zinc-300"}`}
+                    className={`mt-0.5 size-3.5 shrink-0 ${pinned ? "fill-teal-600 text-teal-600" : "text-zinc-400"}`}
                     aria-hidden="true"
                   />
                 </div>
@@ -154,7 +154,7 @@ export function CaseRail({
                   </div>
                 </div>
                 {pinned && (
-                  <span className="mt-2 inline-flex items-center gap-1 rounded-full bg-teal-600 px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-white">
+                  <span className="mt-2 inline-flex items-center gap-1 rounded-full bg-teal-700 px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-white">
                     <Pin className="size-2.5 fill-white" aria-hidden="true" />
                     Pinned
                   </span>
@@ -174,7 +174,7 @@ export function CaseRail({
                   <p className="mt-1 line-clamp-2 text-xs text-zinc-500">
                     {previewCase.timeline[previewCase.timeline.length - 1]?.body}
                   </p>
-                  <p className="mt-2 text-[11px] text-zinc-400">Preview only &middot; click to pin to the detail view</p>
+                  <p className="mt-2 text-[11px] text-zinc-500">Preview only &middot; click to pin to the detail view</p>
                 </div>
               )}
             </li>

@@ -4,7 +4,11 @@ import { useMemo } from "react";
 import { ChevronDown, ChevronUp, Minus } from "lucide-react";
 import { currency, formatSigned, type BridgeRow } from "./data";
 
-const WIDTH = 940;
+// 880 (not the initial 940) so the chart never needs its own horizontal scroll at any tested
+// desktop width — sweep measured the previous 940 overflowing this box by 30-46px at 1264-1280
+// (the classic-scrollbar-adjusted 1280 test point), which the grid-craft rule treats as a hard
+// fail: local horizontal scroll is mobile-only, a desktop chart must fit its box outright.
+const WIDTH = 880;
 const HEIGHT = 380;
 const MARGIN = { top: 58, right: 16, bottom: 46, left: 16 };
 const GAP = 14;
@@ -123,7 +127,7 @@ export default function WaterfallChart({ rows, pinnedKey, hoveredKey, onHover, o
                   onBlur={() => onHover(null)}
                   onClick={() => onPin(pinnedKey === b.row.key ? null : b.row.key)}
                   aria-pressed={pinnedKey === b.row.key}
-                  className="absolute rounded-sm outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-700"
+                  className="absolute rounded-sm outline-none focus-visible:outline-solid focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-700"
                   style={{ left: b.x, top: hitTop, width: b.width, height: hitHeight }}
                 >
                   <span className="sr-only">

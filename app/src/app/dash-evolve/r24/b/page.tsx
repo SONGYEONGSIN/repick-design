@@ -39,7 +39,7 @@ export default function Page() {
   }
 
   return (
-    <div className="flex h-dvh min-h-0 flex-col bg-zinc-950 text-zinc-50 md:flex-row">
+    <div className="flex min-h-dvh flex-col bg-zinc-950 text-zinc-50 md:h-dvh md:min-h-0 md:flex-row">
       <a
         href="#main-content"
         className="sr-only focus:not-sr-only focus:fixed focus:left-3 focus:top-3 focus:z-50 focus:rounded-lg focus:bg-sky-400 focus:px-3 focus:py-2 focus:text-sm focus:font-medium focus:text-zinc-950"

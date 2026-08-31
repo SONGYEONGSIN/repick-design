@@ -64,7 +64,7 @@ export default function LineItemTable({ rows, pinnedKey, hoveredKey, onPin, onHo
             value={categoryFilter}
             onChange={(e) => setCategoryFilter(e.target.value as CategoryFilter)}
             disabled={!!pinnedKey}
-            className="h-9 rounded-lg border border-zinc-200 bg-white px-2.5 text-sm text-zinc-700 outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-700 disabled:cursor-not-allowed disabled:opacity-50"
+            className="h-9 rounded-lg border border-zinc-200 bg-white px-2.5 text-sm text-zinc-700 outline-none focus-visible:outline-solid focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-700 disabled:cursor-not-allowed disabled:opacity-50"
           >
             {CATEGORIES.map((c) => (
               <option key={c} value={c}>
@@ -81,7 +81,7 @@ export default function LineItemTable({ rows, pinnedKey, hoveredKey, onPin, onHo
               type="button"
               onClick={() => onPin(null)}
               aria-label={`Clear filter: ${pinnedRow.label}`}
-              className="rounded-full p-0.5 outline-none hover:bg-orange-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-700"
+              className="rounded-full p-0.5 outline-none hover:bg-orange-100 focus-visible:outline-solid focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-700"
             >
               <X className="h-3.5 w-3.5" aria-hidden="true" />
             </button>
@@ -114,7 +114,7 @@ export default function LineItemTable({ rows, pinnedKey, hoveredKey, onPin, onHo
                   <button
                     type="button"
                     onClick={() => toggleSort(col.key)}
-                    className={`inline-flex items-center gap-1 rounded outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-700 ${i === 0 ? "" : "flex-row-reverse"}`}
+                    className={`inline-flex items-center gap-1 rounded outline-none focus-visible:outline-solid focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-700 ${i === 0 ? "" : "flex-row-reverse"}`}
                   >
                     {col.label}
                     {active ? (

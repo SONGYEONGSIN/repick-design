@@ -108,6 +108,14 @@ export function DropdownMenu({
   triggerClassName,
   align = "left",
   openUp = false,
+  // Set when `triggerContent` already renders real, informative visible text (e.g. the
+  // current user's name) — in that case an `aria-label` override on the button would
+  // conflict with that visible text (axe `label-content-name-mismatch`), so the button's
+  // accessible name is instead left to derive from its own content. `aria-haspopup="menu"`
+  // already tells assistive tech this opens a menu, so the word "menu" isn't required in
+  // the name. The `label` is still used for the open panel's `aria-label`, which has no
+  // conflicting visible text of its own.
+  useContentAsLabel = false,
   children,
 }: {
   label: string;
@@ -115,6 +123,7 @@ export function DropdownMenu({
   triggerClassName?: string;
   align?: "left" | "right";
   openUp?: boolean;
+  useContentAsLabel?: boolean;
   children: (close: () => void) => ReactNode;
 }) {
   const [open, setOpen] = useState(false);
@@ -129,7 +138,7 @@ export function DropdownMenu({
         type="button"
         aria-haspopup="menu"
         aria-expanded={open}
-        aria-label={label}
+        aria-label={useContentAsLabel ? undefined : label}
         onClick={() => setOpen((v) => !v)}
         className={
           triggerClassName ??

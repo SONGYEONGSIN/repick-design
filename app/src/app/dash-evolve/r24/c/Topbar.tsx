@@ -39,7 +39,7 @@ export default function Topbar({ onOpenSidebar }: { onOpenSidebar: () => void })
         type="button"
         onClick={onOpenSidebar}
         aria-label="Open navigation"
-        className="rounded-md p-1.5 text-zinc-500 outline-none hover:bg-zinc-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-700 lg:hidden"
+        className="rounded-md p-1.5 text-zinc-500 outline-none hover:bg-zinc-100 focus-visible:outline-solid focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-700 lg:hidden"
       >
         <Menu className="h-4 w-4" aria-hidden="true" />
       </button>
@@ -47,18 +47,17 @@ export default function Topbar({ onOpenSidebar }: { onOpenSidebar: () => void })
       <button
         type="button"
         onClick={() => setPaletteOpen(true)}
-        aria-label="Open search (Command K)"
-        className="flex h-9 items-center gap-2 rounded-lg border border-zinc-200 bg-zinc-50 px-3 text-sm text-zinc-500 outline-none hover:bg-zinc-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-700"
+        className="flex h-9 items-center gap-2 rounded-lg border border-zinc-200 bg-zinc-50 px-3 text-sm text-zinc-500 outline-none hover:bg-zinc-100 focus-visible:outline-solid focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-700"
       >
         <Search className="h-4 w-4 shrink-0" aria-hidden="true" />
-        <span className="hidden sm:inline">Search accounts, invoices…</span>
-        <kbd className="ml-1 hidden rounded border border-zinc-300 bg-white px-1.5 py-0.5 text-[10px] font-medium text-zinc-500 sm:inline">⌘K</kbd>
+        <span className="sr-only sm:not-sr-only sm:inline">Search accounts, invoices…</span>
+        <kbd aria-hidden="true" className="ml-1 hidden rounded border border-zinc-300 bg-white px-1.5 py-0.5 text-[10px] font-medium text-zinc-500 sm:inline">⌘K</kbd>
       </button>
 
       <div className="ml-auto flex items-center gap-1.5">
         <button
           type="button"
-          className="hidden h-9 items-center gap-1.5 rounded-lg bg-orange-700 px-3 text-sm font-medium text-white outline-none hover:bg-orange-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-700 sm:flex"
+          className="hidden h-9 items-center gap-1.5 rounded-lg bg-orange-700 px-3 text-sm font-medium text-white outline-none hover:bg-orange-800 focus-visible:outline-solid focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-700 sm:flex"
         >
           <Download className="h-4 w-4" aria-hidden="true" />
           Export report
@@ -71,7 +70,7 @@ export default function Topbar({ onOpenSidebar }: { onOpenSidebar: () => void })
             aria-expanded={notifOpen}
             aria-haspopup="true"
             aria-label="Notifications, 3 unread"
-            className="relative rounded-md p-2 text-zinc-500 outline-none hover:bg-zinc-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-700"
+            className="relative rounded-md p-2 text-zinc-500 outline-none hover:bg-zinc-100 focus-visible:outline-solid focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-700"
           >
             <Bell className="h-4 w-4" aria-hidden="true" />
             <span className="absolute right-1.5 top-1.5 h-1.5 w-1.5 rounded-full bg-orange-600" aria-hidden="true" />
@@ -102,7 +101,7 @@ export default function Topbar({ onOpenSidebar }: { onOpenSidebar: () => void })
             aria-expanded={menuOpen}
             aria-haspopup="true"
             aria-label="Account menu"
-            className="flex h-8 w-8 items-center justify-center rounded-full bg-zinc-200 text-xs font-semibold text-zinc-700 outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-700"
+            className="flex h-8 w-8 items-center justify-center rounded-full bg-zinc-200 text-xs font-semibold text-zinc-700 outline-none focus-visible:outline-solid focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-700"
           >
             YS
           </button>
@@ -110,10 +109,10 @@ export default function Topbar({ onOpenSidebar }: { onOpenSidebar: () => void })
             <>
               <button type="button" aria-label="Close account menu" className="fixed inset-0 z-10 cursor-default" onClick={() => setMenuOpen(false)} />
               <div className="absolute right-0 top-full z-20 mt-2 w-48 overflow-hidden rounded-lg border border-zinc-200 bg-white py-1 shadow-lg">
-                <button type="button" className="flex w-full items-center gap-2 px-3 py-2 text-left text-xs text-zinc-700 outline-none hover:bg-zinc-50 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-orange-700">
+                <button type="button" className="flex w-full items-center gap-2 px-3 py-2 text-left text-xs text-zinc-700 outline-none hover:bg-zinc-50 focus-visible:outline-solid focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-orange-700">
                   <User className="h-3.5 w-3.5" aria-hidden="true" /> Profile
                 </button>
-                <button type="button" className="flex w-full items-center gap-2 px-3 py-2 text-left text-xs text-zinc-700 outline-none hover:bg-zinc-50 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-orange-700">
+                <button type="button" className="flex w-full items-center gap-2 px-3 py-2 text-left text-xs text-zinc-700 outline-none hover:bg-zinc-50 focus-visible:outline-solid focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-orange-700">
                   Sign out
                 </button>
               </div>
@@ -138,7 +137,7 @@ export default function Topbar({ onOpenSidebar }: { onOpenSidebar: () => void })
                 type="button"
                 onClick={() => setPaletteOpen(false)}
                 aria-label="Close search"
-                className="rounded-md p-1 text-zinc-500 outline-none hover:bg-zinc-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-700"
+                className="rounded-md p-1 text-zinc-500 outline-none hover:bg-zinc-100 focus-visible:outline-solid focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-700"
               >
                 <X className="h-3.5 w-3.5" aria-hidden="true" />
               </button>
@@ -149,7 +148,7 @@ export default function Topbar({ onOpenSidebar }: { onOpenSidebar: () => void })
                   <button
                     type="button"
                     onClick={() => setPaletteOpen(false)}
-                    className="block w-full px-3.5 py-2 text-left text-sm text-zinc-700 outline-none hover:bg-zinc-50 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-orange-700"
+                    className="block w-full px-3.5 py-2 text-left text-sm text-zinc-700 outline-none hover:bg-zinc-50 focus-visible:outline-solid focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-orange-700"
                   >
                     {item}
                   </button>

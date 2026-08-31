@@ -51,7 +51,7 @@ export default function Sidebar({ mobileOpen, onClose }: SidebarProps) {
         <button
           type="button"
           onClick={onClose}
-          className="ml-auto rounded-md p-1 text-zinc-500 outline-none hover:bg-zinc-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-700 lg:hidden"
+          className="ml-auto rounded-md p-1 text-zinc-500 outline-none hover:bg-zinc-200 focus-visible:outline-solid focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-700 lg:hidden"
           aria-label="Close navigation"
         >
           <X className="h-4 w-4" aria-hidden="true" />
@@ -64,7 +64,7 @@ export default function Sidebar({ mobileOpen, onClose }: SidebarProps) {
           onClick={() => setSwitcherOpen((v) => !v)}
           aria-expanded={switcherOpen}
           aria-haspopup="listbox"
-          className="flex w-full items-center gap-2 rounded-lg border border-zinc-200 bg-white px-2.5 py-2 text-left outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-700"
+          className="flex w-full items-center gap-2 rounded-lg border border-zinc-200 bg-white px-2.5 py-2 text-left outline-none focus-visible:outline-solid focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-700"
         >
           <span className="min-w-0 flex-1 truncate text-xs font-medium text-zinc-700">{workspace}</span>
           <ChevronsUpDown className="h-3.5 w-3.5 shrink-0 text-zinc-500" aria-hidden="true" />
@@ -83,7 +83,7 @@ export default function Sidebar({ mobileOpen, onClose }: SidebarProps) {
                       setWorkspace(w);
                       setSwitcherOpen(false);
                     }}
-                    className={`block w-full truncate px-3 py-1.5 text-left text-xs outline-none focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-orange-700 ${
+                    className={`block w-full truncate px-3 py-1.5 text-left text-xs outline-none focus-visible:outline-solid focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-orange-700 ${
                       workspace === w ? "bg-orange-50 text-orange-700" : "text-zinc-700 hover:bg-zinc-50"
                     }`}
                   >
@@ -105,7 +105,7 @@ export default function Sidebar({ mobileOpen, onClose }: SidebarProps) {
                 <a
                   href="#main-content"
                   aria-current={item.active ? "page" : undefined}
-                  className={`flex items-center gap-2.5 rounded-lg px-2.5 py-2 text-sm outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-700 ${
+                  className={`flex items-center gap-2.5 rounded-lg px-2.5 py-2 text-sm outline-none focus-visible:outline-solid focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-700 ${
                     item.active ? "bg-orange-50 font-medium text-orange-700" : "text-zinc-600 hover:bg-zinc-100"
                   }`}
                 >
@@ -123,7 +123,7 @@ export default function Sidebar({ mobileOpen, onClose }: SidebarProps) {
               <li key={item.label}>
                 <a
                   href="#main-content"
-                  className="flex items-center gap-2.5 rounded-lg px-2.5 py-2 text-sm text-zinc-600 outline-none hover:bg-zinc-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-700"
+                  className="flex items-center gap-2.5 rounded-lg px-2.5 py-2 text-sm text-zinc-600 outline-none hover:bg-zinc-100 focus-visible:outline-solid focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-700"
                 >
                   <item.icon className="h-4 w-4 shrink-0" aria-hidden="true" />
                   <span className="truncate">{item.label}</span>
@@ -146,7 +146,7 @@ export default function Sidebar({ mobileOpen, onClose }: SidebarProps) {
           <button
             type="button"
             aria-label="Account settings"
-            className="rounded-md p-1.5 text-zinc-500 outline-none hover:bg-zinc-200 hover:text-zinc-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-700"
+            className="rounded-md p-1.5 text-zinc-500 outline-none hover:bg-zinc-200 hover:text-zinc-600 focus-visible:outline-solid focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-700"
           >
             <Settings className="h-4 w-4" aria-hidden="true" />
           </button>

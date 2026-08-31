@@ -22,10 +22,21 @@ export function CommandPalette({
   const inputRef = useRef<HTMLInputElement>(null);
   const listboxId = useId();
 
-  useEffect(() => {
+  // Reset query/activeIndex during render when `open` flips to true (React's
+  // "adjust state while rendering" pattern) rather than inside the effect below —
+  // calling setState synchronously in an effect body triggers a cascading extra
+  // render (react-hooks/set-state-in-effect); this way there's exactly one.
+  const [wasOpen, setWasOpen] = useState(open);
+  if (open !== wasOpen) {
+    setWasOpen(open);
     if (open) {
       setQuery("");
       setActiveIndex(0);
+    }
+  }
+
+  useEffect(() => {
+    if (open) {
       const t = setTimeout(() => inputRef.current?.focus(), 0);
       return () => clearTimeout(t);
     }
@@ -77,7 +88,7 @@ export function CommandPalette({
         }}
       >
         <div className="flex items-center gap-2.5 border-b border-zinc-200 px-4 py-3">
-          <Search className="size-4 shrink-0 text-zinc-400" aria-hidden="true" />
+          <Search className="size-4 shrink-0 text-zinc-500" aria-hidden="true" />
           <input
             ref={inputRef}
             role="combobox"
@@ -92,9 +103,9 @@ export function CommandPalette({
               setActiveIndex(0);
             }}
             placeholder="Search cases, customers, or case IDs&hellip;"
-            className={`min-w-0 flex-1 rounded text-sm text-zinc-900 placeholder:text-zinc-400 ${FOCUS_RING}`}
+            className={`min-w-0 flex-1 rounded text-sm text-zinc-900 placeholder:text-zinc-500 ${FOCUS_RING}`}
           />
-          <kbd className="hidden shrink-0 rounded border border-zinc-200 bg-zinc-50 px-1.5 py-0.5 text-[10px] font-medium text-zinc-400 sm:inline">
+          <kbd className="hidden shrink-0 rounded border border-zinc-200 bg-zinc-50 px-1.5 py-0.5 text-[10px] font-medium text-zinc-500 sm:inline">
             Esc
           </kbd>
         </div>
@@ -113,7 +124,7 @@ export function CommandPalette({
               >
                 <span className="min-w-0">
                   <span className="flex items-center gap-2">
-                    <span className="font-mono text-xs tabular-nums text-zinc-400">{c.id}</span>
+                    <span className="font-mono text-xs tabular-nums text-zinc-500">{c.id}</span>
                     <span className="truncate text-sm font-medium text-zinc-900">{c.subject}</span>
                   </span>
                   <span className="mt-0.5 block truncate text-xs text-zinc-500">

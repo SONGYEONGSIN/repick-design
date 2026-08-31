@@ -171,7 +171,7 @@ export function CaseDetail({
                 <>
                   <UserPlus className="size-4" aria-hidden="true" />
                   Assign
-                  <ChevronDown className="size-3.5 text-zinc-400" aria-hidden="true" />
+                  <ChevronDown className="size-3.5 text-zinc-500" aria-hidden="true" />
                 </>
               }
             >
@@ -259,7 +259,7 @@ export function CaseDetail({
                   }`}
                 >
                   {t.label}
-                  <span className="ml-1.5 text-xs tabular-nums text-zinc-400">{t.count}</span>
+                  <span className="ml-1.5 text-xs tabular-nums text-zinc-500">{t.count}</span>
                   {tab === t.key && <span className="absolute inset-x-2 -bottom-px h-0.5 rounded-full bg-teal-700" aria-hidden="true" />}
                 </button>
               ))}
@@ -279,10 +279,10 @@ export function CaseDetail({
                     <span
                       className={`mt-0.5 flex size-7 shrink-0 items-center justify-center rounded-full border ${
                         ev.role === "customer"
-                          ? "border-zinc-200 bg-zinc-100 text-zinc-500"
+                          ? "border-zinc-200 bg-zinc-100 text-zinc-600"
                           : ev.role === "agent"
                             ? "border-teal-200 bg-teal-50 text-teal-700"
-                            : "border-zinc-200 bg-white text-zinc-400"
+                            : "border-zinc-200 bg-white text-zinc-500"
                       }`}
                     >
                       {ev.role === "customer" ? (
@@ -296,7 +296,7 @@ export function CaseDetail({
                     <div className="min-w-0 flex-1">
                       <div className="flex flex-wrap items-baseline gap-1.5">
                         <span className="text-sm font-medium text-zinc-900">{ev.actor}</span>
-                        <span className="text-xs text-zinc-400">{ev.time}</span>
+                        <span className="text-xs text-zinc-500">{ev.time}</span>
                       </div>
                       <p className="mt-0.5 text-sm leading-relaxed text-zinc-600">{ev.body}</p>
                     </div>
@@ -321,7 +321,7 @@ export function CaseDetail({
                   onChange={(e) => setReplyText(e.target.value)}
                   rows={2}
                   placeholder="Reply to the customer&hellip;"
-                  className={`w-full resize-none rounded-lg border border-zinc-200 px-3 py-2 text-sm text-zinc-900 placeholder:text-zinc-400 ${FOCUS_RING}`}
+                  className={`w-full resize-none rounded-lg border border-zinc-200 px-3 py-2 text-sm text-zinc-900 placeholder:text-zinc-500 ${FOCUS_RING}`}
                 />
                 <div className="mt-2 flex justify-end">
                   <button
@@ -376,7 +376,7 @@ export function CaseDetail({
                   onChange={(e) => setNoteText(e.target.value)}
                   rows={2}
                   placeholder="Add an internal note&hellip;"
-                  className={`w-full resize-none rounded-lg border border-zinc-200 px-3 py-2 text-sm text-zinc-900 placeholder:text-zinc-400 ${FOCUS_RING}`}
+                  className={`w-full resize-none rounded-lg border border-zinc-200 px-3 py-2 text-sm text-zinc-900 placeholder:text-zinc-500 ${FOCUS_RING}`}
                 />
                 <div className="mt-2 flex justify-end">
                   <button
@@ -402,7 +402,7 @@ export function CaseDetail({
               <ul className="space-y-2.5">
                 {kase.activity.map((a) => (
                   <li key={a.id} className="flex items-baseline gap-2 text-sm">
-                    <span className="w-16 shrink-0 text-xs text-zinc-400">{a.time}</span>
+                    <span className="w-16 shrink-0 text-xs text-zinc-500">{a.time}</span>
                     <span className="text-zinc-600">{a.body}</span>
                   </li>
                 ))}
@@ -429,13 +429,13 @@ export function CaseDetail({
                 <span className="tabular-nums">{kase.customer.seats}</span>
               </InfoRow>
               <InfoRow icon={DollarSign} label="MRR">
-                <span className="tabular-nums">{formatMrr(kase.customer.mrr)}</span>
+                <span className="whitespace-nowrap tabular-nums">{formatMrr(kase.customer.mrr)}</span>
               </InfoRow>
               <InfoRow icon={CalendarDays} label="Customer since">
                 <span className="tabular-nums">{kase.customer.sinceYear}</span>
               </InfoRow>
               <InfoRow icon={Phone} label="Phone">
-                <span className="tabular-nums">{kase.customer.phone}</span>
+                <span className="whitespace-nowrap tabular-nums">{kase.customer.phone}</span>
               </InfoRow>
               <InfoRow icon={Activity} label="Health">
                 <HealthDot health={kase.customer.health} />
@@ -446,7 +446,7 @@ export function CaseDetail({
           <Card className="p-4">
             <div className="flex items-center justify-between">
               <h3 className="text-sm font-semibold text-zinc-900">Response time trend</h3>
-              <span className="text-xs text-zinc-400">Queue avg &middot; minutes</span>
+              <span className="text-xs text-zinc-500">Queue avg &middot; minutes</span>
             </div>
             <div className="mt-3">
               <SlaChart data={kase.sla} period={period} onPeriodChange={setPeriod} targetMinutes={kase.targetResponseMinutes} />
@@ -454,7 +454,7 @@ export function CaseDetail({
           </Card>
         </div>
 
-        <div className="col-span-12">
+        <div className="col-span-12 min-w-0">
           <RelatedCasesTable cases={relatedSorted} company={kase.customer.company} sort={relatedSort} onSort={setRelatedSort} />
         </div>
       </div>
@@ -538,7 +538,10 @@ function RelatedCasesTable({
       {cases.length === 0 ? (
         <p className="px-4 py-6 text-sm text-zinc-500">No other open cases from this customer right now.</p>
       ) : (
-        <div className="overflow-x-auto">
+        // `relative` here (not `static`) gives the sr-only <caption> below a local containing
+        // block, so its absolute sr-only positioning stays inside this clipping/scrolling box
+        // instead of escaping to the document root and silently inflating scrollWidth at 390px.
+        <div className="relative overflow-x-auto">
           {/* min-w keeps every column at or above its computed content minimum (badge + icon + padding)
               even inside a mobile-narrow card; table-fixed then only ever grows column width from there,
               so a badge can never be squeezed into overlap. Comfortably under this width already at
@@ -563,13 +566,13 @@ function RelatedCasesTable({
                 <th scope="col" aria-sort={ariaSort("priority")} className="px-2 py-2 font-semibold">
                   <button type="button" onClick={() => toggle("priority")} className={`inline-flex items-center gap-1 ${FOCUS_RING}`}>
                     Priority
-                    <ChevronDown className={`size-3 ${sort === "priority" ? "text-teal-700" : "text-zinc-300"}`} aria-hidden="true" />
+                    <ChevronDown className={`size-3 ${sort === "priority" ? "text-teal-700" : "text-zinc-400"}`} aria-hidden="true" />
                   </button>
                 </th>
                 <th scope="col" aria-sort={ariaSort("updated")} className="px-4 py-2 text-right font-semibold">
                   <button type="button" onClick={() => toggle("updated")} className={`inline-flex items-center gap-1 ${FOCUS_RING}`}>
                     Age
-                    <ChevronDown className={`size-3 ${sort === "updated" ? "text-teal-700" : "text-zinc-300"}`} aria-hidden="true" />
+                    <ChevronDown className={`size-3 ${sort === "updated" ? "text-teal-700" : "text-zinc-400"}`} aria-hidden="true" />
                   </button>
                 </th>
               </tr>

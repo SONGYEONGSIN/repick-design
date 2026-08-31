@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, type ReactNode } from "react";
+import type { ReactNode } from "react";
 import {
   Anchor,
   Bell,
@@ -47,7 +47,7 @@ function NavContent() {
     <nav aria-label="Primary" className="flex flex-1 flex-col gap-5 overflow-y-auto px-3 py-4">
       {NAV_SECTIONS.map((section) => (
         <div key={section.label}>
-          <p className="px-2.5 text-[11px] font-semibold uppercase tracking-wide text-zinc-400">{section.label}</p>
+          <p className="px-2.5 text-[11px] font-semibold uppercase tracking-wide text-zinc-500">{section.label}</p>
           <ul className="mt-1.5 space-y-0.5">
             {section.items.map((item) => (
               <li key={item.label}>
@@ -86,6 +86,7 @@ function SidebarUser() {
     <div className="shrink-0 border-t border-zinc-200 p-3">
       <DropdownMenu
         label="Account menu"
+        useContentAsLabel
         openUp
         triggerClassName={`flex w-full items-center gap-2.5 rounded-lg p-2 text-left hover:bg-zinc-100 ${FOCUS_RING}`}
         triggerContent={
@@ -95,7 +96,7 @@ function SidebarUser() {
               <span className="block truncate text-sm font-medium text-zinc-900">{CURRENT_AGENT.name}</span>
               <span className="block truncate text-xs text-zinc-500">Support lead</span>
             </span>
-            <ChevronDown className="size-3.5 shrink-0 text-zinc-400" aria-hidden="true" />
+            <ChevronDown className="size-3.5 shrink-0 text-zinc-500" aria-hidden="true" />
           </>
         }
       >
@@ -137,7 +138,7 @@ export function Sidebar() {
           <InitialsAvatar name="Acme Support" size={20} />
           <span className="truncate font-medium">Acme Support</span>
         </span>
-        <ChevronDown className="size-3.5 shrink-0 text-zinc-400" aria-hidden="true" />
+        <ChevronDown className="size-3.5 shrink-0 text-zinc-500" aria-hidden="true" />
       </button>
       <NavContent />
       <SidebarUser />
@@ -200,13 +201,15 @@ export function Topbar({
       <div className="flex shrink-0 items-center gap-2">
         <button
           type="button"
-          aria-label="Search cases (Command K)"
           onClick={onOpenPalette}
           className={`flex h-11 items-center gap-2 rounded-lg border border-zinc-200 bg-white px-3 text-sm text-zinc-500 hover:bg-zinc-50 ${FOCUS_RING}`}
         >
           <Search className="size-4" aria-hidden="true" />
-          <span className="hidden sm:inline">Search&hellip;</span>
-          <kbd className="hidden rounded border border-zinc-200 bg-zinc-50 px-1.5 py-0.5 text-[10px] font-medium text-zinc-400 sm:inline">
+          <span className="sr-only sm:not-sr-only sm:inline">Search&hellip;</span>
+          <kbd
+            aria-hidden="true"
+            className="hidden rounded border border-zinc-200 bg-zinc-50 px-1.5 py-0.5 text-[10px] font-medium text-zinc-500 sm:inline"
+          >
             &#8984;K
           </kbd>
         </button>
@@ -224,7 +227,7 @@ export function Topbar({
         >
           {() => (
             <>
-              <p className="px-3 py-1.5 text-[11px] font-semibold uppercase tracking-wide text-zinc-400">Notifications</p>
+              <p className="px-3 py-1.5 text-[11px] font-semibold uppercase tracking-wide text-zinc-500">Notifications</p>
               <NotificationRow>SLA breached on CS-4103 &middot; Bellwether Health</NotificationRow>
               <NotificationRow>New case assigned to you &middot; CS-4032</NotificationRow>
               <NotificationRow>Customer replied &middot; CS-4127</NotificationRow>

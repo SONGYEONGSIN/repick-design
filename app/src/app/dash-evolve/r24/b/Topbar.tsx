@@ -82,12 +82,11 @@ export default function Topbar({ onOpenMobileMenu }: { onOpenMobileMenu: () => v
 
       <button
         type="button"
-        aria-label="Search flags and experiments, keyboard shortcut command K"
         className="flex h-11 min-w-0 flex-1 items-center gap-2 rounded-lg border border-white/10 bg-white/[0.03] px-3 text-sm text-zinc-400 hover:bg-white/[0.06] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-400 sm:max-w-xs"
       >
         <Search className="size-4 shrink-0" aria-hidden="true" />
-        <span className="hidden truncate sm:inline">Search flags…</span>
-        <span className="ml-auto hidden shrink-0 rounded border border-white/10 px-1.5 py-0.5 text-[11px] text-zinc-400 sm:inline">
+        <span className="sr-only truncate sm:not-sr-only sm:inline">Search flags…</span>
+        <span aria-hidden="true" className="ml-auto hidden shrink-0 rounded border border-white/10 px-1.5 py-0.5 text-[11px] text-zinc-400 sm:inline">
           ⌘K
         </span>
       </button>
@@ -98,7 +97,7 @@ export default function Topbar({ onOpenMobileMenu }: { onOpenMobileMenu: () => v
           className="flex h-11 items-center gap-1.5 rounded-lg bg-sky-400 px-3.5 text-sm font-medium text-zinc-950 hover:bg-sky-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-400"
         >
           <Plus className="size-4" aria-hidden="true" />
-          <span className="hidden sm:inline">New flag</span>
+          <span className="sr-only sm:not-sr-only sm:inline">New flag</span>
         </button>
 
         <Popover label="Notifications" icon={<Bell className="size-[18px]" aria-hidden="true" />} badge panelRole="region">

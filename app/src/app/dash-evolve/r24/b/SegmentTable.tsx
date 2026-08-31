@@ -73,7 +73,7 @@ export default function SegmentTable({ view, env }: { view: RolloutView; env: st
 
   return (
     <div className="overflow-x-auto">
-      <table className="w-full table-fixed border-separate border-spacing-0 text-sm" style={{ minWidth: 520 }}>
+      <table className="w-full table-fixed border-separate border-spacing-0 text-sm">
         <caption className="mb-2 text-left text-xs text-zinc-400">
           Audience segments in {env}, split by whether they fall inside or outside the current rollout percentage.
         </caption>
