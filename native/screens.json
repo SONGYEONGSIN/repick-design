@@ -55,5 +55,14 @@
   },
   "storefront": {
     "check": "Active Listings"
+  },
+  "evolve-r16-a": {
+    "check": "Compare offers"
+  },
+  "evolve-r16-b": {
+    "check": "Bulk Relist"
+  },
+  "evolve-r16-c": {
+    "check": "Report Listing"
   }
 }

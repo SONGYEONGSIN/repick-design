@@ -264,7 +264,7 @@ const styles = StyleSheet.create({
     width: 56,
     height: 56,
     borderRadius: tokens.radius.sm,
-    backgroundColor: "#f4f4f5",
+    backgroundColor: tokens.color.bg,
     borderWidth: 1,
     borderColor: tokens.color.border,
     alignItems: "center",
@@ -344,11 +344,10 @@ const styles = StyleSheet.create({
   reasonRowSelected: {
     borderColor: tokens.color.accent,
     borderWidth: 2,
-    backgroundColor: "#f5f4ff",
     padding: tokens.space(3) - 1,
   },
   reasonRowPressed: {
-    backgroundColor: "#f4f4f5",
+    backgroundColor: tokens.color.border,
   },
   radioOuter: {
     width: 20,
@@ -442,7 +441,7 @@ const styles = StyleSheet.create({
     backgroundColor: tokens.color.accent,
   },
   submitButtonDisabled: {
-    backgroundColor: "#f4f4f5",
+    backgroundColor: tokens.color.bg,
     borderWidth: 1,
     borderColor: tokens.color.border,
   },
@@ -471,7 +470,8 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     borderRadius: 20,
-    backgroundColor: "#f5f4ff",
+    borderWidth: 2,
+    borderColor: tokens.color.accent,
     alignItems: "center",
     justifyContent: "center",
     marginBottom: tokens.space(3),
