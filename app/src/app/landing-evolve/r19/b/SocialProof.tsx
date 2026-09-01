@@ -33,7 +33,7 @@ export default function SocialProof() {
             transition={{ duration: 0.4, delay: reduceMotion ? 0 : i * 0.08, ease: "easeOut" }}
             className="min-w-0 rounded-2xl border border-zinc-200 bg-white p-6"
           >
-            <span aria-hidden="true" className="block text-5xl font-extrabold leading-none text-zinc-500">
+            <span aria-hidden="true" className="block text-5xl font-extrabold leading-none text-zinc-600">
               &ldquo;
             </span>
             <blockquote className="mt-2 max-w-[480px] text-base leading-relaxed text-zinc-800">{t.quote}</blockquote>

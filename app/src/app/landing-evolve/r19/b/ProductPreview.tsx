@@ -84,7 +84,7 @@ export default function ProductPreview() {
 
               <div className="mt-3 flex items-end justify-between border-t border-zinc-200 pt-3">
                 <div>
-                  <span className={cx(NUM, "block text-[11px] text-zinc-500 line-through")}>${item.originalPrice.toLocaleString("en-US")}</span>
+                  <span className={cx(NUM, "block text-[11px] text-zinc-600 line-through")}>${item.originalPrice.toLocaleString("en-US")}</span>
                   <span className={cx(NUM, "text-base font-extrabold text-zinc-900")}>${item.price.toLocaleString("en-US")}</span>
                 </div>
                 <span className={cx(NUM, "text-xs font-semibold text-zinc-700")}>{`−${discount}%`}</span>

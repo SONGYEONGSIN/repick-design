@@ -16,7 +16,7 @@ export default function Hero({ weights, onWeightsChange }: { weights: Weights; o
         <div className="min-w-0 lg:col-span-5">
           <h1
             style={DISPLAY_STYLE}
-            className="text-[clamp(2.75rem,1.7rem+3.4vw,4.25rem)] font-extrabold leading-[1.02] tracking-[-0.02em] text-zinc-900"
+            className="text-[clamp(2.75rem,_1.7rem_+_3.4vw,_4.25rem)] font-extrabold leading-[1.02] tracking-[-0.02em] text-zinc-900"
           >
             <span className="block">Six sellers.</span>
             <span className="block">One item.</span>

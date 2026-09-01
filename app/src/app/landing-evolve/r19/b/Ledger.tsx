@@ -197,7 +197,7 @@ export default function Ledger({ weights, onWeightsChange }: { weights: Weights;
       </div>
 
       <p className="mt-3 text-xs text-zinc-600 sm:text-sm">
-        Original retail <span className={cx(NUM, "text-zinc-500 line-through")}>${flagship.originalPrice.toLocaleString("en-US")}</span> ·{" "}
+        Original retail <span className={cx(NUM, "text-zinc-600 line-through")}>${flagship.originalPrice.toLocaleString("en-US")}</span> ·{" "}
         {ranked.length} verified sellers hold an equivalent listing right now.
       </p>
 
