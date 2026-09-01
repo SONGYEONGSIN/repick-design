@@ -51,7 +51,9 @@ export default function FloorlineTerminal() {
         <div className="flex min-w-0 flex-1 flex-col">
           <TopBar onOpenPalette={() => setPaletteOpen(true)} onOpenDrawer={() => setDrawerOpen(true)} />
 
-          <div className="flex min-h-0 flex-1 flex-col gap-4 p-4 sm:p-6 lg:h-[calc(100dvh-4rem)] lg:flex-row lg:overflow-hidden">
+          {/* `<main>` 랜드마크. 없으면 axe 의 `landmark-one-main` 이 실패한다 — 게이트는 a11y 98 로
+              통과시켰지만(하드페일 목록 밖) 실제 결함이라 승격 시 해소했다(2026-09-01 §3-1). */}
+          <main id="main-content" className="flex min-h-0 flex-1 flex-col gap-4 p-4 sm:p-6 lg:h-[calc(100dvh-4rem)] lg:flex-row lg:overflow-hidden">
             <Card padded={false} className="h-80 w-full min-w-0 shrink-0 lg:h-full lg:w-[300px]">
               <WatchlistRail activeId={activeId} pinnedFeedId={pinnedFeedId} onSelect={handleSelect} />
             </Card>
@@ -63,7 +65,7 @@ export default function FloorlineTerminal() {
             <Card padded={false} className="h-[30rem] w-full min-w-0 shrink-0 lg:h-full lg:w-[360px]">
               <CompFeedPanel activeItem={activeItem} pinnedItem={pinnedItem} onPin={handlePinFeed} />
             </Card>
-          </div>
+          </main>
         </div>
       </div>
 

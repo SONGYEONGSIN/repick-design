@@ -31,7 +31,9 @@ export function IconRail() {
   return (
     <aside className="hidden h-full w-16 shrink-0 flex-col items-center border-r border-white/10 bg-zinc-950 py-4 lg:flex">
       <button className={`flex h-9 w-9 items-center justify-center rounded-lg bg-amber-400 text-zinc-950 ${FOCUS_RING}`}>
-        <span className="text-[15px] font-bold" style={{ fontFamily: "var(--font-display-wide)" }}>
+        {/* 600. `font-bold`(700) 이면 이 작품의 렌더 웨이트가 4종이 되어 정본(정확히 3종)을 어긴다 —
+            이 한 노드가 유일한 700 이었다(2026-09-01 승격 시 §3-1 규칙 위반 해소). */}
+        <span className="text-[15px] font-semibold" style={{ fontFamily: "var(--font-display-wide)" }}>
           F
         </span>
         <span className="sr-only">Floorline workspaces</span>

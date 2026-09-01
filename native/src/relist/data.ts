@@ -1,4 +1,4 @@
-// native/src/evolve/r16/b/data.ts
+// native/src/relist/data.ts
 // Deterministic dummy data for the Bulk Relist screen.
 // No Math.random / Date.now / new Date() — every value is a fixed literal.
 

@@ -17,6 +17,12 @@ export function evaluateSweep(measurements) {
   const failures = [];
   for (const m of measurements) {
     const mobile = m.width < 768;
+    // 셀 겹침은 문서 폭을 안 넘으므로 위 두 검사로는 잡히지 않는다. 소급 53작품 중 **1작품**만
+    // 걸려(`/dash/d35`, 승격 시 해소) 하드페일이 기존 카탈로그를 깨지 않는다 — `multi-display-face`
+    // 가 위반 1건으로 승격된 것과 같은 프로파일이다.
+    for (const o of m.cellOverlaps ?? []) {
+      failures.push({ route: m.route, width: m.width, kind: 'cell-overlap', by: o.by, sel: `"${o.a}" ↔ "${o.b}"` });
+    }
     if (m.scrollWidth > m.clientWidth) {
       failures.push({ route: m.route, width: m.width, kind: 'page-overflow', by: m.scrollWidth - m.clientWidth, sel: null });
     }
@@ -217,11 +223,65 @@ export async function runSweep(baseUrl, routes, widths = sweepWidths()) {
             });
           window.__sweepSig = ringSig;
         }
+        // 표 안에서 **인접 셀의 글자끼리 겹쳐 그려지는** 것을 잡는다.
+        //
+        // `sweep` 은 여태 `scrollWidth > clientWidth`(가로 오버플로)만 봤다. `table-fixed` + `colgroup %`
+        // 로 폭을 나눈 표에서 배분폭이 실제 콘텐츠보다 좁고 셀이 클립하지 않으면, 글자가 **옆 칸 위로
+        // 삐져나와 겹쳐 읽힌다** — 그런데 문서 폭은 뷰포트를 안 넘으므로 기존 계측이 전부 통과시켰다.
+        // `auto-dash-r22`(데스크톱 `critical` ↔ `risk`)와 `auto-dash-r24`(390px 전 행)가 독립적으로
+        // 같은 결함을 냈고 둘 다 judge 가 눈으로 잡았다.
+        //
+        // **계측 조건이 세 번 틀렸다가 스크린샷으로 정해졌다** (2026-09-01):
+        //   ① 셀 전체 Range → sr-only(클립된 절대배치)가 union 을 부풀려 9작품 378건 오탐
+        //   ② 보이는 텍스트 노드만 → 여전히 6작품 52건. `/dash/d29` 스크린샷이 반증했다 —
+        //      제목이 `text-overflow: ellipsis` 로 멀쩡히 잘려 있는데 Range 는 **자르기 전 기하**를 준다
+        //   ③ 클립을 반영해 텍스트 사각형을 조상 박스로 클램프 → **53작품 중 1작품(`/dash/d35`)**
+        // 세로로 겹치지 않으면(다른 줄) 겹침이 아니므로 수직 교차도 함께 본다.
+        const cellOverlaps = [];
+        const textRects = (cell) => {
+          const out = [];
+          const walker = document.createTreeWalker(cell, NodeFilter.SHOW_TEXT);
+          for (let n = walker.nextNode(); n; n = walker.nextNode()) {
+            if (!n.textContent.trim()) continue;
+            const host = n.parentElement;
+            if (!host) continue;
+            const cs = getComputedStyle(host);
+            if (cs.display === 'none' || cs.visibility === 'hidden' || Number(cs.opacity) === 0) continue;
+            if (cs.position === 'absolute' && (cs.clip !== 'auto' || cs.clipPath !== 'none')) continue;
+            const hb = host.getBoundingClientRect();
+            if (hb.width <= 1 || hb.height <= 1) continue;
+            const r = document.createRange();
+            r.selectNodeContents(n);
+            const rb = r.getBoundingClientRect();
+            if (!(rb.width > 0 && rb.height > 0)) continue;
+            let left = rb.left, right = rb.right;
+            for (let e = host; e && e !== cell.parentElement; e = e.parentElement) {
+              const es = getComputedStyle(e);
+              if (es.overflowX !== 'visible' || es.overflow !== 'visible') {
+                const eb = e.getBoundingClientRect();
+                left = Math.max(left, eb.left); right = Math.min(right, eb.right);
+              }
+            }
+            if (right - left > 0.5) out.push({ left, right, top: rb.top, bottom: rb.bottom, t: n.textContent.trim().slice(0, 20) });
+          }
+          return out;
+        };
+        for (const row of document.querySelectorAll('tr')) {
+          const cells = [...row.children].map((c) => textRects(c)).filter((r) => r.length);
+          for (let i = 0; i < cells.length; i++) for (let j = i + 1; j < cells.length; j++) {
+            for (const A of cells[i]) for (const B of cells[j]) {
+              if (Math.min(A.bottom, B.bottom) - Math.max(A.top, B.top) < 4) continue;
+              const by = Math.min(A.right, B.right) - Math.max(A.left, B.left);
+              if (by > 1) cellOverlaps.push({ by: Math.round(by), a: A.t, b: B.t });
+            }
+          }
+        }
         return {
           focusables,
           fontWeights: [...new Set(weights)],
           scrollWidth: doc.scrollWidth,
           clientWidth: doc.clientWidth,
+          cellOverlaps,
           tables: els.map((el, i) => ({
             sel: `${el.tagName.toLowerCase()}#${i}`,
             scrollWidth: el.scrollWidth,

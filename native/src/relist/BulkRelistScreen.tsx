@@ -1,4 +1,4 @@
-// native/src/evolve/r16/b/BulkRelistScreen.tsx
+// native/src/relist/BulkRelistScreen.tsx
 //
 // Bulk Relist — a seller's aging-inventory screen. Select any number of stale
 // listings, then apply a batch action ("Drop price 10%" / "Bump to top") to all
@@ -7,7 +7,7 @@
 // is empty, an announced bar the moment it isn't.
 import React, { useCallback, useMemo, useRef, useState } from "react";
 import { View, Text, Pressable, FlatList, SafeAreaView, StyleSheet } from "react-native";
-import { tokens } from "../../../tokens";
+import { tokens } from "../tokens";
 import { INITIAL_LISTINGS, type Listing } from "./data";
 
 type SortMode = "days" | "views";
