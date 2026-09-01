@@ -98,7 +98,6 @@ function LedgerRow({
             type="button"
             onClick={onToggle}
             aria-expanded={expanded}
-            aria-controls={`detail-${o.id}`}
             className={cx("mt-1 flex items-center gap-0.5 text-[10px] font-semibold text-zinc-600 hover:text-zinc-900", FOCUS)}
           >
             {expanded ? <ChevronDown size={11} aria-hidden="true" /> : <ChevronRight size={11} aria-hidden="true" />}
@@ -132,7 +131,6 @@ function LedgerRow({
       <AnimatePresence initial={false}>
         {expanded && (
           <motion.tr
-            id={`detail-${o.id}`}
             initial={reduceMotion ? false : { opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={reduceMotion ? undefined : { opacity: 0 }}
