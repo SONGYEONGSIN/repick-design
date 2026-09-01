@@ -19,6 +19,7 @@ import {
   Text,
   Pressable,
   FlatList,
+  ScrollView,
   SafeAreaView,
   StyleSheet,
 } from "react-native";
@@ -54,154 +55,141 @@ export function SellerScorecardScreen() {
   const remainingWon = tierRemainingWon();
 
   const toggleHistory = () => setHistoryExpanded((v) => !v);
-
   const handleShare = () => setShared(true);
 
-  const header = (
-    <View>
-      <Text style={styles.eyebrow}>SELLER ANALYTICS</Text>
-      <Text style={styles.title} accessibilityRole="header">
-        Performance Scorecard
-      </Text>
-      <Text style={styles.subtitle}>
-        Based on your last 90 days of activity · {WINDOW_LABEL}
-      </Text>
-      <Text style={styles.asOf}>{AS_OF_LABEL}</Text>
-
-      <View style={styles.metricRow}>
-        <MetricCard
-          label="Avg. reply time"
-          value={RESPONSE.avgResponseLabel}
-          trend={RESPONSE.trend}
-          footnote={`Was ${RESPONSE.priorPeriodMinutes} min last period`}
-        />
-        <MetricCard
-          label="On-time shipments"
-          value={`${onTimeRate}%`}
-          trend={SHIPPING.trend}
-          footnote={`${SHIPPING.lateShipmentsLast90} late of ${SHIPPING.totalShipmentsLast90} orders`}
-        />
-      </View>
-
-      <View style={styles.section}>
-        <View style={styles.sectionHeadRow}>
-          <Text style={styles.sectionHead} accessibilityRole="header">
-            Rating Trend
-          </Text>
-        </View>
-
-        <RatingSummary
-          current={RATING.current}
-          trend={RATING.trend}
-          reviewCount={RATING.reviewCountLast90}
-        />
-
-        <View style={styles.chartWrap}>
-          {historyExpanded ? (
-            <LineChart
-              points={RATING_HISTORY_12MO.map((m) => ({
-                day: m.monthLabel.slice(0, 3),
-                price: m.rating,
-              }))}
-              width={300}
-              height={150}
-              accessibilityLabel={`12-month rating history, from ${RATING_HISTORY_12MO[0].monthLabel} at ${RATING_HISTORY_12MO[0].rating.toFixed(2)} to ${RATING_HISTORY_12MO[RATING_HISTORY_12MO.length - 1].monthLabel} at ${RATING_HISTORY_12MO[RATING_HISTORY_12MO.length - 1].rating.toFixed(2)}`}
-              formatY={(n) => n.toFixed(2)}
-            />
-          ) : (
-            <Sparkline
-              data={RATING_HISTORY_6MO.map((m) => m.rating)}
-              width={300}
-              height={64}
-              accessibilityLabel={`6-month rating trend, from ${RATING_HISTORY_6MO[0].monthLabel} at ${RATING_HISTORY_6MO[0].rating.toFixed(2)} to ${RATING_HISTORY_6MO[RATING_HISTORY_6MO.length - 1].monthLabel} at ${RATING_HISTORY_6MO[RATING_HISTORY_6MO.length - 1].rating.toFixed(2)}`}
-            />
-          )}
-        </View>
-
-        <View accessibilityLiveRegion="polite">
-          <Text style={styles.rangeCaption} accessibilityRole="alert">
-            {historyExpanded
-              ? "Now showing 12 months of rating history."
-              : "Now showing the last 6 months."}
-          </Text>
-        </View>
-
-        <Pressable
-          onPress={toggleHistory}
-          hitSlop={HIT_SLOP}
-          accessibilityRole="button"
-          accessibilityState={{ expanded: historyExpanded }}
-          accessibilityLabel={
-            historyExpanded
-              ? "Collapse to the last 6 months"
-              : "View full 12-month history"
-          }
-          style={({ pressed }) => [
-            styles.linkButton,
-            pressed && styles.pressed,
-          ]}
-        >
-          <Text style={styles.linkButtonText}>
-            {historyExpanded ? "Show last 6 months" : "View full 12-month history"}
-          </Text>
-        </Pressable>
-
-        {historyExpanded ? <MonthDetailHeader /> : null}
-      </View>
-    </View>
-  );
-
-  const footer = (
-    <View style={styles.section}>
-      <Text style={styles.sectionHead} accessibilityRole="header">
-        Tier Progress
-      </Text>
-      <Text style={styles.tierLine}>
-        You're on <Text style={styles.tierName}>{TIER_PROGRESS.currentTierName}</Text>, working
-        toward <Text style={styles.tierName}>{TIER_PROGRESS.nextTierName}</Text>.
-      </Text>
-
-      <BarBreakdown
-        data={[{ label: TIER_PROGRESS.nextTierName, value: progressPercent }]}
-        max={100}
-        accessibilityLabel={`${progressPercent}% of the way from ${TIER_PROGRESS.currentTierName} to ${TIER_PROGRESS.nextTierName}`}
-        barWidth={180}
-      />
-
-      <Text style={styles.tierDetail}>
-        {formatWon(TIER_PROGRESS.currentVolumeWon)} of{" "}
-        {formatWon(TIER_PROGRESS.thresholdWon)} in {TIER_PROGRESS.windowLabel.toLowerCase()} —{" "}
-        {formatWon(remainingWon)} to go.
-      </Text>
-      <Text style={styles.tierFootnote}>
-        {TIER_PROGRESS.nextTierName} unlocks lower selling fees and faster payouts.
-      </Text>
-    </View>
-  );
+  const oldestVisible = historyExpanded
+    ? RATING_HISTORY_12MO[0]
+    : RATING_HISTORY_6MO[0];
+  const newestVisible = RATING_HISTORY_12MO[RATING_HISTORY_12MO.length - 1];
 
   return (
     <SafeAreaView style={styles.safe}>
-      {historyExpanded ? (
-        <FlatList
-          data={RATING_HISTORY_12MO}
-          keyExtractor={(item) => item.id}
-          renderItem={({ item }) => <MonthDetailRow item={item} />}
-          ListHeaderComponent={header}
-          ListFooterComponent={footer}
-          contentContainerStyle={styles.listContent}
-          showsVerticalScrollIndicator={false}
-        />
-      ) : (
-        <FlatList
-          data={[]}
-          keyExtractor={() => "none"}
-          renderItem={() => null}
-          ListHeaderComponent={header}
-          ListFooterComponent={footer}
-          contentContainerStyle={styles.listContent}
-          showsVerticalScrollIndicator={false}
-        />
-      )}
+      <ScrollView
+        contentContainerStyle={styles.scrollBody}
+        showsVerticalScrollIndicator={false}
+      >
+        <Text style={styles.eyebrow}>SELLER ANALYTICS</Text>
+        <Text style={styles.title} accessibilityRole="header">
+          Performance Scorecard
+        </Text>
+        <Text style={styles.subtitle}>
+          Based on your last 90 days of activity · {WINDOW_LABEL}
+        </Text>
+        <Text style={styles.asOf}>{AS_OF_LABEL}</Text>
+
+        <View style={styles.metricRow}>
+          <MetricCard
+            label="Avg. reply time"
+            value={RESPONSE.avgResponseLabel}
+            trend={RESPONSE.trend}
+            footnote={`Was ${RESPONSE.priorPeriodMinutes} min last period`}
+          />
+          <MetricCard
+            label="On-time shipments"
+            value={`${onTimeRate}%`}
+            trend={SHIPPING.trend}
+            footnote={`${SHIPPING.lateShipmentsLast90} late of ${SHIPPING.totalShipmentsLast90} orders`}
+          />
+        </View>
+
+        <View style={styles.section}>
+          <Text style={styles.sectionHead} accessibilityRole="header">
+            Rating Trend
+          </Text>
+
+          <RatingSummary
+            current={RATING.current}
+            trend={RATING.trend}
+            reviewCount={RATING.reviewCountLast90}
+          />
+
+          <View style={styles.chartWrap}>
+            {historyExpanded ? (
+              <LineChart
+                points={RATING_HISTORY_12MO.map((m) => ({
+                  day: m.monthLabel.slice(0, 3),
+                  price: m.rating,
+                }))}
+                width={300}
+                height={150}
+                accessibilityLabel={`12-month rating history, from ${oldestVisible.monthLabel} at ${oldestVisible.rating.toFixed(2)} to ${newestVisible.monthLabel} at ${newestVisible.rating.toFixed(2)}`}
+                formatY={(n) => n.toFixed(2)}
+              />
+            ) : (
+              <Sparkline
+                data={RATING_HISTORY_6MO.map((m) => m.rating)}
+                width={300}
+                height={64}
+                accessibilityLabel={`6-month rating trend, from ${oldestVisible.monthLabel} at ${oldestVisible.rating.toFixed(2)} to ${newestVisible.monthLabel} at ${newestVisible.rating.toFixed(2)}`}
+              />
+            )}
+          </View>
+
+          <View accessibilityLiveRegion="polite">
+            <Text style={styles.rangeCaption} accessibilityRole="alert">
+              {historyExpanded
+                ? "Now showing 12 months of rating history."
+                : "Now showing the last 6 months."}
+            </Text>
+          </View>
+
+          <Pressable
+            onPress={toggleHistory}
+            hitSlop={HIT_SLOP}
+            accessibilityRole="button"
+            accessibilityState={{ expanded: historyExpanded }}
+            accessibilityLabel={
+              historyExpanded
+                ? "Collapse to the last 6 months"
+                : "View full 12-month history"
+            }
+            style={({ pressed }) => [styles.linkButton, pressed && styles.pressed]}
+          >
+            <Text style={styles.linkButtonText}>
+              {historyExpanded ? "Show last 6 months" : "View full 12-month history"}
+            </Text>
+          </Pressable>
+
+          {historyExpanded ? (
+            <View style={styles.monthTable}>
+              <MonthDetailHeader />
+              <FlatList
+                data={RATING_HISTORY_12MO}
+                keyExtractor={(item) => item.id}
+                renderItem={({ item }) => <MonthDetailRow item={item} />}
+                scrollEnabled={false}
+              />
+            </View>
+          ) : null}
+        </View>
+
+        <View style={styles.section}>
+          <Text style={styles.sectionHead} accessibilityRole="header">
+            Tier Progress
+          </Text>
+          <Text style={styles.tierLine}>
+            You're on <Text style={styles.tierName}>{TIER_PROGRESS.currentTierName}</Text>,
+            working toward{" "}
+            <Text style={styles.tierName}>{TIER_PROGRESS.nextTierName}</Text>.
+          </Text>
+
+          <BarBreakdown
+            data={[{ label: TIER_PROGRESS.nextTierName, value: progressPercent }]}
+            max={100}
+            accessibilityLabel={`${progressPercent}% of the way from ${TIER_PROGRESS.currentTierName} to ${TIER_PROGRESS.nextTierName}`}
+            barWidth={180}
+          />
+
+          <Text style={styles.tierDetail}>
+            {formatWon(TIER_PROGRESS.currentVolumeWon)} of{" "}
+            {formatWon(TIER_PROGRESS.thresholdWon)} in {TIER_PROGRESS.windowLabel.toLowerCase()}{" "}
+            — {formatWon(remainingWon)} to go.
+          </Text>
+          <Text style={styles.tierFootnote}>
+            {TIER_PROGRESS.nextTierName} unlocks lower selling fees and faster payouts.
+          </Text>
+        </View>
+      </ScrollView>
 
       <View style={styles.band}>
         <View accessibilityLiveRegion="polite" style={styles.bandTextWrap}>
@@ -218,11 +206,7 @@ export function SellerScorecardScreen() {
           hitSlop={HIT_SLOP}
           accessibilityRole="button"
           accessibilityLabel="Share scorecard"
-          accessibilityHint="Copies a text summary of this performance snapshot"
-          style={({ pressed }) => [
-            styles.shareBtn,
-            pressed && styles.pressed,
-          ]}
+          style={({ pressed }) => [styles.shareBtn, pressed && styles.pressed]}
         >
           <Text style={styles.shareBtnText}>Share scorecard</Text>
         </Pressable>
@@ -236,13 +220,13 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: tokens.color.bg,
   },
-  listContent: {
+  scrollBody: {
     paddingHorizontal: tokens.space(5),
-    paddingBottom: tokens.space(6),
+    paddingTop: tokens.space(4),
+    paddingBottom: tokens.space(7),
   },
 
   eyebrow: {
-    marginTop: tokens.space(4),
     fontSize: 11,
     letterSpacing: 1.2,
     fontWeight: "700",
@@ -277,11 +261,6 @@ const styles = StyleSheet.create({
   section: {
     marginTop: tokens.space(6),
   },
-  sectionHeadRow: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-  },
   sectionHead: {
     fontSize: 17,
     fontWeight: "700",
@@ -311,6 +290,15 @@ const styles = StyleSheet.create({
   },
   pressed: {
     opacity: 0.75,
+  },
+
+  monthTable: {
+    marginTop: tokens.space(4),
+    borderWidth: 1,
+    borderColor: tokens.color.border,
+    borderRadius: tokens.radius.md,
+    paddingTop: tokens.space(3),
+    overflow: "hidden",
   },
 
   tierLine: {
