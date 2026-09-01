@@ -2,7 +2,7 @@
 
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { ArrowDown, ArrowUp, ChevronDown, ChevronRight, Minus, ShieldCheck, Truck } from "lucide-react";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useMemo, useState } from "react";
 import { GradeBadge, LiveDot, MatchBadge, VerifiedBadge } from "./Badges";
 import { flagship, offers, type Offer } from "./data";
 import PhotoTile from "./PhotoTile";
@@ -158,19 +158,30 @@ export default function Ledger({ weights, onWeightsChange }: { weights: Weights;
   const reduceMotion = Boolean(useReducedMotion());
   const ranked = useMemo(() => rankOffers(offers, weights), [weights]);
 
-  const prevOrderRef = useRef<string[]>(ranked.map((s) => s.offer.id));
+  // Track the order from the previous distinct render to diff against, using the "adjust state
+  // during render" pattern (react.dev/reference/react/useState#storing-information-from-previous-renders)
+  // instead of a ref: `react-hooks/refs` flags any `ref.current` read inside a function that runs
+  // during render — a `useMemo` body included — since refs are meant to be read only in effects or
+  // event handlers. `committedIds` holds the order as of the last time it changed; `priorIds` holds
+  // the order before that, which is what deltas are computed against. The conditional setState call
+  // below is plain render-phase code (not inside a hook), so it never touches `.current`, and it
+  // resolves synchronously in the same commit rather than lagging a frame the way an effect would.
+  const currentIds = useMemo(() => ranked.map((s) => s.offer.id), [ranked]);
+  const [committedIds, setCommittedIds] = useState<string[]>(currentIds);
+  const [priorIds, setPriorIds] = useState<string[]>(currentIds);
+  if (currentIds.join("|") !== committedIds.join("|")) {
+    setPriorIds(committedIds);
+    setCommittedIds(currentIds);
+  }
+
   const deltas = useMemo(() => {
-    const prev = prevOrderRef.current;
     const map: Record<string, number> = {};
     ranked.forEach((s) => {
-      const prevIdx = prev.indexOf(s.offer.id);
+      const prevIdx = priorIds.indexOf(s.offer.id);
       map[s.offer.id] = prevIdx === -1 ? 0 : prevIdx - (s.rank - 1);
     });
     return map;
-  }, [ranked]);
-  useEffect(() => {
-    prevOrderRef.current = ranked.map((s) => s.offer.id);
-  }, [ranked]);
+  }, [ranked, priorIds]);
 
   const [expandedId, setExpandedId] = useState<string | null>(null);
 
