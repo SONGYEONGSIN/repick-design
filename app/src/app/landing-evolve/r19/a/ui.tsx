@@ -4,16 +4,26 @@ import { Check } from "lucide-react";
 import type { ReactNode } from "react";
 import { COLOR, FOCUS_RING, TRACK, W } from "./tokens";
 
+// The page has two light surfaces, and gray text needs a different floor on each:
+// `mutedOnBg` (5.05:1) is only safe on the near-white `bg` — on the kraft-tinted `surface` it
+// measures ~4.13:1 and fails the 4.5:1 hard gate. `mutedOnSurf` (5.61:1 on surface, higher still
+// on bg) is the one to use for any muted text that lands inside a `background: COLOR.surface`
+// card. Every caller of Folio/FigCaption/QuoteGlyph below must pass `tone="surface"` when it does.
+export type Tone = "bg" | "surface";
+function toneColor(tone: Tone) {
+  return tone === "surface" ? COLOR.mutedOnSurf : COLOR.mutedOnBg;
+}
+
 // Small folio number in a section's corner — the safe alternative to a giant ghost numeral the
 // brief calls out explicitly: same editorial "case file" numbering device, but sized and colored
-// so it reads as a label, never a competitor to the heading next to it. mutedOnBg clears 5.05:1
-// against bg regardless of size, so this is compliant even though it sits well under the 24px
-// large-text threshold that would otherwise require only 3:1.
-export function Folio({ n, of }: { n: number; of: number }) {
+// so it reads as a label, never a competitor to the heading next to it. Sized well past the 24px
+// large-text threshold's 3:1 floor regardless of tone — both mutedOnBg (5.05:1 on bg) and
+// mutedOnSurf (5.61:1 on surface, more on bg) clear the stricter 4.5:1 small-text floor too.
+export function Folio({ n, of, tone = "bg" }: { n: number; of: number; tone?: Tone }) {
   return (
     <span
       className={`${W.label} block text-[11px] leading-none tabular-nums`}
-      style={{ color: COLOR.mutedOnBg, letterSpacing: TRACK.caption }}
+      style={{ color: toneColor(tone), letterSpacing: TRACK.caption }}
     >
       § {String(n).padStart(2, "0")} / {String(of).padStart(2, "0")}
     </span>
@@ -31,26 +41,27 @@ export function Eyebrow({ children }: { children: ReactNode }) {
   );
 }
 
-export function FigCaption({ children }: { children: ReactNode }) {
+export function FigCaption({ children, tone = "bg" }: { children: ReactNode; tone?: Tone }) {
   return (
     <p
       className={`${W.body} text-[12px] leading-snug`}
-      style={{ color: COLOR.mutedOnBg, letterSpacing: TRACK.caption }}
+      style={{ color: toneColor(tone), letterSpacing: TRACK.caption }}
     >
       {children}
     </p>
   );
 }
 
-// Decorative quote glyph. Rendered, therefore contrast-checked like any visible text — mutedOnBg
-// clears 5.05:1 against bg at any size, well past the 3:1 large-text floor `aria-hidden` does not
-// exempt it from.
-export function QuoteGlyph({ className = "" }: { className?: string }) {
+// Decorative quote glyph. Rendered, therefore contrast-checked like any visible text — `aria-hidden`
+// does not exempt it, so it takes the same tone prop as everything else here rather than a single
+// hardcoded color, since it appears on both the plain `bg` (SocialProof) and a `surface` card
+// (ClosingCta).
+export function QuoteGlyph({ className = "", tone = "bg" }: { className?: string; tone?: Tone }) {
   return (
     <span
       aria-hidden="true"
       className={`${W.heavy} block leading-none select-none ${className}`}
-      style={{ color: COLOR.mutedOnBg, fontSize: "48px" }}
+      style={{ color: toneColor(tone), fontSize: "48px" }}
     >
       &ldquo;
     </span>

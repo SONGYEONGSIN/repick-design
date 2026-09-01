@@ -8,7 +8,7 @@ import ProductPreview from "./ProductPreview";
 import ValueSection from "./ValueSection";
 import SocialProof from "./SocialProof";
 import ClosingCta from "./ClosingCta";
-import { COLOR, DISPLAY_FONT, TRACK, W } from "./tokens";
+import { COLOR, TRACK, W } from "./tokens";
 import { DEFAULT_RIGOR, DEFAULT_WINDOW, deriveVerdict, type RigorId, type WindowId } from "./data";
 
 export default function DossierLanding() {
@@ -35,7 +35,7 @@ export default function DossierLanding() {
           <ScrollText className="size-4 shrink-0" style={{ color: COLOR.accentDark }} aria-hidden="true" />
           <span
             className={`${W.heavy} text-[15px]`}
-            style={{ color: COLOR.ink, letterSpacing: "-0.01em", fontFamily: DISPLAY_FONT }}
+            style={{ color: COLOR.ink, letterSpacing: "-0.01em", fontFamily: "var(--font-display-wide), var(--font-sans)" }}
           >
             repick
           </span>

@@ -3,7 +3,7 @@
 import { useState, type FormEvent } from "react";
 import { ArrowRight, CheckCircle2, Mail } from "lucide-react";
 import { Folio, QuoteGlyph } from "./ui";
-import { COLOR, DISPLAY_FONT, FOCUS_RING, TRACK, W } from "./tokens";
+import { COLOR, FOCUS_RING, TRACK, W } from "./tokens";
 import { SUBJECT, type Verdict } from "./data";
 import Reveal from "./Reveal";
 
@@ -36,15 +36,15 @@ export default function ClosingCta({ verdict }: { verdict: Verdict }) {
             >
               Closing statement
             </span>
-            <Folio n={6} of={6} />
+            <Folio n={6} of={6} tone="surface" />
           </div>
 
           <div className="mt-4 grid grid-cols-1 lg:grid-cols-12 gap-8">
             <div className="lg:col-span-7 min-w-0">
-              <QuoteGlyph />
+              <QuoteGlyph tone="surface" />
               <h2
                 className={`${W.heavy} text-[clamp(2rem,1.4rem+2.6vw,3.5rem)] leading-[1.02] -mt-2`}
-                style={{ color: COLOR.ink, letterSpacing: "-0.02em", fontFamily: DISPLAY_FONT }}
+                style={{ color: COLOR.ink, letterSpacing: "-0.02em", fontFamily: "var(--font-display-wide), var(--font-sans)" }}
               >
                 Read Case File {SUBJECT.caseFile.split("-").pop()} yourself.
               </h2>

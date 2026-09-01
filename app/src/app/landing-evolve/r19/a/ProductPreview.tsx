@@ -4,7 +4,7 @@ import { useMemo, useState } from "react";
 import { Check, CheckCircle2, ShieldCheck } from "lucide-react";
 import { BikeGlyph, ChairGlyph, RugGlyph, WatchGlyph } from "./Glyphs";
 import { FigCaption, Folio, Pill } from "./ui";
-import { COLOR, DISPLAY_FONT, FOCUS_RING, TRACK, W } from "./tokens";
+import { COLOR, FOCUS_RING, TRACK, W } from "./tokens";
 import { CATEGORIES, LISTINGS, discountPercent, type Category, type Verdict } from "./data";
 import Reveal from "./Reveal";
 
@@ -29,7 +29,7 @@ export default function ProductPreview({ verdict }: { verdict: Verdict }) {
         <div className="max-w-[560px]">
           <h2
             className={`${W.heavy} text-[clamp(1.9rem,1.3rem+2vw,3rem)] leading-[1.02]`}
-            style={{ color: COLOR.ink, letterSpacing: "-0.02em", fontFamily: DISPLAY_FONT }}
+            style={{ color: COLOR.ink, letterSpacing: "-0.02em", fontFamily: "var(--font-display-wide), var(--font-sans)" }}
           >
             Every listing ships with its case file.
           </h2>
@@ -83,7 +83,7 @@ export default function ProductPreview({ verdict }: { verdict: Verdict }) {
                 >
                   <Glyph className="absolute inset-0 h-full w-full" />
                 </div>
-                <FigCaption>
+                <FigCaption tone="surface">
                   Fig. {LISTINGS.indexOf(listing) + 2} — {listing.title}.
                 </FigCaption>
 

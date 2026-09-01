@@ -3,7 +3,7 @@
 import { ArrowRight, CheckCircle2, FileSearch, ShieldCheck, TriangleAlert } from "lucide-react";
 import { ChairGlyph } from "./Glyphs";
 import { Eyebrow, FigCaption, Pill, Segmented, StatBlock } from "./ui";
-import { COLOR, DISPLAY_FONT, FOCUS_RING, TRACK, W } from "./tokens";
+import { COLOR, FOCUS_RING, TRACK, W } from "./tokens";
 import {
   RIGOR_LEVELS,
   WINDOWS,
@@ -38,7 +38,7 @@ export default function Hero({
 
           <h1
             className={`${W.heavy} mt-5 text-[clamp(2.75rem,2rem+4vw,5.75rem)] leading-[0.98]`}
-            style={{ color: COLOR.ink, letterSpacing: "-0.02em", fontFamily: DISPLAY_FONT }}
+            style={{ color: COLOR.ink, letterSpacing: "-0.02em", fontFamily: "var(--font-display-wide), var(--font-sans)" }}
           >
             Before it&apos;s a listing, it&apos;s a case file.
           </h1>
@@ -78,7 +78,7 @@ export default function Hero({
                 color: COLOR.mutedOnBg,
                 fontSize: "4.5rem",
                 letterSpacing: TRACK.stat,
-                fontFamily: DISPLAY_FONT,
+                fontFamily: "var(--font-display-wide), var(--font-sans)",
               }}
             >
               2291
@@ -116,7 +116,7 @@ export default function Hero({
               <ChairGlyph className="absolute inset-0 h-full w-full" />
             </div>
             <div className="mt-2">
-              <FigCaption>
+              <FigCaption tone="surface">
                 Fig. 1 — {SUBJECT.title}, {SUBJECT.detail}.
               </FigCaption>
             </div>

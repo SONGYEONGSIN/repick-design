@@ -92,3 +92,12 @@ tags: [auto-landing-r19, candidate]
 ## 폰트 웨이트 실측 확인
 
 `grep -E "font-(thin|extralight|light|normal|medium|semibold|bold|extrabold|black)"`를 `tokens.ts`(정의부)와 나머지 8개 파일(소비부)에 실행 — `font-normal`/`font-semibold`/`font-extrabold` 세 종류만 검출, 전부 `tokens.ts`의 `W` 상수 하나를 통해서만 진입(개별 컴포넌트가 직접 웨이트 클래스를 타이핑하지 않음).
+
+## 게이트 수정 로그 (1차 FAIL → 수정)
+
+1차 게이트가 19건 위반으로 FAIL, 4개 클래스로 수정:
+
+1. **`no-unlisted-font` (8건)** — `DISPLAY_FONT` 상수를 `style={{fontFamily: DISPLAY_FONT}}`로 간접 참조한 8개 지점 전부를 정적 검사기가 리터럴만 매칭한다는 이유로 플래그. 8곳 전부 `fontFamily: "var(--font-display-wide), var(--font-sans)"` 리터럴로 인라인, 이제 쓰이지 않는 `DISPLAY_FONT` import를 8개 파일에서 제거(상수 자체는 `tokens.ts`에 값 참조용 문서로만 잔존).
+2. **`sweep` table-overflow (5건, 1264/1280/1350px)** — Exhibit B 표에 `table-fixed`+`%` 폭과 함께 남겨뒀던 `min-w-[560px]`가 브리프의 "table-fixed + % 대신 min-w 강제 금지" 지침을 직접 위반한 원인. `min-w-[560px]`를 완전히 제거 — `table-fixed`+`w-full`만으로 모든 폭에서 컨테이너와 정확히 일치(모바일에서는 스크롤 대신 컬럼이 줄고 텍스트가 줄바꿈).
+3. **focus + target-size (SocialProof 증언 점 인디케이터 3개)** — 실제 클릭 가능 `<button>`이 7×7px(활성 20×7px)로 24px 최소 타깃에 못 미쳤고, 그 크기에서는 `focus-visible:shadow-[...]` 링이 사실상 지각 불가능했던 것이 근본 원인으로 판단. 버튼 자체를 `p-2.5`로 패딩해 실제 히트 영역을 27×27px(활성 시 40×27px)까지 키우고, 7px 점은 `aria-hidden` 내부 `<span>`으로 분리 — 포커스 링이 이제 충분히 큰 박스에 그려져 눈에 띄고, 동시에 target-size 최소치도 통과.
+4. **`color-contrast` (a11y 하드페일)** — `mutedOnBg`(#6B6862, bg 대비 5.05:1)를 근백색 `bg` 전용으로 설계했는데, `FigCaption`(Hero 카드·상품 프리뷰 카드)과 `Folio`/`QuoteGlyph`(ClosingCta)가 카드 배경 `surface`(#E3DECE) 위에서도 같은 색을 그대로 썼음 — 수동 재계산 결과 `mutedOnBg` vs `surface` ≈ **4.13:1**로 4.5 게이트 미달 확인(브리프가 경고한 "근백색 표면 vs 틴트 표면 플로어가 다르다"는 규칙을 정확히 위반한 사례). `ui.tsx`의 세 컴포넌트에 `tone?: "bg" | "surface"` prop을 추가해 surface 위에서는 `mutedOnSurf`(surface 대비 5.61:1)를 쓰도록 분기하고, Hero/ProductPreview의 `FigCaption`과 ClosingCta의 `Folio`/`QuoteGlyph` 호출부에 `tone="surface"`를 명시.

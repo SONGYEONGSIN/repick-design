@@ -45,8 +45,12 @@ export const W = {
   heavy: "font-extrabold",
 } as const;
 
-// Applied via inline `style={{ fontFamily: DISPLAY_FONT }}` rather than a Tailwind arbitrary-value
-// class — guarantees the CSS variable resolves correctly with no dependence on how Tailwind v4
-// parses `font-[...]` type hints. Large Latin display text only (h1 + section h2), per the brief;
-// body copy, card titles and Korean-adjacent strings never use this.
+// Reference value only — every actual call site inlines this exact string literally as
+// `style={{ fontFamily: "var(--font-display-wide), var(--font-sans)" }}` rather than importing
+// this constant. The static `no-unlisted-font` checker matches a literal `var(--font-display-*)`
+// string at the `fontFamily:` site and can't resolve an identifier reference, so routing every
+// site through this constant was flagging all 8 as unlisted fonts even though the resolved value
+// is on the allow-list. Kept here as documentation of the exact value, not as an import target.
+// Large Latin display text only (h1 + section h2), per the brief; body copy, card titles and
+// Korean-adjacent strings never use this.
 export const DISPLAY_FONT = "var(--font-display-wide), var(--font-sans)";

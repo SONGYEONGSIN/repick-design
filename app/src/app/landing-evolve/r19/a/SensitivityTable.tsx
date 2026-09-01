@@ -2,7 +2,7 @@
 
 import { Check, Minus } from "lucide-react";
 import { Folio } from "./ui";
-import { COLOR, DISPLAY_FONT, TRACK, W } from "./tokens";
+import { COLOR, TRACK, W } from "./tokens";
 import { sensitivityRows, WINDOWS, type RigorId, type WindowId } from "./data";
 import Reveal from "./Reveal";
 
@@ -28,7 +28,7 @@ export default function SensitivityTable({
             <div className="flex items-start justify-between gap-4">
               <h2
                 className={`${W.heavy} text-[clamp(1.75rem,1.2rem+1.6vw,2.5rem)] leading-[1.05]`}
-                style={{ color: COLOR.ink, letterSpacing: "-0.02em", fontFamily: DISPLAY_FONT }}
+                style={{ color: COLOR.ink, letterSpacing: "-0.02em", fontFamily: "var(--font-display-wide), var(--font-sans)" }}
               >
                 Exhibit B — assumption sensitivity
               </h2>
@@ -42,8 +42,13 @@ export default function SensitivityTable({
           </div>
 
           <div className="lg:col-span-8 min-w-0">
+            {/* No `min-w-*` on the table: `table-fixed` + `w-full` alone means the table always
+                matches its container exactly at every width (columns shrink and cell text wraps
+                on narrow viewports instead of the table ever forcing itself wider than its box —
+                which is what was pushing 1–7px past the container at 1264/1280/1350px before).
+                `overflow-x-auto` stays as a no-op safety net; it should never actually trigger. */}
             <div className="w-full overflow-x-auto">
-              <table className="w-full table-fixed border-collapse min-w-[560px]">
+              <table className="w-full table-fixed border-collapse">
                 <caption
                   className={`${W.body} text-left text-[12px] mb-3`}
                   style={{ color: COLOR.mutedOnBg, letterSpacing: TRACK.caption }}

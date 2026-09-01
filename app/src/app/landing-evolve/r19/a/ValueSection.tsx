@@ -2,7 +2,7 @@
 
 import { Handshake, ScanSearch, Store } from "lucide-react";
 import { Folio } from "./ui";
-import { COLOR, DISPLAY_FONT, TRACK, W } from "./tokens";
+import { COLOR, TRACK, W } from "./tokens";
 import { RIGOR_LEVELS, WINDOWS, type RigorId, type Verdict, type WindowId } from "./data";
 import Reveal from "./Reveal";
 
@@ -55,7 +55,7 @@ export default function ValueSection({
           <div className="max-w-[620px]">
             <h2
               className={`${W.heavy} text-[clamp(1.9rem,1.3rem+2vw,3rem)] leading-[1.02]`}
-              style={{ color: COLOR.ink, letterSpacing: "-0.02em", fontFamily: DISPLAY_FONT }}
+              style={{ color: COLOR.ink, letterSpacing: "-0.02em", fontFamily: "var(--font-display-wide), var(--font-sans)" }}
             >
               One case file, three ways to read it.
             </h2>

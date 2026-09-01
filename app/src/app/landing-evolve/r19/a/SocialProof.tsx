@@ -4,7 +4,7 @@ import { useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Folio, QuoteGlyph } from "./ui";
-import { COLOR, DISPLAY_FONT, FOCUS_RING, TRACK, W } from "./tokens";
+import { COLOR, FOCUS_RING, TRACK, W } from "./tokens";
 import { AGGREGATE_STATS, TESTIMONIALS } from "./data";
 import Reveal from "./Reveal";
 
@@ -24,7 +24,7 @@ export default function SocialProof() {
         <div className="flex items-start justify-between gap-4">
           <h2
             className={`${W.heavy} text-[clamp(1.9rem,1.3rem+2vw,3rem)] leading-[1.02]`}
-            style={{ color: COLOR.ink, letterSpacing: "-0.02em", fontFamily: DISPLAY_FONT }}
+            style={{ color: COLOR.ink, letterSpacing: "-0.02em", fontFamily: "var(--font-display-wide), var(--font-sans)" }}
           >
             What the case file changes.
           </h2>
@@ -89,7 +89,13 @@ export default function SocialProof() {
             >
               <ChevronRight className="size-4" aria-hidden="true" />
             </button>
-            <div className="flex items-center gap-1.5 ml-1" role="group" aria-label="Choose testimonial">
+            <div className="flex items-center ml-1" role="group" aria-label="Choose testimonial">
+              {/* The clickable/focusable `button` is padded out to a real hit target (>=24px on
+                  both axes at rest, well over 40px on the active/widest state) — the small dot
+                  is a separate, purely visual, `aria-hidden` inner span. Sizing the button itself
+                  (not the 7px dot) is also what makes the focus-visible ring below land on a box
+                  large enough to actually read as a visible change, instead of a near-invisible
+                  halo around a 7px circle. */}
               {TESTIMONIALS.map((t, i) => (
                 <button
                   key={t.name}
@@ -97,13 +103,18 @@ export default function SocialProof() {
                   aria-pressed={i === index}
                   aria-label={`Testimonial from ${t.name}`}
                   onClick={() => setIndex(i)}
-                  className={`${FOCUS_RING} rounded-full transition-all`}
-                  style={{
-                    width: i === index ? "20px" : "7px",
-                    height: "7px",
-                    background: i === index ? COLOR.accent : COLOR.mutedOnBg,
-                  }}
-                />
+                  className={`${FOCUS_RING} inline-flex items-center justify-center rounded-full p-2.5`}
+                >
+                  <span
+                    aria-hidden="true"
+                    className="block rounded-full transition-all"
+                    style={{
+                      width: i === index ? "20px" : "7px",
+                      height: "7px",
+                      background: i === index ? COLOR.accent : COLOR.mutedOnBg,
+                    }}
+                  />
+                </button>
               ))}
             </div>
           </div>
