@@ -5814,5 +5814,383 @@
         "dont": "Flatten everything to one radius — the profile and the grid stop being distinguishable."
       }
     ]
+  },
+  "d51": {
+    "id": "d51",
+    "palette": [
+      {
+        "token": "canvas",
+        "hex": "#002d23",
+        "role": "Recessed chronology ground",
+        "usage": "A deep green plane (47 regions) behind the event stream, with white cards floating above it (85 regions). The ground is dark so a long chronology reads as one continuous surface rather than a stack of rows."
+      },
+      {
+        "token": "muted",
+        "hex": "#9f9fa9",
+        "role": "Timestamps + metadata",
+        "usage": "186 text nodes, the largest tier by far — an audit log is mostly metadata, so the most frequent ink is deliberately the quietest."
+      },
+      {
+        "token": "body",
+        "hex": "#d4d4d8",
+        "role": "Event descriptions",
+        "usage": "140 nodes. The line a reader actually parses when scanning for what happened."
+      },
+      {
+        "token": "fg",
+        "hex": "#fafafa",
+        "role": "Actor names + headings",
+        "usage": "126 nodes — the near-white tier reserved for who did it and the section headings."
+      },
+      {
+        "token": "ok",
+        "hex": "#5ee9b5",
+        "role": "Success severity",
+        "usage": "47 nodes over the #002d23 ground. Severity is a text colour paired with a word ('Success'), never colour alone."
+      },
+      {
+        "token": "warn",
+        "hex": "#ffd230",
+        "role": "High severity",
+        "usage": "14 nodes with a #461900 chip ground behind them."
+      },
+      {
+        "token": "crit",
+        "hex": "#ffa1ad",
+        "role": "Critical severity",
+        "usage": "12 nodes on #4d0219 — the palest of the four severity inks because it sits on the darkest chip."
+      }
+    ],
+    "typography": "Pretendard Variable on 401 nodes with JetBrains Mono Display on 146 — an unusually high mono share, because timestamps, actor ids and hashes are all fixed-width in an audit log and aligning them is the point. Three weights at render (400 / 500 / 600) with 400 dominant (309 nodes): a log is prose-like, so regular carries it. Scale 9–28px with 197 nodes at 12px.",
+    "spacing": "An 8/2/12/10/6/14 base — padding 8px (161 regions) and 2px (100) do most of the work, which is what keeps a dense chronology legible without rules between rows. Gap 4px is the default rhythm (99). Radius: fully-rounded severity pills (179) plus 8/12/16 for cards.",
+    "philosophy": "Filtering partially recomputes; clicking an event opens an inspector that persists nothing — and the split between the two is written into a code comment rather than left implicit. That comment is the point: a reader who does not run the page can still tell which interactions own state and which do not. The severity scale is carried by text colour plus a word on a tinted chip, so a reader who cannot separate the four hues still gets the level.",
+    "agentPrompt": "Build a security audit log whose dominant visualization is a vertical chronology. Split interaction by blast radius and say so in a comment: a filter that partially recomputes, and an event click that opens an inspector holding no state. Set timestamps, actor ids and hashes in a mono face so columns align, keep the most frequent ink the quietest tier, and pair every severity colour with the word for that severity on its own tinted chip.",
+    "dosDonts": [
+      {
+        "do": "Write the state-ownership split into a comment next to the handlers.",
+        "dont": "Leave it implicit — a reader who does not run the page cannot infer which click persists."
+      },
+      {
+        "do": "Give the most frequent ink tier the quietest colour.",
+        "dont": "Set metadata at full contrast — in a log it outnumbers the content."
+      },
+      {
+        "do": "Pair each severity hue with its word on a tinted chip.",
+        "dont": "Encode severity in colour alone."
+      },
+      {
+        "do": "Use mono for anything that should align in a column.",
+        "dont": "Set event prose in mono — it is read, not compared."
+      }
+    ]
+  },
+  "d52": {
+    "id": "d52",
+    "palette": [
+      {
+        "token": "canvas",
+        "hex": "#27272a",
+        "role": "Terminal ground",
+        "usage": "Zinc-800 across 21 regions — the three panes sit on one continuous dark plane so the boundaries between them are drawn by content, not by surface colour."
+      },
+      {
+        "token": "muted",
+        "hex": "#9f9fa9",
+        "role": "Labels + secondary rows",
+        "usage": "68 nodes, the largest tier. A comp terminal is mostly labelled numbers."
+      },
+      {
+        "token": "fg",
+        "hex": "#fafafa",
+        "role": "Primary figures",
+        "usage": "45 nodes — the prices and the active comparison values."
+      },
+      {
+        "token": "body",
+        "hex": "#f4f4f5",
+        "role": "Item names",
+        "usage": "40 nodes, a half-step under the primary tier so names do not compete with the figures beside them."
+      },
+      {
+        "token": "accent",
+        "hex": "#ffb900",
+        "role": "Active selection + pin",
+        "usage": "Amber on three filled regions and the workspace mark. It marks what is currently driving the chart — the one thing a reader must be able to find instantly in a three-pane layout."
+      },
+      {
+        "token": "live",
+        "hex": "#46edd5",
+        "role": "Non-persistent crosshair readout",
+        "usage": "Three nodes only. A different hue from the accent on purpose: the crosshair is ephemeral and the pin is not, and the colour says which is which."
+      }
+    ],
+    "typography": "Pretendard Variable on 178 nodes with Archivo Display on 2 — the display face is confined to the workspace mark and the terminal title. Three weights at render (400 / 500 / 600) after the promotion fix; the single 700 node was the workspace glyph and was brought to 600 so the work renders exactly three weights. Scale 9–20px, tight for a terminal, with 61 nodes at 11px.",
+    "spacing": "10/8/12 padding with 4/6/2 inside clusters and 16/20 at pane edges. Gap 8px is the default (31 regions). Radius 8 and 6px in near-equal measure plus fully-rounded pills (22) — the flat set suits a terminal where nothing should look like a card.",
+    "philosophy": "Selection is split three ways, and the split is exposed rather than hidden. An active id recomputes the chart at once. A pinned feed id moves only when a Pin button is pressed — and when the two diverge, an out-of-sync banner says so, with a re-pin control. A hover state persists nothing at all. The banner is the load-bearing idea: two candidates split their propagation correctly, but the one that made the split visible in the UI won the differentiation lens, because a judgement that does not read the source cannot see an internal structure.",
+    "agentPrompt": "Build a three-pane comparison terminal that splits selection into three modes: an immediate recompute, an explicit pin that only moves on a button press, and a hover that persists nothing. When the immediate and pinned states diverge, put a visible banner saying so with a control to reconcile them — do not reconcile silently. Give the ephemeral readout a different hue from the persistent pin so the colour tells the reader which kind of state they are looking at.",
+    "dosDonts": [
+      {
+        "do": "Show divergence between active and pinned state with a banner and a re-pin control.",
+        "dont": "Silently resync — the reader loses the fact that they were looking at two different things."
+      },
+      {
+        "do": "Give ephemeral and persistent states different hues.",
+        "dont": "Use the accent for both — then colour says 'important' rather than 'this one lasts'."
+      },
+      {
+        "do": "Require an explicit press to move the pinned state.",
+        "dont": "Let hover write to it."
+      },
+      {
+        "do": "Keep the whole terminal on one ground and let content draw the pane boundaries.",
+        "dont": "Tint each pane — three surfaces read as three apps."
+      }
+    ]
+  },
+  "d53": {
+    "id": "d53",
+    "palette": [
+      {
+        "token": "canvas",
+        "hex": "#ffffff",
+        "role": "Page ground",
+        "usage": "White with zinc-100 (#f4f4f5, 8 regions) for the master rail and sky-50 (#f0f9ff, 6) for the selected row — the selection tint is the only place a surface changes meaning."
+      },
+      {
+        "token": "muted",
+        "hex": "#71717b",
+        "role": "Metadata + rail captions",
+        "usage": "60 nodes, the largest tier — case ids, timestamps and queue labels."
+      },
+      {
+        "token": "fg",
+        "hex": "#18181b",
+        "role": "Case subjects + headings",
+        "usage": "31 nodes. What a support agent reads first."
+      },
+      {
+        "token": "secondary",
+        "hex": "#52525c",
+        "role": "Body + queue names",
+        "usage": "19 nodes, between the subject and the metadata tiers."
+      },
+      {
+        "token": "accent",
+        "hex": "#00786f",
+        "role": "Primary action + avatar",
+        "usage": "Teal on five filled regions — the New case control and the assignee marks. One hue for 'you can act here'."
+      },
+      {
+        "token": "urgent",
+        "hex": "#c10007",
+        "role": "Urgent priority",
+        "usage": "Three nodes, always beside the word 'Urgent'. Priority is a labelled colour, not a colour."
+      },
+      {
+        "token": "pending",
+        "hex": "#973c00",
+        "role": "Pending priority",
+        "usage": "Three nodes on a #fffbeb chip."
+      }
+    ],
+    "typography": "Pretendard Variable on 145 nodes with ui-monospace on 2 (case ids only) — no display typeface at all, which is unusual for this catalogue and suits a console whose job is reading rather than presenting. Three weights at render (400 / 500 / 600), 500 dominant. Scale 10–18px, the narrowest range of the three dashboards promoted this round.",
+    "spacing": "12/8 padding carries nearly everything, with 2px inside stat clusters and 16px at card edges. Gap 4 and 8px in near-equal measure. Radius: fully-rounded pills (46) plus 8/12px cards.",
+    "philosophy": "Clicking pins persistently and shows a visible badge; hovering previews and persists nothing — and the two modes carry different labels so a reader can tell which one they are in without reading the source. This is the same blast-radius split the dash lineage has been converging on, but the differentiator here is naming: the tooltip that appears on hover says it is a preview, and the badge that appears on click says it is pinned. The mechanism is only half the work; making the mechanism legible is the other half.",
+    "agentPrompt": "Build a master-detail support console where click and hover do different things and the interface says which is which. Click pins persistently and leaves a visible badge; hover opens a labelled preview that persists nothing. Do not let the two look identical — a reader who cannot tell a pin from a preview will not trust either. Keep priority colours paired with priority words, and skip the display typeface: a console that is read all day does not need one.",
+    "dosDonts": [
+      {
+        "do": "Label the hover preview and the pinned state differently.",
+        "dont": "Render both as the same highlight — the split becomes invisible."
+      },
+      {
+        "do": "Tint only the selected row, and only that.",
+        "dont": "Tint panes or sections — then the selection tint stops meaning selection."
+      },
+      {
+        "do": "Pair every priority colour with its word.",
+        "dont": "Rely on red-vs-amber alone."
+      },
+      {
+        "do": "Skip the display face on a read-all-day console.",
+        "dont": "Add one for presentation — it competes with the case subjects."
+      }
+    ]
+  },
+  "v20": {
+    "id": "v20",
+    "palette": [
+      {
+        "token": "canvas",
+        "hex": "#0a0a0c",
+        "role": "Page ground",
+        "usage": "Near-black across 12 regions with #17171b and #19191b as the card planes — three near-identical darks that separate surfaces by a hair rather than by contrast."
+      },
+      {
+        "token": "accent",
+        "hex": "#ba4e00",
+        "role": "Pipeline stage fills",
+        "usage": "The largest filled presence on the page (22 + 9 + 5 regions across three near-identical burnt-orange steps). The gradient across stages is what makes the pipeline read as a sequence rather than a row of chips."
+      },
+      {
+        "token": "muted",
+        "hex": "#9f9fa9",
+        "role": "Body + check descriptions",
+        "usage": "72 nodes, the largest ink tier."
+      },
+      {
+        "token": "fg",
+        "hex": "#ffffff",
+        "role": "Headline + stage names",
+        "usage": "49 nodes."
+      },
+      {
+        "token": "body",
+        "hex": "#f4f4f5",
+        "role": "CTA + card titles",
+        "usage": "40 nodes, a half-step under white."
+      },
+      {
+        "token": "figure",
+        "hex": "#ffd230",
+        "role": "Trust score + skipped markers",
+        "usage": "11 nodes — the amber is the only hue that is not part of the pipeline gradient, and it carries the number the whole page is about."
+      }
+    ],
+    "typography": "Pretendard Variable on 141 nodes with JetBrains Mono Display on 43 — the mono carries the check names and the score, which is what makes a pipeline stage look like a step rather than a sentence. Three weights at render (400 / 600 / 800) with 600 dominant (104 nodes). Scale 11–70px: 67 nodes at 13px against a single 70px headline.",
+    "spacing": "8/4/16/12/24/20 padding with 64px reserved for section breaks (8 regions). Gap 4px is the densest rhythm (26). Radius: fully-rounded pills dominate (73) with 12/16px cards — a pipeline is a chain of pills, so the pill is the primary shape rather than the exception.",
+    "philosophy": "One category toggle drives a sequential gate chain. Switching a category off marks it Skipped inside the pipeline and the trust score, the tab scores, four aggregate cards and the evidence panel all recompute from what remains — the toggle participates in the verdict rather than hiding content. That is the axis that separates this from the catalogue's earlier toggles, which reordered or concealed but never changed the answer.",
+    "agentPrompt": "Build a landing whose hero is a verification pipeline driven by discrete category toggles. A toggle must participate in the final verdict: switching one off marks that stage Skipped and recomputes the score, the per-tab figures, the aggregate cards and the evidence panel from what remains. Do not build a toggle that merely shows or hides — if the answer is the same either way, the control is decoration. Set stage names in mono so each step reads as a step.",
+    "dosDonts": [
+      {
+        "do": "Make every toggle change the final verdict, not just the view.",
+        "dont": "Ship a show/hide toggle as the hero interaction — the page then argues nothing."
+      },
+      {
+        "do": "Mark excluded stages as Skipped inside the pipeline.",
+        "dont": "Remove them — the reader loses what was excluded."
+      },
+      {
+        "do": "Keep one hue outside the pipeline gradient for the number the page is about.",
+        "dont": "Colour the score with a stage hue; it stops being the answer."
+      },
+      {
+        "do": "Separate surfaces by a hair on a near-black ground.",
+        "dont": "Raise card contrast — the pipeline stops reading as one object."
+      }
+    ]
+  },
+  "v21": {
+    "id": "v21",
+    "palette": [
+      {
+        "token": "canvas",
+        "hex": "#0b0b0f",
+        "role": "Page ground",
+        "usage": "The canon landing ground, with #111116 and #1c1c22 as the two card planes above it."
+      },
+      {
+        "token": "muted",
+        "hex": "#a1a1aa",
+        "role": "Body + figure captions",
+        "usage": "45 nodes, the largest ink tier — including the Fig. captions that carry the editorial voice."
+      },
+      {
+        "token": "fg",
+        "hex": "#ffffff",
+        "role": "Headline + gauge label",
+        "usage": "31 nodes."
+      },
+      {
+        "token": "accent",
+        "hex": "#d97706",
+        "role": "Gauge arc + slider fills",
+        "usage": "Amber-600 on six filled regions and four ink nodes — it is the gauge, and the sliders that feed it, and nothing else."
+      },
+      {
+        "token": "delta",
+        "hex": "#fcd34d",
+        "role": "Contribution deltas",
+        "usage": "Five nodes — the lighter amber shows how much each weight moved, distinct from the accent that shows the result."
+      }
+    ],
+    "typography": "Pretendard Variable on 81 nodes with Space Grotesk Display on 9 — display confined to the headline and the gauge figure. Three weights at render (400 / 600 / 800), 600 dominant. The widest scale of any work this round: 31 nodes at 11px against a 78px headline, with 64/48/44/40px display steps between.",
+    "spacing": "12/24/20/10 padding with 64px section breaks (5 regions). Gap 8px default, 32/40px between major blocks. Radius: fully-rounded (24) plus 16px cards and one asymmetric 16px corner set on the gauge panel.",
+    "philosophy": "Four weighted sliders feed a single radial gauge that renormalizes live — moving any one slider redistributes all four contributions rather than only the dragged one, so the reader can see that the weights are a budget and not four independent dials. The closing CTA quotes the resulting number verbatim ('89.6 is the score your weights produced') rather than restating a fixed claim, which is what keeps the operation connected to the page's conclusion. This is the catalogue's first dial-shaped output device.",
+    "agentPrompt": "Build a landing whose proof is a radial gauge fed by weighted sliders that renormalize. Moving one slider must redistribute every contribution, not just its own — the reader has to see that the weights compete. Quote the resulting figure verbatim in the closing CTA so the operation reaches the end of the page. Reserve the accent for the gauge and its sliders, and use a lighter tint of the same hue for the per-contribution deltas so result and movement are distinguishable.",
+    "dosDonts": [
+      {
+        "do": "Renormalize all contributions when any one slider moves.",
+        "dont": "Let four sliders move independently — then they are not weights."
+      },
+      {
+        "do": "Quote the produced number verbatim in the closing CTA.",
+        "dont": "Close on a fixed claim — the page argues that the number is the reader's."
+      },
+      {
+        "do": "Use a lighter tint of the accent for deltas.",
+        "dont": "Introduce a second hue — the page has one quantity."
+      },
+      {
+        "do": "Keep the display face to the headline and the gauge figure.",
+        "dont": "Set the captions in it; the editorial voice is Pretendard here."
+      }
+    ]
+  },
+  "n20": {
+    "id": "n20",
+    "palette": [
+      {
+        "token": "bg",
+        "hex": "#ffffff",
+        "role": "Screen ground + rows",
+        "usage": "White, with zinc-200 (#e4e4e7, 10 regions) as the listing thumbnail placeholder plane."
+      },
+      {
+        "token": "fg",
+        "hex": "#18181b",
+        "role": "Screen title + listing titles",
+        "usage": "21 nodes."
+      },
+      {
+        "token": "muted",
+        "hex": "#71717a",
+        "role": "Sort control + metadata",
+        "usage": "21 nodes, tied for the largest tier — the sort label and each row's age and price captions."
+      },
+      {
+        "token": "secondary",
+        "hex": "#52525b",
+        "role": "Subtitle",
+        "usage": "Two nodes — the line that says how many listings are stale and why."
+      },
+      {
+        "token": "accent",
+        "hex": "#4f46e5",
+        "role": "Contextual bar",
+        "usage": "The single native accent, on exactly one filled region: the bar that does not exist until something is selected."
+      }
+    ],
+    "typography": "-apple-system per the native DNA. Three weights at render (400 / 600 / 700) with 700 leading at 21 of 45 nodes — a selection screen is mostly short labels. Scale 12–22px with 20 nodes at 15px and one 22px title.",
+    "spacing": "12px padding on 22 regions carries nearly everything, with 16px at the card edges. Gaps are evenly split across 4/8/12px (11 each), which is what keeps a selectable list from developing a visual hierarchy between rows that are all equally selectable. Radius 6px on 22 surfaces and 12px on 10.",
+    "philosophy": "The bottom bar does not exist until something is selected. It appears at selection greater than zero with a live-region count announcement, and it is mutually exclusive with the undo overlay that replaces it after an action — so the bottom of the screen is never showing two different offers at once. This is a third band form, structurally distinct from both the blocked-workflow state machine and the standing action bar: the trigger is a derived count, not a boolean toggle and not a page type.",
+    "agentPrompt": "Build a native bulk-action screen where the bottom bar is derived from the selection count rather than always present. Absent at zero, appearing with a live-region announcement of how many are selected, and mutually exclusive with the post-action undo affordance — never both at once. Keep every row visually equal so nothing suggests one is more selectable than another, and spend the single accent on the bar alone.",
+    "dosDonts": [
+      {
+        "do": "Derive the bar's presence from selection count.",
+        "dont": "Toggle it from a boolean — the count is what the bar is about."
+      },
+      {
+        "do": "Announce the count through a live region when the bar appears.",
+        "dont": "Let the bar appear silently; a screen-reader user gets no signal that selection changed anything."
+      },
+      {
+        "do": "Make the bar and the undo overlay mutually exclusive.",
+        "dont": "Stack them — the bottom of the screen then offers two different actions."
+      },
+      {
+        "do": "Keep row spacing uniform.",
+        "dont": "Emphasise some rows — in a selection list that reads as a recommendation."
+      }
+    ]
   }
 }

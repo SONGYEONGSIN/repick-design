@@ -413,12 +413,35 @@ function resolveRouteDir(appRoot, segments) {
  * 적용되지 않는 layout 이다. 그룹이 `dir` **자신**일 때(`/` 가 `(marketing)` 으로 풀리던 그전
  * 상태)는 그룹 세그먼트가 `relPath` 에 없으므로 이 규칙에 걸리지 않는다.
  */
+const routeBranchMemo = new Map();
+/**
+ * `dir` 아래 어딘가에 `page.tsx` 가 있는가 — 즉 이 가지가 **라우트 트리**인가.
+ *
+ * "직속 `page.tsx`" 로는 부족하다. 2026-08-30 에 진행 중이던 `dash-evolve/r22/c` 가 아직
+ * `page.tsx` 를 안 쓴 상태라 라우트 경계로 인식되지 않았고, 그 파일들이 **`/` 의 스코프로 샜다**
+ * (`/` 는 앱 루트로 풀리므로 모든 미완성 후보를 빨아들인다). 반대로 `components/` 같은 콜로케이트
+ * 폴더는 아래 어디에도 `page.tsx` 가 없다 — 실측: 53작품 중 3개가 그 폴더를 쓰고 전부 재귀가 필요하다.
+ * 그래서 기준은 **아래 어딘가에 라우트가 있는가**다.
+ */
+function containsRoute(dir) {
+  if (routeBranchMemo.has(dir)) return routeBranchMemo.get(dir);
+  let found = isRouteDir(dir);
+  if (!found) {
+    try {
+      found = readdirSync(dir, { recursive: true })
+        .some((f) => typeof f === 'string' && /(^|\/)page\.tsx?$/.test(f));
+    } catch { found = false; }
+  }
+  routeBranchMemo.set(dir, found);
+  return found;
+}
+
 function underChildRoute(dir, relPath) {
   const parts = relPath.split('/').slice(0, -1);
   let cur = dir;
   for (const p of parts) {
     cur += `/${p}`;
-    if ((p.startsWith('(') && p.endsWith(')')) || isRouteDir(cur)) return true;
+    if ((p.startsWith('(') && p.endsWith(')')) || containsRoute(cur)) return true;
   }
   return false;
 }
