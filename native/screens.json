@@ -55,5 +55,8 @@
   },
   "storefront": {
     "check": "Active Listings"
+  },
+  "relist": {
+    "check": "Bulk Relist"
   }
 }

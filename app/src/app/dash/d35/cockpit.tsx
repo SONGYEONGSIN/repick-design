@@ -693,8 +693,14 @@ function HoldingsTable({
       <div className="sr-only" aria-live="polite">
         {selectedId ? `${HOLDINGS.find((h) => h.id === selectedId)?.symbol ?? ""} holding selected.` : ""}
       </div>
-      <div className={cx("border-t", BORDER)}>
-        <table className="w-full table-fixed border-collapse text-sm">
+      {/* `table-fixed` + `colgroup %` 는 최소폭 안전장치가 없으면 좁은 폭에서 열이 콘텐츠보다 좁아지고,
+          셀이 클립하지 않으므로 값이 서로 겹쳐 그려진다 — 390px 에서 `Equity`↔`13.3%`↔`₩311.41M`↔`+2.1%`
+          가 통째로 겹쳐 판독 불가였다(2026-09-01 소급 스캔에서 53작품 중 유일하게 걸린 곳). 문서 폭은
+          안 넘어 기존 `sweep` 이 통과시켰고, 그래서 이 라운드에 셀 겹침 계측이 추가됐다.
+          정본이 허용하는 대로 **로컬 가로 스크롤(모바일 전용)** 로 푼다 — 이 페이지의 유일한
+          `overflow-x-auto` 라 `auto-dash-r20` 이 관측한 "넓은 스크롤러 2개" 누출에는 해당하지 않는다. */}
+      <div className={cx("overflow-x-auto border-t", BORDER)}>
+        <table className="w-full min-w-[640px] table-fixed border-collapse text-sm">
           <caption className="sr-only">Holdings with weight, market value, and P&L detail. Sort using the column header buttons.</caption>
           <colgroup>
             <col className="w-[30%]" />
