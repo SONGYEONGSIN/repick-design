@@ -58,5 +58,14 @@
   },
   "relist": {
     "check": "Bulk Relist"
+  },
+  "evolve-r17-a": {
+    "check": "Performance Scorecard"
+  },
+  "evolve-r17-b": {
+    "check": "Submit for Authentication"
+  },
+  "evolve-r17-c": {
+    "check": "Price Suggestion"
   }
 }
