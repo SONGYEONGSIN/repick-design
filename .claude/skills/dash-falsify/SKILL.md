@@ -54,7 +54,7 @@ description: 자율 진화 주간 반증 (다중 타깃) — evolve/dash 누적�
    node scripts/gate.mjs --target native --screens <name>        # native 킵은 permanent 슬러그로
    ```
 
-   **왜 승격 후에 또 돌리나**: 후보는 evolve 경로(`/landing-evolve/rN/v`)에서만 게이트를 받았다. `git mv` 자체는 내용을 안 바꾸니 그 시점까지는 안전하지만, **§4의 이동·경로 수정·§4-0 스펙 작업이 전부 그 뒤에 온다.** 2026-08-24 apply 에서 실제로 물렸다 — `v16` 헤더를 보수하면서 `font-semibold` 가 들어가 웨이트가 4종이 됐고, 손으로 렌더를 재서야 잡았다. 오래도록 이걸 못 돌린 이유는 게이트가 라우트 그룹을 못 봐 `(marketing)/v*` 에서 ENOENT 로 죽었기 때문이고, **그 결함은 2026-08-25 에 고쳐졌다**([[questions-queue]] Q45 · `172ceaf`·`0fe47d5`). 이제 돌아가니 돌린다.
+   **왜 승격 후에 또 돌리나**: 후보는 evolve 경로(`/landing-evolve/rN/v`)에서만 게이트를 받았다. `git mv` 자체는 내용을 안 바꾸니 그 시점까지는 안전하지만, **§4의 이동·경로 수정·§4-0 스펙 작업이 전부 그 뒤에 온다.** 2026-08-24 apply 에서 실제로 물렸다 — `v16` 헤더를 보수하면서 `font-semibold` 가 들어가 웨이트가 4종이 됐고, 손으로 렌더를 재서야 잡았다. 오래도록 이걸 못 돌린 이유는 게이트가 라우트 그룹을 못 봐 `(marketing)/v*` 에서 ENOENT 로 죽었기 때문이고, **그 결함은 2026-08-25 에 고쳐졌다**([[questions-queue]] Q45 · PR #155). 이제 돌아가니 돌린다.
 
    **`pass` 만 보지 마라 — 기록 전용 관문의 `detail` 을 눈으로 읽는다.** 위 사고에서 실제로 문 것은 `weights` 인데 그 관문은 `pass:true` 고정이다. 같은 소급 스캔에서 **챔피언 `/`(v0)도 웨이트 4종**으로 드러났고, pass/fail 만 봤다면 둘 다 못 잡았다. 최소한 `weights` 의 종수와 `perf` 점수는 읽고 넘어간다. (native 게이트는 `tsc·export·render·iframe` 4관문뿐이라 읽을 기록 전용 항목이 없다 — 웨이트를 안 재는 것은 별건이다.)
 
@@ -74,7 +74,7 @@ description: 자율 진화 주간 반증 (다중 타깃) — evolve/dash 누적�
    **미루는 쪽은 대개 불가능하다.** 2026-08-17 에 이 확인이 처음 발동했을 때 둘을 실제로 저울질했는데, apply 커밋이 이미 새 라운드 **위에** 얹혀 있었고 `native-deltas-provisional.jsonl`·`questions-queue.md` 를 그 라운드와 **같이** 건드리고 있었다 — 분리하려면 append-only 원장과 질문 큐에서 충돌을 손으로 풀어야 하고, 그 과정이 delta 종결 행을 어긋나게 할 위험이 종결 키 규율을 깨는 방향이었다. **기본은 본문 갱신이고**, 미루기는 apply 를 아직 시작하지 않았을 때만 값이 있다.
    **머지 후 브랜치 정합** — 머지한 evolve/dash head를 `$MERGED`로 두고 `git fetch origin` 후 **origin/main 으로 리셋한다. 경로는 하나뿐이고, `git rebase` 는 어떤 형태로도 쓰지 않는다.**
    - 먼저 `git checkout -B evolve/dash origin/evolve/dash` (반드시 origin 기준 재설정 — 낡은 로컬 브랜치를 밀면 그 사이 착지한 야간 커밋이 유실된다, 2026-07-15 실사고).
-   - **리셋 대상은 `origin/main`이다 — 로컬 `main`이 아니다.** 방금 `gh pr merge`로 머지했으면 **origin은 앞서 있고 로컬 `main`은 그 직전 세대**다. 소스(`origin/evolve/dash`)만 origin으로 잡고 타깃을 로컬 `main`으로 쓰면 **방금 머지한 apply 전체가 빠진 커밋으로 브랜치를 밀게 된다**(2026-08-14 실사고 — `origin/main` 08cb20f 인데 로컬 `main`은 한 세대 전 314f8f1 이었다). 유실은 아니지만(내용은 origin/main 에 있다) 다음 라운드가 낡은 베이스 위에서 돈다. 아래 명령의 `main`을 전부 `origin/main`으로 읽고, 헷갈리면 `git fetch origin && git rev-parse --short main origin/main` 으로 두 값이 같은지 먼저 본다.
+   - **리셋 대상은 `origin/main`이다 — 로컬 `main`이 아니다.** 방금 `gh pr merge`로 머지했으면 **origin은 앞서 있고 로컬 `main`은 그 직전 세대**다. 소스(`origin/evolve/dash`)만 origin으로 잡고 타깃을 로컬 `main`으로 쓰면 **방금 머지한 apply 전체가 빠진 커밋으로 브랜치를 밀게 된다**(2026-08-14 실사고 — `origin/main` 이 앞서 있는데 로컬 `main` 은 한 세대 전이었다). 유실은 아니지만(내용은 origin/main 에 있다) 다음 라운드가 낡은 베이스 위에서 돈다. 아래 명령의 `main`을 전부 `origin/main`으로 읽고, 헷갈리면 `git fetch origin && git rev-parse --short main origin/main` 으로 두 값이 같은지 먼저 본다.
    - `git log $MERGED..origin/evolve/dash --oneline` 이 **비어 있어야 한다.** 비어 있으면 무손실을 먼저 증명하고 — `git diff $MERGED origin/main` 이 비어 있거나 **main 우위 변경만** 있어야 한다(main이 먼저 받은 스킬/설정 수정이 evolve/dash에 없는 경우가 있다) — `git reset --hard origin/main` → push.
      squash 머지 뒤 `git rebase main`을 쓰면 이전 커밋들을 재생하면서 **apply가 삭제한 후보 디렉토리를 되살리고 `vault/index.md`에서 충돌한다**(2026-07-30 실증 — abort 후 reset으로 우회). 그래서 정합은 reset 하나뿐이다.
    - **비어 있지 않으면 멈추고 보고한다.** 자동 복구를 시도하지 마라 — 그 커밋들은 머지 안 된 야간 라운드이고, `reset --hard` 는 그것을 지운다.
