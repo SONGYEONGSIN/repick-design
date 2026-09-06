@@ -160,9 +160,9 @@ export default function BundleBuilder({ selectedIds, onToggle }: BundleBuilderPr
               aria-label={`Trust rollup score ${summary.rollup} out of 100`}
             >
               <motion.div
-                animate={{ width: `${summary.rollup}%` }}
+                animate={{ scaleX: Math.max(0.02, summary.rollup / 100) }}
                 transition={barTransition}
-                className="h-full rounded-full bg-teal-500"
+                className="h-full w-full origin-left rounded-full bg-teal-500"
               />
             </div>
             <ul className="mt-5 flex flex-col gap-2.5">
@@ -171,11 +171,11 @@ export default function BundleBuilder({ selectedIds, onToggle }: BundleBuilderPr
                   <motion.li
                     key={item.id}
                     layout={!reduceMotion}
-                    initial={reduceMotion ? false : { opacity: 0, height: 0 }}
-                    animate={{ opacity: 1, height: "auto" }}
-                    exit={reduceMotion ? undefined : { opacity: 0, height: 0 }}
+                    initial={reduceMotion ? false : { opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={reduceMotion ? undefined : { opacity: 0 }}
                     transition={{ duration: reduceMotion ? 0 : 0.22 }}
-                    className="min-w-0 overflow-hidden"
+                    className="min-w-0"
                   >
                     <div className="flex items-center gap-2">
                       <span className="min-w-0 flex-1 truncate text-xs font-normal text-zinc-300">
@@ -187,9 +187,9 @@ export default function BundleBuilder({ selectedIds, onToggle }: BundleBuilderPr
                     </div>
                     <div className="mt-1 h-1.5 w-full overflow-hidden rounded-full bg-zinc-800">
                       <motion.div
-                        animate={{ width: `${item.contribution}%` }}
+                        animate={{ scaleX: Math.max(0.02, item.contribution / 100) }}
                         transition={barTransition}
-                        className="h-full rounded-full bg-teal-400/80"
+                        className="h-full w-full origin-left rounded-full bg-teal-400/80"
                       />
                     </div>
                   </motion.li>

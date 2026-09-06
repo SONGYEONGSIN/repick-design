@@ -43,8 +43,8 @@ export default function ClosingCTA({ estimate }: { estimate: Estimate }) {
             </motion.h2>
           </AnimatePresence>
           <p className="mt-5 max-w-[480px] text-[17px] font-normal leading-[1.6] text-zinc-400 tabular-nums">
-            Based on {estimate.comps.toLocaleString("en-US")} comparable sales and repick&apos;s {estimate.confidence.toLowerCase()}.
-            Answer the rest of the questions above to lock in your number.
+            Based on {estimate.comps.toLocaleString("en-US")} comparable sales — a {estimate.confidence.toLowerCase()}. The
+            range above updates instantly as you answer.
           </p>
           <div className="mt-8">
             <a
