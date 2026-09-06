@@ -123,8 +123,8 @@ export default function SettlementsTable({ runs, pinnedRunId, onPinToggle }: { r
         <StatusFilterMenu value={statusFilter} onChange={setStatusFilter} counts={counts} total={runs.length} />
       </div>
 
-      <div className="mt-3 w-full overflow-x-auto">
-        <table className="w-full table-fixed border-collapse text-sm">
+      <div className="mt-3 w-full min-w-0 overflow-x-auto">
+        <table className="w-full min-w-[480px] table-fixed border-collapse text-sm">
           <caption className={cx("mb-2 text-left text-xs font-normal", TEXT_MUTED)}>
             Recent settlement runs. Click a row&apos;s pin to inspect it in the panel on the right; this list is a fixed operational sample and is independent of the period toggle above.
           </caption>

@@ -96,7 +96,7 @@ export default function ManifestTable() {
       </div>
 
       <div className="mt-3 overflow-x-auto rounded-xl border border-white/10 [scrollbar-width:thin]">
-        <table className="w-full min-w-[960px] table-fixed border-collapse text-sm">
+        <table className="w-full max-lg:min-w-[960px] table-fixed border-collapse text-sm">
           <caption className="sr-only relative">
             Today&rsquo;s pickup manifest across all zones, sortable and filterable, {rows.length} of {ROUTES.length} routes shown
           </caption>

@@ -55,7 +55,7 @@ function SortHeader({ label, sortKeyId, sortKey, asc, onToggle, className, align
         type="button"
         onClick={() => onToggle(sortKeyId)}
         className={cx(
-          "inline-flex items-center gap-1 rounded px-1 text-[11px] font-medium uppercase tracking-[0.06em]",
+          "inline-flex min-h-6 items-center gap-1 rounded px-1 text-[11px] font-medium uppercase tracking-[0.06em]",
           TRANSITION,
           "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-400",
           active ? "text-zinc-50" : TEXT_AUX,
@@ -224,7 +224,7 @@ export default function ReconciliationGrid({
       </div>
 
       <div className="w-full min-w-0 overflow-x-auto rounded-xl border border-white/10 [scrollbar-width:thin]">
-        <table className="relative w-full table-fixed border-collapse text-sm">
+        <table className="relative w-full min-w-[900px] table-fixed border-collapse text-sm">
           <caption className="sr-only">Inventory reconciliation lines, sortable by scanned quantity, variance, value impact, match confidence, and last scan time</caption>
           <colgroup>
             <col className="w-[4%]" />
