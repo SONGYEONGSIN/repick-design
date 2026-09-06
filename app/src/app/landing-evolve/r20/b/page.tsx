@@ -381,12 +381,12 @@ export default function Page() {
                   <div key={s.label}>
                     <dt className="sr-only">{s.label}</dt>
                     <dd className="font-mono text-xl font-bold tabular-nums text-white">{s.value}</dd>
-                    <p
+                    <dd
                       className="mt-1 text-[10px] font-semibold text-zinc-400"
                       style={{ letterSpacing: "0.12em" }}
                     >
                       {s.label}
-                    </p>
+                    </dd>
                   </div>
                 ))}
               </dl>
