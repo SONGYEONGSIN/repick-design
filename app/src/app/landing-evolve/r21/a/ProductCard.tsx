@@ -53,7 +53,7 @@ export default function ProductCard({ activeIndex }: { activeIndex: number }) {
           {priced ? (
             <div className="flex items-baseline gap-2">
               <span className={cx(NUM, "text-lg font-extrabold tracking-[-0.02em]", ACCENT_TEXT)}>${ITEM.finalPrice}</span>
-              <span className={cx(NUM, "text-xs font-normal text-zinc-500 line-through")}>${ITEM.originalPrice}</span>
+              <span className={cx(NUM, "text-xs font-normal line-through", MUTED)}>${ITEM.originalPrice}</span>
               <span className={cx(NUM, "text-[11px] font-semibold", ACCENT_TEXT)}>&minus;{pct}%</span>
             </div>
           ) : (

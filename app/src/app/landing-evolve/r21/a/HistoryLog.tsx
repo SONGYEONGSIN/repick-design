@@ -48,10 +48,10 @@ export default function HistoryLog({
                   className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full"
                   style={{
                     backgroundColor: state === "future" ? "#FFFFFF" : ACCENT_HEX,
-                    border: state === "future" ? "2px solid #D4D4D8" : "none",
+                    border: state === "future" ? "2px solid #A1A1AA" : "none",
                   }}
                 >
-                  <Icon size={13} style={{ color: state === "future" ? "#A1A1AA" : "#FFFFFF" }} aria-hidden="true" />
+                  <Icon size={13} style={{ color: state === "future" ? "#71717A" : "#FFFFFF" }} aria-hidden="true" />
                 </span>
 
                 <div className="min-w-0 flex-1">

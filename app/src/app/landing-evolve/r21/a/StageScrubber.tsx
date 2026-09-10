@@ -159,7 +159,7 @@ export default function StageScrubber({
                   aria-hidden="true"
                   className={cx("h-2.5 w-2.5 shrink-0 rounded-full border-2 transition-colors duration-150")}
                   style={{
-                    borderColor: reached ? ACCENT_HEX : "#D4D4D8",
+                    borderColor: reached ? ACCENT_HEX : "#A1A1AA",
                     backgroundColor: reached ? ACCENT_HEX : "#FFFFFF",
                   }}
                 />

@@ -114,6 +114,20 @@ export function discountPct(original: number, price: number): number {
   return Math.round(((original - price) / original) * 100);
 }
 
+/**
+ * Which real facts exist about this coat at a given scrub position — a pure function of
+ * `activeIndex`, so the closing section can quote the exact same list the product card's badges are
+ * built from, never a second hand-written copy that can drift out of sync with it.
+ */
+export function factsAtStage(activeIndex: number): string[] {
+  const facts: string[] = [`self-reported condition "${ITEM.conditionSelfReport}"`];
+  if (activeIndex >= 1) facts.push("a completed physical inspection");
+  if (activeIndex >= 2) facts.push(`a Grade ${ITEM.grade} (${ITEM.gradeScore.toFixed(1)}/10)`);
+  if (activeIndex >= 3) facts.push(`authentication at ${ITEM.matchPct}% archive match`);
+  if (activeIndex >= 4) facts.push(`a final price of $${ITEM.finalPrice} (${discountPct(ITEM.originalPrice, ITEM.finalPrice)}% below retail)`);
+  return facts;
+}
+
 // ---------------------------------------------------------------------------
 // Value section
 // ---------------------------------------------------------------------------
