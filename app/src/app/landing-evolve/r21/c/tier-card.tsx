@@ -42,7 +42,14 @@ export default function TierCard({ tier, recommended, variant = "full" }: TierCa
         </div>
 
         <div className="min-w-0 flex-1">
-          <p className="text-sm font-extrabold tracking-[-0.02em] text-zinc-900">{tier.name}</p>
+          <div className="flex flex-wrap items-baseline gap-x-2">
+            <p className="text-sm font-extrabold tracking-[-0.02em] text-zinc-900">{tier.name}</p>
+            {!isCompact && (
+              <p className="text-[11px] font-semibold uppercase tracking-[0.08em] text-sky-700">
+                {tier.tagline}
+              </p>
+            )}
+          </div>
           <p className="mt-0.5 truncate text-xs font-normal text-zinc-500">{tier.itemName}</p>
 
           {!isCompact && (

@@ -154,7 +154,7 @@ export const TESTIMONIALS: Testimonial[] = [
     name: "Soo-jin L.",
     context: "Sold on Premium Auth",
     quote:
-      "My bag needed real authentication, not just a photo check. Seeing the dot land on Premium Auth before I even scrolled down was what convinced me to try it.",
+      "My piece needed real authentication, not just a photo check. Seeing the dot land on Premium Auth before I even scrolled down was what convinced me to try it.",
     rating: 4,
     verified: true,
   },
