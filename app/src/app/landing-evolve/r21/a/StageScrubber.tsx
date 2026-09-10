@@ -2,12 +2,20 @@
 
 import { animate as animateValue, motion, useMotionValue, useReducedMotion } from "framer-motion";
 import type { KeyboardEvent, PointerEvent as ReactPointerEvent } from "react";
-import { useEffect, useRef } from "react";
+import { useEffect, useLayoutEffect, useRef } from "react";
 import { STAGES } from "./data";
 import { ACCENT_HEX, clamp, cx, FOCUS, MUTED, r2, TRACK_BG, TRACK_STAT } from "./tokens";
 
 const N = STAGES.length;
-const HANDLE = 18;
+/** 24px — the WCAG 2.5.8 / axe `target-size` minimum. The handle is `aria-hidden` (the five stage
+ * buttons are the real accessible control), but sizing it to the same floor anyway removes any
+ * ambiguity about whether an automated target-size check counts a hidden-but-pointer-operable node. */
+const HANDLE = 24;
+
+/** `useLayoutEffect` warns on the server; Next.js still server-renders this "use client" component
+ * for its first HTML pass, so this falls back to `useEffect` there and only runs synchronously
+ * pre-paint in the browser, where it's needed to avoid a one-frame flash of the handle at x:0. */
+const useIsomorphicLayoutEffect = typeof window !== "undefined" ? useLayoutEffect : useEffect;
 
 /**
  * The ordinal, single-select stage control — a real drag scrubber, not five independent toggles.
@@ -43,21 +51,42 @@ export default function StageScrubber({
   const innerRef = useRef<HTMLDivElement>(null);
   const btnRefs = useRef<(HTMLButtonElement | null)[]>([]);
   const x = useMotionValue(0);
+  const hasSettledRef = useRef(false);
+  const isDraggingRef = useRef(false);
 
   const insetPct = r2(100 / (2 * N));
   const pct = activeIndex / (N - 1);
 
+  /** Move `x` to stage `index`'s exact pixel stop, either instantly (page load) or with a spring
+   * (every later change). Called both from the effect below and directly from `onDragEnd` — the
+   * latter matters because releasing a drag back onto the SAME stage it started on produces no
+   * `activeIndex` change, so the effect would never re-fire and the handle would rest wherever the
+   * raw finger position left it instead of the exact stop; calling this unconditionally on release
+   * guarantees the snap happens either way. */
+  function snapTo(index: number, instant: boolean) {
+    const width = innerRef.current?.getBoundingClientRect().width;
+    if (!width) return;
+    const target = r2((index / (N - 1)) * width);
+    if (instant) x.set(target);
+    else animateValue(x, target, reduceMotion ? { duration: 0 } : { type: "spring", stiffness: 460, damping: 42 });
+  }
+
   // Keep the drag handle snapped to whichever stage is active, in real pixels. Runs on mount, on
-  // every stage change, and whenever a ResizeObserver reports the track resized.
-  useEffect(() => {
+  // every stage change, and whenever a ResizeObserver reports the track resized. The very first
+  // settle (page load) jumps straight there with no motion — only a visitor's own later scrub gets
+  // the spring — and it runs in a layout effect so that first jump happens before the browser paints,
+  // instead of one visible frame at x:0 followed by a slide.
+  useIsomorphicLayoutEffect(() => {
     const el = innerRef.current;
     if (!el) return;
-    function settle(width: number) {
-      const target = r2((activeIndex / (N - 1)) * width);
-      animateValue(x, target, reduceMotion ? { duration: 0 } : { type: "spring", stiffness: 460, damping: 42 });
-    }
-    settle(el.getBoundingClientRect().width);
-    const ro = new ResizeObserver((entries) => settle(entries[0].contentRect.width));
+    // While a drag is live, framer-motion is writing `x` directly from the pointer every frame — an
+    // imperative snap-animation started here at the same time would fight that write. `onDragEnd`
+    // does its own snap once the gesture is over, so this effect just steps aside meanwhile.
+    if (!isDraggingRef.current) snapTo(activeIndex, !hasSettledRef.current);
+    hasSettledRef.current = true;
+    const ro = new ResizeObserver(() => {
+      if (!isDraggingRef.current) snapTo(activeIndex, false);
+    });
     ro.observe(el);
     return () => ro.disconnect();
     // eslint-disable-next-line react-hooks/exhaustive-deps -- intentionally re-runs only on stage change; width comes from the observer callback
@@ -118,11 +147,19 @@ export default function StageScrubber({
             dragConstraints={innerRef}
             dragElastic={0}
             dragMomentum={false}
+            onDragStart={() => {
+              isDraggingRef.current = true;
+            }}
             onDrag={(_, info) => onChange(nearestFromClientX(info.point.x))}
-            onDragEnd={(_, info) => onChange(nearestFromClientX(info.point.x))}
+            onDragEnd={(_, info) => {
+              isDraggingRef.current = false;
+              const nearest = nearestFromClientX(info.point.x);
+              snapTo(nearest, false);
+              onChange(nearest);
+            }}
             whileTap={reduceMotion ? undefined : { scale: 0.9 }}
             aria-hidden="true"
-            className="absolute z-10 cursor-grab touch-none rounded-full border-[3px] border-white shadow-[0_1px_4px_rgba(24,24,27,0.35)] active:cursor-grabbing"
+            className="absolute z-10 flex cursor-grab touch-none items-center justify-center active:cursor-grabbing"
             style={{
               x,
               left: 0,
@@ -131,9 +168,16 @@ export default function StageScrubber({
               height: HANDLE,
               marginLeft: -HANDLE / 2,
               marginTop: -HANDLE / 2,
-              backgroundColor: ACCENT_HEX,
             }}
-          />
+          >
+            {/* The 24px box above is the real drag/tap target (WCAG 2.5.8 floor); this is just the
+                visible puck centred inside it, kept small so the track reads as delicate, not chunky. */}
+            <span
+              aria-hidden="true"
+              className="rounded-full border-[3px] border-white shadow-[0_1px_4px_rgba(24,24,27,0.35)]"
+              style={{ width: 14, height: 14, backgroundColor: ACCENT_HEX }}
+            />
+          </motion.div>
         </div>
 
         <div className="mt-3 grid" style={{ gridTemplateColumns: `repeat(${N}, minmax(0, 1fr))` }}>

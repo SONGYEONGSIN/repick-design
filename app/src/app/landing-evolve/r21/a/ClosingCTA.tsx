@@ -47,13 +47,13 @@ export default function ClosingCTA({ activeIndex }: { activeIndex: number }) {
                 <p className="mt-2 text-lg font-extrabold text-zinc-900">{ITEM.title}</p>
                 <p className="mt-0.5 text-xs font-normal text-zinc-600">{ITEM.spec}</p>
                 <dl className="mt-3 grid grid-cols-2 gap-3">
-                  <div>
+                  <div className="min-w-0">
                     <dt className="text-[10px] font-normal uppercase text-zinc-600">Stage</dt>
-                    <dd className="text-sm font-semibold text-zinc-900">{stage.label}</dd>
+                    <dd className="truncate text-sm font-semibold text-zinc-900">{stage.shortLabel}</dd>
                   </div>
-                  <div>
+                  <div className="min-w-0">
                     <dt className="text-[10px] font-normal uppercase text-zinc-600">Recorded</dt>
-                    <dd className={cx(NUM, "text-sm font-semibold text-zinc-900")}>{stage.date}</dd>
+                    <dd className={cx(NUM, "truncate text-sm font-semibold text-zinc-900")}>{stage.date}</dd>
                   </div>
                 </dl>
                 <p className={cx(NUM, "mt-3 border-t border-[#DCE9C7] pt-3 text-sm font-semibold", ACCENT_TEXT)}>{stage.stat}</p>
