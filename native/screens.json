@@ -59,31 +59,13 @@
   "relist": {
     "check": "Bulk Relist"
   },
-  "evolve-r17-a": {
-    "check": "Performance Scorecard"
-  },
-  "evolve-r17-b": {
+  "authentication": {
     "check": "Submit for Authentication"
   },
-  "evolve-r17-c": {
-    "check": "Price Suggestion"
-  },
-  "evolve-r18-a": {
-    "check": "My Impact"
-  },
-  "evolve-r18-b": {
-    "check": "Saved Searches & Alerts"
-  },
-  "evolve-r18-c": {
+  "condition": {
     "check": "Condition Assessment"
   },
-  "evolve-r19-a": {
-    "check": "Schedule Pickup"
-  },
-  "evolve-r19-b": {
-    "check": "Build a Bundle"
-  },
-  "evolve-r19-c": {
-    "check": "Ask a Question"
+  "pickup": {
+    "check": "Ready this order for carrier pickup"
   }
 }
