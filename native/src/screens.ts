@@ -19,6 +19,9 @@ import { PayoutScreen } from "./payout/PayoutScreen";
 import { WalletLedgerScreen } from "./wallet/WalletLedgerScreen";
 import { SellerStorefrontScreen } from "./storefront/SellerStorefrontScreen";
 import { BulkRelistScreen } from "./relist/BulkRelistScreen";
+import { ItemAuthenticationScreen } from "./authentication/ItemAuthenticationScreen";
+import { ConditionAssessmentScreen } from "./condition/ConditionAssessmentScreen";
+import { ShipmentPickupScreen } from "./pickup/ShipmentPickupScreen";
 
 const COMPONENTS = {
   watchlist: WatchList,
@@ -41,6 +44,9 @@ const COMPONENTS = {
   wallet: WalletLedgerScreen,
   storefront: SellerStorefrontScreen,
   relist: BulkRelistScreen,
+  authentication: ItemAuthenticationScreen,
+  condition: ConditionAssessmentScreen,
+  pickup: ShipmentPickupScreen,
 } as const satisfies Record<string, ComponentType>;
 
 export type ScreenSlug = keyof typeof COMPONENTS;

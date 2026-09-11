@@ -6192,5 +6192,428 @@
         "dont": "Emphasise some rows — in a selection list that reads as a recommendation."
       }
     ]
+  },
+  "d54": {
+    "id": "d54",
+    "palette": [
+      {
+        "token": "canvas",
+        "hex": "#ffffff",
+        "role": "Page ground",
+        "usage": "White with zinc-800 (#27272a, 17 regions) as the recessed plane behind the radial map — the map is the only inverted surface, which is what makes it read as the console's centre."
+      },
+      {
+        "token": "muted",
+        "hex": "#9f9fa9",
+        "role": "Labels + captions",
+        "usage": "107 text nodes, the largest tier — region names, ETA captions and manifest column labels."
+      },
+      {
+        "token": "fg",
+        "hex": "#fafafa",
+        "role": "Headings on the dark map",
+        "usage": "87 nodes. Near-white rather than white so it sits on the map plane without glare."
+      },
+      {
+        "token": "route",
+        "hex": "#155dfc",
+        "role": "Active spoke",
+        "usage": "Blue-600 on 5 filled regions plus lighter #50a2ff/#4e9dff strokes (19 regions) — the spoke gradient encodes distance from the hub, which is the map's one quantitative channel."
+      },
+      {
+        "token": "warn",
+        "hex": "#ffb86a",
+        "role": "Needs attention",
+        "usage": "5 nodes, always beside the words 'Needs attention'."
+      },
+      {
+        "token": "late",
+        "hex": "#ffa2a2",
+        "role": "Delayed",
+        "usage": "2 nodes with the word 'Delayed'. Status is a labelled colour, never a colour alone."
+      }
+    ],
+    "typography": "Pretendard Variable on 226 nodes with Space Grotesk Display on exactly 1 — the display face carries only the console wordmark. Three weights at render (400 / 500 / 600), 500 dominant. Scale 9–28px with 66 nodes at 12px: a dispatch console is a dense field of labelled numbers, so the range stays narrow and the map does the spatial work instead.",
+    "spacing": "A 12/10 base — padding 12px (102 regions) and 10px (97) carry nearly everything, with 16/20/32 at panel edges. Gap 8px is the default rhythm. Radius: fully-rounded status pills dominate, with 8/12px panels.",
+    "philosophy": "A radial hub-and-spoke map as the dominant visualization — the catalogue's first spatial form of this kind. Selection splits by blast radius and the exclusion is explicit: pinning updates the map, the queue rail and the detail panel, but the zone-load panel is deliberately left unconnected, and hovering persists nothing at all. Six working panels share one pin without any of them becoming a mirror of another.",
+    "agentPrompt": "Build a logistics dispatch console whose dominant visualization is a radial hub-and-spoke map rather than a chart or a table. Pin on click and update only the panels that answer the pinned question — name in a comment which panel you are deliberately not connecting, and why. Hover opens a readout that persists nothing. Encode distance in the spoke rather than in a legend, and pair every status colour with its status word.",
+    "dosDonts": [
+      {
+        "do": "Name the panel you deliberately leave unconnected to the pin.",
+        "dont": "Wire all six panels to the selection — the console becomes six views of one thing."
+      },
+      {
+        "do": "Let the spoke itself carry the quantitative channel.",
+        "dont": "Add a legend the map could have encoded directly."
+      },
+      {
+        "do": "Keep the map as the only inverted surface.",
+        "dont": "Tint the side panels too — the centre stops being the centre."
+      },
+      {
+        "do": "Pair status hue with the status word.",
+        "dont": "Rely on amber-vs-red alone."
+      }
+    ]
+  },
+  "v22": {
+    "id": "v22",
+    "palette": [
+      {
+        "token": "canvas",
+        "hex": "#fafafa",
+        "role": "Page ground",
+        "usage": "Near-white with pure white cards (16 regions) — an order book needs rows to separate from the ground without borders everywhere."
+      },
+      {
+        "token": "body",
+        "hex": "#52525c",
+        "role": "Offer metadata",
+        "usage": "86 nodes, the largest tier — seller names, delivery windows and the ledger's secondary columns."
+      },
+      {
+        "token": "fg",
+        "hex": "#18181b",
+        "role": "Prices + headline",
+        "usage": "69 nodes. The figures the ranking is about."
+      },
+      {
+        "token": "secondary",
+        "hex": "#3f3f46",
+        "role": "Grades + quotes",
+        "usage": "30 nodes, between the price tier and the metadata tier."
+      },
+      {
+        "token": "accent",
+        "hex": "#92400e",
+        "role": "Match score + rank deltas",
+        "usage": "Amber-800 on 7 ink nodes and 5 filled chips over #fffbeb — it marks what the sliders produced, so the eye can follow re-ranking without reading."
+      }
+    ],
+    "typography": "Pretendard Variable on 195 nodes, JetBrains Mono Display on 4 and ui-monospace on 5 — mono only where figures must align down a column. Three weights at render (400 / 600 / 800), 600 dominant at 100 nodes. Scale 9–68px: 46 nodes at 11px against a 68px headline, which is the widest spread of the three landings promoted this round.",
+    "spacing": "12/2/8/6 padding with 20/24/32 at section edges. Gap 4px and 2px dominate (31 + 30) — an order book's rows sit close on purpose, because proximity is what makes re-sorting legible as motion. Radius: fully-rounded chips plus card radii.",
+    "philosophy": "Three continuous weighted axes — price, speed, trust — re-sort six competing seller offers live. The re-ordering is the proof: rank-delta chips carry an icon and the text together so the movement survives for a reader who cannot use colour, and framer-motion's layout animation makes the reorder a transition rather than a repaint. The closing CTA and the mid-page value section both quote the same ranking function, so the operation reaches the end of the page.",
+    "agentPrompt": "Build a landing whose proof is a live order book. Three weighted sliders must re-sort N competing rows in real time, with the reorder animated as movement rather than replaced in place. Put an icon and text in every rank-delta indicator, never colour alone. Have the closing CTA quote the same ranking function that drives the list, so the operation is not abandoned halfway down the page.",
+    "dosDonts": [
+      {
+        "do": "Animate the reorder so movement is visible.",
+        "dont": "Re-render the list in place — the argument is that the ranking moved."
+      },
+      {
+        "do": "Put icon plus text in the rank-delta chip.",
+        "dont": "Encode direction in green/red alone."
+      },
+      {
+        "do": "Quote the ranking function in the closing CTA.",
+        "dont": "Close on a static claim."
+      },
+      {
+        "do": "Keep rows tight so reordering reads as motion.",
+        "dont": "Space them out — the movement stops being perceptible."
+      }
+    ]
+  },
+  "v23": {
+    "id": "v23",
+    "palette": [
+      {
+        "token": "canvas",
+        "hex": "#17171b",
+        "role": "Page ground",
+        "usage": "Near-black with #27272a and #262629 as the two card planes — three near-identical darks that separate surfaces by a hair."
+      },
+      {
+        "token": "muted",
+        "hex": "#9f9fa9",
+        "role": "Body + item metadata",
+        "usage": "96 nodes, the largest ink tier."
+      },
+      {
+        "token": "accent",
+        "hex": "#00d5be",
+        "role": "Live derived figures",
+        "usage": "12 ink nodes with #46edd5 (16) as the brighter tint for contribution bars, over #00baa7/#00bba7 fills (16 regions). Teal marks everything the set recomputes — discount tier, rollup score, per-item contribution."
+      },
+      {
+        "token": "fg",
+        "hex": "#f4f4f5",
+        "role": "Headline + item names",
+        "usage": "17 nodes."
+      },
+      {
+        "token": "body",
+        "hex": "#d4d4d8",
+        "role": "Section leads",
+        "usage": "25 nodes, a step under the headline tier."
+      },
+      {
+        "token": "on-accent",
+        "hex": "#0b0b0f",
+        "role": "Text on teal fills",
+        "usage": "3 nodes — dark ink on the bright teal CTA, which is the only place the canvas colour appears as text."
+      }
+    ],
+    "typography": "Pretendard Variable on 184 nodes with no display typeface at all — unusual for a landing, and it suits a page whose subject is arithmetic rather than voice. Three weights at render (400 / 600 / 700). Scale 10–94px: 62 nodes at 12px against a single 94px figure, the largest type in the landing catalogue.",
+    "spacing": "12/2/8/16 padding with 64px and 96px reserved for section breaks (7 + 5 regions). Gap 8px and 4px carry the item grid. Radius: fully-rounded chips plus card radii — the bundle items are pills, which is what makes adding and removing read as collecting.",
+    "philosophy": "A variable-cardinality set builder. Six listings can be added or removed in any number — not a fixed slider, not a single choice — and two surfaces recompute at once: a discount curve across every possible bundle size with the current size highlighted, and a weighted trust rollup with per-item contribution bars. The closing CTA quotes four derived values (count, discount, total, rollup). The input axis itself is what is new: the catalogue had continuous sliders and discrete single-select, but never a set whose size is the variable.",
+    "agentPrompt": "Build a landing whose control is a set the reader assembles — any number of N items, added and removed freely. Recompute two surfaces from it simultaneously: one that shows the whole possibility space with the current selection marked, and one that decomposes the result per item. Animate add and remove so the set feels held rather than toggled. Quote every derived value in the closing CTA, not just the headline number.",
+    "dosDonts": [
+      {
+        "do": "Show the whole discount curve with the current size marked.",
+        "dont": "Show only the current tier — the reader cannot see what another item would buy."
+      },
+      {
+        "do": "Decompose the rollup per item.",
+        "dont": "Show a single score; the set's composition is the point."
+      },
+      {
+        "do": "Animate add/remove transitions.",
+        "dont": "Swap the list instantly — the set stops feeling assembled."
+      },
+      {
+        "do": "Quote all four derived values in the CTA.",
+        "dont": "Quote the headline number only."
+      }
+    ]
+  },
+  "v24": {
+    "id": "v24",
+    "palette": [
+      {
+        "token": "canvas",
+        "hex": "#fafafa",
+        "role": "Page ground",
+        "usage": "Near-white with white cards and sky-50 (#f0f9ff) behind the plot — the plot is the only tinted plane."
+      },
+      {
+        "token": "muted",
+        "hex": "#71717b",
+        "role": "Axis labels + captions",
+        "usage": "48 nodes, the largest tier — the two axis names and the reference-point captions."
+      },
+      {
+        "token": "body",
+        "hex": "#52525c",
+        "role": "Explanatory copy",
+        "usage": "26 nodes."
+      },
+      {
+        "token": "fg",
+        "hex": "#18181b",
+        "role": "Headline + tier names",
+        "usage": "20 nodes."
+      },
+      {
+        "token": "accent",
+        "hex": "#0069a8",
+        "role": "Marker + matched tier",
+        "usage": "15 ink nodes and 2 fills — sky-700 marks the live marker and whichever of the four reference points it is nearest. One hue, one meaning: where you are."
+      }
+    ],
+    "typography": "Pretendard Variable on 118 nodes, no display typeface. Three weights at render (400 / 600 / 800), 600 dominant. Scale 9–64px with 29 nodes at 12px — the plot does the work, so the type stays out of the way except for one 64px figure.",
+    "spacing": "2/8/20 padding with 64px section breaks. Gap 4px is the densest rhythm (26 regions). Radius: fully-rounded plus card radii. The plot's own geometry is the layout — surrounding spacing is deliberately plain so it does not compete.",
+    "philosophy": "Two continuous sliders become the x and y of a live marker on a 2D plot, classified by nearest-neighbour distance to four fixed reference points. The proof is a position rather than a number: the reader sees which tier they are closest to and how close, which a single score cannot show. This is the fifth output form in the landing catalogue's vocabulary — after data widgets, transcripts, redlines and dials — and the first where the answer is spatial.",
+    "agentPrompt": "Build a landing whose answer is a position, not a number. Two sliders drive the x and y of a marker on a 2D plot; classify by nearest-neighbour distance to fixed reference points and name the nearest one. Show the distance, not just the winner — the value of a plot is that near-ties are visible. Keep the surrounding type and spacing plain so the plot's geometry is the only shape on the page.",
+    "dosDonts": [
+      {
+        "do": "Show how near the marker is to its match.",
+        "dont": "Announce only the winning tier — a plot that hides closeness might as well be a label."
+      },
+      {
+        "do": "Map the sliders directly to x and y.",
+        "dont": "Transform them through a score first; the reader loses the mapping."
+      },
+      {
+        "do": "Keep the four reference points fixed and visible.",
+        "dont": "Move them with the input — then nothing is being compared."
+      },
+      {
+        "do": "Keep surrounding layout plain.",
+        "dont": "Add competing shapes; the plot is the one geometry."
+      }
+    ]
+  },
+  "n21": {
+    "id": "n21",
+    "palette": [
+      {
+        "token": "bg",
+        "hex": "#ffffff",
+        "role": "Screen ground",
+        "usage": "White throughout — a submission flow is a form, and a form should not ask the reader to interpret a surface."
+      },
+      {
+        "token": "muted",
+        "hex": "#71717a",
+        "role": "Eyebrow + slot captions",
+        "usage": "10 nodes, tied for the largest tier."
+      },
+      {
+        "token": "secondary",
+        "hex": "#52525b",
+        "role": "Instructions",
+        "usage": "10 nodes — the line telling the seller what the five photos must show."
+      },
+      {
+        "token": "fg",
+        "hex": "#18181b",
+        "role": "Screen title + section heads",
+        "usage": "9 nodes."
+      },
+      {
+        "token": "body",
+        "hex": "#27272a",
+        "role": "Values + currency",
+        "usage": "4 nodes."
+      }
+    ],
+    "typography": "-apple-system per the native DNA. Three weights at render (400 / 600 / 700) with 700 leading at 21 of 33 nodes — a checklist screen is mostly short labels. Scale 10–26px, the mass at 11–14px with one 26px title. Line-height 17px on 12px.",
+    "spacing": "12px padding on 14 regions with 16/20px at card edges, and 1/2/3px inside the photo-slot grid. Gap 12px between sections. Radius 12/8/6px — three steps, with the largest on the photo slots so empty slots read as places rather than boxes.",
+    "philosophy": "Five required photo slots and a declaration checkbox gate the submit through real derived state, not a boolean flag. The blocked band implements both halves of the canonical idiom: a sentence naming what is still missing, and a jump that scrolls to it. Exactly one live region — the container announces politely and only the transition sentence is an alert.",
+    "agentPrompt": "Build a native pre-listing authentication submission. Derive the submit gate from the actual slot and checkbox state rather than a separate flag, so it cannot drift. Implement both halves of the blocked band: the sentence naming what is missing and the jump to that item. Register exactly one live region. Give the empty photo slots a larger radius than the cards so they read as places to fill rather than as empty cards.",
+    "dosDonts": [
+      {
+        "do": "Derive the gate from the real slot state.",
+        "dont": "Track completeness in a separate boolean — the two will disagree."
+      },
+      {
+        "do": "Implement both halves of the blocked band.",
+        "dont": "Name the blocker without a way to reach it."
+      },
+      {
+        "do": "Keep exactly one live region.",
+        "dont": "Announce from both the band and the field."
+      },
+      {
+        "do": "Write your own style key names for the band.",
+        "dont": "Copy the key set from an existing screen — the differentiation lens reads literal overlap as a reprint."
+      }
+    ]
+  },
+  "n22": {
+    "id": "n22",
+    "palette": [
+      {
+        "token": "bg",
+        "hex": "#ffffff",
+        "role": "Screen ground",
+        "usage": "White with zinc-200 (#e4e4e7) as the inactive segment track."
+      },
+      {
+        "token": "body",
+        "hex": "#27272a",
+        "role": "Criterion values",
+        "usage": "18 nodes, the largest tier — the grade chosen for each criterion."
+      },
+      {
+        "token": "fg",
+        "hex": "#18181b",
+        "role": "Screen title + computed grade",
+        "usage": "9 nodes."
+      },
+      {
+        "token": "secondary",
+        "hex": "#52525b",
+        "role": "Instructions",
+        "usage": "7 nodes."
+      },
+      {
+        "token": "muted",
+        "hex": "#71717a",
+        "role": "Eyebrow + captions",
+        "usage": "6 nodes."
+      },
+      {
+        "token": "accent",
+        "hex": "#4f46e5",
+        "role": "Selected grade + band",
+        "usage": "The single native accent — 3 filled regions and 2 ink nodes, marking the currently selected grade per criterion and the action band."
+      }
+    ],
+    "typography": "-apple-system per the native DNA. Three weights at render (400 / 600 / 700) with 600 and 700 tied at 18 each — a rating screen is almost entirely labels and chosen values. Scale 11–28px with 21 nodes at 13px. Line-height 17px.",
+    "spacing": "8px padding on 20 regions with 16px at card edges — tighter than the other two native screens promoted this round, which suits a list of criteria that should be comparable at a glance. Gap 8px. Radius 6px on 22 surfaces and 12px on 8: the flat set keeps the criteria reading as one instrument rather than as separate cards.",
+    "philosophy": "A real weighted-average grading function with a defect cap — not a label picker that stores a string. Changing any criterion moves the computed grade, and the cap means a single severe defect can hold the overall grade down regardless of the average, which is what makes the number defensible. The blocked-workflow band names what is unresolved and scrolls to it, and the screen owns exactly one live region.",
+    "agentPrompt": "Build a native condition assessment where the grade is computed, not chosen. Write a weighted-average function with a defect cap so one severe flaw cannot be averaged away, and show the grade changing as criteria are rated. Use the blocked band to name the unrated criterion and scroll to it. Keep the criteria visually uniform so they read as one instrument.",
+    "dosDonts": [
+      {
+        "do": "Compute the grade from a real weighted function with a cap.",
+        "dont": "Let the user pick a grade label — then the screen asserts rather than assesses."
+      },
+      {
+        "do": "Keep every criterion row visually identical.",
+        "dont": "Emphasise some — in a rating list that reads as a recommendation."
+      },
+      {
+        "do": "Name the unrated criterion and scroll to it.",
+        "dont": "Disable submit without saying which one is missing."
+      },
+      {
+        "do": "Spend the accent on the selected grade only.",
+        "dont": "Tint the whole row; the selection stops being locatable."
+      }
+    ]
+  },
+  "n23": {
+    "id": "n23",
+    "palette": [
+      {
+        "token": "bg",
+        "hex": "#ffffff",
+        "role": "Screen ground",
+        "usage": "White throughout — a shipping form's job is arithmetic."
+      },
+      {
+        "token": "muted",
+        "hex": "#71717a",
+        "role": "Eyebrow + field captions",
+        "usage": "16 nodes, the largest tier."
+      },
+      {
+        "token": "body",
+        "hex": "#27272a",
+        "role": "Measurements + rates",
+        "usage": "12 nodes — the weight, the dimensions and the resulting rate."
+      },
+      {
+        "token": "fg",
+        "hex": "#18181b",
+        "role": "Screen title + step heads",
+        "usage": "10 nodes."
+      },
+      {
+        "token": "secondary",
+        "hex": "#52525b",
+        "role": "Item line + instructions",
+        "usage": "9 nodes."
+      },
+      {
+        "token": "accent",
+        "hex": "#4f46e5",
+        "role": "Confirm action",
+        "usage": "A single node — the confirm control on the blocking step. The most restrained accent use in the native catalogue."
+      }
+    ],
+    "typography": "-apple-system per the native DNA. Three weights at render (400 / 600 / 700) with 700 leading at 33 of 48 nodes — a stepped form is labels and figures. Scale 11–26px, mass at 13–16px. Line-height 17–18px.",
+    "spacing": "12px padding on 9 regions with 16/20px at card edges. Gap 12px between steps and 1px inside the dimension row, which is what keeps L×W×H reading as one quantity rather than three fields. Radius 6px on 15 surfaces and 12px on 4.",
+    "philosophy": "The shipping cost is a real formula, not a lookup: dimensional weight as max(actual, L×W×H/139), so changing a dimension moves the rate and the reader can see why a light but bulky box costs more. The band blocks until the measurement is confirmed — the gate exists because the rate is only meaningful once the input is asserted, not because a step needs ticking.",
+    "agentPrompt": "Build a native carrier-pickup screen where the rate is computed from a real dimensional-weight formula, so editing a dimension visibly moves the price. Block progression until the measurement is confirmed, and say in the band why it is blocked. Keep L×W×H visually joined so it reads as one quantity. Spend the accent on the single confirm action and nothing else.",
+    "dosDonts": [
+      {
+        "do": "Compute the rate from a real DIM-weight formula.",
+        "dont": "Look the price up from a table — the reader cannot see why bulk costs."
+      },
+      {
+        "do": "Join L×W×H visually as one quantity.",
+        "dont": "Render three equal independent fields."
+      },
+      {
+        "do": "Block until the measurement is asserted, and say why.",
+        "dont": "Gate on step completion for its own sake."
+      },
+      {
+        "do": "Keep the accent to the one confirm control.",
+        "dont": "Spread it across step headers."
+      }
+    ]
   }
 }

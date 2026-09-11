@@ -12,7 +12,11 @@
  * later.
  */
 import { readdirSync, readFileSync, existsSync, statSync } from 'node:fs';
-import { join } from 'node:path';
+import { dirname, join } from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { createRequire } from 'node:module';
+
+const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 
 /** Tailwind hue families we treat as an accent signal. Neutrals are excluded — they are the canvas. */
 const HUES = ['indigo', 'violet', 'purple', 'blue', 'sky', 'cyan', 'teal', 'emerald', 'green',
@@ -44,15 +48,84 @@ export function themeOf(src) {
   return dark > light ? 'dark' : 'light';
 }
 
+/* ───────── 임의 hex → Tailwind 계열 (2026-09-12 신설) ─────────
+ *
+ * **액센트 축이 과소 계수되고 있었다.** 판별이 Tailwind 클래스명과 hex 허용목록 3줄만 봤는데,
+ * designer 가 **정확한 Tailwind 값을 임의 hex 로** 쓰면(`text-[#0F766E]`) 하나도 못 잡아 `none`
+ * 으로 읽혔다 — 2026-09-01 실측에서 `none` 4건 중 **3건이 오판**이었다(`v13` `#0F766E`=teal-700 ·
+ * `v14` `#22d3ee`=cyan-400 · `v17` `#047857`=emerald-700). 이 분포에서 designer 에게 주는
+ * **금지 축이 계산되므로**, 틀린 수치 위에서 라운드가 돌고 있었다.
+ *
+ * 팔레트를 손으로 옮겨 적으면 Tailwind 가 바뀔 때 조용히 갈라지므로 **설치된 패키지의
+ * `theme.css` 에서 읽는다**(286 토큰). 비교는 OKLab 최근접 — Tailwind v4 가 색을 OKLCH 로
+ * 정의하므로 같은 공간에서 재는 것이 맞고, 톤이 달라도 계열은 안 흔들린다.
+ * 집 색(`HEX_FAMILIES`)은 그대로 우선한다 — 역사 계열(`violet-hex` 등)을 보존해 주간 비교가
+ * 끊기지 않게 한다.
+ */
+const NEUTRAL = new Set(['gray', 'zinc', 'neutral', 'slate', 'stone', 'black', 'white']);
+
+function loadTailwindPalette() {
+  const out = [];
+  try {
+    const dir = dirname(createRequire(import.meta.url).resolve('tailwindcss/package.json', { paths: [join(ROOT, 'app')] }));
+    const css = readFileSync(join(dir, 'theme.css'), 'utf8');
+    for (const m of css.matchAll(/--color-([a-z]+)-(\d+):\s*oklch\(([\d.]+)%?\s+([\d.]+)\s+([\d.]+)/gi)) {
+      const [, hue, , L, C, H] = m;
+      if (NEUTRAL.has(hue) || !HUES.includes(hue)) continue;
+      const rad = (Number(H) * Math.PI) / 180;
+      out.push({ hue, L: Number(L) / 100, a: Number(C) * Math.cos(rad), b: Number(C) * Math.sin(rad) });
+    }
+  } catch { /* 팔레트를 못 읽으면 hex 매칭을 건너뛴다 — 기존 동작으로 안전하게 물러난다 */ }
+  return out;
+}
+const PALETTE = loadTailwindPalette();
+
+/** sRGB hex → OKLab. Björn Ottosson 공식. */
+function hexToOklab(hex) {
+  const v = (i) => {
+    const c = parseInt(hex.slice(i, i + 2), 16) / 255;
+    return c <= 0.04045 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4);
+  };
+  const r = v(1), g = v(3), b2 = v(5);
+  const l = Math.cbrt(0.4122214708 * r + 0.5363325363 * g + 0.0514459929 * b2);
+  const m = Math.cbrt(0.2119034982 * r + 0.6806995451 * g + 0.1073969566 * b2);
+  const s2 = Math.cbrt(0.0883024619 * r + 0.2817188376 * g + 0.6299787005 * b2);
+  return {
+    L: 0.2104542553 * l + 0.793617785 * m - 0.0040720468 * s2,
+    a: 1.9779984951 * l - 2.428592205 * m + 0.4505937099 * s2,
+    b: 0.0259040371 * l + 0.7827717662 * m - 0.808675766 * s2,
+  };
+}
+
+/** 임의 hex 가 어느 Tailwind 계열인가. 채도가 낮으면 액센트가 아니다(중립 표면). */
+export function hueOfHex(hex) {
+  if (!PALETTE.length) return null;
+  const c = hexToOklab(hex);
+  if (Math.hypot(c.a, c.b) < 0.04) return null;
+  let best = null, bestD = Infinity;
+  for (const p of PALETTE) {
+    const d = (p.L - c.L) ** 2 + (p.a - c.a) ** 2 + (p.b - c.b) ** 2;
+    if (d < bestD) { bestD = d; best = p.hue; }
+  }
+  return best;
+}
+
 export function accentOf(src) {
   const counts = new Map();
   for (const hue of HUES) {
     const n = (src.match(new RegExp(`\\b(?:bg|text|border|ring|fill|stroke)-${hue}-\\d{3}\\b`, 'g')) || []).length;
     if (n) counts.set(hue, n);
   }
+  const houseHit = new Set();
   for (const [re, family] of HEX_FAMILIES) {
-    const n = (src.match(new RegExp(re.source, 'gi')) || []).length;
-    if (n) counts.set(family, (counts.get(family) || 0) + n);
+    const hits = src.match(new RegExp(re.source, 'gi')) || [];
+    if (hits.length) { counts.set(family, (counts.get(family) || 0) + hits.length); for (const h of hits) houseHit.add(h.toLowerCase()); }
+  }
+  // 집 색 목록에 없는 임의 hex 는 팔레트 최근접으로 계열을 매긴다.
+  for (const m of src.matchAll(/#[0-9a-f]{6}\b/gi)) {
+    if (houseHit.has(m[0].toLowerCase())) continue;
+    const hue = hueOfHex(m[0]);
+    if (hue) counts.set(hue, (counts.get(hue) || 0) + 1);
   }
   if (!counts.size) return 'none';
   return [...counts.entries()].sort((a, b) => b[1] - a[1])[0][0];

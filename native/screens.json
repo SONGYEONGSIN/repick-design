@@ -58,5 +58,14 @@
   },
   "relist": {
     "check": "Bulk Relist"
+  },
+  "authentication": {
+    "check": "Submit for Authentication"
+  },
+  "condition": {
+    "check": "Condition Assessment"
+  },
+  "pickup": {
+    "check": "Ready this order for carrier pickup"
   }
 }
