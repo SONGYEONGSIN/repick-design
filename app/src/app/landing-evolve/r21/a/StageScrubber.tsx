@@ -89,7 +89,6 @@ export default function StageScrubber({
     });
     ro.observe(el);
     return () => ro.disconnect();
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- intentionally re-runs only on stage change; width comes from the observer callback
   }, [activeIndex, reduceMotion]);
 
   function nearestFromClientX(clientX: number): number {
