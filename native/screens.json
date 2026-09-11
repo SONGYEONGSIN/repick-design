@@ -76,5 +76,14 @@
   },
   "evolve-r18-c": {
     "check": "Condition Assessment"
+  },
+  "evolve-r19-a": {
+    "check": "Schedule Pickup"
+  },
+  "evolve-r19-b": {
+    "check": "Build a Bundle"
+  },
+  "evolve-r19-c": {
+    "check": "Ask a Question"
   }
 }

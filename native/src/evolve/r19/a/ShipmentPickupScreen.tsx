@@ -16,7 +16,7 @@
 // src/verification SellerVerificationScreen): this is a linear, always-expanded three-stage
 // form (no collapse/expand), and the blocking dock's state names, style keys and hint copy
 // below are original to this screen rather than reused from either.
-import { useMemo, useRef, useState } from "react";
+import { useMemo, useRef, useState, type Dispatch, type SetStateAction } from "react";
 import {
   FlatList,
   Pressable,
@@ -178,7 +178,7 @@ export function ShipmentPickupScreen() {
     setWeightLb((w) => clamp(Math.round((w + delta) * 10) / 10, WEIGHT_MIN_LB, WEIGHT_MAX_LB));
     setMeasureLocked(false);
   };
-  const changeDim = (setter: (fn: (v: number) => number) => void, delta: number) => {
+  const changeDim = (setter: Dispatch<SetStateAction<number>>, delta: number) => {
     if (booked) return;
     setter((v) => clamp(v + delta, DIM_MIN_IN, DIM_MAX_IN));
     setMeasureLocked(false);
