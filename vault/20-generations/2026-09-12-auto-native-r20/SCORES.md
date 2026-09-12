@@ -2,7 +2,8 @@
 
 target: native · round: auto-native-r20 · date: 2026-09-12
 
-frozen-state SHA1 (candidate sources, post 1-fix): `cb4189035e249f8934a01dda5e35fb8d2f05f44a` (pre-fix hash from candidate a's original `../../tokens` import; superseded by post-fix re-gate below — recorded for traceability of the 1-fix event)
+frozen-state SHA1 (candidate sources, pre-fix, candidate a's original `../../tokens` import): `cb4189035e249f8934a01dda5e35fb8d2f05f44a`
+frozen-state SHA1 (candidate sources, post 1-fix — this is the state judge/gate results below apply to): `8ddb1660c7819ef7d50c7e022fd27aaf630a5a47`
 
 ## 1-fix loop
 - **evolve-r20-a**: 1차 `tsc` 실패 — `TradeProposalScreen.tsx:39` `../../tokens` (틀린 상대경로, orchestrator 브리프의 오류였음 — 3후보 전원에게 같은 문구를 줬으나 b·c는 스스로 올바른 `../../../tokens`로 작성함). **1-fix 소모**: `../../../tokens`로 정정 후 재게이트 → 통과.
