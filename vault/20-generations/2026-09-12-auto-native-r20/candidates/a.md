@@ -4,7 +4,7 @@ One-line concept: a screen for composing and adjusting one active item-for-item 
 
 ## Files
 - `native/src/evolve/r20/a/TradeProposalScreen.tsx` — screen component (default export `TradeProposalScreen`).
-- `native/src/evolve/r20/a/data.ts` — deterministic dummy data: `MY_ITEMS` (4 items the user owns), `THEIR_ITEMS` (6 items the counterparty owns), the mid-negotiation initial selection/top-up state, top-up step/bounds, a fairness tolerance constant, and pure `formatUsd`/`sumValues` helpers.
+- `native/src/evolve/r20/a/data.ts` — deterministic dummy data: `MY_ITEMS` (4 items the user owns), `THEIR_ITEMS` (6 items the counterparty owns), the mid-negotiation initial selection/top-up state, top-up step/bounds, a fairness tolerance constant, and pure `formatWon`/`sumValues` helpers.
 
 Check string: `Trade Proposal` — the screen's `accessibilityRole="header"` title, rendered unconditionally at the very top of the `FlatList`'s header, no scroll required.
 
@@ -26,8 +26,8 @@ GENERATION.md §3 states a screen with no fixed bottom band is a fully valid cho
    **Why**: this makes the composition UI demonstrably about *adjusting an existing proposal*, not just building one from a blank slate, which is closer to what "distinguish sharply from offer-thread" implied (a proposal has state/history even without a full thread) — while staying a single status line rather than growing into a message list. The relative-time string is a fixed literal, not a computed diff, per the determinism rule.
 
 3. **Decide**: the fairness tolerance — how close in value counts as "even" rather than "X is ahead."
-   **Decided**: a fixed `FAIRNESS_TOLERANCE_CENTS = 1000` ($10.00), stated as a named constant with an inline comment explaining why (real barter never lands on an exact cent match).
-   **Why**: arbitrary but principled and stated in the open — a $0.01 threshold would make almost every real selection "unfair" and defeat the point of the readout; a percentage-of-total threshold was considered but rejected as harder to reason about for a user glancing at two dollar totals.
+   **Decided**: a fixed `FAIRNESS_TOLERANCE_WON = 13000` (₩13,000), stated as a named constant with an inline comment explaining why (real barter never lands on an exact-won match).
+   **Why**: arbitrary but principled and stated in the open — a ₩0 threshold would make almost every real selection "unfair" and defeat the point of the readout; a percentage-of-total threshold was considered but rejected as harder to reason about for a user glancing at two won totals.
 
 4. **Decide**: what happens to the item-selection and top-up controls after Send is pressed (the brief doesn't specify a destination screen to navigate to).
    **Decided**: pressing Send is a real, visible state change — it flips a local `sent` flag, which (a) locks every selection/top-up control (`disabled` + dimmed + `accessibilityState.disabled`, not just a silently ignored press) and (b) replaces the readiness text with a real, true confirmation line ("Updated proposal sent to Mira Chen. Waiting for a response.") inside the same live region. No `accessibilityHint` claims a navigation this build doesn't perform.
@@ -38,13 +38,13 @@ GENERATION.md §3 states a screen with no fixed bottom band is a fully valid cho
    **Why**: matches the RN-idiom rule (`FlatList` for the primary/growing list, `.map()` for short/bounded ones) and the established precedent for this exact split in `r19/b/BundleBuilderScreen.tsx` (its own `.map()`'d footer list vs. `FlatList`'d main list) — nesting a second scrollable list here would trigger the same "VirtualizedLists nested in a plain container" concern for no benefit, since the personal-items row never needs independent scrolling.
 
 6. **Decide**: item domain/theme, since the brief left the goods being traded unspecified.
-   **Decided**: camera/vlogging gear (a camera body + lens vs. another camera body + accessories), 4 items mine / 6 items theirs, with fixed cent-precision values (e.g. `32000` = $320.00) that produce a genuinely close-but-not-identical trade by default so the fairness bar has something real to show on first render, not a trivially even 0.
-   **Why**: arbitrary domain choice, but the price spread (mine ≈ $415 selected + their $10 top-up ≈ $410, a small $5 gap) was chosen deliberately so a viewer sees the bar and label doing real, non-trivial work immediately rather than defaulting to a flat "Even trade."
+   **Decided**: camera/vlogging gear (a camera body + lens vs. another camera body + accessories), 4 items mine / 6 items theirs, with fixed whole-won values (e.g. `420000` = ₩420,000) that produce a genuinely close-but-not-identical trade by default so the fairness bar has something real to show on first render, not a trivially even 0.
+   **Why**: arbitrary domain choice, but the price spread (mine = ₩545,000 selected vs. their ₩516,000 + ₩15,000 top-up = ₩531,000, a ₩14,000 gap just outside the tolerance band) was chosen deliberately so a viewer sees the bar and label doing real, non-trivial work immediately rather than defaulting to a flat "Even trade."
 
 7. **Decide**: the visual form of the "fairness/value comparison readout" itself — the brief asks for one but doesn't specify a shape.
-   **Decided**: a two-segment horizontal bar (`flex: mineRatio` / `flex: theirsRatio`, using `tokens.color.accent` for my side and `tokens.color.ink2` for theirs) plus a legend row of the two dollar totals and one bold sentence naming who's ahead (or "Even trade").
+   **Decided**: a two-segment horizontal bar (`flex: mineRatio` / `flex: theirsRatio`, using `tokens.color.accent` for my side and `tokens.color.ink2` for theirs) plus a legend row of the two won totals and one bold sentence naming who's ahead (or "Even trade").
    **Why**: no chart library is available under the CDN allowlist for a web artifact, and this is native RN anyway — a plain proportional `View`-flex bar is the simplest genuinely-computed (not decorative) visualization, reusing only `tokens` colors and no new hex values.
 
-8. **Decide**: ₩/currency formatting, since the brief's item values needed a concrete display format and this trade scenario reads more naturally in USD than KRW (no locale cue in the brief pins this to Korean won specifically).
-   **Decided**: plain `$` with a `formatUsd` helper (dollars + zero-padded cents, `toLocaleString` for the thousands separator), sidestepping the ₩-glyph question entirely rather than picking one of the three valid ₩ options.
-   **Why**: arbitrary — GENERATION.md's ₩ guidance exists because repick's other screens are KRW-priced marketplace listings; a barter/trade scenario didn't need to inherit that currency, and using `$` avoids relitigating a already-settled, non-issue (confirmed refuted in `r11`) question that has no bearing on this candidate.
+8. **Decide**: which of the three valid ₩-glyph options (space before digits / `KRW` abbreviation / plain adjacent) to use, since the brief left this an open, explicitly-cleared choice.
+   **Decided**: plain `₩` directly adjacent to the digits (`formatWon`: `` `₩${n.toLocaleString()}` ``), with whole-won integer values (no minor unit) throughout `data.ts`.
+   **Why**: convention — repick's other native screens are KRW-priced marketplace listings, so keeping this screen in won rather than switching to USD (which an early draft did, then was reverted) keeps it feeling like the same app as everything around it. Plain-adjacent is GENERATION.md's explicitly reaffirmed non-issue (`r11`'s controlled experiment: the "cut-through" look is the ₩ glyph's own shape, not a `tabular-nums`/nesting artifact), so no defensive space or `KRW`-spelling workaround was needed.

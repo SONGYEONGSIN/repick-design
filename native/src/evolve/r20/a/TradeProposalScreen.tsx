@@ -36,24 +36,24 @@ import {
   SafeAreaView,
   StyleSheet,
 } from "react-native";
-import { tokens } from "../../tokens";
+import { tokens } from "../../../tokens";
 import {
   COUNTERPARTY_INITIALS,
   COUNTERPARTY_NAME,
-  FAIRNESS_TOLERANCE_CENTS,
+  FAIRNESS_TOLERANCE_WON,
   INITIAL_SELECTED_MINE,
   INITIAL_SELECTED_THEIRS,
-  INITIAL_TOPUP_CENTS,
+  INITIAL_TOPUP_WON,
   INITIAL_TOPUP_DIRECTION,
   MY_ITEMS,
   PROPOSAL_STATUS,
   STATUS_NOTE,
   STATUS_UPDATED_LABEL,
   THEIR_ITEMS,
-  TOPUP_MAX_CENTS,
-  TOPUP_MIN_CENTS,
-  TOPUP_STEP_CENTS,
-  formatUsd,
+  TOPUP_MAX_WON,
+  TOPUP_MIN_WON,
+  TOPUP_STEP_WON,
+  formatWon,
   sumValues,
 } from "./data";
 import type { TopUpDirection, TradeItem } from "./data";
@@ -83,8 +83,8 @@ function MyItemChip({
       hitSlop={8}
       accessibilityRole="checkbox"
       accessibilityState={{ checked: selected, disabled: locked }}
-      accessibilityLabel={`${item.title}, ${item.condition} condition, ${formatUsd(
-        item.valueCents,
+      accessibilityLabel={`${item.title}, ${item.condition} condition, ${formatWon(
+        item.valueWon,
       )}`}
       style={({ pressed }) => [
         styles.chip,
@@ -101,7 +101,7 @@ function MyItemChip({
           {item.title}
         </Text>
         <Text style={styles.chipMeta}>
-          {item.condition} · {formatUsd(item.valueCents)}
+          {item.condition} · {formatWon(item.valueWon)}
         </Text>
       </View>
     </Pressable>
@@ -126,8 +126,8 @@ function TheirItemRow({
       hitSlop={4}
       accessibilityRole="checkbox"
       accessibilityState={{ checked: selected, disabled: locked }}
-      accessibilityLabel={`${item.title}, ${item.condition} condition, ${formatUsd(
-        item.valueCents,
+      accessibilityLabel={`${item.title}, ${item.condition} condition, ${formatWon(
+        item.valueWon,
       )}`}
       style={({ pressed }) => [
         styles.itemRow,
@@ -143,7 +143,7 @@ function TheirItemRow({
         <Text style={styles.itemRowTitle}>{item.title}</Text>
         <Text style={styles.itemRowMeta}>{item.condition}</Text>
       </View>
-      <Text style={styles.itemRowValue}>{formatUsd(item.valueCents)}</Text>
+      <Text style={styles.itemRowValue}>{formatWon(item.valueWon)}</Text>
     </Pressable>
   );
 }
@@ -156,7 +156,7 @@ export default function TradeProposalScreen() {
   const [topUpDirection, setTopUpDirection] = useState<TopUpDirection>(
     INITIAL_TOPUP_DIRECTION,
   );
-  const [topUpCents, setTopUpCents] = useState<number>(INITIAL_TOPUP_CENTS);
+  const [topUpWon, setTopUpWon] = useState<number>(INITIAL_TOPUP_WON);
   const [sent, setSent] = useState(false);
 
   const toggleMine = (id: string) => {
@@ -176,14 +176,14 @@ export default function TradeProposalScreen() {
   const setDirection = (direction: TopUpDirection) => {
     if (sent) return;
     setTopUpDirection(direction);
-    if (direction === "none") setTopUpCents(0);
-    else if (topUpCents === 0) setTopUpCents(TOPUP_STEP_CENTS);
+    if (direction === "none") setTopUpWon(0);
+    else if (topUpWon === 0) setTopUpWon(TOPUP_STEP_WON);
   };
 
   const adjustTopUp = (delta: number) => {
     if (sent || topUpDirection === "none") return;
-    setTopUpCents((prev) =>
-      Math.min(TOPUP_MAX_CENTS, Math.max(TOPUP_MIN_CENTS, prev + delta)),
+    setTopUpWon((prev) =>
+      Math.min(TOPUP_MAX_WON, Math.max(TOPUP_MIN_WON, prev + delta)),
     );
   };
 
@@ -191,11 +191,11 @@ export default function TradeProposalScreen() {
     const mineItemsTotal = sumValues(MY_ITEMS, selectedMine);
     const theirsItemsTotal = sumValues(THEIR_ITEMS, selectedTheirs);
     const mineSideTotal =
-      mineItemsTotal + (topUpDirection === "mine" ? topUpCents : 0);
+      mineItemsTotal + (topUpDirection === "mine" ? topUpWon : 0);
     const theirsSideTotal =
-      theirsItemsTotal + (topUpDirection === "theirs" ? topUpCents : 0);
+      theirsItemsTotal + (topUpDirection === "theirs" ? topUpWon : 0);
     const diff = mineSideTotal - theirsSideTotal;
-    const isEven = Math.abs(diff) <= FAIRNESS_TOLERANCE_CENTS;
+    const isEven = Math.abs(diff) <= FAIRNESS_TOLERANCE_WON;
     const combined = Math.max(1, mineSideTotal + theirsSideTotal);
     return {
       mineItemsTotal,
@@ -207,13 +207,13 @@ export default function TradeProposalScreen() {
       mineRatio: mineSideTotal / combined,
       theirsRatio: theirsSideTotal / combined,
     };
-  }, [selectedMine, selectedTheirs, topUpDirection, topUpCents]);
+  }, [selectedMine, selectedTheirs, topUpDirection, topUpWon]);
 
   const fairnessLabel = totals.isEven
     ? "Even trade"
     : totals.diff > 0
-      ? `You're offering ${formatUsd(totals.diff)} more`
-      : `${COUNTERPARTY_NAME.split(" ")[0]} is offering ${formatUsd(
+      ? `You're offering ${formatWon(totals.diff)} more`
+      : `${COUNTERPARTY_NAME.split(" ")[0]} is offering ${formatWon(
           -totals.diff,
         )} more`;
 
@@ -308,29 +308,29 @@ export default function TradeProposalScreen() {
       {topUpDirection !== "none" ? (
         <View style={styles.stepperRow}>
           <Pressable
-            onPress={() => adjustTopUp(-TOPUP_STEP_CENTS)}
+            onPress={() => adjustTopUp(-TOPUP_STEP_WON)}
             hitSlop={10}
             accessibilityRole="button"
-            accessibilityLabel="Decrease top-up by $5"
-            disabled={sent || topUpCents <= TOPUP_MIN_CENTS}
+            accessibilityLabel={`Decrease top-up by ${formatWon(TOPUP_STEP_WON)}`}
+            disabled={sent || topUpWon <= TOPUP_MIN_WON}
             style={({ pressed }) => [
               styles.stepperButton,
-              (sent || topUpCents <= TOPUP_MIN_CENTS) && styles.stepperButtonDisabled,
+              (sent || topUpWon <= TOPUP_MIN_WON) && styles.stepperButtonDisabled,
               pressed && styles.pressedDim,
             ]}
           >
             <Text style={styles.stepperGlyph}>−</Text>
           </Pressable>
-          <Text style={styles.stepperValue}>{formatUsd(topUpCents)}</Text>
+          <Text style={styles.stepperValue}>{formatWon(topUpWon)}</Text>
           <Pressable
-            onPress={() => adjustTopUp(TOPUP_STEP_CENTS)}
+            onPress={() => adjustTopUp(TOPUP_STEP_WON)}
             hitSlop={10}
             accessibilityRole="button"
-            accessibilityLabel="Increase top-up by $5"
-            disabled={sent || topUpCents >= TOPUP_MAX_CENTS}
+            accessibilityLabel={`Increase top-up by ${formatWon(TOPUP_STEP_WON)}`}
+            disabled={sent || topUpWon >= TOPUP_MAX_WON}
             style={({ pressed }) => [
               styles.stepperButton,
-              (sent || topUpCents >= TOPUP_MAX_CENTS) && styles.stepperButtonDisabled,
+              (sent || topUpWon >= TOPUP_MAX_WON) && styles.stepperButtonDisabled,
               pressed && styles.pressedDim,
             ]}
           >
@@ -355,10 +355,10 @@ export default function TradeProposalScreen() {
         </View>
         <View style={styles.barLegendRow}>
           <Text style={styles.barLegendMine}>
-            You · {formatUsd(totals.mineSideTotal)}
+            You · {formatWon(totals.mineSideTotal)}
           </Text>
           <Text style={styles.barLegendTheirs}>
-            {COUNTERPARTY_NAME.split(" ")[0]} · {formatUsd(totals.theirsSideTotal)}
+            {COUNTERPARTY_NAME.split(" ")[0]} · {formatWon(totals.theirsSideTotal)}
           </Text>
         </View>
         <Text style={styles.fairnessLabel}>{fairnessLabel}</Text>
