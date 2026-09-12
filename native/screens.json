@@ -67,5 +67,14 @@
   },
   "pickup": {
     "check": "Ready this order for carrier pickup"
+  },
+  "evolve-r20-a": {
+    "check": "Trade Proposal"
+  },
+  "evolve-r20-b": {
+    "check": "Link a payout method"
+  },
+  "evolve-r20-c": {
+    "check": "Build a Saved Search"
   }
 }
