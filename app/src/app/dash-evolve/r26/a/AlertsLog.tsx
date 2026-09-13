@@ -96,8 +96,8 @@ export default function AlertsLog() {
         </label>
       </div>
 
-      <div className="mt-3 w-full">
-        <table className="w-full table-fixed border-collapse text-sm">
+      <div className="mt-3 w-full overflow-x-auto">
+        <table className="w-full min-w-[560px] table-fixed border-collapse text-sm">
           <caption className="sr-only">Recent excursion alerts across the monitored network</caption>
           <colgroup>
             <col className="w-[34%]" />

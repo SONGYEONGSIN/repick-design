@@ -4,7 +4,7 @@ import { ArrowDown, ArrowUp, ArrowUpDown, Pin, PinOff } from "lucide-react";
 import Image from "next/image";
 import { useMemo, useState } from "react";
 import { accountAvatar, accountById, EVENTS, EVENT_STATUS_META, EVENT_TYPE_META, eventStatusKey, formatUSD, type EventType, type LedgerEvent } from "./data";
-import { BORDER, FOCUS, HOVER_ROW, NUM, PANEL_BG, TEXT_AUX, TEXT_PRIMARY, TONE_BADGE, TRANSITION, cx } from "./tokens";
+import { BORDER, FOCUS, HOVER_ROW, NUM, PANEL_BG, TEXT_AUX, TEXT_MUTED, TEXT_PRIMARY, TONE_BADGE, TRANSITION, cx } from "./tokens";
 
 type SortKey = "amount" | "recency";
 type SortDir = "asc" | "desc";
@@ -60,7 +60,7 @@ export default function LedgerFeed({ pinnedAccountId, onPin }: { pinnedAccountId
               type="button"
               aria-pressed={filter === f.id}
               onClick={() => setFilter(f.id)}
-              className={cx("h-8 rounded-md px-2.5 text-xs", TRANSITION, FOCUS, filter === f.id ? "bg-violet-700 font-semibold text-white" : cx("font-medium", TEXT_AUX, "hover:bg-white hover:text-zinc-900"))}
+              className={cx("h-8 rounded-md px-2.5 text-xs", TRANSITION, FOCUS, filter === f.id ? "bg-violet-700 font-semibold text-white" : cx("font-medium", TEXT_MUTED, "hover:bg-white hover:text-zinc-900"))}
             >
               {f.label}
             </button>
