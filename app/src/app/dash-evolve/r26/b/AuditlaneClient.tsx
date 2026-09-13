@@ -9,7 +9,7 @@ import Sidebar from "./Sidebar";
 import SupplierRail from "./SupplierRail";
 import Topbar from "./Topbar";
 import { BOX_STATS, ORG_TOTALS, PERIODS, PERIOD_LABEL, RECORDS, STATUS_ICON, STATUS_LABEL, SUPPLIERS, TIER_BADGE, TIER_LABEL, formatInt, riskTierOf, type InspectionStatus, type Period } from "./data";
-import { APP_BG, BORDER, NUM, SURFACE_INSET, TEXT_AUX, TEXT_MUTED, TEXT_PRIMARY, TEXT_SECONDARY, cx } from "./tokens";
+import { ACCENT_SOLID, APP_BG, BORDER, FOCUS, NUM, SURFACE_INSET, TEXT_AUX, TEXT_MUTED, TEXT_PRIMARY, TEXT_SECONDARY, cx } from "./tokens";
 import { Badge, Card, CardHead, Eyebrow, Segmented } from "./ui";
 
 const STATUS_ORDER: InspectionStatus[] = ["pass", "watch", "flagged"];
@@ -47,12 +47,18 @@ export default function AuditlaneClient() {
 
   return (
     <div className={cx("flex min-h-dvh overflow-x-hidden", APP_BG, TEXT_PRIMARY)}>
+      <a
+        href="#main-content"
+        className={cx("sr-only focus:not-sr-only focus:fixed focus:left-3 focus:top-3 focus:z-[100] focus:rounded-lg focus:px-3.5 focus:py-2 focus:text-sm focus:font-semibold", ACCENT_SOLID, FOCUS)}
+      >
+        Skip to main content
+      </a>
       <Sidebar mobileOpen={mobileNavOpen} onCloseMobile={() => setMobileNavOpen(false)} />
 
       <div className="flex min-w-0 flex-1 flex-col">
         <Topbar onOpenPalette={() => setPaletteOpen(true)} onOpenMobileNav={() => setMobileNavOpen(true)} />
 
-        <main id="main-content" className="min-w-0 flex-1 px-4 py-5 sm:px-6 lg:px-8 lg:py-6">
+        <main id="main-content" tabIndex={-1} className="min-w-0 flex-1 px-4 py-5 sm:px-6 lg:px-8 lg:py-6">
           <div className="flex flex-wrap items-end justify-between gap-3">
             <div className="min-w-0">
               <Eyebrow>{`Quality assurance · ${PERIOD_LABEL[period]}`}</Eyebrow>

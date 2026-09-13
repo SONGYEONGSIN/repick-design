@@ -47,7 +47,7 @@ function WorkspaceSwitcher() {
               >
                 <span className="min-w-0 flex-1">
                   <span className={cx("block truncate text-sm font-medium", selected ? "text-violet-700" : TEXT_PRIMARY)}>{w.name}</span>
-                  <span className={cx("block truncate text-[11px] font-normal", TEXT_AUX)}>{w.plan}</span>
+                  <span className={cx("block truncate text-[11px] font-normal", TEXT_MUTED)}>{w.plan}</span>
                 </span>
                 {selected ? <Check size={15} aria-hidden="true" className={cx("shrink-0", ACCENT_TEXT)} /> : null}
               </button>

@@ -3,7 +3,7 @@
 import { Search, X } from "lucide-react";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { SEARCH_ENTRIES } from "./data";
-import { BORDER, FOCUS, HOVER_BG, PANEL_BG, TEXT_AUX, TEXT_PRIMARY, TRANSITION, cx } from "./tokens";
+import { BORDER, FOCUS, HOVER_BG, PANEL_BG, TEXT_AUX, TEXT_MUTED, TEXT_PRIMARY, TRANSITION, cx } from "./tokens";
 import { Eyebrow } from "./ui";
 
 export default function CommandPalette({ onClose, onSelectSupplier }: { onClose: () => void; onSelectSupplier: (id: string) => void }) {
@@ -62,7 +62,7 @@ export default function CommandPalette({ onClose, onSelectSupplier }: { onClose:
                   <e.Icon size={15} aria-hidden="true" className={cx("shrink-0", TEXT_AUX)} />
                   <span className="min-w-0 flex-1 truncate">
                     <span style={{ fontFamily: "var(--font-display-mono)" }}>{e.title}</span>
-                    <span className={cx("ml-2 text-[11px] font-normal", TEXT_AUX)}>{e.meta}</span>
+                    <span className={cx("ml-2 text-[11px] font-normal", TEXT_MUTED)}>{e.meta}</span>
                   </span>
                 </button>
               ))}
