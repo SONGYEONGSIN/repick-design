@@ -28,11 +28,36 @@ function pct(px: number, span: number): number {
   return r2((px / span) * 100);
 }
 
+// target-size fix (hard-gate a11y): the five whisker/box markers share one y (`Y_MID`), so on a
+// tight distribution (small IQR, few inspections) their *true* x positions land closer together
+// than the 28px hit targets are wide — the buttons overlap and the unobscured area for each drops
+// under the WCAG 2.5.8 24×24 floor (audited at 21.2px on a "Q3" target). Visual marks (the box,
+// whiskers, median line) stay exactly on the real data value; only the invisible hit targets get
+// nudged apart in SVG-space so their *centers* are never closer than MIN_HIT_GAP.
+//
+// MIN_HIT_GAP is sized for the narrowest width this panel is ever measured at: Lighthouse's
+// default mobile emulation (360 CSS px) puts this card's content at ~296px (390px viewport minus
+// `px-4` main padding minus `p-4` card padding is even tighter, 360 is the binding case) — a
+// ~0.4625 real-px-per-SVG-px scale. 64 SVG px * 0.4625 ≈ 29.6 real px of clear space, a margin
+// above the 24px floor rather than a value that just barely clears it.
+const MIN_HIT_GAP = 64;
+
+function spreadMinGap(xs: number[], minGap: number, lo: number, hi: number): number[] {
+  const out = [...xs];
+  for (let i = 1; i < out.length; i++) out[i] = Math.max(out[i], out[i - 1] + minGap);
+  const overflow = out[out.length - 1] - hi;
+  if (overflow > 0) for (let i = 0; i < out.length; i++) out[i] -= overflow;
+  for (let i = out.length - 2; i >= 0; i--) out[i] = Math.min(out[i], out[i + 1] - minGap);
+  for (let i = 0; i < out.length; i++) out[i] = Math.min(hi, Math.max(lo, out[i]));
+  return out;
+}
+
 interface Marker {
   key: string;
   label: string;
   value: number;
   x: number;
+  hitX: number;
   y: number;
 }
 
@@ -42,13 +67,19 @@ export default function BoxPlotPanel({ stats, orgMedian, supplierName }: { stats
   const minLabel = stats.min === stats.whiskerLow ? "Min" : "Lower whisker (non-outlier min)";
   const maxLabel = stats.max === stats.whiskerHigh ? "Max" : "Upper whisker (non-outlier max)";
 
+  // Main markers are always in ascending x order (min ≤ q1 ≤ median ≤ q3 ≤ max by construction),
+  // so `spreadMinGap` can walk them left-to-right without re-sorting. Outliers keep their raw
+  // x — they already carry their own vertical offset (below) to stay clear of the main row.
+  const mainX = [xScale(stats.whiskerLow), xScale(stats.q1), xScale(stats.median), xScale(stats.q3), xScale(stats.whiskerHigh)];
+  const mainHitX = spreadMinGap(mainX, MIN_HIT_GAP, PLOT_L, PLOT_R);
+
   const markers: Marker[] = [
-    { key: "min", label: minLabel, value: stats.whiskerLow, x: xScale(stats.whiskerLow), y: Y_MID },
-    { key: "q1", label: "Q1", value: stats.q1, x: xScale(stats.q1), y: Y_MID },
-    { key: "median", label: "Median", value: stats.median, x: xScale(stats.median), y: Y_MID },
-    { key: "q3", label: "Q3", value: stats.q3, x: xScale(stats.q3), y: Y_MID },
-    { key: "max", label: maxLabel, value: stats.whiskerHigh, x: xScale(stats.whiskerHigh), y: Y_MID },
-    ...stats.outliers.map((v, i) => ({ key: `outlier-${i}`, label: "Outlier", value: v, x: xScale(v), y: Y_MID + (i % 2 === 0 ? -14 : 14) })),
+    { key: "min", label: minLabel, value: stats.whiskerLow, x: mainX[0], hitX: mainHitX[0], y: Y_MID },
+    { key: "q1", label: "Q1", value: stats.q1, x: mainX[1], hitX: mainHitX[1], y: Y_MID },
+    { key: "median", label: "Median", value: stats.median, x: mainX[2], hitX: mainHitX[2], y: Y_MID },
+    { key: "q3", label: "Q3", value: stats.q3, x: mainX[3], hitX: mainHitX[3], y: Y_MID },
+    { key: "max", label: maxLabel, value: stats.whiskerHigh, x: mainX[4], hitX: mainHitX[4], y: Y_MID },
+    ...stats.outliers.map((v, i) => ({ key: `outlier-${i}`, label: "Outlier", value: v, x: xScale(v), hitX: xScale(v), y: Y_MID + (i % 2 === 0 ? -14 : 14) })),
   ];
 
   const orgX = xScale(orgMedian);
@@ -114,7 +145,7 @@ export default function BoxPlotPanel({ stats, orgMedian, supplierName }: { stats
               onMouseLeave={() => setActive(null)}
               onBlur={() => setActive(null)}
               aria-label={`${m.label}: ${m.value.toFixed(1)}`}
-              style={{ left: `${pct(m.x, W)}%`, top: `${pct(m.y, H)}%` }}
+              style={{ left: `${pct(m.hitX, W)}%`, top: `${pct(m.y, H)}%` }}
               className="pointer-events-auto absolute h-7 w-7 -translate-x-1/2 -translate-y-1/2 rounded-full focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-700"
             >
               <span aria-hidden="true" className="block h-2 w-2 rounded-full bg-transparent" />

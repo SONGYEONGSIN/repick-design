@@ -86,7 +86,13 @@ export default function SupplierRail({ suppliers, period, pinnedId, onPin }: { s
                     <span className={cx(NUM, "font-semibold text-zinc-700")}>{stats.median.toFixed(1)}</span>
                     median severity ·{" "}
                     <span className={NUM}>{formatInt(stats.n)}</span> insp.
-                    {stats.outliers.length > 0 ? <span className="text-rose-600">{`· ${stats.outliers.length} outlier${stats.outliers.length === 1 ? "" : "s"}`}</span> : null}
+                    {/*
+                      rose-700, not -600: this row sits on the pinned row's `bg-violet-50/60`
+                      tint (≈ #f9f8ff over white), and at 11px/normal weight rose-600 (~ #ed003f)
+                      measures 4.27:1 there — under the 4.5:1 small-text floor. rose-700
+                      (~ #c70036) measures ≈ 5.74:1 on the same #f9f8ff, comfortably over.
+                    */}
+                    {stats.outliers.length > 0 ? <span className="text-rose-700">{`· ${stats.outliers.length} outlier${stats.outliers.length === 1 ? "" : "s"}`}</span> : null}
                   </span>
                 </span>
               </button>
