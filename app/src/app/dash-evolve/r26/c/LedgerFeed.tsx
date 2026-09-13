@@ -82,8 +82,8 @@ export default function LedgerFeed({ pinnedAccountId, onPin }: { pinnedAccountId
           sr-only element's containing-block lookup can walk out to the viewport and
           get sized against it instead — the source of the 390px page-overflow bug the
           grid-craft rules warn about. */}
-      <div className="relative mt-2 overflow-x-auto rounded-xl border border-zinc-200 sm:overflow-visible">
-        <table className="w-full min-w-[440px] table-fixed text-sm">
+      <div className="relative mt-2 overflow-x-auto rounded-xl border border-zinc-200">
+        <table className="w-full min-w-[300px] table-fixed text-sm">
           <caption className="sr-only">Recent ledger events, filterable by type and sortable by amount or recency</caption>
           <colgroup>
             <col className="w-[52%] sm:w-[48%]" />

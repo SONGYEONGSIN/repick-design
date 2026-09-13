@@ -5,10 +5,11 @@ import type { BoxStats } from "./data";
 import { BORDER, NUM, TEXT_AUX, TEXT_MUTED, TEXT_PRIMARY, cx, r2 } from "./tokens";
 
 // Fixed drawing surface. Interaction targets are real HTML buttons laid over
-// the chart by percentage (see MARKER_SIZE below) rather than SVG
-// foreignObjects, specifically so their hit area stays a fixed 28×28 CSS px
-// no matter how narrow the card gets — an SVG-scaled foreignObject would
-// shrink under the 24×24 "target-size" floor on a phone-width card.
+// the chart by percentage (see the `h-7 w-7` overlay buttons below) rather
+// than SVG foreignObjects, specifically so their hit area stays a fixed
+// 28×28 CSS px no matter how narrow the card gets — an SVG-scaled
+// foreignObject would shrink under the 24×24 "target-size" floor on a
+// phone-width card, since this chart (unlike a fixed-size radar) is fluid.
 const W = 640;
 const H = 170;
 const PLOT_L = 14;
@@ -116,7 +117,7 @@ export default function BoxPlotPanel({ stats, orgMedian, supplierName }: { stats
               style={{ left: `${pct(m.x, W)}%`, top: `${pct(m.y, H)}%` }}
               className="pointer-events-auto absolute h-7 w-7 -translate-x-1/2 -translate-y-1/2 rounded-full focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-700"
             >
-              <span className="sr-only">{`${supplierName} ${m.label}`}</span>
+              <span aria-hidden="true" className="block h-2 w-2 rounded-full bg-transparent" />
             </button>
           ))}
         </div>
