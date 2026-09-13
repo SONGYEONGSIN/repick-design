@@ -14,14 +14,7 @@
 
 ## 대기 중
 
-### 1. `auto-landing-r19/a` — "The Case File" 이중 세그먼트 증거 카드 (target: landing)
-
-- **탈락 사유**: `table-overflow` 를 고치려 `table-fixed` 로 전환했더니 **390px 에서 `cell-overlap` 이 새로 생겨** 1-fix 재실패. judge 패널 미진입.
-- **형태가 왜 살아 있나**: 히어로 안의 "Exhibit A" 카드에서 **인스펙션 강도 × 비교 기간 두 세그먼트**를 조작하면 신뢰도·추천가·통과 체크·회전일수가 즉시 재계산되고, 같은 파생값이 별도 "Exhibit B" 감도표로 이어진다 — **이산 2축 세그먼트**는 카탈로그의 연속 슬라이더(`v15`·`v21`·`v22`)나 단일 선택과 다른 입력축이다.
-- **배정문에 넣을 것**: "히어로 안 이중 세그먼트(강도 × 기간) 증거 카드. **`min-w` 는 `<table>` 에 건다 — 셀에 걸면 무효다**(이번 정본 조항). `table-fixed` 전환이 `cell-overlap` 을 만든 자리다."
-- 등재: 2026-09-12(소급) · 출처 `vault/20-generations/2026-09-01-auto-landing-r19/DECISION.md`
-
-### 2. `auto-landing-r18/a` — "Grading Timeline" 파이프라인 스크럽 (target: landing)
+### 1. `auto-landing-r18/a` — "Grading Timeline" 파이프라인 스크럽 (target: landing)
 
 - **탈락 사유**: 죽은 포커스 관용구(`outline-none` + `ring-2`)가 1-fix 로도, `box-shadow` 대체로도 재실패. judge 패널 미진입.
 - **형태가 왜 살아 있나**: 5단계 그레이딩 파이프라인을 **스크럽**하면 증거 다이어그램·결함 마커·인증 체크리스트·신뢰도/매칭/가격이 함께 움직이고, 그 상태가 가치 3분할 섹션과 클로징 CTA 까지 이어진다. **시간축 스크럽**은 카탈로그에 없는 입력축이다.
@@ -37,6 +30,13 @@
 > **교훈**: 이 루프가 이번 주에만 세 번째로 겪는 것이다 — 계측이 조용히 틀리고 그 출력이 그럴듯했다([[curation-criteria]] "계측을 만들 때는 계측 자신을 반증해야 한다"). **"없다"는 관측은 특히 의심한다**: 진짜 없는 것과 **내가 못 읽은 것**이 같은 값으로 나온다.
 
 ## 아카이브
+
+### 3. `auto-landing-r19/a` — "The Case File" 이중 세그먼트 증거 카드 (target: landing)
+
+- **탈락 사유(원 등재)**: `table-overflow` 를 고치려 `table-fixed` 로 전환했더니 **390px 에서 `cell-overlap` 이 새로 생겨** 1-fix 재실패. judge 패널 미진입.
+- **재배정 결과 (2026-09-13, `auto-landing-r22/a`)**: 배정문의 지시(`min-w` 를 `<table>` 자체에 걸고, 열 많은 표는 모바일 전용 `overflow-x-auto` 래퍼)를 정확히 반영해 하드게이트 전 항목 1-fix 없이 통과(재배정 사유였던 `cell-overlap` 재발 없음). **승격하지 못했다** — 규칙 위반은 0건이었으나 렌즈1(브리프준수)이 이번엔 **다른 결함**을 새로 지목했다: 매물 카드(매칭%·등급·인증)가 히어로 초기 프레임에서 사진 상단 가장자리만 걸쳐 사실상 안 보이고, "증명"으로 보이는 것은 AI 자체 산출값(Exhibit A confidence/price/days)뿐이라 design-principles §Landing구조 1번("증명만 두고 제품 카드를 아래로 미루면 부족")에 걸려 렌즈1 최하위(3위) 판정. 렌즈2·3에서도 2위에 그쳐 종합 3위, 2:1 다수결에서 b(Exploded Inspection Stack)에 패배.
+- **처리**: 소진 — 재배정 사유(`cell-overlap`)는 재발하지 않았고 판정까지 정상 진입해 패배했으므로 형태 판정 탈락이 아니다(게이트 탈락이 아니라 judge 다수결 패배). 이 형태를 세 번째로 재배정할지는 향후 판단에 맡기고 지금은 아카이브에 둔다. 새로 드러난 결함(매물 카드가 히어로에서 실질적으로 안 보임)은 [[landing-deltas-provisional]] 축적 대상이 아니라 이번 라운드 DECISION에만 기록 — 재현 시 별도 재배정 사유로 다시 적재한다.
+- 등재: 2026-09-12(소급) · 출처 `vault/20-generations/2026-09-01-auto-landing-r19/DECISION.md` · 소진: 2026-09-13 · 출처 `vault/20-generations/2026-09-13-auto-landing-r22/DECISION.md`
 
 ### 2. `auto-landing-r14/c` — 분기 감사 보고서형 "오답 공개" 랜딩 (target: landing)
 
