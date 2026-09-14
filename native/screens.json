@@ -76,5 +76,14 @@
   },
   "evolve-r20-c": {
     "check": "Build a Saved Search"
+  },
+  "evolve-r21-a": {
+    "check": "Live Auction Bid"
+  },
+  "evolve-r21-b": {
+    "check": "Compare Items"
+  },
+  "evolve-r21-c": {
+    "check": "Invite Friends"
   }
 }
