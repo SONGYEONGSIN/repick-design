@@ -91,6 +91,10 @@ export const REASONS: ReturnReason[] = [
   },
 ];
 
+// Simulated photo-attach affordance: tapping "Add photo" appends one placeholder up to this cap.
+// No real camera/file picker — deterministic, local-only state.
+export const MAX_PHOTOS_PER_ITEM = 3;
+
 // Per-selected-item refund estimate is just price × qty; totals are derived, not stored.
 export function estimateRefundFor(items: ReturnLineItem[], ids: string[]): number {
   return items
