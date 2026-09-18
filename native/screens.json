@@ -85,5 +85,14 @@
   },
   "evolve-r21-c": {
     "check": "Invite Friends"
+  },
+  "evolve-r22-a": {
+    "check": "Return & Refund Request"
+  },
+  "evolve-r22-b": {
+    "check": "Active Sessions"
+  },
+  "evolve-r22-c": {
+    "check": "Schedule a Consignment Drop-off"
   }
 }

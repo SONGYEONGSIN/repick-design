@@ -80,7 +80,7 @@ export default function ConsignmentDropoffScreen() {
     setConfirmationCode(null);
   }, []);
 
-  const focusSection = useCallback((ref: React.RefObject<View>) => {
+  const focusSection = useCallback((ref: React.RefObject<View | null>) => {
     const node = findNodeHandle(ref.current);
     if (node) {
       AccessibilityInfo.setAccessibilityFocus(node);
@@ -106,13 +106,13 @@ export default function ConsignmentDropoffScreen() {
   const renderLocation = useCallback<ListRenderItem<DropoffLocation>>(
     ({ item }) => {
       const closedToday = isClosedToday(item);
-      const window = item.hoursByDay[TODAY];
+      const openWindow = item.hoursByDay[TODAY];
       return (
         <LocationRow
           location={item}
           distanceLabel={`${item.distanceMiles.toFixed(1)} mi`}
           closedToday={closedToday}
-          hoursLabel={window ? formatWindow(window) : null}
+          hoursLabel={openWindow ? formatWindow(openWindow) : null}
           selected={item.id === selectedLocationId}
           onSelect={handleSelectLocation}
         />

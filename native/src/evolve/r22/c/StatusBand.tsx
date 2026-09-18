@@ -51,6 +51,7 @@ export function StatusBand({
         onPress={interactive ? onPress : undefined}
         disabled={!interactive}
         accessibilityRole="button"
+        accessibilityState={{ disabled: !interactive }}
         accessibilityLabel={headline}
         accessibilityHint={hint}
         style={({ pressed }) => [

@@ -165,8 +165,8 @@ export function formatMinutes(totalMinutes: number): string {
   return `${hours12}:${minuteLabel} ${period}`;
 }
 
-export function formatWindow(window: OpenWindow): string {
-  return `${formatMinutes(window.openMinute)} – ${formatMinutes(window.closeMinute)}`;
+export function formatWindow(openWindow: OpenWindow): string {
+  return `${formatMinutes(openWindow.openMinute)} – ${formatMinutes(openWindow.closeMinute)}`;
 }
 
 export function isClosedToday(location: DropoffLocation): boolean {
@@ -182,15 +182,15 @@ export function deriveSlots(
   location: DropoffLocation,
   bookedByLocation: Record<string, number[]>
 ): TimeSlot[] {
-  const window = location.hoursByDay[TODAY];
-  if (!window) return [];
+  const openWindow = location.hoursByDay[TODAY];
+  if (!openWindow) return [];
 
   const bookedStarts = new Set(bookedByLocation[location.id] ?? []);
   const slots: TimeSlot[] = [];
 
   for (
-    let start = window.openMinute;
-    start + SLOT_LENGTH_MINUTES <= window.closeMinute;
+    let start = openWindow.openMinute;
+    start + SLOT_LENGTH_MINUTES <= openWindow.closeMinute;
     start += SLOT_LENGTH_MINUTES
   ) {
     const end = start + SLOT_LENGTH_MINUTES;
