@@ -147,6 +147,8 @@ export default function ReturnRequestScreen() {
     return out;
   }, [selectedItems]);
 
+  const locked = submitted || submitting;
+
   const rowIndexByKey = useMemo(() => {
     const map: Record<string, number> = {};
     rows.forEach((r, i) => {
@@ -263,7 +265,7 @@ export default function ReturnRequestScreen() {
               selected={selectedItemIds.includes(row.item.id)}
               onToggle={() => toggleItem(row.item.id)}
               highlighted={highlightKey === `item-${row.item.id}`}
-              disabled={submitted}
+              disabled={locked}
             />
           );
         case "reason":
@@ -273,7 +275,7 @@ export default function ReturnRequestScreen() {
               selected={selectedReason === row.reason.id}
               onSelect={() => pickReason(row.reason.id)}
               highlighted={highlightKey === `reason-${row.reason.id}`}
-              disabled={submitted}
+              disabled={locked}
             />
           );
         case "photoEmpty":
@@ -292,7 +294,7 @@ export default function ReturnRequestScreen() {
               onAdd={() => addPhoto(row.item.id)}
               onRemove={(n) => removePhoto(row.item.id)}
               highlighted={highlightKey === `photo-${row.item.id}`}
-              disabled={submitted}
+              disabled={locked}
             />
           );
         case "footer":
@@ -307,7 +309,7 @@ export default function ReturnRequestScreen() {
       selectedReason,
       highlightKey,
       photosByItemId,
-      submitted,
+      locked,
       toggleItem,
       pickReason,
       addPhoto,
@@ -597,7 +599,7 @@ function BottomBand({ state, onPress }: { state: BlockState; onPress: () => void
       {/* Exactly one live region on the screen: announces every blocked→ready→submitted change. */}
       <View accessibilityLiveRegion="polite" style={styles.bandTextWrap}>
         <Text accessibilityRole="alert" style={[styles.bandMessage, isReady && styles.bandMessageReady]}>
-          {isSubmitting ? "" : state.message}
+          {state.message}
         </Text>
       </View>
       {isSubmitting ? <ActivityIndicator color={tokens.color.onAccent} /> : null}
@@ -668,7 +670,7 @@ const styles = StyleSheet.create({
     minHeight: 44,
     backgroundColor: tokens.color.bg,
   },
-  rowPressed: { backgroundColor: "#fafafa" },
+  rowPressed: { backgroundColor: tokens.color.border },
   rowHighlighted: { borderColor: tokens.color.accent, borderWidth: 2 },
   rowDisabled: { opacity: 0.5 },
 
