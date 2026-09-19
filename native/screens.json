@@ -67,5 +67,32 @@
   },
   "pickup": {
     "check": "Ready this order for carrier pickup"
+  },
+  "evolve-r20-a": {
+    "check": "Trade Proposal"
+  },
+  "evolve-r20-b": {
+    "check": "Link a payout method"
+  },
+  "evolve-r20-c": {
+    "check": "Build a Saved Search"
+  },
+  "evolve-r21-a": {
+    "check": "Live Auction Bid"
+  },
+  "evolve-r21-b": {
+    "check": "Compare Items"
+  },
+  "evolve-r21-c": {
+    "check": "Invite Friends"
+  },
+  "evolve-r22-a": {
+    "check": "Return & Refund Request"
+  },
+  "evolve-r22-b": {
+    "check": "Active Sessions"
+  },
+  "evolve-r22-c": {
+    "check": "Schedule a Consignment Drop-off"
   }
 }
