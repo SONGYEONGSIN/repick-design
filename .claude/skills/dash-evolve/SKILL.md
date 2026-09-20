@@ -32,19 +32,17 @@ description: 자율 진화 라운드 N회 (기본 1 · 상한은 미채움 타�
 
 ## 0. 준비 — 타깃 선택
 
-### 0-0-1. 라운드 수 확정 — 미채움 큐가 상한이다
-
-§0 의 미채움 조회를 **먼저** 돌려 `N` 을 확정한다. 미채움이 0종이면 `N=1` 로 내리고 그 사실을 로그에 남긴다(호출자가 2 이상을 줬어도).
+### 0-0-1. 라운드 수 확정 — **스크립트에 물어본다**
 
 ```bash
-# `console.log(숫자)` 는 이 셸에서 ANSI 색이 붙어 산술이 깨진다 — 반드시 문자열로 쓴다.
-UNFILLED=$(node -e "
-const src=require('fs').readFileSync('app/src/lib/works.ts','utf8');
-const m=src.match(/export const PAGE_TYPES = \[([\s\S]*?)\] as const;/);
-const types=[...m[1].matchAll(/\"([a-z0-9-]+)\"/g)].map(x=>x[1]);
-process.stdout.write(String(types.filter(t=>!src.includes('category: \"'+t+'\"')).length))")
-[ "$UNFILLED" -eq 0 ] && N=1 || N=$(( N < UNFILLED ? N : UNFILLED )); [ "$N" -gt 2 ] && N=2
+N=$(node scripts/round-budget.mjs "$N")      # 숫자 하나만 출력한다
+node scripts/round-budget.mjs --explain "$N" # 근거를 DECISION 에 적는다
 ```
+
+`N` 은 이 값이다. 호출자가 2 이상을 줬어도 스크립트가 1 을 내면 **1라운드만 돌고 그 사실을 DECISION 첫 절에 적는다.**
+
+**왜 스크립트인가 — 산문은 첫 기회에 안 먹혔다.** 2026-09-12 에 이 자리에 인라인 셸 스니펫으로 같은 규칙을 적었는데, 바로 다음 실행인 `auto-dash-r26`(09-13)이 DECISION 에 *"연속의 2라운드째"* 라고 적었다. 그날 미채움은 0종이었다 — **규칙은 맞았고 실행되지 않았다.** 산문 속 스니펫은 돌았는지 아무도 확인하지 않는다.
+이 레포가 여러 번 같은 결론에 도달했다: 스펙 등재는 `specimen-works-coverage.test.mjs` 가, 승격 경로 수정은 `native-promotion.test.mjs` 가 강제한다 — **절차에만 적은 규칙은 반복해서 빠진다.** `scripts/round-budget.test.mjs` 가 예산 계산을 고정하고, `/dash-falsify` 가 사후에 위반을 잡는다.
 
 ### 0-0. 서브에이전트 가용성 확인 — **없으면 라운드를 시작하지 않는다**
 
