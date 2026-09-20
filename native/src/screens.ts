@@ -22,15 +22,8 @@ import { BulkRelistScreen } from "./relist/BulkRelistScreen";
 import { ItemAuthenticationScreen } from "./authentication/ItemAuthenticationScreen";
 import { ConditionAssessmentScreen } from "./condition/ConditionAssessmentScreen";
 import { ShipmentPickupScreen } from "./pickup/ShipmentPickupScreen";
-import TradeProposalScreen from "./evolve/r20/a/TradeProposalScreen";
-import { LinkPayoutMethodScreen } from "./evolve/r20/b/LinkPayoutMethodScreen";
-import SavedFilterBuilderScreen from "./evolve/r20/c/SavedFilterBuilderScreen";
-import LiveAuctionScreen from "./evolve/r21/a/LiveAuctionScreen";
-import ItemComparisonScreen from "./evolve/r21/b/ItemComparisonScreen";
-import ReferralProgramScreen from "./evolve/r21/c/ReferralProgramScreen";
-import ReturnRequestScreen from "./evolve/r22/a/ReturnRequestScreen";
-import ActiveSessionsScreen from "./evolve/r22/b/ActiveSessionsScreen";
-import ConsignmentDropoffScreen from "./evolve/r22/c/ConsignmentDropoffScreen";
+import LiveAuctionScreen from "./auction/LiveAuctionScreen";
+import ActiveSessionsScreen from "./sessions/ActiveSessionsScreen";
 
 const COMPONENTS = {
   watchlist: WatchList,
@@ -56,15 +49,8 @@ const COMPONENTS = {
   authentication: ItemAuthenticationScreen,
   condition: ConditionAssessmentScreen,
   pickup: ShipmentPickupScreen,
-  "evolve-r20-a": TradeProposalScreen,
-  "evolve-r20-b": LinkPayoutMethodScreen,
-  "evolve-r20-c": SavedFilterBuilderScreen,
-  "evolve-r21-a": LiveAuctionScreen,
-  "evolve-r21-b": ItemComparisonScreen,
-  "evolve-r21-c": ReferralProgramScreen,
-  "evolve-r22-a": ReturnRequestScreen,
-  "evolve-r22-b": ActiveSessionsScreen,
-  "evolve-r22-c": ConsignmentDropoffScreen,
+  auction: LiveAuctionScreen,
+  sessions: ActiveSessionsScreen,
 } as const satisfies Record<string, ComponentType>;
 
 export type ScreenSlug = keyof typeof COMPONENTS;

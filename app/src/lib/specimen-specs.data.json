@@ -6615,5 +6615,314 @@
         "dont": "Spread it across step headers."
       }
     ]
+  },
+  "d55": {
+    "id": "d55",
+    "palette": [
+      {
+        "token": "canvas",
+        "hex": "#f4f4f5",
+        "role": "Page ground",
+        "usage": "Zinc-100 across 28 regions with white cards on top — a console with two dominant widgets needs the ground to recede so neither widget reads as the page."
+      },
+      {
+        "token": "muted",
+        "hex": "#71717b",
+        "role": "Labels + metadata",
+        "usage": "110 text nodes, by far the largest tier — account names, column labels, timestamps."
+      },
+      {
+        "token": "fg",
+        "hex": "#18181b",
+        "role": "Headings + figures",
+        "usage": "56 nodes. The values a reader compares."
+      },
+      {
+        "token": "accent",
+        "hex": "#7008e7",
+        "role": "Sunburst focus + workspace mark",
+        "usage": "Five filled regions and three ink nodes. Violet marks the sunburst's own drill state — deliberately a different channel from the feed pin, because the two selections are independent."
+      },
+      {
+        "token": "ok",
+        "hex": "#007a55",
+        "role": "Settled",
+        "usage": "10 nodes over #ecfdf5 chips, always with the word."
+      },
+      {
+        "token": "warn",
+        "hex": "#bb4d00",
+        "role": "Needs attention",
+        "usage": "5 nodes over #fffbeb."
+      },
+      {
+        "token": "bad",
+        "hex": "#c70036",
+        "role": "Disputed",
+        "usage": "2 nodes — the rarest state gets the strongest ink."
+      }
+    ],
+    "typography": "Pretendard Variable on 204 nodes with Archivo Display on 2 (the wordmark only). Three weights at render (400 / 500 / 600) — 400 dominant at 105 nodes because a reconciliation console is mostly read, not scanned. Scale 10–28px with 73 nodes at 11px.",
+    "spacing": "A 10/6/4/8 base — padding 10px (70 regions) and 6px (57) carry the dense rows, with 20/26px at panel edges. Gap 8px is the default. Radius: pills for state chips plus card radii.",
+    "philosophy": "Two independently scoped pins rather than one. The ledger feed's pin touches a single rollup card and nothing else; the sunburst's drill-down keeps its own focus and hover state that the feed never disturbs. Both dominant widgets own a selection axis, and neither mirrors the other — which is what separates this from a console where one selection repaints everything. The two axes even use different colour channels, so a reader can tell which selection they are looking at without reading labels.",
+    "agentPrompt": "Build a reconciliation console with two dominant widgets and give each its own selection axis. Do not route one pin through both — scope each pin to the smallest set of things that answer its own question, and say in a comment what each one deliberately does not touch. Give the two axes different colour channels so the reader can tell them apart. Pair every state colour with its state word.",
+    "dosDonts": [
+      {
+        "do": "Scope each widget's selection to its own question.",
+        "dont": "Share one pin across both — the second widget becomes a mirror."
+      },
+      {
+        "do": "Use different colour channels for the two selection axes.",
+        "dont": "Use the accent for both; the reader cannot tell which is active."
+      },
+      {
+        "do": "Keep the ground recessed so neither widget reads as the page.",
+        "dont": "Give one widget a distinct surface — it becomes the page."
+      },
+      {
+        "do": "Pair state hue with the state word.",
+        "dont": "Encode settled/disputed in colour alone."
+      }
+    ]
+  },
+  "v25": {
+    "id": "v25",
+    "palette": [
+      {
+        "token": "canvas",
+        "hex": "#0b0b0f",
+        "role": "Page ground",
+        "usage": "The canon landing ground with #27272a as the single card plane — a stack needs depth, so the surfaces behind it stay flat."
+      },
+      {
+        "token": "fg",
+        "hex": "#ffffff",
+        "role": "Layer labels + headline",
+        "usage": "49 nodes, the largest tier — each layer has to be nameable while it is separated."
+      },
+      {
+        "token": "muted",
+        "hex": "#9f9fa9",
+        "role": "Body + captions",
+        "usage": "40 nodes."
+      },
+      {
+        "token": "accent",
+        "hex": "#e11d48",
+        "role": "Active layer + CTA fill",
+        "usage": "Rose-600 on 3 filled regions with #fda4af (8 nodes) as the lighter tint for the eyebrow — the accent marks which layer the reader is currently separating."
+      },
+      {
+        "token": "dim",
+        "hex": "#6b6b78",
+        "role": "Section ordinals",
+        "usage": "5 nodes — the 01/02 markers, the faintest tier."
+      }
+    ],
+    "typography": "Pretendard Variable on 83 nodes with Archivo Display on 22 — an unusually high display share, because the layer names are the interface and they are set large. Three weights at render (400 / 600 / 800), 600 dominant. Scale 10–58px.",
+    "spacing": "8/12/24 padding with 48px and 112px reserved for section breaks (7 + 4 regions) — the 112px gaps are what let the exploded stack have room to separate without colliding with the next section. Gap 8/6px inside the stack.",
+    "philosophy": "An exploded layer stack as the proof surface. Inspection layers separate and recombine under the control, so the reader sees what each check contributes instead of reading a combined score — the separation is the argument. The page reserves unusually large section breaks precisely so the stack has room to explode without overlapping what follows.",
+    "agentPrompt": "Build a landing whose proof is an exploded stack — inspection layers that separate and recombine under one control, each nameable while separated. Reserve enough vertical room that the exploded state never collides with the next section; that spacing is functional, not decorative. Mark the currently separated layer with the accent and keep the surfaces behind the stack flat so depth reads as depth.",
+    "dosDonts": [
+      {
+        "do": "Let each layer stay nameable while separated.",
+        "dont": "Explode into unlabelled slices — the reader learns nothing from the separation."
+      },
+      {
+        "do": "Reserve section spacing for the exploded state.",
+        "dont": "Size the section to the collapsed state and let it overlap when opened."
+      },
+      {
+        "do": "Keep surfaces behind the stack flat.",
+        "dont": "Add card depth behind it; two depth cues fight."
+      },
+      {
+        "do": "Mark the active layer with the accent.",
+        "dont": "Tint every layer — then the stack has no focus."
+      }
+    ]
+  },
+  "v26": {
+    "id": "v26",
+    "palette": [
+      {
+        "token": "canvas",
+        "hex": "#0b0b0f",
+        "role": "Page ground",
+        "usage": "Canon landing ground; white (42 regions) is the histogram's own plane rather than a card colour."
+      },
+      {
+        "token": "fg",
+        "hex": "#ffffff",
+        "role": "Headline + bar labels",
+        "usage": "52 nodes."
+      },
+      {
+        "token": "muted",
+        "hex": "#9f9fa9",
+        "role": "Body + filter labels",
+        "usage": "45 nodes, the largest reading tier."
+      },
+      {
+        "token": "accent",
+        "hex": "#4ade80",
+        "role": "Current listing marker",
+        "usage": "8 ink nodes over #15803d fills (5 regions) — green marks where the current listing falls in the distribution, and nothing else earns it."
+      },
+      {
+        "token": "dim",
+        "hex": "#6b6b78",
+        "role": "Section ordinals",
+        "usage": "5 nodes."
+      }
+    ],
+    "typography": "Pretendard Variable on 94 nodes with JetBrains Mono Display on 19 — mono carries the bin labels and the percentile figures, which must align under a changing histogram. Three weights at render (400 / 600 / 800). Scale 10–54px with the mass at 10–13px.",
+    "spacing": "8/12/24 padding with 48/112px section breaks. Gap 8px (19 regions) and 6px carry the filter row and the bars. The histogram's bar spacing is the one rhythm that changes with the data, so the surrounding spacing stays fixed.",
+    "philosophy": "Six discrete filters in any combination re-bucket a fixed pool of 72 comparable sales, and the histogram's shape itself changes — not just a highlighted bar. The current listing is placed by percentile and median delta, and the closing CTA quotes both. The input axis is what is new: the catalogue had continuous sliders, single-select and variable-size sets, but never an arbitrary combination of boolean filters whose output is a redrawn distribution.",
+    "agentPrompt": "Build a landing whose proof is a distribution that redraws. Let any subset of N boolean filters re-bucket a fixed pool so the histogram's shape changes, and place the subject by percentile and median delta rather than by a single score. Quote both figures in the closing CTA. Set bin labels and percentiles in mono so they stay aligned as the shape changes, and keep every other rhythm fixed so only the data moves.",
+    "dosDonts": [
+      {
+        "do": "Let the histogram's shape change, not just a highlight.",
+        "dont": "Redraw one bar — the distribution is the argument."
+      },
+      {
+        "do": "Place the subject by percentile and median delta.",
+        "dont": "Reduce it to one score; the distribution then has no purpose."
+      },
+      {
+        "do": "Keep all spacing fixed except the bars.",
+        "dont": "Let layout shift with the data — motion stops meaning data."
+      },
+      {
+        "do": "Set bin labels in mono.",
+        "dont": "Use a proportional face; the labels jitter as bins change."
+      }
+    ]
+  },
+  "n24": {
+    "id": "n24",
+    "palette": [
+      {
+        "token": "bg",
+        "hex": "#ffffff",
+        "role": "Screen ground",
+        "usage": "White with zinc-200 (#e4e4e7, 6 regions) as the bid-ladder track."
+      },
+      {
+        "token": "body",
+        "hex": "#27272a",
+        "role": "Bid amounts",
+        "usage": "15 nodes, the largest tier — every rung of the ladder is a figure."
+      },
+      {
+        "token": "fg",
+        "hex": "#18181b",
+        "role": "Title + current bid",
+        "usage": "14 nodes."
+      },
+      {
+        "token": "muted",
+        "hex": "#71717a",
+        "role": "Seller + timestamps",
+        "usage": "11 nodes."
+      },
+      {
+        "token": "secondary",
+        "hex": "#52525b",
+        "role": "Condition line",
+        "usage": "5 nodes."
+      },
+      {
+        "token": "accent",
+        "hex": "#4f46e5",
+        "role": "Your position",
+        "usage": "A single ink node and two fills — the accent marks where the reader stands in the ladder, which on an auction screen is the only thing they are looking for."
+      }
+    ],
+    "typography": "-apple-system per the native DNA. Four weights at render (400 / 600 / 700 / 800) — native does not impose the three-weight web rule; 800 carries the countdown, 700 the ladder figures. Scale 9–36px with one 36px countdown.",
+    "spacing": "10px padding on 12 regions with 14/16px at card edges and 1/2px inside the ladder rungs — the tight rung spacing is what makes the ladder read as a scale rather than a list. Gap 6/10px. Radius 12px on 11 surfaces.",
+    "philosophy": "A countdown, a bid ladder and a proxy maximum. The ladder shows what each increment would cost before it is committed, so the proxy bid becomes a decision the reader can see rather than a number they hand over. The accent marks only where the reader currently stands — on an auction screen that is the single question, and spending the accent anywhere else would bury it.",
+    "agentPrompt": "Build a native live-auction screen where the bid ladder shows the cost of each increment before it is committed, so a proxy maximum is a visible decision rather than a delegated number. Keep rung spacing tight so the ladder reads as a scale. Spend the single accent only on the reader's own position. Set the countdown at the largest size on the screen and nothing else near it.",
+    "dosDonts": [
+      {
+        "do": "Show what each increment costs before commitment.",
+        "dont": "Ask for a proxy maximum without showing the ladder it implies."
+      },
+      {
+        "do": "Mark only the reader's own position with the accent.",
+        "dont": "Tint other bidders' rungs; the reader's eye loses its anchor."
+      },
+      {
+        "do": "Keep rung spacing tight so the ladder reads as a scale.",
+        "dont": "Space rungs like list rows."
+      },
+      {
+        "do": "Let the countdown be the largest thing on screen.",
+        "dont": "Compete with it — urgency is the frame."
+      }
+    ]
+  },
+  "n25": {
+    "id": "n25",
+    "palette": [
+      {
+        "token": "bg",
+        "hex": "#ffffff",
+        "role": "Screen ground",
+        "usage": "White throughout — a security list should have nothing to interpret but the rows."
+      },
+      {
+        "token": "muted",
+        "hex": "#71717a",
+        "role": "Section labels + device metadata",
+        "usage": "8 nodes, the largest tier."
+      },
+      {
+        "token": "fg",
+        "hex": "#18181b",
+        "role": "Title + device names",
+        "usage": "6 nodes."
+      },
+      {
+        "token": "secondary",
+        "hex": "#52525b",
+        "role": "Subtitle + locations",
+        "usage": "6 nodes."
+      },
+      {
+        "token": "body",
+        "hex": "#27272a",
+        "role": "Sign-out action labels",
+        "usage": "4 nodes."
+      },
+      {
+        "token": "accent",
+        "hex": "#4f46e5",
+        "role": "This device",
+        "usage": "One filled region — the accent marks the session the reader is currently using, which is the one row they must not sign out by accident."
+      }
+    ],
+    "typography": "-apple-system per the native DNA. Three weights at render (400 / 600 / 700) with 400 leading — unusual for a native screen, and it suits a list whose rows are sentences about places and times rather than labels. Scale 11–22px with one 22px title.",
+    "spacing": "16px padding on 11 regions with 20px at the section edges — the loosest of the native screens promoted this round, because each row carries a destructive action and crowding them invites mistakes. Gap 4/12px. Radius 6px.",
+    "philosophy": "There is no fixed band at all. Each row is independently destructive, so there is no natural global gate to put one on — instead the confirmation converts the row itself into a Cancel/Confirm pair inside the container that already announces. This generalises the band-level idiom to the row level: the rule attaches to the surface that needs confirming, not to the bottom of the screen. The current session carries the accent so the one row that must not be signed out by accident is the one row marked.",
+    "agentPrompt": "Build a native active-sessions screen with no fixed bottom band. Each row is independently destructive, so convert the row itself into a Cancel/Confirm pair on confirmation rather than opening an Alert or adding a global band — the confirming surface is the row. Mark the current session with the accent. Keep rows loose: every one of them carries a destructive action and crowding invites mistakes.",
+    "dosDonts": [
+      {
+        "do": "Convert the row itself into Cancel/Confirm.",
+        "dont": "Open a native Alert or add a global band where no global gate exists."
+      },
+      {
+        "do": "Mark the current session with the accent.",
+        "dont": "Leave it visually identical to the others."
+      },
+      {
+        "do": "Keep destructive rows loosely spaced.",
+        "dont": "Pack them like a settings list."
+      },
+      {
+        "do": "Announce the confirmation from the container that already announces.",
+        "dont": "Add a second live region per row."
+      }
+    ]
   }
 }
