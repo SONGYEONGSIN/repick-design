@@ -22,6 +22,8 @@ import { BulkRelistScreen } from "./relist/BulkRelistScreen";
 import { ItemAuthenticationScreen } from "./authentication/ItemAuthenticationScreen";
 import { ConditionAssessmentScreen } from "./condition/ConditionAssessmentScreen";
 import { ShipmentPickupScreen } from "./pickup/ShipmentPickupScreen";
+import LiveAuctionScreen from "./auction/LiveAuctionScreen";
+import ActiveSessionsScreen from "./sessions/ActiveSessionsScreen";
 
 const COMPONENTS = {
   watchlist: WatchList,
@@ -47,6 +49,8 @@ const COMPONENTS = {
   authentication: ItemAuthenticationScreen,
   condition: ConditionAssessmentScreen,
   pickup: ShipmentPickupScreen,
+  auction: LiveAuctionScreen,
+  sessions: ActiveSessionsScreen,
 } as const satisfies Record<string, ComponentType>;
 
 export type ScreenSlug = keyof typeof COMPONENTS;

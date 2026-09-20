@@ -67,5 +67,11 @@
   },
   "pickup": {
     "check": "Ready this order for carrier pickup"
+  },
+  "auction": {
+    "check": "Live Auction Bid"
+  },
+  "sessions": {
+    "check": "Active Sessions"
   }
 }
