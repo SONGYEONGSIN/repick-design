@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState, type KeyboardEvent } from "react";
+import { useMemo, useRef, useState, type KeyboardEvent } from "react";
 import { ChevronLeft, ChevronRight, AlertTriangle, Pin, AlertOctagon } from "lucide-react";
 import {
   ANCHOR_DATE, METRIC_META, buildMonthGrid, fmtDateLong, fmtMetricValue, metricBucket,
@@ -20,7 +20,14 @@ const BUCKET_CLASSES = [
 ];
 const CLOSED_CLASSES = "bg-zinc-50 text-zinc-500 border-dashed";
 
-function cellClasses(cell: MonthGridCell, metric: Metric): string {
+/**
+ * Muted cells (out-of-month padding, or dimmed by the at-risk filter) get a flat, pre-verified
+ * AA-safe treatment instead of fading the real heatmap color with opacity — opacity blends both
+ * the colored background and the text toward the page background by the same factor, which can
+ * collapse their contrast well below AA even though the un-faded pair was compliant.
+ */
+function cellColorClasses(cell: MonthGridCell, metric: Metric, muted: boolean): string {
+  if (muted) return CLOSED_CLASSES;
   const bucket = metricBucket(cell.record, metric);
   return bucket === -1 ? CLOSED_CLASSES : BUCKET_CLASSES[bucket];
 }
@@ -59,15 +66,22 @@ export function CalendarCard({
   const def = months[monthIndex];
   const grid = useMemo(() => buildMonthGrid(def), [def]);
   const cellRefs = useRef<(HTMLButtonElement | null)[]>([]);
-  const [focusIndex, setFocusIndex] = useState(() => {
-    const i = grid.findIndex((c) => c.date === selectedDate);
-    return i >= 0 ? i : 0;
-  });
 
-  useEffect(() => {
-    const i = grid.findIndex((c) => c.date === selectedDate);
-    if (i >= 0) setFocusIndex(i);
-  }, [def.key]); // eslint-disable-line react-hooks/exhaustive-deps
+  function indexOfDate(date: string): number {
+    const i = grid.findIndex((c) => c.date === date);
+    return i >= 0 ? i : 0;
+  }
+
+  const [focusIndex, setFocusIndex] = useState(() => indexOfDate(selectedDate));
+
+  // Reset the roving-tabindex focus target when the visible month changes — adjusted synchronously
+  // during render (React's documented pattern for "resetting state when a prop changes") instead of
+  // in a useEffect, since a plain setState-in-effect for a derived reset is a lint hard-fail here.
+  const [focusedGridKey, setFocusedGridKey] = useState(def.key);
+  if (def.key !== focusedGridKey) {
+    setFocusedGridKey(def.key);
+    setFocusIndex(indexOfDate(selectedDate));
+  }
 
   function move(delta: number) {
     setFocusIndex((i) => {
@@ -161,6 +175,7 @@ export function CalendarCard({
           const isPinned = pinnedDates.includes(cell.date);
           const isToday = cell.date === ANCHOR_DATE;
           const dimmed = riskOnly && cell.record.isOpen && cell.record.riskLevel !== "high";
+          const muted = !cell.inMonth || dimmed;
           return (
             <button
               key={cell.date}
@@ -169,31 +184,32 @@ export function CalendarCard({
               tabIndex={i === focusIndex ? 0 : -1}
               aria-pressed={isSelected}
               aria-current={isToday ? "date" : undefined}
-              aria-label={cellAriaLabel(cell, metric, isPinned)}
               onClick={() => onSelectDate(cell.date)}
               onFocus={() => { setFocusIndex(i); onHoverDate(cell.date); }}
               onBlur={() => onHoverDate(null)}
               onMouseEnter={() => onHoverDate(cell.date)}
               onMouseLeave={() => onHoverDate(null)}
-              className={`group relative flex aspect-square flex-col items-start justify-between rounded-lg border p-1.5 text-left transition-opacity sm:p-2 ${FOCUS_RING} ${cellClasses(cell, metric)} ${
-                cell.inMonth ? "" : "opacity-40"
-              } ${isSelected ? "border-zinc-900 ring-2 ring-zinc-900" : "border-transparent"} ${
-                dimmed ? "opacity-25" : ""
+              className={`group relative flex aspect-square flex-col items-start justify-between rounded-lg border p-1.5 text-left sm:p-2 ${FOCUS_RING} ${cellColorClasses(cell, metric, muted)} ${
+                isSelected ? "border-zinc-900 ring-2 ring-zinc-900" : "border-transparent"
               }`}
             >
-              <span className="flex w-full items-center justify-between">
+              {/* The visible day-number and metric-value pieces are decorative duplicates of this
+                  single sr-only description — using aria-label here instead would silently discard
+                  that visible text from the accessible name and risk a content/name mismatch. */}
+              <span className="sr-only">{cellAriaLabel(cell, metric, isPinned)}</span>
+              <span aria-hidden="true" className="flex w-full items-center justify-between">
                 <span className={`text-[11px] font-medium sm:text-xs ${isToday ? "flex h-4.5 w-4.5 items-center justify-center rounded-full bg-zinc-900 text-white" : ""}`}>
                   {cell.record.d}
                 </span>
                 {cell.record.riskLevel === "high" && cell.record.isOpen && (
-                  <AlertTriangle aria-hidden="true" className="h-3 w-3 shrink-0 text-orange-800 sm:h-3.5 sm:w-3.5" />
+                  <AlertTriangle className="h-3 w-3 shrink-0 text-orange-800 sm:h-3.5 sm:w-3.5" />
                 )}
               </span>
-              <span className="flex w-full items-end justify-between">
+              <span aria-hidden="true" className="flex w-full items-end justify-between">
                 <span className="text-[10px] font-bold leading-none sm:text-xs">
                   {fmtMetricValue(cell.record, metric)}
                 </span>
-                {isPinned && <Pin aria-hidden="true" className="h-3 w-3 shrink-0 fill-current text-zinc-900" />}
+                {isPinned && <Pin className="h-3 w-3 shrink-0 fill-current text-zinc-900" />}
               </span>
             </button>
           );

@@ -8,14 +8,14 @@ import { Card, SectionHeading, StatusBadge, FOCUS_RING } from "./ui";
 type ColumnKey = "time" | "customer" | "service" | "provider" | "location" | "duration" | "status" | "revenue";
 
 const COLUMNS: { key: ColumnKey; label: string; width: string; align?: "right" }[] = [
-  { key: "time", label: "Time", width: "10%" },
-  { key: "customer", label: "Customer", width: "18%" },
-  { key: "service", label: "Service", width: "15%" },
+  { key: "time", label: "Time", width: "9%" },
+  { key: "customer", label: "Customer", width: "16%" },
+  { key: "service", label: "Service", width: "14%" },
   { key: "provider", label: "Provider", width: "17%" },
-  { key: "location", label: "Location", width: "11%" },
-  { key: "duration", label: "Duration", width: "10%" },
-  { key: "status", label: "Status", width: "12%" },
-  { key: "revenue", label: "Revenue", width: "7%", align: "right" },
+  { key: "location", label: "Location", width: "10%" },
+  { key: "duration", label: "Duration", width: "9%" },
+  { key: "status", label: "Status", width: "14%" },
+  { key: "revenue", label: "Revenue", width: "11%", align: "right" },
 ];
 
 const STATUS_FILTERS: { key: Status | "all"; label: string }[] = [
@@ -103,7 +103,7 @@ export function AppointmentsTable({ date, appointments }: { date: string; appoin
       </div>
 
       <div className="overflow-x-auto">
-        <table className="w-full min-w-[880px] table-fixed border-collapse text-sm">
+        <table className="w-full min-w-[800px] table-fixed border-collapse text-sm">
           <caption className="sr-only">
             Appointments for {fmtDateLong(date)}, sorted by {activeCol?.label.toLowerCase()} {sortDir === "asc" ? "ascending" : "descending"}
           </caption>

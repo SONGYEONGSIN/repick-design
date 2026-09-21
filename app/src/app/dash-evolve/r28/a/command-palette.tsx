@@ -53,23 +53,30 @@ export function CommandPalette({
   const [activeIndex, setActiveIndex] = useState(0);
   const inputRef = useRef<HTMLInputElement>(null);
 
+  // Reset the query and active row whenever the palette transitions from closed to open —
+  // adjusted synchronously during render (React's documented "resetting state when a prop
+  // changes" pattern) rather than in a useEffect, which a plain reset-on-change setState call
+  // would hard-fail under this repo's lint config.
+  const [wasOpen, setWasOpen] = useState(open);
+  if (open !== wasOpen) {
+    setWasOpen(open);
+    if (open) {
+      setQuery("");
+      setActiveIndex(0);
+    }
+  }
+
   const filtered = useMemo(
     () => commands.filter((c) => c.label.toLowerCase().includes(query.toLowerCase())),
     [commands, query]
   );
 
+  // Only a genuine side effect (imperative focus) remains here — no setState inside it.
   useEffect(() => {
-    if (open) {
-      setQuery("");
-      setActiveIndex(0);
-      const t = window.setTimeout(() => inputRef.current?.focus(), 10);
-      return () => window.clearTimeout(t);
-    }
+    if (!open) return;
+    const t = window.setTimeout(() => inputRef.current?.focus(), 10);
+    return () => window.clearTimeout(t);
   }, [open]);
-
-  useEffect(() => {
-    setActiveIndex(0);
-  }, [query]);
 
   if (!open) return null;
 
@@ -101,7 +108,7 @@ export function CommandPalette({
           <input
             ref={inputRef}
             value={query}
-            onChange={(e) => setQuery(e.target.value)}
+            onChange={(e) => { setQuery(e.target.value); setActiveIndex(0); }}
             onKeyDown={(e) => {
               if (e.key === "ArrowDown") { e.preventDefault(); setActiveIndex((i) => Math.min(i + 1, filtered.length - 1)); }
               if (e.key === "ArrowUp") { e.preventDefault(); setActiveIndex((i) => Math.max(i - 1, 0)); }
