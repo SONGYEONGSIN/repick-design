@@ -72,12 +72,12 @@ export default function DashboardShell() {
               const Icon = card.icon;
               return (
                 <div key={card.label} className="rounded-xl border border-white/10 bg-zinc-900 p-4">
-                  <div className="flex items-center gap-2">
+                  <dt className="flex items-center gap-2 text-xs text-zinc-400">
                     <span className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-md ${card.bg}`}>
                       <Icon className={`h-4 w-4 ${card.text}`} aria-hidden="true" />
                     </span>
-                    <dt className="text-xs text-zinc-400">{card.label}</dt>
-                  </div>
+                    {card.label}
+                  </dt>
                   <dd className={`mt-2 text-2xl font-semibold tabular-nums ${card.text}`}>{card.value}</dd>
                 </div>
               );

@@ -23,8 +23,8 @@ export default function CrewTable({ crews }: CrewTableProps) {
       <h2 className="text-sm font-semibold text-zinc-50">Crew utilization</h2>
       <p className="mt-0.5 text-xs text-zinc-400">Share of the current 14-day window each crew has a job in progress.</p>
 
-      <div className="mt-3 overflow-x-auto lg:overflow-visible">
-        <table className="w-full min-w-[560px] table-fixed border-collapse text-sm">
+      <div className="mt-3 min-w-0 overflow-x-auto">
+        <table className="w-full table-fixed border-collapse text-sm">
           <caption className="sr-only">Active job count, current utilization, and next available date for each field crew</caption>
           <colgroup>
             <col style={{ width: "30%" }} />

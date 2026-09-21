@@ -87,7 +87,7 @@ export default function GanttChart({ jobs, viewMode, pinnedId, onPin }: GanttCha
         {/* Header ticks */}
         <div className="flex border-b border-white/10 bg-white/[0.03] text-[11px] text-zinc-400">
           <div className="w-36 shrink-0 border-r border-white/10 px-3 py-2 font-medium text-zinc-400 sm:w-60">Job</div>
-          <div className="relative grid flex-1 pr-3" style={{ gridTemplateColumns: `repeat(${ticks.length}, minmax(0, 1fr))` }}>
+          <div className="relative grid min-w-0 flex-1 pr-3" style={{ gridTemplateColumns: `repeat(${ticks.length}, minmax(0, 1fr))` }}>
             {ticks.map((t) => (
               <div key={t.day} className="truncate whitespace-nowrap py-2 pl-1.5 tabular-nums">
                 {t.label}
@@ -149,7 +149,7 @@ export default function GanttChart({ jobs, viewMode, pinnedId, onPin }: GanttCha
                   </p>
                 </div>
 
-                <div className="relative min-h-[3.25rem] flex-1 pr-3">
+                <div className="relative min-h-[3.25rem] min-w-0 flex-1 pr-3">
                   {ticks.slice(1).map((t) => (
                     <div
                       key={t.day}

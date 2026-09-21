@@ -13,11 +13,21 @@ interface CommandPaletteProps {
 
 export default function CommandPalette({ open, jobs, onClose, onSelect }: CommandPaletteProps) {
   const [query, setQuery] = useState("");
+  const [wasOpen, setWasOpen] = useState(open);
   const inputRef = useRef<HTMLInputElement>(null);
 
+  // Reset the query synchronously during render when `open` flips to true,
+  // rather than reacting to it from inside an effect (avoids
+  // react-hooks/set-state-in-effect; this is React's documented pattern for
+  // adjusting state based on a prop change during render).
+  if (open !== wasOpen) {
+    setWasOpen(open);
+    if (open) setQuery("");
+  }
+
+  // Genuine side effect only: move focus into the input once the dialog is open.
   useEffect(() => {
     if (open) {
-      setQuery("");
       const t = window.setTimeout(() => inputRef.current?.focus(), 0);
       return () => window.clearTimeout(t);
     }
