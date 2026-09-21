@@ -35,6 +35,11 @@ export const tokens = {
     swatch1: "#d4d4d8",
     swatch2: "#a1a1aa",
     swatch3: "#71717a",
+    // translucent scrims for legibility over photo-swatch thumbnails (selection
+    // check-circle backing, order-number badge backing) — alpha-channel variants
+    // of onInk/ink, not new hues, so they stay inside the near-monochrome DNA
+    scrimLight: "rgba(255,255,255,0.85)",
+    scrimDark: "rgba(24,24,27,0.55)",
   },
   space: (n: number) => n * 4, // 4/8 spacing rhythm
   radius: { md: 12, sm: 6 },
