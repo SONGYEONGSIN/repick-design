@@ -4,6 +4,9 @@ export const tokens = {
     bg: "#ffffff",
     accent: "#4f46e5", // indigo-600 (single accent)
     onAccent: "#ffffff",
+    // light accent tint for a selected-state background (indigo-50) — kept for
+    // selection/emphasis only, never used as a flood color
+    accentBg: "#eef2ff",
     ink: "#18181b",
     ink2: "#27272a",
     muted: "#52525b",

@@ -12,7 +12,7 @@ import {
   SafeAreaView,
   StyleSheet,
 } from "react-native";
-import { tokens } from "../../tokens";
+import { tokens } from "../../../tokens";
 import { PAYMENT_METHODS, PaymentMethod } from "./data";
 import { PaymentMethodRow } from "./components";
 

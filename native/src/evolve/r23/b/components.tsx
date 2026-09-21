@@ -1,7 +1,7 @@
 // native/src/evolve/r23/b/components.tsx — row subcomponent for Saved Payment Methods
 import React from "react";
 import { View, Text, Pressable, StyleSheet } from "react-native";
-import { tokens } from "../../tokens";
+import { tokens } from "../../../tokens";
 import type { PaymentMethod } from "./data";
 
 const { color, space, radius } = tokens;

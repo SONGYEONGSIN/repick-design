@@ -18,7 +18,7 @@ import {
   SafeAreaView,
   StyleSheet,
 } from "react-native";
-import { tokens } from "../../tokens";
+import { tokens } from "../../../tokens";
 import { INITIAL_PHOTOS, LISTING_TITLE, MAX_PHOTOS, type ListingPhoto } from "./data";
 import { PhotoCell, AddPhotoCell, ContextualBar, UndoStrip } from "./components";
 

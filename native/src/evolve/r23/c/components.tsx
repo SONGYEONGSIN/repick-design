@@ -1,7 +1,7 @@
 // native/src/evolve/r23/c/components.tsx
 import React from "react";
 import { View, Text, Pressable, StyleSheet } from "react-native";
-import { tokens } from "../../tokens";
+import { tokens } from "../../../tokens";
 import type { ListingPhoto } from "./data";
 
 const SWATCHES = [tokens.color.swatch1, tokens.color.swatch2, tokens.color.swatch3] as const;

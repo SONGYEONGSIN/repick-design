@@ -73,5 +73,14 @@
   },
   "sessions": {
     "check": "Active Sessions"
+  },
+  "evolve-r23-a": {
+    "check": "Protection Coverage"
+  },
+  "evolve-r23-b": {
+    "check": "Payment Methods"
+  },
+  "evolve-r23-c": {
+    "check": "Manage Photos"
   }
 }
