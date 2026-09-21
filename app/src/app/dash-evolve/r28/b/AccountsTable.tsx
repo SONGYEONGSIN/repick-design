@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import {
   Search,
   ListFilter,
@@ -91,10 +91,14 @@ export function AccountsTable({ activeCategory }: { activeCategory: CategoryId |
   // Seeds the filter from a pinned bridge step. The dropdown stays a
   // fully independent control afterwards — this only fires again when
   // the pin itself changes, so a manual filter choice in between is
-  // never overwritten.
-  useEffect(() => {
+  // never overwritten. Adjusted during render (React's documented
+  // pattern for state that tracks a prop) rather than in an effect, so
+  // there's no extra render tick and no synchronous setState-in-effect.
+  const [prevActiveCategory, setPrevActiveCategory] = useState(activeCategory);
+  if (activeCategory !== prevActiveCategory) {
+    setPrevActiveCategory(activeCategory);
     setFilterCategory(activeCategory ?? "all");
-  }, [activeCategory]);
+  }
 
   const rows = useMemo(() => {
     const q = search.trim().toLowerCase();
@@ -129,7 +133,7 @@ export function AccountsTable({ activeCategory }: { activeCategory: CategoryId |
       <div className="flex flex-col gap-3 border-b border-zinc-100 p-5 sm:flex-row sm:items-center sm:justify-between sm:p-6">
         <div>
           <h2 className="text-base font-semibold text-zinc-900">Account activity</h2>
-          <p className="text-sm text-zinc-500">This quarter's ARR movements, by customer.</p>
+          <p className="text-sm text-zinc-500">This quarter&apos;s ARR movements, by customer.</p>
         </div>
         <div className="flex flex-wrap items-center gap-2">
           <label className="relative block w-full sm:w-auto">

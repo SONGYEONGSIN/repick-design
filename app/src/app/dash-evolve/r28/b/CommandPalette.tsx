@@ -28,6 +28,19 @@ export function CommandPalette({
   const [activeIndex, setActiveIndex] = useState(0);
   const inputRef = useRef<HTMLInputElement>(null);
 
+  // Reset the search + selection whenever the palette transitions to
+  // open. Adjusted during render (React's documented pattern for state
+  // that tracks a prop) rather than in an effect, so there's no extra
+  // render tick and no synchronous setState-in-effect.
+  const [wasOpen, setWasOpen] = useState(open);
+  if (open !== wasOpen) {
+    setWasOpen(open);
+    if (open) {
+      setQuery("");
+      setActiveIndex(0);
+    }
+  }
+
   const actions = useMemo<Action[]>(() => {
     const navActions: Action[] = [
       {
@@ -71,17 +84,14 @@ export function CommandPalette({
     return actions.filter((a) => a.label.toLowerCase().includes(q));
   }, [actions, query]);
 
+  // The one genuine side effect here — moving DOM focus — stays in an
+  // effect; it doesn't call setState, so it isn't the pattern the lint
+  // rule flags.
   useEffect(() => {
     if (!open) return;
-    setQuery("");
-    setActiveIndex(0);
     const t = setTimeout(() => inputRef.current?.focus(), 0);
     return () => clearTimeout(t);
   }, [open]);
-
-  useEffect(() => {
-    setActiveIndex(0);
-  }, [query]);
 
   if (!open) return null;
 
@@ -110,7 +120,10 @@ export function CommandPalette({
           <input
             ref={inputRef}
             value={query}
-            onChange={(e) => setQuery(e.target.value)}
+            onChange={(e) => {
+              setQuery(e.target.value);
+              setActiveIndex(0);
+            }}
             onKeyDown={(e) => {
               if (e.key === "ArrowDown") {
                 e.preventDefault();
@@ -131,7 +144,10 @@ export function CommandPalette({
             role="combobox"
             aria-expanded="true"
             aria-controls="command-palette-list"
-            className="h-12 w-full bg-transparent text-sm text-zinc-900 outline-none placeholder:text-zinc-500"
+            className={cn(
+              "h-12 w-full bg-transparent text-sm text-zinc-900 outline-none placeholder:text-zinc-500",
+              FOCUS_RING,
+            )}
           />
           <kbd className="hidden shrink-0 rounded border border-zinc-300 px-1.5 py-0.5 font-sans text-[11px] font-medium text-zinc-500 sm:inline">
             Esc

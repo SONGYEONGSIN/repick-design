@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { ChevronLeft, ChevronRight, PinOff, Sparkles } from "lucide-react";
 import {
   ACCOUNTS,
@@ -26,9 +26,15 @@ export function Spotlight({
 }) {
   const [cursor, setCursor] = useState(0);
 
-  useEffect(() => {
+  // Resets the mover cursor whenever the pinned category changes.
+  // Adjusted during render (React's documented pattern for state that
+  // tracks a prop) rather than in an effect, so there's no extra render
+  // tick and no synchronous setState-in-effect.
+  const [prevFocusId, setPrevFocusId] = useState(focusId);
+  if (focusId !== prevFocusId) {
+    setPrevFocusId(focusId);
     setCursor(0);
-  }, [focusId]);
+  }
 
   const movers = useMemo(() => {
     if (!focusId) return [];
