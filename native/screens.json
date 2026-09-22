@@ -82,5 +82,14 @@
   },
   "evolve-r23-c": {
     "check": "Manage Photos"
+  },
+  "evolve-r24-a": {
+    "check": "Report a Listing"
+  },
+  "evolve-r24-b": {
+    "check": "Seller Sales Analytics"
+  },
+  "evolve-r24-c": {
+    "check": "Following Feed"
   }
 }
