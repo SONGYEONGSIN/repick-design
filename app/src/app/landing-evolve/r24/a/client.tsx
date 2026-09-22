@@ -82,7 +82,7 @@ function SectionNumber({ n }: { n: string }) {
   );
 }
 
-function ProductPhoto({ small = false }: { small?: boolean }) {
+function ProductPhoto({ small = false, priority = false }: { small?: boolean; priority?: boolean }) {
   const [failed, setFailed] = useState(false);
   return (
     <div
@@ -95,7 +95,7 @@ function ProductPhoto({ small = false }: { small?: boolean }) {
           src={`https://images.unsplash.com/photo-${ITEM.photoId}?q=80&w=900&auto=format&fit=crop`}
           alt={ITEM.alt}
           fill
-          priority={!small}
+          priority={priority}
           sizes={small ? "80px" : "(min-width: 1024px) 560px, 100vw"}
           className="object-cover"
           onError={() => setFailed(true)}
@@ -179,7 +179,7 @@ export default function PriceBridgeLanding() {
         Skip to main content
       </a>
 
-      <header className="sticky top-0 z-30 border-b border-slate-200 bg-white/95 px-5 py-4 backdrop-blur sm:px-8 lg:px-12">
+      <header className="sticky top-0 z-30 border-b border-slate-200 bg-white/95 px-5 py-3 backdrop-blur sm:px-8 lg:px-12">
         <div className="mx-auto flex w-full max-w-[1240px] items-center justify-between gap-6">
           <span className="flex items-center gap-2 text-[15px] font-extrabold tracking-[-0.02em] text-slate-950">
             <span className="h-2 w-2 rounded-full bg-[#0369A1]" aria-hidden="true" />
@@ -207,7 +207,7 @@ export default function PriceBridgeLanding() {
 
       <main id="main">
         {/* ---------------------------------------------------------------- HERO */}
-        <section className="border-b border-slate-200 px-5 pt-10 pb-12 sm:px-8 lg:px-12 lg:pt-14 lg:pb-16">
+        <section className="border-b border-slate-200 px-5 pt-8 pb-10 sm:px-8 lg:px-12 lg:pt-10 lg:pb-12">
           <div className="mx-auto w-full max-w-[1240px]">
             <div className="grid grid-cols-1 gap-10 lg:grid-cols-12 lg:gap-10">
               <motion.div className="min-w-0 lg:col-span-5" {...heroIn}>
@@ -238,9 +238,9 @@ export default function PriceBridgeLanding() {
 
               {/* ---- product + proof, inside the Hero itself ---- */}
               <motion.div className="min-w-0 lg:col-span-7" {...heroIn}>
-                <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm shadow-slate-200/60 sm:p-6">
+                <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm shadow-slate-200/60">
                   <div className="flex items-center gap-4">
-                    <ProductPhoto small />
+                    <ProductPhoto small priority />
                     <div className="min-w-0">
                       <p className={STAT_LABEL}>{ITEM.category.toUpperCase()}</p>
                       <h2 className="mt-0.5 truncate text-[16px] font-extrabold tracking-[-0.01em] text-slate-950">
@@ -262,7 +262,7 @@ export default function PriceBridgeLanding() {
                     </div>
                   </div>
 
-                  <div className="mt-4 flex flex-wrap items-baseline justify-between gap-2 border-t border-slate-200 pt-4">
+                  <div className="mt-3 flex flex-wrap items-baseline justify-between gap-2 border-t border-slate-200 pt-3">
                     <p className="text-[13px] font-normal text-slate-600">
                       List{" "}
                       <span className="tabular-nums line-through" style={NUMERIC}>
@@ -279,7 +279,7 @@ export default function PriceBridgeLanding() {
                     </p>
                   </div>
 
-                  <div className="mt-4" role="group" aria-label="Bridge adjustments — toggle any combination">
+                  <div className="mt-3" role="group" aria-label="Bridge adjustments — toggle any combination">
                     <p className={STAT_LABEL}>ADJUSTMENTS &mdash; TOGGLE ANY COMBINATION</p>
                     <div className="mt-2 flex flex-wrap gap-1.5">
                       {FACTORS.map((f) => {
@@ -288,9 +288,10 @@ export default function PriceBridgeLanding() {
                           <button
                             key={f.id}
                             type="button"
+                            title={f.label}
                             aria-pressed={on}
                             onClick={() => toggle(f.id)}
-                            className={`flex items-center gap-1.5 rounded-lg border px-2.5 py-1.5 text-left text-[12px] font-semibold transition-colors ${FOCUS} ${
+                            className={`flex items-center gap-1.5 rounded-lg border px-2.5 py-1 text-left text-[12px] font-semibold transition-colors ${FOCUS} ${
                               on
                                 ? "border-[#0369A1] bg-sky-50 text-slate-950"
                                 : "border-slate-200 bg-white text-slate-700 hover:border-slate-300"
@@ -314,7 +315,7 @@ export default function PriceBridgeLanding() {
                     </div>
                   </div>
 
-                  <div className="mt-4 border-t border-slate-200 pt-4">
+                  <div className="mt-3 border-t border-slate-200 pt-3">
                     <BridgeChart steps={steps} finalPrice={finalPrice} />
                     <p className={`mt-3 ${CAPTION}`} aria-live="polite">
                       Fig. 01 &mdash; {steps.length} of {FACTORS.length} adjustments applied, live.

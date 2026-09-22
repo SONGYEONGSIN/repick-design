@@ -10,9 +10,9 @@ import { DOMAIN, LIST_PRICE, money, moneySigned, type BridgeStep } from "./data"
 // #0369A1 (sky-700 family, chosen over violet per this round's diversity brief).
 const FOCUS = "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#0369A1]";
 
-// One fixed pixel height for every bar track. Kept as a single constant so the inline `top`/
-// `height` px values written below and the Tailwind `h-[168px]` track class can never drift apart.
-const CHART_HEIGHT = 168;
+// One fixed pixel height for every bar track — used both as the track's own inline `height` and
+// as the scale's output range, so a bar's inline `top`/`height` can never drift out of the track.
+const CHART_HEIGHT = 140;
 
 // DOMAIN comes from data.ts, which enumerates all 2^6 factor combinations once at module load —
 // this padding just adds headroom above/below that real min/max so no bar ever touches the edge.
