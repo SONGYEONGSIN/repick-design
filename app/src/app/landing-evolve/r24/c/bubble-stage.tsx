@@ -37,7 +37,7 @@ function BubbleButton({
       type="button"
       onClick={onSelect}
       aria-pressed={isInspected}
-      aria-label={`${bubble.seller} — ${Math.round(bubble.score)} percent match${
+      aria-label={`${bubble.seller} — ${Math.round(bubble.score)}% match${
         isTop ? ", current top match" : ""
       }. Tap for the full attribute breakdown.`}
       style={{
@@ -60,6 +60,7 @@ function BubbleButton({
     >
       {isTop && (
         <span
+          aria-hidden="true"
           className={cx(
             "absolute -top-6 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-[#111114] px-2 py-0.5 text-[9px] font-semibold uppercase text-white",
             "tracking-[0.16em]",
@@ -68,10 +69,15 @@ function BubbleButton({
           Top match
         </span>
       )}
-      <span className={cx("px-1 text-center font-semibold leading-tight", labelSize, isTop ? "text-white" : MUTED_TEXT)}>
+      <span
+        aria-hidden="true"
+        className={cx("px-1 text-center font-semibold leading-tight", labelSize, isTop ? "text-white" : MUTED_TEXT)}
+      >
         {bubble.bubbleLabel}
       </span>
-      <span className={cx("font-extrabold leading-none", NUM, scoreSize)}>{Math.round(bubble.score)}%</span>
+      <span aria-hidden="true" className={cx("font-extrabold leading-none", NUM, scoreSize)}>
+        {Math.round(bubble.score)}%
+      </span>
     </button>
   );
 }
