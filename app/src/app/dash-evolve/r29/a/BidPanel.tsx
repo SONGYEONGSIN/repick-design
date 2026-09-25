@@ -3,7 +3,7 @@
 import { useMemo, useState } from "react";
 import { ArrowDown, ArrowUp, CheckCircle2, Circle } from "lucide-react";
 import { Card, SectionLabel, Avatar, ProgressBar, FOCUS_RING } from "./ui";
-import { bidsForLot, currencyFmt, dateTimeFmt, type Lot } from "./data";
+import { bidsForLot, currencyFmt, formatRelativeCompact, type Lot } from "./data";
 
 type SortDir = "desc" | "asc";
 
@@ -46,9 +46,9 @@ export function BidPanel({ lot }: { lot: Lot }) {
           <table className="w-full table-fixed border-collapse text-sm">
             <caption className="sr-only">Active bids for {lot.title}, sortable by amount</caption>
             <colgroup>
-              <col style={{ width: "46%" }} />
-              <col style={{ width: "32%" }} />
-              <col style={{ width: "22%" }} />
+              <col style={{ width: "42%" }} />
+              <col style={{ width: "30%" }} />
+              <col style={{ width: "28%" }} />
             </colgroup>
             <thead>
               <tr className="border-b border-white/10">
@@ -101,7 +101,7 @@ export function BidPanel({ lot }: { lot: Lot }) {
                     {currencyFmt.format(bid.amount)}
                   </td>
                   <td className="whitespace-nowrap px-2 py-2.5 text-right text-[11px] font-normal tabular-nums text-zinc-400">
-                    {dateTimeFmt.format(bid.placedAt)}
+                    {formatRelativeCompact(bid.placedAt)}
                   </td>
                 </tr>
               ))}

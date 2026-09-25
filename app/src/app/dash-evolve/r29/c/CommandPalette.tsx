@@ -63,6 +63,7 @@ export default function CommandPalette({ open, onClose, onSelect }: CommandPalet
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Search by seller name or category…"
+            aria-label="Search sellers"
             className={`h-12 flex-1 rounded bg-transparent text-sm font-normal text-zinc-50 placeholder:text-zinc-400 ${FOCUS_RING}`}
           />
           <button

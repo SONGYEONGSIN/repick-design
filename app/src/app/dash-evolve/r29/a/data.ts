@@ -374,3 +374,12 @@ export function formatRelative(at: Date): string {
   const diffDays = Math.round(diffHours / 24);
   return relativeTimeFmt.format(diffDays, "day");
 }
+
+/** Compact narrow-style relative time ("2h ago", "1d ago") — used where table columns are tight. */
+export function formatRelativeCompact(at: Date): string {
+  const diffMs = at.getTime() - TODAY_WITH_TIME.getTime();
+  const diffHours = Math.round(diffMs / (1000 * 60 * 60));
+  if (Math.abs(diffHours) < 24) return narrowRelativeFmt.format(diffHours, "hour");
+  const diffDays = Math.round(diffHours / 24);
+  return narrowRelativeFmt.format(diffDays, "day");
+}

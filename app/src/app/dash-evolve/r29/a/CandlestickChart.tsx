@@ -97,15 +97,15 @@ export function CandlestickChart() {
     <div className="min-w-0 space-y-6">
       <Card className="min-w-0">
       <div className="flex flex-wrap items-start justify-between gap-3">
-        <div className="min-w-0">
+        <div className="min-w-0 flex-1">
           <SectionLabel as="h2">Price chart</SectionLabel>
-          <label className="mt-1 flex items-center gap-2">
+          <label className="mt-1 flex min-w-0 items-center gap-2">
             <span className="sr-only">Charting instrument</span>
             <CandlestickChartIcon aria-hidden="true" className="h-4 w-4 shrink-0 text-indigo-300" />
             <select
               value={chartLotId}
               onChange={(e) => selectLot(e.target.value)}
-              className={`min-w-0 max-w-full truncate rounded-md border border-transparent bg-transparent py-1 text-base font-semibold text-zinc-50 hover:border-white/10 ${FOCUS_RING}`}
+              className={`min-w-0 flex-1 truncate rounded-md border border-transparent bg-transparent py-1 text-base font-semibold text-zinc-50 hover:border-white/10 ${FOCUS_RING}`}
             >
               {LOTS.map((l) => (
                 <option key={l.id} value={l.id} className="bg-zinc-900 text-zinc-50">
