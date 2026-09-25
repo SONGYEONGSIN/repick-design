@@ -222,14 +222,22 @@ export function formatCurrency(n: number): string {
   return currencyFmt.format(n);
 }
 
-const currencyCompactFmt = new Intl.NumberFormat("en-US", {
-  style: "currency",
-  currency: "USD",
-  notation: "compact",
-  maximumFractionDigits: 1,
-});
+/**
+ * Manual compact-currency formatter. `Intl.NumberFormat({ notation: "compact" })` was tried first
+ * but its trailing-zero behavior ("$209K" vs "$209.0K") is decided by the ICU version bundled with
+ * the runtime, which differs between Node (SSR) and the browser (client render) — the exact same
+ * input produced two different strings depending on which one formatted it, tripping a hydration
+ * mismatch. Formatting by hand removes the ICU version as a variable entirely.
+ */
 export function formatCurrencyCompact(n: number): string {
-  return currencyCompactFmt.format(n);
+  const sign = n < 0 ? "-" : "";
+  const abs = Math.abs(n);
+  if (abs < 1000) return `${sign}$${Math.round(abs)}`;
+  const unit = abs < 1_000_000 ? 1000 : 1_000_000;
+  const suffix = abs < 1_000_000 ? "K" : "M";
+  const rounded = Math.round((abs / unit) * 10) / 10;
+  const digits = Number.isInteger(rounded) ? String(rounded) : rounded.toFixed(1);
+  return `${sign}$${digits}${suffix}`;
 }
 
 const percentFmt = new Intl.NumberFormat("en-US", {

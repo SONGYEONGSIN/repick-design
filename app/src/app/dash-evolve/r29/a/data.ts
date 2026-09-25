@@ -160,8 +160,8 @@ function genCandles(seedKey: string, basePrice: number, dates: Date[]): Candle[]
     const drift = (rng() - 0.5) * 0.07; // ~±3.5% typical daily move
     let close = open * (1 + drift);
     close = Math.max(close, basePrice * 0.35);
-    let high = Math.max(open, close) * (1 + rng() * 0.018);
-    let low = Math.min(open, close) * (1 - rng() * 0.018);
+    const high = Math.max(open, close) * (1 + rng() * 0.018);
+    const low = Math.min(open, close) * (1 - rng() * 0.018);
 
     const openR = Math.round(open);
     const closeR = Math.round(close);

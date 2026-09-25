@@ -188,17 +188,15 @@ export function NetworkGraphCard({
               Accounts and services connected to {focal.name} for the {pinned ? "pinned" : "auto-focused"} event, {EVENT_TYPE_META[focusEvent.type].label}.
             </caption>
             <colgroup>
-              <col className="w-[38%]" />
-              <col className="w-[16%]" />
-              <col className="w-[27%]" />
-              <col className="w-[19%]" />
+              <col className="w-[34%]" />
+              <col className="w-[18%]" />
+              <col className="w-[48%]" />
             </colgroup>
             <thead>
               <tr className="border-b border-zinc-200">
                 <th scope="col" className="py-2 pr-2 text-[11px] font-bold uppercase tracking-wider text-zinc-500">Node</th>
                 <th scope="col" className="py-2 pr-2 text-[11px] font-bold uppercase tracking-wider text-zinc-500">Type</th>
-                <th scope="col" className="py-2 pr-2 text-[11px] font-bold uppercase tracking-wider text-zinc-500">Relationship</th>
-                <th scope="col" className="py-2 text-[11px] font-bold uppercase tracking-wider text-zinc-500">Since</th>
+                <th scope="col" className="py-2 text-[11px] font-bold uppercase tracking-wider text-zinc-500">Relationship</th>
               </tr>
             </thead>
             <tbody>
@@ -206,10 +204,12 @@ export function NetworkGraphCard({
                 const rel = relationshipFor(node.id);
                 return (
                   <tr key={node.id} className="border-b border-zinc-100 last:border-b-0">
-                    <td className="py-2 pr-2 font-medium text-zinc-800">{node.name}</td>
-                    <td className="py-2 pr-2 font-normal text-zinc-600">{NODE_KIND_LABEL[node.kind]}</td>
-                    <td className="py-2 pr-2 font-normal text-zinc-600">{EDGE_KIND_LABEL[rel.kind]}</td>
-                    <td className="py-2 font-normal text-zinc-500">{rel.since}</td>
+                    <td className="py-2 pr-2 align-top font-medium text-zinc-800">{node.name}</td>
+                    <td className="py-2 pr-2 align-top font-normal text-zinc-600">{NODE_KIND_LABEL[node.kind]}</td>
+                    <td className="py-2 align-top font-normal text-zinc-600">
+                      <span className="block">{EDGE_KIND_LABEL[rel.kind]}</span>
+                      <span className="mt-0.5 block text-[11px] font-normal text-zinc-500">{rel.since}</span>
+                    </td>
                   </tr>
                 );
               })}
