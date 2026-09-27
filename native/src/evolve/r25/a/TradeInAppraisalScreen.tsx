@@ -158,7 +158,7 @@ function ChoiceCard({
       ]}
     >
       <View style={[styles.choiceMarker, selected && styles.choiceMarkerOn]}>
-        {selected ? <Text style={styles.choiceMarkerDot} /> : null}
+        {selected ? <View style={styles.choiceMarkerDot} /> : null}
       </View>
       <View style={styles.choiceBody}>
         <Text style={styles.choiceLabel}>{label}</Text>
@@ -196,11 +196,7 @@ export function TradeInAppraisalScreen() {
   const deductions = DISCLOSURE_QUESTIONS.filter(
     (q) => answers[q.id] && answers[q.id] !== q.favorableAnswer,
   ).map((q) => q.deductionKrw);
-  const { lowKrw, highKrw } = useMemo(
-    () => estimateRangeKrw(deductions, payout ? payout.multiplier : 1),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [answers, payoutId],
-  );
+  const { lowKrw, highKrw } = estimateRangeKrw(deductions, payout ? payout.multiplier : 1);
 
   const holdUp: Checkpoint | null = useMemo(() => {
     if (unresolvedQuestion) {
@@ -392,7 +388,7 @@ export function TradeInAppraisalScreen() {
               </Text>
               <View style={styles.dockedBarConfirmButtons}>
                 <Pressable
-                  onPress={cancelRetractFor(setRetracting)}
+                  onPress={() => setRetracting(false)}
                   hitSlop={HIT_SLOP}
                   accessibilityRole="button"
                   accessibilityLabel="Keep this appraisal request"
@@ -458,13 +454,6 @@ export function TradeInAppraisalScreen() {
       </View>
     </SafeAreaView>
   );
-}
-
-// Kept outside the component body (stable identity not required here since it's only used from
-// one inline Pressable) but named as a function, not inlined twice, so the Cancel action reads
-// clearly next to its Confirm sibling above.
-function cancelRetractFor(setRetracting: (value: boolean) => void) {
-  return () => setRetracting(false);
 }
 
 export default TradeInAppraisalScreen;
@@ -801,6 +790,7 @@ const styles = StyleSheet.create({
   dockedBarConfirmRow: {
     minHeight: 56,
     justifyContent: "center",
+    paddingHorizontal: tokens.space(4),
     gap: tokens.space(2),
   },
   dockedBarConfirmPrompt: {
