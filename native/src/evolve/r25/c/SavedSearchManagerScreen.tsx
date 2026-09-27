@@ -13,7 +13,7 @@
 // ever mounted). Per the codebase's own accumulated lesson, the bar mechanism alone is not
 // enough — the real differentiation is the domain-specific logic layered on top of it:
 //
-//  1. Pause/Resume is not a single always-available bulk toggle. `pauseCapable` is computed
+//  1. Pause/Resume is not a single always-available bulk toggle. `pauseEnabled` is computed
 //     from the *selected set's own pause state*: enabled only when every selected search is
 //     currently active (label reads "Pause") or every one is currently paused (label reads
 //     "Resume"). A mixed selection makes the button unavailable and the dock says why — the
