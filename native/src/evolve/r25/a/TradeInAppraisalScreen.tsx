@@ -513,7 +513,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "700",
     color: tokens.color.ink,
-    marginRight: 3,
+    marginRight: tokens.space(1),
   },
   creditDigits: {
     fontSize: 26,
@@ -552,7 +552,7 @@ const styles = StyleSheet.create({
     borderColor: tokens.color.border,
     borderRadius: tokens.radius.md,
     padding: tokens.space(3),
-    gap: 2,
+    gap: tokens.space(1),
   },
   itemTitle: {
     fontSize: 15,
@@ -676,7 +676,7 @@ const styles = StyleSheet.create({
     borderColor: tokens.color.border,
     alignItems: "center",
     justifyContent: "center",
-    marginTop: 2,
+    marginTop: tokens.space(1),
   },
   choiceMarkerOn: {
     borderColor: tokens.color.accent,
@@ -689,7 +689,7 @@ const styles = StyleSheet.create({
   },
   choiceBody: {
     flex: 1,
-    gap: 2,
+    gap: tokens.space(1),
   },
   choiceLabel: {
     fontSize: 14,
@@ -726,7 +726,7 @@ const styles = StyleSheet.create({
     borderColor: tokens.color.ink2,
     paddingHorizontal: tokens.space(4),
     paddingVertical: tokens.space(3),
-    gap: 2,
+    gap: tokens.space(1),
   },
   dockedBarPendingLead: {
     fontSize: 15,
@@ -745,7 +745,7 @@ const styles = StyleSheet.create({
     backgroundColor: tokens.color.accent,
     paddingHorizontal: tokens.space(4),
     paddingVertical: tokens.space(3),
-    gap: 2,
+    gap: tokens.space(1),
   },
   dockedBarReadyLead: {
     fontSize: 16,
@@ -764,7 +764,7 @@ const styles = StyleSheet.create({
     borderColor: tokens.color.accent,
     paddingHorizontal: tokens.space(4),
     paddingVertical: tokens.space(3),
-    gap: 2,
+    gap: tokens.space(1),
   },
   dockedBarLoggedLead: {
     fontSize: 16,
