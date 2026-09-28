@@ -174,7 +174,7 @@ export default function PriceMatrix({
           tabIndex={0}
           role="region"
           aria-label="Fair price matrix table, scrollable"
-          className={`overflow-x-auto rounded-2xl border border-[#e7e5e4] ${FOCUS_RING}`}
+          className={`min-w-0 overflow-x-auto rounded-2xl border border-[#e7e5e4] ${FOCUS_RING}`}
         >
           <table className="w-full min-w-[560px] border-collapse text-sm">
             <caption className="border-b border-[#e7e5e4] px-5 py-3 text-left text-sm text-[#57534e]">

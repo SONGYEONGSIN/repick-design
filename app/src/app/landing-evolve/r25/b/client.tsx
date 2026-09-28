@@ -50,11 +50,8 @@ import {
 //   comes from size/weight/tracking rather than a second, riskier grey. #71717A is used only for
 //   large (>=32px) decorative ghost numbers, where the 3:1 floor applies (4.83:1 on white /
 //   4.43:1 on tint — both clear it).
-const INK = "#131316";
-const MUTED = "#52525B";
 const GHOST = "#71717A";
 const ACCENT = "#0284C7";
-const ACCENT_STRONG = "#0369A1";
 const TRACK = "#E4E4E7";
 
 const FOCUS =

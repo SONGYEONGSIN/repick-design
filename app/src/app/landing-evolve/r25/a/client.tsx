@@ -248,7 +248,10 @@ export default function FairPriceLanding() {
         </section>
 
         {/* 3. Value section — the Fair Price Matrix */}
-        <section id="fair-price-matrix" className="border-b border-[#e7e5e4] bg-white">
+        <section
+          id="fair-price-matrix"
+          className="overflow-x-clip border-b border-[#e7e5e4] bg-white [contain:layout]"
+        >
           <div className="mx-auto max-w-[1200px] px-6 py-20">
             <Reveal>
               <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[#c2410c]">
