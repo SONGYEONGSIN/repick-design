@@ -33,6 +33,7 @@ import { FollowingFeedScreen as EvolveR24C } from "./evolve/r24/c/FollowingFeedS
 import { TradeInAppraisalScreen as EvolveR25A } from "./evolve/r25/a/TradeInAppraisalScreen";
 import { DeliveryReceiptScreen as EvolveR25B } from "./evolve/r25/b/DeliveryReceiptScreen";
 import { SavedSearchManagerScreen as EvolveR25C } from "./evolve/r25/c/SavedSearchManagerScreen";
+import { WarrantyClaimScreen as EvolveR26A } from "./evolve/r26/a/WarrantyClaimScreen";
 import { SellerRatingSummaryScreen as EvolveR26B } from "./evolve/r26/b/SellerRatingSummaryScreen";
 import LinkedBankAccountsScreen from "./evolve/r26/c/LinkedBankAccountsScreen";
 
@@ -71,6 +72,7 @@ const COMPONENTS = {
   "evolve-r25-a": EvolveR25A,
   "evolve-r25-b": EvolveR25B,
   "evolve-r25-c": EvolveR25C,
+  "evolve-r26-a": EvolveR26A,
   "evolve-r26-b": EvolveR26B,
   "evolve-r26-c": LinkedBankAccountsScreen,
 } as const satisfies Record<string, ComponentType>;

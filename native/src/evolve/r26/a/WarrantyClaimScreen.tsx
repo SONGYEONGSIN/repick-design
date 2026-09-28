@@ -99,8 +99,10 @@ export function WarrantyClaimScreen() {
   }
 
   function fileClaim() {
-    if (nextCheckpoint || !activeDefect || !remedyChoice) return;
-    setClaimNumber(buildClaimReference(activeDefect, remedyChoice));
+    const defect = activeDefect;
+    const remedy = remedyChoice;
+    if (nextCheckpoint || !defect || !remedy) return;
+    setClaimNumber(buildClaimReference(defect, remedy));
     setClaimStage("filed");
   }
 
