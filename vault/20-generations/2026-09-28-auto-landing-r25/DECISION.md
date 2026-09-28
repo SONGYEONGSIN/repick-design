@@ -66,3 +66,4 @@ None needed — the two contrast concerns lens1 flagged on winner b were investi
 ## §7 Outcome
 - **Winner: b — "Authentication Confidence Ring"** (`/landing-evolve/r25/b`).
 - Candidates a, c remain registered in their routes (evolve/dash only) per no-winner-drop convention — disposition happens at `/dash-falsify`, not here.
+- **Correction**: the first `auto-ledger.jsonl` entry for this round omitted the `variety` field (orchestrator mistakenly followed the native-target fixed-DNA convention, which has no `variety` computation, instead of landing's `catalog-variety.mjs`-derived one). Appended a corrective follow-up entry (append-only, all other fields identical) with `variety` computed via `readWork('app/src/app/landing-evolve/r25/b')`: `{theme: light, accent: blue-hex, face: grotesk}`.
