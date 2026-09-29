@@ -20,7 +20,7 @@ const FILTER_OPTIONS: { id: PathFilter; label: string }[] = [
   { id: "all", label: "All" },
   { id: "refunded", label: "Refunded" },
   { id: "returned", label: "Returned" },
-  { id: "escalation", label: "Via escalation" },
+  { id: "escalation", label: "Escalated" },
 ];
 
 function matchesFilter(filter: PathFilter, p: (typeof PATHS)[number]): boolean {

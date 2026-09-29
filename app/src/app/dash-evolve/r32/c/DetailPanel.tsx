@@ -46,7 +46,7 @@ export default function DetailPanel({ period, selection, onClear }: { period: Pe
               <p className="text-[11px] text-zinc-500">Pinned stage</p>
             </div>
           </div>
-          <button type="button" onClick={onClear} aria-label="Clear pinned stage" className={cx("flex h-8 w-8 shrink-0 items-center justify-center rounded-md text-zinc-400 hover:bg-zinc-100 hover:text-zinc-700", FOCUS_RING)}>
+          <button type="button" onClick={onClear} aria-label="Clear pinned stage" className={cx("flex h-8 w-8 shrink-0 items-center justify-center rounded-md text-zinc-500 hover:bg-zinc-100 hover:text-zinc-700", FOCUS_RING)}>
             <PinOff aria-hidden className="h-4 w-4" />
           </button>
         </div>
@@ -115,7 +115,7 @@ export default function DetailPanel({ period, selection, onClear }: { period: Pe
           <p className="truncate text-[13.5px] font-semibold text-zinc-900">{path.label}</p>
           <p className="text-[11px] text-zinc-500">Pinned path</p>
         </div>
-        <button type="button" onClick={onClear} aria-label="Clear pinned path" className={cx("flex h-8 w-8 shrink-0 items-center justify-center rounded-md text-zinc-400 hover:bg-zinc-100 hover:text-zinc-700", FOCUS_RING)}>
+        <button type="button" onClick={onClear} aria-label="Clear pinned path" className={cx("flex h-8 w-8 shrink-0 items-center justify-center rounded-md text-zinc-500 hover:bg-zinc-100 hover:text-zinc-700", FOCUS_RING)}>
           <PinOff aria-hidden className="h-4 w-4" />
         </button>
       </div>

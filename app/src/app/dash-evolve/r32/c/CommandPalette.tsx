@@ -2,14 +2,14 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Search, X, GitBranch, Route } from "lucide-react";
-import { STAGES, PATHS, formatCount, type PeriodId } from "./data";
+import { STAGES, PATHS, formatCount, type PeriodId, type StageId } from "./data";
 import { cx, FOCUS_RING } from "./ui";
 
 interface CommandPaletteProps {
   open: boolean;
   period: PeriodId;
   onClose: () => void;
-  onPinStage: (id: string) => void;
+  onPinStage: (id: StageId) => void;
   onPinPath: (id: string) => void;
 }
 
@@ -68,9 +68,9 @@ export default function CommandPalette({ open, period, onClose, onPinStage, onPi
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Jump to a stage or a top path…"
             aria-label="Search stages and paths"
-            className={cx("h-12 flex-1 rounded bg-transparent text-[13px] text-zinc-900 placeholder:text-zinc-400", FOCUS_RING)}
+            className={cx("h-12 flex-1 rounded bg-transparent text-[13px] text-zinc-900 placeholder:text-zinc-500", FOCUS_RING)}
           />
-          <button type="button" onClick={onClose} className={cx("flex h-8 w-8 shrink-0 items-center justify-center rounded-md text-zinc-400 hover:bg-zinc-100 hover:text-zinc-900", FOCUS_RING)}>
+          <button type="button" onClick={onClose} className={cx("flex h-8 w-8 shrink-0 items-center justify-center rounded-md text-zinc-500 hover:bg-zinc-100 hover:text-zinc-900", FOCUS_RING)}>
             <X aria-hidden className="h-4 w-4" />
             <span className="sr-only">Close search</span>
           </button>

@@ -115,27 +115,29 @@ export default function ReturnFlowConsole() {
               </span>
             </div>
 
-            <div className="mt-6 flex flex-col gap-4 xl:flex-row xl:items-start">
-              <section aria-labelledby="process-map-heading" className="min-w-0 flex-1 rounded-xl border border-zinc-200 bg-white p-4 shadow-[0_1px_2px_rgba(24,24,27,0.04)] sm:p-5">
-                <div className="flex flex-wrap items-start justify-between gap-2">
-                  <div className="min-w-0">
-                    <h2 id="process-map-heading" className="text-[13px] font-semibold text-zinc-900">
-                      Process map
-                    </h2>
-                    <p className="mt-0.5 max-w-xl text-[12px] text-zinc-500">{summary}</p>
-                  </div>
-                  <a href={`#${STAGE_TABLE_ID}`} className="shrink-0 rounded-md text-[11.5px] text-zinc-500 underline decoration-zinc-300 underline-offset-2 hover:text-zinc-700">
-                    Skip graph to table
-                  </a>
+            <section aria-labelledby="process-map-heading" className="mt-6 min-w-0 rounded-xl border border-zinc-200 bg-white p-4 shadow-[0_1px_2px_rgba(24,24,27,0.04)] sm:p-5">
+              <div className="flex flex-wrap items-start justify-between gap-2">
+                <div className="min-w-0">
+                  <h2 id="process-map-heading" className="text-[13px] font-semibold text-zinc-900">
+                    Process map
+                  </h2>
+                  <p className="mt-0.5 max-w-2xl text-[12px] text-zinc-500">{summary}</p>
                 </div>
-                <div className="mt-4">
-                  <ProcessGraph period={period} selection={selection} onPinStage={pinStage} />
-                </div>
-              </section>
-
-              <div className="flex w-full flex-col gap-4 xl:w-[22rem] xl:shrink-0">
-                <DetailPanel period={period} selection={selection} onClear={() => setSelection(null)} />
+                <a href={`#${STAGE_TABLE_ID}`} className="shrink-0 rounded-md text-[11.5px] text-zinc-500 underline decoration-zinc-300 underline-offset-2 hover:text-zinc-700">
+                  Skip graph to table
+                </a>
               </div>
+              <div className="mt-4">
+                <ProcessGraph period={period} selection={selection} onPinStage={pinStage} />
+              </div>
+            </section>
+
+            {/* The detail panel sits directly below the graph rather than squeezed
+                into a fixed-width side rail — that keeps the graph's own scale
+                consistent and legible across the whole 1280–1920 range instead of
+                shrinking it to make room for a companion column. */}
+            <div className="mt-4 lg:max-w-md">
+              <DetailPanel period={period} selection={selection} onClear={() => setSelection(null)} />
             </div>
 
             <section aria-labelledby="stage-table-heading" className="mt-4 rounded-xl border border-zinc-200 bg-white p-4 shadow-[0_1px_2px_rgba(24,24,27,0.04)] sm:p-5">

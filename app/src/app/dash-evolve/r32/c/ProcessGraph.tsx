@@ -124,7 +124,7 @@ export default function ProcessGraph({ period, selection, onPinStage }: ProcessG
         >
           <defs>
             <marker id="rg-arrow-muted" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-              <path d="M0,0 L10,5 L0,10 Z" className="fill-zinc-400" />
+              <path d="M0,0 L10,5 L0,10 Z" className="fill-zinc-500" />
             </marker>
             <marker id="rg-arrow-accent" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
               <path d="M0,0 L10,5 L0,10 Z" className="fill-amber-600" />
@@ -160,15 +160,15 @@ export default function ProcessGraph({ period, selection, onPinStage }: ProcessG
                   className={cx(
                     "pointer-events-none transition-[stroke,opacity] duration-150 motion-reduce:transition-none",
                     "group-focus-visible:stroke-amber-700",
-                    isHighlighted ? "stroke-amber-600" : isHoverOnly ? "stroke-zinc-500" : "stroke-zinc-400",
+                    isHighlighted ? "stroke-amber-600" : isHoverOnly ? "stroke-zinc-600" : "stroke-zinc-500",
                     dimmed ? "opacity-30" : "opacity-100",
                   )}
                 />
                 {showLabel && (
-                  <foreignObject x={edge.labelX - 26} y={edge.labelY - 11} width={52} height={22} className="pointer-events-none overflow-visible">
+                  <foreignObject x={edge.labelX - 32} y={edge.labelY - 14} width={64} height={28} className="pointer-events-none overflow-visible">
                     <div
                       className={cx(
-                        "flex h-[22px] items-center justify-center rounded-full border px-1.5 text-[11px] font-medium tabular-nums shadow-sm",
+                        "flex h-[26px] items-center justify-center rounded-full border px-2 text-[13px] font-medium tabular-nums shadow-sm",
                         isHighlighted ? "border-amber-300 bg-amber-100 text-zinc-900" : "border-zinc-200 bg-white text-zinc-600",
                       )}
                     >
@@ -221,18 +221,18 @@ export default function ProcessGraph({ period, selection, onPinStage }: ProcessG
                       isHoverOnly && !isBottleneck && "border-zinc-400",
                     )}
                   >
-                    <span className="flex items-center gap-1.5">
-                      <Icon aria-hidden className={cx("h-3.5 w-3.5 shrink-0", emphasized || isBottleneck ? "text-amber-700" : "text-zinc-500")} />
-                      <span className="min-w-0 flex-1 truncate text-[12.5px] font-semibold text-zinc-900">{stage.short}</span>
+                    <span className="flex items-center gap-2">
+                      <Icon aria-hidden className={cx("h-4 w-4 shrink-0", emphasized || isBottleneck ? "text-amber-700" : "text-zinc-500")} />
+                      <span className="min-w-0 flex-1 truncate text-[15px] font-semibold text-zinc-900">{stage.short}</span>
                     </span>
-                    <span className="flex items-baseline gap-1 text-[11px] text-zinc-500">
+                    <span className="flex items-baseline gap-1 text-[13px] text-zinc-500">
                       <span className="font-medium tabular-nums text-zinc-700">{formatCount(stats.inbound)}</span>
                       cases · {stage.terminal ? "closed" : formatDays(stats.dwellDays ?? 0)}
                     </span>
                   </button>
                   {isBottleneck && (
-                    <span className="pointer-events-none absolute -top-2.5 right-1 inline-flex items-center gap-1 rounded-full border border-amber-300 bg-amber-100 px-1.5 py-0.5 text-[9.5px] font-medium text-zinc-900 shadow-sm">
-                      <AlertTriangle aria-hidden className="h-2.5 w-2.5" />
+                    <span className="pointer-events-none absolute -top-3 right-1 inline-flex items-center gap-1 rounded-full border border-amber-300 bg-amber-100 px-2 py-0.5 text-[11px] font-medium text-zinc-900 shadow-sm">
+                      <AlertTriangle aria-hidden className="h-3 w-3" />
                       Bottleneck
                     </span>
                   )}

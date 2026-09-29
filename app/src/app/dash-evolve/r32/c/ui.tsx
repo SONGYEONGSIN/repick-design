@@ -130,7 +130,7 @@ export function SegmentedControl<T extends string>({
   label: string;
 }) {
   return (
-    <div role="radiogroup" aria-label={label} className="inline-flex items-center gap-0.5 rounded-lg bg-zinc-100 p-1">
+    <div role="radiogroup" aria-label={label} className="inline-flex flex-wrap items-center gap-0.5 rounded-lg bg-zinc-100 p-1">
       {options.map((opt) => {
         const active = opt.id === value;
         return (
@@ -141,7 +141,7 @@ export function SegmentedControl<T extends string>({
             aria-checked={active}
             onClick={() => onChange(opt.id)}
             className={cx(
-              "h-8 rounded-md px-3 text-[12.5px] font-medium transition-colors",
+              "h-8 whitespace-nowrap rounded-md px-2.5 text-[12.5px] font-medium transition-colors sm:px-3",
               FOCUS_RING,
               active ? "bg-white text-zinc-900 shadow-sm" : "text-zinc-600 hover:text-zinc-900",
             )}
