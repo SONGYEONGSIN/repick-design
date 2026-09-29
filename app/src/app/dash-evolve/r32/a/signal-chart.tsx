@@ -89,7 +89,7 @@ export default function SignalChart({ signal, points, width, height, variant = "
           opacity={0.65}
         />
 
-        <path d={linePath} fill="none" stroke="#a1a1aa" strokeWidth={1.5} strokeLinejoin="round" strokeLinecap="round" />
+        <path d={linePath} fill="none" stroke="#71717a" strokeWidth={1.5} strokeLinejoin="round" strokeLinecap="round" />
 
         {/* Anomaly markers: a diamond shape, never color alone. */}
         {anomalies.map(({ i, p }) => {
