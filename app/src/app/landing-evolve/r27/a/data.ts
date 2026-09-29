@@ -78,7 +78,6 @@ export function renormalizeWeights(
   index: number,
   rawValue: number
 ): number[] {
-  const n = weights.length;
   const newValue = Math.min(100, Math.max(0, Math.round(rawValue)));
   const oldOthersSum = 100 - weights[index];
   const newOthersSum = 100 - newValue;
