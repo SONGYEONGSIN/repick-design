@@ -180,7 +180,7 @@ export function compositionFor(windowDays: WindowDays): CompositionSlice[] {
   }
   const raw = counts.map((n) => (n / total) * 100);
   const floors = raw.map((v) => Math.floor(v));
-  let remainder = 100 - floors.reduce((a, b) => a + b, 0);
+  const remainder = 100 - floors.reduce((a, b) => a + b, 0);
   const order = raw
     .map((v, i) => ({ i, frac: v - Math.floor(v) }))
     .sort((a, b) => b.frac - a.frac || a.i - b.i);

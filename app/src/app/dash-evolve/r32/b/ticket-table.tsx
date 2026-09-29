@@ -3,7 +3,7 @@
 import { useId, useMemo, useState } from "react";
 import { ArrowDown, ArrowUp, ArrowUpDown } from "lucide-react";
 import type { Priority, Ticket } from "./data";
-import { Avatar, PriorityBadge, TicketStatusBadge, cx } from "./ui";
+import { Avatar, PriorityBadge, TicketStatusBadge } from "./ui";
 
 type SortKey = "age" | "priority" | "status";
 type SortDir = "asc" | "desc";

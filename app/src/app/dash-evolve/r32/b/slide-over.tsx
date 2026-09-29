@@ -66,7 +66,7 @@ export default function SlideOver({
 
   return (
     <div
-      className={cx("fixed inset-0 z-40", open ? "pointer-events-auto" : "pointer-events-none")}
+      className={cx("fixed inset-0 z-40 overflow-hidden", open ? "pointer-events-auto" : "pointer-events-none")}
       aria-hidden={!open}
       inert={!open}
     >

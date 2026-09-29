@@ -107,7 +107,7 @@ export default function SignalPanel({ signal, windowDays, isPinned, onPin, onClo
       </div>
 
       {isPinned && (
-        <div className="grid grid-cols-1 gap-4 border-t border-zinc-100 p-4 pt-3.5 sm:grid-cols-2">
+        <div className="grid grid-cols-1 gap-4 border-t border-zinc-100 p-4 pt-3.5">
           <div>
             <h4 className="text-[11px] font-semibold uppercase tracking-wide text-zinc-500">Root-cause breakdown</h4>
             <ul className="mt-2 flex flex-col gap-2">

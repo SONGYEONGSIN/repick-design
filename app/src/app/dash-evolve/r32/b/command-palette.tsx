@@ -24,6 +24,15 @@ export default function CommandPalette({
   const headingId = useId();
   const sliceByCategory = new Map(slices.map((s) => [s.categoryId, s]));
 
+  // Reset the query whenever the palette transitions to open, without a setState-in-effect:
+  // adjusting state during render (guarded by comparing against a render-time-tracked previous
+  // value) is the documented escape hatch for "reset state when a prop changes".
+  const [prevOpen, setPrevOpen] = useState(open);
+  if (open !== prevOpen) {
+    setPrevOpen(open);
+    if (open) setQuery("");
+  }
+
   const results = useMemo(() => {
     const q = query.trim().toLowerCase();
     if (!q) return CATEGORIES;
@@ -32,7 +41,6 @@ export default function CommandPalette({
 
   useEffect(() => {
     if (open) {
-      setQuery("");
       inputRef.current?.focus();
     } else {
       triggerRef.current?.focus();
