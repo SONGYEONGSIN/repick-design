@@ -335,7 +335,7 @@ export default function DemandMapLanding() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, margin: "-80px" }}
                   transition={{ duration: 0.45, delay: reduce ? 0 : i * 0.06, ease: [0.22, 1, 0.36, 1] }}
-                  className="h-full rounded-2xl border border-white/10 bg-white/[0.03] p-6"
+                  className="h-full min-w-0 rounded-2xl border border-white/10 bg-white/[0.03] p-6"
                 >
                   <Quote className="h-5 w-5" aria-hidden="true" style={{ color: ACCENT_TINT }} />
                   <blockquote className="mt-3 text-[14px] leading-[1.6] text-zinc-300">
