@@ -14,7 +14,7 @@ import {
   type PeriodId,
   type Selection,
 } from "./data";
-import { cx, Card, Badge, BottleneckBadge, FOCUS_RING } from "./ui";
+import { cx, Card, Badge, FOCUS_RING } from "./ui";
 
 export default function DetailPanel({ period, selection, onClear }: { period: PeriodId; selection: Selection; onClear: () => void }) {
   if (!selection) {

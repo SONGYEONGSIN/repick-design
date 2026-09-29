@@ -103,14 +103,19 @@ export default function ProcessGraph({ period, selection, onPinStage }: ProcessG
   }
 
   return (
-    <div className="relative">
+    <div ref={containerRef} className="relative">
       <div className="mb-2 flex items-center justify-between gap-2 lg:hidden">
         <p className="flex items-center gap-1.5 text-[11px] text-zinc-500">
           <span aria-hidden>↔</span>
           Scroll horizontally to see the full flow
         </p>
       </div>
-      <div ref={containerRef} className="relative overflow-x-auto rounded-lg border border-zinc-100 bg-zinc-50/50 lg:overflow-visible lg:border-0 lg:bg-transparent">
+      {/* Only this inner strip scrolls, and it never contains the tooltip
+          (kept as a sibling below) so the tooltip can never be clipped by
+          this container's overflow. It is also the only wide horizontally-
+          scrolling element on this page — the filmstrip below wraps
+          instead of scrolling, on purpose. */}
+      <div className="overflow-x-auto rounded-lg border border-zinc-100 bg-zinc-50/50 lg:overflow-visible lg:border-0 lg:bg-transparent">
         <svg
           viewBox={`0 0 ${VIEW_BOX.width} ${VIEW_BOX.height}`}
           role="group"
@@ -236,23 +241,23 @@ export default function ProcessGraph({ period, selection, onPinStage }: ProcessG
             );
           })}
         </svg>
-
-        {hover && (
-          <div
-            role="status"
-            aria-live="polite"
-            className="pointer-events-none absolute z-10 w-56 -translate-x-1/2 -translate-y-[calc(100%+10px)] rounded-lg border border-zinc-200 bg-zinc-900 px-3 py-2 text-white shadow-lg"
-            style={{ left: hover.x, top: hover.y }}
-          >
-            <p className="text-[11.5px] font-semibold text-white">{hover.title}</p>
-            {hover.lines.map((line, i) => (
-              <p key={i} className="mt-0.5 text-[11px] text-zinc-300">
-                {line}
-              </p>
-            ))}
-          </div>
-        )}
       </div>
+
+      {hover && (
+        <div
+          role="status"
+          aria-live="polite"
+          className="pointer-events-none absolute z-10 w-56 -translate-x-1/2 -translate-y-[calc(100%+10px)] rounded-lg border border-zinc-200 bg-zinc-900 px-3 py-2 text-white shadow-lg"
+          style={{ left: hover.x, top: hover.y }}
+        >
+          <p className="text-[11.5px] font-semibold text-white">{hover.title}</p>
+          {hover.lines.map((line, i) => (
+            <p key={i} className="mt-0.5 text-[11px] text-zinc-300">
+              {line}
+            </p>
+          ))}
+        </div>
+      )}
     </div>
   );
 }

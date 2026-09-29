@@ -46,7 +46,9 @@ export default function Filmstrip({ period, selection, filter, onChangeFilter, o
     <div>
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h2 className="text-[13px] font-semibold text-zinc-900">Top variant paths</h2>
+          <h2 id="filmstrip-heading" className="text-[13px] font-semibold text-zinc-900">
+            Top variant paths
+          </h2>
           <p className="mt-0.5 text-[11.5px] text-zinc-500">
             The most common sequences a case actually follows. This filter only changes which rows appear here — it never changes the pinned selection above.
           </p>

@@ -37,11 +37,11 @@ import CommandPalette from "./command-palette";
 import { cx, useDismissable, SegmentedControl } from "./ui";
 
 const NAV = [
-  { label: "Overview", icon: LayoutGrid },
+  { label: "Overview", icon: LayoutGrid, active: false },
   { label: "Triage", icon: Grid3x3, active: true },
-  { label: "Tickets", icon: TicketIcon },
-  { label: "Team", icon: Users },
-  { label: "Settings", icon: Settings },
+  { label: "Tickets", icon: TicketIcon, active: false },
+  { label: "Team", icon: Users, active: false },
+  { label: "Settings", icon: Settings, active: false },
 ];
 
 const WORKSPACES = ["repick Support", "repick Trust & Safety"];

@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { ArrowDown, ArrowUp, ArrowUpDown, AlertTriangle } from "lucide-react";
+import { ArrowDown, ArrowUp, ArrowUpDown } from "lucide-react";
 import { STAGES, statsFor, bottleneckStageId, formatCount, formatDays, type PeriodId, type Selection, type StageId } from "./data";
 import { cx, FOCUS_RING, BottleneckBadge, Badge } from "./ui";
 

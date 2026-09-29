@@ -1,4 +1,4 @@
-import { useEffect, useRef, type ReactNode } from "react";
+import { useEffect, useRef } from "react";
 import type { Priority, TicketStatus } from "./data";
 
 /** Closes a menu/popover on outside click or Escape. Returns the ref its wrapper needs. */
@@ -72,7 +72,8 @@ export function Avatar({ initials, name }: { initials: string; name: string }) {
     <span
       className="inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-zinc-200 text-[10px] font-semibold text-zinc-700"
       title={name}
-      aria-hidden
+      role="img"
+      aria-label={name}
     >
       {initials}
     </span>
@@ -111,8 +112,4 @@ export function SegmentedControl<T extends string>({
       })}
     </div>
   );
-}
-
-export function Card({ className, children }: { className?: string; children: ReactNode }) {
-  return <div className={cx("rounded-xl border border-zinc-200 bg-white shadow-sm", className)}>{children}</div>;
 }
