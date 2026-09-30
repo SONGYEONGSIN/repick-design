@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState, type ReactNode } from "react";
+import { useEffect, useMemo, useState, type ReactNode } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { ArrowRight, ShieldCheck } from "lucide-react";
 import FlowDiagram from "./flow-diagram";
@@ -16,14 +16,24 @@ import {
   TESTIMONIALS,
   computeOutcomes,
 } from "./data";
-import { ACCENT, BODY, BODY_LG, DISPLAY, FOCUS_RING } from "./tokens";
+import { ACCENT, BODY, BODY_LG, CAPTION, DISPLAY, FOCUS_RING } from "./tokens";
 
 const SKIP_LINK =
   "sr-only focus-visible:not-sr-only focus-visible:fixed focus-visible:left-4 focus-visible:top-4 focus-visible:z-50 focus-visible:rounded-full focus-visible:bg-[#111113] focus-visible:px-4 focus-visible:py-2 focus-visible:text-sm focus-visible:font-semibold focus-visible:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#BE185D]";
 
 function Reveal({ children, className }: { children: ReactNode; className?: string }) {
   const reduceMotion = useReducedMotion();
-  if (reduceMotion) return <div className={className}>{children}</div>;
+  // Mount-gated: the server render (and the very first client render, before
+  // this effect fires) always shows a plain, fully-visible <div>. Framer
+  // Motion applies `initial` styles during SSR too, so wiring the animated
+  // motion.div straight in would ship opacity:0 in the no-JS/SEO markup and
+  // in the split-second before hydration — exactly the leftover-opacity:0
+  // trap this page must avoid. Only once we know we're safely on the client
+  // does it swap to the animated version.
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+
+  if (!mounted || reduceMotion) return <div className={className}>{children}</div>;
   return (
     <motion.div
       className={className}
@@ -319,7 +329,7 @@ export default function FlowLanding() {
           <span className="text-sm font-semibold text-[#111113]" style={DISPLAY}>
             repick
           </span>
-          <p className="text-xs text-zinc-600">
+          <p className={CAPTION}>
             Search intent, AI matching, condition grading and seller verification — traced, not
             just trusted.
           </p>

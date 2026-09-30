@@ -17,7 +17,7 @@ import {
   TIERS,
   type Outcomes,
 } from "./data";
-import { ACCENT, ACCENT_RIBBON } from "./tokens";
+import { ACCENT, ACCENT_RIBBON, BODY_SM, CAPTION } from "./tokens";
 
 const useIsomorphicLayoutEffect =
   typeof window !== "undefined" ? useLayoutEffect : useEffect;
@@ -281,14 +281,14 @@ export default function FlowDiagram({
             </span>
           ))}
         </div>
-        <p id="min-grade-helper" className="mt-3 text-xs leading-relaxed text-zinc-600">
+        <p id="min-grade-helper" className={`mt-3 ${CAPTION}`}>
           {GRADE_STEPS[minGradeIndex].helper}. Drag right to raise the bar — every listing
           below it moves from &ldquo;Recommended&rdquo; to &ldquo;Held back&rdquo; below, live.
         </p>
       </div>
 
       {/* Live-announced summary, independent of the diagram's visuals */}
-      <p aria-live="polite" className="mt-4 text-sm text-zinc-700">
+      <p aria-live="polite" className={`mt-4 ${BODY_SM}`}>
         At <strong className="font-semibold text-[#111113]">{outcomes.minGrade} or better</strong>:{" "}
         <strong className="font-semibold text-[#111113]">{outcomes.recommended.count}</strong>{" "}
         recommended, averaging{" "}
@@ -335,9 +335,9 @@ export default function FlowDiagram({
       </div>
       <p className="mt-2 text-xs text-zinc-500 md:hidden">Scroll to see the full pipeline.</p>
 
-      <div className="mt-6 flex items-start gap-2 rounded-xl border border-zinc-200 bg-white p-4 text-xs leading-relaxed text-zinc-600">
+      <div className="mt-6 flex items-start gap-2 rounded-xl border border-zinc-200 bg-white p-4">
         <ShieldAlert className="mt-0.5 h-4 w-4 flex-none text-zinc-500" aria-hidden="true" strokeWidth={2} />
-        <span>
+        <span className={CAPTION}>
           <span className="font-semibold text-zinc-700">{FAILED_VERIFICATION_COUNT} listings</span> never
           reach a buyer at any grade setting — they failed authenticity or seller verification
           before condition grading even runs, and that count does not move with the slider above.

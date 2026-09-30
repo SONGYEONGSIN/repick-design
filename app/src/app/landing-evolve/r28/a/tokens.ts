@@ -44,3 +44,12 @@ export const FOCUS_RING =
 //   18px lead → 540px → 540 / (0.44 × 18) ≈ 68.2 chars/line
 export const BODY = "max-w-[520px] text-[17px] leading-[1.6] text-zinc-600";
 export const BODY_LG = "max-w-[540px] text-[18px] leading-[1.6] text-zinc-600";
+
+// Smaller explanatory/caption text that still runs to full sentences (not a
+// two-to-three-word label) needs its own width cap too, even at text-xs/
+// text-sm — the 0.44em rule applies at any font size, and a wide panel with
+// no cap would let a long sentence render as one very long line.
+//   14px (text-sm) → 430px → 430 / (0.44 × 14) ≈ 69.8 chars/line
+//   12px (text-xs) → 370px → 370 / (0.44 × 12) ≈ 70.1 chars/line
+export const BODY_SM = "max-w-[430px] text-sm leading-[1.6] text-zinc-700";
+export const CAPTION = "max-w-[370px] text-xs leading-relaxed text-zinc-600";
