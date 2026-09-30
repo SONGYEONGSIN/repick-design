@@ -109,5 +109,14 @@
   },
   "evolve-r26-c": {
     "check": "Linked Bank Accounts"
+  },
+  "evolve-r27-a": {
+    "check": "Completed Purchases Archive"
+  },
+  "evolve-r27-b": {
+    "check": "Blocked Users"
+  },
+  "evolve-r27-c": {
+    "check": "Blocked Accounts"
   }
 }
