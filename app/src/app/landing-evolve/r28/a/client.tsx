@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState, type ReactNode } from "react";
+import { useMemo, useState, useSyncExternalStore, type ReactNode } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { ArrowRight, ShieldCheck } from "lucide-react";
 import FlowDiagram from "./flow-diagram";
@@ -30,8 +30,15 @@ function Reveal({ children, className }: { children: ReactNode; className?: stri
   // in the split-second before hydration — exactly the leftover-opacity:0
   // trap this page must avoid. Only once we know we're safely on the client
   // does it swap to the animated version.
-  const [mounted, setMounted] = useState(false);
-  useEffect(() => setMounted(true), []);
+  // useSyncExternalStore's getSnapshot is allowed to differ from getServerSnapshot
+  // by design -- it's the sanctioned way to read "have we hydrated yet" without
+  // the cascading-render setState-in-effect that a useState+useEffect pair would
+  // trigger (react-hooks/set-state-in-effect).
+  const mounted = useSyncExternalStore(
+    () => () => {},
+    () => true,
+    () => false,
+  );
 
   if (!mounted || reduceMotion) return <div className={className}>{children}</div>;
   return (
