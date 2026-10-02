@@ -118,5 +118,14 @@
   },
   "evolve-r27-c": {
     "check": "Blocked Accounts"
+  },
+  "evolve-r28-a": {
+    "check": "Appeal Your Suspension"
+  },
+  "evolve-r28-b": {
+    "check": "Tax Export Tagging"
+  },
+  "evolve-r28-c": {
+    "check": "Shipping Protection Claim"
   }
 }
