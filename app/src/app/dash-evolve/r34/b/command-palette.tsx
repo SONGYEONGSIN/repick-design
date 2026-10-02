@@ -71,13 +71,19 @@ export function CommandPalette({
     );
   }, [items, query]);
 
-  useEffect(() => {
-    setActiveIndex(0);
-  }, [query, open]);
+  // Reset the search text and highlighted row the moment the palette opens. This runs during
+  // render (not in an effect) to avoid an extra setState-triggered render pass; it's React's
+  // standard pattern for resetting state in response to a prop change.
+  if (open !== prevOpen) {
+    setPrevOpen(open);
+    if (open) {
+      setQuery("");
+      setActiveIndex(0);
+    }
+  }
 
   useEffect(() => {
     if (open) {
-      setQuery("");
       requestAnimationFrame(() => inputRef.current?.focus());
     }
   }, [open]);
@@ -131,7 +137,10 @@ export function CommandPalette({
           <input
             ref={inputRef}
             value={query}
-            onChange={(e) => setQuery(e.target.value)}
+            onChange={(e) => {
+              setQuery(e.target.value);
+              setActiveIndex(0);
+            }}
             role="combobox"
             aria-haspopup="listbox"
             aria-expanded="true"

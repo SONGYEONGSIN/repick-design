@@ -107,7 +107,7 @@ export function FallbackTable({
                   title={s.name}
                   className="ml-auto flex w-full flex-col items-end gap-1 rounded text-right focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-lime-700"
                 >
-                  <span className="flex items-center gap-1.5">
+                  <span className="flex max-w-full min-w-0 items-center gap-1.5">
                     <span
                       aria-hidden="true"
                       className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full text-[9px] text-white"
