@@ -73,5 +73,59 @@
   },
   "sessions": {
     "check": "Active Sessions"
+  },
+  "evolve-r23-a": {
+    "check": "Protection Coverage"
+  },
+  "evolve-r23-b": {
+    "check": "Payment Methods"
+  },
+  "evolve-r23-c": {
+    "check": "Manage Photos"
+  },
+  "evolve-r24-a": {
+    "check": "Report a Listing"
+  },
+  "evolve-r24-b": {
+    "check": "Seller Sales Analytics"
+  },
+  "evolve-r24-c": {
+    "check": "Following Feed"
+  },
+  "evolve-r25-a": {
+    "check": "Trade-In Appraisal"
+  },
+  "evolve-r25-b": {
+    "check": "Delivery Receipt"
+  },
+  "evolve-r25-c": {
+    "check": "Saved Searches"
+  },
+  "evolve-r26-a": {
+    "check": "File a Warranty Claim"
+  },
+  "evolve-r26-b": {
+    "check": "Seller Rating Summary"
+  },
+  "evolve-r26-c": {
+    "check": "Linked Bank Accounts"
+  },
+  "evolve-r27-a": {
+    "check": "Completed Purchases Archive"
+  },
+  "evolve-r27-b": {
+    "check": "Blocked Users"
+  },
+  "evolve-r27-c": {
+    "check": "Blocked Accounts"
+  },
+  "evolve-r28-a": {
+    "check": "Appeal Your Suspension"
+  },
+  "evolve-r28-b": {
+    "check": "Tax Export Tagging"
+  },
+  "evolve-r28-c": {
+    "check": "Shipping Protection Claim"
   }
 }

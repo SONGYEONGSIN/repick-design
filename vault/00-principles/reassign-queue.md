@@ -14,9 +14,33 @@
 
 ## 대기 중
 
-> **나머지 탈락분은 넣지 않았다** — `dash r22/b`·`r22/c`·`r23/c`·`r25/b`·`landing r17/c` 는 사유가 규칙 위반이라 등재 자격은 있으나, 큐는 **한 라운드에 1개만** 배정하므로 5건을 더 넣으면 7라운드치 백로그가 된다. 형태가 카탈로그에 없는 입력축을 여는 위 둘을 먼저 돌리고, 소진된 뒤 다시 판단한다. (전부 `candidates/<v>.md` 에 컨셉이 남아 있어 언제든 등재할 수 있다.)
+(없음 — 아래 7번 항목이 2026-10-02 `auto-dash-r34/a`로 소진됐다.)
+
+> **나머지 탈락분은 넣지 않았다** — `dash r22/b`·`r22/c`·`r23/c`·`r25/b`·`landing r17/c`·`dash r28/c`(Trestle, 고정레일+간트 — 상시마운트 툴팁 div 가 화면 우측 바 근처에서 뷰포트를 넘는 page-overflow 로 1-fix 재실패)는 사유가 규칙 위반이라 등재 자격은 있으나, 큐는 **한 라운드에 1개만** 배정하므로 전부 넣으면 7라운드+치 백로그가 된다. `dash r28/b`(Ridgeline)는 2026-09-26 `auto-dash-r30/a`로 재배정 완료, 아래 5번 항목으로 소진됐다. 이전에 먼저 돌리기로 한 다른 항목들도 소진되어 아래 아카이브에 있다 — 다음 배정은 남은 백로그 중에서 판단한다. (전부 `candidates/<v>.md` 에 컨셉이 남아 있어 언제든 등재할 수 있다.)
 
 ## 아카이브
+
+### 7. `auto-dash-r33/c` — "Arcway" 5단계 컨버전 퍼널 콘솔 (target: dash)
+
+- **탈락 사유(원 등재)**: 하드게이트 `lint` `react-hooks/refs`(`ui.tsx:350`, `Popover`의 render-prop 호출 `{children({ close })}`)가 1-fix 후에도 동일하게 재실패. `close()`가 부모의 렌더 패스 도중 ref(`triggerRef.current`)로 이어지는 호출이라 `useCallback`으로는 근본 원인을 건드리지 못했다.
+- **재배정 결과 (2026-10-02, `auto-dash-r34/a`, "Portway")**: 배정문의 지시를 정확히 반영 — `menu.tsx`가 render-prop 패턴(`{children({close})}`) 자체를 쓰지 않고 `trigger`/`panel` ReactNode props로 바꿔 원 재배정 사유를 완전히 회피했다. 1차 하드게이트에서 **다른** 위반(`cohort-table.tsx`의 `react-hooks/static-components`, `command-palette.tsx`·`funnel-console.tsx`의 `react-hooks/set-state-in-effect`)으로 실패했으나 1-fix로 전부 해소, 재게이트 클린. 판정까지 도달해 **3위로 탈락** — 3렌즈 중 2렌즈(브리프준수·상용완성도)가 구체적 결함을 지목했다: 모바일(390px)에서 KPI 타일 값이 "18,...","22...." 식으로 잘려 판독 불가(고정폭 스파크라인이 좁은 그리드 셀에서 값을 밀어냄), KPI 값 글자크기(`text-xl`/20px)가 자신의 지배 시각화(퍼널 단계별 수치, `text-lg`/18px)보다 큰 역전. 렌즈3(차별성)은 규칙 위반이 아니라 "퍼널은 이미 카탈로그에 있는 차트 타입이고, 핀→전용 상세패널 구조가 세로로 쌓였을 뿐인 master-detail의 변형으로 읽힌다"는 형태 판정으로 3위를 줬다.
+- **처리**: 소진 — 원 재배정 사유(Popover render-prop)는 완전히 해소됐으나 순수 판정 패배(혼합: 구체 결함 2건 + 차별성 판정 1건)로 3위 탈락. `dash r28/b` 선례(아카이브 #5)와 같은 혼합 사례다. 세 번째 재배정 여부는 보류 — 이번 결함(모바일 KPI 잘림, KPI 글자크기 역전)은 둘 다 구체적이고 고치기 쉬워 보이지만, 차별성 판정(master-detail 변형으로 읽힘)은 형태 자체의 한계일 수 있어 판단을 유보한다.
+- 등재: 2026-10-01 · 출처 `vault/20-generations/2026-10-01-auto-dash-r33/SCORES.md`·`DECISION.md` · 소진: 2026-10-02 · 출처 `vault/20-generations/2026-10-02-auto-dash-r34/SCORES.md`·`DECISION.md`
+
+### 6. `auto-dash-r32/b` — "Census" 10×10 와플그리드 + 온디맨드 슬라이드오버 (target: dash)
+
+- **탈락 사유(원 등재)**: 하드게이트 `sweep` `table-overflow`(154px)가 1-fix 후에도 재실패 — `ticket-table.tsx`의 `min-w-[520px]`가 슬라이드오버 드로어의 실사용폭을 초과.
+- **재배정 결과 (2026-10-01, `auto-dash-r33/a`)**: 배정문의 지시를 정확히 반영 — 드로어 테이블에 `min-width`를 전혀 주지 않고 `table-fixed` + `<colgroup>` 퍼센트 폭으로 완전히 유동화해 재발 없음. **승격 후보로 승리했다** — 3렌즈 2:1 다수결(렌즈1 브리프준수+렌즈3 아키타입차별성 vs 렌즈2 상용완성도)에서 1위. 규칙 위반 지적 없어 §3-1 정제조치 불요. 상세: `vault/20-generations/2026-10-01-auto-dash-r33/DECISION.md`.
+- **처리**: 소진 — 승격 후보(판정 승리)로 전환, 재배정 큐의 목적(형태 구제)을 완수했다. 최종 카탈로그 등재 여부는 `/dash-falsify apply`의 킵 결정에 달려 있다.
+- 등재: 2026-09-29 · 출처 `vault/20-generations/2026-09-29-auto-dash-r32/SCORES.md`·`DECISION.md` · 소진: 2026-10-01 · 출처 `vault/20-generations/2026-10-01-auto-dash-r33/DECISION.md`
+
+### 5. `auto-dash-r28/b` — "Ridgeline" 히어로+ARR 워터폴 브리지 (target: dash)
+
+- **탈락 사유(원 등재)**: 포커스 가시성 하드게이트가 1-fix 로도 재실패. `outline-none` 이 뒤따르는 `focus-visible:outline` 을 `--tw-outline-style` 변수를 통해 스스로 취소하거나, `ring`+`ring-offset` 만으로는 이 Tailwind v4 세팅에서 완전 투명하게 칠해지는 죽은 관용구가 원인으로 추정됨.
+- **형태가 왜 살아 있었나**: 히어로 숫자+인라인 통계 셸(4카드 KPI 행이 아님) 위에, 손으로 만든 SVG ARR 브리지/워터폴(7단계, 서명된 델타가 하나의 함수로 계산돼 러닝토탈이 절대 손으로 타이핑되지 않음, 막대마다 델타+러닝토탈이 항상 텍스트로 병기)이 이 카탈로그에 없던 신규 시각화였고, 핀(persistent)과 호버(ephemeral) 분리 + 핀의 두 소비자(계정 테이블 필터 시드 / 카테고리 스포트라이트의 독립 무버 커서)가 판정 이력상 검증된 좋은 패턴이었음.
+- **재배정 결과 (2026-09-26, `auto-dash-r30/a`)**: 배정문의 지시(`focus-visible:outline-2 outline-offset-2` 안전 패턴, `outline-none`/`ring`+`ring-offset` 전면 금지)를 정확히 반영 — grep 검증으로 className 문자열에 `outline-none`·`ring`·`ring-offset` 0건 확인, 재배정 사유였던 포커스 결함 재발 없이 하드게이트 전 항목(1-fix 없이) 통과. **승격하지 못했다** — 3렌즈 중 2렌즈(브리프준수·상용완성도)에서 3위, 1렌즈(차별성)에서 2위로 종합 최하위. 이번엔 순수 판정 패배가 아니다: 렌즈1(브리프준수)이 **새로운 규칙 위반**을 지목했다 — 워터폴 차트 래퍼(`overflow-x-auto`)와 계정 테이블 래퍼(`overflow-x-auto`)가 같은 페이지에 동시에 존재하는, `auto-dash-r20/a` 가 문서화한 "넓은 overflow-x-auto 컨테이너 2개 금지" 위반. 이번 라운드의 sweep 게이트(전 폭 0 오버플로)는 이를 잡지 못했다 — r20 델타 자체가 "근본원인 미특정, 모든 조합이 재현하지는 않는다"고 적어 둔 그대로 이번 조합은 측정된 오버플로로 이어지지 않았을 뿐, 정적 규칙 위반은 실재한다. 렌즈2(상용완성도)는 별개로 "Category Spotlight" 패널이 핀 전까지 완전히 빈 플레이스홀더인 점을 페이지에서 가장 심각한 미완성 신호로 지적했고, 렌즈3(차별성)은 매크로 골격이 기존 "히어로+인라인통계 ARR"·"master-detail+테이블" 두 아키타입에 동시에 가깝다고 지적했다.
+- **처리**: 소진 — 단, 순수 형태판정 패배가 아니라 **규칙위반(다중 overflow-x-auto)이 판정 손실에 실제로 기여한 혼합 사례**다. 세 번째 재배정 여부는 향후 판단에 맡기되, 다음에 시도한다면 배정문에 "겹치는 overflow-x-auto 컨테이너를 1개로 통합하거나 표 스크롤러를 table-fixed+colgroup% 무스크롤 패턴으로 교체할 것"과 "Category Spotlight 패널에 기본 선택값(예: 최대 무버)을 채워 빈 상태로 시작하지 말 것"을 함께 명시해야 한다 — 이번 라운드가 그 두 사유를 정확히 기록해 뒀다.
+- 등재: 2026-09-21(소급) · 출처 `vault/20-generations/2026-09-21-auto-dash-r28/DECISION.md` · 소진: 2026-09-26 · 출처 `vault/20-generations/2026-09-26-auto-dash-r30/DECISION.md`
 
 ### 4. `auto-landing-r18/a` — "Grading Timeline" 파이프라인 스크럽 (target: landing)
 
