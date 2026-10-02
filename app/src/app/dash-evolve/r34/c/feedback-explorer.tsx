@@ -85,7 +85,7 @@ export function FeedbackExplorer() {
 
       <div className="mt-4 grid grid-cols-12 gap-4 sm:gap-6">
         <div className="col-span-12 min-w-0 lg:col-span-6">
-          <Card id={SECTION_IDS.wordCloud}>
+          <Card id={SECTION_IDS.wordCloud} className="overflow-hidden">
             <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
               <CardTitle id="word-cloud-heading">Word Cloud</CardTitle>
               <span className="hidden text-xs font-normal text-zinc-400 sm:inline">
