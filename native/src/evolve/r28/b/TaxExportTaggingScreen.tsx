@@ -35,7 +35,6 @@ import {
 import { tokens } from "../../../tokens";
 import {
   Transaction,
-  Direction,
   initialTransactions,
   formatMoney,
   signedAmountCents,
@@ -255,6 +254,7 @@ export default function TaxExportTaggingScreen() {
                 style={({ pressed }) => [
                   styles.barButton,
                   styles.barButtonPrimary,
+                  styles.confirmPrimaryButton,
                   pressed && styles.barButtonPrimaryPressed,
                 ]}
               >
@@ -540,6 +540,9 @@ const styles = StyleSheet.create({
   confirmRow: {
     flexDirection: "row",
     gap: tokens.space(3),
+  },
+  confirmPrimaryButton: {
+    flex: 1,
   },
 });
 
