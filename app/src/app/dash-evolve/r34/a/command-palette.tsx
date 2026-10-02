@@ -76,25 +76,25 @@ export function CommandPalette({
   }, [actions, query]);
 
   useEffect(() => {
-    setActiveIndex(0);
-  }, [query, open]);
-
-  useEffect(() => {
-    if (open) {
-      const id = requestAnimationFrame(() => inputRef.current?.focus());
-      return () => cancelAnimationFrame(id);
-    }
-    setQuery("");
+    if (!open) return;
+    const id = requestAnimationFrame(() => inputRef.current?.focus());
+    return () => cancelAnimationFrame(id);
   }, [open]);
+
+  function closePalette() {
+    setQuery("");
+    setActiveIndex(0);
+    onClose();
+  }
 
   function runAction(a: Action) {
     a.run();
-    onClose();
+    closePalette();
   }
 
   function handleKeyDown(e: KeyboardEvent<HTMLDivElement>) {
     if (e.key === "Escape") {
-      onClose();
+      closePalette();
     } else if (e.key === "ArrowDown") {
       e.preventDefault();
       setActiveIndex((i) => Math.min(i + 1, Math.max(filtered.length - 1, 0)));
@@ -117,7 +117,7 @@ export function CommandPalette({
       <button
         type="button"
         aria-label="Close command palette"
-        onClick={onClose}
+        onClick={closePalette}
         className={`absolute inset-0 bg-black/60 ${FOCUS_RING}`}
       />
       <div
@@ -132,7 +132,10 @@ export function CommandPalette({
           <input
             ref={inputRef}
             value={query}
-            onChange={(e) => setQuery(e.target.value)}
+            onChange={(e) => {
+              setQuery(e.target.value);
+              setActiveIndex(0);
+            }}
             placeholder="Pin a stage, change period, jump to a section…"
             aria-label="Command palette search"
             role="combobox"

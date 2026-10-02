@@ -10,7 +10,7 @@ import {
   UserPlus,
   Users,
 } from "lucide-react";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { CohortTable } from "./cohort-table";
 import {
   PERIOD_OPTIONS,
@@ -44,11 +44,21 @@ export function FunnelConsole({
   onPinStage: (id: StageId) => void;
 }) {
   const [hoveredId, setHoveredId] = useState<StageId | null>(null);
-  const [cohortView, setCohortView] = useState<"week" | "channel">("channel");
+  const [cohortView, setCohortView] = useState<"week" | "channel">(
+    pinnedId === "visitors" ? "channel" : "week",
+  );
 
-  useEffect(() => {
+  // `pinnedId` is owned by the parent and can change from more than one place
+  // (this console's own pin button, or the command palette's "Pin funnel
+  // stage" action, which sets it directly). Resetting `cohortView` here
+  // during render — rather than in a reactive effect — keeps it in sync with
+  // `pinnedId` regardless of which caller changed it, while still letting
+  // the Tabs control below override it locally afterward.
+  const [prevPinnedId, setPrevPinnedId] = useState(pinnedId);
+  if (pinnedId !== prevPinnedId) {
+    setPrevPinnedId(pinnedId);
     setCohortView(pinnedId === "visitors" ? "channel" : "week");
-  }, [pinnedId]);
+  }
 
   const funnel = useMemo(() => getFunnelView(period), [period]);
   const kpis = useMemo(() => getKpis(period), [period]);

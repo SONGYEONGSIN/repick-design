@@ -10,6 +10,48 @@ import { Avatar, Badge, FOCUS_RING } from "./ui";
 type SortKey = "label" | "lead" | "entered" | "advanced" | "convRate";
 type SortDir = "asc" | "desc";
 
+function SortIcon({
+  keyName,
+  sortKey,
+  sortDir,
+}: {
+  keyName: SortKey;
+  sortKey: SortKey;
+  sortDir: SortDir;
+}) {
+  if (keyName !== sortKey) return <ArrowUpDown size={12} className="text-zinc-400" aria-hidden="true" />;
+  return sortDir === "asc" ? (
+    <ArrowUp size={12} className="text-violet-300" aria-hidden="true" />
+  ) : (
+    <ArrowDown size={12} className="text-violet-300" aria-hidden="true" />
+  );
+}
+
+function HeaderButton({
+  keyName,
+  children,
+  sortKey,
+  sortDir,
+  onSort,
+}: {
+  keyName: SortKey;
+  children: ReactNode;
+  sortKey: SortKey;
+  sortDir: SortDir;
+  onSort: (key: SortKey) => void;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={() => onSort(keyName)}
+      className={`${FOCUS_RING} flex w-full items-center gap-1 text-left`}
+    >
+      <span className="truncate">{children}</span>
+      <SortIcon keyName={keyName} sortKey={sortKey} sortDir={sortDir} />
+    </button>
+  );
+}
+
 export function CohortTable({
   rows,
   rowLabelHeader,
@@ -76,28 +118,6 @@ export function CohortTable({
     return sortDir === "asc" ? "ascending" : "descending";
   }
 
-  function SortIcon({ keyName }: { keyName: SortKey }) {
-    if (keyName !== sortKey) return <ArrowUpDown size={12} className="text-zinc-400" aria-hidden="true" />;
-    return sortDir === "asc" ? (
-      <ArrowUp size={12} className="text-violet-300" aria-hidden="true" />
-    ) : (
-      <ArrowDown size={12} className="text-violet-300" aria-hidden="true" />
-    );
-  }
-
-  function HeaderButton({ keyName, children }: { keyName: SortKey; children: ReactNode }) {
-    return (
-      <button
-        type="button"
-        onClick={() => toggleSort(keyName)}
-        className={`${FOCUS_RING} flex w-full items-center gap-1 text-left`}
-      >
-        <span className="truncate">{children}</span>
-        <SortIcon keyName={keyName} />
-      </button>
-    );
-  }
-
   return (
     <div>
       <div className="mb-3 flex items-center gap-2">
@@ -130,19 +150,29 @@ export function CohortTable({
           <thead>
             <tr className="border-b border-white/10 bg-white/[0.03] text-[11px] font-medium uppercase tracking-wide text-zinc-400">
               <th scope="col" className="px-3 py-2.5 text-left" aria-sort={ariaSortFor("label")}>
-                <HeaderButton keyName="label">{rowLabelHeader}</HeaderButton>
+                <HeaderButton keyName="label" sortKey={sortKey} sortDir={sortDir} onSort={toggleSort}>
+                  {rowLabelHeader}
+                </HeaderButton>
               </th>
               <th scope="col" className="px-3 py-2.5 text-left" aria-sort={ariaSortFor("lead")}>
-                <HeaderButton keyName="lead">Lead Account</HeaderButton>
+                <HeaderButton keyName="lead" sortKey={sortKey} sortDir={sortDir} onSort={toggleSort}>
+                  Lead Account
+                </HeaderButton>
               </th>
               <th scope="col" className="px-3 py-2.5 text-right" aria-sort={ariaSortFor("entered")}>
-                <HeaderButton keyName="entered">Entered</HeaderButton>
+                <HeaderButton keyName="entered" sortKey={sortKey} sortDir={sortDir} onSort={toggleSort}>
+                  Entered
+                </HeaderButton>
               </th>
               <th scope="col" className="px-3 py-2.5 text-right" aria-sort={ariaSortFor("advanced")}>
-                <HeaderButton keyName="advanced">{advancedHeader}</HeaderButton>
+                <HeaderButton keyName="advanced" sortKey={sortKey} sortDir={sortDir} onSort={toggleSort}>
+                  {advancedHeader}
+                </HeaderButton>
               </th>
               <th scope="col" className="px-3 py-2.5 text-right" aria-sort={ariaSortFor("convRate")}>
-                <HeaderButton keyName="convRate">Conv. Rate</HeaderButton>
+                <HeaderButton keyName="convRate" sortKey={sortKey} sortDir={sortDir} onSort={toggleSort}>
+                  Conv. Rate
+                </HeaderButton>
               </th>
               <th scope="col" className="px-3 py-2.5 text-left">
                 {signalHeader}

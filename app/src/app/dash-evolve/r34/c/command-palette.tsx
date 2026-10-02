@@ -41,7 +41,19 @@ export function CommandPalette({
 }) {
   const [query, setQuery] = useState("");
   const [activeIndex, setActiveIndex] = useState(0);
+  const [prevIsOpen, setPrevIsOpen] = useState(isOpen);
   const inputRef = useRef<HTMLInputElement>(null);
+
+  // Reset the search state synchronously during render when the palette
+  // transitions from closed to open, rather than reactively in an effect
+  // (which would cost an extra render pass after the state change).
+  if (isOpen !== prevIsOpen) {
+    setPrevIsOpen(isOpen);
+    if (isOpen) {
+      setQuery("");
+      setActiveIndex(0);
+    }
+  }
 
   const results = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -52,13 +64,7 @@ export function CommandPalette({
   }, [query]);
 
   useEffect(() => {
-    setActiveIndex(0);
-  }, [query]);
-
-  useEffect(() => {
     if (isOpen) {
-      setQuery("");
-      setActiveIndex(0);
       // Autofocus on open; harmless no-op if the element isn't mounted yet.
       const id = window.setTimeout(() => inputRef.current?.focus(), 0);
       return () => window.clearTimeout(id);
@@ -112,7 +118,10 @@ export function CommandPalette({
             ref={inputRef}
             type="text"
             value={query}
-            onChange={(e) => setQuery(e.target.value)}
+            onChange={(e) => {
+              setQuery(e.target.value);
+              setActiveIndex(0);
+            }}
             placeholder="Jump to a section..."
             aria-label="Command palette search"
             className="h-full flex-1 rounded bg-transparent text-sm font-normal text-zinc-50 placeholder:text-zinc-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-400"
