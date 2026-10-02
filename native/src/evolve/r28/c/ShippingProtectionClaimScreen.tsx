@@ -321,7 +321,7 @@ const styles = StyleSheet.create({
   },
   metaCol: {
     flex: 1,
-    gap: 2,
+    gap: tokens.space(1),
   },
   metaLabel: {
     fontSize: 11,
@@ -338,7 +338,7 @@ const styles = StyleSheet.create({
 
   itemPanel: {
     marginTop: tokens.space(4),
-    gap: 3,
+    gap: tokens.space(1),
   },
   itemTitle: {
     fontSize: 17,
@@ -369,7 +369,7 @@ const styles = StyleSheet.create({
     borderColor: tokens.color.accent,
     borderRadius: tokens.radius.md,
     padding: tokens.space(4),
-    gap: 4,
+    gap: tokens.space(1),
   },
   heroLabel: {
     fontSize: 12,
@@ -415,7 +415,7 @@ const styles = StyleSheet.create({
     paddingVertical: tokens.space(3),
     borderBottomWidth: 1,
     borderBottomColor: tokens.color.border,
-    gap: 3,
+    gap: tokens.space(1),
   },
   ledgerRowLast: {
     borderBottomWidth: 0,
@@ -503,7 +503,7 @@ const styles = StyleSheet.create({
     borderColor: tokens.color.border,
     borderRadius: tokens.radius.md,
     padding: tokens.space(4),
-    gap: 4,
+    gap: tokens.space(1),
   },
   payoutHeading: {
     fontSize: 13,
