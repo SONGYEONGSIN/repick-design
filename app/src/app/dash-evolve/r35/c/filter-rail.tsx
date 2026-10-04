@@ -17,7 +17,8 @@ const PERIOD_OPTIONS = PERIODS.map((p) => ({ id: p.id, label: p.label }));
  * chart's own hover/pin state (see scatter-chart.tsx).
  */
 export default function FilterRail({
-  campaigns,
+  countsSource,
+  visibleCount,
   channelFilter,
   onToggleChannel,
   objective,
@@ -27,7 +28,12 @@ export default function FilterRail({
   onReset,
   isDefault,
 }: {
-  campaigns: Campaign[];
+  /** Campaigns narrowed by the OBJECTIVE filter only (never by channel) — this is what
+   * each chip's count reflects, so toggling a channel off never makes its own count
+   * read "0" (which would look broken rather than "currently hidden"). */
+  countsSource: Campaign[];
+  /** The fully filtered (channel + objective) count — what's actually on the chart. */
+  visibleCount: number;
   channelFilter: Set<ChannelId>;
   onToggleChannel: (id: ChannelId) => void;
   objective: ObjectiveFilter;
@@ -38,7 +44,7 @@ export default function FilterRail({
   isDefault: boolean;
 }) {
   const channelCounts = new Map<ChannelId, number>();
-  for (const c of campaigns) channelCounts.set(c.channel, (channelCounts.get(c.channel) ?? 0) + 1);
+  for (const c of countsSource) channelCounts.set(c.channel, (channelCounts.get(c.channel) ?? 0) + 1);
 
   return (
     <div className="rounded-2xl border border-white/10 bg-zinc-900 p-4 shadow-sm shadow-black/20 sm:p-5">
@@ -56,7 +62,7 @@ export default function FilterRail({
             "inline-flex h-9 shrink-0 items-center gap-1.5 rounded-lg border px-3 text-xs font-medium",
             TRANSITION,
             FOCUS,
-            isDefault ? cx(BORDER, SURFACE_INSET, "cursor-not-allowed text-zinc-600") : cx(BORDER, SURFACE_INSET, TEXT_MUTED, "hover:bg-white/5 hover:text-zinc-50"),
+            isDefault ? cx(BORDER, SURFACE_INSET, TEXT_MUTED, "cursor-not-allowed") : cx(BORDER, SURFACE_INSET, TEXT_MUTED, "hover:bg-white/5 hover:text-zinc-50"),
           )}
         >
           <RotateCcw size={13} aria-hidden="true" />
@@ -84,12 +90,12 @@ export default function FilterRail({
                     "inline-flex h-9 items-center gap-1.5 rounded-lg border px-2.5 text-xs",
                     TRANSITION,
                     FOCUS,
-                    selected ? "font-semibold text-zinc-50" : cx("font-medium", BORDER, SURFACE_INSET, "text-zinc-500 hover:text-zinc-300"),
+                    selected ? "font-semibold text-zinc-50" : cx("font-medium", BORDER, SURFACE_INSET, TEXT_MUTED, "hover:text-zinc-200"),
                   )}
                 >
                   <ChannelGlyph channel={ch.id} shape={CHANNEL_SHAPE[ch.id]} size={13} dim={!selected} />
                   {ch.label}
-                  <span className={cx("tabular-nums", selected ? "text-zinc-300" : "text-zinc-600")}>{count}</span>
+                  <span className={cx("tabular-nums", selected ? "text-zinc-300" : "text-zinc-400")}>{count}</span>
                 </button>
               );
             })}
@@ -115,7 +121,7 @@ export default function FilterRail({
             <Eyebrow>Cohort</Eyebrow>
           </div>
           <p className={cx("text-sm font-medium", TEXT_PRIMARY)}>
-            <span className="tabular-nums">{campaigns.length}</span> <span className={cx("font-normal", TEXT_AUX)}>{`of ${TOTAL_CAMPAIGNS} campaigns shown`}</span>
+            <span className="tabular-nums">{visibleCount}</span> <span className={cx("font-normal", TEXT_AUX)}>{`of ${TOTAL_CAMPAIGNS} campaigns shown`}</span>
           </p>
         </div>
       </div>

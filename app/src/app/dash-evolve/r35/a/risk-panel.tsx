@@ -57,15 +57,14 @@ export function RiskPanel({ pinnedInstrumentId }: { pinnedInstrumentId: string |
             <SeverityRow key={s} severity={s} />
           ))}
         </div>
-        <dl className="grid grid-cols-2 gap-3 border-t border-white/10 px-5 py-4">
-          <div>
-            <dt className={cx("text-[11px] uppercase tracking-wider", TEXT_AUX)}>Thresholds breached</dt>
-            <dd className={cx("mt-1 text-lg font-semibold", NUM, TEXT_PRIMARY)}>{THRESHOLD_BREACH_COUNT}</dd>
-          </div>
-          <div>
-            <dt className={cx("text-[11px] uppercase tracking-wider", TEXT_AUX)}>Avg. time to stabilize</dt>
-            <dd className={cx("mt-1 text-lg font-semibold", NUM, TEXT_PRIMARY)}>{formatMinutes(AVG_RESOLUTION_MINUTES)}</dd>
-          </div>
+        {/* Flat dt/dd pairs, no wrapping <div> — axe's definition-list rule (a promoted hard-fail
+            audit in this catalog) is safest treated as requiring dl's direct children to be only
+            dt/dd. */}
+        <dl className="grid grid-cols-[1fr_auto] items-baseline gap-x-4 gap-y-2 border-t border-white/10 px-5 py-4">
+          <dt className={cx("text-[11px] uppercase tracking-wider", TEXT_AUX)}>Thresholds breached</dt>
+          <dd className={cx("text-right text-lg font-semibold", NUM, TEXT_PRIMARY)}>{THRESHOLD_BREACH_COUNT}</dd>
+          <dt className={cx("text-[11px] uppercase tracking-wider", TEXT_AUX)}>Avg. time to stabilize</dt>
+          <dd className={cx("text-right text-lg font-semibold", NUM, TEXT_PRIMARY)}>{formatMinutes(AVG_RESOLUTION_MINUTES)}</dd>
         </dl>
       </Card>
 

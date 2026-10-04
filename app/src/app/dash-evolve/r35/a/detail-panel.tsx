@@ -84,15 +84,12 @@ export function DetailPanel({
               <ChangeBadge value={changePct} />
             </div>
           </div>
-          <dl className="flex gap-6 text-right">
-            <div>
-              <dt className={cx("text-[11px] uppercase tracking-wider", TEXT_AUX)}>Period high</dt>
-              <dd className={cx("mt-0.5 text-[13px] font-medium", NUM, TEXT_PRIMARY)}>{formatPrice(periodHigh)}</dd>
-            </div>
-            <div>
-              <dt className={cx("text-[11px] uppercase tracking-wider", TEXT_AUX)}>Period low</dt>
-              <dd className={cx("mt-0.5 text-[13px] font-medium", NUM, TEXT_PRIMARY)}>{formatPrice(periodLow)}</dd>
-            </div>
+          {/* Flat dt/dd pairs, no wrapping <div> — see the same note in risk-panel.tsx. */}
+          <dl className="grid grid-cols-[auto_auto] gap-x-2 gap-y-0.5 text-right">
+            <dt className={cx("text-[11px] uppercase tracking-wider", TEXT_AUX)}>Period high</dt>
+            <dd className={cx("text-[13px] font-medium", NUM, TEXT_PRIMARY)}>{formatPrice(periodHigh)}</dd>
+            <dt className={cx("col-start-1 text-[11px] uppercase tracking-wider", TEXT_AUX)}>Period low</dt>
+            <dd className={cx("text-[13px] font-medium", NUM, TEXT_PRIMARY)}>{formatPrice(periodLow)}</dd>
           </dl>
         </div>
 

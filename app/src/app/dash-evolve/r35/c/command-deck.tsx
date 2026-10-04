@@ -60,10 +60,8 @@ export default function CommandDeckClient() {
 
   const withMetrics = useMemo(() => CAMPAIGNS.map((c) => ({ ...c, m: computeMetrics(c, period) })), [period]);
   const domains = useMemo(() => computeDomains(withMetrics), [withMetrics]);
-  const filtered = useMemo(
-    () => withMetrics.filter((c) => channelFilter.has(c.channel) && (objective === "all" || c.objective === objective)),
-    [withMetrics, channelFilter, objective],
-  );
+  const objectiveFiltered = useMemo(() => withMetrics.filter((c) => objective === "all" || c.objective === objective), [withMetrics, objective]);
+  const filtered = useMemo(() => objectiveFiltered.filter((c) => channelFilter.has(c.channel)), [objectiveFiltered, channelFilter]);
   const corr = useMemo(() => pearsonR(filtered.map((c) => ({ x: c.m.spend, y: c.m.conversionRate }))), [filtered]);
 
   const isDefaultFilters = channelFilter.size === ALL_CHANNELS.size && objective === "all" && period === "30";
@@ -127,7 +125,8 @@ export default function CommandDeckClient() {
 
           <div className="mt-4">
             <FilterRail
-              campaigns={filtered}
+              countsSource={objectiveFiltered}
+              visibleCount={filtered.length}
               channelFilter={channelFilter}
               onToggleChannel={toggleChannel}
               objective={objective}
