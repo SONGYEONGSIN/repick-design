@@ -68,7 +68,7 @@ export default function AggregatePanel({ items, totalCampaigns, windowDays }: { 
         )}
         <p className={cx("mt-2 flex items-start gap-1 text-[10px] font-normal leading-relaxed", TEXT_AUX)}>
           <Info size={11} aria-hidden="true" className="mt-0.5 shrink-0" />
-          Pearson's r, recalculated from the exact spend and rate of every currently visible point — never a fixed figure.
+          Pearson&apos;s r, recalculated from the exact spend and rate of every currently visible point — never a fixed figure.
         </p>
       </div>
     </div>

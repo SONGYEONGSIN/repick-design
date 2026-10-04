@@ -179,6 +179,11 @@ export function formatUsdPrecise(n: number): string {
   return new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 2 }).format(n);
 }
 export function formatCompactUsd(n: number): string {
+  // Zero is special-cased: Node's bundled ICU (server render) formats compact-notation zero as
+  // "$0" while Chromium's ICU (client hydration) formats it as "$0.0" — same input, same Intl
+  // options, different runtimes disagree on this one edge value, which reads to React as a
+  // hydration mismatch even though nothing here is non-deterministic.
+  if (n === 0) return "$0";
   return new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", notation: "compact", maximumFractionDigits: 1 }).format(n);
 }
 export function formatInt(n: number): string {

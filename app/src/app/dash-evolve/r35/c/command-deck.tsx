@@ -30,10 +30,12 @@ const ALL_CHANNELS = new Set<ChannelId>(CHANNELS.map((c) => c.id));
  * `objective` and `period` all converge into one `filtered` array consumed by the
  * chart, the panel and the table alike.
  *
- * `pinnedIds` is a second, independent axis: it is lifted up here only so the
- * command palette can also set it (a "jump to and highlight" shortcut), but
- * AggregatePanel and DataTable never receive it and never re-render because of it.
- * Clicking a bubble toggles it; filtering the chart does not touch it either way.
+ * `pinnedIds` is a second, independent axis: it is lifted up here so the command
+ * palette and the data table's Pin column can also set it (the table's Pin button
+ * is the fully keyboard-accessible route to the same action the chart's pointer-
+ * only bubbles offer to a mouse — see scatter-chart.tsx and data-table.tsx).
+ * AggregatePanel never receives it and never re-renders because of it. Filtering
+ * the chart does not touch pin state either way.
  */
 export default function CommandDeckClient() {
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
@@ -186,7 +188,7 @@ export default function CommandDeckClient() {
             <Card>
               <CardHead title="Every campaign, exact" hint="The persistent fallback — sort it, but nothing here is ever hidden behind a hover or a pin." Icon={Table2} />
               <div className="mt-3">
-                <DataTable items={filtered} />
+                <DataTable items={filtered} pinnedIds={pinnedIds} onTogglePin={togglePin} />
               </div>
             </Card>
           </div>

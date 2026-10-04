@@ -39,7 +39,7 @@ export default function StatStrip({ region, tick }: { region: RegionId; tick: nu
             {formatDeltaPct(deltaPct)}
           </span>
         </div>
-        <p className={cx("mt-1 text-xs font-normal", TEXT_AUX)}>vs. 30s ago — this number always reflects the live point, independent of the chart's scrub control below</p>
+        <p className={cx("mt-1 text-xs font-normal", TEXT_AUX)}>vs. 30s ago — this number always reflects the live point, independent of the chart&apos;s scrub control below</p>
       </div>
 
       <div className="col-span-2 grid grid-cols-3 gap-3 sm:contents">

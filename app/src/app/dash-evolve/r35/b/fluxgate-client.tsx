@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useSyncExternalStore } from "react";
 import CommandPalette from "./command-palette";
 import EventLog from "./event-log";
 import Sidebar from "./sidebar";
@@ -10,6 +10,16 @@ import Topbar from "./topbar";
 import { DEFAULT_REGION, DEFAULT_WINDOW, SERIES_LENGTH, type RegionId } from "./data";
 import { APP_BG, TEXT_AUX, TEXT_PRIMARY, cx } from "./tokens";
 import { Card, Eyebrow } from "./ui";
+
+function subscribeReducedMotion(onStoreChange: () => void) {
+  const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+  mq.addEventListener("change", onStoreChange);
+  return () => mq.removeEventListener("change", onStoreChange);
+}
+
+function getReducedMotionSnapshot() {
+  return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+}
 
 export default function FluxgateClient() {
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
@@ -26,17 +36,14 @@ export default function FluxgateClient() {
   // fully "settled" frame before the first interval tick ever fires.
   const [tick, setTick] = useState(SERIES_LENGTH - 1);
   const [cursorIndex, setCursorIndex] = useState(windowSeconds - 1);
-  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
-
-  useEffect(() => {
-    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
-    setPrefersReducedMotion(mq.matches);
-    function onChange(e: MediaQueryListEvent) {
-      setPrefersReducedMotion(e.matches);
-    }
-    mq.addEventListener("change", onChange);
-    return () => mq.removeEventListener("change", onChange);
-  }, []);
+  // `useSyncExternalStore` reads the media query without ever calling `setState` from inside an
+  // effect body — the subscribe/getSnapshot pair is the store, React owns re-rendering on change.
+  // getServerSnapshot returns false so SSR output never claims a motion preference it can't know.
+  const prefersReducedMotion = useSyncExternalStore(
+    subscribeReducedMotion,
+    getReducedMotionSnapshot,
+    () => false,
+  );
 
   // The one piece of continuous motion on this page. Pausing (or a reduced-motion
   // preference) really stops it — the interval is never created, not just hidden.

@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowDown, ArrowUp, ArrowUpDown } from "lucide-react";
+import { ArrowDown, ArrowUp, ArrowUpDown, Pin, PinOff } from "lucide-react";
 import { useMemo, useState } from "react";
 import { channelLabel, formatInt, formatPercent, formatUsd, formatUsdPrecise, objectiveLabel, type CampaignWithMetrics } from "./data";
 import { CHANNEL_SHAPE, FOCUS, HOVER_ROW, NUM, TEXT_AUX, TEXT_MUTED, TEXT_PRIMARY, TRANSITION, cx } from "./tokens";
@@ -51,10 +51,22 @@ function SortableHead({
  * campaign's exact spend, clicks, conversions, rate and CPA is printed here in full
  * regardless of hover/pin state on the chart — sorting only reorders these rows, it
  * never hides a number behind an interaction. This is also the fully
- * keyboard-navigable path to every plotted value, independent of the chart's own
- * (smaller) set of focusable bubbles.
+ * keyboard-navigable path to every plotted value — and, via the Pin column, the
+ * only *focusable* path to the chart's pin/unpin action. The chart's own bubbles
+ * are deliberately pointer-only (see scatter-chart.tsx): at 35 data-positioned
+ * points, some sit closer together than a 24px focusable target could cleanly
+ * claim without misrepresenting their spend/rate, so this table's normally-
+ * spaced rows carry the keyboard-accessible version of the same action instead.
  */
-export default function DataTable({ items }: { items: CampaignWithMetrics[] }) {
+export default function DataTable({
+  items,
+  pinnedIds,
+  onTogglePin,
+}: {
+  items: CampaignWithMetrics[];
+  pinnedIds: Set<string>;
+  onTogglePin: (id: string) => void;
+}) {
   const [sortKey, setSortKey] = useState<SortKey>("spend");
   const [sortDir, setSortDir] = useState<SortDir>("desc");
 
@@ -88,20 +100,24 @@ export default function DataTable({ items }: { items: CampaignWithMetrics[] }) {
       <div className="relative overflow-x-auto">
         <table className="w-full min-w-[760px] lg:min-w-0 table-fixed border-collapse text-sm">
           <caption className="sr-only">
-            {`Campaign performance, every currently filtered campaign: ${rows.length} rows. Columns are campaign, channel, objective, spend, clicks, conversions, conversion rate and cost per acquisition. Select a column header to sort by it.`}
+            {`Campaign performance, every currently filtered campaign: ${rows.length} rows. Columns are pin, campaign, channel, objective, spend, clicks, conversions, conversion rate and cost per acquisition. Select a column header to sort by it.`}
           </caption>
           <colgroup>
-            <col style={{ width: "23%" }} />
-            <col style={{ width: "14%" }} />
-            <col style={{ width: "11%" }} />
-            <col style={{ width: "12%" }} />
+            <col style={{ width: "6%" }} />
+            <col style={{ width: "21%" }} />
+            <col style={{ width: "13%" }} />
             <col style={{ width: "10%" }} />
             <col style={{ width: "12%" }} />
+            <col style={{ width: "9%" }} />
+            <col style={{ width: "11%" }} />
             <col style={{ width: "9%" }} />
             <col style={{ width: "9%" }} />
           </colgroup>
           <thead>
             <tr className="border-b border-white/10">
+              <th scope="col" className="px-2 py-2">
+                <span className="sr-only">Pin</span>
+              </th>
               <SortableHead label="Campaign" sortableKey="name" sortKey={sortKey} sortDir={sortDir} onSort={toggleSort} className="text-left" />
               <th scope="col" className={cx("px-2 py-2 text-left text-[11px] font-semibold uppercase tracking-[0.04em]", TEXT_MUTED)}>
                 Channel
@@ -117,8 +133,21 @@ export default function DataTable({ items }: { items: CampaignWithMetrics[] }) {
             </tr>
           </thead>
           <tbody className="divide-y divide-white/5">
-            {rows.map((c) => (
+            {rows.map((c) => {
+              const pinned = pinnedIds.has(c.id);
+              return (
               <tr key={c.id} className={cx(HOVER_ROW, TRANSITION)}>
+                <td className="px-2 py-2.5 align-middle">
+                  <button
+                    type="button"
+                    aria-pressed={pinned}
+                    onClick={() => onTogglePin(c.id)}
+                    aria-label={`${pinned ? "Unpin" : "Pin"} ${c.name} on the scatter chart`}
+                    className={cx("flex h-6 w-6 items-center justify-center rounded-full", TRANSITION, FOCUS, pinned ? "text-orange-400" : "text-zinc-500 hover:text-zinc-300")}
+                  >
+                    {pinned ? <PinOff size={14} aria-hidden="true" /> : <Pin size={14} aria-hidden="true" />}
+                  </button>
+                </td>
                 <td className="px-2 py-2.5 align-middle">
                   <span className={cx("block truncate text-[13px] font-medium", TEXT_PRIMARY)}>{c.name}</span>
                 </td>
@@ -139,10 +168,11 @@ export default function DataTable({ items }: { items: CampaignWithMetrics[] }) {
                 <td className={cx("px-2 py-2.5 text-right align-middle text-[13px] font-semibold whitespace-nowrap", NUM, TEXT_PRIMARY)}>{formatPercent(c.m.conversionRate)}</td>
                 <td className={cx("px-2 py-2.5 text-right align-middle text-[13px] whitespace-nowrap", NUM, "text-zinc-300")}>{formatUsdPrecise(c.m.cpa)}</td>
               </tr>
-            ))}
+              );
+            })}
             {rows.length === 0 ? (
               <tr>
-                <td colSpan={8} className={cx("px-2 py-6 text-center text-sm font-normal", TEXT_AUX)}>
+                <td colSpan={9} className={cx("px-2 py-6 text-center text-sm font-normal", TEXT_AUX)}>
                   No campaigns match the current filters.
                 </td>
               </tr>
