@@ -80,7 +80,12 @@ export default function StreamingChart({
         Icon={Radio}
         hint={`${regionLabel(region)} — rolling ${windowSeconds}s window, simulated at 1 point/second from a fixed, looping buffer. Demo data, not a live feed.`}
         action={
-          <div className="flex flex-wrap items-center justify-end gap-2">
+          // Each Segmented is one atomic inline-flex pill group that never wraps inside
+          // itself, so relying on the row's own `flex-wrap` to break between the two groups
+          // left "90s"/"180s" clipped at 390px (the row never found a width where wrapping
+          // kicked in before the page's `overflow-x-hidden` quietly hid the overflow instead
+          // of reflowing it). Stacking unconditionally below `sm` removes that ambiguity.
+          <div className="flex flex-col items-stretch gap-2 sm:flex-row sm:flex-wrap sm:items-center sm:justify-end">
             <Segmented ariaLabel="Region" options={REGIONS.map((r) => ({ id: r.id, label: r.label }))} value={region} onChange={onRegionChange} />
             <Segmented ariaLabel="Window length" options={WINDOW_OPTIONS} value={windowSeconds} onChange={onWindowSecondsChange} />
           </div>
@@ -102,7 +107,11 @@ export default function StreamingChart({
           type="button"
           onClick={onTogglePlaying}
           disabled={prefersReducedMotion}
-          aria-pressed={effectivePlaying}
+          // No `aria-pressed` here on purpose: this label is already the imperative "what
+          // pressing this button does next" convention ("Pause stream" / "Resume stream",
+          // the same one native <video> controls use), not the "fixed name + on/off state"
+          // convention `aria-pressed` is for. Carrying both makes a screen reader announce
+          // the state twice, in two different and sometimes-contradictory ways.
           className={cx(
             "flex h-9 items-center gap-1.5 rounded-lg border px-3 text-xs font-semibold",
             BORDER,

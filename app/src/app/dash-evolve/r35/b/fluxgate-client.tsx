@@ -128,7 +128,7 @@ export default function FluxgateClient() {
         </main>
       </div>
 
-      {paletteOpen ? <CommandPalette onClose={() => setPaletteOpen(false)} /> : null}
+      {paletteOpen ? <CommandPalette onClose={() => setPaletteOpen(false)} onRegionChange={setRegion} /> : null}
     </div>
   );
 }

@@ -61,7 +61,10 @@ export default function Topbar({ onOpenPalette, onOpenMobileNav }: { onOpenPalet
             <span className="sr-only">{`Notifications, ${NOTIFICATIONS.length} unread`}</span>
           </button>
           {notifOpen ? (
-            <div role="menu" aria-label="Notifications" className={cx("absolute right-0 top-full z-40 mt-2 w-80 max-w-[calc(100vw-1.5rem)] rounded-xl border", BORDER, PANEL_BG, "shadow-xl shadow-zinc-900/10")}>
+            // Read-only notifications (no actionable items), so this is a labelled region,
+            // not a `menu` — `role="menu"` requires every child to be a `menuitem`-family
+            // role, which a plain notification list of static text never satisfies.
+            <div role="region" aria-label="Notifications" className={cx("absolute right-0 top-full z-40 mt-2 w-80 max-w-[calc(100vw-1.5rem)] rounded-xl border", BORDER, PANEL_BG, "shadow-xl shadow-zinc-900/10")}>
               <div className={cx("border-b px-4 py-3", BORDER)}>
                 <p className={cx("text-sm font-semibold", TEXT_PRIMARY)}>Notifications</p>
               </div>

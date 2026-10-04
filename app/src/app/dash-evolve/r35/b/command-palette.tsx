@@ -2,7 +2,7 @@
 
 import { Search, X } from "lucide-react";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { SEARCH_ENTRIES } from "./data";
+import { SEARCH_ENTRIES, type RegionId } from "./data";
 import { BORDER, FOCUS, HOVER_BG, PANEL_BG, TEXT_AUX, TEXT_PRIMARY, TRANSITION, cx } from "./tokens";
 import { Eyebrow } from "./ui";
 
@@ -12,7 +12,14 @@ import { Eyebrow } from "./ui";
  * resets state in response to an `open` prop, which is the exact pattern that tripped the
  * `react-hooks/set-state-in-effect` hard-gate in earlier rounds of this catalog.
  */
-export default function CommandPalette({ onClose }: { onClose: () => void }) {
+const REGION_ENTRY_TO_ID: Record<string, RegionId> = {
+  "region-global": "global",
+  "region-us-east": "us-east",
+  "region-eu-west": "eu-west",
+  "region-apac": "apac",
+};
+
+export default function CommandPalette({ onClose, onRegionChange }: { onClose: () => void; onRegionChange: (id: RegionId) => void }) {
   const [query, setQuery] = useState("");
   const [activeIndex, setActiveIndex] = useState(0);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -49,6 +56,13 @@ export default function CommandPalette({ onClose }: { onClose: () => void }) {
               } else if (e.key === "ArrowUp") {
                 e.preventDefault();
                 setActiveIndex((i) => Math.max(i - 1, 0));
+              } else if (e.key === "Enter") {
+                e.preventDefault();
+                const entry = results[clampedIndex];
+                if (!entry) return;
+                const regionId = REGION_ENTRY_TO_ID[entry.id];
+                if (regionId) onRegionChange(regionId);
+                onClose();
               }
             }}
             type="text"
@@ -58,7 +72,7 @@ export default function CommandPalette({ onClose }: { onClose: () => void }) {
             aria-expanded="true"
             aria-controls="fluxgate-palette-results"
             aria-activedescendant={results[clampedIndex] ? `palette-opt-${results[clampedIndex].id}` : undefined}
-            className={cx("h-9 min-w-0 flex-1 rounded-md bg-transparent px-1 text-sm font-normal", TEXT_PRIMARY, "placeholder:text-zinc-400", FOCUS)}
+            className={cx("h-9 min-w-0 flex-1 rounded-md bg-transparent px-1 text-sm font-normal", TEXT_PRIMARY, "placeholder:text-zinc-500", FOCUS)}
           />
           <button type="button" onClick={onClose} className={cx("grid h-9 w-9 shrink-0 place-items-center rounded-lg text-sm font-medium", HOVER_BG, TRANSITION, FOCUS)}>
             <X size={15} aria-hidden="true" className={TEXT_AUX} />
@@ -66,37 +80,40 @@ export default function CommandPalette({ onClose }: { onClose: () => void }) {
           </button>
         </div>
 
+        {results.length > 0 ? (
+          <div className="px-2.5 pt-2">
+            <Eyebrow>Jump to</Eyebrow>
+          </div>
+        ) : null}
         <div id="fluxgate-palette-results" role="listbox" aria-label="Search results" className="max-h-[60vh] overflow-y-auto p-2 [scrollbar-width:thin]">
           {results.length === 0 ? <p className={cx("px-2.5 py-6 text-center text-sm font-normal", TEXT_AUX)}>No matches for that search.</p> : null}
-          {results.length > 0 ? (
-            <div>
-              <div className="px-2.5 py-1">
-                <Eyebrow>Jump to</Eyebrow>
-              </div>
-              {results.map((e, i) => {
-                const active = i === clampedIndex;
-                return (
-                  <button
-                    key={e.id}
-                    id={`palette-opt-${e.id}`}
-                    type="button"
-                    role="option"
-                    aria-selected={active}
-                    tabIndex={-1}
-                    onMouseEnter={() => setActiveIndex(i)}
-                    onClick={onClose}
-                    className={cx("flex w-full items-center gap-2.5 rounded-lg px-2.5 py-2 text-left text-sm font-medium", TEXT_PRIMARY, TRANSITION, active ? "bg-lime-50" : HOVER_BG)}
-                  >
-                    <e.Icon size={15} aria-hidden="true" className={cx("shrink-0", TEXT_AUX)} />
-                    <span className="min-w-0 flex-1 truncate">
-                      <span className="text-[13px]">{e.title}</span>
-                      <span className={cx("ml-2 text-[11px] font-normal", TEXT_AUX)}>{e.meta}</span>
-                    </span>
-                  </button>
-                );
-              })}
-            </div>
-          ) : null}
+          {results.map((e, i) => {
+            const active = i === clampedIndex;
+            const regionId = REGION_ENTRY_TO_ID[e.id];
+            function commit() {
+              if (regionId) onRegionChange(regionId);
+              onClose();
+            }
+            return (
+              <button
+                key={e.id}
+                id={`palette-opt-${e.id}`}
+                type="button"
+                role="option"
+                aria-selected={active}
+                tabIndex={-1}
+                onMouseEnter={() => setActiveIndex(i)}
+                onClick={commit}
+                className={cx("flex w-full items-center gap-2.5 rounded-lg px-2.5 py-2 text-left text-sm font-medium", TEXT_PRIMARY, TRANSITION, active ? "bg-lime-50" : HOVER_BG)}
+              >
+                <e.Icon size={15} aria-hidden="true" className={cx("shrink-0", TEXT_AUX)} />
+                <span className="min-w-0 flex-1 truncate">
+                  <span className="text-[13px]">{e.title}</span>
+                  <span className={cx("ml-2 text-[11px] font-normal", TEXT_AUX)}>{regionId ? "Region — switches the chart" : e.meta}</span>
+                </span>
+              </button>
+            );
+          })}
         </div>
       </div>
     </div>
