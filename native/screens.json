@@ -127,5 +127,14 @@
   },
   "evolve-r28-c": {
     "check": "Shipping Protection Claim"
+  },
+  "evolve-r29-a": {
+    "check": "Loyalty Points Statement"
+  },
+  "evolve-r29-b": {
+    "check": "Draft Listings"
+  },
+  "evolve-r29-c": {
+    "check": "Saved Addresses"
   }
 }
