@@ -36,9 +36,9 @@ export function Hero({
               shows its receipts.
             </h1>
             <p className="mt-6 max-w-[554px] text-lg leading-[1.6] text-zinc-300">
-              Three signals decide how well a listing fits what you're after: condition, brand
+              Three signals decide how well a listing fits what you&rsquo;re after: condition, brand
               and style, and price. Move any one of the three dials on the right and watch this
-              jacket's score redraw itself, using the exact weighting you just set.
+              jacket&rsquo;s score redraw itself, using the exact weighting you just set.
             </p>
             <div className="mt-9 flex flex-wrap items-center gap-5">
               <Link
@@ -48,7 +48,7 @@ export function Hero({
                 See your own match breakdown
               </Link>
               <span className="text-sm text-zinc-400">
-                Free to browse. The breakdown updates live once you're in.
+                Free to browse. The breakdown updates live once you&rsquo;re in.
               </span>
             </div>
           </div>

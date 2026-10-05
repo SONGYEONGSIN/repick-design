@@ -42,7 +42,7 @@ export function ValueSplit({ weights }: { weights: Weights }) {
                     {sign}
                     {delta} pts
                   </span>{" "}
-                  vs repick's neutral 1.0× weighting
+                  vs repick&rsquo;s neutral 1.0× weighting
                 </p>
               </Reveal>
             );

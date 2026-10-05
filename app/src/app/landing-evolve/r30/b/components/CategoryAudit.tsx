@@ -80,7 +80,6 @@ export function CategoryAudit({ selected, onSelect }: CategoryAuditProps) {
               key={cat.id}
               type="button"
               aria-pressed={isSelected}
-              aria-label={`${cat.label}: ${cat.share}% of inventory. Verified Pro ${cat.tierShare.pro}%, ID-Verified ${cat.tierShare.id}%, New Seller ${cat.tierShare.new}%.`}
               onClick={() => onSelect(cat.id)}
               style={{ flex: `${cat.share} 0 0%` }}
               className={`group min-w-0 rounded-md border text-left transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-300 ${
@@ -111,7 +110,14 @@ export function CategoryAudit({ selected, onSelect }: CategoryAuditProps) {
                 >
                   {cat.label}
                 </p>
-                <p className="text-xs text-zinc-400">{cat.share}%</p>
+                <p className="text-xs text-zinc-400">
+                  {cat.share}%
+                  <span className="sr-only">
+                    {" "}
+                    of inventory. Verified Pro {cat.tierShare.pro}%, ID-Verified{" "}
+                    {cat.tierShare.id}%, New Seller {cat.tierShare.new}%.
+                  </span>
+                </p>
               </div>
             </button>
           );
@@ -130,7 +136,6 @@ export function CategoryAudit({ selected, onSelect }: CategoryAuditProps) {
               key={cat.id}
               type="button"
               aria-pressed={isSelected}
-              aria-label={`${cat.label}: ${cat.share}% of inventory. Verified Pro ${cat.tierShare.pro}%, ID-Verified ${cat.tierShare.id}%, New Seller ${cat.tierShare.new}%.`}
               onClick={() => onSelect(cat.id)}
               className={`flex min-w-0 items-center gap-3 rounded-md border px-3 py-3 text-left transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-300 ${
                 isSelected
@@ -147,7 +152,14 @@ export function CategoryAudit({ selected, onSelect }: CategoryAuditProps) {
                   className="absolute inset-y-0 left-0 bg-teal-500"
                 />
               </span>
-              <span className="w-12 shrink-0 text-right text-xs text-zinc-400">{cat.share}%</span>
+              <span className="w-12 shrink-0 text-right text-xs text-zinc-400">
+                {cat.share}%
+                <span className="sr-only">
+                  {" "}
+                  of inventory. Verified Pro {cat.tierShare.pro}%, ID-Verified {cat.tierShare.id}%,
+                  New Seller {cat.tierShare.new}%.
+                </span>
+              </span>
             </button>
           );
         })}
@@ -206,13 +218,13 @@ export function CategoryAudit({ selected, onSelect }: CategoryAuditProps) {
             const tier = TIERS.find((t) => t.id === tierId)!;
             return (
               <div key={tierId} className="flex items-start gap-2">
-                <span aria-hidden="true" className={`mt-1 h-3 w-3 shrink-0 rounded-sm ${TIER_SWATCH[tierId]}`} />
-                <div className="min-w-0">
-                  <dt className="text-sm font-semibold text-zinc-100">
+                <dt className="flex min-w-0 items-start gap-2 text-sm font-semibold text-zinc-100">
+                  <span aria-hidden="true" className={`mt-1 h-3 w-3 shrink-0 rounded-sm ${TIER_SWATCH[tierId]}`} />
+                  <span>
                     {tier.label} <span className="text-zinc-400">· {current.tierShare[tierId]}%</span>
-                  </dt>
-                  <dd className="text-xs text-zinc-400">{formatUnits(current.tierVolume[tierId])} listings</dd>
-                </div>
+                  </span>
+                </dt>
+                <dd className="text-xs text-zinc-400">{formatUnits(current.tierVolume[tierId])} listings</dd>
               </div>
             );
           })}
