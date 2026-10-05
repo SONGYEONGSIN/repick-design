@@ -29,7 +29,7 @@ export function ValueSplit({ weights }: { weights: Weights }) {
                   />
                   <h3 className="text-base font-bold text-white">{signal.label}</h3>
                 </div>
-                <p className="mt-3 max-w-[431px] text-[15px] leading-[1.6] text-zinc-400">
+                <p className="mt-3 max-w-[431px] text-sm leading-[1.6] text-zinc-400">
                   {signal.description}
                 </p>
                 <p className="mt-4 text-sm text-zinc-300">

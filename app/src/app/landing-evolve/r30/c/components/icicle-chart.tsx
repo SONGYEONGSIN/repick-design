@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 import {
   SIGNALS,
   computeLeafRatios,
@@ -80,14 +81,14 @@ export function IcicleChart({ weights }: { weights: Weights }) {
       <dl className="mt-6 grid gap-6 border-t border-white/10 pt-6 sm:grid-cols-3">
         {SIGNALS.map((signal) => (
           <div key={signal.id} className="min-w-0">
-            <div className="flex items-center gap-2">
+            <dt className="flex items-center gap-2 text-sm font-semibold text-zinc-100">
               <span
                 aria-hidden="true"
                 className="h-2.5 w-2.5 shrink-0 rounded-full"
                 style={{ backgroundColor: signal.fill }}
               />
-              <dt className="text-sm font-semibold text-zinc-100">{signal.label}</dt>
-            </div>
+              {signal.label}
+            </dt>
             <dd className="mt-1 text-[13px] text-zinc-400">
               {shares[signal.id]}% of this score · raw signal {signal.raw}/100
             </dd>
@@ -107,7 +108,7 @@ export function IcicleChart({ weights }: { weights: Weights }) {
   );
 }
 
-function Row({ label, children }: { label: string; children: React.ReactNode }) {
+function Row({ label, children }: { label: string; children: ReactNode }) {
   return (
     <div className="flex items-center gap-3">
       <Caption className="w-[52px] shrink-0 sm:w-16">{label}</Caption>

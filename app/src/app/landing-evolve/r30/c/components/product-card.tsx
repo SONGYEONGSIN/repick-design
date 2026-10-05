@@ -31,32 +31,33 @@ export function ProductCard({ product }: { product: ProductCardData }) {
 
   return (
     <div className="flex min-w-0 flex-col rounded-2xl border border-white/10 bg-white/[0.02]">
-      <div className="relative flex aspect-[4/3] items-center justify-center overflow-hidden rounded-t-2xl bg-zinc-900">
+      <div className="flex aspect-[4/3] items-center justify-center overflow-hidden rounded-t-2xl bg-zinc-900">
         <span
           aria-hidden="true"
           className="select-none text-[clamp(1.75rem,6vw,2.75rem)] font-bold tracking-[-0.02em] text-[#71717A]"
         >
           {product.categoryGhost}
         </span>
-        {product.isLive && (
-          <span className="absolute left-3 top-3 rounded-full border border-[#0E7490]/70 bg-[#0B0B0F]/80 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-[#67E8F9]">
-            Live example ↑
-          </span>
-        )}
       </div>
 
+      {/* Badges live in their own strip below the image panel, never overlaid on it. */}
       <div className="flex flex-1 flex-col p-5">
         <div className="flex flex-wrap items-center gap-2">
+          {product.isLive && (
+            <span className="rounded-full border border-[#0E7490]/70 bg-[#0E7490]/10 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-[#67E8F9]">
+              Live example ↑
+            </span>
+          )}
           <Pill tone="outline">Grade {product.grade}</Pill>
           <Pill tone="muted">{product.sellerRating.toFixed(1)}★ Verified seller</Pill>
         </div>
 
         <h3 className="mt-3 text-base font-bold text-white">{product.name}</h3>
-        <p className="mt-1 text-[13px] text-zinc-500">{product.meta}</p>
+        <p className="mt-1 text-[13px] text-zinc-400">{product.meta}</p>
 
         <p className="mt-3 text-lg font-bold text-white">
           ${product.price}
-          <span className="ml-2 text-sm font-normal text-zinc-500 line-through">
+          <span className="ml-2 text-sm font-normal text-zinc-400 line-through">
             ${product.originalPrice}
           </span>
           <span className="ml-2 text-sm font-normal text-[#67E8F9]">{discount}% below retail</span>

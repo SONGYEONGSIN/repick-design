@@ -24,11 +24,11 @@ export function Footer() {
             ))}
           </nav>
         </div>
-        <p className="mt-6 max-w-[493px] text-sm leading-[1.6] text-zinc-500">
+        <p className="mt-6 max-w-[493px] text-sm leading-[1.6] text-zinc-400">
           Match scores should survive a question. Ask which signal moved yours — the chart
           answers before you finish typing.
         </p>
-        <p className="mt-6 text-[12px] text-zinc-600">
+        <p className="mt-6 text-[12px] text-zinc-400">
           © 2026 repick. Breakdown figures on this page are illustrative; your own matches
           recompute the same way, live.
         </p>

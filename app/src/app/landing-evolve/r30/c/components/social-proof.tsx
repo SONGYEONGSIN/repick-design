@@ -1,5 +1,5 @@
 import { Reveal } from "./reveal";
-import { Eyebrow } from "./ui";
+import { DISPLAY_FONT, Eyebrow } from "./ui";
 
 const STATS = [
   { value: "38,412", label: "match breakdowns opened in the last 90 days" },
@@ -32,8 +32,14 @@ export function SocialProof() {
     <section id="proof" className="border-t border-white/10 py-20 sm:py-28">
       <div className="mx-auto max-w-[1280px] px-4 sm:px-6 lg:px-8">
         <Eyebrow>PEOPLE ACTUALLY OPEN THE BREAKDOWN</Eyebrow>
+        <h2
+          className="mt-4 text-[clamp(2rem,1.4rem+2.2vw,3.25rem)] font-bold leading-[1.03] tracking-[-0.02em] text-white"
+          style={{ fontFamily: `${DISPLAY_FONT}, var(--font-sans)` }}
+        >
+          Opening the breakdown changes what people buy.
+        </h2>
 
-        <div className="mt-6 grid gap-6 sm:grid-cols-2 sm:max-w-xl">
+        <div className="mt-8 grid gap-6 sm:grid-cols-2 sm:max-w-xl">
           {STATS.map((stat) => (
             <div key={stat.label}>
               <p className="text-4xl font-bold tabular-nums tracking-[0.12em] text-white">
