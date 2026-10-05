@@ -45,6 +45,9 @@ import { ShippingProtectionClaimScreen as EvolveR28C } from "./evolve/r28/c/Ship
 import { LoyaltyPointsStatementScreen as EvolveR29A } from "./evolve/r29/a/LoyaltyPointsStatementScreen";
 import EvolveR29B from "./evolve/r29/b/DraftListingsScreen";
 import { SavedAddressesScreen as EvolveR29C } from "./evolve/r29/c/SavedAddressesScreen";
+import { SubscriptionPlanScreen as EvolveR30A } from "./evolve/r30/a/SubscriptionPlanScreen";
+import EvolveR30B from "./evolve/r30/b/LinkedMarketplacesSync";
+import EvolveR30C from "./evolve/r30/c/PromoCodeWallet";
 
 const COMPONENTS = {
   watchlist: WatchList,
@@ -93,6 +96,9 @@ const COMPONENTS = {
   "evolve-r29-a": EvolveR29A,
   "evolve-r29-b": EvolveR29B,
   "evolve-r29-c": EvolveR29C,
+  "evolve-r30-a": EvolveR30A,
+  "evolve-r30-b": EvolveR30B,
+  "evolve-r30-c": EvolveR30C,
 } as const satisfies Record<string, ComponentType>;
 
 export type ScreenSlug = keyof typeof COMPONENTS;

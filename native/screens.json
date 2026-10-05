@@ -136,5 +136,14 @@
   },
   "evolve-r29-c": {
     "check": "Saved Addresses"
+  },
+  "evolve-r30-a": {
+    "check": "Pro Seller Plan"
+  },
+  "evolve-r30-b": {
+    "check": "Linked Marketplaces"
+  },
+  "evolve-r30-c": {
+    "check": "Promo Code Wallet"
   }
 }
