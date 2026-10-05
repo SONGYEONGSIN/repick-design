@@ -14,52 +14,50 @@ import {
   FlatList,
   SafeAreaView,
   StyleSheet,
+  type ViewStyle,
+  type TextStyle,
 } from "react-native";
 import { tokens } from "../../../tokens";
 import { PROMO_CODES, type PromoCode, type PromoCodeStatus } from "./data";
 
-function statusPresentation(status: PromoCodeStatus): {
-  label: string;
-  bg: string;
-  border: string;
-  text: string;
-} {
+function statusLabel(status: PromoCodeStatus): string {
   switch (status) {
     case "active":
-      return {
-        label: "Active",
-        bg: tokens.color.successBg,
-        border: tokens.color.successBorder,
-        text: tokens.color.success,
-      };
+      return "Active";
     case "expiringSoon":
-      return {
-        label: "Expiring soon",
-        bg: tokens.color.warningBg,
-        border: tokens.color.warningBorder,
-        text: tokens.color.warning,
-      };
+      return "Expiring soon";
     case "expired":
-      return {
-        label: "Expired",
-        bg: tokens.color.bg,
-        border: tokens.color.border,
-        text: tokens.color.faint,
-      };
+      return "Expired";
+  }
+}
+
+function statusPillVariant(status: PromoCodeStatus): ViewStyle {
+  switch (status) {
+    case "active":
+      return styles.statusPillActive;
+    case "expiringSoon":
+      return styles.statusPillExpiringSoon;
+    case "expired":
+      return styles.statusPillExpired;
+  }
+}
+
+function statusPillTextVariant(status: PromoCodeStatus): TextStyle {
+  switch (status) {
+    case "active":
+      return styles.statusPillTextActive;
+    case "expiringSoon":
+      return styles.statusPillTextExpiringSoon;
+    case "expired":
+      return styles.statusPillTextExpired;
   }
 }
 
 function StatusPill({ status }: { status: PromoCodeStatus }) {
-  const presentation = statusPresentation(status);
   return (
-    <View
-      style={[
-        styles.statusPill,
-        { backgroundColor: presentation.bg, borderColor: presentation.border },
-      ]}
-    >
-      <Text style={[styles.statusPillText, { color: presentation.text }]}>
-        {presentation.label}
+    <View style={[styles.statusPill, statusPillVariant(status)]}>
+      <Text style={[styles.statusPillText, statusPillTextVariant(status)]}>
+        {statusLabel(status)}
       </Text>
     </View>
   );
@@ -307,9 +305,30 @@ const styles = StyleSheet.create({
     paddingHorizontal: tokens.space(2),
     paddingVertical: tokens.space(1) - 1,
   },
+  statusPillActive: {
+    backgroundColor: tokens.color.successBg,
+    borderColor: tokens.color.successBorder,
+  },
+  statusPillExpiringSoon: {
+    backgroundColor: tokens.color.warningBg,
+    borderColor: tokens.color.warningBorder,
+  },
+  statusPillExpired: {
+    backgroundColor: tokens.color.bg,
+    borderColor: tokens.color.border,
+  },
   statusPillText: {
     fontSize: 11,
     fontWeight: "600",
+  },
+  statusPillTextActive: {
+    color: tokens.color.success,
+  },
+  statusPillTextExpiringSoon: {
+    color: tokens.color.warning,
+  },
+  statusPillTextExpired: {
+    color: tokens.color.faint,
   },
   codeTitleText: {
     marginTop: tokens.space(1),
