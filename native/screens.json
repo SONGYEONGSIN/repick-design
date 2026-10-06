@@ -145,5 +145,14 @@
   },
   "evolve-r30-c": {
     "check": "Promo Code Wallet"
+  },
+  "evolve-r31-a": {
+    "check": "Export Account Data"
+  },
+  "evolve-r31-b": {
+    "check": "Security Activity Log"
+  },
+  "evolve-r31-c": {
+    "check": "Price Drop Alerts"
   }
 }
