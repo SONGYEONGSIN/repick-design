@@ -154,5 +154,14 @@
   },
   "evolve-r31-c": {
     "check": "Price Drop Alerts"
+  },
+  "evolve-r32-a": {
+    "check": "Archive Conversations"
+  },
+  "evolve-r32-b": {
+    "check": "Linked Social Accounts"
+  },
+  "evolve-r32-c": {
+    "check": "Appeal This Review"
   }
 }
