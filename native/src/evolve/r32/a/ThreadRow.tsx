@@ -157,12 +157,12 @@ const styles = StyleSheet.create({
   item: {
     fontSize: 13,
     color: tokens.color.ink2,
-    marginTop: tokens.space(1) / 2,
+    marginTop: tokens.space(1),
   },
   preview: {
     fontSize: 13,
     color: tokens.color.muted,
-    marginTop: tokens.space(1) / 2,
+    marginTop: tokens.space(1),
   },
   offer: {
     fontSize: 12,
