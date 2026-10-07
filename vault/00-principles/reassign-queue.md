@@ -14,6 +14,16 @@
 
 ## 대기 중
 
+### 9. `auto-dash-r36/b` — "Meshwire" 서비스 디펜던시 그래프 콘솔 (target: dash)
+
+- **탈락 사유**: 1차 하드게이트 복합 실패 — ① lint `react-hooks/set-state-in-effect`(커맨드팔레트 open시 query 리셋) ② `sweep` `cell-overlap`(390px, adjacency-table 헤더 버튼이 `inline-flex`라 `min-width:auto`로 `<th>`의 `table-fixed` 고정폭을 무시하고 흘러넘침, "Relationship"↔"Latency (p50)" 27px · "Latency (p50)"↔"Calls / min" 16px).
+  1차 수정(①커맨드팔레트를 `open` prop 대신 조건부 마운트로 전환해 effect-driven setState 제거 ②헤더 버튼을 `flex w-full min-w-0`+`truncate`+반응형 축약 라벨("Type"/"p50"/"Calls")로 전환, colgroup 퍼센트도 여유열(Source/Target/Status)에서 타이트열로 재분배)을 거쳐 재게이트했으나 **재실패** — ③ `cell-overlap`이 2px로 줄었으나 완전히 해소되지 않음("ms"↔"5,100", 축약 후에도 셀 내부 패딩을 고려 안 한 잔여 여유 부족) ④ `target-size` **신규 실패**(그래프 노드 버튼이 데이터 좌표 동심원 배치라 인접 타겟 간 여백이 1.4px까지 좁아짐 — Quadrant 산점도가 이미 겪은 것과 동일한 "데이터 밀집으로 24px 이격 불가" 결함 클래스가 그래프 노드에서도 재현). 스킬 §3 "재실패 시 탈락" 그대로 적용.
+- **형태가 왜 살아 있나**: Network/Dependency Graph(관계형 차트)가 이 카탈로그에서 **차트 타입 자체로 완전히 신규**다(기존 어떤 작품도 노드-엣지 그래프를 지배 시각화로 쓴 적이 없음). 매크로 골격(사이드레일 없는 전폭 그래프 히어로 + 비영속 노드 인스펙터 팝오버 + 그래프와 무관한 독립 하단 인시던트 타임라인)도 "레일+차트+피드" 3-pane 트레이딩 터미널 패밀리나 마스터-디테일과 구조적으로 다르다 — 재배정 가치가 있다.
+- **재배정 시 반드시 명시할 것**: (1) 데이터 좌표에 동심원/강제배치되는 그래프 노드는 Quadrant의 산점도 점과 **동일한 결함 클래스**다 — 노드를 포커스 가능한 `<button>`으로 만들지 말고 포인터 전용(`aria-hidden`) 마크로 설계하고, 노드를 열람/선택하는 모든 키보드 조작은 필수 폴백 인접 리스트 테이블의 행 단위 컨트롤에만 둔다(노드마다 24px 이격을 보장할 수 없는 것은 레이아웃 결함이 아니라 데이터이므로, 포커스 가능한 타겟 자체를 만들지 않는 것이 유일한 해법 — Quadrant 재배정 교훈과 동일). (2) 정렬 가능한 테이블 헤더 버튼은 `min-h-6` 이상 **명시 높이**를 줄 것(이번 라운드는 이 항목은 문제없었다 — 참고용으로만 남김). (3) 테이블 colgroup을 축약 라벨로 재분배할 때는 셀의 가로 패딩(`px-*`)을 뺀 **실제 가용폭**으로 재계산한다 — 라벨 글자수만 보고 퍼센트를 맞추면 패딩만큼 여유가 사라져 1~2px 단위로 또 겹친다. 재배정 전 390px 렌더로 패딩 포함 실측을 직접 확인한다.
+- 등재: 2026-10-07 · 출처 `vault/20-generations/2026-10-07-auto-dash-r36/SCORES.md`·`DECISION.md`
+
+## 대기 중 (계속)
+
 ### 8. `auto-dash-r35/c` — "Quadrant" 캠페인 스펜드×전환율 산점도 (target: dash)
 
 - **탈락 사유**: 1차 하드게이트 복합 실패 — ① lint `react/no-unescaped-entities` 2건(아포스트로피 미이스케이프) ② `console` 하이드레이션 불일치(`formatCompactUsd`가 `Intl.NumberFormat(..., {notation:"compact"})`로 0을 서버/클라이언트가 각각 `"$0"`/`"$0.0"`로 다르게 포맷 — Node 번들 ICU와 Chromium ICU가 compact 표기의 0 처리에서 실제로 갈린다, 코드 비결정성이 아니라 런타임 간 Intl 불일치) ③ a11y `target-size` 하드페일(점 35개가 데이터 좌표에 배치된 24×24 `<button>`이라 밀집 구간에서 인접 타겟 간 여백이 0.6px까지 좁아짐).
