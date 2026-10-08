@@ -54,7 +54,7 @@ export function KpiStrip({ range }: { range: TimeRange }) {
         <p className={cx("text-2xl font-semibold tabular-nums", TEXT_PRIMARY)}>
           {degradedCount} <span className={cx("text-sm font-normal", TEXT_AUX)}>/ {REGIONS.length}</span>
         </p>
-        <Progress value={(degradedCount / REGIONS.length) * 100} label={`${REGIONS.length - degradedCount} of ${REGIONS.length} at or below moderate severity`} />
+        <Progress value={(degradedCount / REGIONS.length) * 100} label={`${degradedCount} of ${REGIONS.length} regions at moderate severity or worse`} />
       </Card>
     </div>
   );
