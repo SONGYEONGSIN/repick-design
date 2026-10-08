@@ -14,17 +14,32 @@
 
 ## 대기 중
 
-### 10. `auto-dash-r37/b` — "Baseline" 벤더 품질 박스플롯 스코어카드 (target: dash)
+### 12. `auto-dash-r38/b` — "Ledgerline" RevOps 분해트리(Decomposition Tree) 콘솔 (target: dash)
 
-- **탈락 사유**: 1차 하드게이트 복합 실패 — ① `sweep` `table-overflow` 6px@1264px(1280px-16px 여유폭 프로브) ② a11y `label-content-name-mismatch`(박스플롯 열 버튼 12개 전부 — 가시텍스트 "0.45"/"1"/"NFC"가 더 긴 서술형 `aria-label` 안에 연속 부분문자열로 안 들어감).
-  1차 수정(①`aria-label` 제거 후 콘텐츠기반 명칭+`sr-only` 보강 span으로 전환 ②테이블의 `min-w-[720px]` 제거)을 거쳐 재게이트했으나 **재실패** — a11y는 해소됐으나(100) sweep이 **두 가지로 악화**: 원래 6px `table-overflow`가 **동일하게 미해소**(제거한 `min-w`가 원인이 아니었음을 시사) + 390px에서 **신규 520px `page-overflow`**(박스플롯 스트립 자신의 `overflow-x-auto` 스크롤러가 조상 어딘가의 `min-w-0` 부재로 클리핑 경계를 잃은 것으로 추정 — 테이블 수정과 무관한 별도 결함). 스킬 §3 "재실패 시 탈락" 그대로 적용.
-- **형태가 왜 살아 있나**: Box Plot이 이 카탈로그에 두 번째로(이번 라운드 전까지는 3-pane 셸로 한 번) 시도된 차트타입이지만, 이번 시도의 "전폭 박스플롯 히어로(사이드레일/3-pane 없음) + 독립 벤더 디렉토리 테이블 + 비영속 툴팁" 매크로골격은 과거 3-pane 시도와 구조적으로 다르고 카탈로그의 4대 수렴형(마스터-디테일/3-pane 레일+차트+피드/피드중심/캘린더보드) 전부를 회피한다 — 재배정 가치가 있다.
-- **재배정 시 반드시 명시할 것**: (1) 박스플롯 스트립의 `overflow-x-auto` 가로스크롤 컨테이너를 감싸는 **모든 조상**(flex/grid 컨테이너) 각각에 `min-w-0`이 있는지 명시적으로 확인한다 — 하나라도 빠지면 그 조상의 암묵적 콘텐츠폭이 스크롤러를 클리핑하지 못하게 만들어 390px에서 대형 `page-overflow`가 난다(이번 라운드의 520px가 그 증상). (2) 벤더 테이블의 `table-overflow` 원인은 **아직 미규명**이다 — `min-w` 제거로도 6px가 그대로 남았으므로, `<colgroup>` 퍼센트 합이 정확히 100인지, 부모 `Card`의 패딩이 테이블 폭 계산에 이중으로 반영되는지(네거티브 마진 보정 누락 등)를 1264px 실제 렌더에서 직접 측정해 확인한다 — "min-w가 원인일 것"이라는 가설만으로 재시도하지 말 것. (3) 박스플롯 열 버튼처럼 **여러 줄의 가시 텍스트**(수치+코드 등)를 담는 컨트롤에는 커스텀 `aria-label`을 달지 말고, 콘텐츠 기반 명칭 + 뒤따르는 `sr-only` 보강 span 패턴을 쓴다(이번 라운드 a11y 수정에서 성공적으로 검증됨, 그대로 재사용).
-- 등재: 2026-10-07 · 출처 `vault/20-generations/2026-10-07-auto-dash-r37/SCORES.md`·`DECISION.md`
+- **탈락 사유**: 1차 하드게이트 복합 실패 — ① lint `react-hooks/set-state-in-effect`(command-palette의 `open` 변화 effect 안 동기 `setQuery`, 이 라운드 3후보 전원 독립 수렴) ② a11y `label-content-name-mismatch`(분해트리 노드 버튼 — 가시 텍스트 "N% of parent"의 리터럴 단어 "parent"가, 실제 부모명을 쓰는 서술형 `aria-label`("...percent of {부모명}")에 부분문자열로 안 들어감).
+  1-fix(① render-phase prevOpen 비교 패턴으로 전환 ② 가시 텍스트를 "N% of parent" → "N% of {실제 부모명}"으로 변경, 재귀 컴포넌트의 공유 JSX라 전 노드에 적용됨)을 거쳐 재게이트했으나 **동일 감사가 재실패**. 고친 노드 경로는 전부 수정됐을 것으로 보이는데 재현됨 — **원인 미규명**. 다음 가설 중 하나일 수 있다: (a) 분해트리 바깥 다른 컴포넌트(메트릭 레일의 스파크라인·세그먼트컨트롤 등)에 별도의 유사 패턴이 있다 (b) 특정 깊이·특정 노드(루트 노드 등 `parentLabel`이 비정상값을 갖는 엣지케이스)에서만 재현된다 (c) `SegmentedControl`의 `role="group" aria-label={label}` 조합이 원인일 가능성(낮음 — group role은 통상 이 감사 대상이 아니지만 미검증). 재배정 시 **1264px·390px 실제 렌더로 axe를 직접 돌려 위반 엘리먼트를 특정한 뒤** 고친다 — 소스 추정만으로 재시도하지 말 것(이번 라운드가 그 함정에 걸렸다).
+- **형태가 왜 살아 있나**: Decomposition Tree는 이 카탈로그에 **처음 시도된 차트 타입**이다(25종 카탈로그 중 미시도 항목). 마스터-디테일 셸(좌 플랫 KPI 레일 + 우 트리 상세) 자체는 흔한 버킷이지만, 지배 시각화가 신규라 재배정 가치가 있다. 선택-파급도 레일→상세 단일 축(tier 2, 부분 재계산)으로 깔끔하게 분리돼 있었다(파일: `variance-dashboard.tsx` — `selectedKpiId` 하나만 `DetailPane` 하나로).
+- **재배정 시 반드시 명시할 것**: (1) 위 a11y 미규명 원인을 렌더 실측으로 먼저 특정할 것. (2) 분해트리 노드의 접근성 명칭 패턴 자체(콘텐츠+부모명 일치)는 **원리로는 유효**하니 재사용하되, 구현을 처음부터 다시 쓸 것(이번 라운드의 특정 코드를 복붙하지 말 것). (3) command-palette의 `set-state-in-effect`는 이번 라운드 세 후보 모두가 독립적으로 겪은 **일반적인 함정**이니, 배정문에 "`open` prop 변화에 반응해 다른 state를 리셋해야 한다면 `useEffect` 안이 아니라 렌더 단계에서 prevProp 비교로 처리하라"는 지시를 미리 넣어 재발을 막는다.
+- 등재: 2026-10-08 · 출처 `vault/20-generations/2026-10-08-auto-dash-r38/SCORES.md`·`DECISION.md`
 
-> **나머지 탈락분은 넣지 않았다** — `dash r22/b`·`r22/c`·`r23/c`·`r25/b`·`landing r17/c`·`dash r28/c`(Trestle, 고정레일+간트 — 상시마운트 툴팁 div 가 화면 우측 바 근처에서 뷰포트를 넘는 page-overflow 로 1-fix 재실패)는 사유가 규칙 위반이라 등재 자격은 있으나, 큐는 **한 라운드에 1개만** 배정하므로 전부 넣으면 7라운드+치 백로그가 된다. `dash r28/b`(Ridgeline)는 2026-09-26 `auto-dash-r30/a`로 재배정 완료, 아래 5번 항목으로 소진됐다. 이전에 먼저 돌리기로 한 다른 항목들도 소진되어 아래 아카이브에 있다 — 다음 배정은 남은 백로그 중에서 판단한다. (전부 `candidates/<v>.md` 에 컨셉이 남아 있어 언제든 등재할 수 있다.)
+### 11. `auto-dash-r38/c` — "Isobar" 지리적 코로플레스(Geographic Choropleth) 엣지 인프라 콘솔 (target: dash)
+
+- **탈락 사유**: 1차 하드게이트 복합 실패 — ① lint `set-state-in-effect`(위와 동일 패턴) + 미사용 변수 1건 ② sweep `cell-overlap`(390px, 테이블 헤더 "Incidents"↔"Uptime" 27px 겹침 — `table-fixed` 컬럼 퍼센트가 390px에서 전체 라벨을 못 담음, 스크롤러 회피 설계의 대가) ③ a11y 92점(`button-name`·`color-contrast`·`target-size` 복합).
+  1-fix(① render-phase 패턴 ② 반응형 축약 라벨("Inc."/"Up") + `overflow-hidden`+`max-w-full` 방어 ③ 아바타 메뉴 트리거의 `aria-label` 추가(두 자식 모두 `aria-hidden`이라 접근 가능 이름이 0이었음) + 헥스맵 오버레이 버튼 `min-w-6 min-h-6` + 정렬버튼 `py-1.5`)를 거쳐 재게이트했으나 **재실패** — `color-contrast`는 손으로 재검산했다는 주장에도 미해소, **거기에 신규 `label-content-name-mismatch`까지 발생**(1차 게이트엔 없던 감사 — 이번 수정 중 추가한 `aria-label` 중 하나가 원인일 가능성이 높음, 구체 요소 미특정). 스킬 §3 적용.
+- **형태가 왜 살아 있나**: 이 카탈로그의 유일한 공간 시각화 선례(`Portage`/`auto-dash-r25` 승자)는 방사형 허브-스포크 지도였고, **리터럴 지리 코로플레스(헥스그리드 리전 타일)는 처음 시도**다. 피드중심 셸(스크롤 스파인 7/12 + 지도 사이드패널 5/12) + 피드→지도 핀 단일축 + 지도 호버의 순수 CSS 비영속 툴팁 분리도 선택-파급 원칙에 맞게 설계돼 있었다.
+- **재배정 시 반드시 명시할 것**: (1) `color-contrast`는 "손 계산으로 확인했다"는 자가 보고를 믿지 말고, **렌더된 페이지에서 실제 `getComputedStyle` 기반 계측**(또는 최소한 Lighthouse 재실행)으로 구체 위반 요소를 먼저 찾은 뒤 고친다 — 이번 라운드가 그 자가보고의 신뢰성 함정에 걸렸다. (2) a11y 수정(특히 `aria-label` 추가)은 **수정 후 반드시 label-content-name-mismatch 재검사** — 새 `aria-label`이 같은 요소의 가시 텍스트와 어긋나지 않는지 직접 대조한다(이번 라운드는 그 교차확인 없이 라벨을 추가해 새 위반을 만들었다). (3) 테이블 헤더 축약 라벨 기법은 유효하니 재사용하되, 390px 렌더로 실제 겹침이 사라졌는지 먼저 확인한 뒤 제출한다.
+- 등재: 2026-10-08 · 출처 `vault/20-generations/2026-10-08-auto-dash-r38/SCORES.md`·`DECISION.md`
+
+> **한 라운드에 2개가 동시에 들어왔다** — 다음 라운드는 이 중 **하나만** 배정한다(큐 규약). 어느 쪽을 먼저 돌릴지는 다음 라운드의 판단에 맡긴다. 나머지 탈락분은 넣지 않았다 — `dash r22/b`·`r22/c`·`r23/c`·`r25/b`·`landing r17/c`·`dash r28/c`(Trestle, 고정레일+간트 — 상시마운트 툴팁 div 가 화면 우측 바 근처에서 뷰포트를 넘는 page-overflow 로 1-fix 재실패)는 사유가 규칙 위반이라 등재 자격은 있으나, 큐는 **한 라운드에 1개만** 배정하므로 전부 넣으면 7라운드+치 백로그가 된다. `dash r28/b`(Ridgeline)는 2026-09-26 `auto-dash-r30/a`로 재배정 완료, 아래 5번 항목으로 소진됐다. 이전에 먼저 돌리기로 한 다른 항목들도 소진되어 아래 아카이브에 있다 — 다음 배정은 남은 백로그 중에서 판단한다. (전부 `candidates/<v>.md` 에 컨셉이 남아 있어 언제든 등재할 수 있다.)
 
 ## 아카이브
+
+### 10. `auto-dash-r37/b` — "Baseline" 벤더 품질 박스플롯 스코어카드 (target: dash)
+
+- **탈락 사유(원 등재)**: 1차 하드게이트 복합 실패(`sweep` `table-overflow` 6px@1264px + a11y `label-content-name-mismatch`), 1-fix 후 재실패(원 `table-overflow` 미해소 + 신규 390px `page-overflow` 520px). 스킬 §3 적용.
+- **재배정 결과 (2026-10-08, `auto-dash-r38/a`, "Portcall")**: 배정문의 세 지시(① 박스플롯 스트립의 `overflow-x-auto` 모든 조상에 `min-w-0` 명시 ② 벤더 테이블 `table-fixed`+`<colgroup>` 퍼센트 합 100 직접 검산, `min-w`는 테이블에만/셀엔 금지 ③ 다중 텍스트 담는 컨트롤은 커스텀 `aria-label` 대신 콘텐츠기반 명칭+`sr-only` 보강)을 정확히 반영 — 1차에서 **다른** 결함(lint `set-state-in-effect` — 이 라운드 3후보 공통 + sweep `table-overflow` 1264~1366px, 박스 아이템 폭이 좁은 데스크톱 컨테이너에 안 맞음)으로 실패했으나, 1-fix(아이템 폭 w-16→w-12 축소 등)로 **재배정 사유였던 결함은 재발 없이** 완전 해소하고 **10/10 클린 재게이트**. 생존 후보가 1개뿐이라 단독 심사 — **WINNER** 판정(상세: `DECISION.md`).
+- **처리**: 소진 — 재배정이 완전히 성공(세 번째 시도만에 승격 후보 확보). 최종 카탈로그 등재 여부는 `/dash-falsify apply`의 킵 결정에 달려 있다.
+- 등재: 2026-10-07 · 출처 `vault/20-generations/2026-10-07-auto-dash-r37/SCORES.md`·`DECISION.md` · 소진: 2026-10-08 · 출처 `vault/20-generations/2026-10-08-auto-dash-r38/DECISION.md`
 
 ### 9. `auto-dash-r36/b` — "Meshwire" 서비스 디펜던시 그래프 콘솔 (target: dash)
 
