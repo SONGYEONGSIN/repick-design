@@ -285,7 +285,6 @@ const styles = StyleSheet.create({
     fontSize: 13,
     fontWeight: "700",
     color: tokens.color.accent,
-    textTransform: "uppercase",
     letterSpacing: 0.5,
   },
   itemName: {
