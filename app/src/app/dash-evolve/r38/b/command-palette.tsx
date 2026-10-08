@@ -22,13 +22,24 @@ export function CommandPalette({
   const inputRef = useRef<HTMLInputElement>(null);
   const wasOpen = useRef(false);
 
+  // Adjusting state during render in response to a prop change, per React's
+  // guidance ("you might not need an Effect" / adjusting state when a prop
+  // changes): reset the search query and highlight the instant `open` flips
+  // from false to true, without round-tripping through an Effect.
+  const [prevOpen, setPrevOpen] = useState(open);
+  if (open !== prevOpen) {
+    setPrevOpen(open);
+    if (open) {
+      setQuery("");
+      setHighlight(0);
+    }
+  }
+
   const matches = kpis.filter((kpi) => kpi.name.toLowerCase().includes(query.trim().toLowerCase()));
 
   useEffect(() => {
     if (open) {
       wasOpen.current = true;
-      setQuery("");
-      setHighlight(0);
       const id = window.setTimeout(() => inputRef.current?.focus(), 0);
       return () => window.clearTimeout(id);
     }

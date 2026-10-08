@@ -125,10 +125,16 @@ function TreeRow({
           {formatValue(node.value, unit)}
         </span>
       </div>
-      <div className="mt-1 flex items-center gap-2 pl-6">
-        <ContributionBar percent={node.percentOfParent} tone={hasChildren ? "sky" : "zinc"} />
-        <span className="shrink-0 whitespace-nowrap text-xs tabular-nums text-zinc-600">
-          {percentDigits}% of parent
+      <div className="mt-1 flex min-w-0 items-center gap-2 pl-6">
+        <span className="min-w-0 flex-1">
+          <ContributionBar percent={node.percentOfParent} tone={hasChildren ? "sky" : "zinc"} />
+        </span>
+        {/* Visible text must literally contain what `accessibleLabel` states
+            (axe label-content-name-mismatch): say the real parent name, not
+            the generic word "parent". Allowed to truncate at narrow widths
+            since long parent labels share this row with the bar above. */}
+        <span className="min-w-0 max-w-[60%] shrink truncate text-xs tabular-nums text-zinc-600">
+          {percentDigits}% of {parentLabel}
         </span>
       </div>
     </>
