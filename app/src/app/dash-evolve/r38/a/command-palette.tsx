@@ -15,15 +15,20 @@ type Props = {
 
 export function CommandPalette({ open, onClose, period, onChangePeriod, onSelectVendor }: Props) {
   const [query, setQuery] = useState("");
+  const [prevOpen, setPrevOpen] = useState(open);
   const dialogRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const triggerRef = useRef<Element | null>(null);
+
+  if (open !== prevOpen) {
+    setPrevOpen(open);
+    if (open) setQuery("");
+  }
 
   useEffect(() => {
     if (!open) return;
     triggerRef.current = document.activeElement;
     inputRef.current?.focus();
-    setQuery("");
     return () => {
       if (triggerRef.current instanceof HTMLElement) triggerRef.current.focus();
     };

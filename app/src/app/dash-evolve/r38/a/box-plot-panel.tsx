@@ -6,10 +6,10 @@ import { Card, SrOnly } from "./ui";
 
 const round2 = (n: number): number => Math.round(n * 100) / 100;
 
-const CHART_W = 56;
-const CHART_H = 160;
-const CHART_TOP = 4;
-const CHART_BOTTOM = 156;
+const CHART_W = 42;
+const CHART_H = 120;
+const CHART_TOP = 3;
+const CHART_BOTTOM = 117;
 
 function scaleY(value: number, domainMax: number): number {
   const ratio = Math.max(0, Math.min(1, value / domainMax));
@@ -24,12 +24,12 @@ function BoxPlotGlyph({ min, q1, median, q3, max, domainMax }: { min: number; q1
   const yMax = scaleY(max, domainMax);
   return (
     <svg width={CHART_W} height={CHART_H} viewBox={`0 0 ${CHART_W} ${CHART_H}`} aria-hidden="true" className="shrink-0">
-      <line x1={28} x2={28} y1={yMax} y2={yQ3} stroke="#818cf8" strokeWidth={1.5} />
-      <line x1={20} x2={36} y1={yMax} y2={yMax} stroke="#818cf8" strokeWidth={1.5} />
-      <rect x={12} y={yQ3} width={32} height={Math.max(1, round2(yQ1 - yQ3))} fill="#eef2ff" stroke="#4f46e5" strokeWidth={1.5} rx={2} />
-      <line x1={12} x2={44} y1={yMed} y2={yMed} stroke="#4f46e5" strokeWidth={2.5} />
-      <line x1={28} x2={28} y1={yQ1} y2={yMin} stroke="#818cf8" strokeWidth={1.5} />
-      <line x1={20} x2={36} y1={yMin} y2={yMin} stroke="#818cf8" strokeWidth={1.5} />
+      <line x1={21} x2={21} y1={yMax} y2={yQ3} stroke="#818cf8" strokeWidth={1.25} />
+      <line x1={15} x2={27} y1={yMax} y2={yMax} stroke="#818cf8" strokeWidth={1.25} />
+      <rect x={9} y={yQ3} width={24} height={Math.max(1, round2(yQ1 - yQ3))} fill="#eef2ff" stroke="#4f46e5" strokeWidth={1.25} rx={2} />
+      <line x1={9} x2={33} y1={yMed} y2={yMed} stroke="#4f46e5" strokeWidth={2} />
+      <line x1={21} x2={21} y1={yQ1} y2={yMin} stroke="#818cf8" strokeWidth={1.25} />
+      <line x1={15} x2={27} y1={yMin} y2={yMin} stroke="#818cf8" strokeWidth={1.25} />
     </svg>
   );
 }
@@ -61,13 +61,13 @@ export function BoxPlotPanel({ period, pinnedId, onSelect }: { period: Period; p
       </div>
 
       <div className="min-w-0 overflow-x-auto px-5 pb-5 pt-28">
-        <div className="flex min-w-0 items-end gap-3">
+        <div className="flex min-w-0 items-end gap-2">
           {stats.map(({ vendor: v, stat }, index) => {
             const isHovered = hoveredId === v.id;
             const isPinned = pinnedId === v.id;
             const anchor = index === 0 ? "left-0" : index === stats.length - 1 ? "right-0" : "left-1/2 -translate-x-1/2";
             return (
-              <div key={v.id} className="relative flex w-16 shrink-0 flex-col items-center">
+              <div key={v.id} className="relative flex w-12 shrink-0 flex-col items-center">
                 {isHovered && (
                   <div aria-hidden="true" className={`absolute bottom-full z-10 mb-2 w-44 rounded-lg border border-zinc-800 bg-zinc-900 p-2.5 text-left shadow-lg ${anchor}`}>
                     <p className="truncate text-xs font-medium text-zinc-50">{v.name}</p>
@@ -102,7 +102,7 @@ export function BoxPlotPanel({ period, pinnedId, onSelect }: { period: Period; p
                   <span className="relative">
                     <BoxPlotGlyph min={stat.min} q1={stat.q1} median={stat.median} q3={stat.q3} max={stat.max} domainMax={domainMax} />
                     {stat.outliers > 0 && (
-                      <span className="absolute -right-2 -top-1 rounded-full bg-zinc-900 px-1 py-0.5 text-[10px] font-medium leading-none tabular-nums text-white">
+                      <span className="absolute -right-1 -top-1 rounded-full bg-zinc-900 px-1 py-0.5 text-[10px] font-medium leading-none tabular-nums text-white">
                         +{stat.outliers}
                       </span>
                     )}
