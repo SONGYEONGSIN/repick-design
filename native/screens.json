@@ -163,5 +163,14 @@
   },
   "evolve-r32-c": {
     "check": "Appeal This Review"
+  },
+  "evolve-r33-a": {
+    "check": "Provenance Record"
+  },
+  "evolve-r33-b": {
+    "check": "Safety Recall Matches"
+  },
+  "evolve-r33-c": {
+    "check": "Shipping Rate Cards"
   }
 }

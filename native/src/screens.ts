@@ -54,6 +54,9 @@ import EvolveR31C from "./evolve/r31/c/PriceDropAlertSettingsScreen";
 import EvolveR32A from "./evolve/r32/a/ArchiveConversationsScreen";
 import EvolveR32B from "./evolve/r32/b/LinkedSocialAccountsScreen";
 import EvolveR32C from "./evolve/r32/c/AppealNegativeReviewScreen";
+import EvolveR33A from "./evolve/r33/a/ProvenanceRecordScreen";
+import EvolveR33B from "./evolve/r33/b/SafetyRecallMatchesScreen";
+import EvolveR33C from "./evolve/r33/c/ShippingRateCardsScreen";
 
 const COMPONENTS = {
   watchlist: WatchList,
@@ -111,6 +114,9 @@ const COMPONENTS = {
   "evolve-r32-a": EvolveR32A,
   "evolve-r32-b": EvolveR32B,
   "evolve-r32-c": EvolveR32C,
+  "evolve-r33-a": EvolveR33A,
+  "evolve-r33-b": EvolveR33B,
+  "evolve-r33-c": EvolveR33C,
 } as const satisfies Record<string, ComponentType>;
 
 export type ScreenSlug = keyof typeof COMPONENTS;
