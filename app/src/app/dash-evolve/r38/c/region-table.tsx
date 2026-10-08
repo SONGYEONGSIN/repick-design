@@ -9,11 +9,14 @@ import { Card, CardHead } from "./ui";
 type SortKey = "name" | "status" | "incidents" | "uptime" | "p50" | "reqps";
 type SortDir = "asc" | "desc";
 
-const COLUMNS: { key: SortKey; label: string; widthPct: number; align: "left" | "right" }[] = [
+const COLUMNS: { key: SortKey; label: string; shortLabel?: string; widthPct: number; align: "left" | "right" }[] = [
   { key: "name", label: "Region", widthPct: 24, align: "left" },
   { key: "status", label: "Status", widthPct: 13, align: "left" },
-  { key: "incidents", label: "Incidents", widthPct: 12, align: "right" },
-  { key: "uptime", label: "Uptime", widthPct: 18, align: "right" },
+  // Incidents (12%) and Uptime (18%) are the tightest numeric columns at narrow widths — each
+  // gets a short form below `sm:` so the header text never wraps into, or overlaps, its neighbor
+  // (the table intentionally has no horizontal scroller, so this is the only lever here).
+  { key: "incidents", label: "Incidents", shortLabel: "Inc.", widthPct: 12, align: "right" },
+  { key: "uptime", label: "Uptime", shortLabel: "Up", widthPct: 18, align: "right" },
   { key: "p50", label: "p50", widthPct: 16, align: "right" },
   { key: "reqps", label: "Req/s", widthPct: 17, align: "right" },
 ];
@@ -88,12 +91,22 @@ export function RegionTable({ range }: { range: TimeRange }) {
                 const active = c.key === sortKey;
                 const ariaSort = active ? (sortDir === "asc" ? "ascending" : "descending") : "none";
                 return (
-                  <th key={c.key} scope="col" aria-sort={ariaSort} className={cx("py-2", c.align === "right" ? "text-right" : "text-left")}>
+                  <th
+                    key={c.key}
+                    scope="col"
+                    aria-sort={ariaSort}
+                    // overflow-hidden is the belt to the short-label-text's suspenders: even if a
+                    // column ever renders tighter than expected, this clips rather than lets the
+                    // button bleed into the neighboring header cell (the original violation).
+                    className={cx("overflow-hidden py-2", c.align === "right" ? "text-right" : "text-left")}
+                  >
                     <button
                       type="button"
                       onClick={() => toggleSort(c.key)}
                       className={cx(
-                        "inline-flex items-center gap-1 rounded px-1 text-[11px] font-medium uppercase tracking-[0.06em]",
+                        // py-1.5 gives the button a real ~24px tap target — the <th> padding alone
+                        // doesn't count toward the clickable/focusable element's own hit area.
+                        "inline-flex max-w-full items-center gap-1 rounded px-1 py-1.5 text-[11px] font-medium uppercase tracking-[0.06em]",
                         TEXT_AUX,
                         TRANSITION,
                         FOCUS,
@@ -101,7 +114,14 @@ export function RegionTable({ range }: { range: TimeRange }) {
                         c.align === "right" && "flex-row-reverse",
                       )}
                     >
-                      {c.label}
+                      {c.shortLabel ? (
+                        <>
+                          <span className="sm:hidden">{c.shortLabel}</span>
+                          <span className="hidden sm:inline">{c.label}</span>
+                        </>
+                      ) : (
+                        c.label
+                      )}
                       {active ? sortDir === "asc" ? <ArrowUp size={11} aria-hidden="true" /> : <ArrowDown size={11} aria-hidden="true" /> : <ArrowUpDown size={11} aria-hidden="true" className="opacity-50" />}
                     </button>
                   </th>

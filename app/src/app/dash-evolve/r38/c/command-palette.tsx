@@ -14,7 +14,17 @@ const SECTIONS = [
 
 export function CommandPalette({ open, onOpenChange }: { open: boolean; onOpenChange: (open: boolean) => void }) {
   const [query, setQuery] = useState("");
+  const [prevOpen, setPrevOpen] = useState(open);
   const inputRef = useRef<HTMLInputElement>(null);
+
+  // Adjusting state when a prop changes: compared during render, not inside an effect (the
+  // react.dev-recommended pattern), so the `react-hooks/set-state-in-effect` rule stays clean.
+  // The DOM focus side effect below stays in a real effect since it has no render-phase
+  // equivalent.
+  if (open !== prevOpen) {
+    setPrevOpen(open);
+    if (open) setQuery("");
+  }
 
   useEffect(() => {
     function onKey(e: KeyboardEvent) {
@@ -31,7 +41,6 @@ export function CommandPalette({ open, onOpenChange }: { open: boolean; onOpenCh
 
   useEffect(() => {
     if (open) {
-      setQuery("");
       requestAnimationFrame(() => inputRef.current?.focus());
     }
   }, [open]);

@@ -68,7 +68,12 @@ export function RegionMap({ range, pinnedRegionId, onClearPin }: { range: TimeRa
             <span className="inline-flex flex-wrap items-center gap-1.5">
               <MapPin size={12} aria-hidden="true" className="text-sky-400" />
               Pinned — <span className="font-medium text-sky-300">{pinned.name}</span>
-              <button type="button" onClick={onClearPin} className={cx("ml-1 inline-flex items-center gap-0.5 rounded px-1 text-[11px] font-medium", TEXT_AUX, TRANSITION, "hover:text-zinc-50")}>
+              <button
+                type="button"
+                onClick={onClearPin}
+                aria-label="Clear pinned region"
+                className={cx("ml-1 inline-flex min-h-6 items-center gap-0.5 rounded px-1.5 text-[11px] font-medium", TEXT_AUX, TRANSITION, "hover:text-zinc-50")}
+              >
                 <X size={10} aria-hidden="true" /> Clear
               </button>
             </span>
@@ -131,7 +136,10 @@ export function RegionMap({ range, pinnedRegionId, onClearPin }: { range: TimeRa
               <button
                 type="button"
                 aria-label={`${region.name}: ${STATUS_LABEL[status]}, ${m.incidents} incidents, ${fmtPct(m.uptimePct)} uptime, ${fmtMs(m.p50Ms)} p50, ${fmtCompact(m.reqPerSec)} requests per second`}
-                className="absolute inset-0 cursor-pointer rounded-full focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-400"
+                // min-w/min-h guarantee a real tap target even if the hex grid is ever denser or
+                // the viewport narrower than today's layout makes the percentage-sized box — the
+                // visual hex glyph can be smaller than the hit area, never the other way round.
+                className="absolute inset-0 min-h-6 min-w-6 cursor-pointer rounded-full focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-400"
               />
               <div
                 aria-hidden="true"

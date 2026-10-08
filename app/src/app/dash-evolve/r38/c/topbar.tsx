@@ -3,7 +3,7 @@
 import { AlertTriangle, Bell, ChevronDown, Command, LogOut, Menu, Search, User } from "lucide-react";
 import { useState } from "react";
 import { FEED_ITEMS, regionById } from "./data";
-import { BORDER, FOCUS, TEXT_AUX, TEXT_PRIMARY, TONE_BADGE, TRANSITION, cx } from "./tokens";
+import { BORDER, FOCUS, TEXT_AUX, TEXT_PRIMARY, TRANSITION, cx } from "./tokens";
 import { useOutsideClose } from "./ui";
 
 const CRITICAL_ITEMS = FEED_ITEMS.filter((f) => f.tone === "critical").slice(0, 4);
@@ -65,6 +65,7 @@ function AvatarMenu() {
         onClick={() => setOpen((v) => !v)}
         aria-haspopup="menu"
         aria-expanded={open}
+        aria-label="Account menu, Reese Shin"
         className={cx("flex h-9 items-center gap-1.5 rounded-lg border pl-1 pr-2", BORDER, TRANSITION, FOCUS, "hover:bg-white/5")}
       >
         <span aria-hidden="true" className="flex h-7 w-7 items-center justify-center rounded-full bg-sky-400/15 text-[11px] font-semibold text-sky-300">
