@@ -70,7 +70,7 @@ export default function CommandPalette({ open, onClose, kpis, onSelect }: Comman
             }}
             aria-label="Search metrics by name or category"
             placeholder="Search metrics by name or category..."
-            className="w-full bg-transparent font-normal text-sm text-zinc-50 placeholder:text-zinc-400 focus:outline-none"
+            className="w-full rounded-md bg-transparent font-normal text-sm text-zinc-50 placeholder:text-zinc-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-400"
           />
           <button
             type="button"
