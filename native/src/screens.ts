@@ -24,6 +24,39 @@ import { ConditionAssessmentScreen } from "./condition/ConditionAssessmentScreen
 import { ShipmentPickupScreen } from "./pickup/ShipmentPickupScreen";
 import LiveAuctionScreen from "./auction/LiveAuctionScreen";
 import ActiveSessionsScreen from "./sessions/ActiveSessionsScreen";
+import EvolveR23A from "./evolve/r23/a/ProtectionCoverageScreen";
+import EvolveR23B from "./evolve/r23/b/PaymentMethodsScreen";
+import EvolveR23C from "./evolve/r23/c/PhotoManagerScreen";
+import { ReportListingScreen as EvolveR24A } from "./evolve/r24/a/ReportListingScreen";
+import { SellerAnalyticsScreen as EvolveR24B } from "./evolve/r24/b/SellerAnalyticsScreen";
+import { FollowingFeedScreen as EvolveR24C } from "./evolve/r24/c/FollowingFeedScreen";
+import { TradeInAppraisalScreen as EvolveR25A } from "./evolve/r25/a/TradeInAppraisalScreen";
+import { DeliveryReceiptScreen as EvolveR25B } from "./evolve/r25/b/DeliveryReceiptScreen";
+import { SavedSearchManagerScreen as EvolveR25C } from "./evolve/r25/c/SavedSearchManagerScreen";
+import { WarrantyClaimScreen as EvolveR26A } from "./evolve/r26/a/WarrantyClaimScreen";
+import { SellerRatingSummaryScreen as EvolveR26B } from "./evolve/r26/b/SellerRatingSummaryScreen";
+import LinkedBankAccountsScreen from "./evolve/r26/c/LinkedBankAccountsScreen";
+import EvolveR27A from "./evolve/r27/a/PurchaseArchiveScreen";
+import EvolveR27B from "./evolve/r27/b/BlockedUsersScreen";
+import EvolveR27C from "./evolve/r27/c/BlockedAccountsScreen";
+import EvolveR28A from "./evolve/r28/a/AccountAppealScreen";
+import { TaxExportTaggingScreen as EvolveR28B } from "./evolve/r28/b/TaxExportTaggingScreen";
+import { ShippingProtectionClaimScreen as EvolveR28C } from "./evolve/r28/c/ShippingProtectionClaimScreen";
+import { LoyaltyPointsStatementScreen as EvolveR29A } from "./evolve/r29/a/LoyaltyPointsStatementScreen";
+import EvolveR29B from "./evolve/r29/b/DraftListingsScreen";
+import { SavedAddressesScreen as EvolveR29C } from "./evolve/r29/c/SavedAddressesScreen";
+import { SubscriptionPlanScreen as EvolveR30A } from "./evolve/r30/a/SubscriptionPlanScreen";
+import EvolveR30B from "./evolve/r30/b/LinkedMarketplacesSync";
+import EvolveR30C from "./evolve/r30/c/PromoCodeWallet";
+import EvolveR31A from "./evolve/r31/a/AccountDataExportScreen";
+import EvolveR31B from "./evolve/r31/b/SecurityActivityLogScreen";
+import EvolveR31C from "./evolve/r31/c/PriceDropAlertSettingsScreen";
+import EvolveR32A from "./evolve/r32/a/ArchiveConversationsScreen";
+import EvolveR32B from "./evolve/r32/b/LinkedSocialAccountsScreen";
+import EvolveR32C from "./evolve/r32/c/AppealNegativeReviewScreen";
+import EvolveR33A from "./evolve/r33/a/ProvenanceRecordScreen";
+import EvolveR33B from "./evolve/r33/b/SafetyRecallMatchesScreen";
+import EvolveR33C from "./evolve/r33/c/ShippingRateCardsScreen";
 
 const COMPONENTS = {
   watchlist: WatchList,
@@ -51,6 +84,39 @@ const COMPONENTS = {
   pickup: ShipmentPickupScreen,
   auction: LiveAuctionScreen,
   sessions: ActiveSessionsScreen,
+  "evolve-r23-a": EvolveR23A,
+  "evolve-r23-b": EvolveR23B,
+  "evolve-r23-c": EvolveR23C,
+  "evolve-r24-a": EvolveR24A,
+  "evolve-r24-b": EvolveR24B,
+  "evolve-r24-c": EvolveR24C,
+  "evolve-r25-a": EvolveR25A,
+  "evolve-r25-b": EvolveR25B,
+  "evolve-r25-c": EvolveR25C,
+  "evolve-r26-a": EvolveR26A,
+  "evolve-r26-b": EvolveR26B,
+  "evolve-r26-c": LinkedBankAccountsScreen,
+  "evolve-r27-a": EvolveR27A,
+  "evolve-r27-b": EvolveR27B,
+  "evolve-r27-c": EvolveR27C,
+  "evolve-r28-a": EvolveR28A,
+  "evolve-r28-b": EvolveR28B,
+  "evolve-r28-c": EvolveR28C,
+  "evolve-r29-a": EvolveR29A,
+  "evolve-r29-b": EvolveR29B,
+  "evolve-r29-c": EvolveR29C,
+  "evolve-r30-a": EvolveR30A,
+  "evolve-r30-b": EvolveR30B,
+  "evolve-r30-c": EvolveR30C,
+  "evolve-r31-a": EvolveR31A,
+  "evolve-r31-b": EvolveR31B,
+  "evolve-r31-c": EvolveR31C,
+  "evolve-r32-a": EvolveR32A,
+  "evolve-r32-b": EvolveR32B,
+  "evolve-r32-c": EvolveR32C,
+  "evolve-r33-a": EvolveR33A,
+  "evolve-r33-b": EvolveR33B,
+  "evolve-r33-c": EvolveR33C,
 } as const satisfies Record<string, ComponentType>;
 
 export type ScreenSlug = keyof typeof COMPONENTS;

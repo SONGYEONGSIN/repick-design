@@ -73,5 +73,104 @@
   },
   "sessions": {
     "check": "Active Sessions"
+  },
+  "evolve-r23-a": {
+    "check": "Protection Coverage"
+  },
+  "evolve-r23-b": {
+    "check": "Payment Methods"
+  },
+  "evolve-r23-c": {
+    "check": "Manage Photos"
+  },
+  "evolve-r24-a": {
+    "check": "Report a Listing"
+  },
+  "evolve-r24-b": {
+    "check": "Seller Sales Analytics"
+  },
+  "evolve-r24-c": {
+    "check": "Following Feed"
+  },
+  "evolve-r25-a": {
+    "check": "Trade-In Appraisal"
+  },
+  "evolve-r25-b": {
+    "check": "Delivery Receipt"
+  },
+  "evolve-r25-c": {
+    "check": "Saved Searches"
+  },
+  "evolve-r26-a": {
+    "check": "File a Warranty Claim"
+  },
+  "evolve-r26-b": {
+    "check": "Seller Rating Summary"
+  },
+  "evolve-r26-c": {
+    "check": "Linked Bank Accounts"
+  },
+  "evolve-r27-a": {
+    "check": "Completed Purchases Archive"
+  },
+  "evolve-r27-b": {
+    "check": "Blocked Users"
+  },
+  "evolve-r27-c": {
+    "check": "Blocked Accounts"
+  },
+  "evolve-r28-a": {
+    "check": "Appeal Your Suspension"
+  },
+  "evolve-r28-b": {
+    "check": "Tax Export Tagging"
+  },
+  "evolve-r28-c": {
+    "check": "Shipping Protection Claim"
+  },
+  "evolve-r29-a": {
+    "check": "Loyalty Points Statement"
+  },
+  "evolve-r29-b": {
+    "check": "Draft Listings"
+  },
+  "evolve-r29-c": {
+    "check": "Saved Addresses"
+  },
+  "evolve-r30-a": {
+    "check": "Pro Seller Plan"
+  },
+  "evolve-r30-b": {
+    "check": "Linked Marketplaces"
+  },
+  "evolve-r30-c": {
+    "check": "Promo Code Wallet"
+  },
+  "evolve-r31-a": {
+    "check": "Export Account Data"
+  },
+  "evolve-r31-b": {
+    "check": "Security Activity Log"
+  },
+  "evolve-r31-c": {
+    "check": "Price Drop Alerts"
+  },
+  "evolve-r32-a": {
+    "check": "Archive Conversations"
+  },
+  "evolve-r32-b": {
+    "check": "Linked Social Accounts"
+  },
+  "evolve-r32-c": {
+    "check": "Appeal This Review"
+  },
+  "evolve-r33-a": {
+    "check": "Provenance Record"
+  },
+  "evolve-r33-b": {
+    "check": "Safety Recall Matches"
+  },
+  "evolve-r33-c": {
+    "check": "Shipping Rate Cards"
   }
 }
