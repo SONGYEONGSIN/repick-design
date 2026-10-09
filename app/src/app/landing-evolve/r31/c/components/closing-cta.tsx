@@ -23,7 +23,7 @@ export function ClosingCta({ selections }: { selections: Selections }) {
             <span className="font-semibold tabular-nums text-white">
               ${estimate.payoutLow}–${estimate.payoutHigh}
             </span>{" "}
-            after our fee — the same arithmetic you just watched update, with nothing added
+            after our fee — the exact arithmetic from the breakdown above, with nothing added
             at checkout.
           </p>
           <div className="mt-8">
