@@ -1,9 +1,15 @@
+import Image from "next/image";
 import Link from "next/link";
-import { ShieldCheck } from "lucide-react";
-import { computeEstimate, type Selections } from "./data";
+import { BadgeCheck, ShieldCheck } from "lucide-react";
+import { computeEstimate, SOLD_COMPS, type Selections } from "./data";
 import { Eyebrow, FOCUS } from "./ui";
 import { Wizard } from "./wizard";
 import { PayoutPanel } from "./payout-panel";
+
+// A single real comparable sale, pulled into the hero itself so the page's proof
+// (grade, a verified-sale badge, and the estimate-vs-actual spread) sits in the same
+// component as the headline rather than only in the "Recently sold" section below.
+const heroComp = SOLD_COMPS[0];
 
 export function Hero({
   selections,
@@ -43,6 +49,28 @@ export function Hero({
           </div>
 
           <div className="flex flex-col gap-5">
+            <div className="flex items-center gap-3 rounded-2xl border border-white/10 bg-white/[0.02] p-3">
+              <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-xl bg-zinc-900">
+                <Image
+                  src={`https://images.unsplash.com/photo-${heroComp.photoId}?auto=format&fit=crop&w=128&q=80`}
+                  alt={heroComp.name}
+                  fill
+                  sizes="64px"
+                  className="object-cover"
+                />
+              </div>
+              <div className="min-w-0 flex-1">
+                <p className="truncate text-sm font-bold text-white">{heroComp.name}</p>
+                <p className="mt-0.5 text-[12px] text-zinc-400">Grade {heroComp.grade}</p>
+              </div>
+              <div className="flex shrink-0 flex-col items-end gap-1">
+                <span className="text-sm font-bold tabular-nums text-white">${heroComp.soldPrice}</span>
+                <span className="inline-flex items-center gap-1 rounded-full border border-emerald-400/30 bg-emerald-400/10 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.1em] text-emerald-300">
+                  <BadgeCheck className="h-3 w-3" aria-hidden="true" />
+                  Verified sale
+                </span>
+              </div>
+            </div>
             <PayoutPanel selections={selections} estimate={estimate} />
             <div className="flex flex-col gap-4 rounded-2xl border border-white/10 bg-white/[0.02] p-5">
               <Link
