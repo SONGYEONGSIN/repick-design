@@ -78,7 +78,7 @@ export default function Page() {
                 type="button"
                 onClick={() => setAccountOpen((o) => !o)}
                 aria-expanded={accountOpen}
-                aria-haspopup="menu"
+                aria-controls="account-panel"
                 className="flex items-center gap-2 rounded-full border border-zinc-200 bg-white px-1.5 py-1 outline-offset-2 hover:bg-zinc-50 focus-visible:outline-2 focus-visible:outline-orange-600"
               >
                 <span className="flex h-6 w-6 items-center justify-center rounded-full bg-zinc-100 text-zinc-600">
@@ -88,8 +88,7 @@ export default function Page() {
               </button>
               {accountOpen && (
                 <div
-                  role="menu"
-                  aria-label="Account menu"
+                  id="account-panel"
                   className="absolute right-0 top-10 w-56 rounded-lg border border-zinc-200 bg-white p-2 shadow-lg"
                 >
                   <div className="px-2 py-1.5">
@@ -99,7 +98,6 @@ export default function Page() {
                   <hr className="my-1 border-zinc-200" />
                   <button
                     type="button"
-                    role="menuitem"
                     onClick={() => setAccountOpen(false)}
                     className="flex w-full items-center gap-2 rounded-md px-2 py-1.5 text-left text-sm font-normal text-zinc-700 outline-offset-2 hover:bg-zinc-100 focus-visible:outline-2 focus-visible:outline-orange-600"
                   >
@@ -165,7 +163,7 @@ export default function Page() {
                 type="button"
                 onClick={() => setSearchQuery("")}
                 aria-label="Clear search"
-                className="absolute right-2.5 top-1/2 flex h-5 w-5 -translate-y-1/2 items-center justify-center rounded-full text-zinc-500 outline-offset-2 hover:bg-zinc-100 focus-visible:outline-2 focus-visible:outline-orange-600"
+                className="absolute right-2.5 top-1/2 flex h-5 w-5 -translate-y-1/2 items-center justify-center rounded-full text-zinc-600 outline-offset-2 hover:bg-zinc-100 focus-visible:outline-2 focus-visible:outline-orange-600"
               >
                 <X className="h-3.5 w-3.5" aria-hidden="true" />
               </button>
@@ -181,7 +179,7 @@ export default function Page() {
         </div>
 
         <h2 className="sr-only">Spend breakdown</h2>
-        <section className="mx-auto mb-10 flex max-w-3xl flex-col items-center gap-6 lg:flex-row lg:items-start lg:justify-center">
+        <section className="mx-auto mb-10 flex max-w-4xl flex-col items-center gap-6 lg:flex-row lg:items-start lg:justify-center">
           <SunburstChart path={path} onSetPath={setPath} />
 
           <div className="w-full max-w-sm flex-shrink-0 rounded-xl border border-zinc-200 bg-white p-5 shadow-sm">
@@ -190,13 +188,15 @@ export default function Page() {
             <p className="text-2xl font-bold tabular-nums text-zinc-900">{formatCurrency(focus.value)}</p>
 
             <dl className="mt-4 space-y-2.5 border-t border-zinc-200 pt-4">
-              <div className="flex items-center justify-between gap-2">
-                <dt className="flex items-center gap-1.5 text-sm font-normal text-zinc-600">
-                  <Layers className="h-3.5 w-3.5 text-zinc-600" aria-hidden="true" />
-                  Share of {parent ? parent.name : "itself"}
-                </dt>
-                <dd className="text-sm font-medium tabular-nums text-zinc-900">{formatPercent(shareOfParent)}</dd>
-              </div>
+              {parent && (
+                <div className="flex items-center justify-between gap-2">
+                  <dt className="flex items-center gap-1.5 text-sm font-normal text-zinc-600">
+                    <Layers className="h-3.5 w-3.5 text-zinc-600" aria-hidden="true" />
+                    Share of {parent.name}
+                  </dt>
+                  <dd className="text-sm font-medium tabular-nums text-zinc-900">{formatPercent(shareOfParent)}</dd>
+                </div>
+              )}
               <div className="flex items-center justify-between gap-2">
                 <dt className="flex items-center gap-1.5 text-sm font-normal text-zinc-600">
                   <TrendingUp className="h-3.5 w-3.5 text-zinc-600" aria-hidden="true" />
@@ -227,7 +227,7 @@ export default function Page() {
         </section>
         </div>
 
-        <div className="w-full xl:w-[600px] xl:flex-shrink-0">
+        <div className="mx-auto w-full max-w-3xl xl:mx-0 xl:w-[600px] xl:max-w-none xl:flex-shrink-0">
         <section className="rounded-xl border border-zinc-200 bg-white shadow-sm">
           <div className="flex items-center justify-between border-b border-zinc-200 px-5 py-3">
             <p className="text-sm font-medium text-zinc-700">

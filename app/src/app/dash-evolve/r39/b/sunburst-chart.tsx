@@ -147,17 +147,13 @@ export default function SunburstChart({ path, onSetPath }: SunburstChartProps) {
   };
 
   return (
-    <div className="flex flex-col items-center gap-4">
-      <div
-        className="relative mx-auto"
-        style={{ width: "min(92vw, 560px)", maxWidth: 560 }}
-      >
-        <svg
-          viewBox={`0 0 ${SIZE} ${SIZE}`}
-          className="aspect-square w-full"
-          role="img"
-          aria-label={`Sunburst breakdown of ${focus.name}, totaling ${formatCurrency(focus.value)}`}
-        >
+    <div className="flex min-w-0 flex-col items-center gap-4">
+      <div className="relative mx-auto w-full max-w-[560px]">
+        <p className="sr-only font-normal">
+          Sunburst breakdown of {focus.name}, totaling {formatCurrency(focus.value)}. Each ring segment below is a
+          focusable, clickable control describing its own name, value and share.
+        </p>
+        <svg viewBox={`0 0 ${SIZE} ${SIZE}`} className="aspect-square w-full" focusable="false">
           <circle cx={CENTER} cy={CENTER} r={RING1_OUTER + 2} fill="none" stroke="#f4f4f5" strokeWidth={1} />
           {wedges.map((w) => {
             const span = degSpan(w);
