@@ -41,14 +41,14 @@ export function PayoutPanel({ selections, estimate }: { selections: Selections; 
         </div>
 
         <div
-          className="-mx-5 flex items-start justify-between gap-4 rounded-xl px-5 py-4 sm:-mx-6 sm:px-6"
+          className="-mx-5 flex flex-col gap-2 rounded-xl px-5 py-4 sm:-mx-6 sm:flex-row sm:items-start sm:justify-between sm:px-6"
           style={{ backgroundColor: ACCENT_SOFT_BG, borderTop: `1px solid ${ACCENT_SOFT_BORDER}` }}
         >
           <dt className="flex items-center gap-2.5 text-sm font-bold text-white">
             <Wallet className="h-4 w-4 shrink-0 text-[#AE9BFF]" aria-hidden="true" />
             Your estimated payout
           </dt>
-          <dd className="shrink-0 text-right">
+          <dd className="sm:shrink-0 sm:text-right">
             <span className="block text-2xl font-bold tabular-nums text-white">
               ${estimate.payoutLow}–${estimate.payoutHigh}
             </span>
