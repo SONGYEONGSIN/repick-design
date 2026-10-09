@@ -250,7 +250,7 @@ export default function Page() {
                 onFocusNode={(chain) => setPath(chain)}
                 currentFocusId={focus.id}
                 searchQuery={searchQuery}
-                extraExpandedIds={extraExpandedIds}
+                extraExpandedIds={new Set([...extraExpandedIds, ...path.map((node) => node.id)])}
                 sortMode={sortMode}
                 onSortModeChange={setSortMode}
               />
