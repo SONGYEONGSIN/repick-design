@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { ArrowUp } from "lucide-react";
 import {
   type CostNode,
@@ -127,9 +127,9 @@ export default function SunburstChart({ path, onSetPath }: SunburstChartProps) {
 
   // Adjust state during render (not in an effect) when the PROP `path` changes,
   // so a stale hover/focus readout from the previous focus level never lingers.
-  const prevFocusIdRef = useRef(focus.id);
-  if (prevFocusIdRef.current !== focus.id) {
-    prevFocusIdRef.current = focus.id;
+  const [prevFocusId, setPrevFocusId] = useState(focus.id);
+  if (prevFocusId !== focus.id) {
+    setPrevFocusId(focus.id);
     if (inspected !== null) {
       setInspected(null);
     }

@@ -222,7 +222,7 @@ export default function LedgerlineConsole() {
               className={`flex h-11 items-center gap-2 rounded-lg border border-white/10 px-3 font-normal text-sm text-zinc-400 hover:text-zinc-50 ${focusRing}`}
             >
               <Search className="h-4 w-4" aria-hidden="true" />
-              <span className="hidden sm:inline">Search metrics</span>
+              <span className="sr-only sm:not-sr-only">Search metrics</span>
               <span className="rounded border border-white/10 px-1.5 py-0.5 font-normal text-xs text-zinc-400">
                 &#8984;K
               </span>
@@ -236,7 +236,7 @@ export default function LedgerlineConsole() {
               className={`flex h-11 items-center gap-2 rounded-lg bg-emerald-500 px-3 font-medium text-sm text-zinc-950 hover:bg-emerald-400 ${focusRing}`}
             >
               <RotateCcw className="h-4 w-4" aria-hidden="true" />
-              <span className="hidden sm:inline">Reset Decomposition</span>
+              <span className="sr-only sm:not-sr-only">Reset Decomposition</span>
             </button>
 
             <div className="relative">
@@ -270,7 +270,7 @@ export default function LedgerlineConsole() {
                 aria-label={`Account menu for ${CURRENT_USER.name}`}
                 className={`flex h-11 w-11 items-center justify-center rounded-full bg-white/10 font-medium text-xs text-zinc-50 hover:bg-white/15 ${focusRing}`}
               >
-                {CURRENT_USER.initials}
+                <span aria-hidden="true">{CURRENT_USER.initials}</span>
               </button>
               {avatarMenuOpen ? (
                 <div className="absolute right-0 top-full z-40 mt-2 w-56 rounded-lg border border-white/10 bg-zinc-900 p-2 shadow-xl">

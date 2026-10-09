@@ -84,7 +84,7 @@ export default function Page() {
                 <span className="flex h-6 w-6 items-center justify-center rounded-full bg-zinc-100 text-zinc-600">
                   <User className="h-3.5 w-3.5" aria-hidden="true" />
                 </span>
-                <span className="hidden text-xs font-medium text-zinc-700 sm:inline">Priya Anand</span>
+                <span className="sr-only text-xs font-medium text-zinc-700 sm:not-sr-only sm:inline">Priya Anand</span>
               </button>
               {accountOpen && (
                 <div

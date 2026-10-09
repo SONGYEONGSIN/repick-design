@@ -14,14 +14,6 @@
 
 ## 대기 중
 
-### 12. `auto-dash-r38/b` — "Ledgerline" RevOps 분해트리(Decomposition Tree) 콘솔 (target: dash)
-
-- **탈락 사유**: 1차 하드게이트 복합 실패 — ① lint `react-hooks/set-state-in-effect`(command-palette의 `open` 변화 effect 안 동기 `setQuery`, 이 라운드 3후보 전원 독립 수렴) ② a11y `label-content-name-mismatch`(분해트리 노드 버튼 — 가시 텍스트 "N% of parent"의 리터럴 단어 "parent"가, 실제 부모명을 쓰는 서술형 `aria-label`("...percent of {부모명}")에 부분문자열로 안 들어감).
-  1-fix(① render-phase prevOpen 비교 패턴으로 전환 ② 가시 텍스트를 "N% of parent" → "N% of {실제 부모명}"으로 변경, 재귀 컴포넌트의 공유 JSX라 전 노드에 적용됨)을 거쳐 재게이트했으나 **동일 감사가 재실패**. 고친 노드 경로는 전부 수정됐을 것으로 보이는데 재현됨 — **원인 미규명**. 다음 가설 중 하나일 수 있다: (a) 분해트리 바깥 다른 컴포넌트(메트릭 레일의 스파크라인·세그먼트컨트롤 등)에 별도의 유사 패턴이 있다 (b) 특정 깊이·특정 노드(루트 노드 등 `parentLabel`이 비정상값을 갖는 엣지케이스)에서만 재현된다 (c) `SegmentedControl`의 `role="group" aria-label={label}` 조합이 원인일 가능성(낮음 — group role은 통상 이 감사 대상이 아니지만 미검증). 재배정 시 **1264px·390px 실제 렌더로 axe를 직접 돌려 위반 엘리먼트를 특정한 뒤** 고친다 — 소스 추정만으로 재시도하지 말 것(이번 라운드가 그 함정에 걸렸다).
-- **형태가 왜 살아 있나**: Decomposition Tree는 이 카탈로그에 **처음 시도된 차트 타입**이다(25종 카탈로그 중 미시도 항목). 마스터-디테일 셸(좌 플랫 KPI 레일 + 우 트리 상세) 자체는 흔한 버킷이지만, 지배 시각화가 신규라 재배정 가치가 있다. 선택-파급도 레일→상세 단일 축(tier 2, 부분 재계산)으로 깔끔하게 분리돼 있었다(파일: `variance-dashboard.tsx` — `selectedKpiId` 하나만 `DetailPane` 하나로).
-- **재배정 시 반드시 명시할 것**: (1) 위 a11y 미규명 원인을 렌더 실측으로 먼저 특정할 것. (2) 분해트리 노드의 접근성 명칭 패턴 자체(콘텐츠+부모명 일치)는 **원리로는 유효**하니 재사용하되, 구현을 처음부터 다시 쓸 것(이번 라운드의 특정 코드를 복붙하지 말 것). (3) command-palette의 `set-state-in-effect`는 이번 라운드 세 후보 모두가 독립적으로 겪은 **일반적인 함정**이니, 배정문에 "`open` prop 변화에 반응해 다른 state를 리셋해야 한다면 `useEffect` 안이 아니라 렌더 단계에서 prevProp 비교로 처리하라"는 지시를 미리 넣어 재발을 막는다.
-- 등재: 2026-10-08 · 출처 `vault/20-generations/2026-10-08-auto-dash-r38/SCORES.md`·`DECISION.md`
-
 ### 11. `auto-dash-r38/c` — "Isobar" 지리적 코로플레스(Geographic Choropleth) 엣지 인프라 콘솔 (target: dash)
 
 - **탈락 사유**: 1차 하드게이트 복합 실패 — ① lint `set-state-in-effect`(위와 동일 패턴) + 미사용 변수 1건 ② sweep `cell-overlap`(390px, 테이블 헤더 "Incidents"↔"Uptime" 27px 겹침 — `table-fixed` 컬럼 퍼센트가 390px에서 전체 라벨을 못 담음, 스크롤러 회피 설계의 대가) ③ a11y 92점(`button-name`·`color-contrast`·`target-size` 복합).
@@ -33,6 +25,15 @@
 > **한 라운드에 2개가 동시에 들어왔다** — 다음 라운드는 이 중 **하나만** 배정한다(큐 규약). 어느 쪽을 먼저 돌릴지는 다음 라운드의 판단에 맡긴다. 나머지 탈락분은 넣지 않았다 — `dash r22/b`·`r22/c`·`r23/c`·`r25/b`·`landing r17/c`·`dash r28/c`(Trestle, 고정레일+간트 — 상시마운트 툴팁 div 가 화면 우측 바 근처에서 뷰포트를 넘는 page-overflow 로 1-fix 재실패)는 사유가 규칙 위반이라 등재 자격은 있으나, 큐는 **한 라운드에 1개만** 배정하므로 전부 넣으면 7라운드+치 백로그가 된다. `dash r28/b`(Ridgeline)는 2026-09-26 `auto-dash-r30/a`로 재배정 완료, 아래 5번 항목으로 소진됐다. 이전에 먼저 돌리기로 한 다른 항목들도 소진되어 아래 아카이브에 있다 — 다음 배정은 남은 백로그 중에서 판단한다. (전부 `candidates/<v>.md` 에 컨셉이 남아 있어 언제든 등재할 수 있다.)
 
 ## 아카이브
+
+### 13. `auto-dash-r38/b` — "Ledgerline" RevOps 분해트리(Decomposition Tree) 콘솔 (target: dash)
+
+- **탈락 사유(원 등재)**: 1차 하드게이트 복합 실패 — ① lint `react-hooks/set-state-in-effect`(command-palette) ② a11y `label-content-name-mismatch`(분해트리 노드 버튼, 가시 텍스트 "N% of parent"의 리터럴 단어 "parent"가 서술형 `aria-label`에 부분문자열로 안 들어감). 1-fix 후에도 동일 감사 재실패, 원인 미규명.
+- **재배정 결과 (2026-10-09, `auto-dash-r39/a`, 동일명 "Ledgerline")**: 배정문의 세 지시를 정확히 반영 — ① command-palette의 `open` 변화 리셋을 `useEffect` 대신 렌더 중 `wasOpen` state 비교로 전환(재발 없음) ② 분해트리 노드 버튼에 커스텀 `aria-label`을 전혀 안 달고 가시 텍스트 자체가 접근 가능 이름이 되게 재작성("content+parent name match" 원리는 유지, 구현은 처음부터 다시 작성) ③ 코드 복붙 없이 신규 작성. **원 재배정 사유(분해트리 노드 a11y)는 완전히 해소됐다** — 재게이트에서 트리 관련 a11y 위반 0건.
+  1차 하드게이트에서는 **다른**(이 라운드 3후보 공통) `button-name`(`hidden sm:inline` 라벨 숨김) 결함으로 실패, 1-fix로 해소. 그런데 같은 1-fix 라운드에서 **무관한 위치**(아바타 메뉴 버튼, 가시 텍스트 "MC" + `aria-label="Account menu for Maya Chen"`)의 `label-content-name-mismatch`가 드러났다 — 1-fix(이니셜 텍스트를 `aria-hidden`으로 감쌈)를 시도했으나 axe 의 이 감사는 **시각적 가시성**을 기준으로 하지 AT 노출 여부가 아니라서 재실패. 스킬 §3 "재실패 시 탈락" 적용 — **2차 탈락**.
+- **일반화**: 이 경로의 원 결함(재귀 컴포넌트 전체에 적용되는 분해트리 노드 명칭 패턴)은 두 번의 재배정 시도(`r38`→`r39`) 끝에 **완전히, 재현 가능하게 해소됐다** — "content IS the accessible name, no competing custom aria-label" 원칙이 유효함을 확인. 이번 탈락은 **같은 결함 클래스(가시 텍스트 ≠ aria-label)가 전혀 다른 무관한 컴포넌트에서 독립 재발**한 것으로, 분해트리 형태 자체의 결함이 아니다.
+- **처리**: 소진(큐 규약상 재배정 1회 후 결과 무관 아카이브). 세 번째 재배정 여부는 향후 판단에 맡긴다 — 재배정한다면 "아바타/계정 메뉴 버튼은 커스텀 텍스트(이니셜 등)에 설명적 `aria-label`을 병기하지 말고, `aria-label`을 이니셜 문자열을 포함하는 형태로 쓰거나 아예 커스텀 라벨 없이 `sr-only` 설명 span을 추가로 두는 패턴을 쓸 것"을 명시해야 한다.
+- 등재: 2026-10-08 · 출처 `vault/20-generations/2026-10-08-auto-dash-r38/SCORES.md`·`DECISION.md` · 소진: 2026-10-09 · 출처 `vault/20-generations/2026-10-09-auto-dash-r39/SCORES.md`
 
 ### 10. `auto-dash-r37/b` — "Baseline" 벤더 품질 박스플롯 스코어카드 (target: dash)
 

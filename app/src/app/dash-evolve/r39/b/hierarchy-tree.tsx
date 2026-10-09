@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { ChevronRight, ChevronDown, Cpu, Database, HardDrive, MapPin, Target, type LucideIcon } from "lucide-react";
+import { ChevronRight, ChevronDown, Cpu, Database, HardDrive, MapPin, Target } from "lucide-react";
 import { type CostNode, formatCurrency, formatPercent } from "./cost-data";
 
 type SortMode = "value" | "name";
@@ -16,12 +16,13 @@ function sortNodes(nodes: CostNode[], mode: SortMode): CostNode[] {
   return copy;
 }
 
-function iconFor(node: CostNode, depth: number): LucideIcon | null {
-  if (depth === 0) return Target;
-  if (depth === 1) return MapPin;
-  if (node.name === "Compute") return Cpu;
-  if (node.name === "Database") return Database;
-  if (node.name === "Storage") return HardDrive;
+function iconFor(node: CostNode, depth: number) {
+  const cls = "h-3.5 w-3.5 flex-shrink-0 text-zinc-600";
+  if (depth === 0) return <Target className={cls} aria-hidden="true" />;
+  if (depth === 1) return <MapPin className={cls} aria-hidden="true" />;
+  if (node.name === "Compute") return <Cpu className={cls} aria-hidden="true" />;
+  if (node.name === "Database") return <Database className={cls} aria-hidden="true" />;
+  if (node.name === "Storage") return <HardDrive className={cls} aria-hidden="true" />;
   return null;
 }
 
@@ -72,7 +73,7 @@ function TreeRow({
   const isExpanded = expandedIds.has(node.id);
   const shareOfParent = parentValue > 0 ? (node.value / parentValue) * 100 : 100;
   const shareOfTotal = (node.value / totalValue) * 100;
-  const Icon = iconFor(node, depth);
+  const icon = iconFor(node, depth);
   const isCurrent = node.id === currentFocusId;
   const query = searchQuery.trim().toLowerCase();
   const isDimmed = query.length > 0 && !node.name.toLowerCase().includes(query);
@@ -103,7 +104,7 @@ function TreeRow({
           className={`flex min-w-0 flex-1 items-center gap-1.5 truncate rounded px-1 py-0.5 text-left outline-offset-2 hover:bg-zinc-100 focus-visible:outline-2 focus-visible:outline-orange-600 ${isDimmed ? "text-zinc-600" : "text-zinc-900"}`}
           title={`Focus the sunburst on ${node.name}`}
         >
-          {Icon ? <Icon className="h-3.5 w-3.5 flex-shrink-0 text-zinc-600" aria-hidden="true" /> : null}
+          {icon}
           <span className={`truncate text-sm ${isCurrent ? "font-bold" : "font-medium"}`}>
             {highlightMatch(node.name, searchQuery)}
           </span>

@@ -99,7 +99,7 @@ function buildWaffleCells(data: CategoryDatum[]): CategoryKey[] {
 function segmentClass(active: boolean): string {
   const base = `flex h-7 items-center rounded-full px-3 text-xs font-medium transition-colors motion-reduce:transition-none ${FOCUS}`;
   return active
-    ? `${base} bg-sky-600 text-white`
+    ? `${base} bg-sky-700 text-white`
     : `${base} text-zinc-600 hover:bg-zinc-100`;
 }
 
@@ -170,17 +170,17 @@ export default function Page() {
               className={`flex h-11 items-center gap-2 rounded-lg border border-zinc-200 px-3 text-sm font-medium text-zinc-600 hover:bg-zinc-50 ${FOCUS}`}
             >
               <Search className="h-4 w-4" aria-hidden="true" />
-              <span className="hidden sm:inline">Search</span>
+              <span className="sr-only sm:not-sr-only">Search</span>
               <kbd className="hidden items-center gap-0.5 rounded border border-zinc-200 bg-zinc-50 px-1.5 py-0.5 text-xs font-medium text-zinc-600 sm:inline-flex">
                 <Command className="h-3 w-3" aria-hidden="true" />K
               </kbd>
             </button>
             <button
               type="button"
-              className={`flex h-11 items-center gap-2 rounded-lg bg-sky-600 px-3 sm:px-4 text-sm font-medium text-white hover:bg-sky-700 ${FOCUS}`}
+              className={`flex h-11 items-center gap-2 rounded-lg bg-sky-700 px-3 sm:px-4 text-sm font-medium text-white hover:bg-sky-800 ${FOCUS}`}
             >
               <Download className="h-4 w-4" aria-hidden="true" />
-              <span className="hidden sm:inline">Export report</span>
+              <span className="sr-only sm:not-sr-only">Export report</span>
             </button>
             <button
               type="button"
