@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { ShieldCheck } from "lucide-react";
 import { computeEstimate, type Selections } from "./data";
-import { DISPLAY_FONT, Eyebrow, FOCUS } from "./ui";
+import { Eyebrow, FOCUS } from "./ui";
 import { Wizard } from "./wizard";
 import { PayoutPanel } from "./payout-panel";
 
@@ -23,7 +23,7 @@ export function Hero({
           <Eyebrow>SELL WITH REPICK</Eyebrow>
           <h1
             className="mt-5 text-[clamp(2.5rem,2.1rem+2.6vw,4.75rem)] font-bold leading-[0.98] tracking-[-0.02em] text-white"
-            style={{ fontFamily: DISPLAY_FONT }}
+            style={{ fontFamily: "var(--font-display-grotesk), var(--font-sans)" }}
           >
             Price it, grade it, get paid — before you scroll again.
           </h1>

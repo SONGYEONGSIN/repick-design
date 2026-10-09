@@ -39,7 +39,7 @@ function ProductCard({ listing, index }: { listing: ProductListing; index: numbe
             >
               ${listing.price}
             </span>
-            <span className="text-sm font-normal text-white/40 line-through">
+            <span className="text-sm font-normal text-zinc-400 line-through">
               ${listing.originalPrice}
             </span>
             <span className="text-xs font-medium text-[#3B82F6]">

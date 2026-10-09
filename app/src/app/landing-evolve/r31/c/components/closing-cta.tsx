@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { CATEGORIES, computeEstimate, type Selections } from "./data";
-import { DISPLAY_FONT, Eyebrow, FOCUS } from "./ui";
+import { Eyebrow, FOCUS } from "./ui";
 
 export function ClosingCta({ selections }: { selections: Selections }) {
   const estimate = computeEstimate(selections);
@@ -13,7 +13,7 @@ export function ClosingCta({ selections }: { selections: Selections }) {
           <Eyebrow>YOUR NUMBERS, NOT A DEMO</Eyebrow>
           <h2
             className="mt-4 text-[clamp(2rem,1.4rem+2.2vw,3.25rem)] font-bold leading-[1.03] tracking-[-0.02em] text-white"
-            style={{ fontFamily: DISPLAY_FONT }}
+            style={{ fontFamily: "var(--font-display-grotesk), var(--font-sans)" }}
           >
             That payout above is yours to claim.
           </h2>

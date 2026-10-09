@@ -300,7 +300,7 @@ interface SwipeCardProps {
   onPointerUp?: (e: ReactPointerEvent<HTMLDivElement>) => void;
 }
 
-function renderSwipeCard(props: SwipeCardProps): JSX.Element {
+function SwipeCard(props: SwipeCardProps): JSX.Element {
   const { card, variant, dragX, isDragging, reducedMotion, onPointerDown, onPointerMove, onPointerUp } = props;
   const isActive = variant === 'active';
   const transform = isActive ? `translateX(${dragX}px) rotate(${dragX / 18}deg)` : 'translateY(14px) scale(0.96)';
@@ -331,7 +331,7 @@ function renderSwipeCard(props: SwipeCardProps): JSX.Element {
       <p className="mt-3 text-base font-bold leading-snug text-white">{card.name}</p>
       <div className="mt-1 flex items-baseline gap-2">
         <span className="text-lg font-bold text-white">${card.price}</span>
-        <span className="text-sm font-normal text-neutral-500 line-through">${card.original}</span>
+        <span className="text-sm font-normal text-neutral-400 line-through">${card.original}</span>
         <span className="text-sm font-medium text-[#C8FF4D]">{discountPct}% off</span>
       </div>
       <dl className="mt-3 flex flex-wrap gap-2">
@@ -514,16 +514,22 @@ export default function Page(): JSX.Element {
 
   const targetScores = useMemo(() => computeScores(history), [history]);
   const [displayScores, setDisplayScores] = useState<Record<Axis, number>>(targetScores);
-  const fromScoresRef = useRef<Record<Axis, number>>(targetScores);
+  const [animFrom, setAnimFrom] = useState<Record<Axis, number>>(targetScores);
+
+  // Adjust state during render (not in an effect) when reduced motion is on and the
+  // target changed -- snap immediately rather than scheduling a tween.
+  const [snappedTarget, setSnappedTarget] = useState<Record<Axis, number>>(targetScores);
+  if (reducedMotion && snappedTarget !== targetScores) {
+    setSnappedTarget(targetScores);
+    setDisplayScores(targetScores);
+    setAnimFrom(targetScores);
+  }
 
   useEffect(() => {
-    const from = fromScoresRef.current;
+    if (reducedMotion) return;
+    const from = animFrom;
     const to = targetScores;
-    if (reducedMotion) {
-      setDisplayScores(to);
-      fromScoresRef.current = to;
-      return;
-    }
+    if (from === to) return;
     const duration = 260;
     const start = performance.now();
     let frame = 0;
@@ -538,12 +544,12 @@ export default function Page(): JSX.Element {
       if (t < 1) {
         frame = requestAnimationFrame(tick);
       } else {
-        fromScoresRef.current = to;
+        setAnimFrom(to);
       }
     };
     frame = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(frame);
-  }, [targetScores, reducedMotion]);
+  }, [targetScores, reducedMotion, animFrom]);
 
   const hasSwiped = history.length > 0;
   const deckComplete = history.length >= CARDS.length;
@@ -676,7 +682,7 @@ export default function Page(): JSX.Element {
                 </button>
               )}
             </div>
-            <p className="mt-6 text-sm font-normal text-neutral-500">
+            <p className="mt-6 text-sm font-normal text-neutral-400">
               {deckComplete
                 ? `All seven sorted. ${history.length} swipes in.`
                 : `Card ${history.length + 1} of ${CARDS.length}. Use the buttons above, or drag the card with a mouse or finger.`}
@@ -703,32 +709,34 @@ export default function Page(): JSX.Element {
                 </div>
               ) : (
                 <>
-                  {nextCard &&
-                    renderSwipeCard({
-                      card: nextCard,
-                      variant: 'peek',
-                      dragX: 0,
-                      isDragging: false,
-                      reducedMotion,
-                    })}
-                  {currentCard &&
-                    renderSwipeCard({
-                      card: currentCard,
-                      variant: 'active',
-                      dragX,
-                      isDragging,
-                      reducedMotion,
-                      onPointerDown: handlePointerDown,
-                      onPointerMove: handlePointerMove,
-                      onPointerUp: handlePointerUp,
-                    })}
+                  {nextCard && (
+                    <SwipeCard
+                      card={nextCard}
+                      variant="peek"
+                      dragX={0}
+                      isDragging={false}
+                      reducedMotion={reducedMotion}
+                    />
+                  )}
+                  {currentCard && (
+                    <SwipeCard
+                      card={currentCard}
+                      variant="active"
+                      dragX={dragX}
+                      isDragging={isDragging}
+                      reducedMotion={reducedMotion}
+                      onPointerDown={handlePointerDown}
+                      onPointerMove={handlePointerMove}
+                      onPointerUp={handlePointerUp}
+                    />
+                  )}
                 </>
               )}
             </div>
           </div>
 
           <div className="min-w-0">
-            <p className="text-sm font-medium uppercase tracking-wide text-neutral-500">
+            <p className="text-sm font-medium uppercase tracking-wide text-neutral-400">
               Your taste profile
             </p>
             {renderRadarChart({
@@ -741,7 +749,7 @@ export default function Page(): JSX.Element {
             <p className="mt-3 text-center text-sm font-medium text-neutral-300" aria-live="polite">
               {readoutText}
             </p>
-            <p className="mt-1 text-center text-xs font-normal text-neutral-500">
+            <p className="mt-1 text-center text-xs font-normal text-neutral-400">
               Hover or focus a point on the chart for its exact score.
             </p>
           </div>
@@ -782,7 +790,7 @@ export default function Page(): JSX.Element {
               I listed a coat I had not worn in two years. It sold to someone whose
               profile already leaned the exact same way mine does. Grading made the
               price easy to trust on both sides.
-              <footer className="mt-4 text-sm font-medium text-neutral-500">
+              <footer className="mt-4 text-sm font-medium text-neutral-400">
                 — Dana M., seller since 2023
               </footer>
             </blockquote>
@@ -838,7 +846,7 @@ export default function Page(): JSX.Element {
       <footer className="border-t border-white/10 px-5 py-10 sm:px-8">
         <div className="mx-auto flex max-w-[1280px] flex-col items-start gap-2 sm:flex-row sm:items-center sm:justify-between">
           <span className="text-sm font-bold text-neutral-400">repick</span>
-          <p className="flex items-center gap-1.5 text-xs font-normal text-neutral-500">
+          <p className="flex items-center gap-1.5 text-xs font-normal text-neutral-400">
             <Tag className="h-3.5 w-3.5" aria-hidden="true" />
             Secondhand, graded and matched by AI.
           </p>

@@ -1,5 +1,5 @@
 import { Reveal } from "./reveal";
-import { DISPLAY_FONT, Eyebrow } from "./ui";
+import { Eyebrow } from "./ui";
 
 const STATS = [
   { value: "$2.4M", label: "paid out to sellers across the last twelve months" },
@@ -34,7 +34,7 @@ export function SocialProof() {
         <Eyebrow>SELLERS WHO ALREADY RAN THE NUMBERS</Eyebrow>
         <h2
           className="mt-4 text-[clamp(2rem,1.4rem+2.2vw,3.25rem)] font-bold leading-[1.03] tracking-[-0.02em] text-white"
-          style={{ fontFamily: DISPLAY_FONT }}
+          style={{ fontFamily: "var(--font-display-grotesk), var(--font-sans)" }}
         >
           Sellers check the math before they list.
         </h2>

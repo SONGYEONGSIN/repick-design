@@ -47,7 +47,7 @@ export function SectionIntro({
       <Eyebrow>{eyebrow}</Eyebrow>
       <h2
         className="mt-4 text-[clamp(2rem,1.4rem+2.2vw,3.25rem)] font-bold leading-[1.03] tracking-[-0.02em] text-white"
-        style={{ fontFamily: DISPLAY_FONT }}
+        style={{ fontFamily: "var(--font-display-grotesk), var(--font-sans)" }}
       >
         {heading}
       </h2>
