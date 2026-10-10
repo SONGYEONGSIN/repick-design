@@ -43,7 +43,7 @@ function ThresholdSlider({ id, label, value, min, max, step, valueLabel, onChang
         value={value}
         onChange={(e) => onChange(Number(e.target.value))}
         style={{ accentColor: '#65a30d' }}
-        className="h-2 w-full cursor-pointer rounded-full focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4d7c0f]"
+        className="h-6 w-full cursor-pointer rounded-full focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4d7c0f]"
       />
     </div>
   );
@@ -82,7 +82,7 @@ export default function Hero({ thresholds, derived, onChange }: HeroProps) {
               className="inline-flex items-center gap-2 rounded-full bg-[#84cc16] px-6 py-3 text-sm font-semibold text-zinc-900 transition-colors hover:bg-[#76b513] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4d7c0f]"
             >
               See what qualifies
-              <ArrowRight size={16} strokeWidth={2.5} />
+              <ArrowRight size={16} strokeWidth={2.5} aria-hidden="true" />
             </a>
             <p className="text-sm text-zinc-500">
               A sample catalog of {SAMPLE_TOTAL} listings — move the sliders to see
@@ -97,7 +97,7 @@ export default function Hero({ thresholds, derived, onChange }: HeroProps) {
             <CategoryArt icon={Shirt} label={`${HERO_PROOF_LISTING.category} listing photo placeholder`} />
             <div className="mt-4 flex items-center gap-2">
               <span className="inline-flex items-center gap-1 rounded-full bg-zinc-50 px-2.5 py-1 text-xs font-semibold tracking-[0.02em] text-[#4d7c0f]">
-                <Sparkles size={12} strokeWidth={2.5} />
+                <Sparkles size={12} strokeWidth={2.5} aria-hidden="true" />
                 {HERO_PROOF_LISTING.matchPercent}% match
               </span>
             </div>
@@ -110,7 +110,7 @@ export default function Hero({ thresholds, derived, onChange }: HeroProps) {
                 Grade {HERO_PROOF_LISTING.grade}
               </span>
               <span className="inline-flex items-center gap-1 rounded-full bg-zinc-100 px-2.5 py-1 text-xs font-semibold text-zinc-700">
-                <ShieldCheck size={12} strokeWidth={2.5} />
+                <ShieldCheck size={12} strokeWidth={2.5} aria-hidden="true" />
                 Verified seller
               </span>
             </div>

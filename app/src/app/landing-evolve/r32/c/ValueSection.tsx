@@ -31,7 +31,7 @@ export default function ValueSection({ derived }: ValueSectionProps) {
       <Reveal>
         <div className="mt-10 grid grid-cols-1 gap-px overflow-hidden rounded-2xl border border-zinc-200 bg-zinc-200 sm:grid-cols-3">
           <div className="flex flex-col gap-3 bg-white p-6">
-            <Layers size={20} strokeWidth={2} className="text-[#4d7c0f]" />
+            <Layers size={20} strokeWidth={2} className="text-[#4d7c0f]" aria-hidden="true" />
             <p className="font-mono text-4xl font-extrabold tabular-nums text-zinc-900">
               {derived.count}
               <span className="text-xl text-zinc-500">/{SAMPLE_TOTAL}</span>
@@ -41,7 +41,7 @@ export default function ValueSection({ derived }: ValueSectionProps) {
             </p>
           </div>
           <div className="flex flex-col gap-3 bg-white p-6">
-            <TrendingDown size={20} strokeWidth={2} className="text-[#4d7c0f]" />
+            <TrendingDown size={20} strokeWidth={2} className="text-[#4d7c0f]" aria-hidden="true" />
             <p className="font-mono text-4xl font-extrabold tabular-nums text-zinc-900">
               {derived.avgDiscount}%
             </p>
@@ -50,7 +50,7 @@ export default function ValueSection({ derived }: ValueSectionProps) {
             </p>
           </div>
           <div className="flex flex-col gap-3 bg-white p-6">
-            <ShieldCheck size={20} strokeWidth={2} className="text-[#4d7c0f]" />
+            <ShieldCheck size={20} strokeWidth={2} className="text-[#4d7c0f]" aria-hidden="true" />
             <p className="font-mono text-4xl font-extrabold tabular-nums text-zinc-900">
               {derived.avgTrust}
             </p>

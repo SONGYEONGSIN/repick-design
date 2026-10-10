@@ -7,6 +7,7 @@ import { PROOF_STATS, TESTIMONIALS } from './data';
 export default function SocialProof() {
   return (
     <section className="mx-auto max-w-[1200px] px-4 py-20 sm:px-6 lg:px-8">
+      <h2 className="sr-only">Social proof</h2>
       <Reveal>
         <div className="grid grid-cols-1 gap-8 border-y border-zinc-200 py-10 sm:grid-cols-3">
           {PROOF_STATS.map((stat) => (

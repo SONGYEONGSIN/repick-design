@@ -77,7 +77,7 @@ export default function ClosingCTA({ derived }: ClosingCTAProps) {
           className="mt-8 inline-flex items-center gap-2 rounded-full bg-[#84cc16] px-6 py-3 text-sm font-semibold text-zinc-900 transition-colors hover:bg-[#76b513] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4d7c0f]"
         >
           {copy.button}
-          <ArrowRight size={16} strokeWidth={2.5} />
+          <ArrowRight size={16} strokeWidth={2.5} aria-hidden="true" />
         </a>
       </div>
     </section>

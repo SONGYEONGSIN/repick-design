@@ -64,7 +64,7 @@ export default function ProductPreview() {
                 <CategoryArt icon={Icon} label={`${listing.category} listing photo placeholder`} />
 
                 <span className="mt-4 inline-flex w-fit items-center gap-1 rounded-full bg-zinc-50 px-2.5 py-1 text-xs font-semibold text-[#4d7c0f]">
-                  <Sparkles size={12} strokeWidth={2.5} />
+                  <Sparkles size={12} strokeWidth={2.5} aria-hidden="true" />
                   {listing.matchPercent}% match
                 </span>
 
@@ -80,12 +80,12 @@ export default function ProductPreview() {
                   <span className="inline-flex items-center gap-1 rounded-full bg-zinc-100 px-2.5 py-1 text-xs font-semibold text-zinc-700">
                     {listing.verified ? (
                       <>
-                        <ShieldCheck size={12} strokeWidth={2.5} />
+                        <ShieldCheck size={12} strokeWidth={2.5} aria-hidden="true" />
                         Verified seller
                       </>
                     ) : (
                       <>
-                        <UserRound size={12} strokeWidth={2.5} />
+                        <UserRound size={12} strokeWidth={2.5} aria-hidden="true" />
                         New seller
                       </>
                     )}

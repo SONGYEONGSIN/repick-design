@@ -57,7 +57,8 @@ export default function LandingPage() {
         <div className="mx-auto flex max-w-7xl flex-col gap-2 px-4 py-10 sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-8">
           <span className="text-sm font-semibold text-zinc-900">repick</span>
           <p className="text-sm text-zinc-500">
-            Graded condition, verified sellers, priced against real companion demand.
+            Every listing graded, every seller verified, every price checked against
+            real demand.
           </p>
         </div>
       </footer>

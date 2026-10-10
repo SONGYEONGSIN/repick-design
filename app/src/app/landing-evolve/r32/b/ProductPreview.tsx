@@ -42,7 +42,7 @@ export default function ProductPreview() {
             >
               What a graded listing looks like
             </h2>
-            <p className="mt-3 text-base leading-relaxed text-zinc-600">
+            <p className="mt-3 max-w-[31rem] text-base leading-relaxed text-zinc-600">
               Every card below carries the same four checks: an AI match reason, a
               condition grade, a seller verification badge, and the discount from
               original retail.

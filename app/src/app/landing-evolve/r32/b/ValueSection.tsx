@@ -27,7 +27,7 @@ export default function ValueSection({ selected }: ValueSectionProps) {
           <h2 className="mt-3 text-3xl font-extrabold tracking-[-0.02em] text-zinc-900 sm:text-4xl">
             What changes when you switch categories
           </h2>
-          <p className="mt-3 text-base leading-relaxed text-zinc-600">
+          <p className="mt-3 max-w-[31rem] text-base leading-relaxed text-zinc-600">
             These three numbers are pulled from repick&rsquo;s closed-sale history for{" "}
             <span className="font-semibold text-zinc-900">{info.label}</span>, the
             category selected above &mdash; pick a different one and the whole row

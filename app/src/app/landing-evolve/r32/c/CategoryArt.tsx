@@ -22,7 +22,7 @@ export default function CategoryArt({ icon: Icon, label, size = 56 }: CategoryAr
       role="img"
       aria-label={label}
     >
-      <Icon size={size} strokeWidth={1.5} className="text-zinc-400" />
+      <Icon size={size} strokeWidth={1.5} className="text-zinc-400" aria-hidden="true" />
     </div>
   );
 }

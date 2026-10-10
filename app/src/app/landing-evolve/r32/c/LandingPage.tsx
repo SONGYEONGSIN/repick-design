@@ -51,7 +51,7 @@ export default function LandingPage() {
       <footer className="mx-auto max-w-[1200px] px-4 py-10 sm:px-6 lg:px-8">
         <p className="max-w-[500px] text-sm leading-[1.6] text-zinc-500">
           Every listing on repick clears a price, a condition grade, and a
-          trust score before it reaches you. repick, {new Date(2026, 0, 1).getFullYear()}.
+          trust score before it reaches you. repick, 2026.
         </p>
       </footer>
     </div>
