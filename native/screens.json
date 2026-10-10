@@ -172,5 +172,14 @@
   },
   "evolve-r33-c": {
     "check": "Shipping Rate Cards"
+  },
+  "evolve-r34-a": {
+    "check": "Identity Re-verification"
+  },
+  "evolve-r34-b": {
+    "check": "Saved Shipping Addresses"
+  },
+  "evolve-r34-c": {
+    "check": "Close Seller Account"
   }
 }
