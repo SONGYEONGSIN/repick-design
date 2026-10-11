@@ -5,7 +5,7 @@ import { ShieldCheck } from "lucide-react";
 import PulseWaveform from "./PulseWaveform";
 import Reveal from "./Reveal";
 import { FEATURED_LISTING } from "./data";
-import { ACCENT, ACCENT_TINT, BORDER_SOFT, MUTED, PANEL_BG } from "./theme";
+import { ACCENT_BUTTON_FILL, ACCENT_TINT, BORDER_SOFT, MUTED, PANEL_BG } from "./theme";
 import type { ActiveChecks, CheckId } from "./waveform";
 
 interface HeroProps {
@@ -59,7 +59,7 @@ export default function Hero({ active, onToggle }: HeroProps) {
                 <a
                   href="#value"
                   className="rounded-full px-6 py-3 text-sm font-semibold text-white transition-opacity hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#8FD9FF]"
-                  style={{ backgroundColor: ACCENT, outlineColor: ACCENT_TINT }}
+                  style={{ backgroundColor: ACCENT_BUTTON_FILL, outlineColor: ACCENT_TINT }}
                 >
                   See how the line is built
                 </a>

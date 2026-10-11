@@ -3,7 +3,7 @@
 import { ArrowUpRight } from "lucide-react";
 import Reveal from "./Reveal";
 import { FEATURED_LISTING } from "./data";
-import { ACCENT, ACCENT_TINT, BORDER_SOFT, INK, MUTED } from "./theme";
+import { ACCENT_BUTTON_FILL, ACCENT_TINT, BORDER_SOFT, INK, MUTED } from "./theme";
 import { CHECKS, computeComposite, computeOfferFloor, type ActiveChecks } from "./waveform";
 
 interface ClosingCTAProps {
@@ -48,7 +48,7 @@ export default function ClosingCTA({ active }: ClosingCTAProps) {
                 <a
                   href="#preview"
                   className="inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm font-semibold text-white transition-opacity hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#8FD9FF]"
-                  style={{ backgroundColor: ACCENT, outlineColor: ACCENT_TINT }}
+                  style={{ backgroundColor: ACCENT_BUTTON_FILL, outlineColor: ACCENT_TINT }}
                 >
                   Browse verified matches — {composite}%
                   <ArrowUpRight aria-hidden="true" className="h-4 w-4" />
