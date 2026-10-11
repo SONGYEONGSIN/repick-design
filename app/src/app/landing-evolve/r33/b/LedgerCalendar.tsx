@@ -219,7 +219,7 @@ export default function LedgerCalendar({ filters, onToggle, stats }: LedgerCalen
           </div>
 
           {/* Legend */}
-          <div className="mt-3 flex flex-wrap items-center gap-3 text-[11px] text-zinc-600">
+          <div className="mt-3 flex flex-wrap items-center gap-3 text-[11px] tabular-nums text-zinc-600">
             <span className="font-semibold uppercase tracking-wide text-zinc-600">Sales per cell</span>
             <span className="inline-flex items-center gap-1">
               <span className={`inline-block h-3 w-3 rounded-[3px] ${cellFill(0)}`} aria-hidden="true" />0

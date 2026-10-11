@@ -27,7 +27,7 @@ const proof = PRODUCTS[0];
 export default function Hero({ filters, onToggle, stats }: HeroProps) {
   return (
     <section className="border-b border-zinc-200 bg-white">
-      <div className="mx-auto max-w-7xl px-4 pt-12 pb-14 sm:px-6 sm:pt-16 sm:pb-18 lg:px-8">
+      <div className="mx-auto max-w-7xl px-4 pt-12 pb-14 sm:px-6 sm:pt-16 sm:pb-20 lg:px-8">
         <div className="grid grid-cols-1 gap-10 lg:grid-cols-12 lg:gap-8">
           {/* Headline / sub / CTA */}
           <div
