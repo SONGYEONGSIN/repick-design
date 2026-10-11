@@ -182,7 +182,8 @@ function median(nums: number[]): number | null {
 
 export interface LedgerGrid {
   // cells[bandIndex][monthIndex] = count of sales in that price band, that month, under the
-  // active filters. Row 0 = the highest price band (drawn at the top), row 5 = the lowest.
+  // active filters. Band 0 is the cheapest band, band 5 the priciest (see BAND_LABELS) — the
+  // UI decides which order to draw them in, this is just storage order.
   cells: number[][];
   maxCount: number;
   nonzeroCells: number;

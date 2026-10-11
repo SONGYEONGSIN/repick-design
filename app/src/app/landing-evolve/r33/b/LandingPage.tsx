@@ -80,9 +80,7 @@ export default function LandingPage() {
         <Hero filters={filters} onToggle={toggleFilter} stats={stats} />
         <ProductPreview />
         <ValueSection filters={filters} stats={stats} />
-        <section id="proof">
-          <SocialProof />
-        </section>
+        <SocialProof />
         <ClosingCTA filters={filters} stats={stats} />
       </main>
 

@@ -3,7 +3,7 @@ import Reveal from "./Reveal";
 
 export default function SocialProof() {
   return (
-    <section className="border-b border-zinc-200 bg-white">
+    <section id="proof" className="border-b border-zinc-200 bg-white">
       <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
         <Reveal className="max-w-[36rem]">
           <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[#176B41]">

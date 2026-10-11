@@ -20,6 +20,10 @@ interface LedgerCalendarProps {
 
 const ROW_COUNT = BAND_LABELS.length;
 const COL_COUNT = MONTH_LABELS.length;
+// Band index 0 is the cheapest band (see data.ts). Drawing the grid with the highest band on
+// top reads like an ordinary price ladder, so the visual row order is the reverse of the index
+// order — this is the only place that reversal happens; every stored index stays 0-low/5-high.
+const ROW_ORDER = Array.from({ length: ROW_COUNT }, (_, i) => ROW_COUNT - 1 - i);
 
 const FILTER_TOGGLES: { key: keyof FilterState; label: string; icon: LucideIcon }[] = [
   { key: "gradeA", label: "Grade A only", icon: Sparkles },
@@ -74,12 +78,14 @@ export default function LedgerCalendar({ filters, onToggle, stats }: LedgerCalen
         moveCursor(row, col - 1);
         break;
       case "ArrowDown":
-        e.preventDefault();
-        moveCursor(row + 1, col);
-        break;
-      case "ArrowUp":
+        // Visually down = toward the cheaper band = a lower raw row index.
         e.preventDefault();
         moveCursor(row - 1, col);
+        break;
+      case "ArrowUp":
+        // Visually up = toward the pricier band = a higher raw row index.
+        e.preventDefault();
+        moveCursor(row + 1, col);
         break;
       case "Home":
         e.preventDefault();
@@ -155,7 +161,7 @@ export default function LedgerCalendar({ filters, onToggle, stats }: LedgerCalen
                   <span
                     key={m}
                     aria-hidden="true"
-                    className="pb-1 text-center text-[10px] font-semibold uppercase tracking-wide text-zinc-500"
+                    className="pb-1 text-center text-[10px] font-semibold uppercase tracking-wide text-zinc-600"
                   >
                     {m}
                   </span>
@@ -164,7 +170,9 @@ export default function LedgerCalendar({ filters, onToggle, stats }: LedgerCalen
 
               {/* Band rows */}
               <div className="mt-1 flex flex-col gap-[3px]">
-                {BAND_LABELS.map((bandLabel, row) => (
+                {ROW_ORDER.map((row) => {
+                  const bandLabel = BAND_LABELS[row];
+                  return (
                   <div
                     key={bandLabel}
                     className="grid items-center gap-[3px]"
@@ -204,14 +212,15 @@ export default function LedgerCalendar({ filters, onToggle, stats }: LedgerCalen
                       );
                     })}
                   </div>
-                ))}
+                  );
+                })}
               </div>
             </div>
           </div>
 
           {/* Legend */}
-          <div className="mt-3 flex flex-wrap items-center gap-3 text-[11px] text-zinc-500">
-            <span className="font-semibold uppercase tracking-wide text-zinc-500">Sales per cell</span>
+          <div className="mt-3 flex flex-wrap items-center gap-3 text-[11px] text-zinc-600">
+            <span className="font-semibold uppercase tracking-wide text-zinc-600">Sales per cell</span>
             <span className="inline-flex items-center gap-1">
               <span className={`inline-block h-3 w-3 rounded-[3px] ${cellFill(0)}`} aria-hidden="true" />0
             </span>

@@ -20,7 +20,7 @@ export default function ProductPreview() {
               fontSize: "clamp(1.75rem, 1.5rem + 1vw, 2.5rem)",
             }}
           >
-The same four checks, every card
+            The same four checks, every card
           </h2>
           <p className="mt-3 max-w-[31rem] text-base leading-relaxed text-zinc-600">
             Match percentage, condition grade, seller verification, and the
