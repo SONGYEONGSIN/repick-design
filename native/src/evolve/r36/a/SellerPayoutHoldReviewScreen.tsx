@@ -73,15 +73,18 @@ export function SellerPayoutHoldReviewScreen() {
     listRef.current?.scrollToIndex({
       index,
       animated: true,
-      viewPosition: 0.15,
+      viewPosition: 0.08,
     });
     raiseCue(`Jumped to the next blocker: ${nextUnresolved.title}`);
   }, [nextUnresolved, raiseCue]);
 
   const handleScrollFailure = useCallback(
     (info: { index: number; averageItemLength: number }) => {
+      // Add one card-gap's worth of buffer on top of the naive index*averageItemLength
+      // estimate, since the card list spacing itself isn't reflected in averageItemLength.
+      const cardGapBuffer = tokens.space(3) * info.index;
       listRef.current?.scrollToOffset({
-        offset: info.averageItemLength * info.index,
+        offset: info.averageItemLength * info.index + cardGapBuffer,
         animated: true,
       });
     },

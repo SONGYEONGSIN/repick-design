@@ -1,6 +1,8 @@
 # auto-native-r36 — SCORES
 
-Freeze hash (all candidate sources, `cat .../*/*.tsx .../*/*.ts | shasum`): `aac34ae09ddd9af632da7a6b1363907f6da1a448` (verified unchanged before and after gate run).
+Freeze hash at judging (all candidate sources, `cat .../*/*.tsx .../*/*.ts | shasum`): `aac34ae09ddd9af632da7a6b1363907f6da1a448` (verified unchanged before and after gate run, and this is the hash all three judge lenses saw).
+
+**Post-judgment §3-1 fix applied to winner a** (see DECISION.md) — new hash after fix + re-gate: `2566d6066325beecf13b83e0f55d02a226ab914f`.
 
 `node scripts/gate.mjs --target native --screens evolve-r36-a evolve-r36-b evolve-r36-c`
 
@@ -10,6 +12,6 @@ Freeze hash (all candidate sources, `cat .../*/*.tsx .../*/*.ts | shasum`): `aac
 | b (Minimum Offer Threshold) | 통과 | 통과 | 통과 | 통과 |
 | c (Return Inspection Decision) | 통과 | 통과 | 통과 | 통과 |
 
-12/12 clean on first attempt — no 1-fix loop needed, no candidate dropped.
+12/12 clean on first attempt — no 1-fix loop needed, no candidate dropped. Re-gated 12/12 clean again after the post-judgment §3-1 fix to candidate a (see DECISION.md).
 
 Render-check strings used: a="Payout On Hold", b="Minimum Offer Settings", c="Return Inspection".
