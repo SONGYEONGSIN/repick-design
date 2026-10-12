@@ -524,3 +524,5 @@ const styles = StyleSheet.create({
     height: S(6),
   },
 });
+
+export default MinimumOfferThresholdScreen;

@@ -190,5 +190,14 @@
   },
   "evolve-r35-c": {
     "check": "Boost Credits"
+  },
+  "evolve-r36-a": {
+    "check": "Payout On Hold"
+  },
+  "evolve-r36-b": {
+    "check": "Minimum Offer Settings"
+  },
+  "evolve-r36-c": {
+    "check": "Return Inspection"
   }
 }

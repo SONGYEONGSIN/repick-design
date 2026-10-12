@@ -484,3 +484,5 @@ const styles = StyleSheet.create({
     color: tokens.color.ink2,
   },
 });
+
+export default SellerPayoutHoldReviewScreen;
