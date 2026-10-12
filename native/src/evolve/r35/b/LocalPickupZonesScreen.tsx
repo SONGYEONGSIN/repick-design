@@ -505,3 +505,5 @@ const styles = StyleSheet.create({
     color: tokens.color.onAccent,
   },
 });
+
+export default LocalPickupZonesScreen;

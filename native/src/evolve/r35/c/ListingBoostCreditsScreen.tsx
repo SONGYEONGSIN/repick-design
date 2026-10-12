@@ -466,3 +466,5 @@ const styles = StyleSheet.create({
     color: tokens.color.ink,
   },
 });
+
+export default ListingBoostCreditsScreen;

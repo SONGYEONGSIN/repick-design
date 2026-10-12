@@ -181,5 +181,14 @@
   },
   "evolve-r34-c": {
     "check": "Close Seller Account"
+  },
+  "evolve-r35-a": {
+    "check": "Response Templates"
+  },
+  "evolve-r35-b": {
+    "check": "Manage Pickup Zones"
+  },
+  "evolve-r35-c": {
+    "check": "Boost Credits"
   }
 }
