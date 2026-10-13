@@ -208,5 +208,14 @@
   },
   "evolve-r37-c": {
     "check": "Bundle Deal Builder"
+  },
+  "evolve-r38-a": {
+    "check": "Help Center"
+  },
+  "evolve-r38-b": {
+    "check": "Annual Tax Documents"
+  },
+  "evolve-r38-c": {
+    "check": "Return Shipping Label"
   }
 }
