@@ -199,5 +199,14 @@
   },
   "evolve-r36-c": {
     "check": "Return Inspection"
+  },
+  "evolve-r37-a": {
+    "check": "Referral Rewards"
+  },
+  "evolve-r37-b": {
+    "check": "Fee & Commission Statement"
+  },
+  "evolve-r37-c": {
+    "check": "Bundle Deal Builder"
   }
 }
