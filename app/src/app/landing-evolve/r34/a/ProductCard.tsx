@@ -94,6 +94,20 @@ export default function ProductCard({ product, match, rank, leadChipId, variant 
             </span>{' '}
             ({discount}% off)
           </p>
+          <details className="group">
+            <summary
+              className="cursor-pointer select-none text-[11px] font-semibold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
+              style={{ color: COLORS.accentTint, outlineColor: COLORS.accentTint }}
+            >
+              Why it ranks here
+            </summary>
+            <p
+              className="mt-1.5 rounded-lg px-2.5 py-2 text-[12px] font-normal leading-[1.5]"
+              style={{ color: COLORS.muted, backgroundColor: COLORS.bg, border: `1px solid ${COLORS.surfaceLine}` }}
+            >
+              {reasoning}
+            </p>
+          </details>
         </div>
       </motion.article>
     );

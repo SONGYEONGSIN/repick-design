@@ -17,3 +17,16 @@ After the `min-w-0` fix, the table's own local scroll container (`<div class="ov
 **Prescribed fix for reassignment** (two independently-sufficient options, pick one): (a) add `contain: layout` (or `className="... [contain:layout]"` in Tailwind arbitrary-property form, or the `contain-layout` utility if this Tailwind version ships one) to the `overflow-x-auto` wrapper div — minimal, one line, verified to work. (b) drop the `min-w-[480px]` + local-horizontal-scroll pattern entirely and use `table-fixed` + `<colgroup>` percentage columns instead (this repo's own established convention for dash data tables per `page-brief-core` §4 — "데스크톱 테이블 가로 스크롤바 금지 — `min-w` 강제 대신 `table-fixed` + % 열 배분"), letting the 6 columns compress to fit 390px instead of relying on scroll. Option (a) is the smaller/safer patch since it preserves the candidate's existing visual design; option (b) is more aligned with repo convention for dash but this is a landing page, where the brief doesn't explicitly ban local mobile table scroll, so (a) is likely preferable — defer to the next designer's judgment.
 
 Per skill §3, this is a genuine re-failure after the one permitted fix-and-regate cycle → **candidate c dropped**, not carried to judging. Logged to `reassign-queue.md`.
+
+## Post-judgment refinement (§3-1) on winner a
+
+Lens 1 (the dissenting lens) found a's interaction count fell short of the brief's explicit "minimum
+4 distinct interactions" floor — grepped a's files and found only 3: the reorder device (drag +
+up/down buttons, same mechanism), scroll-triggered `Reveal`, and the live re-sorting product grid
+(itself a consequence of the device, not independently counted). This is a mechanical brief-compliance
+gap, not a matter of taste that lens2/lens3 weighed in their winning rationale.
+
+Fix: added a `<details>/<summary>` disclosure to each compact (Hero) product card, revealing the
+existing `reasoningByLeadChip` text that was previously only shown in the separate expanded
+Product Preview cards. Purely additive — no change to ranking math, data, or anything lens2/lens3
+cited. Re-gated clean (10/10, a11y 100, 0 violations). Ranking not recalculated, per skill §3-1.
