@@ -116,7 +116,8 @@ export function sortSimilar(
 ): SimilarProduct[] {
   const copy = [...products];
   if (key === "savings") {
-    copy.sort((a, b) => b.priceBefore - b.priceAfter - (a.priceBefore - a.priceAfter));
+    const savingsOf = (p: SimilarProduct) => p.priceBefore - p.priceAfter;
+    copy.sort((a, b) => savingsOf(b) - savingsOf(a));
   } else if (key === "price") {
     copy.sort((a, b) => a.priceAfter - b.priceAfter);
   } else {
