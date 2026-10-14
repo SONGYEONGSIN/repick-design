@@ -120,7 +120,7 @@ export default function ReorderDevice({ order, onReorder }: ReorderDeviceProps) 
                   onClick={() => onReorder(moveChip(order, index, -1))}
                   disabled={index === 0}
                   aria-label={`Move ${chip.label} up, currently priority ${index + 1} of ${order.length}`}
-                  className="rounded p-0.5 transition-opacity focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 disabled:opacity-25"
+                  className="flex min-h-6 min-w-6 items-center justify-center rounded transition-opacity focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 disabled:opacity-25"
                   style={{ color: COLORS.fg, outlineColor: COLORS.accentTint }}
                 >
                   <ChevronUp className="h-4 w-4" aria-hidden="true" />
@@ -130,7 +130,7 @@ export default function ReorderDevice({ order, onReorder }: ReorderDeviceProps) 
                   onClick={() => onReorder(moveChip(order, index, 1))}
                   disabled={index === order.length - 1}
                   aria-label={`Move ${chip.label} down, currently priority ${index + 1} of ${order.length}`}
-                  className="rounded p-0.5 transition-opacity focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 disabled:opacity-25"
+                  className="flex min-h-6 min-w-6 items-center justify-center rounded transition-opacity focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 disabled:opacity-25"
                   style={{ color: COLORS.fg, outlineColor: COLORS.accentTint }}
                 >
                   <ChevronDown className="h-4 w-4" aria-hidden="true" />

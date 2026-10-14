@@ -80,8 +80,8 @@ export default function ProductPreview({ counts, onChange, onReset }: ProductPre
             </div>
           </Reveal>
 
-          <Reveal delay={0.08}>
-            <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-5 sm:p-6">
+          <Reveal delay={0.08} className="min-w-0">
+            <div className="min-w-0 rounded-2xl border border-white/10 bg-white/[0.02] p-5 sm:p-6">
               <div className="flex items-baseline justify-between gap-4">
                 <h3 className="text-base font-bold text-white">Itemized payout breakdown</h3>
                 <p aria-live="polite" className="shrink-0 text-right text-xl font-extrabold tabular-nums text-white">

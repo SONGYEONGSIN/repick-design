@@ -1,7 +1,8 @@
 "use client";
 
 import { motion, useReducedMotion } from "framer-motion";
-import { useEffect, useState, type ReactNode } from "react";
+import type { ReactNode } from "react";
+import { useMounted } from "./useMounted";
 
 /**
  * Scroll-reveal wrapper — the route's "scroll trigger" interaction.
@@ -22,12 +23,8 @@ export default function Reveal({
   className?: string;
   delay?: number;
 }) {
-  const [mounted, setMounted] = useState(false);
+  const mounted = useMounted();
   const reduced = useReducedMotion();
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   if (!mounted || reduced) {
     return <div className={className}>{children}</div>;

@@ -14,6 +14,14 @@
 
 ## 대기 중
 
+### 12. `auto-landing-r34/c` — "Seller Payout Simulator" 셀러向 스테퍼-카운터 정산 시뮬레이터 (target: landing)
+
+- **탈락 사유**: 1차 하드게이트 복합 실패 — ① lint `react-hooks/set-state-in-effect`(`Reveal.tsx:29`, `useEffect(() => setMounted(true))`) ② sweep `page-overflow` 148px@390px. 1-fix(① `useSyncExternalStore` 기반 `useMounted()` 훅으로 교체 — 같은 라운드 후보 a 가 이미 쓴 동일 패턴을 그대로 가져옴 ② 표의 `overflow-x-auto` 래퍼가 들어 있는 그리드 아이템에 `min-w-0` 추가, 그리드 아이템의 기본 `min-width: auto`(자식 min-content 크기) 가 트랙 자체를 `min-w-[480px]` 표에 맞춰 넓히고 있었음)을 거쳐 재게이트했으나 **재실패** — lint 는 완전 해소, **sweep 만 148px→127px 로 줄었을 뿐 미해소**. 스킬 §3 적용.
+- **근본 원인 (직접 계측으로 확정)**: `min-w-0` 수정 후 표의 로컬 스크롤 컨테이너(`overflow-x-auto`, `clientWidth:316px`) 자체는 정확히 동작한다(표를 내부에서 가로스크롤, `scrollWidth:480px`). 그런데 `sweep` 이 재는 `document.documentElement.scrollWidth` 는 그 이후로도 517 로 유지됐다 — Chromium 의 실제 동작: **`overflow-x:auto`/`hidden` 래퍼 혼자서는 넓은 자손이 문서 `scrollWidth` 에 기여하는 것을 막지 못한다**(시각적 클립·로컬 스크롤은 정확한데도). `overflow:hidden !important` 를 직접 걸어도 `scrollWidth` 불변(517 유지) 확인, **`contain: layout` 을 같은 래퍼에 걸면 390 으로 즉시 해소**(표 자체의 로컬 스크롤은 그대로 유지 — `div.scrollWidth` 는 480 그대로)됨을 직접 검증. 표를 `display:none` 으로 숨기면 그것만으로도 517→390 이 되는 것으로 원인 요소도 재확인.
+- **재배정 시 반드시 명시할 것**: 다음 둘 중 하나를 적용한다 — (1) **더 작은 패치**: `overflow-x-auto` 래퍼에 `[contain:layout]`(또는 동등한 CSS `contain: layout`)을 추가한다. 한 줄 수정, 직접 검증됨, 디자인 변경 없음. (2) **레포 관례와 더 합치하는 패치**: `min-w-[480px]` + 로컬 가로스크롤 패턴을 버리고, `table-fixed` + `<colgroup>` 퍼센트 열배분으로 바꿔 390px 에서 6열이 스크롤 없이 압축되게 한다([[page-brief-core]] §4 의 기존 데스크톱 테이블 관례와 동형, 단 이번엔 랜딩+모바일 맥락). (1)이 더 작은 변경이라 우선 권장하지만 최종 판단은 다음 라운드의 designer 에게 맡긴다. **어느 쪽이든 수정 후 390px 렌더에서 `document.documentElement.scrollWidth === document.documentElement.clientWidth` 를 직접 확인**하고 제출한다 — 이번 라운드는 `overflow-x-auto`/`min-w-0` 조합이 "로컬 스크롤이 동작하니 당연히 페이지도 안 넘친다"는 가정으로 재게이트했다가 걸렸다.
+- **형태가 왜 살아 있나**: 이 라운드는 landing 카탈로그에 전례 없는 입력×출력 조합(3개 스테퍼 카운터 → 라이브 항목별 정산 내역+스택바 구성비)과, 선행 랜딩 라운드(`auto-landing-r31/c`)가 확립한 "셀러向 오디언스 재구성"(매치%·할인 2요소를 의도적으로 생략하고 그 사유를 명시) 선례를 계승한 설계였다. `## Hero proof-card note`·`## 브리프에 없던 것` 보고까지 전부 완결돼 있었고, 유일한 결함은 위 하드게이트 두 건이다.
+- 등재: 2026-10-14 · 출처 `vault/20-generations/2026-10-14-auto-landing-r34/SCORES.md`
+
 ### 11. `auto-dash-r38/c` — "Isobar" 지리적 코로플레스(Geographic Choropleth) 엣지 인프라 콘솔 (target: dash)
 
 - **탈락 사유**: 1차 하드게이트 복합 실패 — ① lint `set-state-in-effect`(위와 동일 패턴) + 미사용 변수 1건 ② sweep `cell-overlap`(390px, 테이블 헤더 "Incidents"↔"Uptime" 27px 겹침 — `table-fixed` 컬럼 퍼센트가 390px에서 전체 라벨을 못 담음, 스크롤러 회피 설계의 대가) ③ a11y 92점(`button-name`·`color-contrast`·`target-size` 복합).
