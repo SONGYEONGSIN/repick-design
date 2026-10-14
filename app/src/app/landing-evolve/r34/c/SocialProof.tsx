@@ -28,7 +28,7 @@ export default function SocialProof() {
                   &ldquo;{q.quote}&rdquo;
                 </p>
                 <footer className="mt-4 text-[13px] text-zinc-400">
-                  <cite className="font-semibold text-zinc-300">{q.name}</cite> &mdash; {q.role}
+                  <cite className="font-bold text-zinc-300">{q.name}</cite> &mdash; {q.role}
                 </footer>
               </blockquote>
             </Reveal>

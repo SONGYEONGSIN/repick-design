@@ -159,10 +159,6 @@ export function computeWaterfall(toggles: ToggleState): WaterfallResult {
   };
 }
 
-export function activeToggleCount(toggles: ToggleState): number {
-  return TOGGLES.reduce((n, t) => n + (toggles[t.id] ? 1 : 0), 0);
-}
-
 export function describeActiveToggles(toggles: ToggleState): string {
   const active = TOGGLES.filter((t) => toggles[t.id]).map((t) => t.shortLabel);
   if (active.length === 0) return "no conditions switched on yet";

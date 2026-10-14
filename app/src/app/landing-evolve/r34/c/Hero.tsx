@@ -52,7 +52,7 @@ export default function Hero({ counts }: HeroProps) {
             <div className="mt-8">
               <a
                 href="#calculator"
-                className={`inline-flex items-center justify-center rounded-full bg-sky-500 px-7 py-3.5 text-base font-semibold text-[#0B0B0F] transition-opacity hover:opacity-90 ${FOCUS}`}
+                className={`inline-flex items-center justify-center rounded-full bg-sky-500 px-7 py-3.5 text-base font-bold text-[#0B0B0F] transition-opacity hover:opacity-90 ${FOCUS}`}
               >
                 Start counting your items
               </a>
@@ -63,7 +63,7 @@ export default function Hero({ counts }: HeroProps) {
         <Reveal delay={0.12}>
           <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:max-w-[780px] lg:gap-6">
             <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-5">
-              <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-zinc-400">
+              <p className="text-[11px] font-bold uppercase tracking-[0.16em] text-zinc-400">
                 Recently sold comparable
               </p>
               <div className="mt-3 flex items-center gap-3">
@@ -86,7 +86,7 @@ export default function Hero({ counts }: HeroProps) {
                 <span className="text-lg font-bold tabular-nums text-white">
                   {formatUsd(SOLD_COMP.soldPrice)}
                 </span>
-                <span className="inline-flex items-center gap-1 rounded-full border border-emerald-400/30 bg-emerald-400/10 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.1em] text-emerald-300">
+                <span className="inline-flex items-center gap-1 rounded-full border border-emerald-400/30 bg-emerald-400/10 px-2 py-0.5 text-[10px] font-bold uppercase tracking-[0.1em] text-emerald-300">
                   <BadgeCheck className="h-3 w-3" aria-hidden="true" />
                   Verified sale
                 </span>
@@ -101,7 +101,7 @@ export default function Hero({ counts }: HeroProps) {
               className="rounded-2xl border p-5"
               style={{ borderColor: ACCENT_SOFT_BORDER, backgroundColor: ACCENT_SOFT_BG }}
             >
-              <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-sky-300">
+              <p className="text-[11px] font-bold uppercase tracking-[0.16em] text-sky-300">
                 Your live estimate
               </p>
               <p aria-live="polite" className="mt-3 text-[clamp(2rem,1.6rem+1.6vw,3rem)] font-extrabold tabular-nums leading-none text-white">

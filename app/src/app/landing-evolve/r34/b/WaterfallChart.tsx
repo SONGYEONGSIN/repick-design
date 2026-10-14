@@ -77,8 +77,8 @@ export default function WaterfallChart({ segments }: WaterfallChartProps) {
           y1={BASELINE_Y}
           x2={VIEW_W - MARGIN_X}
           y2={BASELINE_Y}
-          stroke={COLOR.border}
-          strokeWidth={1.5}
+          stroke={COLOR.muted}
+          strokeWidth={1.25}
         />
 
         {/* Connectors between consecutive bars — the "step" that makes this a waterfall rather

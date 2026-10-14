@@ -47,9 +47,10 @@ export default function ToggleRow({ toggles, onToggle }: ToggleRowProps) {
                 aria-checked={checked}
                 aria-label={`${toggle.label} — saves $${toggle.amount} when switched on`}
                 onClick={() => onToggle(toggle.id)}
-                className="relative inline-flex h-7 w-12 shrink-0 items-center rounded-full p-0.5 transition-colors duration-200 motion-reduce:transition-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
+                className="relative inline-flex h-7 w-12 shrink-0 items-center rounded-full border p-0.5 transition-colors duration-200 motion-reduce:transition-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
                 style={{
                   backgroundColor: checked ? COLOR.accentDark : "#D4D4D8",
+                  borderColor: checked ? COLOR.accentDark : COLOR.muted,
                   outlineColor: COLOR.accentDark,
                 }}
               >

@@ -20,7 +20,7 @@ export default function Header() {
             <a
               key={item.href}
               href={item.href}
-              className={`rounded-sm text-sm font-semibold text-zinc-400 transition-colors hover:text-zinc-200 ${FOCUS}`}
+              className={`rounded-sm text-sm font-bold text-zinc-400 transition-colors hover:text-zinc-200 ${FOCUS}`}
             >
               {item.label}
             </a>
@@ -29,7 +29,7 @@ export default function Header() {
 
         <Link
           href="/catalog"
-          className={`rounded-full border border-white/15 px-4 py-2 text-sm font-semibold text-white transition-colors hover:border-white/30 ${FOCUS}`}
+          className={`rounded-full border border-white/15 px-4 py-2 text-sm font-bold text-white transition-colors hover:border-white/30 ${FOCUS}`}
         >
           List an item
         </Link>

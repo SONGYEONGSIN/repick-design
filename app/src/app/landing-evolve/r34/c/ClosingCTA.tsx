@@ -34,7 +34,7 @@ export default function ClosingCTA({ counts }: ClosingCtaProps) {
           <div className="mt-8">
             <Link
               href="/catalog"
-              className={`inline-flex items-center justify-center rounded-full bg-sky-500 px-7 py-3.5 text-base font-semibold text-[#0B0B0F] transition-opacity hover:opacity-90 ${FOCUS}`}
+              className={`inline-flex items-center justify-center rounded-full bg-sky-500 px-7 py-3.5 text-base font-bold text-[#0B0B0F] transition-opacity hover:opacity-90 ${FOCUS}`}
             >
               List your {itemWord} now
             </Link>

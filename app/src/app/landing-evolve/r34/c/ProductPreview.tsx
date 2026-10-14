@@ -54,7 +54,7 @@ export default function ProductPreview({ counts, onChange, onReset }: ProductPre
             type="button"
             onClick={onReset}
             disabled={isDefault}
-            className={`inline-flex shrink-0 items-center gap-2 rounded-full border border-white/15 px-4 py-2 text-sm font-semibold text-zinc-300 transition-colors enabled:hover:border-white/30 enabled:hover:text-white disabled:cursor-not-allowed disabled:opacity-40 ${FOCUS}`}
+            className={`inline-flex shrink-0 items-center gap-2 rounded-full border border-white/15 px-4 py-2 text-sm font-bold text-zinc-300 transition-colors enabled:hover:border-white/30 enabled:hover:text-white disabled:cursor-not-allowed disabled:opacity-40 ${FOCUS}`}
           >
             <RotateCcw className="h-3.5 w-3.5" aria-hidden="true" />
             Reset to a typical first listing
@@ -96,22 +96,22 @@ export default function ProductPreview({ counts, onChange, onReset }: ProductPre
                   </caption>
                   <thead>
                     <tr className="border-b border-white/10 text-xs uppercase tracking-[0.08em] text-zinc-400">
-                      <th scope="col" className="py-2 pr-3 font-semibold">
+                      <th scope="col" className="py-2 pr-3 font-bold">
                         Category
                       </th>
-                      <th scope="col" className="py-2 pr-3 text-right font-semibold">
+                      <th scope="col" className="py-2 pr-3 text-right font-bold">
                         Items
                       </th>
-                      <th scope="col" className="py-2 pr-3 text-right font-semibold">
+                      <th scope="col" className="py-2 pr-3 text-right font-bold">
                         Subtotal
                       </th>
-                      <th scope="col" className="py-2 pr-3 text-right font-semibold">
+                      <th scope="col" className="py-2 pr-3 text-right font-bold">
                         Fee
                       </th>
-                      <th scope="col" className="py-2 pr-3 text-right font-semibold">
+                      <th scope="col" className="py-2 pr-3 text-right font-bold">
                         Payout
                       </th>
-                      <th scope="col" className="py-2 text-right font-semibold">
+                      <th scope="col" className="py-2 text-right font-bold">
                         <span className="sr-only">Math</span>
                       </th>
                     </tr>
@@ -120,7 +120,7 @@ export default function ProductPreview({ counts, onChange, onReset }: ProductPre
                     {visibleRows.length === 0 ? (
                       <tr>
                         <td colSpan={6} className="py-6 text-center text-sm text-zinc-400">
-                          Move a counter above to 1 or more to see your breakdown.
+                          Set a counter above to 1 or more to see your breakdown.
                         </td>
                       </tr>
                     ) : (
@@ -130,7 +130,7 @@ export default function ProductPreview({ counts, onChange, onReset }: ProductPre
                         return (
                           <Fragment key={row.id}>
                             <tr className="border-b border-white/5 text-sm">
-                              <th scope="row" className="py-3 pr-3 font-semibold text-white">
+                              <th scope="row" className="py-3 pr-3 font-bold text-white">
                                 {row.label}
                               </th>
                               <td className="py-3 pr-3 text-right tabular-nums text-zinc-300">{row.count}</td>
@@ -149,7 +149,7 @@ export default function ProductPreview({ counts, onChange, onReset }: ProductPre
                                   aria-expanded={isOpen}
                                   aria-controls={panelId}
                                   onClick={() => toggleRow(row.id)}
-                                  className={`inline-flex items-center gap-1 rounded-sm text-xs font-semibold text-sky-300 ${FOCUS}`}
+                                  className={`inline-flex items-center gap-1 rounded-sm text-xs font-bold text-sky-300 ${FOCUS}`}
                                 >
                                   Math
                                   <ChevronDown
@@ -178,7 +178,7 @@ export default function ProductPreview({ counts, onChange, onReset }: ProductPre
               </div>
 
               <div className="mt-6 border-t border-white/10 pt-5">
-                <p className="text-xs font-semibold uppercase tracking-[0.16em] text-zinc-400">
+                <p className="text-xs font-bold uppercase tracking-[0.16em] text-zinc-400">
                   Category mix of your estimated payout
                 </p>
                 <div className="mt-3">

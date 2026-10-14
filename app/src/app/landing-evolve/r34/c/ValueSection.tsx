@@ -55,7 +55,7 @@ export default function ValueSection({ counts }: ValueSectionProps) {
               <Reveal key={column.label} delay={i * 0.08} className="min-w-0">
                 <div className="flex items-center gap-2.5">
                   <Icon className="h-5 w-5 shrink-0 text-sky-300" aria-hidden="true" />
-                  <span className="text-xs font-semibold uppercase tracking-[0.16em] text-zinc-400">
+                  <span className="text-xs font-bold uppercase tracking-[0.16em] text-zinc-400">
                     {column.eyebrow}
                   </span>
                 </div>

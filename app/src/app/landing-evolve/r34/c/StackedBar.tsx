@@ -38,7 +38,7 @@ export default function StackedBar({ rows, totalPayout }: StackedBarProps) {
       <div>
         <div className="h-3 w-full overflow-hidden rounded-full border border-white/10 bg-white/[0.04]" />
         <p className="mt-3 text-sm text-zinc-400">
-          Move a counter above to zero to see your category mix here.
+          Set at least one counter above zero to see your category mix here.
         </p>
       </div>
     );
@@ -73,7 +73,7 @@ export default function StackedBar({ rows, totalPayout }: StackedBarProps) {
               className="flex h-4 w-4 items-center justify-center rounded-sm text-[9px] font-bold"
               style={{ backgroundColor: SEGMENT_COLOR[row.id], color: SEGMENT_TEXT_ON_SWATCH[row.id] }}
             />
-            <span className="font-semibold text-white">{row.label}</span>
+            <span className="font-bold text-white">{row.label}</span>
             <span className="tabular-nums text-zinc-400">{row.sharePct}%</span>
           </li>
         ))}

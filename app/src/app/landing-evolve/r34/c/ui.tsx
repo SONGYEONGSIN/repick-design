@@ -8,7 +8,7 @@ import type { ReactNode } from "react";
  */
 
 export function Eyebrow({ children }: { children: ReactNode }) {
-  return <p className="text-xs font-semibold uppercase tracking-[0.28em] text-sky-300">{children}</p>;
+  return <p className="text-xs font-bold uppercase tracking-[0.28em] text-sky-300">{children}</p>;
 }
 
 export function SectionIntro({
