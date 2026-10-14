@@ -217,5 +217,14 @@
   },
   "evolve-r38-c": {
     "check": "Return Shipping Label"
+  },
+  "evolve-r39-a": {
+    "check": "Price Match Request"
+  },
+  "evolve-r39-b": {
+    "check": "Vacation Mode"
+  },
+  "evolve-r39-c": {
+    "check": "Two-Factor Backup Codes"
   }
 }
