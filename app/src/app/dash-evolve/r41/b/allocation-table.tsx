@@ -52,7 +52,7 @@ export default function AllocationTable({
     <Card>
       <CardHeading
         title="Allocation table"
-        subtitle="Plain percentage breakdown — the same figures as the chart, as a sortable table."
+        subtitle="Every category, sortable, with its share of spend for the period."
       />
       <table className="mt-4 w-full table-fixed border-collapse">
         <caption className="mb-2 text-left font-normal text-xs text-zinc-400">

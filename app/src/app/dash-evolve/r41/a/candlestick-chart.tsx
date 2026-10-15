@@ -65,7 +65,7 @@ export function CandlestickChart({
   const ma = movingAverage(candles, MA_WINDOW);
   const maPoints: string[] = [];
   ma.forEach((v, i) => {
-    if (v == null) return;
+    if (v === null) return;
     maPoints.push(`${xCenter(i)},${yFor(v)}`);
   });
   const maPath = maPoints.length > 1 ? `M${maPoints.join(" L")}` : "";

@@ -22,7 +22,7 @@ export default function SupportStats({
 
   return (
     <Card>
-      <CardHeading title="Spend trend & budget" subtitle="Context for the chart — smaller than the headline figures by design." />
+      <CardHeading title="Spend trend & budget" subtitle="A quick trend and budget check, at a glance." />
 
       <div className="mt-4 flex items-center justify-between gap-3">
         <div>

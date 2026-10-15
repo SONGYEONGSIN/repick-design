@@ -144,7 +144,6 @@ export function Tabs({
             role="tab"
             id={`${idBase}-tab-${tab.value}`}
             aria-selected={active}
-            aria-controls={`${idBase}-panel-${tab.value}`}
             tabIndex={0}
             onClick={() => onChange(tab.value)}
             className={`-mb-px border-b-2 px-3 py-2 font-medium text-sm motion-safe:transition-colors ${FOCUS_RING} ${

@@ -46,7 +46,7 @@ export function CommandPalette({
 
   return (
     <div className="fixed inset-0 z-50 flex items-start justify-center px-4 pt-24">
-      <button type="button" aria-label="Close search" onClick={onClose} className="fixed inset-0 bg-zinc-950/40" />
+      <button type="button" aria-label="Close search" onClick={onClose} className={`fixed inset-0 bg-zinc-950/40 ${FOCUS_RING}`} />
       <div role="dialog" aria-modal="true" aria-label="Search instruments" className="relative w-full max-w-md rounded-xl border border-zinc-200 bg-white shadow-xl">
         <div className="flex items-center gap-2 border-b border-zinc-200 px-3.5">
           <Search className="h-4 w-4 shrink-0 text-zinc-400" aria-hidden="true" />

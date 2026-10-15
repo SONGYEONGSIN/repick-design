@@ -363,7 +363,7 @@ export default function OutlayConsole() {
               <Card>
                 <CardHeading
                   title="Spend by category"
-                  subtitle={`${PERIOD_LABEL[period]} · ${categories.length} categories · every figure shown as text, not just color`}
+                  subtitle={`${PERIOD_LABEL[period]} · ${categories.length} categories · click a segment for its own detail`}
                 />
                 <div className="mt-5">
                   <DonutChart

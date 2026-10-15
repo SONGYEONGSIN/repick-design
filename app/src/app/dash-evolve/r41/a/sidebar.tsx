@@ -83,7 +83,7 @@ function WatchlistRail({ selectedId, onSelect }: { selectedId: string; onSelect:
                   <span className="block truncate font-normal text-xs text-zinc-600">{inst.name}</span>
                 </span>
                 <Sparkline values={stats.closes} up={isUp} />
-                <span className="w-16 shrink-0 text-right">
+                <span className="w-20 shrink-0 text-right">
                   <span className="block font-medium text-xs tabular-nums text-zinc-900">
                     {inst.decimals === 4 ? stats.lastPrice.toFixed(4) : stats.lastPrice.toFixed(2)}
                   </span>
@@ -157,7 +157,7 @@ export function MobileSidebarDrawer({
 
   return (
     <div className="fixed inset-0 z-40 lg:hidden">
-      <button type="button" aria-label="Close navigation" onClick={onClose} className="absolute inset-0 bg-zinc-950/40" />
+      <button type="button" aria-label="Close navigation" onClick={onClose} className={`absolute inset-0 bg-zinc-950/40 ${FOCUS_RING}`} />
       <div className="relative flex h-full w-80 max-w-[85vw] flex-col bg-white motion-safe:animate-[rise_200ms_ease-out]">
         <div className="flex items-center justify-between border-b border-zinc-200 px-3 py-3">
           <p className="font-semibold text-sm text-zinc-900">Menu</p>

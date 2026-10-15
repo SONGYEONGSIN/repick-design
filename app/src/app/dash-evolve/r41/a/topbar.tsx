@@ -85,11 +85,11 @@ function AccountMenu() {
     <div ref={wrapRef} className="relative">
       <button
         type="button"
-        aria-label="Account menu for Jordan Myles"
         aria-expanded={open}
         onClick={() => setOpen((v) => !v)}
         className={`flex h-11 items-center gap-1.5 rounded-lg px-1.5 hover:bg-zinc-100 ${FOCUS_RING}`}
       >
+        <span className="sr-only">Account menu for Jordan Myles, </span>
         <Avatar name="Jordan Myles" />
         <ChevronDown className="h-3.5 w-3.5 text-zinc-400" aria-hidden="true" />
       </button>

@@ -83,7 +83,7 @@ export function OrderTicketDrawer({
 
   return (
     <div className="fixed inset-0 z-50 flex justify-end">
-      <button type="button" aria-label="Close order ticket" onClick={onClose} className="fixed inset-0 bg-zinc-950/40" />
+      <button type="button" aria-label="Close order ticket" onClick={onClose} className={`fixed inset-0 bg-zinc-950/40 ${FOCUS_RING}`} />
       <div
         ref={panelRef}
         tabIndex={-1}

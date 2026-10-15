@@ -23,11 +23,13 @@ export function TradesTable({ trades, symbol, decimals }: { trades: Trade[]; sym
   // Reset to the feed's natural (most-recent-first) order whenever the instrument changes.
   const [prevSymbol, setPrevSymbol] = useState(symbol);
   let effectiveSortKey = sortKey;
+  let effectiveSortDir = sortDir;
   if (prevSymbol !== symbol) {
     setPrevSymbol(symbol);
     setSortKey("time");
     setSortDir("asc");
     effectiveSortKey = "time";
+    effectiveSortDir = "asc";
   }
 
   function sortValue(t: Trade, key: SortKey): number {
@@ -37,11 +39,11 @@ export function TradesTable({ trades, symbol, decimals }: { trades: Trade[]; sym
 
   const sorted = [...trades].sort((a, b) => {
     const diff = sortValue(a, effectiveSortKey) - sortValue(b, effectiveSortKey);
-    return sortDir === "asc" ? diff : -diff;
+    return effectiveSortDir === "asc" ? diff : -diff;
   });
 
   function toggleSort(key: SortKey) {
-    if (key === sortKey) {
+    if (key === effectiveSortKey) {
       setSortDir((d) => (d === "asc" ? "desc" : "asc"));
     } else {
       setSortKey(key);
@@ -50,8 +52,8 @@ export function TradesTable({ trades, symbol, decimals }: { trades: Trade[]; sym
   }
 
   function ariaSortFor(key: SortKey): "ascending" | "descending" | "none" {
-    if (key !== sortKey) return "none";
-    return sortDir === "asc" ? "ascending" : "descending";
+    if (key !== effectiveSortKey) return "none";
+    return effectiveSortDir === "asc" ? "ascending" : "descending";
   }
 
   return (
