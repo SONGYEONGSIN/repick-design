@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type RefObject } from "react";
 import {
   AlertTriangle,
   Bell,
@@ -57,7 +57,7 @@ function mainPathAvgHours(period: PeriodId): number {
   return ids.reduce((sum, id) => sum + (stats.find((s) => s.id === id)?.avgWaitHours ?? 0), 0);
 }
 
-function useClickOutside(ref: React.RefObject<HTMLElement | null>, enabled: boolean, onOutside: () => void) {
+function useClickOutside(ref: RefObject<HTMLElement | null>, enabled: boolean, onOutside: () => void) {
   useEffect(() => {
     if (!enabled) return undefined;
     function handle(e: MouseEvent) {
@@ -211,7 +211,7 @@ export default function TracewellConsole() {
             type="button"
             aria-label="Close navigation menu"
             onClick={() => setMobileNavOpen(false)}
-            className="absolute inset-0 bg-zinc-950/70"
+            className={`absolute inset-0 bg-zinc-950/70 ${focusRing}`}
           />
           <div className="absolute inset-y-0 left-0 flex w-72 flex-col border-r border-white/10 bg-zinc-950 p-4">
             <div className="flex items-center justify-between">

@@ -115,7 +115,7 @@ export default function RadarChart({
         {drawOrder.map((vendor) => {
           const isPinned = vendor.id === pinnedId;
           const isHover = vendor.id === effectiveHoverId;
-          const tone = isPinned ? "pinned" : isHover ? "hover" : "neutral";
+          const tone: "pinned" | "hover" | "neutral" = isPinned ? "pinned" : isHover ? "hover" : "neutral";
           const color = TONE_STROKE[tone];
           const points = axes.map((axis, i) =>
             scorePoint(i, count, valueForView(axis.id, vendor.scores[axis.id], view)),

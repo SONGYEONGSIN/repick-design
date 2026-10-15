@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState, type KeyboardEvent } from "react";
 import {
   AlertTriangle,
   GitBranch,
@@ -61,7 +61,7 @@ export default function CommandPalette({ open, onClose }: { open: boolean; onClo
 
   if (!open) return null;
 
-  function handleKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
+  function handleKeyDown(e: KeyboardEvent<HTMLInputElement>) {
     if (e.key === "Escape") {
       e.preventDefault();
       onClose();
@@ -83,7 +83,7 @@ export default function CommandPalette({ open, onClose }: { open: boolean; onClo
         type="button"
         aria-label="Close command palette"
         onClick={onClose}
-        className="absolute inset-0 bg-zinc-950/70"
+        className={`absolute inset-0 bg-zinc-950/70 ${focusRing}`}
       />
       <div
         role="dialog"

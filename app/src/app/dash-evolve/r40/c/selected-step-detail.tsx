@@ -52,7 +52,7 @@ function NodeDetail({ stateId }: { stateId: StateId }) {
     <div className="mt-3">
       <div className="flex items-center justify-between gap-2">
         <StateBadge state={stateId} label={node.label} />
-        <p className="font-semibold text-xl text-zinc-50 tabular-nums">{current}</p>
+        <p className="font-semibold text-lg text-zinc-50 tabular-nums">{current}</p>
       </div>
       <p className="mt-2 font-normal text-sm text-zinc-400">{NODE_HINT[stateId]}</p>
 
@@ -91,13 +91,13 @@ function EdgeDetail({ edgeId, period }: { edgeId: string; period: PeriodId }) {
       <div className="mt-3 grid grid-cols-2 gap-3">
         <div className="rounded-lg border border-white/10 p-2.5">
           <p className="font-medium text-[11px] text-zinc-400 uppercase tracking-wide">Volume</p>
-          <p className="mt-0.5 font-semibold text-xl text-zinc-50 tabular-nums">
+          <p className="mt-0.5 font-semibold text-lg text-zinc-50 tabular-nums">
             {numberFormat.format(stats.volume)}
           </p>
         </div>
         <div className="rounded-lg border border-white/10 p-2.5">
           <p className="font-medium text-[11px] text-zinc-400 uppercase tracking-wide">Avg wait</p>
-          <p className="mt-0.5 font-semibold text-xl text-zinc-50 tabular-nums">{stats.avgWaitHours.toFixed(1)}h</p>
+          <p className="mt-0.5 font-semibold text-lg text-zinc-50 tabular-nums">{stats.avgWaitHours.toFixed(1)}h</p>
         </div>
       </div>
 
