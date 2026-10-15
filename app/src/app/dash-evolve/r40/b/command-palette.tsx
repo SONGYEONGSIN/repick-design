@@ -77,12 +77,17 @@ export default function CommandPalette({
     return commands.filter((c) => c.label.toLowerCase().includes(q));
   }, [commands, query]);
 
-  useEffect(() => {
+  const prevOpenRef = useRef(isOpen);
+  if (prevOpenRef.current !== isOpen) {
+    prevOpenRef.current = isOpen;
     if (isOpen) {
       setQuery("");
       setActiveIndex(0);
-      inputRef.current?.focus();
     }
+  }
+
+  useEffect(() => {
+    if (isOpen) inputRef.current?.focus();
   }, [isOpen]);
 
   useEffect(() => {

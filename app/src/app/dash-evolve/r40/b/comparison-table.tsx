@@ -104,9 +104,13 @@ export default function ComparisonTable({ vendors, axes, view, pinnedId, onPin }
                 <button
                   type="button"
                   onClick={() => handleSort(axis.id)}
+                  title={axis.label}
                   className="ml-auto flex items-center gap-1 rounded text-right text-[11px] font-medium uppercase leading-tight tracking-wide text-zinc-500 motion-safe:transition-colors hover:text-zinc-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-rose-600"
                 >
-                  <span className="text-wrap">{axis.label}</span>
+                  <span className="text-wrap">
+                    <span aria-hidden="true">{axis.shortLabel}</span>
+                    <span className="sr-only">{axis.label}</span>
+                  </span>
                   <SortIcon active={sortKey === axis.id} dir={sortDir} />
                 </button>
               </th>

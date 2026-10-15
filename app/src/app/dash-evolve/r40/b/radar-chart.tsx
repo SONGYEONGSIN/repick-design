@@ -1,6 +1,5 @@
 "use client";
 
-import { useId } from "react";
 import type { AxisDef, VendorDef, VendorId } from "./data";
 import { formatScore, valueForView, type ViewMode } from "./format";
 import {
@@ -41,7 +40,6 @@ export default function RadarChart({
   hoveredAxisIndex,
   onHoverAxis,
 }: RadarChartProps) {
-  const titleId = useId();
   const count = axes.length;
 
   // Non-focused vendors draw first, then the ephemeral hover preview, then
@@ -62,13 +60,9 @@ export default function RadarChart({
       <svg
         viewBox={`0 0 ${VIEW_SIZE} ${VIEW_SIZE}`}
         role="img"
-        aria-labelledby={titleId}
+        aria-label={`Radar comparison of ${vendors.length} suppliers across ${count} evaluation axes`}
         className="h-auto w-full max-w-[460px]"
       >
-        <title id={titleId}>
-          Radar comparison of {vendors.length} suppliers across {count} evaluation axes
-        </title>
-
         {/* Reference rings */}
         {RING_FRACTIONS.map((fraction) => (
           <circle
@@ -130,7 +124,7 @@ export default function RadarChart({
               onMouseLeave={() => onHoverVendor(null)}
               onFocus={() => onHoverVendor(vendor.id)}
               onBlur={() => onHoverVendor(null)}
-              className="cursor-pointer outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-rose-600"
+              className="cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-rose-600"
             >
               <polygon
                 points={polygonPoints(points)}
@@ -190,7 +184,7 @@ export default function RadarChart({
               tabIndex={0}
               role="button"
               aria-label={`${axis.label} axis: show every supplier's value`}
-              className="cursor-pointer outline-none focus-visible:fill-rose-50 focus-visible:stroke-rose-600 focus-visible:stroke-2 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-rose-600"
+              className="cursor-pointer focus-visible:fill-rose-50 focus-visible:stroke-rose-600 focus-visible:stroke-2 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-rose-600"
               onMouseEnter={() => onHoverAxis(i)}
               onMouseLeave={() => onHoverAxis(null)}
               onFocus={() => onHoverAxis(i)}
