@@ -115,12 +115,12 @@ export default function RecentIncidentsTable() {
           Recent incidents, filterable by status and sortable by state, age and priority.
         </caption>
         <colgroup>
-          <col style={{ width: "10%" }} />
+          <col style={{ width: "11%" }} />
           <col style={{ width: "24%" }} />
-          <col style={{ width: "26%" }} />
+          <col style={{ width: "20%" }} />
           <col style={{ width: "19%" }} />
           <col style={{ width: "10%" }} />
-          <col style={{ width: "11%" }} />
+          <col style={{ width: "16%" }} />
         </colgroup>
         <thead>
           <tr className="border-b border-white/10">

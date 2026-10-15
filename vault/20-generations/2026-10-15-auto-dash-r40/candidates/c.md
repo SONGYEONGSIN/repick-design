@@ -48,3 +48,24 @@ No display typeface was added — plain Pretendard throughout, hierarchy carried
    chart for a selected node, or volume/wait + up to three matching open tickets for a selected edge — two
    different views behind one component, switched by the discriminated `SelectedTarget` union, so exactly one
    tile ever changes regardless of what's clicked.
+
+4. **Process-log findings (hard-gate fix pass).** The shared `focusRing` constant in `command-palette.tsx`,
+   `page.tsx`, `process-map.tsx` and `recent-incidents-table.tsx` led with `outline-none`, which sets
+   `--tw-outline-style: none` and is never reset by the later `focus-visible:outline-2` utility in this repo's
+   Tailwind v4 setup — the ring is invisible on every one of those elements. Fixed by dropping `outline-none`
+   from the constant everywhere; `focus-visible:` alone is sufficient. Separately, this repo's
+   `react-hooks/refs` lint rule forbids reading or writing a `ref.current` during render (not just
+   `react-hooks/set-state-in-effect`, which forbids `setState` inside a `useEffect` body) — so the
+   render-time "reset on prop change" idiom here has to track the previous value with `useState`, not
+   `useRef` (confirmed against this repo's own `r40/b/command-palette.tsx`, which already uses that
+   pattern). Verified the actual sweep culprits with Playwright rather than guessing further: the
+   `table-overflow` on `table#2` and the `cell-overlap` between "Investigating" and "MC" were both inside
+   `recent-incidents-table.tsx`'s own table — the Priority column's badge (`"Medium"` worst case) needed
+   ~18px more than its 11% colgroup share, and the ID column had zero safety margin against Title; rebalancing
+   the six column percentages (11/24/20/19/10/16) fixes both with zero overflow/overlap at every sweep width.
+   The process map's `<svg>` carried fixed `width`/`height` pixel attributes instead of scaling with its
+   `viewBox`, so its `overflow-x-auto` wrapper (`div#0`) scrolled instead of shrinking below ~1424px — fixed
+   by dropping the fixed attributes for `className="block h-auto w-full"`. Also fixed the account-menu
+   `label-content-name-mismatch` (aria-label now leads with the visible "JL" initials) and the State/Age/
+   Priority sort-header buttons' `target-size` (now `h-6`/24px tall, with extra `th` padding between them).
+   Full gate (`route/types/static/lint/weights/sweep/focus/console/a11y/perf`) now passes clean.
