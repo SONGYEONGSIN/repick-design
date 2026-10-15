@@ -119,7 +119,7 @@ export default function PulsegridConsole() {
     <div className="flex min-h-screen bg-white font-normal text-zinc-900">
       <a
         href="#main-content"
-        className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[60] focus:rounded-md focus:bg-sky-600 focus:px-4 focus:py-2 focus:text-sm focus:font-medium focus:text-white"
+        className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[60] focus:rounded-md focus:bg-sky-700 focus:px-4 focus:py-2 focus:text-sm focus:font-medium focus:text-white"
       >
         Skip to main content
       </a>
@@ -207,7 +207,7 @@ export default function PulsegridConsole() {
           <div className="flex items-center gap-2">
             <button
               type="button"
-              className={`flex h-11 items-center gap-2 rounded-lg bg-sky-600 px-3 font-medium text-sm text-white hover:bg-sky-700 ${FOCUS_RING}`}
+              className={`flex h-11 items-center gap-2 rounded-lg bg-sky-700 px-3 font-medium text-sm text-white hover:bg-sky-800 ${FOCUS_RING}`}
             >
               <Plus className="h-4 w-4" aria-hidden="true" />
               <span className="sr-only sm:not-sr-only">New alert rule</span>
