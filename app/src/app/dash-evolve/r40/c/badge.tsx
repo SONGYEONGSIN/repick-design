@@ -1,10 +1,10 @@
 import {
-  AlertTriangle,
-  CheckCircle2,
   Circle,
+  CircleCheckBig,
   CircleDot,
   RotateCcw,
   Search,
+  TriangleAlert,
   Wrench,
   type LucideIcon,
 } from "lucide-react";
@@ -21,9 +21,9 @@ export const STATE_META: Record<StateId, StateMeta> = {
   detected: { icon: Circle, tone: "neutral" },
   triaged: { icon: CircleDot, tone: "neutral" },
   investigating: { icon: Search, tone: "accent" },
-  escalated: { icon: AlertTriangle, tone: "critical" },
+  escalated: { icon: TriangleAlert, tone: "critical" },
   mitigating: { icon: Wrench, tone: "accent" },
-  resolved: { icon: CheckCircle2, tone: "neutral" },
+  resolved: { icon: CircleCheckBig, tone: "neutral" },
   reopened: { icon: RotateCcw, tone: "critical" },
 };
 
@@ -47,8 +47,8 @@ export function StateBadge({ state, label }: { state: StateId; label: string }) 
 }
 
 const PRIORITY_ICON: Record<Priority, LucideIcon> = {
-  Critical: AlertTriangle,
-  High: AlertTriangle,
+  Critical: TriangleAlert,
+  High: TriangleAlert,
   Medium: Circle,
   Low: Circle,
 };

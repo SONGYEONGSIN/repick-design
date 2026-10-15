@@ -1,4 +1,4 @@
-import { AlertTriangle } from "lucide-react";
+import { TriangleAlert } from "lucide-react";
 import { EDGE_GEOMETRY, EDGE_STATS, bottleneckFor, edgeLabel, type PeriodId } from "./data";
 
 const numberFormat = new Intl.NumberFormat("en-US");
@@ -20,7 +20,7 @@ export default function PathSummaryTable({ period }: { period: PeriodId }) {
         Every path in the flow above, as a plain table — the accessible companion to the diagram.
       </p>
       <p className="mt-2 flex items-start gap-1.5 font-normal text-sm text-zinc-50">
-        <AlertTriangle className="mt-0.5 h-3.5 w-3.5 shrink-0 text-red-400" aria-hidden="true" />
+        <TriangleAlert className="mt-0.5 h-3.5 w-3.5 shrink-0 text-red-400" aria-hidden="true" />
         <span>
           Top bottleneck: <span className="font-medium">{edgeLabel(bottleneck.id)}</span> at{" "}
           {bottleneck.avgWaitHours.toFixed(1)}h average wait.
@@ -64,7 +64,7 @@ export default function PathSummaryTable({ period }: { period: PeriodId }) {
                   {row.toLabel}
                   {row.id === bottleneck.id ? (
                     <span className="inline-flex h-5 items-center gap-1 whitespace-nowrap rounded-full border border-red-400/30 bg-red-400/10 px-1.5 font-medium text-[10px] text-red-300">
-                      <AlertTriangle className="h-2.5 w-2.5 shrink-0" aria-hidden="true" />
+                      <TriangleAlert className="h-2.5 w-2.5 shrink-0" aria-hidden="true" />
                       Bottleneck
                     </span>
                   ) : null}
@@ -91,7 +91,7 @@ export default function PathSummaryTable({ period }: { period: PeriodId }) {
               </p>
               {row.id === bottleneck.id ? (
                 <span className="inline-flex h-5 shrink-0 items-center gap-1 whitespace-nowrap rounded-full border border-red-400/30 bg-red-400/10 px-1.5 font-medium text-[10px] text-red-300">
-                  <AlertTriangle className="h-2.5 w-2.5 shrink-0" aria-hidden="true" />
+                  <TriangleAlert className="h-2.5 w-2.5 shrink-0" aria-hidden="true" />
                   Bottleneck
                 </span>
               ) : null}

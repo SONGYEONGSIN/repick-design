@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { AlertTriangle } from "lucide-react";
+import { TriangleAlert } from "lucide-react";
 import {
   EDGE_GEOMETRY,
   EDGE_STATS,
@@ -119,7 +119,7 @@ export default function ProcessMap({
         aria-label="Bottleneck"
         className="mt-4 flex items-start gap-2.5 rounded-lg border border-red-400/30 bg-red-400/10 px-3 py-2.5"
       >
-        <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0 text-red-400" aria-hidden="true" />
+        <TriangleAlert className="mt-0.5 h-4 w-4 shrink-0 text-red-400" aria-hidden="true" />
         <p className="font-normal text-sm text-red-300">
           <span className="font-semibold text-red-300">Bottleneck: {bottleneckName}.</span>{" "}
           Tickets wait {bottleneck.avgWaitHours.toFixed(1)}h on average before moving on — {ratio.toFixed(1)}&times; the
@@ -194,7 +194,7 @@ export default function ProcessMap({
                   className="pointer-events-none"
                 />
                 {isBottleneck ? (
-                  <AlertTriangle
+                  <TriangleAlert
                     x={round(rectX + 5)}
                     y={round(labelY - 5.5)}
                     width={11}

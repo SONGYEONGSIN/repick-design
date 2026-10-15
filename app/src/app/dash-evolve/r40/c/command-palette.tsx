@@ -2,12 +2,12 @@
 
 import { useEffect, useMemo, useRef, useState, type KeyboardEvent } from "react";
 import {
-  AlertTriangle,
   GitBranch,
   LayoutGrid,
   Phone,
   Plug,
   Plus,
+  TriangleAlert,
   type LucideIcon,
 } from "lucide-react";
 
@@ -20,7 +20,7 @@ interface CommandItem {
 
 const COMMANDS: CommandItem[] = [
   { id: "overview", label: "Go to Overview", hint: "Process map console", icon: LayoutGrid },
-  { id: "incidents", label: "Go to Incidents", hint: "Full incident list", icon: AlertTriangle },
+  { id: "incidents", label: "Go to Incidents", hint: "Full incident list", icon: TriangleAlert },
   { id: "oncall", label: "Go to On-call", hint: "Current rotation", icon: Phone },
   { id: "runbooks", label: "Go to Runbooks", hint: "Response playbooks", icon: GitBranch },
   { id: "integrations", label: "Go to Integrations", hint: "Paging and chat hooks", icon: Plug },

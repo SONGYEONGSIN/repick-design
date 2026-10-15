@@ -2,10 +2,9 @@
 
 import { useEffect, useRef, useState, type RefObject } from "react";
 import {
-  AlertTriangle,
   Bell,
-  CheckCircle2,
   ChevronsUpDown,
+  CircleCheckBig,
   GitBranch,
   Inbox,
   LayoutGrid,
@@ -18,6 +17,7 @@ import {
   Search,
   Settings,
   Timer,
+  TriangleAlert,
   Workflow,
   X,
   type LucideIcon,
@@ -45,7 +45,7 @@ const focusRing =
 
 const NAV_ITEMS: { label: string; icon: LucideIcon; active: boolean }[] = [
   { label: "Overview", icon: LayoutGrid, active: true },
-  { label: "Incidents", icon: AlertTriangle, active: false },
+  { label: "Incidents", icon: TriangleAlert, active: false },
   { label: "On-call", icon: Phone, active: false },
   { label: "Runbooks", icon: GitBranch, active: false },
   { label: "Integrations", icon: Plug, active: false },
@@ -371,7 +371,7 @@ export default function TracewellConsole() {
             </div>
             <div className="col-span-6 min-w-0 lg:col-span-3">
               <KpiTile
-                icon={CheckCircle2}
+                icon={CircleCheckBig}
                 label="Resolved (24h)"
                 value={String(NODE_CURRENT.resolved)}
                 delta="+4 vs yesterday"
@@ -389,7 +389,7 @@ export default function TracewellConsole() {
             </div>
             <div className="col-span-6 min-w-0 lg:col-span-3">
               <KpiTile
-                icon={AlertTriangle}
+                icon={TriangleAlert}
                 label="Reopened now"
                 value={String(NODE_CURRENT.reopened)}
                 delta="steady vs yesterday"
