@@ -14,6 +14,14 @@
 
 ## 대기 중
 
+### 15. `auto-dash-r41/a` — "Fathom" OHLC 캔들스틱 트레이딩 콘솔 (target: dash)
+
+- **탈락 사유**: 1차 하드게이트 복합 실패 — ① lint `prefer-const`(`candlestick-chart.tsx:86`) ② sweep `cell-overlap`(1264/1280px, 차트 가격라벨 `fontSize` 가 CSS 스타일 속성이라 SVG viewBox 스케일을 안 따라가며 겹침) ③ sweep `table-overflow`(`table#1`, 전 데스크톱 폭 5~26px). 1-fix에서 ①·②는 완전 해소(그리드라인 수 축소+`fontSize` 를 SVG 속성으로 전환)했으나, ③은 **오케스트레이터가 `table#1`을 `ohlc-table.tsx`로 오진단** — 실제로는 `page.tsx`가 `ohlc-table.tsx`를 애초에 import·렌더하지 않고(그레프로 확인됨), 페이지의 유일한 실제 `<table>`은 `trades-table.tsx`(colgroup `16/13/27/16/13/15%`)다. designer는 지시받은 대로 (렌더되지 않는) `ohlc-table.tsx`를 고쳤고, 재게이트 수치가 1차와 **완전히 동일**(26px→5px, 전 폭 1px 차이도 없음)하게 재현돼 스킬 §3 "재실패 시 탈락" 적용.
+- **근본 원인 (직접 계측으로 확정)**: `dash-sweep.mjs`의 `table-overflow` 셀렉터 인덱스(`table#N`)는 `document.querySelectorAll('table, [class*="overflow-x"]')`로 **`<table>` 태그와 `overflow-x` 클래스 요소를 DOM 순서로 합쳐** 매긴 번호다 — "N번째 `<table>` 태그"가 아니라 "그 합쳐진 목록에서 인덱스 N인 요소(마침 TABLE 태그일 뿐)"다. 이번 라운드는 그 혼동으로 1-fix 전체가 허공에 적용됐다.
+- **형태가 왜 살아 있나**: 카탈로그 최초의 OHLC 캔들스틱(생성형 SVG, 5기간 이동평균 점선 오버레이, 핫워치리스트 레일+메인(차트+주문목록), 영구 3번째 패널 없이 널러블 주문티켓 드로어로 분리)이었고, 하드게이트 외 다른 모든 측면은 완결돼 있었다(cell-overlap·lint는 실제로 완전히 고쳐짐).
+- **재배정 시 반드시 명시할 것**: (1) **`table#1`은 `trades-table.tsx`다, `ohlc-table.tsx`가 아니다** — 어느 요소가 실제로 렌더되는지 먼저 `page.tsx`의 import/JSX를 확인한 뒤 고칠 것. (2) `trades-table.tsx`의 colgroup(`16/13/27/16/13/15%`)을 Time/Side/Price/Size/Value/Trader 등 실제 콘텐츠의 최소 폭(가격 9자리 숫자 등)에 맞춰 재배분하거나, 좁은 데스크톱 폭에서 덜 중요한 열(예: Trader 아바타)을 `lg:table-cell`로 숨긴다. (3) 수정 후 **반드시 `page.tsx`가 그 파일을 실제로 import·렌더하는지 재확인**하고 제출한다.
+- 등재: 2026-10-15 · 출처 `vault/20-generations/2026-10-15-auto-dash-r41/SCORES.md`
+
 ### 12. `auto-landing-r34/c` — "Seller Payout Simulator" 셀러向 스테퍼-카운터 정산 시뮬레이터 (target: landing)
 
 - **탈락 사유**: 1차 하드게이트 복합 실패 — ① lint `react-hooks/set-state-in-effect`(`Reveal.tsx:29`, `useEffect(() => setMounted(true))`) ② sweep `page-overflow` 148px@390px. 1-fix(① `useSyncExternalStore` 기반 `useMounted()` 훅으로 교체 — 같은 라운드 후보 a 가 이미 쓴 동일 패턴을 그대로 가져옴 ② 표의 `overflow-x-auto` 래퍼가 들어 있는 그리드 아이템에 `min-w-0` 추가, 그리드 아이템의 기본 `min-width: auto`(자식 min-content 크기) 가 트랙 자체를 `min-w-[480px]` 표에 맞춰 넓히고 있었음)을 거쳐 재게이트했으나 **재실패** — lint 는 완전 해소, **sweep 만 148px→127px 로 줄었을 뿐 미해소**. 스킬 §3 적용.
