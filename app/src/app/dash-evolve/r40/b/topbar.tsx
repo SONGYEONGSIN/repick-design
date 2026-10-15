@@ -54,7 +54,7 @@ export default function TopBar({ onOpenPalette, onOpenMobileNav }: TopBarProps) 
         </button>
         <button
           type="button"
-          aria-label="Search"
+          aria-label="Search ⌘K"
           onClick={onOpenPalette}
           className="flex h-11 items-center gap-2 rounded-lg border border-zinc-200 bg-white px-3 text-zinc-500 motion-safe:transition-colors hover:bg-zinc-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-rose-600"
         >
