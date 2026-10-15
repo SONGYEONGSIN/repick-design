@@ -42,13 +42,16 @@ export function OhlcTable({ candles, symbol, decimals, period }: { candles: Cand
           <caption className="mb-2 text-left font-normal text-xs text-zinc-500">
             {period} candle history for {symbol}, newest first.
           </caption>
+          {/* Volume dropped from this desktop table: at the widths this console targets, the
+              four price columns (up to 9 tabular-num characters each, e.g. "64,816.10") need
+              more room than a 6-way split can spare. Volume stays visible in the mobile card
+              list above and in the latest-candle stat row at the top of the page. */}
           <colgroup>
-            <col style={{ width: "18%" }} />
-            <col style={{ width: "16%" }} />
-            <col style={{ width: "16%" }} />
-            <col style={{ width: "16%" }} />
-            <col style={{ width: "16%" }} />
-            <col style={{ width: "18%" }} />
+            <col style={{ width: "12%" }} />
+            <col style={{ width: "22%" }} />
+            <col style={{ width: "22%" }} />
+            <col style={{ width: "22%" }} />
+            <col style={{ width: "22%" }} />
           </colgroup>
           <thead>
             <tr className="border-b border-zinc-200">
@@ -67,9 +70,6 @@ export function OhlcTable({ candles, symbol, decimals, period }: { candles: Cand
               <th scope="col" className="py-2 text-right font-semibold text-[11px] uppercase tracking-[0.04em] text-zinc-500">
                 Close
               </th>
-              <th scope="col" className="py-2 text-right font-semibold text-[11px] uppercase tracking-[0.04em] text-zinc-500">
-                Volume
-              </th>
             </tr>
           </thead>
           <tbody>
@@ -80,7 +80,6 @@ export function OhlcTable({ candles, symbol, decimals, period }: { candles: Cand
                 <td className="py-2 text-right font-normal text-sm tabular-nums text-zinc-700">{formatPrice(c.high, decimals)}</td>
                 <td className="py-2 text-right font-normal text-sm tabular-nums text-zinc-700">{formatPrice(c.low, decimals)}</td>
                 <td className="py-2 text-right font-normal text-sm tabular-nums text-zinc-700">{formatPrice(c.close, decimals)}</td>
-                <td className="py-2 text-right font-normal text-sm tabular-nums text-zinc-700">{formatCompact(c.volume)}</td>
               </tr>
             ))}
           </tbody>

@@ -70,7 +70,9 @@ export function CandlestickChart({
   });
   const maPath = maPoints.length > 1 ? `M${maPoints.join(" L")}` : "";
 
-  const gridLevels = 4;
+  // Fewer, clearly separated gridlines: the price labels are SVG text, and their vertical
+  // separation must stay comfortably larger than the glyph height at every container width.
+  const gridLevels = 3;
   const gridLines = Array.from({ length: gridLevels + 1 }, (_, i) => {
     const price = domainMin + ((domainMax - domainMin) * i) / gridLevels;
     return { y: yFor(price), price };
@@ -81,9 +83,9 @@ export function CandlestickChart({
 
   const hovered = effectiveHover != null ? candles[effectiveHover] : null;
   const tooltipW = 150;
-  const tooltipH = 92;
+  const tooltipH = 100;
   let tooltipX = 0;
-  let tooltipY = MARGIN.top + 4;
+  const tooltipY = MARGIN.top + 4;
   if (effectiveHover != null) {
     const cx = xCenter(effectiveHover);
     tooltipX = cx + 10;
@@ -102,7 +104,7 @@ export function CandlestickChart({
         {gridLines.map((g, i) => (
           <g key={i}>
             <line x1={MARGIN.left} x2={VIEW_W - MARGIN.right + 6} y1={g.y} y2={g.y} stroke="var(--color-zinc-100)" strokeWidth="1" />
-            <text x={VIEW_W - MARGIN.right + 10} y={round2(g.y + 3)} className="fill-zinc-500" style={{ fontSize: "10px" }}>
+            <text x={VIEW_W - MARGIN.right + 10} y={round2(g.y + 3)} className="fill-zinc-500" fontSize={10}>
               {formatPrice(g.price, decimals)}
             </text>
           </g>
@@ -155,7 +157,7 @@ export function CandlestickChart({
         {candles.map((c, i) => {
           if (i % labelStep !== 0 && i !== n - 1) return null;
           return (
-            <text key={`lbl-${c.label}`} x={xCenter(i)} y={VIEW_H - 6} textAnchor="middle" className="fill-zinc-500" style={{ fontSize: "10px" }}>
+            <text key={`lbl-${c.label}`} x={xCenter(i)} y={VIEW_H - 6} textAnchor="middle" className="fill-zinc-500" fontSize={10}>
               {c.label}
             </text>
           );
@@ -202,19 +204,19 @@ export function CandlestickChart({
         {hovered ? (
           <g transform={`translate(${tooltipX}, ${tooltipY})`}>
             <rect width={tooltipW} height={tooltipH} rx="6" fill="white" stroke="var(--color-zinc-200)" strokeWidth="1" />
-            <text x="10" y="18" className="fill-zinc-900" style={{ fontSize: "11px", fontWeight: 600 }}>
+            <text x="10" y="18" className="fill-zinc-900" fontSize={11} style={{ fontWeight: 600 }}>
               {hovered.label}
             </text>
-            <text x="10" y="36" className="fill-zinc-600" style={{ fontSize: "10px" }}>
+            <text x="10" y="38" className="fill-zinc-600" fontSize={10}>
               O {formatPrice(hovered.open, decimals)}
             </text>
-            <text x="10" y="50" className="fill-zinc-600" style={{ fontSize: "10px" }}>
+            <text x="10" y="54" className="fill-zinc-600" fontSize={10}>
               H {formatPrice(hovered.high, decimals)}
             </text>
-            <text x="10" y="64" className="fill-zinc-600" style={{ fontSize: "10px" }}>
+            <text x="10" y="70" className="fill-zinc-600" fontSize={10}>
               L {formatPrice(hovered.low, decimals)}
             </text>
-            <text x="10" y="78" className="fill-zinc-600" style={{ fontSize: "10px" }}>
+            <text x="10" y="86" className="fill-zinc-600" fontSize={10}>
               C {formatPrice(hovered.close, decimals)}
             </text>
           </g>
