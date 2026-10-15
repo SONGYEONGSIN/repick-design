@@ -6,7 +6,7 @@ import { PriorityBadge, StateBadge } from "./badge";
 import { INCIDENTS, NODE_LAYOUT, type Incident, type Priority } from "./data";
 
 const focusRing =
-  "outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-400";
+  "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-400";
 
 type Tab = "all" | "open" | "resolved";
 type SortKey = "state" | "age" | "priority";
@@ -22,6 +22,33 @@ const PRIORITY_RANK: Record<Priority, number> = { Critical: 0, High: 1, Medium: 
 
 function stateRank(incident: Incident): number {
   return NODE_LAYOUT.findIndex((n) => n.id === incident.state);
+}
+
+function SortButton({
+  keyId,
+  label,
+  sortKey,
+  sortDirection,
+  onSort,
+}: {
+  keyId: SortKey;
+  label: string;
+  sortKey: SortKey;
+  sortDirection: SortDirection;
+  onSort: (key: SortKey) => void;
+}) {
+  const activeCol = sortKey === keyId;
+  const Icon = !activeCol ? ArrowUpDown : sortDirection === "asc" ? ArrowUp : ArrowDown;
+  return (
+    <button
+      type="button"
+      onClick={() => onSort(keyId)}
+      className={`flex h-6 min-h-6 items-center gap-1 px-0.5 font-medium text-xs text-zinc-400 uppercase tracking-wide hover:text-zinc-50 ${focusRing}`}
+    >
+      {label}
+      <Icon className="h-3 w-3 shrink-0" aria-hidden="true" />
+    </button>
+  );
 }
 
 export default function RecentIncidentsTable() {
@@ -61,21 +88,6 @@ export default function RecentIncidentsTable() {
     return sortDirection === "asc" ? "ascending" : "descending";
   }
 
-  function SortButton({ keyId, label }: { keyId: SortKey; label: string }) {
-    const activeCol = sortKey === keyId;
-    const Icon = !activeCol ? ArrowUpDown : sortDirection === "asc" ? ArrowUp : ArrowDown;
-    return (
-      <button
-        type="button"
-        onClick={() => handleSort(keyId)}
-        className={`flex items-center gap-1 font-medium text-xs text-zinc-400 uppercase tracking-wide hover:text-zinc-50 ${focusRing}`}
-      >
-        {label}
-        <Icon className="h-3 w-3 shrink-0" aria-hidden="true" />
-      </button>
-    );
-  }
-
   return (
     <div className="rounded-xl border border-white/10 bg-zinc-900 p-4 sm:p-5">
       <div className="flex flex-wrap items-center justify-between gap-3">
@@ -103,12 +115,12 @@ export default function RecentIncidentsTable() {
           Recent incidents, filterable by status and sortable by state, age and priority.
         </caption>
         <colgroup>
-          <col style={{ width: "14%" }} />
-          <col style={{ width: "32%" }} />
-          <col style={{ width: "16%" }} />
-          <col style={{ width: "18%" }} />
           <col style={{ width: "10%" }} />
+          <col style={{ width: "24%" }} />
+          <col style={{ width: "26%" }} />
+          <col style={{ width: "19%" }} />
           <col style={{ width: "10%" }} />
+          <col style={{ width: "11%" }} />
         </colgroup>
         <thead>
           <tr className="border-b border-white/10">
@@ -118,20 +130,20 @@ export default function RecentIncidentsTable() {
             <th scope="col" className="py-2 text-left font-medium text-xs text-zinc-400 uppercase tracking-wide">
               Title
             </th>
-            <th scope="col" aria-sort={ariaSortFor("state")} className="py-2 text-left">
-              <SortButton keyId="state" label="State" />
+            <th scope="col" aria-sort={ariaSortFor("state")} className="py-2 pr-2 text-left">
+              <SortButton keyId="state" label="State" sortKey={sortKey} sortDirection={sortDirection} onSort={handleSort} />
             </th>
             <th scope="col" className="py-2 text-left font-medium text-xs text-zinc-400 uppercase tracking-wide">
               Assignee
             </th>
-            <th scope="col" aria-sort={ariaSortFor("age")} className="py-2 text-right">
+            <th scope="col" aria-sort={ariaSortFor("age")} className="py-2 pr-3 text-right">
               <span className="flex justify-end">
-                <SortButton keyId="age" label="Age" />
+                <SortButton keyId="age" label="Age" sortKey={sortKey} sortDirection={sortDirection} onSort={handleSort} />
               </span>
             </th>
-            <th scope="col" aria-sort={ariaSortFor("priority")} className="py-2 text-right">
+            <th scope="col" aria-sort={ariaSortFor("priority")} className="py-2 pl-1 text-right">
               <span className="flex justify-end">
-                <SortButton keyId="priority" label="Priority" />
+                <SortButton keyId="priority" label="Priority" sortKey={sortKey} sortDirection={sortDirection} onSort={handleSort} />
               </span>
             </th>
           </tr>
@@ -146,7 +158,7 @@ export default function RecentIncidentsTable() {
               <td className="py-2.5">
                 <StateBadge state={incident.state} label={NODE_LAYOUT.find((n) => n.id === incident.state)!.label} />
               </td>
-              <td className="py-2.5">
+              <td className="py-2.5 pl-3">
                 <span className="flex items-center gap-2">
                   <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-white/10 font-medium text-[10px] text-zinc-50">
                     {incident.assigneeInitials}

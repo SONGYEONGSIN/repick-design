@@ -41,7 +41,7 @@ import {
 } from "./data";
 
 const focusRing =
-  "outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-400";
+  "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-400";
 
 const NAV_ITEMS: { label: string; icon: LucideIcon; active: boolean }[] = [
   { label: "Overview", icon: LayoutGrid, active: true },
@@ -298,7 +298,7 @@ export default function TracewellConsole() {
                 type="button"
                 onClick={() => setAvatarOpen((o) => !o)}
                 aria-expanded={avatarOpen}
-                aria-label={`Account menu for ${CURRENT_USER.name}`}
+                aria-label={`${CURRENT_USER.initials}, account menu for ${CURRENT_USER.name}`}
                 className={`flex h-11 w-11 items-center justify-center rounded-full bg-white/10 font-medium text-xs text-zinc-50 hover:bg-white/15 ${focusRing}`}
               >
                 <span aria-hidden="true">{CURRENT_USER.initials}</span>

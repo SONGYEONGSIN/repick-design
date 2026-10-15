@@ -19,7 +19,7 @@ import {
 } from "./data";
 
 const focusRing =
-  "outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-400";
+  "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-400";
 
 const numberFormat = new Intl.NumberFormat("en-US");
 
@@ -131,10 +131,8 @@ export default function ProcessMap({
         <svg
           role="group"
           aria-label="Incident flow diagram. Nodes show current open count; edges show transition volume for the selected period."
-          width={GRAPH_VIEWBOX.width}
-          height={GRAPH_VIEWBOX.height}
           viewBox={`0 0 ${GRAPH_VIEWBOX.width} ${GRAPH_VIEWBOX.height}`}
-          className="block"
+          className="block h-auto w-full"
         >
           {EDGE_GEOMETRY.map((edge) => {
             const s = statsById.get(edge.id);

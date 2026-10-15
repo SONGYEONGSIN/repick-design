@@ -77,9 +77,9 @@ export default function CommandPalette({
     return commands.filter((c) => c.label.toLowerCase().includes(q));
   }, [commands, query]);
 
-  const prevOpenRef = useRef(isOpen);
-  if (prevOpenRef.current !== isOpen) {
-    prevOpenRef.current = isOpen;
+  const [prevIsOpen, setPrevIsOpen] = useState(isOpen);
+  if (prevIsOpen !== isOpen) {
+    setPrevIsOpen(isOpen);
     if (isOpen) {
       setQuery("");
       setActiveIndex(0);

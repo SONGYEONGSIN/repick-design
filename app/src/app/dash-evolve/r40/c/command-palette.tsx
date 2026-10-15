@@ -28,7 +28,7 @@ const COMMANDS: CommandItem[] = [
 ];
 
 const focusRing =
-  "outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-400";
+  "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-400";
 
 export default function CommandPalette({ open, onClose }: { open: boolean; onClose: () => void }) {
   const [query, setQuery] = useState("");
@@ -43,21 +43,27 @@ export default function CommandPalette({ open, onClose }: { open: boolean; onClo
     );
   }, [query]);
 
-  useEffect(() => {
+  const [prevOpen, setPrevOpen] = useState(open);
+  if (prevOpen !== open) {
+    setPrevOpen(open);
     if (open) {
       setQuery("");
       setActiveIndex(0);
+    }
+  }
+
+  if (activeIndex >= results.length) {
+    const clamped = results.length > 0 ? results.length - 1 : 0;
+    if (clamped !== activeIndex) setActiveIndex(clamped);
+  }
+
+  useEffect(() => {
+    if (open) {
       const id = window.setTimeout(() => inputRef.current?.focus(), 0);
       return () => window.clearTimeout(id);
     }
     return undefined;
   }, [open]);
-
-  useEffect(() => {
-    if (activeIndex >= results.length) {
-      setActiveIndex(results.length > 0 ? results.length - 1 : 0);
-    }
-  }, [results, activeIndex]);
 
   if (!open) return null;
 
