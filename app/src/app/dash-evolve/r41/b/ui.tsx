@@ -87,7 +87,7 @@ export function SegmentedControl<T extends string>({
             aria-checked={active}
             onClick={() => onChange(option.value)}
             className={`h-8 rounded-md px-3 font-medium text-xs motion-safe:transition-colors ${FOCUS_RING} ${
-              active ? "bg-rose-500 text-white" : "text-zinc-400 hover:text-zinc-50"
+              active ? "bg-rose-700 text-white" : "text-zinc-400 hover:text-zinc-50"
             }`}
           >
             {option.label}
