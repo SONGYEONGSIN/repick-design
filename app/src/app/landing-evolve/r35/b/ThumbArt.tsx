@@ -1,7 +1,7 @@
 // Deterministic, network-free "generative art" thumbnails. No photos, no
-// <img>, no random hosts — just hand-authored SVG with every coordinate
-// written to at most 2 decimal places (hydration-mismatch safe by
-// construction, since nothing is computed at render time).
+// raster images, no random hosts — just hand-authored SVG with every
+// coordinate written to at most 2 decimal places (hydration-mismatch safe
+// by construction, since nothing is computed at render time).
 
 export type ThumbVariant = "jacket" | "watch" | "sneaker" | "camera";
 

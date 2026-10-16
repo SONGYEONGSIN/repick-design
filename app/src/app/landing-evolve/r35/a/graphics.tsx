@@ -53,13 +53,13 @@ export function Signature({ className }: { className?: string }) {
 }
 
 export function Barcode({ className }: { className?: string }) {
-  let x = 0;
-  const bars = BARCODE_WIDTHS.map((w, i) => {
-    const bar = { x, w, key: i };
-    x += w + 1.4;
-    return bar;
-  });
-  const total = x;
+  const bars = BARCODE_WIDTHS.reduce<{ x: number; w: number; key: number }[]>((acc, w, i) => {
+    const prevEnd = acc.length ? acc[acc.length - 1].x + acc[acc.length - 1].w + 1.4 : 0;
+    acc.push({ x: prevEnd, w, key: i });
+    return acc;
+  }, []);
+  const last = bars[bars.length - 1];
+  const total = last.x + last.w;
   return (
     <svg viewBox={`0 0 ${total} 20`} className={className} aria-hidden="true" focusable="false" preserveAspectRatio="none">
       {bars.map((b) => (
