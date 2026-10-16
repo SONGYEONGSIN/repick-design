@@ -22,17 +22,18 @@
 - **재배정 시 반드시 명시할 것**: (1) **`table#1`은 `trades-table.tsx`다, `ohlc-table.tsx`가 아니다** — 어느 요소가 실제로 렌더되는지 먼저 `page.tsx`의 import/JSX를 확인한 뒤 고칠 것. (2) `trades-table.tsx`의 colgroup(`16/13/27/16/13/15%`)을 Time/Side/Price/Size/Value/Trader 등 실제 콘텐츠의 최소 폭(가격 9자리 숫자 등)에 맞춰 재배분하거나, 좁은 데스크톱 폭에서 덜 중요한 열(예: Trader 아바타)을 `lg:table-cell`로 숨긴다. (3) 수정 후 **반드시 `page.tsx`가 그 파일을 실제로 import·렌더하는지 재확인**하고 제출한다.
 - 등재: 2026-10-15 · 출처 `vault/20-generations/2026-10-15-auto-dash-r41/SCORES.md`
 
-### 12. `auto-landing-r34/c` — "Seller Payout Simulator" 셀러向 스테퍼-카운터 정산 시뮬레이터 (target: landing)
-
-- **탈락 사유**: 1차 하드게이트 복합 실패 — ① lint `react-hooks/set-state-in-effect`(`Reveal.tsx:29`, `useEffect(() => setMounted(true))`) ② sweep `page-overflow` 148px@390px. 1-fix(① `useSyncExternalStore` 기반 `useMounted()` 훅으로 교체 — 같은 라운드 후보 a 가 이미 쓴 동일 패턴을 그대로 가져옴 ② 표의 `overflow-x-auto` 래퍼가 들어 있는 그리드 아이템에 `min-w-0` 추가, 그리드 아이템의 기본 `min-width: auto`(자식 min-content 크기) 가 트랙 자체를 `min-w-[480px]` 표에 맞춰 넓히고 있었음)을 거쳐 재게이트했으나 **재실패** — lint 는 완전 해소, **sweep 만 148px→127px 로 줄었을 뿐 미해소**. 스킬 §3 적용.
-- **근본 원인 (직접 계측으로 확정)**: `min-w-0` 수정 후 표의 로컬 스크롤 컨테이너(`overflow-x-auto`, `clientWidth:316px`) 자체는 정확히 동작한다(표를 내부에서 가로스크롤, `scrollWidth:480px`). 그런데 `sweep` 이 재는 `document.documentElement.scrollWidth` 는 그 이후로도 517 로 유지됐다 — Chromium 의 실제 동작: **`overflow-x:auto`/`hidden` 래퍼 혼자서는 넓은 자손이 문서 `scrollWidth` 에 기여하는 것을 막지 못한다**(시각적 클립·로컬 스크롤은 정확한데도). `overflow:hidden !important` 를 직접 걸어도 `scrollWidth` 불변(517 유지) 확인, **`contain: layout` 을 같은 래퍼에 걸면 390 으로 즉시 해소**(표 자체의 로컬 스크롤은 그대로 유지 — `div.scrollWidth` 는 480 그대로)됨을 직접 검증. 표를 `display:none` 으로 숨기면 그것만으로도 517→390 이 되는 것으로 원인 요소도 재확인.
-- **재배정 시 반드시 명시할 것**: 다음 둘 중 하나를 적용한다 — (1) **더 작은 패치**: `overflow-x-auto` 래퍼에 `[contain:layout]`(또는 동등한 CSS `contain: layout`)을 추가한다. 한 줄 수정, 직접 검증됨, 디자인 변경 없음. (2) **레포 관례와 더 합치하는 패치**: `min-w-[480px]` + 로컬 가로스크롤 패턴을 버리고, `table-fixed` + `<colgroup>` 퍼센트 열배분으로 바꿔 390px 에서 6열이 스크롤 없이 압축되게 한다([[page-brief-core]] §4 의 기존 데스크톱 테이블 관례와 동형, 단 이번엔 랜딩+모바일 맥락). (1)이 더 작은 변경이라 우선 권장하지만 최종 판단은 다음 라운드의 designer 에게 맡긴다. **어느 쪽이든 수정 후 390px 렌더에서 `document.documentElement.scrollWidth === document.documentElement.clientWidth` 를 직접 확인**하고 제출한다 — 이번 라운드는 `overflow-x-auto`/`min-w-0` 조합이 "로컬 스크롤이 동작하니 당연히 페이지도 안 넘친다"는 가정으로 재게이트했다가 걸렸다.
-- **형태가 왜 살아 있나**: 이 라운드는 landing 카탈로그에 전례 없는 입력×출력 조합(3개 스테퍼 카운터 → 라이브 항목별 정산 내역+스택바 구성비)과, 선행 랜딩 라운드(`auto-landing-r31/c`)가 확립한 "셀러向 오디언스 재구성"(매치%·할인 2요소를 의도적으로 생략하고 그 사유를 명시) 선례를 계승한 설계였다. `## Hero proof-card note`·`## 브리프에 없던 것` 보고까지 전부 완결돼 있었고, 유일한 결함은 위 하드게이트 두 건이다.
-- 등재: 2026-10-14 · 출처 `vault/20-generations/2026-10-14-auto-landing-r34/SCORES.md`
-
 > **한 라운드에 2개가 동시에 들어왔다** (11번은 2026-10-15 `auto-dash-r40/a`로 소진 — 아래 아카이브 #14 참조) — 다음 라운드는 이 중 **하나만** 배정한다(큐 규약). 어느 쪽을 먼저 돌릴지는 다음 라운드의 판단에 맡긴다. 나머지 탈락분은 넣지 않았다 — `dash r22/b`·`r22/c`·`r23/c`·`r25/b`·`landing r17/c`·`dash r28/c`(Trestle, 고정레일+간트 — 상시마운트 툴팁 div 가 화면 우측 바 근처에서 뷰포트를 넘는 page-overflow 로 1-fix 재실패)는 사유가 규칙 위반이라 등재 자격은 있으나, 큐는 **한 라운드에 1개만** 배정하므로 전부 넣으면 7라운드+치 백로그가 된다. `dash r28/b`(Ridgeline)는 2026-09-26 `auto-dash-r30/a`로 재배정 완료, 아래 5번 항목으로 소진됐다. 이전에 먼저 돌리기로 한 다른 항목들도 소진되어 아래 아카이브에 있다 — 다음 배정은 남은 백로그 중에서 판단한다. (전부 `candidates/<v>.md` 에 컨셉이 남아 있어 언제든 등재할 수 있다.)
 
 ## 아카이브
+
+### 12. `auto-landing-r34/c` — "Seller Payout Simulator" 셀러向 스테퍼-카운터 정산 시뮬레이터 (target: landing)
+
+- **탈락 사유(원 등재)**: 1차 하드게이트 복합 실패 — ① lint `react-hooks/set-state-in-effect`(`Reveal.tsx:29`, `useEffect(() => setMounted(true))`) ② sweep `page-overflow` 148px@390px. 1-fix 후 재실패(sweep 만 148px→127px 로 줄었을 뿐 미해소) — 근본 원인은 `overflow-x-auto` 래퍼 혼자서는 넓은 자손이 `document.scrollWidth` 에 기여하는 것을 못 막는 Chromium 동작, 검증된 해법은 `[contain:layout]`.
+- **재배정 결과 (2026-10-16, `auto-landing-r35/c`, 동일명)**: 배정문의 두 지시를 정확히 반영 — ① `useSyncExternalStore` 기반 `useMounted()`(원 r34/c 가 이미 1-fix로 적용해 둔 버전을 그대로 계승, 재발 없음) ② 표를 `overflow-x-auto`+`min-w-[480px]` 대신 `table-fixed`+`<colgroup>` 퍼센트 열배분(27/9/19/16/19/10%)으로 교체 + 벨트앤서스펜더스로 래핑 섹션에 `[contain:layout]` 도 유지. **1차 하드게이트부터 10/10 클린 통과(1-fix 불요)** — 원 재배정 사유 두 건 전부 재발 없음, `sweep` 전 폭 오버플로 0 확인.
+  3렌즈 블라인드 판정에서 **승격하지 못했다** — 2:1(렌즈2+렌즈3 vs 렌즈1)로 `auto-landing-r35/b`("The Duel")에 패배. 렌즈1(브리프준수)은 c를 3위에 둔 사유로 "히어로 증명카드가 4개 필드 중 2개(매치%·할인%)를 의도적으로 생략한 1개 카드뿐"이라는 **의도된 설계 선택**(셀러向 오디언스 재구성 — 매치%·할인은 셀러 어휘에 자연대응 없음)을 지목했을 뿐, 하드게이트 위반은 없었다.
+- **일반화**: 원 재배정 사유(하드게이트 2건)는 **완전히, 재현 가능하게 해소됐다**(1차 클린). 이번 탈락은 **게이트 위반이 아니라 순수 판정 패배**(판정단계 진입 성공, 승격은 다른 두 후보와의 상대 경쟁에서 실패) — 재배정 큐의 목적(형태를 하드게이트 너머 판정까지 보내는 것)은 완수됐다.
+- **처리**: 소진 — 판정 패배이므로 `auto-dash-r38/c`("Isobar") 선례와 동일 원칙 적용(기본값은 재배정하지 않음, 세 번째 시도 여부는 향후 판단에 맡긴다).
+- 등재: 2026-10-14 · 출처 `vault/20-generations/2026-10-14-auto-landing-r34/SCORES.md` · 소진: 2026-10-16 · 출처 `vault/20-generations/2026-10-16-auto-landing-r35/SCORES.md`·`DECISION.md`
 
 ### 14. `auto-dash-r38/c` — "Isobar" 지리적 코로플레스(Geographic Choropleth) 엣지 인프라 콘솔 (target: dash)
 
