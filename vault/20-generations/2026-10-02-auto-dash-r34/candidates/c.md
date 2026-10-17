@@ -1,0 +1,35 @@
+# Candidate C — Verbatim
+
+## Concept
+Verbatim: an app-review / support-ticket text-analytics dashboard whose dominant visualization is a deterministic, sentiment-colored word tile cloud paired with an always-visible frequency table.
+
+## Interactions implemented (5)
+1. **Hover/focus tooltip on word tiles** — every tile is a focusable `<button>`; `onMouseEnter`/`onMouseLeave` paired with `onFocus`/`onBlur` reveal the same tooltip (exact count, sentiment label, share %) via `aria-describedby`, so keyboard users get the identical detail a mouse user gets on hover. Fully ephemeral — no state is retained after blur.
+2. **Real table sort + filter** — frequency table column headers are buttons with `aria-sort`, toggling asc/desc; a separate text input filters rows by substring. Both are local, non-persistent UI state.
+3. **Period toggle** — segmented control (Last 7 / 30 / 90 days) rescales every word's count via a fixed multiplier (no randomness) and recomputes totals.
+4. **Sentiment filter → word cloud + table together** — a single segmented control (All/Positive/Neutral/Negative) recomputes one filtered array that is handed as-is to both the word cloud and the frequency table. This is the one selection mechanism on the page, following the catalog's "good and simple" pattern explicitly rather than a master-detail swap or a second competing selection axis.
+5. **⌘K command palette** — global shortcut + topbar button opens a search-filtered list of section-jump commands that call `scrollIntoView` (motion-reduce aware). Background content is made `inert` while open, which both traps focus inside the dialog and satisfies the "every focusable element needs visible focus" rule without a hand-rolled trap.
+
+## Word cloud determinism & a11y (the hard part)
+- No packing library, no `Math.random()`. Tile **size** is a pure function of each word's rank (index) in the already-sorted, already-filtered array, bucketed into 5 tiers. Tile **position** comes entirely from CSS `flex-wrap` — the browser's own deterministic box layout — so there is no coordinate math to get wrong and no SSR/hydration risk.
+- Every tile pairs its sentiment color with a `Smile`/`Meh`/`Frown` icon (never color-only), and the exact same icon+color mapping is reused in the frequency table's badges and the KPI strip, so the whole page speaks one sentiment language.
+- The word cloud is never the sole representation: a full `<table>` (caption, `scope="col"`, `aria-sort`) listing every word, exact count, share %, and a text+icon sentiment badge is rendered permanently beside it, same size class (`lg:col-span-6` / `lg:col-span-6`), not behind a tab.
+
+## Typography discipline
+- Pure Pretendard throughout — no display-font variables were added, no `next/font` imports, no `font-serif`.
+- Exactly 3 rendered weights: `font-normal` (400), `font-medium` (500), `font-bold` (700). Verified by grep across every file in the route for any `font-thin/extralight/light/semibold/extrabold/black` class or inline `fontWeight` style — none exist. Because 400 is one of the three chosen weights, any incidentally-unclassed text (browser/Tailwind default) still lands on 400, not a hidden fourth weight. Word-cloud tiles are HTML `<span>`/`<button>` text (not SVG), so their weights were deliberately budgeted into the same three classes (tier 1–2 tiles use `font-bold`, tier 3–4 use `font-medium`, tier 5 uses `font-normal`).
+
+## Brief gaps
+① **What word-cloud layout mechanism to use** (grid-of-tiles vs. literal scattered spiral). ② Decided on a **flex-wrap tiered tag-cloud** (HTML, not SVG, no coordinate math at all) rather than even a formula-driven spiral. ③ The brief explicitly offered this as "a perfectly good, safer alternative," and it structurally eliminates the entire category of SSR/hydration coordinate-rounding risk the brief warned about, at the cost of a less "organic" cloud silhouette.
+
+① **Whether the word-cloud and frequency-table cards should be forced to equal height.** ② Decided **not** to force equal height (dropped an earlier `h-full`/grid-stretch approach). ③ The table has a fixed internal scroll box (`max-h-[420px]`) that doesn't grow with content, while the cloud's natural height varies with the sentiment filter; forcing equal height risked an empty rectangle under the table on some filter states, which is a worse look than two cards ending at slightly different natural heights — a judgment call under the "balance visually, no awkward empty space" rule.
+
+① **Exact brand/domain to invent** (the brief allowed customer-feedback, support-ticket, or app-review analytics). ② Chose **app-review text analytics** ("Verbatim," workspace "Acme Mobile"). ③ Arbitrary pick among the three offered; it gave the most natural vocabulary for the word list (crashes, intuitive, laggy, onboarding, etc.) and for notification/avatar content (reviewer names).
+
+① **How many words / what vocabulary for the frequency list.** ② Hand-authored 42 words, zipfian-shaped counts from 612 down to 76, evenly spread across positive/neutral/negative (14 each). ③ Arbitrary but deliberately balanced so every sentiment filter state has a reasonably sized cloud and table rather than one sentiment dominating.
+
+① **Whether the KPI strip's percentages should react to the explorer's own period toggle below it.** ② Kept the KPI strip **fixed to the 30-day baseline**, independent of the explorer's period control, with an explicit "Last 30 days" caption. ③ General practice for dashboards: a top-of-page overview strip is usually a fixed reporting-period snapshot, while an explorer/detail section below it has its own independent controls — coupling them would have meant lifting period state out of `FeedbackExplorer`, adding cross-component plumbing for a KPI strip the brief says should stay "thin and non-interactive" anyway.
+
+① **Whether dropdown menu items (workspace switcher, user menu, notifications) need to be wired to real actions.** ② Left them decorative (clicking does nothing beyond default button behavior; the dropdown itself stays open until Escape/outside-click). ③ Arbitrary scope decision — the brief's required "4+ interactions" list didn't include these, and wiring every menu item to a close-callback would have meant threading a `close()` render-prop through every `Dropdown` consumer for no functional gain in a single-page deliverable.
+
+① **Whether to add a second ARIA layer (`role="listbox"`/`aria-activedescendant`) to the command palette's result list.** ② Used a **plain list of real, independently-focusable `<button>` elements** instead, with arrow keys as a convenience that moves a visual highlight without stealing DOM focus from the input. ③ General practice / risk-reduction: nesting focusable buttons inside `role="option"` children of a `role="listbox"` is non-canonical ARIA (options aren't supposed to contain their own focusable descendants) and some automated checkers flag it; plain native buttons with Tab+Enter are unambiguously correct and still fully keyboard-operable.
