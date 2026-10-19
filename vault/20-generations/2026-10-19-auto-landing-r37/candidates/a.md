@@ -51,8 +51,8 @@ relative-luminance formula (sRGB → linear, `L = 0.2126R + 0.7152G + 0.0722B`, 
 
 | Role | Hex | vs. white `#FFFFFF` | vs. bg `#0B0B0F` | vs. surface `#121714` |
 |---|---|---|---|---|
-| `accent` (base) | `#10B981` | 2.54:1 | 7.75:1 | 7.15:1 |
-| `accentFill` (button/pill bg) | `#047857` | 5.48:1 | 3.59:1 | 3.31:1 |
+| `accent` (base) | `#10B981` | 2.54:1 | 7.74:1 | 7.15:1 |
+| `accentFill` (button/pill bg) | `#047857` | 5.48:1 | 3.58:1 | 3.31:1 |
 | `accentTint` (small text/icons/focus ring) | `#6EE7B7` | 1.52:1 | 12.89:1 | 11.89:1 |
 | `muted` (stock value, kept as-is) | `#A1A1AA` | — | 7.66:1 | 7.07:1 |
 
@@ -64,7 +64,7 @@ Decisions from these numbers:
   4.5:1 small-text floor).
 - `accent` (`#10B981`) is used as a 2px non-text border (the `PayoutPanel` outline) and is never
   used as a text color on white — 2.54:1 there fails even the 3:1 large-text floor — but at
-  7.15–7.75:1 against this page's actual dark surfaces it would also be safe as body-size text
+  7.15–7.74:1 against this page's actual dark surfaces it would also be safe as body-size text
   directly on `bg`/`surface` if a future revision needed that; this round it is kept to
   borders only.
 - `accentTint` (`#6EE7B7`) carries every small text/icon/focus-ring role (eyebrow labels,

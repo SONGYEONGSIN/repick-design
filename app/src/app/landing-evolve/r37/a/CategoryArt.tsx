@@ -13,8 +13,8 @@ interface CategoryArtProps {
  * from plain <svg> shapes — deliberately not a photograph. A broken or
  * slow-loading real photo's fallback alt text free-flows and collides with
  * badge rows; a generated mark has no load state to fail at all. Rendered
- * inside a fixed aspect-ratio container with a reserved background color
- * (see ItemArt below), so layout never shifts on "load".
+ * inside a fixed aspect-ratio container with a reserved background color,
+ * so layout never shifts on "load".
  */
 function Sneaker({ stroke }: { stroke: string }) {
   return (
