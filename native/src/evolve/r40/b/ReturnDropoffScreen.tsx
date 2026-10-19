@@ -12,7 +12,7 @@
 // rows that accordion open in place; Map is a free-form bordered canvas with
 // absolutely-positioned pins — the two are deliberately different shapes.
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { View, Text, Pressable, FlatList, SafeAreaView, StyleSheet } from "react-native";
+import { View, Text, Pressable, FlatList, ScrollView, SafeAreaView, StyleSheet } from "react-native";
 import { tokens } from "../../../tokens";
 import {
   DROPOFF_SITES,
@@ -153,7 +153,7 @@ export function ReturnDropoffScreen() {
           contentContainerStyle={styles.listContent}
         />
       ) : (
-        <View style={styles.mapScroll}>
+        <ScrollView style={styles.mapScroll} contentContainerStyle={styles.mapScrollContent}>
           <View style={styles.canvas}>
             <View style={[styles.canvasGridLine, styles.canvasGridLineH, { top: "33%" }]} />
             <View style={[styles.canvasGridLine, styles.canvasGridLineH, { top: "66%" }]} />
@@ -193,7 +193,7 @@ export function ReturnDropoffScreen() {
               </Text>
             </View>
           )}
-        </View>
+        </ScrollView>
       )}
     </SafeAreaView>
   );
@@ -312,8 +312,11 @@ const styles = StyleSheet.create({
   },
   mapScroll: {
     flex: 1,
+  },
+  mapScrollContent: {
     paddingHorizontal: tokens.space(4),
     paddingTop: tokens.space(1),
+    paddingBottom: tokens.space(6),
     gap: tokens.space(2),
   },
   canvas: {

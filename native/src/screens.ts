@@ -75,6 +75,7 @@ import EvolveR38C from "./evolve/r38/c/ReturnShippingLabelScreen";
 import EvolveR39A from "./evolve/r39/a/PriceMatchRequestScreen";
 import EvolveR39B from "./evolve/r39/b/VacationModeScreen";
 import EvolveR39C from "./evolve/r39/c/BackupCodesScreen";
+import EvolveR40B from "./evolve/r40/b/ReturnDropoffScreen";
 import EvolveR40A from "./evolve/r40/a/OfferStatusScreen";
 import EvolveR40C from "./evolve/r40/c/PayoutMethodOrderScreen";
 
@@ -156,6 +157,7 @@ const COMPONENTS = {
   "evolve-r39-b": EvolveR39B,
   "evolve-r39-c": EvolveR39C,
   "evolve-r40-a": EvolveR40A,
+  "evolve-r40-b": EvolveR40B,
   "evolve-r40-c": EvolveR40C,
 } as const satisfies Record<string, ComponentType>;
 

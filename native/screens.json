@@ -230,6 +230,9 @@
   "evolve-r40-a": {
     "check": "Offer Status"
   },
+  "evolve-r40-b": {
+    "check": "Return Drop-off Points"
+  },
   "evolve-r40-c": {
     "check": "Payout Method Order"
   }
