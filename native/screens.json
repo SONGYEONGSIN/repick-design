@@ -226,5 +226,11 @@
   },
   "evolve-r39-c": {
     "check": "Two-Factor Backup Codes"
+  },
+  "evolve-r40-a": {
+    "check": "Offer Status"
+  },
+  "evolve-r40-c": {
+    "check": "Payout Method Order"
   }
 }
