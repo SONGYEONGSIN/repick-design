@@ -34,7 +34,7 @@ function applyFeedFilter(incidents: Incident[], filter: FeedFilter): Incident[] 
 
 function timeText(incident: Incident): string {
   if (incident.status === "resolved") return `Resolved in ${incident.resolutionMinutes}m`;
-  return `Open ${incident.elapsedMinutes}m`;
+  return `${incident.elapsedMinutes}m elapsed`;
 }
 
 function timeSortValue(incident: Incident): number {
