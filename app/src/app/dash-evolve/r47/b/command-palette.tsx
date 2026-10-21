@@ -93,7 +93,7 @@ export function CommandPalette({
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Type a command…"
             aria-label="Command palette search"
-            className={`h-12 w-full min-w-0 rounded-md bg-transparent font-normal text-sm text-zinc-50 placeholder:text-zinc-500 ${FOCUS_RING}`}
+            className={`h-12 w-full min-w-0 rounded-md bg-transparent font-normal text-sm text-zinc-50 placeholder:text-zinc-400 ${FOCUS_RING}`}
           />
           <kbd className="hidden shrink-0 items-center gap-0.5 rounded border border-white/10 px-1.5 py-0.5 font-normal text-[11px] text-zinc-400 sm:flex">
             <Command className="h-3 w-3" aria-hidden="true" />K
@@ -123,7 +123,7 @@ export function CommandPalette({
                   >
                     <Icon className="h-4 w-4 shrink-0 text-rose-400" aria-hidden="true" />
                     <span className="min-w-0 flex-1 truncate font-normal text-sm">{action.label}</span>
-                    <span className="shrink-0 font-normal text-xs text-zinc-500">{action.hint}</span>
+                    <span className="shrink-0 font-normal text-xs text-zinc-400">{action.hint}</span>
                   </button>
                 </li>
               );

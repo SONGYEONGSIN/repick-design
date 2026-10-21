@@ -32,7 +32,7 @@ export function PinnedCellCard({ pinnedKey }: { pinnedKey: PinnedKey }) {
       <p className="mt-1 font-normal text-xs text-zinc-400">Click any heatmap cell to pin it here.</p>
 
       <p className="mt-3 truncate font-medium text-sm text-zinc-50">
-        {serviceLabel(pinnedKey.serviceId)} <span className="text-zinc-500">×</span> {regionLabel(pinnedKey.regionId)}
+        {serviceLabel(pinnedKey.serviceId)} <span className="text-zinc-400">×</span> {regionLabel(pinnedKey.regionId)}
       </p>
 
       <dl className="mt-3 grid grid-cols-2 gap-3">

@@ -90,7 +90,7 @@ export function ServiceRegionHeatmap({ onPin }: { onPin: (key: PinnedKey) => voi
         <span className="[font-family:var(--font-display-wide)] text-2xl tabular-nums text-rose-300 sm:text-3xl">
           {valueText(metric, worst.value)}
         </span>
-        <span className="font-normal text-xs text-zinc-500">{metricNoun(metric)}</span>
+        <span className="font-normal text-xs text-zinc-400">{metricNoun(metric)}</span>
       </p>
 
       {/* Desktop / tablet: the matrix table itself (also the a11y data-table fallback). */}
@@ -187,7 +187,7 @@ export function ServiceRegionHeatmap({ onPin }: { onPin: (key: PinnedKey) => voi
                     }`}
                   >
                     <span>{valueText(metric, value)}</span>
-                    <span className="font-normal text-[9px] text-zinc-300">{r.label}</span>
+                    <span className="font-normal text-[9px] text-zinc-50">{r.label}</span>
                   </button>
                 );
               })}
@@ -201,7 +201,7 @@ export function ServiceRegionHeatmap({ onPin }: { onPin: (key: PinnedKey) => voi
       </p>
 
       <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-1.5 border-t border-white/10 pt-3">
-        <span className="flex items-center gap-1 font-normal text-[11px] text-zinc-500">
+        <span className="flex items-center gap-1 font-normal text-[11px] text-zinc-400">
           {metric === "errorRate" ? <Percent className="h-3 w-3" aria-hidden="true" /> : <Gauge className="h-3 w-3" aria-hidden="true" />}
           {metricNoun(metric)} by tier:
         </span>

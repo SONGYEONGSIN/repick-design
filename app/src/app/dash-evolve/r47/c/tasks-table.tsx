@@ -121,22 +121,22 @@ export function TasksTable() {
           </colgroup>
           <thead>
             <tr className="border-b border-zinc-200 bg-zinc-50">
-              <th scope="col" className="px-4 py-2.5 text-left text-[11px] font-medium uppercase tracking-wide text-zinc-600">
+              <th scope="col" className="px-4 py-2 text-left text-[11px] font-medium uppercase tracking-wide text-zinc-600">
                 Task
               </th>
-              <th scope="col" aria-sort={ariaSortFor("account")} className="px-4 py-2.5 text-left">
+              <th scope="col" aria-sort={ariaSortFor("account")} className="px-4 py-2 text-left">
                 <SortButton label="Account" active={sortKey === "account"} dir={sortDir} onClick={() => toggleSort("account")} />
               </th>
-              <th scope="col" className="px-4 py-2.5 text-left text-[11px] font-medium uppercase tracking-wide text-zinc-600">
+              <th scope="col" className="px-4 py-2 text-left text-[11px] font-medium uppercase tracking-wide text-zinc-600">
                 Owner
               </th>
-              <th scope="col" aria-sort={ariaSortFor("due")} className="px-4 py-2.5 text-left">
+              <th scope="col" aria-sort={ariaSortFor("due")} className="px-4 py-2 text-left">
                 <SortButton label="Due" active={sortKey === "due"} dir={sortDir} onClick={() => toggleSort("due")} />
               </th>
-              <th scope="col" aria-sort={ariaSortFor("priority")} className="px-4 py-2.5 text-left">
+              <th scope="col" aria-sort={ariaSortFor("priority")} className="px-4 py-2 text-left">
                 <SortButton label="Priority" active={sortKey === "priority"} dir={sortDir} onClick={() => toggleSort("priority")} />
               </th>
-              <th scope="col" aria-sort={ariaSortFor("status")} className="px-4 py-2.5 text-left">
+              <th scope="col" aria-sort={ariaSortFor("status")} className="px-4 py-2 text-left">
                 <SortButton label="Status" active={sortKey === "status"} dir={sortDir} onClick={() => toggleSort("status")} />
               </th>
             </tr>
@@ -147,17 +147,17 @@ export function TasksTable() {
               const StatusIcon = status.icon;
               return (
                 <tr key={task.id} className="transition-colors duration-150 hover:bg-zinc-50">
-                  <td className="truncate px-4 py-2.5 text-zinc-900">{task.title}</td>
-                  <td className="truncate px-4 py-2.5 text-zinc-700">{task.accountName}</td>
-                  <td className="px-4 py-2.5">
+                  <td className="truncate px-4 py-2 text-zinc-900">{task.title}</td>
+                  <td className="truncate px-4 py-2 text-zinc-700">{task.accountName}</td>
+                  <td className="px-4 py-2">
                     <span className="flex min-w-0 items-center gap-2">
                       <Avatar initials={task.ownerInitials} />
                       <span className="min-w-0 truncate text-zinc-700">{task.owner}</span>
                     </span>
                   </td>
-                  <td className="truncate px-4 py-2.5 tabular-nums text-zinc-700">{formatDateShort(task.dueDate)}</td>
-                  <td className={`truncate px-4 py-2.5 font-medium ${PRIORITY_COLOR[task.priority]}`}>{task.priority}</td>
-                  <td className="px-4 py-2.5">
+                  <td className="truncate px-4 py-2 tabular-nums text-zinc-700">{formatDateShort(task.dueDate)}</td>
+                  <td className={`truncate px-4 py-2 font-medium ${PRIORITY_COLOR[task.priority]}`}>{task.priority}</td>
+                  <td className="px-4 py-2">
                     <Badge tone={status.tone} icon={<StatusIcon className="h-3 w-3" aria-hidden="true" />}>
                       {task.status}
                     </Badge>
@@ -184,7 +184,7 @@ export function TasksTable() {
               </div>
               <p className="mt-1 truncate text-sm text-zinc-700">{task.accountName}</p>
               <div className="mt-2 flex min-w-0 flex-wrap items-center gap-x-4 gap-y-1 text-xs text-zinc-600">
-                <span className="flex items-center gap-1.5">
+                <span className="flex items-center gap-2">
                   <Avatar initials={task.ownerInitials} />
                   {task.owner}
                 </span>

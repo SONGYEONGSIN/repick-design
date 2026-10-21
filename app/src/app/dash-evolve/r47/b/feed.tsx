@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react";
 import { BookOpen, Rows3, Table2 } from "lucide-react";
 import {
+  ENGINEERS,
   SEVERITY_RANK,
   STATUS_RANK,
   regionLabel,
@@ -11,7 +12,6 @@ import {
   type FeedFilter,
   type Incident,
 } from "./data";
-import { ENGINEERS } from "./data";
 import { Avatar, Card, FOCUS_RING, SegmentedControl, SeverityBadge, SortHeader, StatusBadge } from "./ui";
 import { IncidentComposer, type DraftIncident } from "./composer";
 
@@ -189,7 +189,7 @@ export function IncidentFeed({
                     <Avatar name={engineerName(incident.assignee)} avatarId={incident.assignee ? ENGINEERS[incident.assignee].avatarId : null} size={28} />
                     <div className="min-w-0 flex-1">
                       <div className="flex min-w-0 items-center gap-1.5">
-                        <span className="shrink-0 font-normal text-[11px] tabular-nums text-zinc-500">{incident.id}</span>
+                        <span className="shrink-0 font-normal text-[11px] tabular-nums text-zinc-400">{incident.id}</span>
                         <span className="min-w-0 flex-1 truncate font-medium text-sm text-zinc-50">{incident.title}</span>
                       </div>
                       <p className="mt-0.5 truncate font-normal text-xs text-zinc-400">
@@ -219,7 +219,7 @@ export function IncidentFeed({
                 {serviceLabel(inspected.serviceId)} in {regionLabel(inspected.regionId)} — assigned to {engineerName(inspected.assignee)}
                 {inspected.assignee ? `, ${ENGINEERS[inspected.assignee].role}` : ""}.
               </p>
-              <p className="mt-1 font-normal text-xs text-zinc-500">{inspected.runbook} · {timeText(inspected)}</p>
+              <p className="mt-1 font-normal text-xs text-zinc-400">{inspected.runbook} · {timeText(inspected)}</p>
             </div>
           ) : null}
         </div>
@@ -256,7 +256,7 @@ export function IncidentFeed({
               {sorted.map((incident) => (
                 <tr key={incident.id} className="border-b border-white/5 hover:bg-white/5">
                   <th scope="row" className="min-w-0 px-2 py-2 text-left font-normal">
-                    <span className="block truncate font-normal text-[11px] tabular-nums text-zinc-500">{incident.id}</span>
+                    <span className="block truncate font-normal text-[11px] tabular-nums text-zinc-400">{incident.id}</span>
                     <span className="block truncate font-medium text-sm text-zinc-50">{incident.title}</span>
                   </th>
                   <td className="truncate px-2 py-2 font-normal text-xs text-zinc-300">{serviceLabel(incident.serviceId)}</td>
@@ -285,7 +285,7 @@ export function IncidentFeed({
               <li key={incident.id} className="rounded-lg border border-white/10 p-3">
                 <div className="flex items-start justify-between gap-2">
                   <div className="min-w-0">
-                    <p className="truncate font-normal text-[11px] tabular-nums text-zinc-500">{incident.id}</p>
+                    <p className="truncate font-normal text-[11px] tabular-nums text-zinc-400">{incident.id}</p>
                     <p className="truncate font-medium text-sm text-zinc-50">{incident.title}</p>
                   </div>
                   <div className="flex shrink-0 flex-col items-end gap-1">
@@ -306,7 +306,7 @@ export function IncidentFeed({
         </div>
       )}
 
-      <div className="mt-3 flex items-center gap-1.5 border-t border-white/10 pt-3 font-normal text-[11px] text-zinc-500">
+      <div className="mt-3 flex items-center gap-1.5 border-t border-white/10 pt-3 font-normal text-[11px] text-zinc-400">
         {view === "stream" ? <Rows3 className="h-3 w-3" aria-hidden="true" /> : <Table2 className="h-3 w-3" aria-hidden="true" />}
         Sorted by {sortKey === "id" ? "incident" : sortKey} · {sortDir === "desc" ? "descending" : "ascending"}
       </div>

@@ -24,7 +24,7 @@ export function ResponderLoadCard({ incidents }: { incidents: Incident[] }) {
               <Avatar name={engineer.name} avatarId={engineer.avatarId} size={28} />
               <div className="min-w-0 flex-1">
                 <p className="truncate font-medium text-xs text-zinc-200">{engineer.name}</p>
-                <p className="truncate font-normal text-[11px] text-zinc-500">{engineer.role}</p>
+                <p className="truncate font-normal text-[11px] text-zinc-400">{engineer.role}</p>
               </div>
               <span
                 className={`shrink-0 rounded-full px-2 py-0.5 font-medium text-[11px] tabular-nums ${

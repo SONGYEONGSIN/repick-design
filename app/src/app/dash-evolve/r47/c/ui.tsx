@@ -80,7 +80,7 @@ export function Progress({ value, max = 1 }: { value: number; max?: number }) {
       aria-valuenow={Math.round(pct)}
       aria-valuemin={0}
       aria-valuemax={100}
-      className="h-1.5 w-full overflow-hidden rounded-full bg-zinc-100"
+      className="h-2 w-full overflow-hidden rounded-full bg-zinc-100"
     >
       <div
         className="h-full rounded-full bg-blue-600 transition-[width] duration-300 ease-out motion-reduce:transition-none"
@@ -173,7 +173,7 @@ export function SegmentedControl({
             aria-selected={selected}
             tabIndex={selected ? 0 : -1}
             onClick={() => onChange(option.value)}
-            className={`rounded-full px-3 py-1.5 text-sm font-medium transition-colors duration-150 ${FOCUS_RING} ${
+            className={`rounded-full px-3 py-2 text-sm font-medium transition-colors duration-150 ${FOCUS_RING} ${
               selected ? "bg-white text-zinc-900 shadow-sm" : "text-zinc-600 hover:text-zinc-900"
             }`}
           >

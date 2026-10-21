@@ -159,7 +159,7 @@ export function CommandPalette({
                 aria-selected={index === highlight}
                 onMouseEnter={() => setHighlight(index)}
                 onClick={() => run(item)}
-                className={`flex w-full min-w-0 items-center justify-between gap-3 px-4 py-2.5 text-left text-sm transition-colors duration-150 ${FOCUS_RING} ${
+                className={`flex w-full min-w-0 items-center justify-between gap-3 px-4 py-2 text-left text-sm transition-colors duration-150 ${FOCUS_RING} ${
                   index === highlight ? "bg-blue-50 text-blue-700" : "text-zinc-700"
                 }`}
               >

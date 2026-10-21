@@ -100,7 +100,7 @@ export function SidebarContent({ onNavigate }: { onNavigate?: () => void }) {
                   type="button"
                   aria-current={active ? "page" : undefined}
                   onClick={onNavigate}
-                  className={`flex h-10 w-full min-w-0 items-center gap-2.5 rounded-lg px-3 text-sm font-medium transition-colors duration-150 ${FOCUS_RING} ${
+                  className={`flex h-10 w-full min-w-0 items-center gap-2 rounded-lg px-3 text-sm font-medium transition-colors duration-150 ${FOCUS_RING} ${
                     active
                       ? "bg-blue-50 text-blue-700"
                       : "text-zinc-600 hover:bg-zinc-50 hover:text-zinc-900"
@@ -119,7 +119,7 @@ export function SidebarContent({ onNavigate }: { onNavigate?: () => void }) {
         <button
           type="button"
           onClick={onNavigate}
-          className={`flex h-10 w-full min-w-0 items-center gap-2.5 rounded-lg px-3 text-sm font-medium text-zinc-600 transition-colors duration-150 hover:bg-zinc-50 hover:text-zinc-900 ${FOCUS_RING}`}
+          className={`flex h-10 w-full min-w-0 items-center gap-2 rounded-lg px-3 text-sm font-medium text-zinc-600 transition-colors duration-150 hover:bg-zinc-50 hover:text-zinc-900 ${FOCUS_RING}`}
         >
           <Settings className="h-4 w-4 shrink-0" aria-hidden="true" />
           <span className="min-w-0 flex-1 truncate text-left">Settings</span>

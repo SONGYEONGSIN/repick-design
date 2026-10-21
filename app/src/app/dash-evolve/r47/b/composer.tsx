@@ -65,7 +65,7 @@ export function IncidentComposer({ onSubmit, onCancel }: { onSubmit: (draft: Dra
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           placeholder="e.g. Elevated checkout latency in EU West"
-          className={`mt-1 h-10 w-full min-w-0 rounded-lg border border-white/10 bg-zinc-950 px-2.5 font-normal text-sm text-zinc-50 placeholder:text-zinc-500 ${FOCUS_RING}`}
+          className={`mt-1 h-10 w-full min-w-0 rounded-lg border border-white/10 bg-zinc-950 px-2.5 font-normal text-sm text-zinc-50 placeholder:text-zinc-400 ${FOCUS_RING}`}
         />
       </div>
 

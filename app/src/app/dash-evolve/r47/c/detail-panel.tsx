@@ -14,7 +14,7 @@ const HEALTH_STYLE: Record<HealthStatus, { tone: "success" | "warning" | "danger
 
 function Stat({ label, value }: { label: string; value: string }) {
   return (
-    <div className="min-w-0 rounded-lg border border-zinc-200 bg-zinc-50 px-3 py-2.5">
+    <div className="min-w-0 rounded-lg border border-zinc-200 bg-zinc-50 px-3 py-2">
       <p className="truncate text-[11px] font-medium uppercase tracking-wide text-zinc-600">{label}</p>
       <p className="mt-0.5 truncate text-base font-semibold tabular-nums text-zinc-900">{value}</p>
     </div>
@@ -43,15 +43,15 @@ export function DetailPanel({ account }: { account: Account }) {
         </div>
       </div>
 
-      <div className="grid grid-cols-3 gap-2.5">
+      <div className="grid grid-cols-3 gap-2">
         <Stat label="ARR at risk" value={formatCurrency(account.metrics.arrAtRisk.current)} />
         <Stat label="Health score" value={formatNumber(account.metrics.healthScore.current)} />
         <Stat label="NRR" value={formatPercent(account.metrics.nrr.current)} />
       </div>
 
-      <div className="flex min-w-0 flex-wrap items-center gap-x-5 gap-y-1.5 rounded-lg border border-zinc-200 px-3 py-2.5 text-sm">
-        <span className="inline-flex items-center gap-1.5 text-zinc-700">
-          <Calendar className="h-3.5 w-3.5 shrink-0 text-zinc-500" aria-hidden="true" />
+      <div className="flex min-w-0 flex-wrap items-center gap-x-5 gap-y-1.5 rounded-lg border border-zinc-200 px-3 py-2 text-sm">
+        <span className="inline-flex items-center gap-2 text-zinc-700">
+          <Calendar className="h-4 w-4 shrink-0 text-zinc-500" aria-hidden="true" />
           Renews {formatDate(account.renewalDate)}
         </span>
         <span className="text-zinc-600">{quarterLabel(account.renewalDate)}</span>
@@ -87,7 +87,7 @@ export function DetailPanel({ account }: { account: Account }) {
         <div className="mt-2">
           <Progress value={doneCount} max={CHECKLIST_LABELS.length} />
         </div>
-        <ul className="mt-3 flex flex-col gap-1.5">
+        <ul className="mt-3 flex flex-col gap-2">
           {CHECKLIST_LABELS.map((label, index) => {
             const done = account.checklist[index];
             return (
@@ -104,7 +104,7 @@ export function DetailPanel({ account }: { account: Account }) {
         </ul>
       </div>
 
-      <div className="flex min-w-0 items-start gap-2 rounded-lg border border-blue-100 bg-blue-50/60 px-3 py-2.5">
+      <div className="flex min-w-0 items-start gap-2 rounded-lg border border-blue-100 bg-blue-50/60 px-3 py-2">
         <FileText className="mt-0.5 h-4 w-4 shrink-0 text-blue-700" aria-hidden="true" />
         <p className="min-w-0 text-sm text-zinc-700">{account.nextStep}</p>
       </div>

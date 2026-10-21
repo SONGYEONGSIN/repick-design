@@ -62,7 +62,7 @@ export function Rail({
                 type="button"
                 aria-current={selected ? "true" : undefined}
                 onClick={() => onSelect(account.id)}
-                className={`flex w-full min-w-0 flex-col gap-1.5 border-l-4 px-4 py-3 text-left transition-colors duration-150 ${FOCUS_RING} ${
+                className={`flex w-full min-w-0 flex-col gap-2 border-l-4 px-4 py-3 text-left transition-colors duration-150 ${FOCUS_RING} ${
                   selected
                     ? "border-l-blue-600 bg-blue-50/60"
                     : "border-l-transparent hover:bg-zinc-50"
@@ -82,7 +82,7 @@ export function Rail({
                 </div>
 
                 <div className="flex min-w-0 items-center gap-3 pl-7">
-                  <div className="h-2.5 min-w-0 flex-1 overflow-hidden rounded-full bg-zinc-100">
+                  <div className="h-2 min-w-0 flex-1 overflow-hidden rounded-full bg-zinc-100">
                     <div
                       className="h-full rounded-full bg-blue-600 transition-[width] duration-300 ease-out motion-reduce:transition-none"
                       style={{ width: `${widthPct.toFixed(2)}%` }}

@@ -37,7 +37,7 @@ export function Topbar({
   const userRef = useClickAway(() => setUserOpen(false));
 
   return (
-    <header className="sticky top-0 z-30 flex min-w-0 items-center gap-3 border-b border-zinc-200 bg-white px-4 py-2.5 lg:px-8">
+    <header className="sticky top-0 z-30 flex min-w-0 items-center gap-3 border-b border-zinc-200 bg-white px-4 py-2 lg:px-8">
       <IconButton className="lg:hidden" aria-label="Open navigation" onClick={onOpenMobileNav}>
         <Menu className="h-[18px] w-[18px]" aria-hidden="true" />
       </IconButton>
@@ -49,7 +49,7 @@ export function Topbar({
       >
         <Search className="h-4 w-4 shrink-0" aria-hidden="true" />
         <span className="min-w-0 flex-1 truncate">Search accounts, tasks…</span>
-        <span className="hidden shrink-0 items-center gap-0.5 rounded border border-zinc-300 bg-white px-1.5 py-0.5 text-[11px] font-medium text-zinc-500 sm:inline-flex">
+        <span className="hidden shrink-0 items-center gap-0.5 rounded border border-zinc-300 bg-white px-2 py-0.5 text-[11px] font-medium text-zinc-500 sm:inline-flex">
           <Command className="h-3 w-3" aria-hidden="true" />K
         </span>
       </button>
@@ -72,7 +72,7 @@ export function Topbar({
             className="relative"
           >
             <Bell className="h-[18px] w-[18px]" aria-hidden="true" />
-            <span className="absolute right-2 top-2 h-1.5 w-1.5 rounded-full bg-blue-600" aria-hidden="true" />
+            <span className="absolute right-2 top-2 h-2 w-2 rounded-full bg-blue-600" aria-hidden="true" />
           </IconButton>
           {notifOpen && (
             <div

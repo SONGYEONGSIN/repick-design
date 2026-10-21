@@ -42,7 +42,7 @@ export function ErrorBudgetCard({ incidents }: { incidents: Incident[] }) {
                 fillClassName={overBudget ? "bg-rose-500" : burn.pct > 0 ? "bg-rose-700" : "bg-white/15"}
                 ariaLabel={`${service.label} error budget burned, ${formatPercent(burn.pct, 0)} of ${formatMinutes(MONTHLY_BUDGET_MINUTES)}`}
               />
-              <p className="mt-1 font-normal text-[11px] text-zinc-500">
+              <p className="mt-1 font-normal text-[11px] text-zinc-400">
                 {formatMinutes(burn.burnedMinutes)} burned
                 {overBudget ? (
                   <span className="text-rose-400"> · {formatMinutes(Math.abs(burn.remainingMinutes))} over budget</span>
