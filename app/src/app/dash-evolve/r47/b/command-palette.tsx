@@ -34,20 +34,32 @@ export function CommandPalette({
 
   const filtered = actions.filter((a) => a.label.toLowerCase().includes(query.toLowerCase()));
 
-  useEffect(() => {
+  // Reset query/index when the palette opens, and re-clamp the index whenever the query
+  // changes -- both done as render-time state adjustments (the documented React pattern for
+  // "derive state from a prop/state change") rather than inside an effect, which would
+  // otherwise trigger a synchronous cascading re-render (react-hooks/set-state-in-effect).
+  const [wasOpen, setWasOpen] = useState(false);
+  const [prevQuery, setPrevQuery] = useState(query);
+  if (open !== wasOpen) {
+    setWasOpen(open);
     if (open) {
       setQuery("");
       setActiveIndex(0);
+    }
+  }
+  if (query !== prevQuery) {
+    setPrevQuery(query);
+    setActiveIndex(0);
+  }
+
+  useEffect(() => {
+    if (open) {
       // Autofocus is the expected behavior for a command palette's own search field, opened by an
       // explicit user action (⌘K or the search button) — not an unsolicited focus steal on load.
       const id = window.setTimeout(() => inputRef.current?.focus(), 0);
       return () => window.clearTimeout(id);
     }
   }, [open]);
-
-  useEffect(() => {
-    setActiveIndex(0);
-  }, [query]);
 
   useEffect(() => {
     if (!open) return;

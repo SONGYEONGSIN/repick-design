@@ -46,10 +46,21 @@ export function CommandPalette({
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [onToggle, onClose]);
 
-  useEffect(() => {
+  // Reset query/highlight when the palette opens -- a render-time state adjustment (the
+  // documented React pattern for "derive state from a prop change") rather than inside an
+  // effect, which would otherwise trigger a synchronous cascading re-render
+  // (react-hooks/set-state-in-effect).
+  const [wasOpen, setWasOpen] = useState(false);
+  if (open !== wasOpen) {
+    setWasOpen(open);
     if (open) {
       setQuery("");
       setHighlight(0);
+    }
+  }
+
+  useEffect(() => {
+    if (open) {
       const id = window.setTimeout(() => inputRef.current?.focus(), 0);
       return () => window.clearTimeout(id);
     }

@@ -55,13 +55,27 @@ export function Topbar({
       </button>
 
       <div className="ml-auto flex shrink-0 items-center gap-2">
-        <PrimaryButton onClick={onExportCsv} className="hidden sm:inline-flex">
-          <Download className="h-4 w-4" aria-hidden="true" />
-          Export ranking
-        </PrimaryButton>
-        <PrimaryButton onClick={onExportCsv} className="sm:hidden" aria-label="Export ranking">
-          <Download className="h-4 w-4" aria-hidden="true" />
-        </PrimaryButton>
+        {/*
+          The visibility toggle lives on these wrapper spans, not on PrimaryButton's own
+          className: PrimaryButton's base class already hardcodes `inline-flex`
+          unconditionally, and layering a caller-supplied `hidden`/`sm:hidden` directly onto
+          the same element loses to that hardcoded display utility at this Tailwind build's
+          layer order -- both buttons rendered simultaneously at 390px (measured: both at
+          display:flex, 44px icon-only button pushing the desktop text button 34px past the
+          viewport edge). A wrapper element with no competing display utility of its own
+          resolves the visibility correctly instead.
+        */}
+        <span className="hidden sm:inline-flex">
+          <PrimaryButton onClick={onExportCsv}>
+            <Download className="h-4 w-4" aria-hidden="true" />
+            Export ranking
+          </PrimaryButton>
+        </span>
+        <span className="sm:hidden">
+          <PrimaryButton onClick={onExportCsv} aria-label="Export ranking">
+            <Download className="h-4 w-4" aria-hidden="true" />
+          </PrimaryButton>
+        </span>
 
         <div className="relative" ref={notifRef}>
           <IconButton
