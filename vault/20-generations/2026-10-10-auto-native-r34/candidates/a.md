@@ -1,0 +1,20 @@
+# Candidate a — Identity Re-verification
+
+A seller-payout-blocked checklist screen: a sentence names why payouts are paused, four concrete re-verification steps (photo ID, liveness selfie, address confirmation, updated agreement) carry live done/pending status, and a fixed bottom band derives "N of 4 remaining — next: …" and jumps the list to the next unmet step on press.
+
+## 브리프에 없던 것
+
+- **The 4 concrete steps**: brief only sketched "ID re-upload, liveness check, address confirmation" as examples and allowed a 4th. I invented a 4th — "Updated seller agreement" (accept revised payout terms issued alongside the security review) — because it's a plausible identity-reverification-adjacent gate that's distinct from the other three (not another photo/document capture), rounding the checklist to 4 items as the brief's own example sentence implied.
+- **Initial done/pending split**: fixed at 2 done (gov-id, liveness) / 2 pending (address, agreement) to literally match the brief's own example band text ("2 of 4 steps remaining").
+- **Why blocked, in one sentence**: invented `BLOCK_REASON` — "a routine account security review flagged your identity file as out of date" — plus a fixed case id (`RVF-48217`) for concreteness, since the brief required *a* reason sentence but not its wording.
+- **"Jump to next step" mechanics**: implemented as `FlatList.scrollToIndex` (checklist is a real `FlatList`, not `.map()`) with a `viewPosition` offset, a transient 1.6s accent-border highlight on the target card, and an `AccessibilityInfo.setAccessibilityFocus` call ~350ms later (after the scroll animation settles) so screen-reader focus actually lands on the step, not just sighted scroll. `onScrollToIndexFailed` has a two-step fallback (estimate offset, retry scrollToIndex) since FlatList item heights vary (done rows are shorter than pending rows with their action button).
+- **Per-step "Mark as submitted" action**: the brief didn't ask for per-step completion UI, only for the checklist to show status and the band to react to it. I added a real (not placeholder) `Pressable` on each pending step that flips it to done locally — this is what actually drives the state-machine transitions the band doctrine requires (next-step sentence changing, band button disappearing once all steps are done). Its `accessibilityHint` ("Marks this step as submitted and complete") matches exactly what the handler does — no fake navigation/upload-flow claim, since there's no real camera/upload flow behind it in this mock.
+- **Resolved state**: when no step is pending, the band swaps the action button for a non-interactive "Checklist complete" pill (no fake action) and the sentence becomes `RESOLVED_MESSAGE` ("…payouts resume once our team finishes reviewing the case, usually within one business day") — brief didn't specify terminal-state copy or whether the button persists.
+- **Live region**: exactly one, on the band's wrapper `View` (`accessibilityLiveRegion="polite"`), with `accessibilityRole="alert"` only on the band sentence `Text` — no second alert/live-region anywhere else (per-step status pills are plain, non-alerting).
+- **Fresh naming**: all style keys (`stepCard`, `stepTopRow`, `statusPill*`, `bandSentence*`, `bandResolvedPill*`, `reasonCard`, etc.) and state names (`nextBlockingStep`, `remainingCount`, `bandSentence`, `markSubmitted`, `jumpToNextStep`) were written fresh for this identity-reverification domain — no reuse of verification/disputes-screen vocabulary (consulted only `native/src/payout/PayoutScreen.tsx` for the general band-pattern/token-usage convention, not any blocked-workflow screen).
+
+## Confirmation
+
+- **Render-check string** (exact, appears via `accessibilityRole="header"` heading text): `Identity Re-verification`
+- **Export**: `IdentityReverificationScreen` — named export (also re-exported as `default`) from `native/src/evolve/r34/a/IdentityReverificationScreen.tsx`
+- **Data**: `native/src/evolve/r34/a/data.ts` — all values fixed literals, no `Math.random`/`Date.now`/no-arg `new Date()`.

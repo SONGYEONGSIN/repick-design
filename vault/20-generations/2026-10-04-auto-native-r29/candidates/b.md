@@ -1,0 +1,13 @@
+# Candidate B — Draft Listings
+
+A seller's holding pen for resale items they started listing but haven't finished: each draft shows a thumbnail placeholder, title (or "Untitled draft" if blank), price (or "Price not set"), condition, and a derived Ready/Incomplete pill computed live from whether title + a strictly-positive price + condition are all present. Rows are selected via a round checkbox-style toggle (hand-drawn SVG tick, no bottom bar visible with nothing selected); the instant one row is picked, a contextual bar slides in with a single `accessibilityLiveRegion="polite"` live count. "Publish Selected" is wired to the real readiness rule — if the selection is a mix of ready and not-ready drafts, it publishes only the ready subset, removes exactly those from the list, and leaves the rest selected with an inline explanation of what's still missing, rather than disabling itself into a dead end or silently no-opping. "Discard Selected" never opens a native Alert; pressing it swaps the bar's action row in place for a Cancel/Confirm pair inside the same live region, so the destructive confirmation copy is announced through the identical single channel as the selection count, and confirming actually filters the drafts out of state.
+
+## 브리프에 없던 것
+
+1. **① 가격이 0인 드래프트를 "준비됨"으로 칠 것인가** — 브리프는 "requires title + price + condition all set"이라고만 했고, "set"이 `priceCents !== null`만 의미하는지 `> 0`까지 의미하는지는 안 정해줌. **결정**: `priceCents !== null && priceCents > 0`을 "설정됨"으로 간주 (0원은 미설정 취급). **이유**: 리세일 마켓플레이스에서 $0 리스팅은 실제로 팔 수 없는 상태이므로 "값이 들어있다"와 "팔 수 있다"를 같은 것으로 보면 안 된다고 판단 — 임의 선택이지만 seed data(`d7`, 가격 0)에 명시적으로 그 케이스를 넣어 동작을 보이게 함.
+
+2. **② 선택 항목이 혼합(일부만 ready)일 때 Publish 버튼을 비활성화할지, 부분 발행할지** — 브리프가 "pick one real, honest behavior" 중 양자택일하라고만 함. **결정**: 부분 발행(ready한 것만 실제로 제거/발행하고 나머지는 선택 유지 + 몇 개를 왜 건너뛰었는지 bar 안에 문구로 표시)을 선택. **이유**: r28/b(TaxExportTaggingScreen)는 "전부 태그되어야 잠금 가능, 아니면 비활성화" 방식을 썼음 — 같은 선택을 반복하면 두 라운드가 똑같은 해법으로 수렴해 판별력이 떨어질 것 같아, 이번엔 반대편 전략(부분 성공 + 투명한 스킵 안내)을 의도적으로 택함.
+
+3. **③ "Publish Selected" / "Discard Selected" 버튼의 보이는 글자를 상태에 따라 바꿀지** — 브리프 본문은 두 버튼을 이 정확한 이름으로 지칭함. **결정**: 보이는 라벨 텍스트는 항상 고정("Publish Selected" / "Discard Selected")으로 두고, 상태에 따른 뉘앙스(몇 개가 스킵되는지, 왜 비활성화됐는지)는 `accessibilityLabel`·`accessibilityHint`·바 안의 별도 인라인 문구로만 전달. **이유**: 브리프가 액션 이름을 명시적으로 지정했으므로 시각적 라벨은 그 문구에 고정시키는 쪽이 더 안전하다고 임의로 판단했고, 정직성 요구사항은 보조 텍스트 레이어로 충족시킴.
+
+4. **④ 컨텍스추얼 바가 없을 때 "완전히 트리에서 제거"할지 "시각적으로만 숨길지"** — 브리프가 선택지를 열어뒀음(“exists in the tree only … or is visually/functionally absent — your call”). **결정**: 완전히 트리에서 제거 (`{selectedCount > 0 ? (...) : null}`). **이유**: 스크린리더 사용자가 선택 항목이 없을 때 숨겨진 빈 바를 실수로 탐색하지 않도록 하는 것이 더 안전한 기본값이라고 판단 (조건부 렌더링이 구조적으로 더 단순하기도 함).
