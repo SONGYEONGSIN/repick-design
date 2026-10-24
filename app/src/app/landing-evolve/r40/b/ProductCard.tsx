@@ -25,7 +25,7 @@ export default function ProductCard({ item }: { item: Item }) {
 
       <div className="flex flex-col gap-0.5">
         <p className="truncate text-sm font-semibold text-white">{item.name}</p>
-        <p className="text-xs text-zinc-400">{item.category}</p>
+        <p className="text-xs font-normal text-zinc-400">{item.category}</p>
       </div>
 
       <div className="flex flex-wrap items-center gap-1.5">

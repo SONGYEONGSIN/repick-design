@@ -141,7 +141,7 @@ export default function RangeSweep({
         </p>
       </div>
 
-      <p className="sr-only">
+      <p className="sr-only font-normal">
         Price distribution across {ITEMS.length} listings, ranging from {formatPrice(MIN_PRICE)} to {formatPrice(MAX_PRICE)}.
         Use the arrow keys on either handle to move it by {STEP} dollars at a time.
       </p>
