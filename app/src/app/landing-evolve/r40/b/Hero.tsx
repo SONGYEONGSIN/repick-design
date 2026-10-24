@@ -13,7 +13,7 @@ const showcase = ITEMS.filter((i) => SHOWCASE_IDS.includes(i.id));
 
 export default function Hero() {
   return (
-    <section className="relative overflow-hidden px-4 pt-20 pb-24 sm:px-6 sm:pt-28 sm:pb-28 lg:px-10 lg:pt-32 lg:pb-32">
+    <section className="relative px-4 pt-20 pb-24 sm:px-6 sm:pt-28 sm:pb-28 lg:px-10 lg:pt-32 lg:pb-32">
       <div className="mx-auto grid max-w-6xl gap-12 lg:grid-cols-[1.15fr_0.85fr] lg:items-center lg:gap-10">
         <div>
           <Reveal>
