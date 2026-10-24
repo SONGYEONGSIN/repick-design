@@ -19,6 +19,7 @@ import {
   Text,
   TextInput,
   Pressable,
+  FlatList,
   SafeAreaView,
   ScrollView,
   StyleSheet,
@@ -32,6 +33,7 @@ import {
   joinWithAnd,
   GIFT_NOTE_MAX_CHARS,
   type DeliveryMethodKey,
+  type DeliveryMethodOption,
 } from "./data";
 
 interface SentGiftRecord {
@@ -261,12 +263,23 @@ export function GiftThisItemScreen() {
               <Text style={[styles.sectionLabel, styles.deliverySectionLabel]}>
                 Delivery method (required)
               </Text>
-              <View style={styles.deliveryOptionList}>
-                {deliveryMethodOptions.map((option) => {
+              <FlatList
+                data={deliveryMethodOptions}
+                keyExtractor={(option) => option.key}
+                // This list is always exactly 3 fixed rows, rendered inside the
+                // screen's single outer ScrollView, which already owns all
+                // scrolling for the form — scrollEnabled={false} is the
+                // standard, documented pattern for a short, non-scrolling
+                // FlatList nested inside a ScrollView (avoids the "nested
+                // VirtualizedLists" conflict a second independently-scrolling
+                // list would cause). GENERATION.md §1 requires FlatList over
+                // .map() for lists; this was previously rendered via .map().
+                scrollEnabled={false}
+                contentContainerStyle={styles.deliveryOptionList}
+                renderItem={({ item: option }: { item: DeliveryMethodOption }) => {
                   const isSelected = option.key === selectedDeliveryMethod;
                   return (
                     <Pressable
-                      key={option.key}
                       onPress={() => handleSelectDeliveryMethod(option.key)}
                       accessibilityRole="button"
                       accessibilityState={{ selected: isSelected }}
@@ -301,8 +314,8 @@ export function GiftThisItemScreen() {
                       </View>
                     </Pressable>
                   );
-                })}
-              </View>
+                }}
+              />
             </ScrollView>
 
             <View
