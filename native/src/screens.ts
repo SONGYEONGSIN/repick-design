@@ -78,6 +78,9 @@ import EvolveR39C from "./evolve/r39/c/BackupCodesScreen";
 import EvolveR40B from "./evolve/r40/b/ReturnDropoffScreen";
 import EvolveR40A from "./evolve/r40/a/OfferStatusScreen";
 import EvolveR40C from "./evolve/r40/c/PayoutMethodOrderScreen";
+import { GiftThisItemScreen as EvolveR41A } from "./evolve/r41/a/GiftThisItemScreen";
+import EvolveR41B from "./evolve/r41/b/ProtectionPlanPickerScreen";
+import { NotificationPreferencesScreen as EvolveR41C } from "./evolve/r41/c/NotificationPreferencesScreen";
 
 const COMPONENTS = {
   watchlist: WatchList,
@@ -159,6 +162,9 @@ const COMPONENTS = {
   "evolve-r40-a": EvolveR40A,
   "evolve-r40-b": EvolveR40B,
   "evolve-r40-c": EvolveR40C,
+  "evolve-r41-a": EvolveR41A,
+  "evolve-r41-b": EvolveR41B,
+  "evolve-r41-c": EvolveR41C,
 } as const satisfies Record<string, ComponentType>;
 
 export type ScreenSlug = keyof typeof COMPONENTS;

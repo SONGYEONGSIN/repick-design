@@ -235,5 +235,14 @@
   },
   "evolve-r40-c": {
     "check": "Payout Method Order"
+  },
+  "evolve-r41-a": {
+    "check": "Gift This Item"
+  },
+  "evolve-r41-b": {
+    "check": "Protection Plan Picker"
+  },
+  "evolve-r41-c": {
+    "check": "Notification Preferences"
   }
 }
