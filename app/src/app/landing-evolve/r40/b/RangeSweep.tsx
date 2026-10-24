@@ -67,56 +67,57 @@ export default function RangeSweep({
     }
   }
 
-  function startDrag(which: "min" | "max") {
-    return (e: React.PointerEvent<HTMLButtonElement>) => {
-      draggingRef.current = which;
-      e.currentTarget.setPointerCapture(e.pointerId);
-    };
-  }
-  function onDragMove(which: "min" | "max") {
-    return (e: React.PointerEvent<HTMLButtonElement>) => {
-      if (draggingRef.current !== which) return;
-      moveHandle(which, priceFromClientX(e.clientX));
-    };
-  }
   function endDrag() {
     draggingRef.current = null;
   }
+  function handlePointerDownMin(e: React.PointerEvent<HTMLButtonElement>) {
+    draggingRef.current = "min";
+    e.currentTarget.setPointerCapture(e.pointerId);
+  }
+  function handlePointerDownMax(e: React.PointerEvent<HTMLButtonElement>) {
+    draggingRef.current = "max";
+    e.currentTarget.setPointerCapture(e.pointerId);
+  }
+  function handlePointerMoveMin(e: React.PointerEvent<HTMLButtonElement>) {
+    if (draggingRef.current !== "min") return;
+    moveHandle("min", priceFromClientX(e.clientX));
+  }
+  function handlePointerMoveMax(e: React.PointerEvent<HTMLButtonElement>) {
+    if (draggingRef.current !== "max") return;
+    moveHandle("max", priceFromClientX(e.clientX));
+  }
 
-  function onKeyDownHandle(which: "min" | "max") {
-    return (e: React.KeyboardEvent<HTMLButtonElement>) => {
-      const current = which === "min" ? min : max;
-      switch (e.key) {
-        case "ArrowLeft":
-        case "ArrowDown":
-          e.preventDefault();
-          moveHandle(which, current - STEP);
-          break;
-        case "ArrowRight":
-        case "ArrowUp":
-          e.preventDefault();
-          moveHandle(which, current + STEP);
-          break;
-        case "PageDown":
-          e.preventDefault();
-          moveHandle(which, current - PAGE_STEP);
-          break;
-        case "PageUp":
-          e.preventDefault();
-          moveHandle(which, current + PAGE_STEP);
-          break;
-        case "Home":
-          e.preventDefault();
-          moveHandle(which, which === "min" ? MIN_PRICE : min + MIN_GAP);
-          break;
-        case "End":
-          e.preventDefault();
-          moveHandle(which, which === "max" ? MAX_PRICE : max - MIN_GAP);
-          break;
-        default:
-          break;
-      }
-    };
+  function stepFor(which: "min" | "max", current: number, key: string): number | null {
+    switch (key) {
+      case "ArrowLeft":
+      case "ArrowDown":
+        return current - STEP;
+      case "ArrowRight":
+      case "ArrowUp":
+        return current + STEP;
+      case "PageDown":
+        return current - PAGE_STEP;
+      case "PageUp":
+        return current + PAGE_STEP;
+      case "Home":
+        return which === "min" ? MIN_PRICE : min + MIN_GAP;
+      case "End":
+        return which === "max" ? MAX_PRICE : max - MIN_GAP;
+      default:
+        return null;
+    }
+  }
+  function handleKeyDownMin(e: React.KeyboardEvent<HTMLButtonElement>) {
+    const next = stepFor("min", min, e.key);
+    if (next === null) return;
+    e.preventDefault();
+    moveHandle("min", next);
+  }
+  function handleKeyDownMax(e: React.KeyboardEvent<HTMLButtonElement>) {
+    const next = stepFor("max", max, e.key);
+    if (next === null) return;
+    e.preventDefault();
+    moveHandle("max", next);
   }
 
   return (
@@ -188,11 +189,11 @@ export default function RangeSweep({
             aria-valuemax={max - MIN_GAP}
             aria-valuenow={min}
             aria-valuetext={formatPrice(min)}
-            onPointerDown={startDrag("min")}
-            onPointerMove={onDragMove("min")}
+            onPointerDown={handlePointerDownMin}
+            onPointerMove={handlePointerMoveMin}
             onPointerUp={endDrag}
             onPointerCancel={endDrag}
-            onKeyDown={onKeyDownHandle("min")}
+            onKeyDown={handleKeyDownMin}
             style={{ left: `${pctFromPrice(min)}%` }}
             className={`absolute top-1/2 h-7 w-7 -translate-x-1/2 -translate-y-1/2 touch-none rounded-full border-2 border-[#0B0B0F] bg-emerald-400 shadow-[0_2px_8px_rgba(0,0,0,0.5)] ${FOCUS}`}
           />
@@ -207,11 +208,11 @@ export default function RangeSweep({
             aria-valuemax={MAX_PRICE}
             aria-valuenow={max}
             aria-valuetext={formatPrice(max)}
-            onPointerDown={startDrag("max")}
-            onPointerMove={onDragMove("max")}
+            onPointerDown={handlePointerDownMax}
+            onPointerMove={handlePointerMoveMax}
             onPointerUp={endDrag}
             onPointerCancel={endDrag}
-            onKeyDown={onKeyDownHandle("max")}
+            onKeyDown={handleKeyDownMax}
             style={{ left: `${pctFromPrice(max)}%` }}
             className={`absolute top-1/2 h-7 w-7 -translate-x-1/2 -translate-y-1/2 touch-none rounded-full border-2 border-[#0B0B0F] bg-emerald-400 shadow-[0_2px_8px_rgba(0,0,0,0.5)] ${FOCUS}`}
           />

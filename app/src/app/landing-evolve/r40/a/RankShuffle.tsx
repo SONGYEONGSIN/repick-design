@@ -32,17 +32,20 @@ export default function RankShuffle({
   const [draggingId, setDraggingId] = useState<FactorId | null>(null);
   const reduced = useReducedMotion();
   const orderRef = useRef(order);
-  orderRef.current = order;
+  useEffect(() => {
+    orderRef.current = order;
+  }, [order]);
 
   useEffect(() => {
     if (!draggingId) return;
+    const activeId = draggingId;
 
     function handleMove(e: PointerEvent) {
       const el = document.elementFromPoint(e.clientX, e.clientY);
       const rowEl = el?.closest("[data-rank-id]") as HTMLElement | null;
       const targetId = rowEl?.dataset.rankId as FactorId | undefined;
-      if (targetId && targetId !== draggingId) {
-        onOrderChange(reorderTo(orderRef.current, draggingId, targetId));
+      if (targetId && targetId !== activeId) {
+        onOrderChange(reorderTo(orderRef.current, activeId, targetId));
       }
     }
     function handleUp() {

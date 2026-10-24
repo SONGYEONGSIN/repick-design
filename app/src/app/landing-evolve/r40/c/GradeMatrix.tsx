@@ -129,9 +129,6 @@ export default function GradeMatrix({
                         onClick={() => onSelect(tier, cat)}
                         onKeyDown={(e) => handleKeyDown(e, rowIdx, colIdx)}
                         aria-pressed={isSelected}
-                        aria-label={`${tier} ${cat}: ${c.count} items available${
-                          c.popular ? ", top pick" : ""
-                        }${isSelected ? ", currently selected" : ""}`}
                         className={`flex min-h-16 w-full min-w-16 flex-col items-center justify-center gap-1 rounded-xl border px-2 py-2.5 transition-colors motion-reduce:transition-none ${FOCUS_RING} ${
                           isSelected
                             ? "border-sky-700 bg-sky-700 text-white"
@@ -150,13 +147,21 @@ export default function GradeMatrix({
                           <span
                             className={`rounded-full px-1.5 py-0.5 text-[9px] font-extrabold uppercase tracking-[0.08em] ${
                               isSelected
-                                ? "bg-white/20 text-white"
+                                ? "bg-sky-900 text-white"
                                 : "bg-sky-700 text-white"
                             }`}
                           >
                             Top pick
                           </span>
                         )}
+                        {/* Visible text above ("168", "Top pick") is the accessible-name prefix by
+                            DOM order; this sr-only span appends the remaining context without a
+                            competing aria-label (label-content-name-mismatch precedent). */}
+                        <span className="sr-only">
+                          {" "}
+                          — {tier} {cat} grid cell, {c.count} items available
+                          {isSelected ? ", currently selected" : ""}.
+                        </span>
                       </button>
                     </td>
                   );
