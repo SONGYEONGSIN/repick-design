@@ -14,18 +14,21 @@
 
 ## 대기 중
 
-### 16. `auto-landing-r40/c` — "Twelve Cells" 3×4 single-cell-select Grade Matrix (target: landing)
-
-- **탈락 사유(원 등재)**: 1차 하드게이트 a11y 96 (`color-contrast` — 선택 상태의 "Top pick" 배지가 `bg-white/20`(반투명) over `bg-sky-700`로 합성돼 `#3387b9` 백그라운드에 흰 글자 3.95:1, 4.5:1 미달 / `label-content-name-mismatch` — 12개 그리드 셀 버튼 전부가 보이는 텍스트("{count}"+"Top pick")를 그대로 담지 않는 커스텀 `aria-label`을 썼다). 1-fix로 두 감사 모두 해소(배지를 `bg-sky-900` 단색으로 교체, 9.46:1; 경쟁 `aria-label` 제거 + 보이는 텍스트 뒤에 narration을 잇는 trailing `sr-only` span 추가)해 a11y 100 확인했으나, **그 `sr-only` span이 `overflow-x-auto` 테이블 래퍼 안에 있고 그 사이 어떤 조상에도 `position:relative`가 없어** [[page-brief-core]] §2 "sr-only 앵커" 버그가 발동해 **새로운** `sweep` `page-overflow`(390px, +79px)가 발생 — 원인은 정확히 진단됐으나 스킬 §3 "1회 수정 기회" 규칙상 두 번째 수정 없이 재실패로 처리, 2차 탈락.
-- **형태가 왜 살아 있었나**: 12칸(3등급×4카테고리) 단일-셀-클릭 선택 입력이 동일 셀 키로 "최고매치 카드 + 2개 비교 대안"을 동시 갱신하는 구조는 이 카탈로그에 없던 조합이다(렌즈3 미평가 — 판정 패널 진입 전 탈락). 디폴트 상태(최다 수요 셀 사전선택)도 공백이 아니라 완전히 채워진 결과였다.
-- **재배정 시 명시할 것**: 하드게이트 수정 내역(경쟁 `aria-label` 제거 + trailing `sr-only` + `bg-sky-900` 배지)은 그대로 유지하되, **그 `sr-only` span과 `overflow-x-auto` 테이블 래퍼 사이의 어떤 조상 요소(예: 각 셀의 `<td>`)에 `position: relative`를 추가**해야 한다 — sr-only 앵커 버그의 표준 해법([[page-brief-core]] §2).
-- 등재: 2026-10-24 · 출처 `vault/20-generations/2026-10-24-auto-landing-r40/SCORES.md`·`DECISION.md`
-
-(이 항목 외 대기 중인 것 없음 — 15번은 2026-10-17 `auto-dash-r42/a`로 소진되어 아래 아카이브로 이동했다.)
+(현재 대기 중인 항목 없음 — 16번은 2026-10-25 `auto-landing-r41/a`로 소진되어 아래 아카이브로 이동했다. 15번은 2026-10-17 `auto-dash-r42/a`로 소진되어 아래 아카이브로 이동했다.)
 
 > **한 라운드에 2개가 동시에 들어왔다** (11번은 2026-10-15 `auto-dash-r40/a`로 소진 — 아래 아카이브 #14 참조) — 다음 라운드는 이 중 **하나만** 배정한다(큐 규약). 어느 쪽을 먼저 돌릴지는 다음 라운드의 판단에 맡긴다. 나머지 탈락분은 넣지 않았다 — `dash r22/b`·`r22/c`·`r23/c`·`r25/b`·`landing r17/c`·`dash r28/c`(Trestle, 고정레일+간트 — 상시마운트 툴팁 div 가 화면 우측 바 근처에서 뷰포트를 넘는 page-overflow 로 1-fix 재실패)는 사유가 규칙 위반이라 등재 자격은 있으나, 큐는 **한 라운드에 1개만** 배정하므로 전부 넣으면 7라운드+치 백로그가 된다. `dash r28/b`(Ridgeline)는 2026-09-26 `auto-dash-r30/a`로 재배정 완료, 아래 5번 항목으로 소진됐다. 이전에 먼저 돌리기로 한 다른 항목들도 소진되어 아래 아카이브에 있다 — 다음 배정은 남은 백로그 중에서 판단한다. (전부 `candidates/<v>.md` 에 컨셉이 남아 있어 언제든 등재할 수 있다.)
 
 ## 아카이브
+
+### 16. `auto-landing-r40/c` — "Twelve Cells" 3×4 single-cell-select Grade Matrix (target: landing)
+
+- **탈락 사유(원 등재)**: 1차 하드게이트 a11y 96 (`color-contrast` — 선택 상태의 "Top pick" 배지가 `bg-white/20`(반투명) over `bg-sky-700`로 합성돼 `#3387b9` 백그라운드에 흰 글자 3.95:1, 4.5:1 미달 / `label-content-name-mismatch` — 12개 그리드 셀 버튼 전부가 보이는 텍스트("{count}"+"Top pick")를 그대로 담지 않는 커스텀 `aria-label`을 썼다). 1-fix로 두 감사 모두 해소(배지를 `bg-sky-900` 단색으로 교체, 9.46:1; 경쟁 `aria-label` 제거 + 보이는 텍스트 뒤에 narration을 잇는 trailing `sr-only` span 추가)해 a11y 100 확인했으나, **그 `sr-only` span이 `overflow-x-auto` 테이블 래퍼 안에 있고 그 사이 어떤 조상에도 `position:relative`가 없어** [[page-brief-core]] §2 "sr-only 앵커" 버그가 발동해 **새로운** `sweep` `page-overflow`(390px, +79px)가 발생 — 원인은 정확히 진단됐으나 스킬 §3 "1회 수정 기회" 규칙상 두 번째 수정 없이 재실패로 처리, 2차 탈락.
+- **형태가 왜 살아 있었나**: 12칸(3등급×4카테고리) 단일-셀-클릭 선택 입력이 동일 셀 키로 "최고매치 카드 + 2개 비교 대안"을 동시 갱신하는 구조는 이 카탈로그에 없던 조합이다(렌즈3 미평가 — 판정 패널 진입 전 탈락). 디폴트 상태(최다 수요 셀 사전선택)도 공백이 아니라 완전히 채워진 결과였다.
+- **재배정 결과 (2026-10-25, `auto-landing-r41/a`, 동일명 "Twelve Cells")**: 배정문의 지시를 정확히 반영 — 하드게이트 수정 내역(경쟁 `aria-label` 제거 + trailing `sr-only` + `bg-sky-900` 배지)은 그대로 유지하고, **그리드 셀 `<button>` 자신**(sr-only span의 직계 부모)에 `relative`를 추가해 containing block을 `overflow-x-auto` 래퍼 안으로 anchoring했다. **1차 하드게이트부터 10/10 클린 통과**(1-fix 불요) — 원 재배정 사유(390px `page-overflow`) 재발 없음, a11y 100 확인.
+  3렌즈 판정(이 라운드는 `self_judged: true` — 서브에이전트 스폰 불가, [[questions-queue]] Q47 disposition)에서 **승격하지 못했다** — 2:1(렌즈1·렌즈3 vs 렌즈2)로 `auto-landing-r41/b`("Point by Point")에 패배, 2위. 규칙 위반 지적 없음 — 순수 경합 패배. 렌즈2(패배시킨 쪽은 오히려 a를 1위로 평가 — 즉 a는 유일하게 1표를 받은 후보)는 a의 "학습곡선 없는 즉시가독성"을 강점으로 꼽았으나, 다수결 집계에서는 렌즈1·렌즈3이 b를 1위로 평가해 종합 2위.
+- **일반화**: 원 재배정 사유(`sr-only` 앵커 버그)는 **완전히, 재현 가능하게 해소됐다**(1차 클린). 이번 탈락은 **게이트 위반이 아니라 순수 판정 패배** — 재배정 큐의 목적(형태를 하드게이트 너머 판정까지 보내는 것)은 완수됐다.
+- **처리**: 소진 — 판정 패배(2위, 규칙위반 지적 없음)이므로 `auto-dash-r35/c`("Quadrant") 선례와 동일 원칙 적용: 기본값은 재배정하지 않음, 세 번째 시도 여부는 향후 판단에 맡긴다.
+- 등재: 2026-10-24 · 출처 `vault/20-generations/2026-10-24-auto-landing-r40/SCORES.md`·`DECISION.md` · 소진: 2026-10-25 · 출처 `vault/20-generations/2026-10-25-auto-landing-r41/SCORES.md`·`DECISION.md`
 
 ### 15. `auto-dash-r41/a` — "Fathom" OHLC 캔들스틱 트레이딩 콘솔 (target: dash)
 
