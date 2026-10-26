@@ -18,7 +18,7 @@
 // no band at all — a workflow band on a completed state would have
 // nothing left to gate.
 
-import React, { useCallback, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import {
   View,
   Text,
@@ -62,6 +62,12 @@ export function ReportBuyerScreen() {
   const [liveMessage, setLiveMessage] = useState("");
 
   const liveTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (liveTimerRef.current) clearTimeout(liveTimerRef.current);
+    };
+  }, []);
 
   // Single live region for the whole screen. Every transition that changes
   // what the user can do next — a step advance or the final submission —
