@@ -244,5 +244,14 @@
   },
   "evolve-r41-c": {
     "check": "Notification Preferences"
+  },
+  "evolve-r42-a": {
+    "check": "Questions & Answers"
+  },
+  "evolve-r42-b": {
+    "check": "Report a Buyer"
+  },
+  "evolve-r42-c": {
+    "check": "Choose How You'll Pay"
   }
 }
