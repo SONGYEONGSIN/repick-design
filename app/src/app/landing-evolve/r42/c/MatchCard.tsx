@@ -24,7 +24,7 @@ export default function MatchCard({
   return (
     <div
       className={`relative flex h-[72px] w-full items-center gap-2 rounded-lg border bg-white px-2 transition-transform motion-reduce:transition-none hover:-translate-y-0.5 hover:shadow-md ${
-        isWinner ? "border-2" : "border-zinc-200 opacity-55"
+        isWinner ? "border-2" : "border-zinc-200 opacity-65"
       }`}
       style={isWinner ? { borderColor: ACCENT } : undefined}
     >

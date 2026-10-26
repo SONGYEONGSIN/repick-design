@@ -145,7 +145,7 @@ export default function Page() {
             </p>
             <PriorityToggle mode={mode} onChange={setMode} id="priority" />
             <p className={`mt-3 max-w-[560px] text-sm font-normal leading-[1.6] ${MUTED}`}>
-              {MODE_LABEL[mode]} blends each listing's price score and
+              {MODE_LABEL[mode]} blends each listing&apos;s price score and
               condition grade at {weights.price}% price / {weights.condition}%
               condition — and every matchup below is scored with that exact
               blend, live.
@@ -173,7 +173,7 @@ export default function Page() {
                   <span className="font-semibold text-zinc-950">
                     {champion.brand} {champion.name}
                   </span>{" "}
-                  scored {Math.round(championScore)} and beat the final's
+                  scored {Math.round(championScore)} and beat the final&apos;s
                   runner-up, the {runnerUp.brand} {runnerUp.name}, who scored{" "}
                   {Math.round(runnerUpScore)} under the same {weights.price}/
                   {weights.condition} price-to-condition split.
