@@ -57,10 +57,20 @@ export default function ClosingCTA({
           </h2>
 
           <p className="mt-5 max-w-[32rem] text-base font-normal leading-[1.6] text-zinc-600">
-            That&rsquo;s with <span className="font-semibold text-zinc-950">{dominant}</span> weighted
-            heaviest and <span className="font-semibold text-zinc-950">{weakest}</span> weighted
-            lightest. Move either one in the hero above and this line, the two score badges and
-            the beam all recompute together from the same four numbers.
+            {dominant === weakest ? (
+              <>
+                That&rsquo;s with all four priorities weighted equally. Move any one of them in
+                the hero above and this line, the two score badges and the beam all recompute
+                together from the same four numbers.
+              </>
+            ) : (
+              <>
+                That&rsquo;s with <span className="font-semibold text-zinc-950">{dominant}</span>{" "}
+                weighted heaviest and <span className="font-semibold text-zinc-950">{weakest}</span>{" "}
+                weighted lightest. Move either one in the hero above and this line, the two score
+                badges and the beam all recompute together from the same four numbers.
+              </>
+            )}
           </p>
 
           <div className="mt-9 flex flex-wrap items-center gap-4">
