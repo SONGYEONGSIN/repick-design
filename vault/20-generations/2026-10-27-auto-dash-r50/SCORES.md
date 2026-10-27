@@ -33,3 +33,7 @@ target: dash · freeze hash (post-generation, pre-fix): `b4079a8355421c6fd2cb270
 **All 3 candidates re-failed their one allowed fix attempt. Zero candidates survive to §4 JUDGE.** This is not a judged no-winner round (the panel never convened) — it is a hard-gate washout, one step earlier in the pipeline than §4 anticipates ("생존 후보 2개 이상" or "1개 단독 심사"). See [[questions-queue]] Q71 for the full analysis of why two independently-diagnosed, doctrine-matching fixes (the `auto-dash-r46` L2 `min-w-0`-on-ancestor pattern) produced measurably zero effect.
 
 Candidate `b` queued to [[reassign-queue]] (#17) as the most clearly diagnosed of the three; `a` and `c` are equally eligible (rule-violation drops, not form drops) but not queued per the queue's one-per-round convention.
+
+## Shots
+
+No judge panel convened (zero survivors), so these are not judging frames — they're reference screenshots of the final (post-1-fix, re-failed) state, captured for documentation and to show the drops were narrow/localized bugs, not broken concepts: `a-1366-overflow.png`/`a-1920.png`, `b-1366-overflow.png`/`b-1920.png`, `c-1366.png`/`c-390-overflow.png`. At 1920px, `b` in particular renders as a clean, fully-realized dashboard — the overflow is confined to the 1264–1366px band and the 390px band respectively, not a pervasive defect.
