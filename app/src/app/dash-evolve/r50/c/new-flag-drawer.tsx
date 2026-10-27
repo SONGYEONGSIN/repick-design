@@ -183,7 +183,7 @@ export function NewFlagDrawer({
             </button>
             <button
               type="submit"
-              className={`h-10 flex-1 rounded-lg bg-emerald-600 text-[13px] font-semibold text-white transition-colors duration-150 ease-out hover:bg-emerald-700 ${FOCUS_RING}`}
+              className={`h-10 flex-1 rounded-lg bg-emerald-700 text-[13px] font-semibold text-white transition-colors duration-150 ease-out hover:bg-emerald-800 ${FOCUS_RING}`}
             >
               Create flag
             </button>

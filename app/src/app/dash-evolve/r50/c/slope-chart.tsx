@@ -92,10 +92,10 @@ export function SlopeChart({
         <title id={titleId}>{`${meta.label} before vs. after, one line per active experiment`}</title>
         <line x1={LEFT_X} y1={PLOT_TOP - 10} x2={LEFT_X} y2={PLOT_BOTTOM + 10} className="stroke-zinc-200" strokeWidth={1} />
         <line x1={RIGHT_X} y1={PLOT_TOP - 10} x2={RIGHT_X} y2={PLOT_BOTTOM + 10} className="stroke-zinc-200" strokeWidth={1} />
-        <text x={LEFT_X} y={20} textAnchor="middle" className="fill-zinc-400 text-[10px] font-semibold tracking-wide uppercase">
+        <text x={LEFT_X} y={20} textAnchor="middle" className="fill-zinc-600 text-[10px] font-semibold tracking-wide uppercase">
           Before
         </text>
-        <text x={RIGHT_X} y={20} textAnchor="middle" className="fill-zinc-400 text-[10px] font-semibold tracking-wide uppercase">
+        <text x={RIGHT_X} y={20} textAnchor="middle" className="fill-zinc-600 text-[10px] font-semibold tracking-wide uppercase">
           After
         </text>
 

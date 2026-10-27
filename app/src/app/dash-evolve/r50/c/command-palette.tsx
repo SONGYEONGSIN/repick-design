@@ -145,9 +145,9 @@ export function CommandPalette({
                 >
                   <Icon className="h-4 w-4 shrink-0 text-zinc-400" aria-hidden="true" />
                   <span className="min-w-0 flex-1 truncate text-[13px] font-normal">
-                    {label} <span className="text-zinc-400">· {sub}</span>
+                    {label} <span className="text-zinc-600">· {sub}</span>
                   </span>
-                  <span className="shrink-0 text-[11px] font-normal text-zinc-400">{hint}</span>
+                  <span className="shrink-0 text-[11px] font-normal text-zinc-600">{hint}</span>
                 </button>
               </li>
             );

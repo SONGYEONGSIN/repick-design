@@ -210,7 +210,7 @@ export function StatCard({
   hint?: string;
 }) {
   return (
-    <Card className="col-span-6 p-4 sm:col-span-3 sm:p-5">
+    <Card className="col-span-6 min-w-0 p-4 sm:col-span-3 sm:p-5">
       <div className="flex items-center gap-2 text-zinc-500">
         <span aria-hidden="true">{icon}</span>
         <span className="text-[11px] font-semibold tracking-wide uppercase">{label}</span>

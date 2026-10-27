@@ -90,7 +90,7 @@ export function FlaglineDashboard() {
     <div className="min-h-screen bg-zinc-50">
       <a
         href="#main-content"
-        className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-50 focus:rounded-lg focus:bg-emerald-600 focus:px-3 focus:py-2 focus:text-[13px] focus:font-semibold focus:text-white"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-50 focus:rounded-lg focus:bg-emerald-700 focus:px-3 focus:py-2 focus:text-[13px] focus:font-semibold focus:text-white"
       >
         Skip to main content
       </a>
@@ -121,7 +121,7 @@ export function FlaglineDashboard() {
           />
           <StatCard icon={<Percent className="h-3.5 w-3.5" />} label="Avg rollout" value={`${avgRollout}%`} hint="active flags, scoped" />
 
-          <Card className="col-span-12 flex h-[520px] flex-col lg:col-span-8" aria-labelledby="slope-chart-title">
+          <Card className="col-span-12 min-w-0 flex h-[520px] flex-col lg:col-span-8" aria-labelledby="slope-chart-title">
             <CardHeader
               icon={<GitCompare className="h-3.5 w-3.5" />}
               title="Guardrail metric — before vs. after"
@@ -133,14 +133,14 @@ export function FlaglineDashboard() {
             </div>
           </Card>
 
-          <Card className="col-span-12 flex h-[520px] flex-col lg:col-span-4" aria-labelledby="experiments-list-title">
+          <Card className="col-span-12 min-w-0 flex h-[520px] flex-col lg:col-span-4" aria-labelledby="experiments-list-title">
             <CardHeader icon={<Beaker className="h-3.5 w-3.5" />} title="Active experiments" titleId="experiments-list-title" />
             <div className="min-h-0 flex-1 overflow-hidden">
               <ExperimentsList experiments={EXPERIMENTS} metric={metric} pinnedId={pinnedId} onPin={setPinnedId} />
             </div>
           </Card>
 
-          <Card className="col-span-12 lg:col-span-8" aria-labelledby="flags-table-title">
+          <Card className="col-span-12 min-w-0 lg:col-span-8" aria-labelledby="flags-table-title">
             <CardHeader
               icon={<FlagIcon className="h-3.5 w-3.5" />}
               title="Feature flags"
@@ -150,7 +150,7 @@ export function FlaglineDashboard() {
             <FlagsTable flags={filteredFlags} highlightedId={highlightedFlagId} registerRowRef={registerRowRef} />
           </Card>
 
-          <div className="col-span-12 flex flex-col gap-4 lg:col-span-4">
+          <div className="col-span-12 min-w-0 flex flex-col gap-4 lg:col-span-4">
             <Card aria-labelledby="pin-summary-title">
               <CardHeader icon={<Pin className="h-3.5 w-3.5" />} title="Pinned experiment" titleId="pin-summary-title" />
               <PinSummaryCard experiment={pinnedExperiment} />

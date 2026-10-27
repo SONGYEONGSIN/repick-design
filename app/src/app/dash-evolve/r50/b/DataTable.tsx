@@ -67,7 +67,7 @@ export default function DataTable({ days, windowLabel }: { days: Day[]; windowLa
   const flaggedCount = rows.filter((r) => r.flagged).length;
 
   return (
-    <Card padded={false} className="flex h-full flex-col overflow-hidden">
+    <Card padded={false} className="flex h-full min-w-0 flex-col overflow-hidden">
       <div className="p-4 sm:p-5">
         <CardHead
           title="Daily placement ledger"
@@ -88,7 +88,7 @@ export default function DataTable({ days, windowLabel }: { days: Day[]; windowLa
       </div>
 
       {/* --------------------------------------------------------------------- desktop table */}
-      <div className="hidden min-h-0 flex-1 overflow-y-auto border-t border-white/10 sm:block [scrollbar-width:thin]">
+      <div className="hidden min-h-0 min-w-0 flex-1 overflow-y-auto border-t border-white/10 sm:block [scrollbar-width:thin]">
         <div className="overflow-x-auto">
           <table className="w-full min-w-[720px] border-collapse text-sm">
             <thead className="sticky top-0 z-10 bg-zinc-900">

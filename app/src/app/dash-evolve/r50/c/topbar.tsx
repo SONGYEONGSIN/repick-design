@@ -63,7 +63,7 @@ export function Topbar({
         <button
           type="button"
           onClick={onOpenNewFlag}
-          className={`hidden h-11 items-center gap-1.5 rounded-lg bg-emerald-600 px-3.5 text-[13px] font-semibold text-white transition-colors duration-150 ease-out hover:bg-emerald-700 sm:inline-flex ${FOCUS_RING}`}
+          className={`hidden h-11 items-center gap-1.5 rounded-lg bg-emerald-700 px-3.5 text-[13px] font-semibold text-white transition-colors duration-150 ease-out hover:bg-emerald-800 sm:inline-flex ${FOCUS_RING}`}
         >
           <Plus className="h-4 w-4" aria-hidden="true" />
           New flag
