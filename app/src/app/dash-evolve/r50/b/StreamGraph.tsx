@@ -147,7 +147,9 @@ export default function StreamGraph({
       {/* ------------------------------------------------------------------------------- chart */}
       <div className="relative mt-3">
         <div ref={ref} className="relative h-[300px] w-full sm:h-[380px] lg:h-[460px] xl:h-[540px]">
-          <svg width={width} height={height} viewBox={`0 0 ${width} ${height}`} className="block" role="img" aria-label="Streamgraph of daily inbox placement volume by mailbox provider">
+          {/* No `role="img"` here on purpose: it contains four real focusable ribbon buttons, and
+              `role="img"` would mark the whole tree atomic and prune them from the a11y tree. */}
+          <svg width={width} height={height} viewBox={`0 0 ${width} ${height}`} className="block" aria-label="Streamgraph of daily inbox placement volume by mailbox provider. Four providers, each focusable to pin its detail card.">
             <defs>
               {PROVIDERS.map((p, pi) => (
                 <pattern
