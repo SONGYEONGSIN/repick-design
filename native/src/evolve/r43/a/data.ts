@@ -4,13 +4,10 @@
 // candidate a). All names, amounts and "pledged ... ago" labels are fixed
 // literals — no Math.random, no Date.now(), no bare new Date().
 
-export type SwatchKey = "swatch1" | "swatch2" | "swatch3";
-
 export type FixedContributor = {
   id: string;
   name: string;
   initial: string;
-  swatchKey: SwatchKey;
   amount: number; // KRW (won)
   statusLabel: string;
 };
@@ -35,7 +32,6 @@ export const OTHER_CONTRIBUTORS: FixedContributor[] = [
     id: "mina",
     name: "Mina Chen",
     initial: "M",
-    swatchKey: "swatch1",
     amount: 450_000,
     statusLabel: "Pledged 3 days ago",
   },
@@ -43,7 +39,6 @@ export const OTHER_CONTRIBUTORS: FixedContributor[] = [
     id: "carlos",
     name: "Carlos Reyes",
     initial: "C",
-    swatchKey: "swatch2",
     amount: 350_000,
     statusLabel: "Pledged 2 days ago",
   },
@@ -51,7 +46,6 @@ export const OTHER_CONTRIBUTORS: FixedContributor[] = [
     id: "priya",
     name: "Priya Nair",
     initial: "P",
-    swatchKey: "swatch3",
     amount: 200_000,
     statusLabel: "Pledged 2 days ago",
   },
@@ -59,7 +53,6 @@ export const OTHER_CONTRIBUTORS: FixedContributor[] = [
     id: "dev",
     name: "Dev Osei",
     initial: "D",
-    swatchKey: "swatch1",
     amount: 150_000,
     statusLabel: "Pledged yesterday",
   },
@@ -67,7 +60,6 @@ export const OTHER_CONTRIBUTORS: FixedContributor[] = [
     id: "jordan",
     name: "Jordan Blake",
     initial: "J",
-    swatchKey: "swatch2",
     amount: 0,
     statusLabel: "Invited — hasn't pledged yet",
   },

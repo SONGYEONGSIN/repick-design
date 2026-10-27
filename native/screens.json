@@ -253,5 +253,14 @@
   },
   "evolve-r42-c": {
     "check": "Choose How You'll Pay"
+  },
+  "evolve-r43-a": {
+    "check": "Group Buy Roster"
+  },
+  "evolve-r43-b": {
+    "check": "Request more time"
+  },
+  "evolve-r43-c": {
+    "check": "Shared Collections"
   }
 }

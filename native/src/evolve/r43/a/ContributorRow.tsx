@@ -16,14 +16,13 @@
 
 import { Pressable, Text, View, StyleSheet } from "react-native";
 import { tokens } from "../../../tokens";
-import { formatKRW, type SwatchKey } from "./data";
+import { formatKRW } from "./data";
 
 const HIT_SLOP = { top: 8, bottom: 8, left: 8, right: 8 };
 
 type Props = {
   name: string;
   initial: string;
-  swatchKey: SwatchKey;
   amount: number;
   statusLabel: string;
   statusTone?: "neutral" | "pledged" | "waiting";
@@ -38,7 +37,6 @@ type Props = {
 export default function ContributorRow({
   name,
   initial,
-  swatchKey,
   amount,
   statusLabel,
   statusTone = "neutral",
@@ -52,7 +50,7 @@ export default function ContributorRow({
   return (
     <View style={styles.row}>
       <View
-        style={[styles.avatar, { backgroundColor: tokens.color[swatchKey] }]}
+        style={styles.avatar}
         importantForAccessibility="no-hide-descendants"
       >
         <Text style={styles.avatarText}>{initial}</Text>
@@ -149,13 +147,14 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     borderRadius: tokens.radius.md,
+    backgroundColor: tokens.color.accentBg,
     alignItems: "center",
     justifyContent: "center",
   },
   avatarText: {
     fontSize: 15,
     fontWeight: "700",
-    color: tokens.color.onInk,
+    color: tokens.color.accent,
   },
   infoBlock: {
     flex: 1,

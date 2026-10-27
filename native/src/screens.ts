@@ -84,6 +84,9 @@ import { NotificationPreferencesScreen as EvolveR41C } from "./evolve/r41/c/Noti
 import EvolveR42A from "./evolve/r42/a/ListingQAScreen";
 import EvolveR42B from "./evolve/r42/b/ReportBuyerScreen";
 import EvolveR42C from "./evolve/r42/c/SplitPayPlanSelectorScreen";
+import EvolveR43A from "./evolve/r43/a/GroupBuyRosterScreen";
+import EvolveR43B from "./evolve/r43/b/ReturnWindowExtensionScreen";
+import EvolveR43C from "./evolve/r43/c/CollectionShareScreen";
 
 const COMPONENTS = {
   watchlist: WatchList,
@@ -171,6 +174,9 @@ const COMPONENTS = {
   "evolve-r42-a": EvolveR42A,
   "evolve-r42-b": EvolveR42B,
   "evolve-r42-c": EvolveR42C,
+  "evolve-r43-a": EvolveR43A,
+  "evolve-r43-b": EvolveR43B,
+  "evolve-r43-c": EvolveR43C,
 } as const satisfies Record<string, ComponentType>;
 
 export type ScreenSlug = keyof typeof COMPONENTS;

@@ -92,7 +92,9 @@ export function GroupBuyRosterScreen() {
   const remaining = Math.max(0, ITEM.targetPrice - totalPooled);
   const overBy = Math.max(0, totalPooled - ITEM.targetPrice);
   const poolReady = totalPooled >= ITEM.targetPrice;
-  const fillPct = Math.min(100, (totalPooled / ITEM.targetPrice) * 100);
+  const fillPct = Math.round(
+    Math.min(100, (totalPooled / ITEM.targetPrice) * 100),
+  );
   const pledgedCount =
     (youAmount > 0 ? 1 : 0) +
     OTHER_CONTRIBUTORS.filter((c) => c.amount > 0).length;
@@ -140,7 +142,6 @@ export function GroupBuyRosterScreen() {
     id: YOU_ID,
     name: YOU_NAME,
     initial: "Y",
-    swatchKey: "swatch3",
     amount: youAmount,
     statusLabel: lockedIn
       ? "Pledge locked in"
@@ -183,13 +184,13 @@ export function GroupBuyRosterScreen() {
             />
           </View>
           <Text style={styles.progressMeta}>
-            {poolReady
-              ? overBy > 0
-                ? `Target met, ${formatKRW(overBy)} over`
-                : "Target met exactly"
-              : `${formatKRW(remaining)} still needed`}
-            {"  ·  "}
-            {pledgedCount} of {totalCount} contributors have pledged
+            {`${
+              poolReady
+                ? overBy > 0
+                  ? `Target met, ${formatKRW(overBy)} over`
+                  : "Target met exactly"
+                : `${formatKRW(remaining)} still needed`
+            }  ·  ${pledgedCount} of ${totalCount} contributors have pledged`}
           </Text>
         </View>
       </View>
@@ -203,7 +204,6 @@ export function GroupBuyRosterScreen() {
             <ContributorRow
               name={item.name}
               initial={item.initial}
-              swatchKey={item.swatchKey}
               amount={item.amount}
               statusLabel={item.statusLabel}
               statusTone={item.amount > 0 ? "pledged" : "waiting"}
@@ -233,8 +233,7 @@ export function GroupBuyRosterScreen() {
               Purchase locked in
             </Text>
             <Text style={styles.poolBandLockedHint}>
-              Locked at {formatKRW(totalPooled)} pooled · organizer collects
-              final payment next
+              {`Locked at ${formatKRW(totalPooled)} pooled · organizer collects final payment next`}
             </Text>
           </View>
         ) : poolReady ? (
@@ -251,9 +250,7 @@ export function GroupBuyRosterScreen() {
           >
             <Text style={styles.poolBandGoTitle}>Lock In Purchase</Text>
             <Text style={styles.poolBandGoHint}>
-              Pool fully funded
-              {overBy > 0 ? `, ${formatKRW(overBy)} over target` : ""} — tap
-              to lock it in
+              {`Pool fully funded${overBy > 0 ? `, ${formatKRW(overBy)} over target` : ""} — tap to lock it in`}
             </Text>
           </Pressable>
         ) : (
