@@ -206,8 +206,11 @@ export default function StreamGraph({
           </svg>
 
           {day ? (
+            // `aria-hidden`: purely a sighted-mouse convenience. The accessible equivalent is the
+            // rail's own `role="slider"` + `aria-valuetext` below, which AT already announces on
+            // focus/arrow-key — a second live region here would just double-announce it.
             <div
-              role="status"
+              aria-hidden="true"
               className="pointer-events-none absolute top-1 rounded-xl border border-white/10 bg-zinc-950/95 p-2.5 shadow-xl shadow-black/50"
               style={{ left: tipLeft, width: tipWidth }}
             >
