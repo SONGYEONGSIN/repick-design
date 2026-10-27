@@ -100,8 +100,13 @@ export function ServiceTable({
             })}
           </ul>
 
-          {/* Desktop table — table-fixed + % colgroup, min-w on the table element, no horizontal scroller */}
-          <table className="hidden w-full table-fixed border-collapse text-sm sm:table">
+          {/* Desktop table — table-fixed + % colgroup, min-w on the table element (never on td/th).
+              Wrapped in its own `relative overflow-x-auto` container so narrow mid-desktop widths
+              (where the card has less room than the table's min-w) scroll locally instead of
+              blowing out document.scrollWidth; `relative` also gives the sr-only caption below a
+              containing block so it can't escape and affect page-level measurement. */}
+          <div className="relative hidden overflow-x-auto sm:block">
+          <table className="w-full min-w-[640px] table-fixed border-collapse text-sm">
             <caption className="sr-only">
               Changed services for the selected release, with blast radius, risk score and dependents touched; sortable by column
             </caption>
@@ -154,6 +159,7 @@ export function ServiceTable({
               })}
             </tbody>
           </table>
+          </div>
         </>
       )}
     </div>

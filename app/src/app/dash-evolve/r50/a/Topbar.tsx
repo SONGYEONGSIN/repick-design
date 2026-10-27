@@ -51,7 +51,7 @@ export function Topbar({
           className={`flex h-8 items-center gap-1.5 rounded-lg bg-blue-600 px-3 text-xs font-medium text-white transition-colors duration-150 ease-out hover:bg-blue-700 ${FOCUS_RING}`}
         >
           <Plus className="h-3.5 w-3.5 flex-shrink-0" aria-hidden="true" />
-          <span className="hidden sm:inline">New release request</span>
+          <span className="sr-only sm:not-sr-only">New release request</span>
         </button>
 
         <div className="relative">
@@ -82,7 +82,7 @@ export function Topbar({
             type="button"
             onClick={() => setAvatarOpen((v) => !v)}
             aria-expanded={avatarOpen}
-            aria-label="Account menu"
+            aria-label="YS, account menu"
             className={`flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-full bg-zinc-100 text-[10px] font-medium text-zinc-600 ${FOCUS_RING}`}
           >
             YS
