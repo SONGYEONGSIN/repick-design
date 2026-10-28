@@ -262,5 +262,14 @@
   },
   "evolve-r43-c": {
     "check": "Shared Collections"
+  },
+  "evolve-r44-a": {
+    "check": "Authenticity Escalation Case"
+  },
+  "evolve-r44-b": {
+    "check": "Schedule Return Pickup"
+  },
+  "evolve-r44-c": {
+    "check": "Seller Reputation Tier"
   }
 }
