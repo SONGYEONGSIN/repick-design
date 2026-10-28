@@ -72,6 +72,7 @@ export default function DetailPanel({
 
       <div className="px-4 pt-3 sm:px-5">
         <Tabs<TabId>
+          id={tabsId}
           ariaLabel="Report detail sections"
           value={tab}
           onChange={setTab}

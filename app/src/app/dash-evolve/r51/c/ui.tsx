@@ -2,7 +2,7 @@
 
 import type { LucideIcon } from "lucide-react";
 import type { KeyboardEvent as ReactKeyboardEvent, ReactNode } from "react";
-import { useEffect, useId, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { BORDER, CARD, FOCUS, SEVERITY_STYLE, STATUS_STYLE, SURFACE_INSET, TEXT_AUX, TEXT_PRIMARY, TRANSITION, avatarTone, cx, initialsOf, type Severity, type Status } from "./tokens";
 
 /* ------------------------------------------------------------------------- Card */
@@ -114,8 +114,8 @@ export function Segmented<T extends string>({ options, value, onChange, ariaLabe
 
 /* ----------------------------------------------------------------------------- Tabs */
 
-export function Tabs<T extends string>({ tabs, value, onChange, ariaLabel }: { tabs: { id: T; label: string }[]; value: T; onChange: (id: T) => void; ariaLabel: string }) {
-  const baseId = useId();
+export function Tabs<T extends string>({ id, tabs, value, onChange, ariaLabel }: { id: string; tabs: { id: T; label: string }[]; value: T; onChange: (id: T) => void; ariaLabel: string }) {
+  const baseId = id;
   function onKeyDown(e: ReactKeyboardEvent<HTMLButtonElement>, idx: number) {
     if (e.key !== "ArrowRight" && e.key !== "ArrowLeft") return;
     e.preventDefault();

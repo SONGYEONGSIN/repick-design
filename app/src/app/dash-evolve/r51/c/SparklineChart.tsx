@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, type KeyboardEvent } from "react";
 import { QUEUE_VOLUME, formatShortDate } from "./data";
 import { BORDER, NUM, TEXT_AUX, TEXT_PRIMARY, TRANSITION, cx } from "./tokens";
 
@@ -29,14 +29,40 @@ const POINTS = buildPoints();
 const PATH = POINTS.map((p, i) => `${i === 0 ? "M" : "L"}${p.x},${p.y}`).join(" ");
 
 /**
- * 14-day queue-volume trend. Hover OR keyboard-focus any day (invisible button overlays, positioned
- * by percentage so they track the SVG regardless of rendered width) opens the same crosshair + value
- * tooltip — this state is local and ephemeral, read by nothing else on the page (interaction ①).
+ * 14-day queue-volume trend. One `role="slider"` scrub rail (not one button per day — 14 adjacent
+ * ~20px buttons failed Lighthouse `target-size`, since none of them had the 24x24 safe-clickable
+ * space the audit requires) spans the whole chart: pointer move picks the nearest day, Arrow
+ * Left/Right/Home/End step it on focus. This state is local and ephemeral, read by nothing else on
+ * the page (interaction ①) — same single-scrub-rail pattern already established and gate-verified
+ * elsewhere in this catalog's StreamGraph chart (auto-dash-r51/a).
  */
 export default function SparklineChart() {
   const [hoveredIdx, setHoveredIdx] = useState<number | null>(null);
   const activeIdx = hoveredIdx ?? POINTS.length - 1;
   const active = POINTS[activeIdx];
+
+  function indexFromClientX(el: HTMLElement, clientX: number): number {
+    const rect = el.getBoundingClientRect();
+    const ratio = rect.width > 0 ? (clientX - rect.left) / rect.width : 0;
+    const n = POINTS.length;
+    return Math.min(n - 1, Math.max(0, Math.round(ratio * (n - 1))));
+  }
+
+  function onKeyDown(e: KeyboardEvent<HTMLDivElement>) {
+    if (e.key === "ArrowRight") {
+      e.preventDefault();
+      setHoveredIdx((i) => Math.min(POINTS.length - 1, (i ?? POINTS.length - 1) + 1));
+    } else if (e.key === "ArrowLeft") {
+      e.preventDefault();
+      setHoveredIdx((i) => Math.max(0, (i ?? POINTS.length - 1) - 1));
+    } else if (e.key === "Home") {
+      e.preventDefault();
+      setHoveredIdx(0);
+    } else if (e.key === "End") {
+      e.preventDefault();
+      setHoveredIdx(POINTS.length - 1);
+    }
+  }
 
   return (
     <div className="relative">
@@ -46,21 +72,21 @@ export default function SparklineChart() {
         <circle cx={active.x} cy={active.y} r={2.75} fill="#15803d" />
       </svg>
 
-      <div className="absolute inset-0 flex">
-        {POINTS.map((p, i) => (
-          <button
-            key={p.offset}
-            type="button"
-            onMouseEnter={() => setHoveredIdx(i)}
-            onMouseLeave={() => setHoveredIdx(null)}
-            onFocus={() => setHoveredIdx(i)}
-            onBlur={() => setHoveredIdx(null)}
-            className={cx("h-full flex-1 rounded focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-green-700")}
-          >
-            <span className="sr-only">{`${formatShortDate(p.offset)}: ${p.value} reports received`}</span>
-          </button>
-        ))}
-      </div>
+      <div
+        role="slider"
+        tabIndex={0}
+        aria-label="Queue volume by day"
+        aria-valuemin={0}
+        aria-valuemax={POINTS.length - 1}
+        aria-valuenow={activeIdx}
+        aria-valuetext={`${formatShortDate(active.offset)}: ${active.value} reports received`}
+        className="absolute inset-0 rounded focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-green-700"
+        onPointerMove={(e) => setHoveredIdx(indexFromClientX(e.currentTarget, e.clientX))}
+        onPointerLeave={() => setHoveredIdx(null)}
+        onFocus={() => setHoveredIdx((i) => i ?? POINTS.length - 1)}
+        onBlur={() => setHoveredIdx(null)}
+        onKeyDown={onKeyDown}
+      />
 
       <div
         aria-hidden="true"

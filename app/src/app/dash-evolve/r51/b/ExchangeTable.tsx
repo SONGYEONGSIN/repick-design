@@ -184,19 +184,19 @@ export function ExchangeTable({
                       </span>
                     </button>
                   </td>
-                  <td className="px-2 py-2.5">
+                  <td className="overflow-hidden px-2 py-2.5">
                     <StatusBadge status={e.status} />
                   </td>
-                  <td className="whitespace-nowrap px-2 py-2.5 text-right tabular-nums font-normal text-zinc-900">{CURRENCY.format(e.currentCpm)}</td>
-                  <td className="px-2 py-2.5">
-                    <div className="flex items-center justify-end gap-2">
-                      <span className="whitespace-nowrap tabular-nums font-normal text-zinc-700">{e.winRate}%</span>
+                  <td className="overflow-hidden truncate px-2 py-2.5 text-right tabular-nums font-normal text-zinc-900">{CURRENCY.format(e.currentCpm)}</td>
+                  <td className="overflow-hidden px-2 py-2.5">
+                    <div className="flex min-w-0 items-center justify-end gap-2">
+                      <span className="flex-shrink-0 truncate tabular-nums font-normal text-zinc-700">{e.winRate}%</span>
                       <div className="hidden w-10 flex-shrink-0 sm:block">
                         <ProgressBar value={e.winRate} label={`${e.name} win rate`} />
                       </div>
                     </div>
                   </td>
-                  <td className="whitespace-nowrap px-2 py-2.5 text-right tabular-nums font-normal text-zinc-700 sm:pr-5">{e.latencyMs} ms</td>
+                  <td className="overflow-hidden truncate px-2 py-2.5 text-right tabular-nums font-normal text-zinc-700 sm:pr-5">{e.latencyMs} ms</td>
                 </tr>
               );
             })}

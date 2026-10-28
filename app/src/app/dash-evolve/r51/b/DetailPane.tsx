@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { ArrowUp, ArrowDown, CircleCheck, CircleX, Clock3 } from "lucide-react";
 import type { Exchange, FeedEvent } from "./data";
 import { CURRENCY, INTEGER } from "./data";
@@ -37,10 +37,14 @@ function FeedRow({ event }: { event: FeedEvent }) {
  *  table, and it is not reset by the chart's separate hover/scrub inspector. */
 export function DetailPane({ exchange }: { exchange: Exchange }) {
   const [tab, setTab] = useState<Tab>("overview");
-
-  useEffect(() => {
+  // Reset the tab when a new exchange is pinned -- adjusted during render (React's documented
+  // pattern for resetting state on a prop change) rather than in an effect, which would cause an
+  // extra cascading render (react-hooks/set-state-in-effect).
+  const [prevExchangeId, setPrevExchangeId] = useState(exchange.id);
+  if (exchange.id !== prevExchangeId) {
+    setPrevExchangeId(exchange.id);
     setTab("overview");
-  }, [exchange.id]);
+  }
 
   const up = exchange.deltaPct >= 0;
 
