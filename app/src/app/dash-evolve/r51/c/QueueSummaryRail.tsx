@@ -39,11 +39,11 @@ export default function QueueSummaryRail({ activeCategory, onCategoryChange }: {
           <SparklineChart />
         </div>
         <dl className="mt-3 grid grid-cols-2 gap-3 border-t pt-3 border-zinc-200">
-          <div>
+          <div className="min-w-0">
             <dt className={cx("text-[10px] font-medium uppercase tracking-[0.06em]", TEXT_AUX)}>Open reports</dt>
             <dd className={cx("mt-0.5 text-lg font-semibold", NUM, TEXT_PRIMARY)}>{COUNT_FMT.format(OPEN_REPORTS.length)}</dd>
           </div>
-          <div>
+          <div className="min-w-0">
             <dt className={cx("flex items-center gap-1 text-[10px] font-medium uppercase tracking-[0.06em]", TEXT_AUX)}>
               <AlertTriangle size={11} aria-hidden="true" className="text-red-700" />
               SLA breaches

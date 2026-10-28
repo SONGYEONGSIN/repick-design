@@ -130,15 +130,15 @@ export default function AuditTable() {
               <span className={cx("shrink-0 text-xs font-normal", TEXT_AUX)}>{row.lastActiveLabel}</span>
             </div>
             <dl className="mt-2 grid grid-cols-3 gap-2">
-              <div>
+              <div className="min-w-0">
                 <dt className={cx("text-[10px] font-medium uppercase tracking-[0.04em]", TEXT_AUX)}>Decisions</dt>
                 <dd className={cx("text-xs font-medium", NUM, TEXT_PRIMARY)}>{row.decisions}</dd>
               </div>
-              <div>
+              <div className="min-w-0">
                 <dt className={cx("text-[10px] font-medium uppercase tracking-[0.04em]", TEXT_AUX)}>Avg time</dt>
                 <dd className={cx("text-xs font-medium", NUM, TEXT_PRIMARY)}>{row.avgHandleMin}m</dd>
               </div>
-              <div>
+              <div className="min-w-0">
                 <dt className={cx("text-[10px] font-medium uppercase tracking-[0.04em]", TEXT_AUX)}>Accuracy</dt>
                 <dd className={cx("text-xs font-medium", NUM, row.accuracyPct < 93 ? "text-amber-700" : TEXT_PRIMARY)}>{row.accuracyPct}%</dd>
               </div>

@@ -1,6 +1,6 @@
 "use client";
 
-import { AlertCircle, AlertOctagon, AlertTriangle, ArrowUpCircle, Ban, CheckCircle2, Circle, Eye, History, Info, RotateCcw, Scale, ShieldAlert } from "lucide-react";
+import { AlertCircle, AlertOctagon, AlertTriangle, ArrowLeft, ArrowUpCircle, Ban, CheckCircle2, Circle, Eye, History, Info, RotateCcw, Scale, ShieldAlert } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { useState } from "react";
 import { CATEGORY_META, CONTENT_TYPE_META, type Report, formatRelative, formatSla, relatedReports } from "./data";
@@ -46,8 +46,9 @@ export default function DetailPanel({
       <div className="flex items-start justify-between gap-3 border-b p-4 sm:p-5 border-zinc-200">
         <div className="min-w-0">
           {onBack ? (
-            <button type="button" onClick={onBack} className={cx("mb-2 text-xs font-medium lg:hidden", TEXT_AUX, FOCUS)}>
-              ← Back to queue
+            <button type="button" onClick={onBack} className={cx("mb-2 flex items-center gap-1 text-xs font-medium lg:hidden", TEXT_AUX, FOCUS)}>
+              <ArrowLeft size={13} aria-hidden="true" />
+              Back to queue
             </button>
           ) : null}
           <span className={cx("text-[11px] font-medium uppercase tracking-[0.08em]", TEXT_AUX, NUM)}>{report.id.toUpperCase()}</span>
@@ -113,30 +114,34 @@ export default function DetailPanel({
 
             <div>
               <p className={cx("mb-2 text-[11px] font-medium uppercase tracking-[0.06em]", TEXT_AUX)}>Decision</p>
-              <div className="grid grid-cols-1 gap-2 sm:grid-cols-3">
+              {/* Always a single stacked column, never a breakpoint-driven multi-column grid: this
+                  panel is a fixed 3/12 grid column at desktop, so a viewport-keyed `sm:grid-cols-3`
+                  would size each button against the viewport width rather than this narrow
+                  container's actual width and crush the labels. Full-width rows fit at every size. */}
+              <div className="flex flex-col gap-2">
                 <button
                   type="button"
                   onClick={() => onDecide({ status: "Resolved", resolutionLabel: "Approved — left standing" })}
-                  className={cx("flex items-center justify-center gap-1.5 rounded-lg border px-3 py-2 text-xs font-semibold", TRANSITION, FOCUS, "border-green-200 bg-green-50 text-green-800 hover:bg-green-100")}
+                  className={cx("flex items-center gap-1.5 rounded-lg border px-3 py-2 text-xs font-semibold", TRANSITION, FOCUS, "border-green-200 bg-green-50 text-green-800 hover:bg-green-100")}
                 >
-                  <CheckCircle2 size={14} aria-hidden="true" />
+                  <CheckCircle2 size={14} aria-hidden="true" className="shrink-0" />
                   Approve content
                 </button>
                 <button
                   type="button"
                   onClick={() => onDecide({ status: "Resolved", resolutionLabel: "Removed" })}
-                  className={cx("flex items-center justify-center gap-1.5 rounded-lg border px-3 py-2 text-xs font-semibold", TRANSITION, FOCUS, "border-red-200 bg-red-50 text-red-700 hover:bg-red-100")}
+                  className={cx("flex items-center gap-1.5 rounded-lg border px-3 py-2 text-xs font-semibold", TRANSITION, FOCUS, "border-red-200 bg-red-50 text-red-700 hover:bg-red-100")}
                 >
-                  <Ban size={14} aria-hidden="true" />
+                  <Ban size={14} aria-hidden="true" className="shrink-0" />
                   Remove content
                 </button>
                 <button
                   type="button"
                   onClick={() => onDecide({ status: "Escalated", resolutionLabel: "Escalated to senior review" })}
-                  className={cx("flex items-center justify-center gap-1.5 rounded-lg border px-3 py-2 text-xs font-semibold", TRANSITION, FOCUS, "border-zinc-200 bg-zinc-100 text-zinc-700 hover:bg-zinc-200")}
+                  className={cx("flex items-center gap-1.5 rounded-lg border px-3 py-2 text-xs font-semibold", TRANSITION, FOCUS, "border-zinc-200 bg-zinc-100 text-zinc-700 hover:bg-zinc-200")}
                 >
-                  <ShieldAlert size={14} aria-hidden="true" />
-                  Escalate
+                  <ShieldAlert size={14} aria-hidden="true" className="shrink-0" />
+                  Escalate to senior review
                 </button>
               </div>
             </div>

@@ -12,11 +12,12 @@
  * than the plain-white floor strictly requires, traded for zero risk of misclassifying a surface.
  *
  * ACCENT: a single green —
- *   green-700 (#15803d) as a solid fill with white text → ~5.9:1. The one primary button, the one
- *     active-nav-pill scheme (paired with a green-50 tint), the one focus-ring hue.
- *   green-700 as TEXT on white/zinc-50 → ~5.9:1 / ~5.6:1. Links, the "Resolved" status (reusing the
- *     brand hue for the single positive end-state rather than inventing a second green, same move
- *     this catalogue has made before for an accent's "healthy" status).
+ *   green-700 (#15803d) as a solid fill with white text → 5.0:1 (checked against the WCAG formula,
+ *     not eyeballed). The one primary button, the one active-nav-pill scheme (paired with a
+ *     green-50 tint), the one focus-ring hue.
+ *   green-700/green-800 as TEXT on white/green-50 → 5.0-6.8:1. Links, the "Resolved" status
+ *     (reusing the brand hue for the single positive end-state rather than inventing a second
+ *     green, same move this catalogue has made before for an accent's "healthy" status).
  * Everything else — severity, status (besides Resolved), category — is a separate semantic palette
  * (red/orange/amber/zinc for severity; sky/violet/rose for the other statuses). A single accent
  * cannot carry four independent severity levels AND four independent statuses without erasing the

@@ -100,7 +100,7 @@ export default function FeedColumn({
               value={query}
               onChange={(e) => onQueryChange(e.target.value)}
               placeholder="Search by title or account…"
-              className={cx("h-full min-w-0 flex-1 bg-transparent text-sm font-normal outline-none", TEXT_PRIMARY, "placeholder:text-zinc-500")}
+              className={cx("h-full min-w-0 flex-1 rounded bg-transparent text-sm font-normal", TEXT_PRIMARY, "placeholder:text-zinc-500", FOCUS)}
             />
           </label>
           <Segmented ariaLabel="Sort queue" value={sort} onChange={onSortChange} options={SORT_OPTIONS} />
