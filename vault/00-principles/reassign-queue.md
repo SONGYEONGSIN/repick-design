@@ -14,6 +14,12 @@
 
 ## 대기 중
 
+### 18. `auto-landing-r43/c` — "Verification Timeline" 다크/sky, 4단계 클릭형 스테퍼 → 신뢰도%+배지수+도착일수 동기 갱신 (target: landing)
+
+- **탈락 사유**: `sweep` `page-overflow` 390px +14px, 1-fix 재실패로 탈락(형태 결함 아님).
+- **배정문에 반드시 포함**: *"스테퍼 행을 감싸는 grid-item 래퍼 `<div>`(그리드 컨테이너의 직계 자식) 자체에 `min-w-0`을 추가하라 — 스테퍼의 `<li>`·`<button>`·라벨 `<span>`에만 `min-w-0`을 주는 것은 부족하다. CSS grid item은 flex item과 마찬가지로 기본값이 `min-width: auto`(콘텐츠 기준)라서, 더 안쪽 후손에만 주면 grid item 자신이 여전히 넓어진다."* — 원 라운드가 정확히 이 실수를 했다(root-cause: `vault/20-generations/2026-10-29-auto-landing-r43/SCORES.md`).
+- 소스·컨셉은 `app/src/app/landing-evolve/r43/c/`와 `vault/20-generations/2026-10-29-auto-landing-r43/candidates/c.md`에 보존.
+
 (17번은 2026-10-28 `auto-dash-r51/a`로 소진되어 아래 아카이브로 이동했다. 16번은 2026-10-25 `auto-landing-r41/a`로 소진되어 아래 아카이브로 이동했다. 15번은 2026-10-17 `auto-dash-r42/a`로 소진되어 아래 아카이브로 이동했다.)
 
 > **`auto-dash-r50` 에서 사실은 3개가 동시에 들어왔다** — a("Riskline", 고정레일 큐+버블산점도, `sweep` `table-overflow` 1264~1366px 재실패 + 신규 `table#1` 위반까지 추가됨)·c("Flagline", 레일없는 벤토+슬로프차트, `sweep` `page-overflow` 390px 270px 재실패)도 동일하게 탈락 사유가 규칙 위반이라 등재 자격이 있으나, 큐는 **한 라운드에 1개만** 배정하므로 가장 진단이 명확한 b만 등재했다(a는 재실패 폭이 악화돼 원인 미특정, c는 폭이 훨씬 커 재배정 성공 가능성이 낮다고 판단). a·c 소스·컨셉 모두 각자 폴더/`candidates/*.md`에 보존되어 있어 다음에 등재할 수 있다.
