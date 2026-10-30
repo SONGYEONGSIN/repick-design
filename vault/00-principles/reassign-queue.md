@@ -14,19 +14,22 @@
 
 ## 대기 중
 
-### 18. `auto-landing-r43/c` — "Verification Timeline" 다크/sky, 4단계 클릭형 스테퍼 → 신뢰도%+배지수+도착일수 동기 갱신 (target: landing)
+(현재 대기 중 항목 없음.)
 
-- **탈락 사유**: `sweep` `page-overflow` 390px +14px, 1-fix 재실패로 탈락(형태 결함 아님).
-- **배정문에 반드시 포함**: *"스테퍼 행을 감싸는 grid-item 래퍼 `<div>`(그리드 컨테이너의 직계 자식) 자체에 `min-w-0`을 추가하라 — 스테퍼의 `<li>`·`<button>`·라벨 `<span>`에만 `min-w-0`을 주는 것은 부족하다. CSS grid item은 flex item과 마찬가지로 기본값이 `min-width: auto`(콘텐츠 기준)라서, 더 안쪽 후손에만 주면 grid item 자신이 여전히 넓어진다."* — 원 라운드가 정확히 이 실수를 했다(root-cause: `vault/20-generations/2026-10-29-auto-landing-r43/SCORES.md`).
-- 소스·컨셉은 `app/src/app/landing-evolve/r43/c/`와 `vault/20-generations/2026-10-29-auto-landing-r43/candidates/c.md`에 보존.
-
-(17번은 2026-10-28 `auto-dash-r51/a`로 소진되어 아래 아카이브로 이동했다. 16번은 2026-10-25 `auto-landing-r41/a`로 소진되어 아래 아카이브로 이동했다. 15번은 2026-10-17 `auto-dash-r42/a`로 소진되어 아래 아카이브로 이동했다.)
+(18번은 2026-10-30 `auto-landing-r44/a`로 소진되어 아래 아카이브로 이동했다. 17번은 2026-10-28 `auto-dash-r51/a`로 소진되어 아래 아카이브로 이동했다. 16번은 2026-10-25 `auto-landing-r41/a`로 소진되어 아래 아카이브로 이동했다. 15번은 2026-10-17 `auto-dash-r42/a`로 소진되어 아래 아카이브로 이동했다.)
 
 > **`auto-dash-r50` 에서 사실은 3개가 동시에 들어왔다** — a("Riskline", 고정레일 큐+버블산점도, `sweep` `table-overflow` 1264~1366px 재실패 + 신규 `table#1` 위반까지 추가됨)·c("Flagline", 레일없는 벤토+슬로프차트, `sweep` `page-overflow` 390px 270px 재실패)도 동일하게 탈락 사유가 규칙 위반이라 등재 자격이 있으나, 큐는 **한 라운드에 1개만** 배정하므로 가장 진단이 명확한 b만 등재했다(a는 재실패 폭이 악화돼 원인 미특정, c는 폭이 훨씬 커 재배정 성공 가능성이 낮다고 판단). a·c 소스·컨셉 모두 각자 폴더/`candidates/*.md`에 보존되어 있어 다음에 등재할 수 있다.
 
 > **한 라운드에 2개가 동시에 들어왔다** (11번은 2026-10-15 `auto-dash-r40/a`로 소진 — 아래 아카이브 #14 참조) — 다음 라운드는 이 중 **하나만** 배정한다(큐 규약). 어느 쪽을 먼저 돌릴지는 다음 라운드의 판단에 맡긴다. 나머지 탈락분은 넣지 않았다 — `dash r22/b`·`r22/c`·`r23/c`·`r25/b`·`landing r17/c`·`dash r28/c`(Trestle, 고정레일+간트 — 상시마운트 툴팁 div 가 화면 우측 바 근처에서 뷰포트를 넘는 page-overflow 로 1-fix 재실패)는 사유가 규칙 위반이라 등재 자격은 있으나, 큐는 **한 라운드에 1개만** 배정하므로 전부 넣으면 7라운드+치 백로그가 된다. `dash r28/b`(Ridgeline)는 2026-09-26 `auto-dash-r30/a`로 재배정 완료, 아래 5번 항목으로 소진됐다. 이전에 먼저 돌리기로 한 다른 항목들도 소진되어 아래 아카이브에 있다 — 다음 배정은 남은 백로그 중에서 판단한다. (전부 `candidates/<v>.md` 에 컨셉이 남아 있어 언제든 등재할 수 있다.)
 
 ## 아카이브
+
+### 18. `auto-landing-r43/c` — "Verification Timeline" 다크/sky, 4단계 클릭형 스테퍼 → 신뢰도%+배지수+도착일수 동기 갱신 (target: landing)
+
+- **탈락 사유(원 등재)**: 1차 하드게이트 `sweep` `page-overflow` 390px +14px — 스테퍼 행을 감싸는 grid-item 래퍼 `<div>` 자체가 아니라 그 안쪽 `<li>`·`<button>`·라벨에만 `min-w-0`을 줘 1-fix가 재발.
+- **재배정 결과 (2026-10-30, `auto-landing-r44/a`, 동일명 "Verification Timeline")**: 배정문의 지시(grid-item 래퍼 자체에 `min-w-0`)를 정확히 반영해 재구현 — 1차 하드게이트에서는 이 축이 아니라 별개의 `lint`(`react-hooks/set-state-in-effect`) 위반으로 실패했으나(동일 라운드의 다른 신규 결함, 원 탈락 사유와 무관), 오케스트레이터가 이 레포 자체의 기존 관용구(`landing-evolve/r34/a/useMounted.ts`의 `useSyncExternalStore`)로 치환해 해소. 재게이트 10/10 클린 — **원 탈락 사유였던 `page-overflow`는 이번 라운드에서 한 번도 재현되지 않았다**(그리드 래퍼 자체에 `min-w-0`을 주는 배정문의 처방이 정확했다는 뜻). 승격까지는 실패 — 3렌즈 블라인드 패널에서 렌즈1·렌즈3이 최하위로 판정(에디토리얼 밀도 장치 대부분 결여, 가치 3분할 섹션 부재, 모바일 스크롤 0에서 제품 카드 자체가 안 보임 — 형태 자체의 완성도 문제, 규칙 위반 아님). 2:1로 c("Sell-Through Simulator")에 패배.
+- **처리**: 소진 — 재배정 사유(`page-overflow`)는 재발하지 않았고 하드게이트를 클린 통과해 판정에 정상 진입했으므로 게이트 탈락이 아니라 judge 다수결 패배다. 이 형태를 세 번째로 재배정할지는 향후 판단에 맡기고 지금은 아카이브에 둔다.
+- 등재: 2026-10-29 · 출처 `vault/20-generations/2026-10-29-auto-landing-r43/DECISION.md` · 소진: 2026-10-30 · 출처 `vault/20-generations/2026-10-30-auto-landing-r44/DECISION.md`
 
 ### 17. `auto-dash-r50/b` — "Inboxline" 다크 히어로+단일 스트림그래프, 이메일 전달성/발신 평판 콘솔 (target: dash)
 
