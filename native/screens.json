@@ -271,5 +271,14 @@
   },
   "evolve-r44-c": {
     "check": "Seller Reputation Tier"
+  },
+  "evolve-r45-a": {
+    "check": "Want List"
+  },
+  "evolve-r45-b": {
+    "check": "Local Meetup Events"
+  },
+  "evolve-r45-c": {
+    "check": "Negotiation History"
   }
 }
