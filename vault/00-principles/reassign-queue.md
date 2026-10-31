@@ -14,7 +14,14 @@
 
 ## 대기 중
 
-(현재 대기 중 항목 없음.)
+### 19. `auto-dash-r53/c` — "Firebreak" 히어로+인라인스탯(단일 지배 시각화 없음), SRE 신뢰성 콘솔, light/orange/Pretendard-only (target: dash)
+
+- **탈락 사유(원 등재)**: 1차 하드게이트 복합 실패 — ① lint `react-hooks/set-state-in-effect`(CommandPalette.tsx 2건) ② sweep `cell-overlap`(1280~1680px, IncidentsTable 헤더 "Severity"↔"Owner" + 전 데이터행 "INC-XXXX"↔description, `table-fixed`+`colgroup%` 열배분이 ID/Severity 열에 비해 너무 좁음) ③ sweep `page-overflow`(390px, +44px, 셀렉터 미특정) ④ focus `focus-invisible`(검색 트리거 버튼, 1440px). 1-fix로 ①·②는 완전 해소(재게이트 `lint` 0 · `cell-overlap` 0건 확인)했으나 ③·④가 수치까지 완전히 동일하게 재발 — 스킬 §3 "1회 수정, 재실패 시 탈락" 적용, 2차 탈락. **판정 패널 미진입.**
+- **④의 정확한 원인은 캐시 아티팩트가 아니라 진단됨 — 재배정 시 그대로 전달할 것**: `CommandPalette.tsx`의 "팔레트가 열림↔닫힘 전환될 때 트리거로 포커스를 되돌린다"는 `useEffect`가 `if (open) { ...; return cleanup; } triggerRef.current?.focus();` 형태라 **"열림→닫힘 전환"과 "최초 마운트(open=false로 시작)"를 구분하지 못한다** — 마운트 직후 이 effect가 무조건 실행되며 `open`이 처음부터 false이므로 맨 아래 줄(`triggerRef.current?.focus()`)이 그대로 실행되어 **페이지 로드 즉시 검색 버튼에 포커스를 뺏는다.** 오케스트레이터가 Playwright로 직접 확인(`document.activeElement === 검색버튼`이 로드 직후 이미 `true`, `matches(':focus-visible')`도 `true`)해 측정 아티팩트가 아닌 실결함임을 검증했다. **고치는 법**: "열림→닫힘" 전환만 감지하는 별도 상태(예: 이전 `open` 값을 ref/state로 추적해 `prevOpen===true && open===false`일 때만 focus 복원)를 쓰고, 마운트 시점(이전 값이 없거나 애초에 열린 적이 없음)에는 복원 호출을 아예 하지 않는다.
+- **③은 미확정 — 재배정 시 직접 측정으로 특정할 것**: 1-fix 시도(FirebreakClient.tsx 헤딩 wrap에 `min-w-0`, ServiceBreakdownChart 라벨폭 `w-28→w-20`, IncidentsTable 모바일 owner-row truncate 보강)로도 44px 그대로 재현 — 방어적 하드닝으로는 못 잡았다. 다음 시도는 실측(390px Playwright로 `document.documentElement.scrollWidth` 대 각 후보 요소 `getBoundingClientRect` 바이너리서치)으로 원인 요소를 먼저 특정한 뒤 고칠 것 — `auto-dash-r50/b`→`r51/a`(아카이브 #17) 선례와 동일 전략.
+- **형태가 왜 살아 있었나**: 단일 지배 시각화 없이 히어로 숫자+11타일 불릿/스파크라인 그리드만으로 구조적 차별화를 노린 형태(브리프 §추가학습이 명시 허용)이고, 하드게이트 직전까지 a11y 100·perf 65·console 결함 0이었다. 디스플레이 활자 미사용(Pretendard만) 조합도 이 라운드 세 후보 중 유일했다.
+- **처리**: 신규 등재 — 다음 라운드 §1 RETRIEVE가 읽고 §2에서 후보 하나에 이 형태+위 두 원인 처방을 그대로 배정한다.
+- 등재: 2026-10-31 · 출처 `vault/20-generations/2026-10-31-auto-dash-r53/SCORES.md`·`DECISION.md`
 
 (18번은 2026-10-30 `auto-landing-r44/a`로 소진되어 아래 아카이브로 이동했다. 17번은 2026-10-28 `auto-dash-r51/a`로 소진되어 아래 아카이브로 이동했다. 16번은 2026-10-25 `auto-landing-r41/a`로 소진되어 아래 아카이브로 이동했다. 15번은 2026-10-17 `auto-dash-r42/a`로 소진되어 아래 아카이브로 이동했다.)
 
