@@ -14,22 +14,20 @@
 
 ## 대기 중
 
-### 19. `auto-dash-r53/c` — "Firebreak" 히어로+인라인스탯(단일 지배 시각화 없음), SRE 신뢰성 콘솔, light/orange/Pretendard-only (target: dash)
-
-- **탈락 사유(원 등재)**: 1차 하드게이트 복합 실패 — ① lint `react-hooks/set-state-in-effect`(CommandPalette.tsx 2건) ② sweep `cell-overlap`(1280~1680px, IncidentsTable 헤더 "Severity"↔"Owner" + 전 데이터행 "INC-XXXX"↔description, `table-fixed`+`colgroup%` 열배분이 ID/Severity 열에 비해 너무 좁음) ③ sweep `page-overflow`(390px, +44px, 셀렉터 미특정) ④ focus `focus-invisible`(검색 트리거 버튼, 1440px). 1-fix로 ①·②는 완전 해소(재게이트 `lint` 0 · `cell-overlap` 0건 확인)했으나 ③·④가 수치까지 완전히 동일하게 재발 — 스킬 §3 "1회 수정, 재실패 시 탈락" 적용, 2차 탈락. **판정 패널 미진입.**
-- **④의 정확한 원인은 캐시 아티팩트가 아니라 진단됨 — 재배정 시 그대로 전달할 것**: `CommandPalette.tsx`의 "팔레트가 열림↔닫힘 전환될 때 트리거로 포커스를 되돌린다"는 `useEffect`가 `if (open) { ...; return cleanup; } triggerRef.current?.focus();` 형태라 **"열림→닫힘 전환"과 "최초 마운트(open=false로 시작)"를 구분하지 못한다** — 마운트 직후 이 effect가 무조건 실행되며 `open`이 처음부터 false이므로 맨 아래 줄(`triggerRef.current?.focus()`)이 그대로 실행되어 **페이지 로드 즉시 검색 버튼에 포커스를 뺏는다.** 오케스트레이터가 Playwright로 직접 확인(`document.activeElement === 검색버튼`이 로드 직후 이미 `true`, `matches(':focus-visible')`도 `true`)해 측정 아티팩트가 아닌 실결함임을 검증했다. **고치는 법**: "열림→닫힘" 전환만 감지하는 별도 상태(예: 이전 `open` 값을 ref/state로 추적해 `prevOpen===true && open===false`일 때만 focus 복원)를 쓰고, 마운트 시점(이전 값이 없거나 애초에 열린 적이 없음)에는 복원 호출을 아예 하지 않는다.
-- **③은 미확정 — 재배정 시 직접 측정으로 특정할 것**: 1-fix 시도(FirebreakClient.tsx 헤딩 wrap에 `min-w-0`, ServiceBreakdownChart 라벨폭 `w-28→w-20`, IncidentsTable 모바일 owner-row truncate 보강)로도 44px 그대로 재현 — 방어적 하드닝으로는 못 잡았다. 다음 시도는 실측(390px Playwright로 `document.documentElement.scrollWidth` 대 각 후보 요소 `getBoundingClientRect` 바이너리서치)으로 원인 요소를 먼저 특정한 뒤 고칠 것 — `auto-dash-r50/b`→`r51/a`(아카이브 #17) 선례와 동일 전략.
-- **형태가 왜 살아 있었나**: 단일 지배 시각화 없이 히어로 숫자+11타일 불릿/스파크라인 그리드만으로 구조적 차별화를 노린 형태(브리프 §추가학습이 명시 허용)이고, 하드게이트 직전까지 a11y 100·perf 65·console 결함 0이었다. 디스플레이 활자 미사용(Pretendard만) 조합도 이 라운드 세 후보 중 유일했다.
-- **처리**: 신규 등재 — 다음 라운드 §1 RETRIEVE가 읽고 §2에서 후보 하나에 이 형태+위 두 원인 처방을 그대로 배정한다.
-- 등재: 2026-10-31 · 출처 `vault/20-generations/2026-10-31-auto-dash-r53/SCORES.md`·`DECISION.md`
-
-(18번은 2026-10-30 `auto-landing-r44/a`로 소진되어 아래 아카이브로 이동했다. 17번은 2026-10-28 `auto-dash-r51/a`로 소진되어 아래 아카이브로 이동했다. 16번은 2026-10-25 `auto-landing-r41/a`로 소진되어 아래 아카이브로 이동했다. 15번은 2026-10-17 `auto-dash-r42/a`로 소진되어 아래 아카이브로 이동했다.)
+(19번은 2026-11-01 `auto-dash-r54/a`로 소진되어 아래 아카이브로 이동했다. 18번은 2026-10-30 `auto-landing-r44/a`로 소진되어 아래 아카이브로 이동했다. 17번은 2026-10-28 `auto-dash-r51/a`로 소진되어 아래 아카이브로 이동했다. 16번은 2026-10-25 `auto-landing-r41/a`로 소진되어 아래 아카이브로 이동했다. 15번은 2026-10-17 `auto-dash-r42/a`로 소진되어 아래 아카이브로 이동했다.)
 
 > **`auto-dash-r50` 에서 사실은 3개가 동시에 들어왔다** — a("Riskline", 고정레일 큐+버블산점도, `sweep` `table-overflow` 1264~1366px 재실패 + 신규 `table#1` 위반까지 추가됨)·c("Flagline", 레일없는 벤토+슬로프차트, `sweep` `page-overflow` 390px 270px 재실패)도 동일하게 탈락 사유가 규칙 위반이라 등재 자격이 있으나, 큐는 **한 라운드에 1개만** 배정하므로 가장 진단이 명확한 b만 등재했다(a는 재실패 폭이 악화돼 원인 미특정, c는 폭이 훨씬 커 재배정 성공 가능성이 낮다고 판단). a·c 소스·컨셉 모두 각자 폴더/`candidates/*.md`에 보존되어 있어 다음에 등재할 수 있다.
 
 > **한 라운드에 2개가 동시에 들어왔다** (11번은 2026-10-15 `auto-dash-r40/a`로 소진 — 아래 아카이브 #14 참조) — 다음 라운드는 이 중 **하나만** 배정한다(큐 규약). 어느 쪽을 먼저 돌릴지는 다음 라운드의 판단에 맡긴다. 나머지 탈락분은 넣지 않았다 — `dash r22/b`·`r22/c`·`r23/c`·`r25/b`·`landing r17/c`·`dash r28/c`(Trestle, 고정레일+간트 — 상시마운트 툴팁 div 가 화면 우측 바 근처에서 뷰포트를 넘는 page-overflow 로 1-fix 재실패)는 사유가 규칙 위반이라 등재 자격은 있으나, 큐는 **한 라운드에 1개만** 배정하므로 전부 넣으면 7라운드+치 백로그가 된다. `dash r28/b`(Ridgeline)는 2026-09-26 `auto-dash-r30/a`로 재배정 완료, 아래 5번 항목으로 소진됐다. 이전에 먼저 돌리기로 한 다른 항목들도 소진되어 아래 아카이브에 있다 — 다음 배정은 남은 백로그 중에서 판단한다. (전부 `candidates/<v>.md` 에 컨셉이 남아 있어 언제든 등재할 수 있다.)
 
 ## 아카이브
+
+### 19. `auto-dash-r53/c` — "Firebreak" 히어로+인라인스탯(단일 지배 시각화 없음), SRE 신뢰성 콘솔, light/orange/Pretendard-only (target: dash)
+
+- **탈락 사유(원 등재)**: 1차 하드게이트 복합 실패 — ① lint `react-hooks/set-state-in-effect`(CommandPalette.tsx 2건) ② sweep `cell-overlap`(1280~1680px, IncidentsTable 헤더 "Severity"↔"Owner" + 전 데이터행 "INC-XXXX"↔description, `table-fixed`+`colgroup%` 열배분이 ID/Severity 열에 비해 너무 좁음) ③ sweep `page-overflow`(390px, +44px, 셀렉터 미특정) ④ focus `focus-invisible`(검색 트리거 버튼, 1440px). 1-fix로 ①·②는 완전 해소했으나 ③·④가 수치까지 완전히 동일하게 재발 — 2차 탈락. **판정 패널 미진입.**
+- **재배정 결과 (2026-11-01, `auto-dash-r54/a`, 동일명 "Firebreak")**: 배정문의 두 지시(CommandPalette에 `wasOpenRef` 기반 마운트/전환 구분 패턴 적용, 390px에서 모든 flex/grid 아이템에 `min-w-0`+`break-words`/`truncate` 방어적 적용)를 정확히 반영 — 1차 하드게이트는 **다른**(이번 라운드 신규) `sweep` `table-overflow`(1280~1440px, 데스크톱 테이블 래퍼의 `min-w-[640px]` 강제 플로어가 `xl:col-span-3` 파인의 실제 가용폭보다 넓었던 문제)로 실패했으나 1-fix(그 플로어 제거, `table-fixed`+`colgroup%`만으로 유동화)로 완전 해소 — **원 재배정 사유였던 두 버그(포커스 탈취·390px +44px 오버플로)는 재게이트에서 한 번도 재현되지 않았다.** 판정까지 정상 진입했으나 **3렌즈 전원 3위**(3:0) — 렌즈3이(사전 고지 없이, 블라인드로) `diff -rq`로 `r53/c`와 **파일 구성이 완전히 동일**함을 직접 확인하고 "이번 라운드의 신규 구조 기여는 0"이라고 판정(`FirebreakClient.tsx` 전체 diff 결과 화장 수준 변경만 확인); 렌즈1·2는 그 사실을 모른 채로도 각각 다른 후보를 1위로 평가.
+- **처리**: 소진 — 재배정 사유였던 두 버그는 완전히, 재현 가능하게 해소됐다(1차 클린 수준으로, 신규 1-fix 1건을 거쳐). 다만 **재배정의 "그대로 배정" 지시를 너무 문자 그대로 따른 결과, 사실상 r53/c 자신의 재제출**이 되어 차별성 렌즈에서 구조적으로 이길 수 없는 처지가 됐다 — 두 버그 수정 성공과 판정 패배가 같은 라운드에서 공존하는 새로운 패턴이다. 세 번째 재배정 여부는 향후 판단에 맡기되, 시도한다면 "두 버그를 고치되 구현을 처음부터 다시 작성하라(파일 재사용 금지)"를 배정문에 명시해야 한다 — 이번 건은 그 지시가 없어 디자이너가 line-by-line 보존 쪽을 선택했다.
+- 등재: 2026-10-31 · 출처 `vault/20-generations/2026-10-31-auto-dash-r53/SCORES.md`·`DECISION.md` · 소진: 2026-11-01 · 출처 `vault/20-generations/2026-11-01-auto-dash-r54/SCORES.md`·`DECISION.md`
 
 ### 18. `auto-landing-r43/c` — "Verification Timeline" 다크/sky, 4단계 클릭형 스테퍼 → 신뢰도%+배지수+도착일수 동기 갱신 (target: landing)
 
