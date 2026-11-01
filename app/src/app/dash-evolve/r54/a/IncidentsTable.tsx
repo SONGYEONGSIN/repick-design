@@ -168,14 +168,16 @@ export function IncidentsTable({
         <PreviewStrip incident={previewed} />
       </div>
 
-      {/* Desktop/tablet: a real sortable table. table-fixed + colgroup percentages (sum to 100%);
-         min-w lives on the <table> element itself, never on a <td>/<th> (a documented no-op here).
-         The one overflow-x-auto wrapper below is the ONLY horizontal scroll container on the page
-         — the row body itself scrolls vertically, not horizontally, past 6 rows. */}
+      {/* Desktop/tablet: a real sortable table. table-fixed + colgroup percentages (sum to 100%),
+         fully fluid — no min-w floor anywhere (an artificial min-w on the table forced a real
+         horizontal scrollbar at 1280-1440px, where this pane is narrower than that floor; the
+         brief requires zero desktop table scrollbars, so columns shrink with the pane instead and
+         every th/td already carries its own overflow-hidden/truncate clipping safety net).
+         No overflow-x-auto wrapper on desktop at all — the row body scrolls vertically only. */}
       <div className="hidden min-w-0 lg:block">
-        <div className="relative min-w-0 overflow-x-auto rounded-lg border border-zinc-200">
-          <div className="max-h-[420px] min-w-[640px] overflow-y-auto">
-            <table className="w-full min-w-[640px] table-fixed border-collapse text-sm">
+        <div className="relative min-w-0 rounded-lg border border-zinc-200">
+          <div className="max-h-[420px] min-w-0 overflow-y-auto">
+            <table className="w-full min-w-0 table-fixed border-collapse text-sm">
               <caption className="sr-only">Recent incidents for the selected period, sortable by column</caption>
               <colgroup>
                 <col style={{ width: "12%" }} />

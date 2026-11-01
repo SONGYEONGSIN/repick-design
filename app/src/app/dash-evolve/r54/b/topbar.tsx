@@ -93,14 +93,18 @@ const Topbar = forwardRef<HTMLButtonElement, { onOpenPalette: () => void; onOpen
             type="button"
             aria-haspopup="true"
             aria-expanded={userOpen}
-            aria-label="Account menu"
             onClick={() => {
               setUserOpen((v) => !v);
               setNotifOpen(false);
             }}
             className={cx("grid h-11 w-11 place-items-center rounded-full border", BORDER, HOVER_ACTIVE_BG, TRANSITION, FOCUS_RING)}
           >
+            {/* No aria-label on this button: a custom label here previously didn't contain the
+               Avatar's visible "JA" text (label-content-name-mismatch). Letting the button's
+               accessible name come from its content avoids the conflict — the Avatar span
+               (role="img", aria-label=full name) already supplies a full, non-redundant name. */}
             <Avatar initials={CURRENT_USER.initials} name={CURRENT_USER.name} size={30} />
+            <span className="sr-only"> account menu</span>
           </button>
           {userOpen ? (
             <div role="menu" aria-label="Account" className={cx("absolute right-0 top-full z-40 mt-2 w-52 overflow-hidden rounded-xl border p-1 shadow-lg shadow-black/50", BORDER, "bg-zinc-900")}>
