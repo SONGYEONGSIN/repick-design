@@ -272,6 +272,15 @@
   "evolve-r44-c": {
     "check": "Seller Reputation Tier"
   },
+  "evolve-r46-a": {
+    "check": "Choose a carrier"
+  },
+  "evolve-r46-b": {
+    "check": "Price History"
+  },
+  "evolve-r46-c": {
+    "check": "Ended Listings"
+  },
   "evolve-r45-a": {
     "check": "Want List"
   },

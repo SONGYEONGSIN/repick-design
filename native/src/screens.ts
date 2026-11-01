@@ -1,4 +1,7 @@
 import type { ComponentType } from "react";
+import EvolveR46A from "./evolve/r46/a/ShippingLabelScreen";
+import EvolveR46B from "./evolve/r46/b/PriceHistoryScreen";
+import EvolveR46C from "./evolve/r46/c/BulkRelistScreen";
 import EvolveR45A from "./evolve/r45/a/WantListScreen";
 import EvolveR45B from "./evolve/r45/b/LocalMeetupEventsScreen";
 import EvolveR45C from "./evolve/r45/c/NegotiationHistoryScreen";
@@ -186,6 +189,9 @@ const COMPONENTS = {
   "evolve-r44-a": EvolveR44A,
   "evolve-r44-b": EvolveR44B,
   "evolve-r44-c": EvolveR44C,
+  "evolve-r46-a": EvolveR46A,
+  "evolve-r46-b": EvolveR46B,
+  "evolve-r46-c": EvolveR46C,
   "evolve-r45-a": EvolveR45A,
   "evolve-r45-b": EvolveR45B,
   "evolve-r45-c": EvolveR45C,
