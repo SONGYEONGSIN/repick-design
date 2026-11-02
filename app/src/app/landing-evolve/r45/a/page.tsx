@@ -61,7 +61,7 @@ export default function Page() {
       <footer className="border-t border-white/10 px-4 py-10 sm:px-6 lg:px-10">
         <div className={`mx-auto flex max-w-[1440px] flex-col gap-2 text-xs font-normal ${MUTED_TEXT} sm:flex-row sm:items-center sm:justify-between`}>
           <span>© 2026 repick. Your payout, itemized before you list.</span>
-          <span>The fee rate and shipping credit shown are repick's standard seller terms, not a promotion.</span>
+          <span>The fee rate and shipping credit shown are repick&apos;s standard seller terms, not a promotion.</span>
         </div>
       </footer>
     </div>

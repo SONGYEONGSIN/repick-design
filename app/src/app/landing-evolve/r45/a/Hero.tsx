@@ -47,7 +47,7 @@ export function Hero({
               <GradeSelector selectedId={gradeId} onChange={onGradeChange} />
             </div>
             <p className={`mt-3 max-w-[320px] text-xs font-normal leading-[1.6] ${MUTED_TEXT}`}>
-              Every grade's deduction rate is fixed and shown above — nothing here is a guess
+              Every grade&apos;s deduction rate is fixed and shown above — nothing here is a guess
               made after you list.
             </p>
           </div>

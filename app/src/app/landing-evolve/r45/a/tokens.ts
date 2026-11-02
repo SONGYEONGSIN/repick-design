@@ -39,7 +39,11 @@ export const FOCUS_RING =
 // clear of the 4.5:1 body-text floor with margin to spare.
 export const MUTED_TEXT = "text-zinc-400";
 // Decorative, aria-hidden-only ghost marks (never conveys information on its own).
-export const GHOST_TEXT = "text-zinc-800";
+// aria-hidden is NOT a color-contrast exemption (page-brief-core §2) -- axe measures any
+// visible text node. zinc-800 on this page's #0B0B0F surface fails the large-text 3:1 floor.
+// #6B6B78 is this repo's own documented remedy for a ghost numeral on this exact background
+// (design-principles.md §Layout/밀도, auto-landing-r14) -- 3.74:1, clears the large-text floor.
+export const GHOST_TEXT = "text-[#6B6B78]";
 
 export const EYEBROW = "text-[11px] font-semibold uppercase tracking-[0.28em]";
 export const CAPTION = "text-[11px] font-semibold uppercase tracking-[0.14em]";
