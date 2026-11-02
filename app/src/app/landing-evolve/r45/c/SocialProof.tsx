@@ -40,7 +40,7 @@ export function SocialProof() {
               </div>
             ))}
 
-            <div className="min-w-0 border-t border-white/10 pt-5 sm:border-l sm:border-t-0 sm:pl-6 sm:pt-0">
+            <div className="min-w-0 border-t border-white/10 pt-5 sm:col-span-2 lg:col-span-1 lg:border-l lg:border-t-0 lg:pl-6 lg:pt-0">
               <p className={`${CAPTION} ${MUTED_TEXT}`}>Fig. 01 — one closed sale, fixed</p>
               <div className="mt-2 flex gap-3">
                 <div className="relative aspect-[4/3] w-16 shrink-0 overflow-hidden rounded-lg bg-[#1C1C22]">

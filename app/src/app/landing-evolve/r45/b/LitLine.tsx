@@ -22,9 +22,10 @@ export function LitLine({ axis, lit, className = "" }: { axis: Axis; lit: boolea
   const mounted = useMounted();
   const reduced = useReducedMotion();
 
-  const scaleKey = axis === "down" ? "scaleY" : "scaleX";
   const origin = axis === "down" ? "top" : axis === "left" ? "right" : "left";
   const target = lit ? 1 : 0;
+  const cssTransform = axis === "down" ? `scaleY(${target})` : `scaleX(${target})`;
+  const animateTarget = axis === "down" ? { scaleY: target } : { scaleX: target };
 
   return (
     <span className={`block shrink-0 ${className}`} aria-hidden="true">
@@ -35,14 +36,14 @@ export function LitLine({ axis, lit, className = "" }: { axis: Axis; lit: boolea
           style={{
             backgroundColor: LINE_LIT,
             transformOrigin: origin,
-            transform: `${scaleKey}(${target})`,
+            transform: cssTransform,
           }}
         />
       ) : (
         <motion.span
           className="absolute inset-0 block"
           style={{ backgroundColor: LINE_LIT, transformOrigin: origin }}
-          animate={{ [scaleKey]: target }}
+          animate={animateTarget}
           transition={{ duration: 0.35, ease: "easeOut" }}
         />
       )}

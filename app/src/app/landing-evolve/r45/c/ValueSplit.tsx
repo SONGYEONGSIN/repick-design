@@ -32,7 +32,7 @@ export function ValueSplit() {
           <Reveal className="min-w-0 lg:col-span-6">
             <p className={`${EYEBROW} text-[#BEF264]`}>How the line is drawn</p>
             <h2 className="mt-3 max-w-[480px] text-3xl font-extrabold leading-[1.1] tracking-[-0.02em] text-[#F4F4F5] sm:text-4xl">
-              The boundary moves. The math underneath doesn't.
+              The boundary moves. The math underneath doesn&rsquo;t.
             </h2>
             <p className={`mt-4 max-w-[480px] text-base font-normal leading-[1.6] ${MUTED_TEXT}`}>
               Three fixed rules sit behind the line above. Only the discount you set by dragging
