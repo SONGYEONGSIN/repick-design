@@ -4,7 +4,7 @@ A persistent points-balance bar sits above a virtualized FlatList of redeemable 
 
 ## 브리프에 없던 것
 
-1. ① Starting points balance ② 2,480 pts ③ Arbitrary, but chosen deliberately so it affords six of the eight dummy rewards and falls short of two higher-tier vouchers (900+2200 > 2480 isn't quite it — specifically it's below the $30 voucher's 4000 cost on its own), so the "genuinely disabled, can't afford" branch is exercised without any contrived math. No source brief value existed for this.
+1. ① Starting points balance ② 2,480 pts ③ Arbitrary, but chosen deliberately so it's below the catalog's single most expensive reward (the $30 voucher at 4,000 pts), so the "genuinely disabled, can't afford" branch is exercised on first load without any contrived math, while still affording most of the catalog. No source brief value existed for this.
 
 2. ① Exact reward catalog (titles, descriptions, categories, count) ② Eight rewards across three categories — shipping credit ($5/$10), listing boost (24h/72h/7-day), store-credit voucher ($5/$15/$30) ③ Brief named the three categories as examples but not concrete SKUs/costs; I picked three tiers per category so sorting-by-affordability and the disabled-state branch would both have real examples, loosely mirroring how repick's existing reward-ish screens (referral credits, shipping flows) talk about dollar amounts.
 

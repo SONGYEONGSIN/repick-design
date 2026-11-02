@@ -618,7 +618,11 @@ const styles = StyleSheet.create({
   },
 
   offerBandOffered: {
-    paddingVertical: tokens.space(1),
+    borderWidth: 1.5,
+    borderColor: tokens.color.accent,
+    borderRadius: tokens.radius.md,
+    paddingHorizontal: tokens.space(4),
+    paddingVertical: tokens.space(3),
     gap: tokens.space(1),
   },
   offerBandOfferedLead: {
@@ -664,7 +668,12 @@ const styles = StyleSheet.create({
   },
 
   offerBandAccepted: {
-    paddingVertical: tokens.space(1),
+    borderWidth: 1.5,
+    borderColor: tokens.color.accent,
+    borderRadius: tokens.radius.md,
+    backgroundColor: tokens.color.accentBg,
+    paddingHorizontal: tokens.space(4),
+    paddingVertical: tokens.space(3),
     gap: tokens.space(1),
   },
   offerBandAcceptedLead: {
