@@ -18,7 +18,7 @@ export function Hero({
         Drag the line until the price feels fair.
       </h1>
       <p className="mt-5 max-w-[500px] text-lg font-normal leading-[1.6] text-[#F4F4F5]">
-        Left is retail. Right is repick. One shared discount drives both sides of the line below
+        Left is repick. Right is retail. One shared discount drives both sides of the line below
         — move it and every price on this page, down to the closing one, recomputes with it.
       </p>
 

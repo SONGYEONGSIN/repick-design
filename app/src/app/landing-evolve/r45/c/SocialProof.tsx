@@ -16,7 +16,7 @@ export function SocialProof() {
 
         <div className="mt-8 grid grid-cols-1 gap-6 lg:grid-cols-2">
           {TESTIMONIALS.map((t, i) => (
-            <Reveal key={t.id} delay={i * 0.08} className="h-full">
+            <Reveal key={t.id} delay={i * 0.08} className="h-full min-w-0">
               <blockquote className="relative h-full rounded-2xl border border-white/10 bg-white/[0.03] p-6">
                 <span aria-hidden="true" className={`absolute right-5 top-3 text-5xl font-extrabold leading-none ${GHOST_TEXT}`}>
                   &rdquo;

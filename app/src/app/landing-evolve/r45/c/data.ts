@@ -9,22 +9,30 @@ export const DISCOUNT_DEFAULT = 42; // starting position, roughly the catalog-wi
 export const DISCOUNT_STEP = 1; // arrow key step
 export const DISCOUNT_STEP_LARGE = 5; // Shift+Arrow / Page Up / Page Down step
 
-// The divider's own travel range, as a percent of the split's width. Panels never fully collapse
-// at either extreme (narrowest panel still holds 30% of the width) and the divider's rail is only
-// drawn across this middle band, so there is no "dead" drag zone at the ends.
+// The divider's own travel range, as a percent of the split's width, measured from the LEFT edge
+// -- which is the "On repick" panel (it sits first, left-to-right, with "Buying new" on the
+// right). Panels never fully collapse at either extreme (the narrower one still holds 30% of the
+// width) and the rail is only drawn across this middle band, so there is no "dead" drag zone.
+//
+// Both direction and panel order were chosen together, deliberately: travel increases with
+// discount, so dragging right / pressing the Right arrow both increase the value AND grow the
+// repick panel rightward into view -- keyboard, pointer and the visual metaphor all agree on
+// which way is "more savings." Putting the growing panel on the left (rather than the more
+// familiar retail-left/resale-right reading order) is what makes that true; the inverse mapping
+// was tried first and rejected for exactly this reason -- see the concept note.
 export const PANEL_MIN = 30;
 export const PANEL_MAX = 70;
 
-/** The left ("Buying new") panel's share of the split's width, 30-70, for a given discount. */
+/** The left ("On repick") panel's share of the split's width, 30-70, for a given discount. */
 export function travelForDiscount(discount: number): number {
   const t = (discount - DISCOUNT_MIN) / (DISCOUNT_MAX - DISCOUNT_MIN);
-  return PANEL_MAX - t * (PANEL_MAX - PANEL_MIN);
+  return PANEL_MIN + t * (PANEL_MAX - PANEL_MIN);
 }
 
 /** Inverse of the above: a raw pointer-position percent (0-100, clamped to the travel band) back to a discount. */
 export function discountForTravel(rawPct: number): number {
   const clamped = Math.min(PANEL_MAX, Math.max(PANEL_MIN, rawPct));
-  const t = (PANEL_MAX - clamped) / (PANEL_MAX - PANEL_MIN);
+  const t = (clamped - PANEL_MIN) / (PANEL_MAX - PANEL_MIN);
   return Math.round(DISCOUNT_MIN + t * (DISCOUNT_MAX - DISCOUNT_MIN));
 }
 
@@ -92,7 +100,7 @@ export const TESTIMONIALS: Testimonial[] = [
     name: "Priya N.",
     role: "Buyer, outerwear",
     quote:
-      "I dragged the line until it matched what I actually expected to pay for a worn coat, and the number on the right side was the number I ended up paying two days later.",
+      "I dragged the line until the repick side matched what I actually expected to pay for a worn coat, and that was the number I ended up paying two days later.",
   },
   {
     id: "t2",

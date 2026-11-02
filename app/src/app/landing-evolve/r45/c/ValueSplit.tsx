@@ -54,7 +54,7 @@ export function ValueSplit() {
           {FEATURES.map((f, i) => {
             const Icon = f.icon;
             return (
-              <Reveal key={f.title} delay={i * 0.08} className="h-full">
+              <Reveal key={f.title} delay={i * 0.08} className="h-full min-w-0">
                 <div className="flex h-full flex-col gap-3 rounded-2xl border border-white/10 bg-white/[0.03] p-5">
                   <Icon className="h-5 w-5 text-[#BEF264]" aria-hidden="true" />
                   <h3 className="text-base font-extrabold leading-[1.2] text-[#F4F4F5]">{f.title}</h3>
