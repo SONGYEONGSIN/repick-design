@@ -687,7 +687,11 @@ const styles = StyleSheet.create({
   },
 
   offerBandDeclined: {
-    paddingVertical: tokens.space(1),
+    borderWidth: 1.5,
+    borderColor: tokens.color.border,
+    borderRadius: tokens.radius.md,
+    paddingHorizontal: tokens.space(4),
+    paddingVertical: tokens.space(3),
     gap: tokens.space(1),
   },
   offerBandDeclinedLead: {
