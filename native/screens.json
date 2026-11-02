@@ -289,5 +289,14 @@
   },
   "evolve-r45-c": {
     "check": "Negotiation History"
+  },
+  "evolve-r47-a": {
+    "check": "Trade-In Offer"
+  },
+  "evolve-r47-b": {
+    "check": "Store Credit"
+  },
+  "evolve-r47-c": {
+    "check": "Redeem"
   }
 }
