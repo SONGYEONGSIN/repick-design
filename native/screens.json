@@ -298,5 +298,14 @@
   },
   "evolve-r47-c": {
     "check": "Redeem"
+  },
+  "evolve-r48-a": {
+    "check": "Storefront profile"
+  },
+  "evolve-r48-b": {
+    "check": "Shipment tracking"
+  },
+  "evolve-r48-c": {
+    "check": "Bulk Price Drop"
   }
 }
