@@ -872,3 +872,12 @@ blog delta가 이 관계를 직접 적었다: *"auto-profile-r2의 델타와 같
 - **잠정 가설**: (가)가 저비용-고가치라 다음 native 라운드부터 권고로 적용해볼 만하다 — 단, 표본 1건이라 [[curation-criteria]] Q32 판정과 같은 규율로 **규칙을 아직 승격하지 않는다**(정본 수정 없음, 이 질문만 큐에 남긴다).
 - **이번 라운드의 처리**: 판정 무효화 없음 — 렌즈3가 정상적인 블라인드 심사 범위 안에서(차별성 렌즈 고유의 "카탈로그 전체에 이미 있는가" 질문으로) 발견했고, 2:1 다수결(완성도 다수결 우선 원칙 적용, [[curation-criteria]] "차별성 ↔ 완성도 상충 시 판정 방향")로 b가 정상 승격 후보가 됐다 — no-winner 아님. 이 발견은 승격을 막지 않되 `/dash-falsify` 주간 리뷰가 킵 여부를 판단할 때 참고할 수 있도록 `DECISION.md`에 상세히 남겼다.
 - 등재: 2026-11-03 · 출처 `vault/20-generations/2026-11-03-auto-native-r48/DECISION.md`
+
+### Q73. GENERATE 프롬프트에 `outline-none`/`focus-visible:outline-*` 죽은 관용구를 명시 경고했는데도 같은 라운드 3명 중 2명이 독립적으로 재현했다 — 산문 경고의 한계 (target: landing · GENERATE 프롬프트 설계, `page-brief-core` §2 조항의 첫 landing측 재발)
+
+- **배경 (2026-11-03, `auto-landing-r46`)**: `page-brief-core.md` §2가 이미 문서화한 "`outline-none`을 앞에 둔 `focus-visible:outline`은 스스로를 취소한다"(Tailwind v4의 공유 `--tw-outline-style` 커스텀 프로퍼티 때문)는 죽은 포커스 관용구를, 오케스트레이터가 이번 라운드 GENERATE 프롬프트에 그 메커니즘을 거의 그대로 인용해 **코드 작성 전에 명시 경고**로 넣었다. 그런데도 후보 b·c 둘 다 `outline-none`과 `focus-visible:outline*`를 함께 써서 1차 하드게이트에서 각각 29건·11건 실패했다. 같은 라운드의 후보 a(같은 프롬프트 작성자, 서로를 모르는 블라인드)는 애초에 `outline-none`을 쓰지 않는 방식으로 처음부터 회피했고, 코드 주석에 그 이유까지 적어 뒀다.
+- **직접 계측으로 원인 재확인**: `page-brief-core.md`가 이미 적어 둔 메커니즘과 정확히 일치 — Playwright로 실제 Tab 포커스 후 `getComputedStyle`을 찍으면 `outlineWidth`·`outlineColor`·`outlineOffset`은 전부 올바르게 계산되는데 `outlineStyle: none`.
+- **판단이 필요한 지점**: (가) 현재처럼 GENERATE 프롬프트 경고 + 게이트의 1-fix 루프에 맡긴다 — 이번처럼 라운드당 1~2건 재발해도 1-fix 한 번으로 해소되므로 비용은 왕복 1회뿐이다. (나) `className` 문자열에 `outline-none`과 `focus-visible:outline`이 동시에 들어 있는 패턴을 정적 검사(`static` 게이트)로 잡는 규칙을 추가하는 것을 검토한다 — 렌더 기반 `focus` 게이트보다 저렴하지만, v4의 `ring`+`ring-offset` 투명화 같은 다른 형태의 죽은 관용구는 문자열 매칭으로 못 잡으므로 `focus` 게이트 자체는 계속 필요하다.
+- **잠정 가설**: 산문 경고가 "하지 마라"는 부정 지시이고, 모델이 훈련 데이터의 관성적 관용구(`outline-none` + 커스텀 포커스 스타일을 짝짓는 흔한 패턴)로 되돌아가기 쉬워 **같은 라운드 안에서도 재현율이 낮지 않다**(2/3). 세 번째 재현이 다음 landing 또는 dash 라운드에서도 나오면 (나)를 실제로 설계할 근거가 된다 — 표본 1라운드로는 게이트 스크립트를 바꾸지 않는다([[curation-criteria]] Q32 판정과 같은 규율).
+- **이번 라운드의 처리**: 판정 무효화 없음 — 둘 다 1-fix로 완전히, 재현 가능하게 해소됐고(재게이트 0 violations) 판정까지 정상 진입했다. 승자 a는 애초에 이 결함이 없었다. 정본·게이트 스크립트 수정 없음 — 질문만 기록.
+- 등재: 2026-11-03 · 출처 `vault/20-generations/2026-11-03-auto-landing-r46/SCORES.md`, `DECISION.md`
