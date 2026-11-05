@@ -152,6 +152,9 @@ export function TreePath({ step1, step2, summary, onSelectStep1, onSelectStep2, 
         <p className="text-xs font-semibold leading-[1.5]">
           <span className={ACCENT_TINT_TEXT}>Your path:</span> <span className={INK_CLASS}>{pathText}</span>
         </p>
+        <p className={`mt-0.5 text-[11px] font-normal leading-[1.5] ${MUTED_TEXT}`}>
+          {summary.stage === "leaf" ? summary.leaf.description : summary.branch.description}
+        </p>
       </div>
 
       {/* Single live region on the page. Its implicit live-region role carries the correct

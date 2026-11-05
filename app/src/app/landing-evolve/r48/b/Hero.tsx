@@ -86,7 +86,7 @@ export function Hero({ step1, step2, summary, onSelectStep1, onSelectStep2, onRe
               <button
                 type="button"
                 onClick={onReset}
-                className={`inline-flex shrink-0 items-center gap-1 rounded-full border border-white/15 px-2.5 py-1 text-[11px] font-semibold ${MUTED_TEXT} transition-colors duration-150 hover:border-white/25 hover:text-white ${FOCUS_RING}`}
+                className={`inline-flex min-h-6 shrink-0 items-center gap-1 rounded-full border border-white/15 px-2.5 py-1 text-[11px] font-semibold ${MUTED_TEXT} transition-colors duration-150 hover:border-white/25 hover:text-white ${FOCUS_RING}`}
               >
                 <RotateCcw className="h-3 w-3" aria-hidden="true" />
                 Reset path

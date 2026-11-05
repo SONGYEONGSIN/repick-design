@@ -69,6 +69,12 @@ export function formatDays(days: number): string {
   return days === 1 ? "1 day" : `${days} days`;
 }
 
+/** Same number, phrased to read naturally after a payout: "instantly" / "in 1 day" / "in N days". */
+export function formatDaysPhrase(days: number): string {
+  if (days === 0) return "instantly";
+  return days === 1 ? "in 1 day" : `in ${days} days`;
+}
+
 /** One sentence describing the current path, used by the "Your path" chip and the live region. */
 export function describePath(summary: PathSummary): string {
   if (summary.stage === "branch") {

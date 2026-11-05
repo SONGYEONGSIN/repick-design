@@ -55,7 +55,7 @@ export function ProductCard({ product }: { product: ProductListing }) {
         onClick={() => setExpanded((v) => !v)}
         aria-expanded={expanded}
         aria-controls={reasoningId}
-        className={`inline-flex w-fit items-center gap-1 text-xs font-semibold ${MUTED_TEXT} transition-colors duration-150 hover:text-white ${FOCUS_RING} rounded-sm`}
+        className={`inline-flex min-h-6 w-fit items-center gap-1 py-1 text-xs font-semibold ${MUTED_TEXT} transition-colors duration-150 hover:text-white ${FOCUS_RING} rounded-sm`}
       >
         <ChevronRight className={`h-3.5 w-3.5 transition-transform duration-150 ${expanded ? "rotate-90" : ""}`} aria-hidden="true" />
         Why this match

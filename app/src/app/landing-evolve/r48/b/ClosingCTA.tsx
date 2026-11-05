@@ -2,7 +2,7 @@
 
 import { useId, useState, type FormEvent } from "react";
 import { ArrowRight, CheckCircle2 } from "lucide-react";
-import { describePath, formatDays, formatUsd, type PathSummary } from "./trade-math";
+import { describePath, formatDaysPhrase, formatUsd, type PathSummary } from "./trade-math";
 import {
   ACCENT_FILL,
   ACCENT_FILL_HOVER,
@@ -41,7 +41,7 @@ export function ClosingCTA({ summary }: { summary: PathSummary }) {
 
   const headlineNumber =
     summary.stage === "leaf"
-      ? `${formatUsd(summary.leaf.payout)} in ${formatDays(summary.leaf.days).toLowerCase()}`
+      ? `${formatUsd(summary.leaf.payout)}, ${formatDaysPhrase(summary.leaf.days)}`
       : `${formatUsd(summary.range.low)}–${formatUsd(summary.range.high)}`;
 
   return (

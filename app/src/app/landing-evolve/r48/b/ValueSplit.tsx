@@ -1,5 +1,5 @@
 import { Reveal } from "./Reveal";
-import { formatDays, formatUsd, type PathSummary } from "./trade-math";
+import { formatDaysPhrase, formatUsd, type PathSummary } from "./trade-math";
 import { ACCENT_TEXT, CAPTION, GHOST_TEXT, INK_CLASS, MUTED_TEXT, PROSE_WIDTH_14 } from "./tokens";
 
 /**
@@ -12,7 +12,7 @@ import { ACCENT_TEXT, CAPTION, GHOST_TEXT, INK_CLASS, MUTED_TEXT, PROSE_WIDTH_14
 export function ValueSplit({ summary }: { summary: PathSummary }) {
   const payoutLine =
     summary.stage === "leaf"
-      ? `${formatUsd(summary.leaf.payout)}, in ${formatDays(summary.leaf.days).toLowerCase()}`
+      ? `${formatUsd(summary.leaf.payout)}, ${formatDaysPhrase(summary.leaf.days)}`
       : `somewhere between ${formatUsd(summary.range.low)} and ${formatUsd(summary.range.high)}, once you pick a second step`;
   const branchLine = summary.branch.fullLabel;
 
