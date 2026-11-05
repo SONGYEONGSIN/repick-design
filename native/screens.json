@@ -307,5 +307,14 @@
   },
   "evolve-r48-c": {
     "check": "Bulk Price Drop"
+  },
+  "evolve-r49-a": {
+    "check": "Browse Nearby Sellers"
+  },
+  "evolve-r49-b": {
+    "check": "Compare Items Side-by-Side"
+  },
+  "evolve-r49-c": {
+    "check": "Set up your shop to start selling"
   }
 }
