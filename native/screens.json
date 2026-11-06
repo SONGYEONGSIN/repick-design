@@ -316,5 +316,14 @@
   },
   "evolve-r49-c": {
     "check": "Set up your shop to start selling"
+  },
+  "evolve-r51-a": {
+    "check": "Propose an Item Swap"
+  },
+  "evolve-r51-b": {
+    "check": "Combine Shipments"
+  },
+  "evolve-r51-c": {
+    "check": "Authenticator Review Queue"
   }
 }
