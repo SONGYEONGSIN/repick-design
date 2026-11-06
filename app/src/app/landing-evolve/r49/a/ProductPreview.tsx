@@ -29,7 +29,7 @@ export default function ProductPreview() {
         </h2>
         <p className={`mt-2 max-w-[430px] text-[14px] font-normal leading-[1.5] ${MUTED_TEXT}`}>
           Every listing in our comp set carries the same four checks your search
-          results show — this is three of the eight it's drawn from.
+          results show — this is three of the eight it&apos;s drawn from.
         </p>
       </Reveal>
       <div className="mt-8 grid grid-cols-1 gap-5 sm:grid-cols-3">
