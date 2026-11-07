@@ -38,7 +38,6 @@ const INK = "#0B0B0F";
 const MUTED = "#A6A6B0";
 const GHOST = "#63636F";
 
-const DISPLAY_FONT = "var(--font-display-grotesk)";
 
 interface Category {
   id: string;
@@ -228,7 +227,7 @@ function GhostNumber({ value, className = "" }: { value: string; className?: str
       className={`pointer-events-none select-none shrink-0 font-medium ${className}`}
       style={{
         color: GHOST,
-        fontFamily: DISPLAY_FONT,
+        fontFamily: "var(--font-display-grotesk)",
         letterSpacing: "0.12em",
         fontSize: "clamp(2.25rem, 6vw, 4.5rem)",
         lineHeight: 1,
@@ -327,7 +326,7 @@ function HeroProductCard({ title, photoId, alt, originalPrice, currentPrice, bad
         />
       </div>
       <div className="min-w-0 space-y-2 p-3">
-        <p className="truncate text-sm font-extrabold" style={{ fontFamily: DISPLAY_FONT }}>
+        <p className="truncate text-sm font-extrabold" style={{ fontFamily: "var(--font-display-grotesk)" }}>
           {title}
         </p>
         <p className="text-sm">
@@ -359,7 +358,7 @@ function HeroSection({ onCtaClick }: { onCtaClick: () => void }) {
           <h1
             className="mt-3 font-extrabold text-white"
             style={{
-              fontFamily: DISPLAY_FONT,
+              fontFamily: "var(--font-display-grotesk)",
               letterSpacing: "-0.02em",
               lineHeight: 1.02,
               fontSize: "clamp(2.1rem, 6.4vw, 4.25rem)",
@@ -514,7 +513,7 @@ function ProductPreviewCard({
           <category.Icon className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
           <span className="truncate">{category.label}</span>
         </div>
-        <p className="truncate font-extrabold" style={{ fontFamily: DISPLAY_FONT, fontSize: "18px" }}>
+        <p className="truncate font-extrabold" style={{ fontFamily: "var(--font-display-grotesk)", fontSize: "18px" }}>
           {product.title}
         </p>
         <p className="text-base">
@@ -552,7 +551,7 @@ function ProductPreviewSection({ dominantIndex }: { dominantIndex: number | null
             <Eyebrow>Core conversion proof</Eyebrow>
             <h2
               className="mt-2 font-extrabold"
-              style={{ fontFamily: DISPLAY_FONT, letterSpacing: "-0.02em", fontSize: "clamp(1.75rem, 3.6vw, 2.75rem)" }}
+              style={{ fontFamily: "var(--font-display-grotesk)", letterSpacing: "-0.02em", fontSize: "clamp(1.75rem, 3.6vw, 2.75rem)" }}
             >
               Every listing arrives pre-graded
             </h2>
@@ -727,7 +726,7 @@ function ValueSection({
             <Eyebrow>Model your split</Eyebrow>
             <h2
               className="mt-2 font-extrabold"
-              style={{ fontFamily: DISPLAY_FONT, letterSpacing: "-0.02em", fontSize: "clamp(1.75rem, 3.6vw, 2.75rem)" }}
+              style={{ fontFamily: "var(--font-display-grotesk)", letterSpacing: "-0.02em", fontSize: "clamp(1.75rem, 3.6vw, 2.75rem)" }}
             >
               One inventory. Four ways to list it.
             </h2>
@@ -826,7 +825,7 @@ function ValueSection({
                     <Sparkles className="h-3.5 w-3.5" aria-hidden="true" />
                     Best to list in right now
                   </p>
-                  <p className="mt-1.5 font-extrabold" style={{ fontFamily: DISPLAY_FONT, fontSize: "20px" }}>
+                  <p className="mt-1.5 font-extrabold" style={{ fontFamily: "var(--font-display-grotesk)", fontSize: "20px" }}>
                     {dominant.label}
                   </p>
                   <p className="mt-1 font-normal leading-[1.6] text-white/80" style={{ fontSize: "13px" }}>
@@ -845,7 +844,7 @@ function ValueSection({
                   Projected total payout
                 </p>
               </div>
-              <p className="mt-1 font-extrabold" style={{ fontFamily: DISPLAY_FONT, fontSize: "clamp(2rem, 4vw, 2.75rem)" }}>
+              <p className="mt-1 font-extrabold" style={{ fontFamily: "var(--font-display-grotesk)", fontSize: "clamp(2rem, 4vw, 2.75rem)" }}>
                 {formatCurrency(model.totalPayout)}
               </p>
               <p className="mt-1 text-sm font-normal" style={{ color: MUTED }}>
@@ -968,7 +967,7 @@ function SocialProofSection() {
             <Eyebrow>Social proof</Eyebrow>
             <h2
               className="mt-2 font-extrabold"
-              style={{ fontFamily: DISPLAY_FONT, letterSpacing: "-0.02em", fontSize: "clamp(1.75rem, 3.6vw, 2.75rem)" }}
+              style={{ fontFamily: "var(--font-display-grotesk)", letterSpacing: "-0.02em", fontSize: "clamp(1.75rem, 3.6vw, 2.75rem)" }}
             >
               Sellers model their mix, then list with confidence
             </h2>
@@ -987,7 +986,7 @@ function SocialProofSection() {
             { stat: "3.2×", label: "faster sell-through when verified" },
           ].map((item) => (
             <div key={item.label} className="min-w-0">
-              <p className="font-extrabold" style={{ fontFamily: DISPLAY_FONT, fontSize: "28px" }}>
+              <p className="font-extrabold" style={{ fontFamily: "var(--font-display-grotesk)", fontSize: "28px" }}>
                 {item.stat}
               </p>
               <p className="mt-1 font-normal leading-[1.6]" style={{ fontSize: "13px", color: MUTED }}>
@@ -1027,7 +1026,7 @@ function ClosingCtaSection({
           <Eyebrow>Closing</Eyebrow>
           <h2
             className="mt-2 font-extrabold"
-            style={{ fontFamily: DISPLAY_FONT, letterSpacing: "-0.02em", fontSize: "clamp(2rem, 5vw, 3.25rem)", lineHeight: 1.05 }}
+            style={{ fontFamily: "var(--font-display-grotesk)", letterSpacing: "-0.02em", fontSize: "clamp(2rem, 5vw, 3.25rem)", lineHeight: 1.05 }}
           >
             Your current mix projects to{" "}
             <span style={{ color: ACCENT }}>{formatCurrency(model.totalPayout)}</span>.
