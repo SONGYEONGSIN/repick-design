@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Command, Filter, LayoutDashboard, Search, Ticket as TicketIcon, Users, XCircle } from "lucide-react";
 import { TEAMS, TeamId } from "./data";
-import { TEXT } from "./tokens";
+import { FOCUS_RING, TEXT } from "./tokens";
 
 type CommandItem = {
   id: string;
@@ -102,7 +102,7 @@ export function CommandPalette({
         onClick={(e) => e.stopPropagation()}
         className="w-full max-w-lg overflow-hidden rounded-xl border border-white/10 bg-zinc-900 shadow-2xl shadow-black/50"
       >
-        <div className="flex items-center gap-2.5 border-b border-white/10 px-4 py-3 focus-within:border-emerald-400/40">
+        <div className="flex items-center gap-2.5 border-b border-white/10 px-4 py-3">
           <Search aria-hidden="true" className="h-4 w-4 text-zinc-400" />
           <input
             ref={inputRef}
@@ -111,10 +111,11 @@ export function CommandPalette({
             placeholder="Search sections, teams, actions…"
             aria-label="Search the command palette"
             role="combobox"
+            aria-autocomplete="list"
             aria-expanded={filtered.length > 0}
             aria-controls="command-palette-list"
             aria-activedescendant={filtered[highlight] ? `cmd-item-${filtered[highlight].id}` : undefined}
-            className={`flex-1 bg-transparent text-sm ${TEXT.primary} placeholder:text-zinc-400 focus:outline-none`}
+            className={`flex-1 rounded bg-transparent text-sm ${TEXT.primary} placeholder:text-zinc-400 ${FOCUS_RING}`}
           />
           <kbd className="rounded border border-white/10 px-1.5 py-0.5 text-[10px] text-zinc-400">Esc</kbd>
         </div>

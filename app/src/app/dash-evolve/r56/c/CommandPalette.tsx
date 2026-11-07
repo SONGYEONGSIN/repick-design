@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState, type KeyboardEvent as ReactKeyboardEvent } from "react";
 import { Search, X, CornerDownLeft } from "lucide-react";
 import { SERVICES } from "./data";
 import { NODE_ICONS, STATUS_META } from "./icons";
@@ -51,7 +51,7 @@ export function CommandPalette({
     onClose();
   }
 
-  function onKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
+  function onKeyDown(e: ReactKeyboardEvent<HTMLInputElement>) {
     if (e.key === "ArrowDown") {
       e.preventDefault();
       setHighlighted((h) => Math.min(h + 1, Math.max(results.length - 1, 0)));
@@ -97,7 +97,7 @@ export function CommandPalette({
             role="combobox"
             aria-expanded
             autoComplete="off"
-            className="h-12 flex-1 bg-transparent text-sm text-zinc-900 outline-none placeholder:text-zinc-400"
+            className={`h-12 flex-1 rounded-md bg-transparent px-1 text-sm text-zinc-900 placeholder:text-zinc-400 ${FOCUS_RING}`}
           />
           <button
             type="button"

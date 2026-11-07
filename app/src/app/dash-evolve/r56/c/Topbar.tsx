@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import { Search, Bell, Menu, AlertTriangle, User, LogOut, Settings } from "lucide-react";
+import { Search, Bell, Menu, AlertTriangle, LogOut, Settings } from "lucide-react";
 import { FOCUS_RING } from "./ui";
 
 const NOTIFICATIONS = [

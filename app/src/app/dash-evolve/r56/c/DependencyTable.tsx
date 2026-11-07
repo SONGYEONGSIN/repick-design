@@ -10,7 +10,7 @@ import {
   formatInt,
   type Status,
 } from "./data";
-import { NODE_ICONS, STATUS_META } from "./icons";
+import { NODE_ICONS } from "./icons";
 import { FOCUS_RING, SegmentedControl, StatusBadge } from "./ui";
 
 type SortKey = "name" | "status" | "deps" | "dependents" | "incidents";
@@ -74,7 +74,7 @@ function SortButton({
     <button
       type="button"
       onClick={onClick}
-      className={`inline-flex items-center gap-1 whitespace-nowrap font-medium text-zinc-600 hover:text-zinc-900 ${FOCUS_RING} rounded`}
+      className={`inline-flex h-6 items-center gap-1 whitespace-nowrap rounded px-1 font-medium text-zinc-600 hover:text-zinc-900 ${FOCUS_RING}`}
     >
       {label}
       <Icon size={12} className={active ? "text-indigo-600" : "text-zinc-400"} aria-hidden="true" />

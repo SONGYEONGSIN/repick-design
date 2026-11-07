@@ -4,7 +4,6 @@ import { useRef, useState } from "react";
 import Image from "next/image";
 import { Bell, Command, Download, LogOut, Menu, Search, Settings, User } from "lucide-react";
 import { AGENTS, TICKETS, avatarUrl, teamName, ticketStatus } from "./data";
-import { formatHours } from "./format";
 import { ACCENT, CONTROL_HEIGHT, FOCUS_RING, TEXT } from "./tokens";
 import { Popover, PopoverItem, VisuallyHidden } from "./ui";
 
@@ -41,8 +40,9 @@ export function Topbar({ onOpenPalette, onOpenMobileNav }: { onOpenPalette: () =
   const agent = AGENTS[0];
 
   return (
-    <header className="flex h-16 items-center gap-3 border-b border-white/10 bg-zinc-950/95 px-4 backdrop-blur sm:px-6">
+    <header className="flex h-16 items-center gap-4 border-b border-white/10 bg-zinc-950/95 px-4 backdrop-blur sm:px-6">
       <button
+        id="topbar-mobile-nav-trigger"
         type="button"
         onClick={onOpenMobileNav}
         aria-label="Open navigation"
@@ -52,6 +52,7 @@ export function Topbar({ onOpenPalette, onOpenMobileNav }: { onOpenPalette: () =
       </button>
 
       <button
+        id="topbar-search-trigger"
         type="button"
         onClick={onOpenPalette}
         className={`flex ${CONTROL_HEIGHT} flex-1 max-w-sm items-center gap-2.5 rounded-lg border border-white/10 bg-white/[0.02] px-3.5 text-sm ${TEXT.muted} hover:border-white/20 sm:flex-initial ${FOCUS_RING}`}
@@ -86,7 +87,7 @@ export function Topbar({ onOpenPalette, onOpenMobileNav }: { onOpenPalette: () =
           }}
           className={`relative flex ${CONTROL_HEIGHT} w-11 items-center justify-center rounded-lg ${TEXT.muted} hover:bg-white/5 ${FOCUS_RING}`}
         >
-          <Bell aria-hidden="true" className="h-4.5 w-4.5" />
+          <Bell aria-hidden="true" className="h-4 w-4" />
           {!notifRead ? <span aria-hidden="true" className="absolute right-2.5 top-2.5 h-2 w-2 rounded-full bg-emerald-400" /> : null}
           <VisuallyHidden>Notifications{!notifRead ? ", unread" : ""}</VisuallyHidden>
         </button>
@@ -113,9 +114,9 @@ export function Topbar({ onOpenPalette, onOpenMobileNav }: { onOpenPalette: () =
           <VisuallyHidden>Account menu for {agent.name}</VisuallyHidden>
         </button>
         <Popover open={userOpen} onClose={() => setUserOpen(false)} anchorRef={userAnchor} label="Account menu">
-          <PopoverItem icon={User}>View profile</PopoverItem>
-          <PopoverItem icon={Settings}>Preferences</PopoverItem>
-          <PopoverItem icon={LogOut}>Sign out</PopoverItem>
+          <PopoverItem icon={User} onClick={() => setUserOpen(false)}>View profile</PopoverItem>
+          <PopoverItem icon={Settings} onClick={() => setUserOpen(false)}>Preferences</PopoverItem>
+          <PopoverItem icon={LogOut} onClick={() => setUserOpen(false)}>Sign out</PopoverItem>
         </Popover>
       </div>
     </header>

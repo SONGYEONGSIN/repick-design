@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { MouseEvent, useState } from "react";
 import { TeamId, TEAMS } from "./data";
 import { TeamSummary, round2 } from "./stats";
 import { formatHours } from "./format";
@@ -40,7 +40,7 @@ function TeamBoxPlotRow({
 }) {
   const [crosshair, setCrosshair] = useState<number | null>(null);
 
-  function handleMove(e: React.MouseEvent<SVGSVGElement>) {
+  function handleMove(e: MouseEvent<SVGSVGElement>) {
     const rect = e.currentTarget.getBoundingClientRect();
     const xInViewBox = ((e.clientX - rect.left) / rect.width) * VB_WIDTH;
     setCrosshair(valueAtX(xInViewBox));
@@ -143,7 +143,7 @@ export function BoxPlotPanel({
 }) {
   return (
     <Card>
-      <CardHeader title="Resolution time by team" subtitle="Hours to resolve, last 60 tickets" />
+      <CardHeader title="Resolution time by team" subtitle="Hours to resolve, 50 resolved tickets" />
       <div className="px-5 pb-2 pt-3">
         <div className="flex items-center justify-between text-[11px] tabular-nums text-zinc-400">
           <span>0h</span>

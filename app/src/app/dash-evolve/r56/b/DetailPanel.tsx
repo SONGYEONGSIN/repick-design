@@ -6,7 +6,7 @@ import { TeamId, TICKETS, teamName, ticketStatus } from "./data";
 import { dailyVolume, escalatedCount, overallAvgResolutionHours, overallCompliance, teamSummary } from "./stats";
 import { formatCount, formatHours, formatPercent } from "./format";
 import { FOCUS_RING, TEXT } from "./tokens";
-import { Card, CardHeader, Progress, Sparkline, Tabs, VisuallyHidden } from "./ui";
+import { Card, Progress, Sparkline, Tabs, VisuallyHidden } from "./ui";
 
 function KpiTile({ label, value, sub }: { label: string; value: string; sub?: string }) {
   return (

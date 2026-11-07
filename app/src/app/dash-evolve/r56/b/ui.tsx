@@ -1,6 +1,6 @@
 "use client";
 
-import { ReactNode, useEffect, useId, useRef } from "react";
+import { ReactNode, RefObject, useEffect, useId, useRef } from "react";
 import { AlertTriangle, ArrowUpCircle, CheckCircle2 } from "lucide-react";
 import { round2 } from "./stats";
 import { ACCENT, CARD, FOCUS_RING, INFO, TEXT, WARN } from "./tokens";
@@ -65,7 +65,7 @@ export function StatusBadge({ status }: { status: StatusVariant }) {
 
 export function TeamTag({ children }: { children: ReactNode }) {
   return (
-    <span className={`inline-flex items-center rounded-md border ${"border-white/10"} bg-white/5 px-2 py-0.5 text-xs font-medium ${TEXT.secondary}`}>
+    <span className={`inline-flex items-center rounded-md border border-white/10 bg-white/5 px-2 py-0.5 text-xs font-medium ${TEXT.secondary}`}>
       {children}
     </span>
   );
@@ -130,7 +130,7 @@ export function Tabs({
             role="tab"
             aria-selected={active}
             onClick={() => onChange(tab.id)}
-            className={`relative py-2.5 text-xs font-medium ${FOCUS_RING} ${active ? TEXT.primary : TEXT.muted} hover:${TEXT.primary}`}
+            className={`relative py-2.5 text-xs font-medium hover:text-zinc-50 ${FOCUS_RING} ${active ? TEXT.primary : TEXT.muted}`}
           >
             {tab.label}
             {active ? <span className={`absolute inset-x-0 -bottom-px h-0.5 ${ACCENT.fill}`} /> : null}
@@ -205,7 +205,7 @@ export function Popover({
 }: {
   open: boolean;
   onClose: () => void;
-  anchorRef: React.RefObject<HTMLElement | null>;
+  anchorRef: RefObject<HTMLElement | null>;
   align?: "start" | "end";
   children: ReactNode;
   label: string;
@@ -255,7 +255,7 @@ export function PopoverItem({ children, onClick, icon: Icon }: { children: React
       type="button"
       role="menuitem"
       onClick={onClick}
-      className={`flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-left text-sm ${TEXT.secondary} hover:bg-white/5 hover:${TEXT.primary} ${FOCUS_RING}`}
+      className={`flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-left text-sm hover:bg-white/5 hover:text-zinc-50 ${FOCUS_RING} ${TEXT.secondary}`}
     >
       {Icon ? <Icon aria-hidden="true" className="h-4 w-4" /> : null}
       {children}
