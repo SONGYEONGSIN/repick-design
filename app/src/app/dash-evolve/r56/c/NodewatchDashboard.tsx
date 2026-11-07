@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
 import { LayoutGrid, Table2, Construction } from "lucide-react";
 import { getTopRiskId, getNode } from "./data";
 import { Card, CardHeader, SegmentedControl } from "./ui";
@@ -37,13 +37,46 @@ const SECTION_META: Record<Section, { title: string; subtitle: string }> = {
   },
 };
 
+// Reads (max-width: 639px) through useSyncExternalStore rather than a mount effect + setState:
+// the server snapshot is always `false` (so SSR and the hydration pass render identically, no
+// mismatch), and the real value takes over as an ordinary post-hydration update once the browser
+// is available — no `setState` call inside a `useEffect` body at all.
+function subscribeNarrowViewport(callback: () => void) {
+  if (typeof window === "undefined" || typeof window.matchMedia !== "function") return () => {};
+  const mql = window.matchMedia("(max-width: 639px)");
+  mql.addEventListener("change", callback);
+  return () => mql.removeEventListener("change", callback);
+}
+function getNarrowViewportSnapshot() {
+  if (typeof window === "undefined" || typeof window.matchMedia !== "function") return false;
+  try {
+    return window.matchMedia("(max-width: 639px)").matches;
+  } catch {
+    return false;
+  }
+}
+function getNarrowViewportServerSnapshot() {
+  return false;
+}
+function useIsNarrowViewport() {
+  return useSyncExternalStore(subscribeNarrowViewport, getNarrowViewportSnapshot, getNarrowViewportServerSnapshot);
+}
+
 export function NodewatchDashboard() {
   const [activeSection, setActiveSection] = useState<Section>("map");
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
   const [paletteOpen, setPaletteOpen] = useState(false);
-  const [view, setView] = useState<ViewMode>("graph");
+  // `null` means "no explicit user choice yet" -- the effective view then follows the viewport
+  // (table under 640px, graph otherwise). Once the user actually clicks the toggle, their choice
+  // is stored here and wins regardless of viewport, until the page reloads.
+  const [viewOverride, setViewOverride] = useState<ViewMode | null>(null);
   const [graphSelectedId, setGraphSelectedId] = useState<string | null>(null);
-  const [focusRequestId, setFocusRequestId] = useState<string | null>(null);
+  const focusTargetRef = useRef<string | null>(null);
+  const [focusTick, setFocusTick] = useState(0);
+
+  const isNarrowViewport = useIsNarrowViewport();
+  const view: ViewMode = viewOverride ?? (isNarrowViewport ? "table" : "graph");
+  const setView = useCallback((next: ViewMode) => setViewOverride(next), []);
 
   const nodeRefs = useRef(new Map<string, HTMLButtonElement>());
 
@@ -58,12 +91,17 @@ export function NodewatchDashboard() {
   const selectAndReveal = useCallback((id: string) => {
     setView("graph");
     setGraphSelectedId(id);
-    setFocusRequestId(id);
-  }, []);
+    focusTargetRef.current = id;
+    setFocusTick((t) => t + 1);
+  }, [setView]);
 
+  // Purely a DOM side effect (scrollIntoView + focus) reading a ref -- reading `.current` inside
+  // an effect is fine, it's only reading it during render that the lint rule above objects to.
+  // There's no state left to reset afterward, so there's no setState call in this effect at all.
   useEffect(() => {
-    if (!focusRequestId) return;
-    const el = nodeRefs.current.get(focusRequestId);
+    const id = focusTargetRef.current;
+    if (!id) return;
+    const el = nodeRefs.current.get(id);
     if (el) {
       try {
         el.scrollIntoView({ block: "nearest", inline: "nearest" });
@@ -72,19 +110,7 @@ export function NodewatchDashboard() {
         // scrollIntoView / focus options can be unsupported in some test environments.
       }
     }
-    setFocusRequestId(null);
-  }, [focusRequestId]);
-
-  // A wide spatial diagram doesn't fit a 390px phone. The graph stays available (as a horizontally
-  // scrollable canvas) but the accessible table becomes the default view on narrow screens, where
-  // it reads far better than a squeezed-down map ever could.
-  useEffect(() => {
-    try {
-      if (window.matchMedia("(max-width: 639px)").matches) setView("table");
-    } catch {
-      // matchMedia can be unavailable in some embeds — graph stays the default there.
-    }
-  }, []);
+  }, [focusTick]);
 
   useEffect(() => {
     function onKeyDown(e: KeyboardEvent) {

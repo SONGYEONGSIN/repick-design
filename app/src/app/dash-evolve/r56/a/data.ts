@@ -10,7 +10,6 @@ import {
   RotateCcw,
   Scale,
   Store,
-  Users,
   Wrench,
 } from "lucide-react";
 import type { Direction } from "./tokens";

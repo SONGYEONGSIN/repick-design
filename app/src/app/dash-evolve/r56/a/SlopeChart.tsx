@@ -78,8 +78,6 @@ function RowDetail({ facility }: { facility: Facility }) {
 function Row({ facility, mode, expanded, onToggle }: { facility: Facility; mode: PeriodMode; expanded: boolean; onToggle: () => void }) {
   const { previous, current, delta, direction } = periodValues(facility, mode);
   const TypeIcon = FACILITY_TYPE_META[facility.type].Icon;
-  const periodLabel = mode === "qoq" ? "last quarter" : "same quarter last year";
-  const directionWord = direction === "up" ? "improved" : direction === "down" ? "declined" : "held steady";
   const panelId = `arbor-row-detail-${facility.id}`;
 
   return (
@@ -89,7 +87,6 @@ function Row({ facility, mode, expanded, onToggle }: { facility: Facility; mode:
         onClick={onToggle}
         aria-expanded={expanded}
         aria-controls={panelId}
-        aria-label={`${facility.name}. ${periodLabel}: ${previous}. This quarter: ${current}. Score ${directionWord} by ${Math.abs(delta)} points.`}
         className={cx("block w-full rounded-lg px-1 py-3 text-left", TRANSITION, FOCUS, "hover:bg-zinc-50")}
       >
         <div className={ROW_GRID}>

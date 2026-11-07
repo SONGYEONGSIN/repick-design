@@ -54,18 +54,29 @@ export function CommandPalette({
     return items.filter((item) => item.label.toLowerCase().includes(q));
   }, [items, query]);
 
-  useEffect(() => {
+  // Clamp during render rather than in a reactive effect — `highlight` only ever needs to be
+  // read through this derived value, so there is nothing to "synchronize" after the fact.
+  const safeHighlight = Math.min(highlight, Math.max(0, filtered.length - 1));
+
+  // React's own pattern for "reset state when a prop transitions" — compare against the
+  // previous render's `open` value during render itself, not in an effect, so this isn't a
+  // setState-in-effect cascade. The DOM focus call below still needs a real effect since it
+  // touches an external system (the input element), not React state.
+  const prevOpenRef = useRef(open);
+  if (open !== prevOpenRef.current) {
+    prevOpenRef.current = open;
     if (open) {
       setQuery("");
       setHighlight(0);
+    }
+  }
+
+  useEffect(() => {
+    if (open) {
       const id = window.setTimeout(() => inputRef.current?.focus(), 0);
       return () => window.clearTimeout(id);
     }
   }, [open]);
-
-  useEffect(() => {
-    if (highlight >= filtered.length) setHighlight(Math.max(0, filtered.length - 1));
-  }, [filtered.length, highlight]);
 
   useEffect(() => {
     if (!open) return;
@@ -80,7 +91,7 @@ export function CommandPalette({
         setHighlight((h) => Math.max(h - 1, 0));
       } else if (e.key === "Enter") {
         e.preventDefault();
-        const item = filtered[highlight];
+        const item = filtered[safeHighlight];
         if (item) {
           item.run();
           onClose();
@@ -89,7 +100,7 @@ export function CommandPalette({
     }
     document.addEventListener("keydown", onKeyDown);
     return () => document.removeEventListener("keydown", onKeyDown);
-  }, [open, filtered, highlight, onClose]);
+  }, [open, filtered, safeHighlight, onClose]);
 
   if (!open) return null;
 
@@ -114,7 +125,7 @@ export function CommandPalette({
             aria-autocomplete="list"
             aria-expanded={filtered.length > 0}
             aria-controls="command-palette-list"
-            aria-activedescendant={filtered[highlight] ? `cmd-item-${filtered[highlight].id}` : undefined}
+            aria-activedescendant={filtered[safeHighlight] ? `cmd-item-${filtered[safeHighlight].id}` : undefined}
             className={`flex-1 rounded bg-transparent text-sm ${TEXT.primary} placeholder:text-zinc-400 ${FOCUS_RING}`}
           />
           <kbd className="rounded border border-white/10 px-1.5 py-0.5 text-[10px] text-zinc-400">Esc</kbd>
@@ -125,7 +136,7 @@ export function CommandPalette({
           ) : (
             filtered.map((item, i) => {
               const Icon = item.icon;
-              const active = i === highlight;
+              const active = i === safeHighlight;
               return (
                 <li key={item.id} id={`cmd-item-${item.id}`} role="option" aria-selected={active}>
                   <button

@@ -15,6 +15,16 @@ export function CommandPalette({
   onClose: () => void;
   onSelect: (id: string) => void;
 }) {
+  // Mounting/unmounting this inner component (rather than always rendering it and toggling a
+  // `useEffect` that resets state back to its initial values) means `query`/`highlighted` start
+  // fresh every time the palette opens, by construction — there is no state to "reset" because
+  // there is no previous instance. That removes the set-state-in-effect cascade entirely instead
+  // of working around it.
+  if (!open) return null;
+  return <PaletteBody onClose={onClose} onSelect={onSelect} />;
+}
+
+function PaletteBody({ onClose, onSelect }: { onClose: () => void; onSelect: (id: string) => void }) {
   const [query, setQuery] = useState("");
   const [highlighted, setHighlighted] = useState(0);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -30,21 +40,19 @@ export function CommandPalette({
     );
   }, [query]);
 
+  // Focusing the input is a real external-system side effect (the DOM), so this effect is
+  // legitimate — it just never calls setState, which is what the lint rule actually objects to.
   useEffect(() => {
-    if (open) {
-      setQuery("");
-      setHighlighted(0);
-      const id = requestAnimationFrame(() => inputRef.current?.focus());
-      return () => cancelAnimationFrame(id);
-    }
-    return undefined;
-  }, [open]);
+    const id = requestAnimationFrame(() => inputRef.current?.focus());
+    return () => cancelAnimationFrame(id);
+  }, []);
 
-  useEffect(() => {
+  function onQueryChange(value: string) {
+    // Reset the highlighted index in the same event handler that changes the query, instead of
+    // a separate effect reacting to `query` — same outcome, no cascading-render effect.
+    setQuery(value);
     setHighlighted(0);
-  }, [query]);
-
-  if (!open) return null;
+  }
 
   function commit(id: string) {
     onSelect(id);
@@ -88,7 +96,7 @@ export function CommandPalette({
             ref={inputRef}
             type="text"
             value={query}
-            onChange={(e) => setQuery(e.target.value)}
+            onChange={(e) => onQueryChange(e.target.value)}
             onKeyDown={onKeyDown}
             placeholder="Jump to a service…"
             aria-label="Search services"

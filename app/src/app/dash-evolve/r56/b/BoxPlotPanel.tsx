@@ -46,7 +46,11 @@ function TeamBoxPlotRow({
     setCrosshair(valueAtX(xInViewBox));
   }
 
-  const summaryText = `${team.name}: median ${summary.median} hours across ${summary.ticketCount} resolved tickets, ${summary.breachCount} breached SLA. Range ${summary.min} to ${summary.max} hours. ${
+  // The accessible name must literally contain the row's own visible text (team.short and the
+  // formatted median) or axe's label-content-name-mismatch audit fails — so build this string
+  // from the exact same formatted substrings the JSX below renders, not independently-phrased
+  // equivalents (e.g. "6.1 hours" next to a visible "6.1h" doesn't count as containing it).
+  const summaryText = `${team.short} ${formatHours(summary.median)}: median resolution time across ${summary.ticketCount} resolved tickets, ${summary.breachCount} breached SLA. Range ${formatHours(summary.min)} to ${formatHours(summary.max)}. ${
     selected ? "Currently selected. " : ""
   }Activate to filter the ticket feed and detail card to this team.`;
 
