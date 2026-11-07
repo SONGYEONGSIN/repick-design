@@ -17,10 +17,18 @@ import { FOCUS_RING } from "./ui";
 // layer shares this exact coordinate space via `viewBox`, so it scales with the HTML node layer
 // without a second, independent source of truth for position.
 const CANVAS_W = 1180;
-const CANVAS_H = 960;
-const MIN_CANVAS_PX = 600;
-const NODE_RADIUS = 28;
+const CANVAS_H = 980;
+const MIN_CANVAS_PX = 620;
+const NODE_RADIUS = 20;
 const EDGE_GAP = 6;
+
+// The visual map is tight on horizontal room (one row holds five services). Every other service's
+// name wraps cleanly onto two lines inside the label box, but "notification-queue" is long enough
+// that its first segment doesn't fit — so only the graph's own label abbreviates it. The accessible
+// name (aria-label), the detail panel and the fallback table all keep the real "notification-queue".
+function graphLabel(name: string): string {
+  return name === "notification-queue" ? "notif-queue" : name;
+}
 
 function round2(n: number): number {
   return Math.round(n * 100) / 100;
@@ -180,28 +188,28 @@ export function GraphCanvas({
                   onClick={() => onSelect(node.id)}
                   aria-pressed={node.id === selectedId}
                   aria-label={`${node.name}, ${meta.label}. ${deps} direct dependencies, ${dependents} direct dependents.`}
-                  className={`absolute z-10 flex h-16 w-16 items-center justify-center rounded-full ${FOCUS_RING}`}
+                  className={`absolute z-10 flex h-12 w-12 items-center justify-center rounded-full ${FOCUS_RING}`}
                   style={{ left: `${left}%`, top: `${top}%`, transform: "translate(-50%, -50%)" }}
                 >
                   <span
-                    className={`relative flex h-14 w-14 items-center justify-center rounded-full border-2 text-zinc-600 transition-colors ${NODE_STYLES[state]}`}
+                    className={`relative flex h-10 w-10 items-center justify-center rounded-full border-2 text-zinc-600 transition-colors ${NODE_STYLES[state]}`}
                   >
-                    <Icon size={18} aria-hidden="true" />
+                    <Icon size={15} aria-hidden="true" />
                     <span
-                      className={`absolute -bottom-0.5 -right-0.5 flex h-5 w-5 items-center justify-center rounded-full border-2 border-white ${meta.badgeBg} ${meta.text}`}
+                      className={`absolute -bottom-0.5 -right-0.5 flex h-4 w-4 items-center justify-center rounded-full border-2 border-white ${meta.badgeBg} ${meta.text}`}
                       aria-hidden="true"
                     >
-                      <StatusIcon size={11} />
+                      <StatusIcon size={9} />
                     </span>
                   </span>
                 </button>
                 <div
                   aria-hidden="true"
-                  className="pointer-events-none absolute z-10 w-24 text-center"
-                  style={{ left: `${left}%`, top: `calc(${top}% + 34px)`, transform: "translateX(-50%)" }}
+                  className="pointer-events-none absolute z-10 w-16 text-center"
+                  style={{ left: `${left}%`, top: `calc(${top}% + 26px)`, transform: "translateX(-50%)" }}
                 >
-                  <p className="truncate text-[11px] font-semibold text-zinc-900">{node.name}</p>
-                  <p className={`mt-0.5 truncate text-[10px] font-medium ${meta.text}`}>{meta.label}</p>
+                  <p className="break-words text-[10px] font-semibold leading-tight text-zinc-900">{graphLabel(node.name)}</p>
+                  <p className={`mt-0.5 truncate text-[9px] font-medium leading-tight ${meta.text}`}>{meta.label}</p>
                 </div>
               </div>
             );
