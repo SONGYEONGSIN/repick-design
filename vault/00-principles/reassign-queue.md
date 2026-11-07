@@ -14,12 +14,13 @@
 
 ## 대기 중
 
-(21번은 2026-11-05 `auto-landing-r48/a`로 소진되어 아래 아카이브로 이동했다. 19번은 2026-11-01 `auto-dash-r54/a`로 소진되어 아래 아카이브로 이동했다. 18번은 2026-10-30 `auto-landing-r44/a`로 소진되어 아래 아카이브로 이동했다. 17번은 2026-10-28 `auto-dash-r51/a`로 소진되어 아래 아카이브로 이동했다. 16번은 2026-10-25 `auto-landing-r41/a`로 소진되어 아래 아카이브로 이동했다. 15번은 2026-10-17 `auto-dash-r42/a`로 소진되어 아래 아카이브로 이동했다.)
+(20번은 2026-11-07 `auto-dash-r56/a`로 소진되어 아래 아카이브로 이동했다. 21번은 2026-11-05 `auto-landing-r48/a`로 소진되어 아래 아카이브로 이동했다. 19번은 2026-11-01 `auto-dash-r54/a`로 소진되어 아래 아카이브로 이동했다. 18번은 2026-10-30 `auto-landing-r44/a`로 소진되어 아래 아카이브로 이동했다. 17번은 2026-10-28 `auto-dash-r51/a`로 소진되어 아래 아카이브로 이동했다. 16번은 2026-10-25 `auto-landing-r41/a`로 소진되어 아래 아카이브로 이동했다. 15번은 2026-10-17 `auto-dash-r42/a`로 소진되어 아래 아카이브로 이동했다.)
 
-### 20. `auto-dash-r55/c` — "Arbor" 레일없는 티커+전폭 슬로프차트, 다중시설 ESG 스코어카드, light/lime/Pretendard-only (target: dash)
+### 21. `auto-dash-r56/b` — "Ridgehaul" 박스플롯(팀별 티켓 해결시간 분포)+피드중심 티켓스트림, dark/green/`display-grotesk` (target: dash)
 
-- **탈락 사유**: 1차 하드게이트 a11y 90 (`button-name` + `color-contrast` + `target-size`). 1-fix로 `button-name`·`color-contrast`는 완전 해소됐으나(재게이트에서 재발 없음) `target-size`가 재실패 — 슬로프차트 행의 전·현재 두 끝점 버튼을 각각 24×24px로 키워 **개별 크기 조항은 충족**했지만, 같은 행(과 때로는 인접 행)의 두 끝점이 데이터값상 서로 24px 미만으로 가까워 **"최근접 대상과의 간격" 조항을 충족 못함**(안전 클릭 지름 12.3~19.2px, 데스크톱·모바일 양쪽 프리셋에서 재현). **재배정 지시(그대로 지시할 것)**: 두 끝점을 각각 별도의 24×24 히트박스 버튼으로 만드는 접근을 버려라 — 두 값(이전/현재 기간)은 브리프 요건상 이미 항상 보이는 텍스트이므로, 끝점 자체를 상시-인터랙티브 버튼으로 만들 필요가 없다. 대신 **행 전체(트랙 또는 연결선)를 단일 클릭/포커스 가능 영역**으로 만들어 한 번의 상호작용으로 그 행의 크로스헤어/툴팁을 띄우는 구조로 바꿔라 — 이러면 "간격" 조항이 애초에 적용될 두 개의 인접 타깃이 생기지 않는다.
-- 등재: 2026-11-04 · 출처 `vault/20-generations/2026-11-04-auto-dash-r55/SCORES.md`·`DECISION.md`
+- **탈락 사유**: 1차 하드게이트 `lint` `react-hooks/set-state-in-effect` ×2(`CommandPalette.tsx` — palette가 열릴 때 query/highlight를 리셋하는 effect, 그리고 filtered 결과가 줄어들 때 highlight를 clamp하는 effect) + `a11y` `label-content-name-mismatch`(박스플롯 팀 행의 커스텀 aria-label이 `team.name`+가공 전 median 숫자를 썼는데, 행에 실제로 렌더되는 가시 텍스트는 `team.short`+`formatHours()`가 포맷한 문자열이라 서로 안 겹침). 1-fix로 두 `set-state-in-effect`를 "render 중 이전 `open` 값을 ref와 비교해 분기"하는 패턴으로 바꿨으나 **그 수정 자체가 새 위반**(`react-hooks/refs` ×2 — render 중 `ref.current` 읽기/쓰기 금지)을 만들어 재실패 — a11y 라벨도 같은 라운드에서 재작성했지만 lint 재실패로 탈락이 확정된 뒤라 그 수정이 유효했는지는 검증되지 않았다.
+  **재배정 지시(그대로 지시할 것)**: (1) `open`이 true가 될 때 내부 state(`query`/`highlighted` 등)를 리셋하는 effect를 절대 쓰지 마라 — 대신 `{open && <PaletteBody .../>}` 식으로 내부 컴포넌트를 **마운트/언마운트**해서, 매번 열릴 때 그 state가 처음부터 fresh하게 초기화되도록 구조를 바꿔라(리셋할 "이전 값"이 원천적으로 없어짐). **render 중 `ref.current`를 읽거나 쓰는 코드를 넣지 마라** — 이것도 하드페일 린트 규칙이다. (2) "A가 바뀌면 B를 effect로 리셋/clamp"하는 패턴을 전부 없애라 — B가 실제로 쓰이는 지점(렌더나 콜백)에서 바로 `Math.min(...)` 등으로 derive하거나, A를 바꾸는 이벤트 핸들러 안에서 B도 같은 핸들러에서 같이 설정하라. (3) 박스플롯(또는 유사 요약 위젯) 행에 커스텀 `aria-label`을 쓸 경우, 그 문자열에 **행에 실제로 렌더되는 포맷 함수의 출력을 그대로(가공 없이) 포함**시켜라 — 같은 수치를 독립적으로 다시 포맷/구술하면(예: 축약형 vs 전체 단어, 소수점 자리수 차이) `label-content-name-mismatch`가 재발한다.
+- 등재: 2026-11-07 · 출처 `vault/20-generations/2026-11-07-auto-dash-r56/SCORES.md`·`DECISION.md`
 
 > **`auto-dash-r55` 에서도 3개가 동시에 들어왔다** — a("Portlane", 히어로+간트 도크타임라인, 유동화 수정의 부작용으로 모바일 전용 신규 `target-size`(시간별 버킷 13×33px) 재실패)·b("Latch", 마스터-디테일+박스플롯, 10th/median/SLA-타깃 핸들 간 간격 부족 + 다른 행에서 신규 6px `sweep` 오버플로 동시 재실패)도 동일하게 탈락 사유가 규칙 위반이라 등재 자격이 있으나, 큐는 **한 라운드에 1개만** 배정하므로 가장 단일하게 진단되는 c만 등재했다(a는 결함이 2종 겹쳐 있고 원인도 사이드이펙트라 단일 지시로 압축하기 어려움, b는 간격 부족 + 신규 오버플로 2건이 동시에 걸려 더 복잡함). a·b 소스·컨셉 모두 각자 폴더/`candidates/*.md`에 보존되어 있어 다음에 등재할 수 있다.
 
@@ -28,6 +29,13 @@
 > **한 라운드에 2개가 동시에 들어왔다** (11번은 2026-10-15 `auto-dash-r40/a`로 소진 — 아래 아카이브 #14 참조) — 다음 라운드는 이 중 **하나만** 배정한다(큐 규약). 어느 쪽을 먼저 돌릴지는 다음 라운드의 판단에 맡긴다. 나머지 탈락분은 넣지 않았다 — `dash r22/b`·`r22/c`·`r23/c`·`r25/b`·`landing r17/c`·`dash r28/c`(Trestle, 고정레일+간트 — 상시마운트 툴팁 div 가 화면 우측 바 근처에서 뷰포트를 넘는 page-overflow 로 1-fix 재실패)는 사유가 규칙 위반이라 등재 자격은 있으나, 큐는 **한 라운드에 1개만** 배정하므로 전부 넣으면 7라운드+치 백로그가 된다. `dash r28/b`(Ridgeline)는 2026-09-26 `auto-dash-r30/a`로 재배정 완료, 아래 5번 항목으로 소진됐다. 이전에 먼저 돌리기로 한 다른 항목들도 소진되어 아래 아카이브에 있다 — 다음 배정은 남은 백로그 중에서 판단한다. (전부 `candidates/<v>.md` 에 컨셉이 남아 있어 언제든 등재할 수 있다.)
 
 ## 아카이브
+
+### 20. `auto-dash-r55/c` — "Arbor" 레일없는 티커+전폭 슬로프차트, 다중시설 ESG 스코어카드, light/lime/Pretendard-only (target: dash)
+
+- **탈락 사유(원 등재)**: 1차 하드게이트 a11y 90 (`button-name`+`color-contrast`+`target-size`). 1-fix로 `button-name`·`color-contrast`는 해소됐으나 `target-size`(끝점 두 버튼의 최근접 간격 조항)가 재실패해 탈락.
+- **재배정 결과 (2026-11-07, `auto-dash-r56/a`, 동일명 "Arbor")**: 배정문의 지시(끝점을 개별 버튼으로 만들지 말고 행 전체를 단일 클릭/포커스 영역으로)를 정확히 반영 — `SlopeChart.tsx`의 두 점수 dot은 `aria-hidden` 순수 SVG(인터랙션 없음)이고, 행 전체가 단일 `<button>`으로 래핑됐다(렌즈1이 소스로 직접 확인, 우연한 통과가 아니라 구조적 수정임을 명시). 1차 하드게이트에서는 이 축이 아니라 별개의 신규 결함(미사용 import lint 1건 + `label-content-name-mismatch` — 커스텀 aria-label이 행의 가시 텍스트 전부를 포함 못함)으로 실패했으나 1-fix로 둘 다 해소(커스텀 aria-label 제거, 컬럼 헤더가 이미 맥락 제공) — 재게이트 10/10 클린. **원 재배정 사유였던 `target-size`는 이번 라운드에서 한 번도 재현되지 않았다.** 판정까지 정상 진입해 **승격 성공** — 3렌즈 블라인드 패널에서 2:1 다수결(렌즈1·렌즈2=a, 렌즈3=c) — 렌즈1·2 모두 a의 완성도·규칙준수를 1위로, 렌즈3만 네트워크그래프 후보(c)의 차트타입+매크로레이아웃 동시 신규성을 더 높게 평가했으나 완전동률 아니라 2:1 유지.
+- **처리**: 소진 — 재배정 사유(`target-size`)는 완전히, 재현 가능하게 해소됐고 판정까지 정상 진입해 승격까지 성공한 보기 드문 사례(대부분의 재배정은 사유 해소 후 판정 패배로 아카이브되는데, 이번엔 승격까지 갔다). 세 번째 재배정은 불필요.
+- 등재: 2026-11-04 · 출처 `vault/20-generations/2026-11-04-auto-dash-r55/SCORES.md`·`DECISION.md` · 소진: 2026-11-07 · 출처 `vault/20-generations/2026-11-07-auto-dash-r56/SCORES.md`·`DECISION.md`
 
 ### 21. `auto-landing-r47/c` — "Allocation Flow" Sankey식 비례 흐름도(Pass/Refurb/Fail 밴드), strictness 토글, light/rose/`--font-display-wide` (target: landing)
 
