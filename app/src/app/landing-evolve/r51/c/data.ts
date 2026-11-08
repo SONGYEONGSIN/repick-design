@@ -104,8 +104,8 @@ export const INVENTORY: InventoryItem[] = [
     matchPercent: 72,
     verified: true,
     matchReason: "Priced within 5% of the accessory range you've funded this month.",
-    image: "https://images.unsplash.com/photo-1524592094714-0f0654e20314",
-    alt: "A tan leather watch strap laid flat on a light wood surface",
+    image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30",
+    alt: "A watch with a leather strap laid flat on a light surface",
   },
   {
     id: "canvas-high-top",
@@ -118,8 +118,8 @@ export const INVENTORY: InventoryItem[] = [
     matchPercent: 74,
     verified: false,
     matchReason: "Size and condition grade both match your saved preferences.",
-    image: "https://images.unsplash.com/photo-1549298916-b21d501d2d34",
-    alt: "A pair of off-white canvas high-top sneakers on a plain background",
+    image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff",
+    alt: "A single light-colored high-top sneaker on a plain background",
   },
   {
     id: "walnut-record-shelf",
@@ -132,8 +132,8 @@ export const INVENTORY: InventoryItem[] = [
     matchPercent: 69,
     verified: true,
     matchReason: "Dimensions match the space you flagged, condition grade A- or better.",
-    image: "https://images.unsplash.com/photo-1594026112284-02bb6f3352fe",
-    alt: "A walnut wood record shelf holding vinyl sleeves upright",
+    image: "https://images.unsplash.com/photo-1567538096630-e0c55bd6374c",
+    alt: "A walnut wood shelf unit against a plain wall",
   },
   {
     id: "seiko-5-automatic",
@@ -146,8 +146,8 @@ export const INVENTORY: InventoryItem[] = [
     matchPercent: 88,
     verified: true,
     matchReason: "Reference and movement both verified against the serial registry.",
-    image: "https://images.unsplash.com/photo-1526045431048-f857369baa09",
-    alt: "A stainless steel automatic watch with a silver dial",
+    image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30",
+    alt: "A stainless steel automatic watch with a round dial",
   },
   {
     id: "ae1-program-35mm",
@@ -188,8 +188,8 @@ export const INVENTORY: InventoryItem[] = [
     matchPercent: 85,
     verified: true,
     matchReason: "Motor and tonearm tested; cartridge replaced before listing.",
-    image: "https://images.unsplash.com/photo-1545454675-3531b543be5d",
-    alt: "A silver direct-drive turntable with a dust cover propped open",
+    image: "https://images.unsplash.com/photo-1491553895911-0055eca6402d",
+    alt: "A piece of audio equipment on a plain surface",
   },
 ];
 

@@ -10,7 +10,7 @@ import {
   formatUsd,
   totalOf,
 } from "./data";
-import { ACCENT_FILL, DISPLAY_FONT, EYEBROW, FOCUS_RING, MUTED_TEXT, ON_ACCENT_FILL_TEXT } from "./tokens";
+import { ACCENT_FILL, EYEBROW, FOCUS_RING, MUTED_TEXT, ON_ACCENT_FILL_TEXT } from "./tokens";
 
 export default function Hero({
   values,
@@ -34,7 +34,7 @@ export default function Hero({
         <div className="min-w-0 lg:col-span-5">
           <p className={`${EYEBROW} text-[#22D3EE]`}>Draw your own pace</p>
           <h1
-            style={{ fontFamily: DISPLAY_FONT }}
+            style={{ fontFamily: "var(--font-display-mono)" }}
             className="mt-3 text-[clamp(2rem,7vw+0.4rem,2.75rem)] font-extrabold leading-[1.08] tracking-[-0.02em] text-white lg:text-[clamp(2.6rem,3vw+1.1rem,3.9rem)]"
           >
             Spend on repick at your own curve, not one fixed number.

@@ -41,7 +41,7 @@ export default function ValueSplit() {
           </Reveal>
         </div>
         <p className="mt-3 font-normal leading-[1.6]" style={{ color: MUTED, maxWidth: MEASURE_16, fontSize: "16px" }}>
-          The ranking you build above is the only input repick's matching needs.
+          The ranking you build above is the only input repick&apos;s matching needs.
         </p>
 
         <div className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-3">

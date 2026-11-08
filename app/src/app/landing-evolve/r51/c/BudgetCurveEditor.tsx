@@ -97,6 +97,7 @@ export default function BudgetCurveEditor({
         default:
           return;
       }
+      if (next === null) return;
       e.preventDefault();
       onChange(i, clampStep(next));
       onActivate(i);
@@ -114,13 +115,10 @@ export default function BudgetCurveEditor({
   return (
     <div>
       <p className="sr-only">
-        A six-point budget curve, one point per month from January through June. Tab to reach any
-        point, then use the Up or Down arrow key to change that month&rsquo;s planned spend by $
-        {STEP}, Page Up or Page Down to change it by ${STEP_LARGE}, or Home and End to set it to the
-        minimum or maximum. Each point moves independently of the others.
+        {`A six-point budget curve, one point per month from January through June. Tab to reach any point, then use the Up or Down arrow key to change that month's planned spend by $${STEP}, Page Up or Page Down to change it by $${STEP_LARGE}, or Home and End to set it to the minimum or maximum. Each point moves independently of the others.`}
       </p>
 
-      <div className="pl-9">
+      <div className="pl-9 pt-6">
         <div
           ref={trackRef}
           className="relative w-full select-none"
@@ -195,13 +193,13 @@ export default function BudgetCurveEditor({
                   onPointerCancel={endDrag}
                   onKeyDown={handleKeyDown(i, value)}
                   onFocus={() => onActivate(i)}
-                  className={`relative h-6 w-6 touch-none rounded-full border-2 bg-[#0B0B0F] transition-colors duration-150 ${FOCUS_RING} ${
+                  className={`relative h-7 w-7 touch-none rounded-full border-2 bg-[#0B0B0F] transition-colors duration-150 ${FOCUS_RING} ${
                     isActive ? "border-[#22D3EE]" : "border-zinc-500 group-hover:border-[#22D3EE]"
                   }`}
                 >
                   <span
                     aria-hidden="true"
-                    className={`absolute inset-[5px] rounded-full transition-colors duration-150 ${
+                    className={`absolute inset-[6px] rounded-full transition-colors duration-150 ${
                       isActive ? "bg-[#22D3EE]" : "bg-zinc-500 group-hover:bg-[#22D3EE]"
                     }`}
                   />

@@ -46,7 +46,7 @@ export default function ClosingCta({
             <span style={{ color: ACCENT_LARGE }}>{top.score}%</span>.
           </h2>
           <p className="mt-4 font-normal leading-[1.6]" style={{ color: MUTED, maxWidth: MEASURE_16, fontSize: "16px" }}>
-            That's with {leadLabel.toLowerCase()} leading your current ranking — built the way you ordered it above,
+            That&apos;s with {leadLabel.toLowerCase()} leading your current ranking — built the way you ordered it above,
             not a default repick chose for you. List with the same AI match scoring, condition grading, and seller
             verification behind every number on this page.
           </p>
