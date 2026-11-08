@@ -325,5 +325,14 @@
   },
   "evolve-r51-c": {
     "check": "Authenticator Review Queue"
+  },
+  "evolve-r52-a": {
+    "check": "Flash Drop Raffle"
+  },
+  "evolve-r52-b": {
+    "check": "Curate Featured Items"
+  },
+  "evolve-r52-c": {
+    "check": "Split Delivery Addresses"
   }
 }

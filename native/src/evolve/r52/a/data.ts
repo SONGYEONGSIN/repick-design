@@ -62,7 +62,7 @@ export type DropFact = {
 
 export const DROP_FACTS: DropFact[] = [
   { id: "fee", label: "Entry fee", value: "Free" },
-  { id: "slots", label: "Winner slots", value: `${WINNER_SLOTS} of this size` },
+  { id: "slots", label: "Winners drawn", value: `${WINNER_SLOTS} (this size only)` },
   { id: "entrants", label: "Entrants so far", value: formatCount(2348) },
   { id: "value", label: "Retail value", value: formatWon(389_000) },
   { id: "delivery", label: "Delivery", value: "Free express, winner only" },

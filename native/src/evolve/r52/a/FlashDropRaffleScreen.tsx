@@ -118,10 +118,10 @@ export default function FlashDropRaffleScreen() {
 
   const header = (
     <View>
-      <Text accessibilityRole="header" style={styles.screenTitle}>
+      <Text accessibilityRole="header" style={styles.dropHeading}>
         Flash Drop Raffle
       </Text>
-      <Text style={styles.screenSubtitle}>
+      <Text style={styles.dropSubheading}>
         One scarce item, one short entry window. Everyone who enters before
         the deadline has an equal shot — no first-come, first-served rush.
       </Text>
@@ -138,27 +138,29 @@ export default function FlashDropRaffleScreen() {
         </View>
       </View>
 
-      <Text style={styles.sectionLabel}>Drop details</Text>
+      <Text accessibilityRole="header" style={styles.factsSectionLabel}>
+        Drop details
+      </Text>
     </View>
   );
 
   const footer = (
-    <Text style={styles.footerNote}>
+    <Text style={styles.entryFooterNote}>
       Winners are chosen at random from everyone entered before the
       deadline. Entering doesn't cost anything and doesn't guarantee a win.
     </Text>
   );
 
   return (
-    <SafeAreaView style={styles.safeArea}>
+    <SafeAreaView style={styles.dropSafeArea}>
       <FlatList
         data={DROP_FACTS}
         keyExtractor={(fact) => fact.id}
         renderItem={({ item }) => <DropFactRow fact={item} />}
         ListHeaderComponent={header}
         ListFooterComponent={footer}
-        contentContainerStyle={styles.listContent}
-        style={styles.list}
+        contentContainerStyle={styles.factsListContent}
+        style={styles.factsList}
       />
 
       <RaffleEntryBand
@@ -175,25 +177,25 @@ export default function FlashDropRaffleScreen() {
 }
 
 const styles = StyleSheet.create({
-  safeArea: {
+  dropSafeArea: {
     flex: 1,
     backgroundColor: tokens.color.bg,
   },
-  list: {
+  factsList: {
     flex: 1,
   },
-  listContent: {
+  factsListContent: {
     paddingHorizontal: tokens.space(4),
     paddingBottom: tokens.space(8),
   },
-  screenTitle: {
+  dropHeading: {
     fontSize: 22,
     fontWeight: "700",
     color: tokens.color.ink,
     marginTop: tokens.space(3),
     marginBottom: tokens.space(1),
   },
-  screenSubtitle: {
+  dropSubheading: {
     fontSize: 14,
     lineHeight: 20,
     color: tokens.color.muted,
@@ -235,14 +237,14 @@ const styles = StyleSheet.create({
     color: tokens.color.faint,
     marginTop: 2,
   },
-  sectionLabel: {
+  factsSectionLabel: {
     fontSize: 13,
     fontWeight: "700",
     color: tokens.color.ink2,
     marginTop: tokens.space(5),
     marginBottom: tokens.space(1),
   },
-  footerNote: {
+  entryFooterNote: {
     fontSize: 12,
     color: tokens.color.faint,
     textAlign: "center",
