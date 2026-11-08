@@ -57,6 +57,7 @@ type Props = {
   addresses: DeliveryAddressOption[];
   assignedAddress: DeliveryAddressOption | null;
   isPickerOpen: boolean;
+  isOrderConfirmed: boolean;
   onTogglePicker: (itemId: string) => void;
   onSelectAddress: (itemId: string, addressId: string) => void;
   onClearAssignment: (itemId: string) => void;
@@ -67,17 +68,26 @@ export function LineItemAssignmentRow({
   addresses,
   assignedAddress,
   isPickerOpen,
+  isOrderConfirmed,
   onTogglePicker,
   onSelectAddress,
   onClearAssignment,
 }: Props) {
   const toggleLabel = assignedAddress ? "Change address" : "Choose address";
-  const toggleAccessibilityLabel = isPickerOpen
+  // Once the order is confirmed, every row's address is final — the picker
+  // can never open again. The toggle must say so (both visually and via
+  // accessibilityState.disabled) instead of staying tappable with a hint
+  // that promises an expand/collapse that can no longer happen.
+  const toggleAccessibilityLabel = isOrderConfirmed
+    ? `Delivery address locked for ${item.title} — order already confirmed`
+    : isPickerOpen
     ? `Hide address choices for ${item.title}`
     : assignedAddress
     ? `Change delivery address for ${item.title}`
     : `Choose a delivery address for ${item.title}`;
-  const toggleAccessibilityHint = isPickerOpen
+  const toggleAccessibilityHint = isOrderConfirmed
+    ? undefined
+    : isPickerOpen
     ? "Collapses the list of saved addresses for this item."
     : "Expands a list of your saved addresses to choose from.";
 
@@ -115,23 +125,26 @@ export function LineItemAssignmentRow({
 
       <Pressable
         onPress={() => onTogglePicker(item.id)}
+        disabled={isOrderConfirmed}
         accessibilityRole="button"
         accessibilityLabel={toggleAccessibilityLabel}
         accessibilityHint={toggleAccessibilityHint}
-        accessibilityState={{ expanded: isPickerOpen }}
+        accessibilityState={{ expanded: isPickerOpen, disabled: isOrderConfirmed }}
         hitSlop={8}
         style={({ pressed }) => [
           styles.toggleButton,
           assignedAddress ? styles.toggleButtonSecondary : styles.toggleButtonPrimary,
           pressed && styles.toggleButtonPressed,
+          isOrderConfirmed && styles.toggleButtonLocked,
         ]}
       >
         <Text
-          style={
-            assignedAddress ? styles.toggleButtonTextSecondary : styles.toggleButtonTextPrimary
-          }
+          style={[
+            assignedAddress ? styles.toggleButtonTextSecondary : styles.toggleButtonTextPrimary,
+            isOrderConfirmed && styles.toggleButtonTextLocked,
+          ]}
         >
-          {toggleLabel}
+          {isOrderConfirmed ? "Locked" : toggleLabel}
         </Text>
       </Pressable>
 
@@ -265,6 +278,12 @@ const styles = StyleSheet.create({
   toggleButtonPressed: {
     opacity: 0.85,
   },
+  toggleButtonLocked: {
+    backgroundColor: tokens.color.bg,
+    borderWidth: 1,
+    borderColor: tokens.color.border,
+    opacity: 0.6,
+  },
   toggleButtonTextPrimary: {
     fontSize: 14,
     fontWeight: "700",
@@ -274,6 +293,9 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: "700",
     color: tokens.color.ink2,
+  },
+  toggleButtonTextLocked: {
+    color: tokens.color.faint,
   },
   pickerBlock: {
     marginTop: tokens.space(4),

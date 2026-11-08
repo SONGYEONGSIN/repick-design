@@ -148,6 +148,7 @@ export function SplitDeliveryAddressesScreen() {
         addresses={DELIVERY_ADDRESSES}
         assignedAddress={findAddressById(assignments[item.id] ?? null)}
         isPickerOpen={!isOrderConfirmed && openPickerItemId === item.id}
+        isOrderConfirmed={isOrderConfirmed}
         onTogglePicker={handleTogglePicker}
         onSelectAddress={handleSelectAddress}
         onClearAssignment={handleClearAssignment}
