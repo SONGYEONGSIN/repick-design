@@ -55,7 +55,12 @@ export default function BoothRegistrationGateScreen() {
   // Measured section offsets inside the ScrollView content, captured once on
   // layout. Mutated via ref (not state) so measuring never triggers a
   // re-render loop.
-  const sectionOffsets = useRef({ identity: 0, payment: 0, manifestTop: 0 });
+  const sectionOffsets = useRef({
+    identity: 0,
+    payment: 0,
+    manifestSectionY: 0,
+    manifestHeaderHeight: 0,
+  });
 
   const taggedCount = items.filter((i) => i.tagged).length;
   const manifestMet = taggedCount >= MIN_MANIFEST_ITEMS;
@@ -107,8 +112,10 @@ export default function BoothRegistrationGateScreen() {
     } else if (gateCause === "manifest") {
       const idx = items.findIndex((it) => !it.tagged);
       if (idx >= 0) {
-        const target =
-          sectionOffsets.current.manifestTop + idx * ROW_HEIGHT - ROW_HEIGHT;
+        const listTop =
+          sectionOffsets.current.manifestSectionY +
+          sectionOffsets.current.manifestHeaderHeight;
+        const target = listTop + idx * ROW_HEIGHT - ROW_HEIGHT;
         scrollRef.current?.scrollTo({ y: Math.max(target, 0), animated: true });
         setTimeout(() => focusNode({ current: itemRowRefs.current[items[idx].id] }), 350);
       }
@@ -217,18 +224,24 @@ export default function BoothRegistrationGateScreen() {
         <View
           style={styles.section}
           onLayout={(e) => {
-            sectionOffsets.current.manifestTop =
-              e.nativeEvent.layout.y + styles.manifestHeaderSpace.height;
+            sectionOffsets.current.manifestSectionY = e.nativeEvent.layout.y;
           }}
         >
-          <Text style={styles.sectionTitle}>
-            Inventory Manifest ({taggedCount}/{MIN_MANIFEST_ITEMS} tagged ready)
-          </Text>
-          <Text style={styles.sectionBody}>
-            Tag at least {MIN_MANIFEST_ITEMS} items as ready before this table
-            can be confirmed.
-          </Text>
-          <View style={styles.manifestHeaderSpace} />
+          <View
+            onLayout={(e) => {
+              sectionOffsets.current.manifestHeaderHeight =
+                e.nativeEvent.layout.height;
+            }}
+          >
+            <Text style={styles.sectionTitle}>
+              Inventory Manifest ({taggedCount}/{MIN_MANIFEST_ITEMS} tagged ready)
+            </Text>
+            <Text style={styles.sectionBody}>
+              Tag at least {MIN_MANIFEST_ITEMS} items as ready before this
+              table can be confirmed.
+            </Text>
+            <View style={styles.manifestHeaderSpace} />
+          </View>
           <FlatList
             data={items}
             keyExtractor={(it) => it.id}

@@ -103,7 +103,7 @@ export default function SizeReferenceScreen() {
       return (
         <View style={styles.chartRow} key={row.label}>
           <Text style={styles.chartRowLabel}>{row.label}</Text>
-          <Text style={styles.chartRowValue} fontVariant={["tabular-nums"]}>
+          <Text style={styles.chartRowValue}>
             {value}
           </Text>
         </View>
@@ -491,6 +491,7 @@ const styles = StyleSheet.create({
   chartRowValue: {
     fontSize: 14,
     color: tokens.color.ink,
+    fontVariant: ["tabular-nums"],
   },
   emptyState: {
     paddingHorizontal: tokens.space(4),

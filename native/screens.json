@@ -334,5 +334,14 @@
   },
   "evolve-r52-c": {
     "check": "Split Delivery Addresses"
+  },
+  "evolve-r53-a": {
+    "check": "Pop-Up Booth Registration"
+  },
+  "evolve-r53-b": {
+    "check": "Consignment Partners"
+  },
+  "evolve-r53-c": {
+    "check": "Size & Fit Reference"
   }
 }

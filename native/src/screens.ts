@@ -1,4 +1,7 @@
 import type { ComponentType } from "react";
+import EvolveR53A from "./evolve/r53/a/BoothRegistrationGateScreen";
+import EvolveR53B from "./evolve/r53/b/ConsignmentPartnersScreen";
+import EvolveR53C from "./evolve/r53/c/SizeReferenceScreen";
 import EvolveR52A from "./evolve/r52/a/FlashDropRaffleScreen";
 import EvolveR52B from "./evolve/r52/b/CurateFeaturedItemsScreen";
 import EvolveR52C from "./evolve/r52/c/SplitDeliveryAddressesScreen";
@@ -225,6 +228,9 @@ const COMPONENTS = {
   "evolve-r52-a": EvolveR52A,
   "evolve-r52-b": EvolveR52B,
   "evolve-r52-c": EvolveR52C,
+  "evolve-r53-a": EvolveR53A,
+  "evolve-r53-b": EvolveR53B,
+  "evolve-r53-c": EvolveR53C,
 } as const satisfies Record<string, ComponentType>;
 
 export type ScreenSlug = keyof typeof COMPONENTS;
