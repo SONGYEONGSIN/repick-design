@@ -6,7 +6,7 @@ import { LISTINGS } from "./data";
 import { computeAggregate, computeItemState, formatCount } from "./model";
 import { ProductCard } from "./ProductCard";
 import { Scrubber } from "./Scrubber";
-import { ACCENT_HEX, DISPLAY_FONT, EYEBROW, FOCUS_RING, ON_ACCENT_FILL_TEXT } from "./tokens";
+import { ACCENT_HEX, EYEBROW, FOCUS_RING, ON_ACCENT_FILL_TEXT } from "./tokens";
 
 type HeroProps = {
   scrubDay: number;
@@ -54,7 +54,7 @@ export function Hero({ scrubDay, onScrubDayChange, min, max, step }: HeroProps) 
           <h1
             id="hero-heading"
             className="text-[clamp(2.5rem,5vw+1rem,4.25rem)] font-extrabold leading-[1.04] tracking-[-0.02em] text-white"
-            style={{ fontFamily: DISPLAY_FONT }}
+            style={{ fontFamily: "var(--font-display-grotesk)" }}
           >
             Sell it at the <span style={{ color: ACCENT_HEX }}>moment</span> buyers actually want it.
           </h1>
