@@ -156,7 +156,7 @@ function ListingCard({ item, rich = false }: { item: Listing; rich?: boolean }) 
     <motion.article
       whileHover={{ y: -4 }}
       transition={{ duration: 0.2 }}
-      className="flex flex-col gap-3 rounded-2xl border border-[#E7E2D8] bg-white p-3"
+      className="flex min-w-0 flex-col gap-3 rounded-2xl border border-[#E7E2D8] bg-white p-3"
     >
       <ListingArt item={item} compact={!rich} />
       <div className="flex min-w-0 flex-col gap-2">
@@ -210,7 +210,7 @@ function Hero({
   result: BudgetResult;
   prefersReducedMotion: boolean;
 }) {
-  const blobRef = useRef<HTMLDivElement>(null);
+  const blobRef = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({ target: blobRef, offset: ["start start", "end start"] });
   const blobY = useTransform(scrollYProgress, [0, 1], prefersReducedMotion ? [0, 0] : [0, 60]);
 
@@ -227,7 +227,7 @@ function Hero({
       <div className="mx-auto max-w-[1200px]">
         <div className="grid grid-cols-1 gap-10 lg:grid-cols-12 lg:gap-6">
           {/* Left: headline, typed control, single CTA */}
-          <div className="flex flex-col gap-6 lg:col-span-7">
+          <div className="flex min-w-0 flex-col gap-6 lg:col-span-7">
             <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[var(--accent)]">
               AI-matched resale
             </p>
@@ -265,7 +265,7 @@ function Hero({
                   onChange={(e) => onRawChange(e.target.value.replace(/[^0-9]/g, "").slice(0, 3))}
                   aria-describedby="budget-helper"
                   placeholder="180"
-                  className={`w-full min-w-0 bg-transparent text-lg font-extrabold text-[#17171C] outline-none ${focusRing}`}
+                  className={`w-full min-w-0 bg-transparent text-lg font-extrabold text-[#17171C] ${focusRing}`}
                 />
               </div>
               <p id="budget-helper" className="text-xs font-normal text-[#52525B]" aria-live="polite">
@@ -277,7 +277,7 @@ function Hero({
 
             <a
               href="#preview"
-              className={`inline-flex w-fit items-center gap-2 rounded-full bg-[var(--accent)] px-5 py-3 text-sm font-semibold text-white transition-transform hover:-translate-y-0.5 ${focusRing}`}
+              className={`inline-flex w-fit items-center gap-2 rounded-full bg-[var(--accent)] px-5 py-3 text-sm font-semibold text-white transition-transform hover:-translate-y-0.5 motion-reduce:transition-none motion-reduce:hover:translate-y-0 ${focusRing}`}
             >
               {result.count > 0
                 ? `See ${result.count} match${result.count === 1 ? "" : "es"} under ${formatUsd(budget)}`
@@ -287,7 +287,7 @@ function Hero({
           </div>
 
           {/* Right: live proof — count / top match / savings, then the cards themselves */}
-          <div className="flex flex-col gap-5 lg:col-span-5">
+          <div className="flex min-w-0 flex-col gap-5 lg:col-span-5">
             <div
               aria-live="polite"
               className="grid grid-cols-3 gap-3 rounded-2xl border border-[#E7E2D8] bg-white p-4"
@@ -352,8 +352,8 @@ function ProductPreview({ result, budget }: { result: BudgetResult; budget: numb
               Why repick picked these
             </h2>
             <p className="max-w-[480px] text-base font-normal leading-[1.6] text-[#52525B]">
-              Every card below updates with your number — the match reasoning, the condition
-              grade and the seller proof are all recomputed, not just the price.
+              Every card below is filtered and ranked by the number you typed — only listings at
+              or under your budget appear, closest match first.
             </p>
           </div>
         </Reveal>
@@ -423,7 +423,7 @@ function ValueSection({ result, budget }: { result: BudgetResult; budget: number
           </div>
         </Reveal>
         <div className="grid grid-cols-1 gap-5 sm:grid-cols-3">
-          <Reveal>
+          <Reveal className="min-w-0">
             <ValueTile
               folio="01"
               label="Matches found"
@@ -435,7 +435,7 @@ function ValueSection({ result, budget }: { result: BudgetResult; budget: number
               }
             />
           </Reveal>
-          <Reveal delayMs={60}>
+          <Reveal delayMs={60} className="min-w-0">
             <ValueTile
               folio="02"
               label="Top match"
@@ -447,7 +447,7 @@ function ValueSection({ result, budget }: { result: BudgetResult; budget: number
               }
             />
           </Reveal>
-          <Reveal delayMs={120}>
+          <Reveal delayMs={120} className="min-w-0">
             <ValueTile
               folio="03"
               label="Average you save"
@@ -522,7 +522,7 @@ function SocialProof() {
 
         <div className="grid grid-cols-1 gap-5 sm:grid-cols-3">
           {TESTIMONIALS.map((t, i) => (
-            <Reveal key={t.initials} delayMs={i * 60}>
+            <Reveal key={t.initials} delayMs={i * 60} className="min-w-0">
               <figure className="flex h-full flex-col gap-4 rounded-2xl border border-[#E7E2D8] bg-white p-6">
                 <Quote className="h-5 w-5 text-[var(--accent)]" aria-hidden="true" />
                 <blockquote className="text-sm font-normal leading-[1.6] text-[#3F3F46]">
@@ -570,7 +570,7 @@ function ClosingCta({ result, budget }: { result: BudgetResult; budget: number }
           <div className="flex flex-wrap items-center gap-4">
             <a
               href="#budget-input"
-              className={`inline-flex items-center gap-2 rounded-full bg-[var(--accent)] px-6 py-3 text-sm font-semibold text-white transition-transform hover:-translate-y-0.5 ${focusRing}`}
+              className={`inline-flex items-center gap-2 rounded-full bg-[var(--accent)] px-6 py-3 text-sm font-semibold text-white transition-transform hover:-translate-y-0.5 motion-reduce:transition-none motion-reduce:hover:translate-y-0 ${focusRing}`}
             >
               Jump back to your budget
               <ArrowRight className="h-4 w-4" aria-hidden="true" />

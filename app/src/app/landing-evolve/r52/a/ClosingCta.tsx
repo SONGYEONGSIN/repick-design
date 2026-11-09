@@ -38,8 +38,8 @@ export function ClosingCta({ scrubDay }: ClosingCtaProps) {
             qualify for a match like yours.
           </h2>
           <p className="mt-4 max-w-[500px] text-[16px] font-normal leading-[1.6] text-[#A1A1AA]">
-            That figure moves with the timeline you set above -- drag it earlier or later and this
-            number, and the three it&apos;s built from, change with it.
+            This figure is read from the same Day you set on the timeline above -- drag it earlier
+            or later and the match score, price drop, and this buyer count all move together.
           </p>
 
           <div className="mt-8 flex flex-wrap items-center gap-4">
