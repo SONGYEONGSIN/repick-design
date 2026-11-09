@@ -317,6 +317,17 @@ tags: [ledger, questions]
 
 ## 대기 중
 
+### Q77. `design-principles.md`가 "헤딩: Inter"를 명시하는데 이 레포는 Inter를 아예 설정하지 않고 52라운드 전체가 그 조항 없이 통과해왔다 (target: landing · 정본 ↔ 레포 설정 불일치)
+
+- **배경 (2026-11-09, `auto-landing-r52`)**: 렌즈1(브리프/DNA 준수)이 순위와 무관한 부수 발견으로 보고했다 — `design-principles.md` §Typography가 *"헤딩: **Inter**(세리프 금지) / 700~800 / letter-spacing -0.02em"* 라고 적지만, `app/globals.css`는 Inter를 **전혀 import하지 않는다**(`--font-sans`=Pretendard, `--font-mono`, `--font-display-grotesk/wide/mono` 셋만 정의). `page-brief-repo.md` §2 폰트 화이트리스트도 이 네 변수만 나열하고 Inter는 어디에도 없다. `r52`의 세 후보 모두 헤딩에 `--font-sans`(Pretendard)를 그대로 썼고, 렌즈1이 기존 카탈로그 전체를 훑어도 Inter를 쓴 작품이 없다 — 즉 **이 조항은 한 번도 지켜진 적 없이 52라운드가 통과해왔다.**
+- **왜 아무도 안 잡았나**: `no-unlisted-font` 정적 검사는 **디스플레이 활자 화이트리스트**(`--font-display-*`)만 강제하고, 본문/헤딩의 기본 서체(`--font-sans`)는애초에 검사 대상이 아니다 — Inter를 안 써도 걸릴 관문이 없다. judge 렌즈1도 "헤딩이 Inter인가"를 축자적으로 확인한 적이 없고(그 비교를 처음 한 것이 이번 라운드다), "세리프 금지"만 매번 확인해왔다 — Pretendard도 세리프가 아니므로 그 축에서는 늘 통과했다.
+- **판단이 필요한 지점**:
+  (가) **정본이 낡았다** — Inter를 Pretendard로 갱신한다. `page-brief-core.md`(레포 중립)가 아니라 `design-principles.md`(landing 프로파일, 이미 레포 특정 값 다수 포함 — Tailwind 클래스 등)에 적힌 조항이므로 레포 고유 값이 섞여도 조직 원칙(코어=레포 중립, repo=레포 특정) 위반이 아니다.
+  (나) **애초에 이 조항이 있을 자리가 틀렸다** — "헤딩 서체"는 레포마다 다른 값(이 레포는 Pretendard, 다른 레포는 Inter일 수 있다)이므로 원칙적으로 `page-brief-repo.md` §2 폰트 화이트리스트에 속해야 하는데 `design-principles.md`에 적혀 있다. `page-commission`이 볼트 없는 레포에서 `design-principles.md`를 읽을 경우 이 조항이 그대로 다른 레포에 "Inter를 써라"로 거짓 전파될 위험이 있다.
+  (다) **기록만 하고 유예** — 52라운드가 이미 Pretendard로 수렴해 사실상의 정본이 됐고, 실제로 깨진 사례나 불만이 없으므로 지금 당장 정정할 긴급성은 낮다.
+- **잠정 가설**: (가)+(나) 둘 다 — 값은 Pretendard로 갱신하고, 동시에 그 조항을 `page-brief-repo.md` §2로 옮기는 것이 맞아 보인다(위치가 틀렸다는 진단과 값이 틀렸다는 진단이 동시에 성립하는 드문 경우). 다만 이 판단은 `design-principles.md`를 직접 수정하는 일이라 정본 불변식(`/dash-evolve` 라운드는 정본을 고치지 못한다)에 걸린다 — **사람 또는 `/dash-falsify` 주간 리뷰가 처리해야 한다.**
+- 등재: 2026-11-09 · 출처 `vault/20-generations/2026-11-09-auto-landing-r52/DECISION.md`
+
 ### Q76. 브리프의 "product-proof cards (match%, grade, verification badge, before/after discount)" 요건이 4항목 전부 동형 pill-배지 형태를 요구하는지, 아니면 가시성만 요구하는지 불명확 — 렌즈1이 이 해석차로 2:1 승자를 3위에 둠 (target: landing · judge 렌즈1 불일치, brief 문구 정밀도)
 
 - **배경 (2026-11-07, `auto-landing-r50`)**: 승자 b("Head-to-Head", 독립 2선택자 → 델타표+레이더 오버레이)가 렌즈2·렌즈3에서 1위를 받아 2:1로 승격 대상이 됐다. 렌즈1(브리프 준수)만 b를 3위에 뒀는데, 핵심 근거 중 하나가 "히어로 카드의 before/after discount가 pill 배지가 아니라 평문 `<p>` 한 줄(`ListingCard.tsx:148-155`)"이었다 — 같은 파일의 `rich` variant에는 discount가 pill로 존재하는데 히어로에 쓰인 `compact` variant만 평문이다. 렌즈1은 추가로 b의 고스트 넘버가 1개뿐이고 Fig 캡션이 0개라는 점도 "에디토리얼 밀도 조항 미달"로 지목했다.
