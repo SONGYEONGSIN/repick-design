@@ -343,5 +343,14 @@
   },
   "evolve-r53-c": {
     "check": "Size & Fit Reference"
+  },
+  "evolve-r54-a": {
+    "check": "Trade-In Payout Estimator"
+  },
+  "evolve-r54-b": {
+    "check": "Report a Counterfeit Item"
+  },
+  "evolve-r54-c": {
+    "check": "Performance Score Breakdown"
   }
 }
