@@ -68,7 +68,7 @@ export default function HierarchyTree({ period, activeId, onActivate }: { period
               </button>
 
               {isOpen ? (
-                <ul id={groupId} role="group" className={cx("mt-0.5 ml-5 flex flex-col gap-0.5 border-l pl-3", BORDER)}>
+                <ul id={groupId} className={cx("mt-0.5 ml-5 flex flex-col gap-0.5 border-l pl-3", BORDER)}>
                   {center.services.map((service) => {
                     const sSpend = serviceSpendAt(service, period);
                     const sPct = orgSharePct(sSpend, period);

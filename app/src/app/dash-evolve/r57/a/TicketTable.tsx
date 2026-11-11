@@ -76,12 +76,12 @@ export function TicketTable() {
         <table className="w-full table-fixed border-collapse max-lg:min-w-[720px]">
           <caption className="sr-only">Open ticket queue, sortable by age and priority</caption>
           <colgroup>
-            <col style={{ width: "32%" }} />
-            <col style={{ width: "14%" }} />
-            <col style={{ width: "13%" }} />
-            <col style={{ width: "15%" }} />
-            <col style={{ width: "17%" }} />
+            <col style={{ width: "24%" }} />
             <col style={{ width: "9%" }} />
+            <col style={{ width: "17%" }} />
+            <col style={{ width: "20%" }} />
+            <col style={{ width: "17%" }} />
+            <col style={{ width: "12%" }} />
           </colgroup>
           <thead>
             <tr className="border-y border-white/10 text-left">
@@ -117,7 +117,7 @@ export function TicketTable() {
                     <p className="truncate text-xs font-normal text-slate-400">{ticket.subject}</p>
                   </td>
                   <td className="min-w-0 px-2 py-3 text-sm font-normal text-slate-300">
-                    <span className="truncate">{ticket.team}</span>
+                    <span className="block w-full truncate">{ticket.team}</span>
                   </td>
                   <td className="min-w-0 px-2 py-3">
                     <Badge tone={priority.tone} icon={priority.icon}>

@@ -49,7 +49,7 @@ export default function KpiRow({ period }: { period: PeriodMode }) {
       label: "Over budget",
       value: `${overBudget.length} of ${COST_CENTERS.length}`,
       sub: (
-        <span className={cx("truncate text-xs font-normal", overBudget.length > 0 ? "text-amber-300" : TEXT_AUX)}>
+        <span className={cx("block w-full truncate text-xs font-normal", overBudget.length > 0 ? "text-amber-300" : TEXT_AUX)}>
           {overBudget.length > 0 ? overBudget.map((c) => c.name).join(", ") : "all cost centers within budget"}
         </span>
       ),
