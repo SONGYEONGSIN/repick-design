@@ -6,29 +6,32 @@ import { r2, TEAM_RAMP } from "./tokens";
  * KpiRow, CostCenterRail and HierarchyTree read (serviceSpendAt / orgSpendAt in data.ts), so the
  * wedge a viewer sees and the percentage printed next to it in the tree can never disagree.
  *
- * viewBox is 0 0 620 620, center (310, 310). Ring layout, inside out:
- *   center hole   0–90   (the always-visible headline total is an HTML overlay here, not SVG —
- *                          sized generously so the compact total fits without crowding)
- *   ring A        94–136  (cost centers)
- *   ring B        140–182 (services)
- *   leader tip    188
- *   label anchor  194     → margin to the viewBox edge is 310 − 194 = 116px.
+ * viewBox is 0 0 660 660, center (330, 330). Ring layout, inside out:
+ *   center hole   0–115  (the always-visible headline total is an HTML overlay here, not SVG —
+ *                          sized generously, and on top of that the overlay's own font sizes
+ *                          were chosen against the smallest width this chart ever renders at on
+ *                          a real layout — see SunburstChart.tsx — so the compact total never
+ *                          crowds the ring even on a 390px viewport)
+ *   ring A        119–158 (cost centers)
+ *   ring B        162–201 (services)
+ *   leader tip    207
+ *   label anchor  213     → margin to the viewBox edge is 330 − 213 = 117px.
  * The longest label stop in the whole dataset is "Observability" (13 chars, see data.ts) — it
  * never actually crosses LABEL_MIN_DEGREES below, but the margin is sized against it anyway, not
  * against whatever happens to qualify today. At an 11px label with a conservative ~0.62em
  * average glyph width (≈6.82px/char) that is 13 × 6.82 ≈ 88.7px, plus ~14px of leader/edge
- * padding ≈ 102.7px — comfortably inside the 116px margin above. The actual longest label that
+ * padding ≈ 102.7px — comfortably inside the 117px margin above. The actual longest label that
  * does render today, "GPU Training" (12 chars), needs even less (≈95.8px).
  */
 
-export const VB = 620;
-export const CENTER = 310;
-export const RING_A_INNER = 94;
-export const RING_A_OUTER = 136;
-export const RING_B_INNER = 140;
-export const RING_B_OUTER = 182;
-export const LEADER_TIP_R = 188;
-export const LABEL_R = 194;
+export const VB = 660;
+export const CENTER = 330;
+export const RING_A_INNER = 119;
+export const RING_A_OUTER = 158;
+export const RING_B_INNER = 162;
+export const RING_B_OUTER = 201;
+export const LEADER_TIP_R = 207;
+export const LABEL_R = 213;
 /** A service only gets an on-chart label once its wedge is wide enough to hold one without
  * crowding its neighbors — everything else is still in the always-available hierarchy tree. */
 export const LABEL_MIN_DEGREES = 14;

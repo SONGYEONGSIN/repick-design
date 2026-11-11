@@ -26,7 +26,7 @@ export function StageDetailCard({ data, pinnedStageId }: { data: PeriodData; pin
   }
 
   return (
-    <Card className="min-w-0">
+    <Card className="h-full min-w-0">
       <FieldLabel>Stage Inspector</FieldLabel>
       <h3 className="mt-1.5 text-lg font-semibold text-zinc-50">{stage.name}</h3>
       <p className="mt-1 text-sm font-normal text-zinc-400">{stage.description}</p>
@@ -42,7 +42,7 @@ export function StageDetailCard({ data, pinnedStageId }: { data: PeriodData; pin
 
       <div
         className={`mt-4 flex items-start gap-2 rounded-xl border px-3 py-2.5 ${
-          stage.overSla ? "border-amber-400/25 bg-amber-400/[0.07]" : "border-emerald-400/20 bg-emerald-400/[0.06]"
+          stage.overSla ? "border-amber-400/25 bg-amber-400/[7%]" : "border-emerald-400/20 bg-emerald-400/[6%]"
         }`}
       >
         {stage.overSla ? (

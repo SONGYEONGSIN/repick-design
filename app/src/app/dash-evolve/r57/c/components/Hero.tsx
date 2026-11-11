@@ -74,7 +74,7 @@ export function Hero({
           <p className="mt-2 text-xs font-normal text-zinc-400">Checkout through production, straight-through builds.</p>
         </Card>
 
-        <Card className="min-w-0 border-amber-400/25 bg-amber-400/[0.06]">
+        <Card className="min-w-0 border-amber-400/25 bg-amber-400/[6%]">
           <FieldLabel tone="amber">Current Bottleneck</FieldLabel>
           <div className="mt-2 flex items-center gap-2">
             <AlertTriangle className="h-4 w-4 shrink-0 text-amber-400" aria-hidden="true" />

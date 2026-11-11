@@ -50,7 +50,7 @@ export function FlowSection({
         </div>
       </Card>
 
-      <Card id={tableAnchorId} className="min-w-0 xl:col-span-7">
+      <Card id={tableAnchorId} className="h-full min-w-0 xl:col-span-7">
         <h2 className="mb-4 text-base font-semibold text-zinc-50">Path summary</h2>
         <PathTable data={data} pinnedStageId={pinnedStageId} onPinStage={onPinStage} onHoverEdge={setHoveredId} />
       </Card>

@@ -19,14 +19,14 @@ export default function SunburstChart({ period, activeId, onActivate }: { period
   const delta = orgDeltaAt(period);
   const DeltaIcon = delta.direction === "up" ? ArrowUp : delta.direction === "down" ? ArrowDown : Minus;
   const deltaTone = delta.direction === "up" ? "text-amber-300" : delta.direction === "down" ? "text-cyan-300" : TEXT_AUX;
-  const periodLabel = PERIOD_OPTIONS.find((p) => p.id === period)?.fullLabel.split(" vs")[0] ?? "This month";
+  const periodLabel = PERIOD_OPTIONS.find((p) => p.id === period)?.label ?? "This month";
 
   const activeCenterId = activeId ? (costCenterById(activeId) ? activeId : (serviceById(activeId)?.center.id ?? null)) : null;
 
   return (
     <div className="relative mx-auto w-full max-w-[440px]">
-      <svg viewBox="0 0 620 620" aria-hidden="true" className="h-full w-full">
-        <circle cx={310} cy={310} r={90} className="fill-zinc-900" />
+      <svg viewBox="0 0 660 660" aria-hidden="true" className="h-full w-full">
+        <circle cx={330} cy={330} r={115} className="fill-zinc-900" />
 
         {centerArcs.map((arc) => {
           const related = activeCenterId === null || activeCenterId === arc.id;
@@ -82,10 +82,10 @@ export default function SunburstChart({ period, activeId, onActivate }: { period
         })}
       </svg>
 
-      <div className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center px-8 text-center">
-        <p className={cx("text-[11px] font-medium uppercase tracking-[0.08em]", TEXT_AUX)}>{periodLabel}</p>
-        <p className={cx("mt-1 text-[30px] leading-none font-semibold", DISPLAY, TEXT_PRIMARY)}>{formatCompactCurrency(total)}</p>
-        <p className={cx("mt-1.5 flex items-center gap-1 text-xs font-medium", deltaTone)}>
+      <div className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center px-5 text-center">
+        <p className={cx("text-[10px] font-medium uppercase tracking-[0.08em]", TEXT_AUX)}>{periodLabel}</p>
+        <p className={cx("mt-1 text-[24px] leading-none font-semibold", DISPLAY, TEXT_PRIMARY)}>{formatCompactCurrency(total)}</p>
+        <p className={cx("mt-1.5 flex items-center gap-1 text-[11px] font-medium", deltaTone)}>
           <DeltaIcon size={12} aria-hidden="true" />
           {formatSignedPercent(delta.pct)} vs. prior
         </p>
