@@ -14,13 +14,9 @@
 
 ## 대기 중
 
-(20번은 2026-11-07 `auto-dash-r56/a`로 소진되어 아래 아카이브로 이동했다. 21번은 2026-11-05 `auto-landing-r48/a`로 소진되어 아래 아카이브로 이동했다. 19번은 2026-11-01 `auto-dash-r54/a`로 소진되어 아래 아카이브로 이동했다. 18번은 2026-10-30 `auto-landing-r44/a`로 소진되어 아래 아카이브로 이동했다. 17번은 2026-10-28 `auto-dash-r51/a`로 소진되어 아래 아카이브로 이동했다. 16번은 2026-10-25 `auto-landing-r41/a`로 소진되어 아래 아카이브로 이동했다. 15번은 2026-10-17 `auto-dash-r42/a`로 소진되어 아래 아카이브로 이동했다.)
+(22번[목록상 "21. auto-dash-r56/b"]은 2026-11-11 `auto-dash-r57/a`로 소진되어 아래 아카이브로 이동했다. 20번은 2026-11-07 `auto-dash-r56/a`로 소진되어 아래 아카이브로 이동했다. 21번은 2026-11-05 `auto-landing-r48/a`로 소진되어 아래 아카이브로 이동했다. 19번은 2026-11-01 `auto-dash-r54/a`로 소진되어 아래 아카이브로 이동했다. 18번은 2026-10-30 `auto-landing-r44/a`로 소진되어 아래 아카이브로 이동했다. 17번은 2026-10-28 `auto-dash-r51/a`로 소진되어 아래 아카이브로 이동했다. 16번은 2026-10-25 `auto-landing-r41/a`로 소진되어 아래 아카이브로 이동했다. 15번은 2026-10-17 `auto-dash-r42/a`로 소진되어 아래 아카이브로 이동했다.)
 
-### 21. `auto-dash-r56/b` — "Ridgehaul" 박스플롯(팀별 티켓 해결시간 분포)+피드중심 티켓스트림, dark/green/`display-grotesk` (target: dash)
-
-- **탈락 사유**: 1차 하드게이트 `lint` `react-hooks/set-state-in-effect` ×2(`CommandPalette.tsx` — palette가 열릴 때 query/highlight를 리셋하는 effect, 그리고 filtered 결과가 줄어들 때 highlight를 clamp하는 effect) + `a11y` `label-content-name-mismatch`(박스플롯 팀 행의 커스텀 aria-label이 `team.name`+가공 전 median 숫자를 썼는데, 행에 실제로 렌더되는 가시 텍스트는 `team.short`+`formatHours()`가 포맷한 문자열이라 서로 안 겹침). 1-fix로 두 `set-state-in-effect`를 "render 중 이전 `open` 값을 ref와 비교해 분기"하는 패턴으로 바꿨으나 **그 수정 자체가 새 위반**(`react-hooks/refs` ×2 — render 중 `ref.current` 읽기/쓰기 금지)을 만들어 재실패 — a11y 라벨도 같은 라운드에서 재작성했지만 lint 재실패로 탈락이 확정된 뒤라 그 수정이 유효했는지는 검증되지 않았다.
-  **재배정 지시(그대로 지시할 것)**: (1) `open`이 true가 될 때 내부 state(`query`/`highlighted` 등)를 리셋하는 effect를 절대 쓰지 마라 — 대신 `{open && <PaletteBody .../>}` 식으로 내부 컴포넌트를 **마운트/언마운트**해서, 매번 열릴 때 그 state가 처음부터 fresh하게 초기화되도록 구조를 바꿔라(리셋할 "이전 값"이 원천적으로 없어짐). **render 중 `ref.current`를 읽거나 쓰는 코드를 넣지 마라** — 이것도 하드페일 린트 규칙이다. (2) "A가 바뀌면 B를 effect로 리셋/clamp"하는 패턴을 전부 없애라 — B가 실제로 쓰이는 지점(렌더나 콜백)에서 바로 `Math.min(...)` 등으로 derive하거나, A를 바꾸는 이벤트 핸들러 안에서 B도 같은 핸들러에서 같이 설정하라. (3) 박스플롯(또는 유사 요약 위젯) 행에 커스텀 `aria-label`을 쓸 경우, 그 문자열에 **행에 실제로 렌더되는 포맷 함수의 출력을 그대로(가공 없이) 포함**시켜라 — 같은 수치를 독립적으로 다시 포맷/구술하면(예: 축약형 vs 전체 단어, 소수점 자리수 차이) `label-content-name-mismatch`가 재발한다.
-- 등재: 2026-11-07 · 출처 `vault/20-generations/2026-11-07-auto-dash-r56/SCORES.md`·`DECISION.md`
+(현재 대기 중인 항목 없음 — target:dash·target:landing 모두 큐가 비어 있다.)
 
 > **`auto-dash-r55` 에서도 3개가 동시에 들어왔다** — a("Portlane", 히어로+간트 도크타임라인, 유동화 수정의 부작용으로 모바일 전용 신규 `target-size`(시간별 버킷 13×33px) 재실패)·b("Latch", 마스터-디테일+박스플롯, 10th/median/SLA-타깃 핸들 간 간격 부족 + 다른 행에서 신규 6px `sweep` 오버플로 동시 재실패)도 동일하게 탈락 사유가 규칙 위반이라 등재 자격이 있으나, 큐는 **한 라운드에 1개만** 배정하므로 가장 단일하게 진단되는 c만 등재했다(a는 결함이 2종 겹쳐 있고 원인도 사이드이펙트라 단일 지시로 압축하기 어려움, b는 간격 부족 + 신규 오버플로 2건이 동시에 걸려 더 복잡함). a·b 소스·컨셉 모두 각자 폴더/`candidates/*.md`에 보존되어 있어 다음에 등재할 수 있다.
 
@@ -29,6 +25,13 @@
 > **한 라운드에 2개가 동시에 들어왔다** (11번은 2026-10-15 `auto-dash-r40/a`로 소진 — 아래 아카이브 #14 참조) — 다음 라운드는 이 중 **하나만** 배정한다(큐 규약). 어느 쪽을 먼저 돌릴지는 다음 라운드의 판단에 맡긴다. 나머지 탈락분은 넣지 않았다 — `dash r22/b`·`r22/c`·`r23/c`·`r25/b`·`landing r17/c`·`dash r28/c`(Trestle, 고정레일+간트 — 상시마운트 툴팁 div 가 화면 우측 바 근처에서 뷰포트를 넘는 page-overflow 로 1-fix 재실패)는 사유가 규칙 위반이라 등재 자격은 있으나, 큐는 **한 라운드에 1개만** 배정하므로 전부 넣으면 7라운드+치 백로그가 된다. `dash r28/b`(Ridgeline)는 2026-09-26 `auto-dash-r30/a`로 재배정 완료, 아래 5번 항목으로 소진됐다. 이전에 먼저 돌리기로 한 다른 항목들도 소진되어 아래 아카이브에 있다 — 다음 배정은 남은 백로그 중에서 판단한다. (전부 `candidates/<v>.md` 에 컨셉이 남아 있어 언제든 등재할 수 있다.)
 
 ## 아카이브
+
+### 21(중복 번호 — 목록상 표기 그대로). `auto-dash-r56/b` — "Ridgehaul" 박스플롯(팀별 티켓 해결시간 분포)+피드중심 티켓스트림, dark/green/`display-grotesk` (target: dash)
+
+- **탈락 사유(원 등재)**: 1차 하드게이트 `lint` `react-hooks/set-state-in-effect` ×2(`CommandPalette.tsx` — palette가 열릴 때 query/highlight를 리셋하는 effect, 그리고 filtered 결과가 줄어들 때 highlight를 clamp하는 effect) + `a11y` `label-content-name-mismatch`(박스플롯 팀 행의 커스텀 aria-label이 `team.name`+가공 전 median 숫자를 썼는데, 행에 실제로 렌더되는 가시 텍스트는 `team.short`+`formatHours()`가 포맷한 문자열이라 서로 안 겹침). 1-fix로 두 `set-state-in-effect`를 "render 중 이전 `open` 값을 ref와 비교해 분기"하는 패턴으로 바꿨으나 **그 수정 자체가 새 위반**(`react-hooks/refs` ×2 — render 중 `ref.current` 읽기/쓰기 금지)을 만들어 재실패.
+- **재배정 결과 (2026-11-11, `auto-dash-r57/a`, 동일명 "Ridgehaul")**: 배정문의 세 지시를 정확히 반영 — ① `CommandPalette.tsx`가 `open` 시 내부 state를 리셋하는 effect 대신 `{open && <PaletteBody key="palette-body" .../>}` 마운트/언마운트 패턴으로 재작성(ref-during-render 전혀 없음) ② highlighted-index clamp를 렌더 시점 `Math.min(...)` 인라인 derive + query `onChange` 핸들러 안에서 두 state 동시 설정으로 전환(effect 기반 리셋/clamp 전무) ③ 박스플롯 팀 행에 커스텀 `aria-label`을 전혀 쓰지 않고 행 전체를 단일 `<button>`으로 래핑해 가시 텍스트(팀명+포맷된 통계) 자체가 접근 가능 이름을 공급하도록 재작성. **1차 하드게이트는 이 축이 아니라 별개의 신규 결함**(`TicketTable.tsx` colgroup 열배분이 Status/Priority 배지 실폭보다 좁아 `table-overflow`, 재배분 중 Team 열 truncate span 미블록화로 신규 `cell-overlap` 발견)으로 실패했으나 오케스트레이터가 직접 Playwright 바이너리서치로 근본원인 특정 후 1-fix로 완전 해소 — 재게이트 10/10 클린. **원 재배정 사유였던 lint `react-hooks/refs`·`label-content-name-mismatch` 둘 다 이번 라운드에서 한 번도 재현되지 않았다.** 판정까지 정상 진입 — 3렌즈 블라인드 패널에서 **3위**(렌즈1: avatar 메뉴 부재+slate 팔레트 오용 등 신규 규칙 위반 2건 지적, 순수 판정과 신규 위반 혼합 패배). 승격 실패.
+- **처리**: 소진 — 원 재배정 사유(lint 체인 결함)는 완전히, 재현 가능하게 해소됐으나 판정 3위로 승격 실패. 이번 3위 사유는 재배정 지시와 무관한 신규 발견(avatar 메뉴·slate 팔레트)이라 세 번째 재배정 여부는 그 두 결함을 고친다는 조건이면 유효할 수 있으나, 다른 미등재 백로그와 경합하므로 판단은 보류한다.
+- 등재: 2026-11-07 · 출처 `vault/20-generations/2026-11-07-auto-dash-r56/SCORES.md`·`DECISION.md` · 소진: 2026-11-11 · 출처 `vault/20-generations/2026-11-11-auto-dash-r57/SCORES.md`·`DECISION.md`
 
 ### 20. `auto-dash-r55/c` — "Arbor" 레일없는 티커+전폭 슬로프차트, 다중시설 ESG 스코어카드, light/lime/Pretendard-only (target: dash)
 

@@ -17,7 +17,11 @@ export default function ConsoleClient() {
   // (see that file's comment). Edge-hover state lives even further down, inside FlowSection,
   // because it is ephemeral and never needs to be read from up here.
   const [period, setPeriod] = useState<PeriodKey>("30d");
-  const [pinnedStageId, setPinnedStageId] = useState<string | null>(null);
+  // Seeded once from the initial period's top bottleneck so the detail card opens non-empty —
+  // never reset by a later period toggle (that would need an effect watching `period`, the exact
+  // set-state-in-effect pattern this route avoids elsewhere). Afterward it only changes via a real
+  // user pin, same discipline as the hierarchy tree's seeded-open pattern in the sibling b route.
+  const [pinnedStageId, setPinnedStageId] = useState<string | null>(() => PERIODS["30d"].bottlenecks[0]?.id ?? null);
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
   const [paletteOpen, setPaletteOpen] = useState(false);
 
