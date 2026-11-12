@@ -352,5 +352,14 @@
   },
   "evolve-r54-c": {
     "check": "Performance Score Breakdown"
+  },
+  "evolve-r55-a": {
+    "check": "Delivery Problem Resolver"
+  },
+  "evolve-r55-b": {
+    "check": "Gear Swap Terms"
+  },
+  "evolve-r55-c": {
+    "check": "Intake Batches"
   }
 }
