@@ -1,0 +1,117 @@
+"use client";
+
+import { SlidersHorizontal, X } from "lucide-react";
+import { BRAND, CURRENT_USER, NAV_SECTIONS } from "./data";
+import { ACCENT_SOLID, BORDER, FOCUS, HOVER_BG, PANEL_BG, TEXT_AUX, TEXT_MUTED, TEXT_PRIMARY, TRANSITION, cx } from "./tokens";
+import { Eyebrow } from "./ui";
+
+function SidebarBody() {
+  return (
+    <div className="flex h-full flex-col">
+      <div className="flex h-11 shrink-0 items-center gap-2 px-4">
+        <span className="grid h-7 w-7 shrink-0 place-items-center rounded-[9px] bg-amber-400/15 text-amber-400">
+          <BRAND.Icon size={16} aria-hidden="true" strokeWidth={2.25} />
+        </span>
+        <span className={cx("text-[15px] font-semibold leading-none tracking-tight", TEXT_PRIMARY)} style={{ fontFamily: "var(--font-display-mono)" }}>
+          {BRAND.name}
+        </span>
+      </div>
+
+      <div className="px-3 pt-3">
+        <div className={cx("flex h-11 w-full items-center gap-2 rounded-xl border px-2.5", BORDER)}>
+          <span className="grid h-7 w-7 shrink-0 place-items-center rounded-md bg-amber-400/15 text-[11px] font-semibold text-amber-300">P1</span>
+          <span className="min-w-0 flex-1">
+            <span className={cx("block truncate text-sm font-medium", TEXT_PRIMARY)}>Production — use1</span>
+            <span className={cx("block truncate text-[11px] font-normal", TEXT_AUX)}>16 services</span>
+          </span>
+        </div>
+      </div>
+
+      <nav aria-label="Console sections" className="flex-1 overflow-y-auto px-3 py-4 [scrollbar-width:thin]">
+        {NAV_SECTIONS.map((section) => (
+          <div key={section.id} className="mb-5 last:mb-0">
+            <div className="mb-1.5 px-2.5">
+              <Eyebrow>{section.title}</Eyebrow>
+            </div>
+            <ul className="flex flex-col gap-0.5">
+              {section.items.map((item) => {
+                if (item.disabled) {
+                  return (
+                    <li key={item.id}>
+                      <span aria-disabled="true" className={cx("flex min-h-11 cursor-not-allowed items-center gap-3 rounded-lg px-2.5 py-2 text-sm font-medium", TEXT_AUX)}>
+                        <item.Icon size={17} aria-hidden="true" />
+                        {item.label}
+                        <span className={cx("ml-auto rounded-full border px-1.5 py-0.5 text-[10px] font-medium", BORDER, TEXT_AUX)}>Soon</span>
+                      </span>
+                    </li>
+                  );
+                }
+                return (
+                  <li key={item.id}>
+                    <a
+                      href="#main-content"
+                      aria-current={item.active ? "page" : undefined}
+                      className={cx(
+                        "flex min-h-11 items-center gap-3 rounded-lg px-2.5 py-2 text-sm",
+                        TRANSITION,
+                        FOCUS,
+                        item.active
+                          ? "border border-amber-400/25 bg-amber-400/10 font-semibold text-amber-300"
+                          : cx("font-medium", TEXT_MUTED, HOVER_BG, "hover:text-zinc-50"),
+                      )}
+                    >
+                      <item.Icon size={17} aria-hidden="true" />
+                      {item.label}
+                    </a>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+        ))}
+      </nav>
+
+      <div className={cx("border-t p-3", BORDER)}>
+        <div className="flex items-center gap-2.5 rounded-lg px-2 py-2">
+          <span className={cx("grid h-7 w-7 shrink-0 place-items-center rounded-full text-[11px] font-semibold", ACCENT_SOLID)} aria-hidden="true">
+            {CURRENT_USER.initials}
+          </span>
+          <div className="min-w-0 flex-1">
+            <p className={cx("truncate text-xs font-medium", TEXT_PRIMARY)}>{CURRENT_USER.name}</p>
+            <p className={cx("truncate text-[11px] font-normal", TEXT_AUX)}>{CURRENT_USER.role}</p>
+          </div>
+          <SlidersHorizontal size={15} aria-hidden="true" className={TEXT_AUX} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default function Sidebar({ mobileOpen, onCloseMobile }: { mobileOpen: boolean; onCloseMobile: () => void }) {
+  return (
+    <>
+      <aside className={cx("hidden w-64 shrink-0 border-r lg:block", BORDER, PANEL_BG)}>
+        <SidebarBody />
+      </aside>
+
+      {mobileOpen ? (
+        <div className="fixed inset-0 z-50 lg:hidden">
+          {/* Pointer-only backdrop — intentionally excluded from the tab order; the visible X
+              button below is the keyboard path to close this drawer. */}
+          <button type="button" tabIndex={-1} aria-hidden="true" onClick={onCloseMobile} className="absolute inset-0 bg-black/60" />
+          <aside className={cx("absolute inset-y-0 left-0 w-72 max-w-[85vw] border-r shadow-2xl shadow-black/40", BORDER, PANEL_BG)}>
+            <div className="flex justify-end p-2">
+              <button type="button" onClick={onCloseMobile} className={cx("grid h-11 w-11 place-items-center rounded-full border text-sm font-medium", BORDER, HOVER_BG, TRANSITION, FOCUS)}>
+                <X size={18} aria-hidden="true" className={TEXT_AUX} />
+                <span className="sr-only">Close navigation</span>
+              </button>
+            </div>
+            <div className="h-[calc(100%-52px)]">
+              <SidebarBody />
+            </div>
+          </aside>
+        </div>
+      ) : null}
+    </>
+  );
+}
