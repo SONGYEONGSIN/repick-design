@@ -361,5 +361,14 @@
   },
   "evolve-r55-c": {
     "check": "Intake Batches"
+  },
+  "evolve-r56-a": {
+    "check": "Schedule a Meetup"
+  },
+  "evolve-r56-b": {
+    "check": "Price drop alerts"
+  },
+  "evolve-r56-c": {
+    "check": "Your seller tier"
   }
 }
