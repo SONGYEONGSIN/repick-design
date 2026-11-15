@@ -16,7 +16,12 @@
 
 (22번[목록상 "21. auto-dash-r56/b"]은 2026-11-11 `auto-dash-r57/a`로 소진되어 아래 아카이브로 이동했다. 20번은 2026-11-07 `auto-dash-r56/a`로 소진되어 아래 아카이브로 이동했다. 21번은 2026-11-05 `auto-landing-r48/a`로 소진되어 아래 아카이브로 이동했다. 19번은 2026-11-01 `auto-dash-r54/a`로 소진되어 아래 아카이브로 이동했다. 18번은 2026-10-30 `auto-landing-r44/a`로 소진되어 아래 아카이브로 이동했다. 17번은 2026-10-28 `auto-dash-r51/a`로 소진되어 아래 아카이브로 이동했다. 16번은 2026-10-25 `auto-landing-r41/a`로 소진되어 아래 아카이브로 이동했다. 15번은 2026-10-17 `auto-dash-r42/a`로 소진되어 아래 아카이브로 이동했다.)
 
-(현재 대기 중인 항목 없음 — target:dash·target:landing 모두 큐가 비어 있다.)
+### 23. `auto-dash-r62/a` — "Stagebook" 캘린더/보드 중심(월/주/아젠다 3뷰) 이벤트 베뉴 부킹 콘솔, light/orange/`--font-display-wide` (target: dash)
+
+- **탈락 사유**: 1차 하드게이트 `console` — 서버(Node ICU)와 클라이언트(브라우저 ICU)가 `Intl.NumberFormat({notation:"compact", maximumFractionDigits:1})`의 trailing-zero 표시에 합의하지 못해 하이드레이션 불일치 13건(`November 3, 1 booking, $480` 서버 vs `$480.0` 클라이언트). 1-fix에서 "480이 1000 미만이라 compact 분기가 불필요하다"로 오진단해 `n < 1000 ? 일반포맷 : compact포맷` 래퍼로 수정했으나, 같은 결함군이 1000 이상 값(`$7K` 서버 vs `$7.0K` 클라이언트)에서 재현 — 재실패로 탈락, 판정 패널 미진입.
+- **진짜 원인(같은 라운드 `auto-dash-r62/c`의 1-fix에서 확증)**: ECMA-402 `trailingZeroDisplay` 기본값(`"auto"`)이 구현/ICU 버전에 맡겨져 있어 Node와 브라우저가 다르게 판단한다. **처방은 값의 크기와 무관하다** — compact notation을 쓰는 모든 `Intl.NumberFormat` 인스턴스에 `trailingZeroDisplay: "stripIfInteger"`를 명시하면 양쪽이 합의한다.
+- **재배정 시 반드시 명시**: 배정문에 "모든 compact-notation 통화/숫자 포매터에 `trailingZeroDisplay: "stripIfInteger"`를 명시하라 — 크기 기준 분기(`n < 1000` 등)로 우회하지 말 것, 그 우회는 이미 한 번 재현·탈락했다"를 그대로 적는다. 나머지 구현(캘린더 그리드 3뷰, 결정론 데이터, 영문 카피, 접근성 처리 등)은 1차 하드게이트에서 `console` 외 전부 클린(static/lint/types/sweep/focus/a11y 100/weights 3종)이었으므로 그대로 유지해도 된다.
+- 등재: 2026-11-15 · 출처 `vault/20-generations/2026-11-15-auto-dash-r62/SCORES.md`, `DECISION.md`, `candidates/a.md`
 
 > **`auto-dash-r55` 에서도 3개가 동시에 들어왔다** — a("Portlane", 히어로+간트 도크타임라인, 유동화 수정의 부작용으로 모바일 전용 신규 `target-size`(시간별 버킷 13×33px) 재실패)·b("Latch", 마스터-디테일+박스플롯, 10th/median/SLA-타깃 핸들 간 간격 부족 + 다른 행에서 신규 6px `sweep` 오버플로 동시 재실패)도 동일하게 탈락 사유가 규칙 위반이라 등재 자격이 있으나, 큐는 **한 라운드에 1개만** 배정하므로 가장 단일하게 진단되는 c만 등재했다(a는 결함이 2종 겹쳐 있고 원인도 사이드이펙트라 단일 지시로 압축하기 어려움, b는 간격 부족 + 신규 오버플로 2건이 동시에 걸려 더 복잡함). a·b 소스·컨셉 모두 각자 폴더/`candidates/*.md`에 보존되어 있어 다음에 등재할 수 있다.
 
