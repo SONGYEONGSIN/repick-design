@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useId, useMemo, useRef, useState, type KeyboardEvent, type RefObject } from "react";
-import { Search, X, CornerDownLeft, LayoutGrid, CalendarDays, Rows3 } from "lucide-react";
+import { Search, X, CornerDownLeft, LayoutGrid, CalendarDays } from "lucide-react";
 import { DAYS_IN_MONTH, TODAY_DAY, VIEW_LABEL, getDayStats, usdCompactFmt, type ViewMode } from "./data";
 import { FOCUS_RING } from "./ui";
 
@@ -174,7 +174,7 @@ export function CommandPalette({
               const showGroupHeader = cmd.group !== groupCursor;
               groupCursor = cmd.group;
               const isActive = index === activeIndex;
-              const Icon = cmd.group === "Switch view" ? LayoutGrid : cmd.group === "Jump to day" ? CalendarDays : Rows3;
+              const Icon = cmd.group === "Switch view" ? LayoutGrid : CalendarDays;
               return (
                 <li key={cmd.id} className="min-w-0">
                   {showGroupHeader ? (

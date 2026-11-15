@@ -49,7 +49,7 @@ function SortHeader({
       <button
         type="button"
         onClick={() => onSort(column)}
-        className="inline-flex max-w-full min-w-0 items-center gap-1 rounded focus-visible:outline-2 outline-offset-2 outline-orange-600"
+        className="inline-flex min-h-6 max-w-full min-w-0 items-center gap-1 rounded focus-visible:outline-2 outline-offset-2 outline-orange-600"
       >
         <span className="truncate">{label}</span>
         <Icon className={`h-3 w-3 shrink-0 ${active ? "text-orange-700" : "text-zinc-400"}`} aria-hidden="true" />

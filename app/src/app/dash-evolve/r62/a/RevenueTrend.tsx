@@ -93,10 +93,10 @@ export function RevenueTrend() {
         {active ? (
           <div
             role="status"
-            className="pointer-events-none absolute top-0 min-w-0 -translate-y-1 rounded-md border border-zinc-200 bg-white px-2 py-1 text-xs shadow-md"
+            className="pointer-events-none absolute top-0 min-w-0 rounded-md border border-zinc-200 bg-white px-2 py-1 text-xs shadow-md"
             style={{
               left: `${Math.min(Math.max((active.x / VIEW_W) * 100, 14), 86)}%`,
-              transform: "translate(-50%, -100%)",
+              transform: "translate(-50%, calc(-100% - 6px))",
             }}
           >
             <span className="block whitespace-nowrap font-medium text-zinc-900">{active.label}</span>

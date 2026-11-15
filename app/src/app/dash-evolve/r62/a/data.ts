@@ -117,7 +117,7 @@ export const BOOKINGS: Booking[] = [
   // Sat 7
   b("b7", 7, 1020, 1380, "Castellano Wedding Reception", "Teresa Castellano", "main-hall", 200, "confirmed", 9100),
   b("b8", 7, 840, 1080, "Birthday Celebration — Priya K.", "Priya Kapoor", "rooftop-deck", 36, "confirmed", 2200),
-  b("b9", 7, 600, 720, "Styled Shoot — Modern Bride Mag", "Rosa Lin", "studio-b", 8, "pending", 650),
+  b("b9", 7, 600, 720, "Styled Shoot — Modern Bride Mag", "Rosa Lindgren", "studio-b", 8, "pending", 650),
   // Sun 8
   b("b10", 8, 1140, 1320, "Castellano Anniversary Dinner", "The Castellanos", "rooftop-deck", 22, "confirmed", 1900),
   b("b11", 8, 900, 1140, "Ortiz & Lee Engagement Party", "Marco Ortiz", "garden-room", 54, "confirmed", 2700),
@@ -151,7 +151,7 @@ export const BOOKINGS: Booking[] = [
   b("b29", 22, 660, 780, "Memorial Gathering — Whitcombe Family", "Nora Whitcombe", "garden-room", 60, "confirmed", 1750),
   b("b30", 22, 1140, 1320, "Anniversary Dinner — The Brandts", "Lior Brandt", "rooftop-deck", 26, "confirmed", 2050),
   // Tue 24
-  b("b31", 24, 540, 780, "Styled Shoot — Modern Bride Mag", "Rosa Lin", "studio-b", 7, "confirmed", 560),
+  b("b31", 24, 540, 780, "Styled Shoot — Modern Bride Mag", "Rosa Lindgren", "studio-b", 7, "confirmed", 560),
   // Wed 25
   b("b32", 25, 1020, 1200, "Pre-Holiday Office Party — Vantage Analytics", "Neil Osei", "garden-room", 55, "confirmed", 2300),
   // Fri 27
