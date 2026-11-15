@@ -36,7 +36,7 @@ function SidebarContent({ onNavigate }: { onNavigate?: () => void }) {
       >
         <span className="min-w-0">
           <span className="block truncate text-sm font-medium text-zinc-900">Lumen Hall &amp; Studios</span>
-          <span className="block truncate text-[11px] text-zinc-500">Event venue workspace</span>
+          <span className="block truncate text-[11px] text-zinc-600">Event venue workspace</span>
         </span>
         <ChevronsUpDown className="h-4 w-4 shrink-0 text-zinc-500" aria-hidden="true" />
       </button>
@@ -69,7 +69,7 @@ function SidebarContent({ onNavigate }: { onNavigate?: () => void }) {
         <InitialsAvatar name="Rosa Lin" size={28} />
         <span className="min-w-0">
           <span className="block truncate text-sm font-medium text-zinc-900">Rosa Lin</span>
-          <span className="block truncate text-[11px] text-zinc-500">Venue operations lead</span>
+          <span className="block truncate text-[11px] text-zinc-600">Venue operations lead</span>
         </span>
       </button>
     </div>

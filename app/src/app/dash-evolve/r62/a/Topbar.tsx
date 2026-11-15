@@ -32,7 +32,7 @@ export function Topbar({
           ref={paletteTriggerRef}
           type="button"
           onClick={onOpenPalette}
-          className={`flex h-11 min-w-0 flex-1 items-center gap-2 rounded-lg border border-zinc-200 bg-zinc-50 px-3 text-left text-sm text-zinc-500 transition-colors hover:bg-zinc-100 motion-reduce:transition-none sm:max-w-sm ${FOCUS_RING}`}
+          className={`flex h-11 min-w-0 flex-1 items-center gap-2 rounded-lg border border-zinc-200 bg-zinc-50 px-3 text-left text-sm text-zinc-600 transition-colors hover:bg-zinc-100 motion-reduce:transition-none sm:max-w-sm ${FOCUS_RING}`}
         >
           <Search className="h-4 w-4 shrink-0" aria-hidden="true" />
           <span className="min-w-0 flex-1 truncate">Search bookings, rooms, clients…</span>
