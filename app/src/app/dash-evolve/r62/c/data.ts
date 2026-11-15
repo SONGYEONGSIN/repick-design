@@ -321,6 +321,11 @@ export function formatCompactUSD(n: number): string {
     currency: "USD",
     notation: "compact",
     maximumFractionDigits: 1,
+    // Without this, "auto" trailing-zero resolution for compact notation is left to the ICU
+    // implementation, and the server (Node) and client (browser) ICU builds disagree on whether to
+    // print a trailing ".0" (e.g. "$86K" vs "$86.0K") — causing a hydration mismatch. Pin the
+    // behavior explicitly so both sides agree.
+    trailingZeroDisplay: "stripIfInteger",
   }).format(n);
 }
 

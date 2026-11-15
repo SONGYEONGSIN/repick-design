@@ -5,7 +5,7 @@ import { AlertCircle } from "lucide-react";
 import {
   DAYS_IN_MONTH, MONTH_LABEL, TODAY_DAY, WEEKDAY_LABELS,
   buildMonthGrid, getBookingsForDay, getDayStats, getRoomById, formatClock,
-  usdCompactFmt, type ViewMode,
+  formatRevenueCompact, type ViewMode,
 } from "./data";
 import { DISPLAY_FACE, NUM, SegmentedControl } from "./ui";
 
@@ -20,7 +20,7 @@ function dayAriaLabel(day: number, inMonth: boolean, isToday: boolean, isSelecte
   if (isToday) parts.push("today");
   if (stats.activeCount > 0) {
     parts.push(`${stats.activeCount} ${stats.activeCount === 1 ? "booking" : "bookings"}`);
-    parts.push(usdCompactFmt.format(stats.revenue));
+    parts.push(formatRevenueCompact(stats.revenue));
     if (stats.hasPending) parts.push("deposit pending");
   } else {
     parts.push("no bookings");
@@ -78,7 +78,7 @@ function MonthCell({
         {stats && stats.activeCount > 0 ? (
           <>
             <span className={`min-w-0 truncate text-[11px] font-medium sm:text-xs ${NUM} ${isSelected ? "text-white" : "text-zinc-900"}`}>
-              {usdCompactFmt.format(stats.revenue)}
+              {formatRevenueCompact(stats.revenue)}
             </span>
             <span className={`shrink-0 rounded px-1 text-[10px] font-medium ${NUM} ${isSelected ? "text-white" : "bg-zinc-100 text-zinc-600"}`}>
               ×{stats.activeCount}
@@ -196,7 +196,7 @@ function WeekView({ selectedDay, onSelectDay }: { selectedDay: number; onSelectD
               </span>
               {inMonth && stats && stats.activeCount > 0 ? (
                 <span aria-hidden="true" className={`text-[11px] font-medium ${NUM} ${isSelected ? "text-white" : "text-zinc-900"}`}>
-                  {usdCompactFmt.format(stats.revenue)}
+                  {formatRevenueCompact(stats.revenue)}
                 </span>
               ) : null}
               <span aria-hidden="true" className="flex min-w-0 flex-1 flex-col gap-1 overflow-hidden">
@@ -263,7 +263,7 @@ function AgendaView({ selectedDay, onSelectDay }: { selectedDay: number; onSelec
                 </span>
               </span>
               <span className={`shrink-0 whitespace-nowrap text-sm font-medium ${NUM} ${isSelected ? "text-white" : "text-zinc-900"}`}>
-                {usdCompactFmt.format(stats.revenue)}
+                {formatRevenueCompact(stats.revenue)}
               </span>
             </button>
           </li>

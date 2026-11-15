@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { WEEK_REVENUE, usdCompactFmt } from "./data";
+import { WEEK_REVENUE, formatRevenueCompact } from "./data";
 import { Card, NUM, SectionLabel } from "./ui";
 
 const VIEW_W = 280;
@@ -37,7 +37,7 @@ export function RevenueTrend() {
     <Card>
       <div className="mb-3 flex items-baseline justify-between gap-2">
         <SectionLabel>Revenue — last 8 weeks</SectionLabel>
-        <span className={`shrink-0 whitespace-nowrap text-xs text-zinc-500 ${NUM}`}>{usdCompactFmt.format(REVENUES[REVENUES.length - 1])}/wk</span>
+        <span className={`shrink-0 whitespace-nowrap text-xs text-zinc-500 ${NUM}`}>{formatRevenueCompact(REVENUES[REVENUES.length - 1])}/wk</span>
       </div>
 
       <div className="relative" style={{ height: 120 }}>
@@ -46,7 +46,7 @@ export function RevenueTrend() {
           preserveAspectRatio="none"
           className="h-full w-full"
           role="img"
-          aria-label={`Weekly revenue trend, ${WEEK_REVENUE[0].label} through ${WEEK_REVENUE[WEEK_REVENUE.length - 1].label}, ranging from ${usdCompactFmt.format(MIN_REVENUE)} to ${usdCompactFmt.format(MAX_REVENUE)}`}
+          aria-label={`Weekly revenue trend, ${WEEK_REVENUE[0].label} through ${WEEK_REVENUE[WEEK_REVENUE.length - 1].label}, ranging from ${formatRevenueCompact(MIN_REVENUE)} to ${formatRevenueCompact(MAX_REVENUE)}`}
         >
           <defs>
             <linearGradient id="trend-fill" x1="0" y1="0" x2="0" y2="1">
@@ -85,7 +85,7 @@ export function RevenueTrend() {
               onBlur={() => setActiveIndex(null)}
               className="h-full flex-1 min-w-0 rounded-sm focus-visible:outline-2 outline-offset-2 outline-orange-600"
             >
-              <span className="sr-only">{`${p.label}: ${usdCompactFmt.format(p.revenue)}`}</span>
+              <span className="sr-only">{`${p.label}: ${formatRevenueCompact(p.revenue)}`}</span>
             </button>
           ))}
         </div>
@@ -100,7 +100,7 @@ export function RevenueTrend() {
             }}
           >
             <span className="block whitespace-nowrap font-medium text-zinc-900">{active.label}</span>
-            <span className={`block whitespace-nowrap text-zinc-600 ${NUM}`}>{usdCompactFmt.format(active.revenue)}</span>
+            <span className={`block whitespace-nowrap text-zinc-600 ${NUM}`}>{formatRevenueCompact(active.revenue)}</span>
           </div>
         ) : null}
       </div>

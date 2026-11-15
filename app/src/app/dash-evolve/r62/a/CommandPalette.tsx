@@ -2,7 +2,7 @@
 
 import { useEffect, useId, useMemo, useRef, useState, type KeyboardEvent, type RefObject } from "react";
 import { Search, X, CornerDownLeft, LayoutGrid, CalendarDays } from "lucide-react";
-import { DAYS_IN_MONTH, TODAY_DAY, VIEW_LABEL, getDayStats, usdCompactFmt, type ViewMode } from "./data";
+import { DAYS_IN_MONTH, TODAY_DAY, VIEW_LABEL, getDayStats, formatRevenueCompact, type ViewMode } from "./data";
 import { FOCUS_RING } from "./ui";
 
 interface Command {
@@ -68,7 +68,7 @@ export function CommandPalette({
             id: `day-${d}`,
             group: "Jump to day",
             label: `November ${d}`,
-            hint: `${stats.activeCount} ${stats.activeCount === 1 ? "booking" : "bookings"} · ${usdCompactFmt.format(stats.revenue)}`,
+            hint: `${stats.activeCount} ${stats.activeCount === 1 ? "booking" : "bookings"} · ${formatRevenueCompact(stats.revenue)}`,
             run: () => onSelectDay(d),
           };
         }),

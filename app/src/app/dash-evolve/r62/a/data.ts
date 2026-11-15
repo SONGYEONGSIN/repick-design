@@ -184,6 +184,13 @@ export function formatRange(start: number, end: number): string {
 
 export const usdFmt = new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 });
 export const usdCompactFmt = new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", notation: "compact", maximumFractionDigits: 1 });
+// `Intl.NumberFormat` compact notation disagrees between server (Node) and client (browser) ICU on
+// whether to render a trailing ".0" for values under 1000 (e.g. "$480" vs "$480.0") — compact
+// notation doesn't abbreviate below 1000 anyway, so route those through the plain formatter instead
+// and only hand off to the compact formatter once abbreviation actually applies.
+export function formatRevenueCompact(n: number): string {
+  return n < 1000 ? usdFmt.format(n) : usdCompactFmt.format(n);
+}
 export const countFmt = new Intl.NumberFormat("en-US");
 export const pctFmt = new Intl.NumberFormat("en-US", { style: "percent", maximumFractionDigits: 0 });
 
