@@ -144,9 +144,14 @@ export default function TimelineBrush({ data, window: win, onChange, minWindow, 
     beginDrag("resize-end", e.currentTarget, e.pointerId, e.clientX);
   }
   function onPointerMove(e: React.PointerEvent<HTMLDivElement>) {
+    // Captured pointer events still bubble from the handle that captured them up through this
+    // component's own tree, so this is attached to all three elements (body + both handles) but
+    // stopped here to avoid handling the same move twice when it bubbles from a handle.
+    e.stopPropagation();
     if (dragMode.current) handleMove(e.clientX);
   }
   function onPointerUp(e: React.PointerEvent<HTMLDivElement>) {
+    e.stopPropagation();
     dragMode.current = null;
     try {
       e.currentTarget.releasePointerCapture(e.pointerId);

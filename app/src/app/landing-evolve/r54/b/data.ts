@@ -31,7 +31,7 @@ export const MONTH_COUNT = PRICE_HISTORY.length; // 24
 export const MIN_WINDOW = 3;
 
 /** Default window on first paint: the firmware-recall dip, so the proof is never an empty state. */
-export const DEFAULT_WINDOW = { start: 6, end: 9 } as const;
+export const DEFAULT_WINDOW = { start: 6, end: 9 };
 
 export interface WindowPreset {
   id: string;

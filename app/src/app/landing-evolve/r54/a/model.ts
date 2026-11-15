@@ -7,7 +7,7 @@ import { CATEGORIES, MIN_SHARE, type Category } from "./data";
 /** Cumulative boundary positions (0–100) between the n categories. Length is n - 1. */
 export type Boundaries = readonly number[];
 
-export function boundariesFromShares(shares: readonly number[]): Boundaries {
+export function boundariesFromShares(shares: readonly number[]): number[] {
   const boundaries: number[] = [];
   let cumulative = 0;
   for (let i = 0; i < shares.length - 1; i += 1) {

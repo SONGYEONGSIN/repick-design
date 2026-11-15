@@ -25,7 +25,7 @@ export const CATEGORIES = [
   { id: "packs", label: "Packs & Bags", shortLabel: "Packs", Icon: Backpack, demandShare: 27, viewYield: 61 },
   { id: "footwear", label: "Footwear & Traction", shortLabel: "Footwear", Icon: Footprints, demandShare: 23, viewYield: 47 },
   { id: "layers", label: "Layers & Shells", shortLabel: "Layers", Icon: CloudRain, demandShare: 18, viewYield: 72 },
-] as const;
+] as const satisfies readonly Category[];
 
 /** The fixed weekly pool: always exactly 100 spotlight credits, split four ways. */
 export const TOTAL_CREDITS = 100;
@@ -116,7 +116,7 @@ export const LISTINGS = [
     reasonTags: ["Seam tape fully intact in comps", "Waterproof rating verified on file"],
     conditionNote: "Waterproof rating re-verified against the manufacturer's spec sheet on file.",
   },
-] as const;
+] as const satisfies readonly Listing[];
 
 export interface Testimonial {
   id: string;
@@ -151,7 +151,7 @@ export const TESTIMONIALS = [
     role: "Sold 58 items, verified seller since 2023",
     initials: "PN",
   },
-] as const;
+] as const satisfies readonly Testimonial[];
 
 export interface StatChip {
   id: string;

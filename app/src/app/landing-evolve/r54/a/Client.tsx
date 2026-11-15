@@ -153,7 +153,7 @@ function ListingCard({ listing, spotlighted = false, titleAs = "h3" }: ListingCa
         </ul>
         <details className="group pt-1">
           <summary
-            className={`flex w-fit cursor-pointer list-none items-center gap-1 rounded text-[11px] font-semibold ${ACCENT_TEXT_SMALL} ${FOCUS_RING}`}
+            className={`inline-flex w-fit cursor-pointer list-none items-center gap-1 rounded px-1 py-1.5 text-[11px] font-semibold ${ACCENT_TEXT_SMALL} ${FOCUS_RING}`}
           >
             Condition detail
             <ChevronDown className="h-3 w-3 transition-transform duration-150 group-open:rotate-180" aria-hidden="true" />
@@ -215,7 +215,7 @@ function ScenarioCard({ label, tagText, Icon, shares, model, isLive, onTry }: Sc
         <button
           type="button"
           onClick={onTry}
-          className={`mt-1 inline-flex w-fit items-center gap-1.5 rounded-full px-3 py-1.5 text-[12px] font-semibold ${FOCUS_RING}`}
+          className={`mt-1 inline-flex w-fit items-center gap-1.5 rounded-full px-3 py-2 text-[12px] font-semibold ${FOCUS_RING}`}
           style={{ color: ACCENT_SMALL_HEX, backgroundColor: "#FFFFFF", border: `1px solid ${SURFACE_BORDER}` }}
         >
           Try this split
