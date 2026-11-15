@@ -9,7 +9,6 @@ import {
   ACCENT_TEXT_SMALL,
   CAPTION,
   CARD_BORDER_HEX,
-  DISPLAY_FONT,
   FOCUS_RING,
   MUTED_TEXT,
   ON_ACCENT_FILL_TEXT,
@@ -69,7 +68,7 @@ export function ListingPreviewCard({ listing, isOpen, onToggle }: ListingPreview
           <p className={`${CAPTION} ${MUTED_TEXT}`}>{listing.category}</p>
         </div>
 
-        <p className="text-[20px] font-extrabold tabular-nums leading-none" style={{ fontFamily: DISPLAY_FONT }}>
+        <p className="text-[20px] font-extrabold tabular-nums leading-none" style={{ fontFamily: "var(--font-display-mono)" }}>
           {formatUsd(listing.price)}
           <span className={`ml-1.5 text-[13px] font-normal line-through ${MUTED_TEXT}`}>{formatUsd(listing.retailPrice)}</span>
         </p>

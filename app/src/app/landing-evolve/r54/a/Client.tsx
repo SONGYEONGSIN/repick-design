@@ -31,7 +31,6 @@ import {
   ACCENT_SMALL_HEX,
   ACCENT_TEXT_SMALL,
   CAPTION,
-  DISPLAY_FONT,
   EYEBROW,
   FOCUS_RING,
   INK,
@@ -254,7 +253,7 @@ export default function Client() {
               id="hero-heading"
               className="font-extrabold"
               style={{
-                fontFamily: DISPLAY_FONT,
+                fontFamily: "var(--font-display-wide)",
                 letterSpacing: "-0.01em",
                 lineHeight: 1.04,
                 fontSize: "clamp(2.1rem, 4.6vw + 0.6rem, 3.75rem)",
@@ -455,7 +454,7 @@ export default function Client() {
             <h2
               id="cta-heading"
               className="font-extrabold"
-              style={{ fontFamily: DISPLAY_FONT, lineHeight: 1.05, fontSize: "clamp(1.9rem, 3.4vw + 0.8rem, 3.1rem)", color: INK }}
+              style={{ fontFamily: "var(--font-display-wide)", lineHeight: 1.05, fontSize: "clamp(1.9rem, 3.4vw + 0.8rem, 3.1rem)", color: INK }}
             >
               Your current split scores a {model.fitScore}/100 demand fit.
             </h2>

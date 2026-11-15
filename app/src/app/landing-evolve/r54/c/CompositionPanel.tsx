@@ -1,7 +1,7 @@
 import type { BucketDef } from "./data";
 import type { Stats } from "./stats";
 import { formatUsd } from "./stats";
-import { DISPLAY_FONT, MUTED_TEXT, STAT_LABEL } from "./tokens";
+import { MUTED_TEXT, STAT_LABEL } from "./tokens";
 
 type CompositionPanelProps = {
   stats: Stats;
@@ -56,7 +56,7 @@ export function CompositionPanel({ stats, buckets }: CompositionPanelProps) {
         })}
       </ul>
 
-      <p className="mt-4 text-[22px] font-extrabold tabular-nums leading-tight" style={{ fontFamily: DISPLAY_FONT }}>
+      <p className="mt-4 text-[22px] font-extrabold tabular-nums leading-tight" style={{ fontFamily: "var(--font-display-mono)" }}>
         {formatUsd(stats.listPayout)}
       </p>
       <p className={`${MUTED_TEXT} text-[13px] font-normal leading-[1.6]`}>projected cash payout right now</p>

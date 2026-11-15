@@ -16,7 +16,6 @@ import {
   ACCENT_TEXT_SMALL,
   BODY_TEXT,
   CAPTION,
-  DISPLAY_FONT,
   EYEBROW,
   FOCUS_RING,
   MUTED_TEXT,
@@ -73,7 +72,7 @@ export default function Client() {
               <h1
                 id="hero-heading"
                 className="text-[clamp(2.25rem,4.4vw+1rem,3.75rem)] font-extrabold leading-[1.05] tracking-[-0.02em]"
-                style={{ fontFamily: DISPLAY_FONT }}
+                style={{ fontFamily: "var(--font-display-mono)" }}
               >
                 Sort your pile. <span className={ACCENT_TEXT_LARGE}>See what it&rsquo;s worth.</span>
               </h1>
@@ -136,7 +135,7 @@ export default function Client() {
             <h2
               id="preview-heading"
               className="text-[clamp(1.6rem,2.4vw+1rem,2.4rem)] font-extrabold tracking-[-0.02em]"
-              style={{ fontFamily: DISPLAY_FONT }}
+              style={{ fontFamily: "var(--font-display-mono)" }}
             >
               What listing for cash actually looks like
             </h2>
@@ -169,7 +168,7 @@ export default function Client() {
             <h2
               id="why-heading"
               className="text-[clamp(1.6rem,2.4vw+1rem,2.4rem)] font-extrabold tracking-[-0.02em]"
-              style={{ fontFamily: DISPLAY_FONT }}
+              style={{ fontFamily: "var(--font-display-mono)" }}
             >
               Three lanes, three outcomes
             </h2>
@@ -213,7 +212,7 @@ export default function Client() {
                 { stat: "2 days", label: "average time from sort to live listing" },
               ].map((row) => (
                 <div key={row.label} className="rounded-2xl border bg-white p-5 text-center" style={{ borderColor: ZONE_BORDER_HEX }}>
-                  <p className="text-[28px] font-extrabold tabular-nums" style={{ fontFamily: DISPLAY_FONT }}>
+                  <p className="text-[28px] font-extrabold tabular-nums" style={{ fontFamily: "var(--font-display-mono)" }}>
                     {row.stat}
                   </p>
                   <p className={`mt-1 text-[13px] font-normal ${MUTED_TEXT}`}>{row.label}</p>
@@ -263,7 +262,7 @@ export default function Client() {
           <h2
             id="cta-heading"
             className="text-[clamp(1.6rem,2.6vw+1rem,2.6rem)] font-extrabold tracking-[-0.02em]"
-            style={{ fontFamily: DISPLAY_FONT }}
+            style={{ fontFamily: "var(--font-display-mono)" }}
           >
             Here&rsquo;s your pile, <span className={ACCENT_TEXT_LARGE}>right now</span>.
           </h2>
