@@ -370,5 +370,14 @@
   },
   "evolve-r56-c": {
     "check": "Your seller tier"
+  },
+  "evolve-r58-a": {
+    "check": "Search Preset Priority"
+  },
+  "evolve-r58-b": {
+    "check": "Mis-description Review Queue"
+  },
+  "evolve-r58-c": {
+    "check": "Select a Pickup Locker"
   }
 }
