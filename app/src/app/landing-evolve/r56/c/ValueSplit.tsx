@@ -30,7 +30,7 @@ export default function ValueSplit({ decisions, profile, ranked, topTrait }: Val
         >
           How your profile sharpens with every tap
         </h2>
-        <p className="mt-3 max-w-[500px] text-[15.5px] font-normal leading-[1.6] text-zinc-600">
+        <p className="mt-3 max-w-[500px] text-[16px] font-normal leading-[1.6] text-zinc-600">
           No sliders, no checklists — three plain steps run every time you decide on a card.
         </p>
 
@@ -106,7 +106,7 @@ export default function ValueSplit({ decisions, profile, ranked, topTrait }: Val
                     className="flex items-center justify-between gap-3 rounded-xl border border-zinc-200 bg-zinc-50 px-4 py-2.5"
                   >
                     <span className="flex items-center gap-2.5 min-w-0">
-                      <span className="tabular-nums text-[12.5px] font-semibold text-zinc-400">{i + 1}</span>
+                      <span className="tabular-nums text-[12.5px] font-semibold text-zinc-500">{i + 1}</span>
                       <span className="truncate text-[13.5px] font-semibold text-zinc-900">{listing.title}</span>
                     </span>
                     <span className="shrink-0 text-[12.5px] font-semibold tabular-nums text-lime-800">

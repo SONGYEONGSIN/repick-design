@@ -233,12 +233,25 @@ function scoreListing(tokens: string[], listing: Listing) {
   let score = 0;
   for (const token of tokens) {
     let hitAny = false;
+    // Brand / model / category are checked first. A real-world title is almost always a
+    // restatement of brand + model, so "title" only gets credit — and only shows up in the
+    // reasoning tag — when a token hits it WITHOUT already being explained by a more specific
+    // attribute. Otherwise every match would redundantly repeat "title: sony + a7" next to
+    // "brand: sony · model: a7", which tells the shopper nothing new.
+    let hitSpecific = false;
     for (const { key, weight } of ATTR_ORDER) {
+      if (key === "title") continue;
       if (haystack[key].includes(token)) {
         matched[key].push(token);
         score += weight;
         hitAny = true;
+        hitSpecific = true;
       }
+    }
+    if (!hitSpecific && haystack.title.includes(token)) {
+      matched.title.push(token);
+      score += 2;
+      hitAny = true;
     }
     if (hitAny) matchedTokens.add(token);
   }

@@ -12,7 +12,7 @@ export default function ClosingCta({ selectedZoneId }: { selectedZoneId: string 
       <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8 lg:py-20">
         <div className="flex flex-col items-start gap-6 rounded-2xl border border-zinc-800 bg-zinc-900/60 p-6 sm:p-10 lg:flex-row lg:items-center lg:justify-between">
           <div className="max-w-[500px]">
-            <p className="text-[10px] font-semibold uppercase tracking-[0.12em] text-zinc-500">
+            <p className="text-[10px] font-semibold uppercase tracking-[0.12em] text-zinc-400">
               05 — Ready when you are
             </p>
             <h2

@@ -11,7 +11,7 @@ export default function ValueSplit({ selectedZoneId }: { selectedZoneId: string 
     <section id="live-zones" aria-labelledby="live-zones-heading" className="border-t border-zinc-900">
       <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8 lg:py-20">
         <div className="max-w-[500px]">
-          <p className="text-[10px] font-semibold uppercase tracking-[0.12em] text-zinc-500">
+          <p className="text-[10px] font-semibold uppercase tracking-[0.12em] text-zinc-400">
             03 — Three numbers, one zone
           </p>
           <h2
@@ -30,7 +30,7 @@ export default function ValueSplit({ selectedZoneId }: { selectedZoneId: string 
         <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-3">
           <div className="min-w-0 rounded-xl border border-zinc-800 bg-zinc-900/60 p-5">
             <Clock className="h-5 w-5 text-indigo-300" aria-hidden="true" />
-            <p className="mt-3 text-[10px] font-semibold uppercase tracking-[0.12em] text-zinc-500">
+            <p className="mt-3 text-[10px] font-semibold uppercase tracking-[0.12em] text-zinc-400">
               Pickup window
             </p>
             <p className="mt-1 text-xl font-extrabold tabular-nums text-white">
@@ -43,7 +43,7 @@ export default function ValueSplit({ selectedZoneId }: { selectedZoneId: string 
 
           <div className="min-w-0 rounded-xl border border-zinc-800 bg-zinc-900/60 p-5">
             <Truck className="h-5 w-5 text-indigo-300" aria-hidden="true" />
-            <p className="mt-3 text-[10px] font-semibold uppercase tracking-[0.12em] text-zinc-500">
+            <p className="mt-3 text-[10px] font-semibold uppercase tracking-[0.12em] text-zinc-400">
               Logistics fee
             </p>
             <p className="mt-1 text-xl font-extrabold tabular-nums text-white">
@@ -56,7 +56,7 @@ export default function ValueSplit({ selectedZoneId }: { selectedZoneId: string 
 
           <div className="min-w-0 rounded-xl border border-zinc-800 bg-zinc-900/60 p-5">
             <Package className="h-5 w-5 text-indigo-300" aria-hidden="true" />
-            <p className="mt-3 text-[10px] font-semibold uppercase tracking-[0.12em] text-zinc-500">
+            <p className="mt-3 text-[10px] font-semibold uppercase tracking-[0.12em] text-zinc-400">
               Matched listings
             </p>
             <p className="mt-1 text-xl font-extrabold tabular-nums text-white">

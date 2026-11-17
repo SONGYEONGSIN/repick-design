@@ -55,12 +55,10 @@ export default function Hero({
             className="mt-3 text-[clamp(2.1rem,7vw+0.6rem,2.7rem)] font-extrabold leading-[1.05] tracking-[-0.02em] text-zinc-900 lg:text-[clamp(3rem,2.4vw+2.2rem,4.5rem)]"
             style={displayFace}
           >
-            One swipe at a time, Sift learns what you&apos;d actually buy.
+            One swipe teaches Sift what you&apos;d buy.
           </h1>
-          <p className="mt-4 max-w-[500px] text-[15.5px] font-normal leading-[1.6] text-zinc-600 lg:text-[16px]">
-            Pass or like one secondhand find at a time. Every decision reweights your taste
-            profile instantly, and the picks below re-rank to match — no quiz, no filters to set up
-            first.
+          <p className="mt-3 max-w-[500px] text-[16px] font-normal leading-[1.6] text-zinc-600 lg:mt-4">
+            Pass or like one find at a time — every decision reorders the picks below, live.
           </p>
           <a
             href="#deck"
@@ -69,18 +67,10 @@ export default function Hero({
             Start swiping
             <ArrowRight className="h-4 w-4" aria-hidden="true" />
           </a>
-
-          <div className="mt-8 rounded-2xl border border-zinc-200 bg-zinc-50 p-4 lg:mt-10">
-            <p className="text-[12px] font-semibold uppercase text-zinc-500" style={{ letterSpacing: "0.16em" }}>
-              Your profile right now
-            </p>
-            <p className="mt-1.5 text-[14.5px] font-normal leading-[1.5] text-zinc-700">
-              Leaning <span className="font-semibold text-zinc-900">{TAG_LABELS[topTrait]}</span> so
-              far, based on <span className="tabular-nums font-semibold text-zinc-900">{position}</span> of{" "}
-              <span className="tabular-nums font-semibold text-zinc-900">{total}</span> decisions. See the
-              full breakdown below.
-            </p>
-          </div>
+          <p className="mt-4 text-[12.5px] font-normal text-zinc-500">
+            Leaning <span className="font-semibold text-zinc-700">{TAG_LABELS[topTrait]}</span> so far
+            — the full breakdown is below the deck.
+          </p>
         </div>
 
         {/* Right: the deck device + the recommendation rail it live-reranks — both inside Hero */}

@@ -35,7 +35,7 @@ export default function ClosingCta({ profile, ranked, topTrait }: ClosingCtaProp
             "You've already decided on every listing in the deck."
           )}
         </h2>
-        <p className="mx-auto mt-4 max-w-[500px] text-[15.5px] font-normal leading-[1.6] text-zinc-600">
+        <p className="mx-auto mt-4 max-w-[500px] text-[16px] font-normal leading-[1.6] text-zinc-600">
           {topMatch ? (
             <>
               That&apos;s a <span className="tabular-nums font-semibold text-zinc-900">{matchPercent(profile, topMatch)}%</span>{" "}

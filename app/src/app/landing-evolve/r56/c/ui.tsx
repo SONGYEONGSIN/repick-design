@@ -38,8 +38,8 @@ export function ProofBadges({
   compact?: boolean;
 }) {
   const discount = discountPct(listing);
-  const textSize = compact ? "text-[11px]" : "text-[12.5px]";
-  const pad = compact ? "px-2 py-1" : "px-2.5 py-1.5";
+  const textSize = compact ? "text-[10px]" : "text-[12.5px]";
+  const pad = compact ? "px-1.5 py-0.5" : "px-2.5 py-1.5";
 
   return (
     <div className="flex flex-wrap items-center gap-1.5">
@@ -66,14 +66,14 @@ export function ProofBadges({
           className={`inline-flex items-center gap-1 rounded-full border border-zinc-200 bg-zinc-100 ${pad} ${textSize} font-semibold text-zinc-700`}
         >
           <ShieldCheck className="h-3 w-3 shrink-0" aria-hidden="true" />
-          Verified seller
+          {compact ? "Verified" : "Verified seller"}
         </span>
       ) : (
         <span
-          className={`inline-flex items-center gap-1 rounded-full border border-zinc-200 bg-zinc-100 ${pad} ${textSize} font-semibold text-zinc-600`}
+          className={`inline-flex items-center gap-1 rounded-full border border-zinc-200 bg-zinc-100 ${pad} ${textSize} font-semibold text-zinc-700`}
         >
           <ShieldAlert className="h-3 w-3 shrink-0" aria-hidden="true" />
-          Unverified seller
+          {compact ? "Unverified" : "Unverified seller"}
         </span>
       )}
 

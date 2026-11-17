@@ -32,11 +32,11 @@ export default function SocialProof() {
           >
             Trusted by local traders
           </h2>
-          <span className="text-[10px] font-semibold uppercase tracking-[0.12em] text-zinc-500">
+          <span className="text-[10px] font-semibold uppercase tracking-[0.12em] text-zinc-400">
             04
           </span>
         </div>
-        <p className="mt-2 max-w-[500px] text-xs text-zinc-500">
+        <p className="mt-2 max-w-[500px] text-xs text-zinc-400">
           A fixed set of past-trade quotes — this panel is a static snapshot
           and does not change when you pick a different zone above.
         </p>
@@ -51,8 +51,8 @@ export default function SocialProof() {
               <blockquote className="mt-3 text-sm leading-[1.6] text-zinc-200">
                 {t.quote}
               </blockquote>
-              <figcaption className="mt-4 flex items-center gap-1.5 text-xs text-zinc-500">
-                <ShieldCheck className="h-3.5 w-3.5 text-zinc-500" aria-hidden="true" />
+              <figcaption className="mt-4 flex items-center gap-1.5 text-xs text-zinc-400">
+                <ShieldCheck className="h-3.5 w-3.5 text-zinc-400" aria-hidden="true" />
                 <span className="font-semibold text-zinc-300">{t.name}</span>
                 <span aria-hidden="true">·</span>
                 <span>{t.detail}</span>

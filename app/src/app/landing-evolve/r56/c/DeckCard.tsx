@@ -64,7 +64,7 @@ export default function DeckCard({
             : undefined
         }
         onKeyDown={handleKeyDown}
-        className={`mt-2 rounded-2xl border border-zinc-200 bg-zinc-50 p-4 sm:p-5 ${FOCUS_RING}`}
+        className={`mt-2 rounded-2xl border border-zinc-200 bg-zinc-50 p-3 sm:p-5 ${FOCUS_RING}`}
       >
         <AnimatePresence mode="wait" initial={false}>
           {listing ? (
@@ -75,7 +75,7 @@ export default function DeckCard({
               exit={prefersReducedMotion ? undefined : { opacity: 0, x: -14 }}
               transition={{ duration: prefersReducedMotion ? 0 : 0.22, ease: "easeOut" }}
             >
-              <div className="relative h-40 w-full overflow-hidden rounded-xl bg-zinc-200 sm:h-48">
+              <div className="relative h-32 w-full overflow-hidden rounded-xl bg-zinc-200 sm:h-48">
                 <Image
                   src={listing.image}
                   alt={listing.imageAlt}

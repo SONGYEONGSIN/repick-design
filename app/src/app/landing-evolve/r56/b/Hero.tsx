@@ -45,7 +45,7 @@ export default function Hero({ selectedZoneId, onSelectZone }: HeroProps) {
                 Reserve a pickup slot
                 <ArrowRight className="h-4 w-4" aria-hidden="true" />
               </a>
-              <span className="text-xs text-zinc-500">
+              <span className="text-xs text-zinc-400 tabular-nums">
                 7 zones · {result.listings.length} items near{" "}
                 <span className="text-zinc-300">{result.zone.name}</span>
               </span>
@@ -54,7 +54,7 @@ export default function Hero({ selectedZoneId, onSelectZone }: HeroProps) {
 
           {/* Right: the interactive device. */}
           <div className="lg:col-span-6">
-            <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-zinc-500">
+            <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-zinc-400">
               Fig. 01 — Tap a zone to recompute pickup
             </p>
             <div className="mt-2">
@@ -69,11 +69,11 @@ export default function Hero({ selectedZoneId, onSelectZone }: HeroProps) {
             <h2 className="text-base font-extrabold tracking-[-0.02em] text-white sm:text-lg">
               Available now in {result.zone.name}
             </h2>
-            <span className="text-[10px] font-semibold uppercase tracking-[0.12em] text-zinc-500 tabular-nums">
+            <span className="text-[10px] font-semibold uppercase tracking-[0.12em] text-zinc-400 tabular-nums">
               02 — Live inventory
             </span>
           </div>
-          <p className="mt-1 text-xs text-zinc-500">
+          <p className="mt-1 text-xs text-zinc-400">
             Membership and order of this grid change with the zone you pick above.
           </p>
           <div className="mt-4">

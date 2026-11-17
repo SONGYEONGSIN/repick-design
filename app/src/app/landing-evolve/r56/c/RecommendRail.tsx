@@ -23,7 +23,7 @@ export default function RecommendRail({ profile, ranked }: RecommendRailProps) {
         <p className="text-[12px] font-semibold uppercase text-zinc-500" style={{ letterSpacing: "0.16em" }}>
           Recommended for you
         </p>
-        <p className="text-[11.5px] font-normal text-zinc-500 tabular-nums">{shown.length} left to see</p>
+        <p className="text-[11.5px] font-normal text-zinc-500 tabular-nums">{ranked.length} left to see</p>
       </div>
 
       {shown.length === 0 ? (
@@ -42,20 +42,20 @@ export default function RecommendRail({ profile, ranked }: RecommendRailProps) {
             return (
               <li
                 key={listing.id}
-                className="w-[160px] shrink-0 rounded-xl border border-zinc-200 bg-white p-2.5"
+                className="w-[190px] shrink-0 rounded-xl border border-zinc-200 bg-white p-2.5"
               >
-                <div className="relative h-20 w-full overflow-hidden rounded-lg bg-zinc-100">
+                <div className="relative h-16 w-full overflow-hidden rounded-lg bg-zinc-100">
                   <Image
                     src={listing.image}
                     alt={listing.imageAlt}
                     fill
-                    sizes="160px"
+                    sizes="190px"
                     className="object-cover"
                   />
                 </div>
-                <p className="mt-2 truncate text-[12.5px] font-semibold text-zinc-900">{listing.title}</p>
+                <p className="mt-1.5 truncate text-[12.5px] font-semibold text-zinc-900">{listing.title}</p>
                 <p className="text-[11.5px] font-normal text-zinc-500 tabular-nums">${listing.price}</p>
-                <div className="mt-1.5">
+                <div className="mt-1">
                   <ProofBadges listing={listing} matchPct={pct} reason={reason} compact />
                 </div>
               </li>

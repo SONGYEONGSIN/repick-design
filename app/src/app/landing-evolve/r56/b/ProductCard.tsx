@@ -18,6 +18,7 @@ export default function ProductCard({ listing }: { listing: Listing }) {
       exit={{ opacity: 0 }}
       transition={{ duration: 0.25 }}
       className="flex w-[72%] min-w-[220px] flex-shrink-0 flex-col overflow-hidden rounded-xl border border-zinc-800 bg-zinc-900/60 snap-start sm:w-auto sm:min-w-0 sm:flex-shrink"
+    >
       <div className="relative aspect-[4/3] w-full bg-zinc-800">
         <Image
           src={`https://images.unsplash.com/${listing.photoId}?w=800&q=80`}
@@ -36,11 +37,11 @@ export default function ProductCard({ listing }: { listing: Listing }) {
 
         <div className="flex items-baseline gap-2 tabular-nums">
           <span className="text-base font-extrabold text-white">${listing.price}</span>
-          <span className="text-xs text-zinc-500 line-through">${listing.originalPrice}</span>
+          <span className="text-xs text-zinc-400 line-through">${listing.originalPrice}</span>
         </div>
 
         <div className="mt-auto flex flex-wrap gap-1.5">
-          <span className="inline-flex items-center gap-1 rounded-full border border-indigo-400/40 bg-indigo-500/10 px-2 py-1 text-[10px] font-semibold text-indigo-300">
+          <span className="inline-flex items-center gap-1 rounded-full border border-indigo-400/40 bg-indigo-500/10 px-2 py-1 text-[10px] font-semibold text-indigo-300 tabular-nums">
             <Sparkles className="h-3 w-3" aria-hidden="true" />
             {listing.matchPercent}% match
           </span>
