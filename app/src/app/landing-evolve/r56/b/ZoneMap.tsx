@@ -99,9 +99,6 @@ export default function ZoneMap({ selectedZoneId, onSelect }: ZoneMapProps) {
               type="button"
               onClick={() => onSelect(zone.id)}
               aria-pressed={isSelected}
-              aria-label={`${zone.name}, ${TIER_LABEL[zone.tier]}${
-                isSelected ? ", currently selected" : ""
-              }`}
               className={`absolute flex flex-col justify-between rounded-lg border p-1.5 sm:p-2.5 text-left transition-colors ${FOCUS_RING} ${
                 isSelected
                   ? "border-indigo-400 bg-indigo-500/15"

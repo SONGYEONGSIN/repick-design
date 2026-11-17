@@ -34,7 +34,7 @@ export default function RecommendRail({ profile, ranked }: RecommendRailProps) {
         <ul
           role="list"
           aria-label="Listings re-ranked by fit to your current profile"
-          className="mt-2 flex gap-3 overflow-x-auto pb-1 [scrollbar-width:thin]"
+          className="mt-2 flex flex-wrap gap-3"
         >
           {shown.map((listing) => {
             const pct = matchPercent(profile, listing);
@@ -42,7 +42,7 @@ export default function RecommendRail({ profile, ranked }: RecommendRailProps) {
             return (
               <li
                 key={listing.id}
-                className="w-[190px] shrink-0 rounded-xl border border-zinc-200 bg-white p-2.5"
+                className="w-[150px] shrink-0 rounded-xl border border-zinc-200 bg-white p-2.5 sm:w-[190px]"
               >
                 <div className="relative h-16 w-full overflow-hidden rounded-lg bg-zinc-100">
                   <Image
