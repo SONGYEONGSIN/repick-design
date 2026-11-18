@@ -14,14 +14,15 @@
 
 ## 대기 중
 
-(22번[목록상 "21. auto-dash-r56/b"]은 2026-11-11 `auto-dash-r57/a`로 소진되어 아래 아카이브로 이동했다. 20번은 2026-11-07 `auto-dash-r56/a`로 소진되어 아래 아카이브로 이동했다. 21번은 2026-11-05 `auto-landing-r48/a`로 소진되어 아래 아카이브로 이동했다. 19번은 2026-11-01 `auto-dash-r54/a`로 소진되어 아래 아카이브로 이동했다. 18번은 2026-10-30 `auto-landing-r44/a`로 소진되어 아래 아카이브로 이동했다. 17번은 2026-10-28 `auto-dash-r51/a`로 소진되어 아래 아카이브로 이동했다. 16번은 2026-10-25 `auto-landing-r41/a`로 소진되어 아래 아카이브로 이동했다. 15번은 2026-10-17 `auto-dash-r42/a`로 소진되어 아래 아카이브로 이동했다.)
+(23번은 2026-11-18 `auto-dash-r63/a`로 소진되어 아래 아카이브로 이동했다(재배정 사유는 완전히 해소됐으나 판정 2:1 no-winner로 승격 실패). 22번[목록상 "21. auto-dash-r56/b"]은 2026-11-11 `auto-dash-r57/a`로 소진되어 아래 아카이브로 이동했다. 20번은 2026-11-07 `auto-dash-r56/a`로 소진되어 아래 아카이브로 이동했다. 21번은 2026-11-05 `auto-landing-r48/a`로 소진되어 아래 아카이브로 이동했다. 19번은 2026-11-01 `auto-dash-r54/a`로 소진되어 아래 아카이브로 이동했다. 18번은 2026-10-30 `auto-landing-r44/a`로 소진되어 아래 아카이브로 이동했다. 17번은 2026-10-28 `auto-dash-r51/a`로 소진되어 아래 아카이브로 이동했다. 16번은 2026-10-25 `auto-landing-r41/a`로 소진되어 아래 아카이브로 이동했다. 15번은 2026-10-17 `auto-dash-r42/a`로 소진되어 아래 아카이브로 이동했다.)
 
-### 23. `auto-dash-r62/a` — "Stagebook" 캘린더/보드 중심(월/주/아젠다 3뷰) 이벤트 베뉴 부킹 콘솔, light/orange/`--font-display-wide` (target: dash)
+### 24. `auto-dash-r63/c` — "Weir" API 게이트웨이 레이트리밋/쿼터 콘솔, 2페인 마스터-디테일 + hour×endpoint 히트맵, light/emerald-700 (target: dash)
 
-- **탈락 사유**: 1차 하드게이트 `console` — 서버(Node ICU)와 클라이언트(브라우저 ICU)가 `Intl.NumberFormat({notation:"compact", maximumFractionDigits:1})`의 trailing-zero 표시에 합의하지 못해 하이드레이션 불일치 13건(`November 3, 1 booking, $480` 서버 vs `$480.0` 클라이언트). 1-fix에서 "480이 1000 미만이라 compact 분기가 불필요하다"로 오진단해 `n < 1000 ? 일반포맷 : compact포맷` 래퍼로 수정했으나, 같은 결함군이 1000 이상 값(`$7K` 서버 vs `$7.0K` 클라이언트)에서 재현 — 재실패로 탈락, 판정 패널 미진입.
-- **진짜 원인(같은 라운드 `auto-dash-r62/c`의 1-fix에서 확증)**: ECMA-402 `trailingZeroDisplay` 기본값(`"auto"`)이 구현/ICU 버전에 맡겨져 있어 Node와 브라우저가 다르게 판단한다. **처방은 값의 크기와 무관하다** — compact notation을 쓰는 모든 `Intl.NumberFormat` 인스턴스에 `trailingZeroDisplay: "stripIfInteger"`를 명시하면 양쪽이 합의한다.
-- **재배정 시 반드시 명시**: 배정문에 "모든 compact-notation 통화/숫자 포매터에 `trailingZeroDisplay: "stripIfInteger"`를 명시하라 — 크기 기준 분기(`n < 1000` 등)로 우회하지 말 것, 그 우회는 이미 한 번 재현·탈락했다"를 그대로 적는다. 나머지 구현(캘린더 그리드 3뷰, 결정론 데이터, 영문 카피, 접근성 처리 등)은 1차 하드게이트에서 `console` 외 전부 클린(static/lint/types/sweep/focus/a11y 100/weights 3종)이었으므로 그대로 유지해도 된다.
-- 등재: 2026-11-15 · 출처 `vault/20-generations/2026-11-15-auto-dash-r62/SCORES.md`, `DECISION.md`, `candidates/a.md`
+- **탈락 사유**: 1차 하드게이트에서 a11y 점수는 100이었으나 승격 감사 `label-content-name-mismatch` 하드페일로 탈락. 오케스트레이터의 1-fix가 **오진단**(`KeyRail.tsx`의 플러서블한 커스텀 `aria-label`을 제거했으나 실제 실패 노드가 아니었음)이라 재게이트에서 같은 감사가 재실패(+ 그 편집이 만든 신규 `lint` 경고까지 추가) — 재실패로 탈락, 판정 패널 미진입.
+- **진짜 원인(Lighthouse `--preset=desktop` 감사 상세를 직접 추출해 확증)**: `Heatmap.tsx`의 피크 셀 버튼이 `aria-hidden="true"`로 감싼 `<span>{value}</span>`(원시 미포맷 숫자, 예 "1897")을 시각적으로 렌더하는데, 버튼의 `aria-label`은 `formatNumber(value)`(콤마 포맷, 예 "1,897")+" requests" 접미사를 쓴다 — 시각 텍스트가 접근 가능 이름의 리터럴 부분문자열이 아니라 불일치. `aria-hidden`은 이 감사에서 "시각적으로 보이는 텍스트" 판정을 면제하지 않는다(`page-brief-core` §2의 `color-contrast`+`aria-hidden` 노트와 같은 패턴, 다른 감사·다른 컴포넌트).
+- **재배정 시 반드시 명시**: 배정문에 "모든 개별 셀/포인트 버튼에서, `aria-hidden`이 붙어 있어도 시각적으로 렌더되는 숫자/텍스트는 그 버튼의 `aria-label`과 **포맷까지 리터럴하게 일치**해야 한다(콤마·접미사 포함) — 아니면 `label-content-name-mismatch`가 깨진다. 가장 안전한 해법은 피크 셀의 시각적 콜아웃 텍스트를 완전히 없애거나(값은 hover/focus 크로스헤어의 공유 `aria-live` 캡션 하나로만 노출), 시각 텍스트와 aria-label을 정확히 같은 포맷터로 생성하는 것이다"를 그대로 적는다. 나머지 구현(2페인 마스터-디테일, 멀티-축 독립 선택 — `pinnedKeyId`는 `WeirClient.tsx`에만, 호버 상태는 `Heatmap.tsx` 내부에만, 전역 1개 `aria-live` 크로스헤어 — 결정론 데이터, 영문 카피, 쿼터 초과 멀티플라이어 라벨)은 1차 하드게이트에서 a11y 감사 외 전부 클린(static/lint 1회 전/types/sweep/focus/console/perf96)이었으므로 그대로 유지해도 된다.
+- 등재: 2026-11-18 · 출처 `vault/20-generations/2026-11-18-auto-dash-r63/SCORES.md`, `DECISION.md`, `candidates/c.md`
+- (참고: 같은 라운드의 `auto-dash-r63/b` "Vernier"도 동일한 `aria-hidden`/`label-content-name-mismatch` 패턴 + 별개의 미해소 `table-overflow` 잔여로 탈락했으나, 결함이 2종 겹쳐 있어 큐의 "한 라운드 1개" 규약상 더 단일하게 진단되는 c만 등재했다. b의 소스·컨셉은 `app/src/app/dash-evolve/r63/b/`·`candidates/b.md`에 보존되어 있어 다음에 등재할 수 있다.)
 
 > **`auto-dash-r55` 에서도 3개가 동시에 들어왔다** — a("Portlane", 히어로+간트 도크타임라인, 유동화 수정의 부작용으로 모바일 전용 신규 `target-size`(시간별 버킷 13×33px) 재실패)·b("Latch", 마스터-디테일+박스플롯, 10th/median/SLA-타깃 핸들 간 간격 부족 + 다른 행에서 신규 6px `sweep` 오버플로 동시 재실패)도 동일하게 탈락 사유가 규칙 위반이라 등재 자격이 있으나, 큐는 **한 라운드에 1개만** 배정하므로 가장 단일하게 진단되는 c만 등재했다(a는 결함이 2종 겹쳐 있고 원인도 사이드이펙트라 단일 지시로 압축하기 어려움, b는 간격 부족 + 신규 오버플로 2건이 동시에 걸려 더 복잡함). a·b 소스·컨셉 모두 각자 폴더/`candidates/*.md`에 보존되어 있어 다음에 등재할 수 있다.
 
@@ -30,6 +31,13 @@
 > **한 라운드에 2개가 동시에 들어왔다** (11번은 2026-10-15 `auto-dash-r40/a`로 소진 — 아래 아카이브 #14 참조) — 다음 라운드는 이 중 **하나만** 배정한다(큐 규약). 어느 쪽을 먼저 돌릴지는 다음 라운드의 판단에 맡긴다. 나머지 탈락분은 넣지 않았다 — `dash r22/b`·`r22/c`·`r23/c`·`r25/b`·`landing r17/c`·`dash r28/c`(Trestle, 고정레일+간트 — 상시마운트 툴팁 div 가 화면 우측 바 근처에서 뷰포트를 넘는 page-overflow 로 1-fix 재실패)는 사유가 규칙 위반이라 등재 자격은 있으나, 큐는 **한 라운드에 1개만** 배정하므로 전부 넣으면 7라운드+치 백로그가 된다. `dash r28/b`(Ridgeline)는 2026-09-26 `auto-dash-r30/a`로 재배정 완료, 아래 5번 항목으로 소진됐다. 이전에 먼저 돌리기로 한 다른 항목들도 소진되어 아래 아카이브에 있다 — 다음 배정은 남은 백로그 중에서 판단한다. (전부 `candidates/<v>.md` 에 컨셉이 남아 있어 언제든 등재할 수 있다.)
 
 ## 아카이브
+
+### 23. `auto-dash-r62/a` — "Stagebook" 캘린더/보드 중심(월/주/아젠다 3뷰) 이벤트 베뉴 부킹 콘솔, light/orange/`--font-display-wide` (target: dash)
+
+- **탈락 사유(원 등재)**: 1차 하드게이트 `console` — 서버(Node ICU)와 클라이언트(브라우저 ICU)가 `Intl.NumberFormat({notation:"compact", maximumFractionDigits:1})`의 trailing-zero 표시에 합의하지 못해 하이드레이션 불일치 13건. 1-fix에서 "480이 1000 미만이라 compact 분기가 불필요하다"로 오진단해 `n < 1000 ? 일반포맷 : compact포맷` 래퍼로 수정했으나, 같은 결함군이 1000 이상 값에서 재현 — 재실패로 탈락, 판정 패널 미진입. 진짜 원인(같은 라운드 `auto-dash-r62/c`의 1-fix에서 확증): `trailingZeroDisplay` 기본값이 구현/ICU 버전에 맡겨져 있어 Node와 브라우저가 다르게 판단 — 모든 compact-notation 포매터에 `trailingZeroDisplay: "stripIfInteger"`를 명시하면 해소.
+- **재배정 결과 (2026-11-18, `auto-dash-r63/a`, 동일명 "Stagebook")**: 배정문의 지시를 정확히 반영 — `data.ts`의 `usdCompactFmt` 단 하나의 포매터 인스턴스에 `trailingZeroDisplay: "stripIfInteger"`를 추가하고 기존의 `n < 1000` 분기 우회를 완전히 제거(그레핑으로 확인, 잔존 분기 0). 추가로 브리프의 Q76 지시("시각적으로 상호작용 가능해 보이는 모든 컨트롤은 실제로 배선하거나 비-인터랙티브로 스타일링")에 따라 자체 감사로 미배선 상태였던 워크스페이스 스위처·계정 메뉴·알림 벨·"New booking" 버튼 4개를 전부 실제로 배선했다. 1차 하드게이트 **클린**(static/lint/types/sweep/focus/console/a11y100/perf91) — **원 재배정 사유였던 hydration-mismatch `console` 결함은 이번 라운드에서 한 번도 재현되지 않았다.** 판정까지 정상 진입 — 솔로 심사(생존 1후보, 비교 대상 없음) 3렌즈 중 렌즈1=WINNER, 렌즈2=NO-WINNER(1280px 캘린더 셀·DayDetail 배지 말줄임 2건 + `RevenueTrend`의 독립 데모 데이터가 같은 날짜 라벨의 실제 `BOOKINGS` 합계와 8~29% 불일치), 렌즈3=NO-WINNER(선택 파급 축이 단일축 하이라이트뿐이라 같은 캘린더+레일 골격을 쓰는 기존 `auto-dash-r28/a` "Openhour"(5개 독립 축)보다 구조적으로 약함) — **2:1 no-winner로 승격 실패.**
+- **처리**: 소진 — 원 재배정 사유(hydration-mismatch `console` 결함)는 완전히, 재현 가능하게 해소됐으나 판정 2:1 no-winner로 승격 실패. 이번 패배 사유(1280px 말줄임 2건, RevenueTrend 데이터 불일치, Openhour보다 약한 선택-파급 티어)는 재배정 지시와 무관한 신규 발견이라 세 번째 재배정 여부는 그 결함들을 고친다는 조건이면 유효할 수 있으나, 다른 미등재 백로그(이번 라운드의 "Vernier")와 경합하므로 판단은 보류한다.
+- 등재: 2026-11-15 · 출처 `vault/20-generations/2026-11-15-auto-dash-r62/SCORES.md`·`DECISION.md`·`candidates/a.md` · 소진: 2026-11-18 · 출처 `vault/20-generations/2026-11-18-auto-dash-r63/SCORES.md`·`DECISION.md`
 
 ### 21(중복 번호 — 목록상 표기 그대로). `auto-dash-r56/b` — "Ridgehaul" 박스플롯(팀별 티켓 해결시간 분포)+피드중심 티켓스트림, dark/green/`display-grotesk` (target: dash)
 
