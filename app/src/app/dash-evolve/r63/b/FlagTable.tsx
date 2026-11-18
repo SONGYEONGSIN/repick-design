@@ -109,7 +109,7 @@ export function FlagTable({
       </div>
 
       <div className="mt-3 min-w-0 overflow-x-auto">
-        <table className="w-full min-w-[720px] table-fixed border-collapse">
+        <table className="w-full min-w-[720px] table-fixed border-collapse lg:min-w-0">
           <caption className="sr-only">Feature flags, sortable by name, status, rollout percentage, or owner, filterable by status.</caption>
           <colgroup>
             <col style={{ width: "26%" }} />

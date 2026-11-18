@@ -113,7 +113,6 @@ export function KeyRail({
               <button
                 type="button"
                 aria-pressed={pinned}
-                aria-label={`${key.name}, ${key.owner} team, ${environmentLabel(key.environment)}, ${pct}% of quota, status ${status}`}
                 onClick={() => onSelect(key)}
                 className={`${FOCUS} flex w-full min-w-0 flex-col items-start gap-2 rounded-xl border-l-2 px-3 py-2.5 text-left transition-colors ${
                   pinned ? "border-emerald-700 bg-emerald-50" : "border-transparent hover:bg-zinc-50"

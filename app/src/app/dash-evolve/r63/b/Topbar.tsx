@@ -87,6 +87,7 @@ export function Topbar({
               type="button"
               aria-haspopup="menu"
               aria-expanded={avatarOpen}
+              aria-label="Account menu"
               onClick={() => setAvatarOpen((v) => !v)}
               className={`flex h-11 min-w-0 items-center gap-1.5 rounded-lg border border-zinc-200 bg-white px-1.5 transition-colors hover:bg-zinc-100 motion-reduce:transition-none ${FOCUS_RING}`}
             >
