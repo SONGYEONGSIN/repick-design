@@ -3,7 +3,7 @@
  * candidate b).
  *
  * No `Math.random()`, no `Date.now()`, no `new Date()` anywhere. `lastChangedLabel` is a fixed
- * demo copy string ("2 days ago", "today", …), never computed from a real clock. `enrolledUsers`
+ * demo copy string ("2d ago", "today", …), never computed from a real clock. `enrolledUsers`
  * on every flag is hand-set to exactly `round(eligibleUsers * rolloutPct / 100)` so the table, the
  * hero metric and every stat tile below read the same pre-reconciled numbers — nothing is
  * recomputed at a different rounding than what's on screen elsewhere.
@@ -43,7 +43,7 @@ export const FLAGS: Flag[] = [
     rolloutPct: 65,
     segments: ["All users"],
     owner: { name: "Priya Nair", initials: "PN" },
-    lastChangedLabel: "2 days ago",
+    lastChangedLabel: "2d ago",
     eligibleUsers: 480000,
     enrolledUsers: 312000,
     rollbackEventsThisMonth: 0,
@@ -57,7 +57,7 @@ export const FLAGS: Flag[] = [
     rolloutPct: 100,
     segments: ["All users"],
     owner: { name: "Marcus Webb", initials: "MW" },
-    lastChangedLabel: "1 week ago",
+    lastChangedLabel: "1w ago",
     eligibleUsers: 480000,
     enrolledUsers: 480000,
     rollbackEventsThisMonth: 1,
@@ -86,7 +86,7 @@ export const FLAGS: Flag[] = [
     rolloutPct: 42,
     segments: ["EU region"],
     owner: { name: "Diego Alvarez", initials: "DA" },
-    lastChangedLabel: "5 days ago",
+    lastChangedLabel: "5d ago",
     eligibleUsers: 96000,
     enrolledUsers: 40320,
     rollbackEventsThisMonth: 2,
@@ -100,7 +100,7 @@ export const FLAGS: Flag[] = [
     rolloutPct: 100,
     segments: ["All users"],
     owner: { name: "Marcus Webb", initials: "MW" },
-    lastChangedLabel: "3 weeks ago",
+    lastChangedLabel: "3w ago",
     eligibleUsers: 480000,
     enrolledUsers: 480000,
     rollbackEventsThisMonth: 0,
@@ -115,7 +115,7 @@ export const FLAGS: Flag[] = [
     rolloutPct: 30,
     segments: ["US region", "Invite-only"],
     owner: { name: "Jun Ha Lee", initials: "JL" },
-    lastChangedLabel: "4 days ago",
+    lastChangedLabel: "4d ago",
     eligibleUsers: 210000,
     enrolledUsers: 63000,
     rollbackEventsThisMonth: 0,
@@ -129,7 +129,7 @@ export const FLAGS: Flag[] = [
     rolloutPct: 0,
     segments: ["Internal"],
     owner: { name: "Diego Alvarez", initials: "DA" },
-    lastChangedLabel: "2 months ago",
+    lastChangedLabel: "2mo ago",
     eligibleUsers: 1200,
     enrolledUsers: 0,
     rollbackEventsThisMonth: 0,
@@ -143,7 +143,7 @@ export const FLAGS: Flag[] = [
     rolloutPct: 100,
     segments: ["All users"],
     owner: { name: "Jun Ha Lee", initials: "JL" },
-    lastChangedLabel: "6 weeks ago",
+    lastChangedLabel: "6w ago",
     eligibleUsers: 480000,
     enrolledUsers: 480000,
     rollbackEventsThisMonth: 0,

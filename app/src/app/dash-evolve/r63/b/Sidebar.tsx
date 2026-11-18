@@ -1,8 +1,18 @@
 "use client";
 
-import { SlidersHorizontal, Flag, Users, History, RotateCcw, ChevronsUpDown, X } from "lucide-react";
+import { useState } from "react";
+import { SlidersHorizontal, Flag, Users, History, RotateCcw, ChevronsUpDown, Check, X } from "lucide-react";
 import { FOCUS_RING, DISPLAY_FACE, InitialsAvatar } from "./ui";
 
+const WORKSPACES = [
+  { id: "prod", name: "Northwind Retail", subtitle: "Production workspace" },
+  { id: "staging", name: "Northwind Retail", subtitle: "Staging workspace" },
+];
+
+/** This route is a single screen — "Flags" is the only page that exists in this demo, so it is the
+ *  permanent `aria-current="page"` item. The other nav entries describe real sibling pages of a
+ *  full product (Segments, Audit log, Rollback events) that are out of scope for this route;
+ *  clicking them is a no-op here, same as every other sidebar in this catalog. */
 const NAV_SECTIONS: {
   heading: string;
   items: { id: string; label: string; icon: typeof Flag; active?: boolean }[];
@@ -22,6 +32,10 @@ const NAV_SECTIONS: {
 ];
 
 function SidebarContent({ onNavigate }: { onNavigate?: () => void }) {
+  const [switcherOpen, setSwitcherOpen] = useState(false);
+  const [workspaceId, setWorkspaceId] = useState(WORKSPACES[0].id);
+  const workspace = WORKSPACES.find((w) => w.id === workspaceId) ?? WORKSPACES[0];
+
   return (
     // Explicit width + min-w-0 on the sidebar's own content wrapper: a row-direction flex
     // <aside> can let this child overflow the rail even when deeper content truncates correctly.
@@ -35,16 +49,47 @@ function SidebarContent({ onNavigate }: { onNavigate?: () => void }) {
         </span>
       </div>
 
-      <button
-        type="button"
-        className={`mt-4 flex h-11 w-full min-w-0 shrink-0 items-center justify-between gap-2 rounded-lg border border-zinc-200 bg-zinc-50 px-3 text-left transition-colors hover:bg-zinc-100 motion-reduce:transition-none ${FOCUS_RING}`}
-      >
-        <span className="min-w-0">
-          <span className="block truncate text-sm font-medium text-zinc-900">Northwind Retail</span>
-          <span className="block truncate text-[11px] text-zinc-600">Production workspace</span>
-        </span>
-        <ChevronsUpDown className="h-4 w-4 shrink-0 text-zinc-500" aria-hidden="true" />
-      </button>
+      <div className="relative mt-4 min-w-0 shrink-0">
+        <button
+          type="button"
+          aria-haspopup="menu"
+          aria-expanded={switcherOpen}
+          onClick={() => setSwitcherOpen((v) => !v)}
+          className={`flex h-11 w-full min-w-0 items-center justify-between gap-2 rounded-lg border border-zinc-200 bg-zinc-50 px-3 text-left transition-colors hover:bg-zinc-100 motion-reduce:transition-none ${FOCUS_RING}`}
+        >
+          <span className="min-w-0">
+            <span className="block truncate text-sm font-medium text-zinc-900">{workspace.name}</span>
+            <span className="block truncate text-[11px] text-zinc-600">{workspace.subtitle}</span>
+          </span>
+          <ChevronsUpDown className="h-4 w-4 shrink-0 text-zinc-500" aria-hidden="true" />
+        </button>
+        {switcherOpen ? (
+          <div role="menu" aria-label="Switch workspace" className="absolute left-0 top-full z-20 mt-1 w-full min-w-0 rounded-lg border border-zinc-200 bg-white p-1 shadow-xl">
+            {WORKSPACES.map((w) => {
+              const isCurrent = w.id === workspaceId;
+              return (
+                <button
+                  key={w.id}
+                  type="button"
+                  role="menuitemradio"
+                  aria-checked={isCurrent}
+                  onClick={() => {
+                    setWorkspaceId(w.id);
+                    setSwitcherOpen(false);
+                  }}
+                  className={`flex h-10 w-full min-w-0 items-center gap-2 rounded-md px-2 text-left hover:bg-zinc-100 ${FOCUS_RING}`}
+                >
+                  <span className="min-w-0 flex-1">
+                    <span className="block truncate text-sm text-zinc-900">{w.name}</span>
+                    <span className="block truncate text-[11px] text-zinc-500">{w.subtitle}</span>
+                  </span>
+                  {isCurrent ? <Check className="h-4 w-4 shrink-0 text-lime-700" aria-hidden="true" /> : null}
+                </button>
+              );
+            })}
+          </div>
+        ) : null}
+      </div>
 
       <nav className="mt-6 flex flex-1 min-w-0 flex-col gap-5 overflow-y-auto" aria-label="Primary">
         {NAV_SECTIONS.map((section) => (

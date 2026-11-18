@@ -15,9 +15,10 @@ interface PaletteAction {
 }
 
 /**
- * Mounts only while `open` — a ref + effect pair that re-focuses the trigger on close, rather than
- * toggling visibility with CSS, so a screen reader never meets a hidden dialog and the mobile
- * sidebar's own mount/unmount pattern stays the only other place this route needs the distinction.
+ * Mounts only while `open` — so a screen reader never meets a hidden dialog, the same pattern the
+ * mobile sidebar uses. Closing always goes through `close()` below, which restores focus to the
+ * trigger button that opened it; this intentionally does NOT run on mount (only on an explicit
+ * close), so the page never grabs focus on its own at load.
  */
 export function CommandPalette({
   open,
@@ -34,18 +35,19 @@ export function CommandPalette({
   onJumpToTable: () => void;
   triggerRef: RefObject<HTMLButtonElement | null>;
 }) {
+  function close() {
+    onClose();
+    triggerRef.current?.focus();
+  }
+
   useEffect(() => {
     if (!open) return;
     function onKey(event: KeyboardEvent) {
-      if (event.key === "Escape") onClose();
+      if (event.key === "Escape") close();
     }
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [open, onClose]);
-
-  useEffect(() => {
-    if (!open) triggerRef.current?.focus();
-  }, [open, triggerRef]);
+  });
 
   if (!open) return null;
 
@@ -101,8 +103,8 @@ export function CommandPalette({
   ];
 
   return (
-    <div className="fixed inset-0 z-50 flex items-start justify-center bg-zinc-900/40 px-4 pt-24 sm:pt-32" onClick={onClose}>
-      <PaletteBody actions={actions} onClose={onClose} />
+    <div className="fixed inset-0 z-50 flex items-start justify-center bg-zinc-900/40 px-4 pt-24 sm:pt-32" onClick={close}>
+      <PaletteBody actions={actions} onClose={close} />
     </div>
   );
 }

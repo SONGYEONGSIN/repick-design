@@ -48,12 +48,11 @@ export function SectionLabel({ children, className = "" }: { children: ReactNode
   );
 }
 
-type BadgeTone = "neutral" | "success" | "accent" | "muted" | "warn";
+type BadgeTone = "neutral" | "success" | "muted" | "warn";
 
 const BADGE_TONES: Record<BadgeTone, string> = {
   neutral: "border border-zinc-200 bg-zinc-100 text-zinc-600",
   success: "border border-lime-200 bg-lime-50 text-lime-700",
-  accent: "border border-lime-200 bg-lime-50 text-lime-700",
   warn: "border border-amber-200 bg-amber-50 text-amber-700",
   muted: "border border-zinc-200 bg-zinc-50 text-zinc-600",
 };

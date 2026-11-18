@@ -1,7 +1,7 @@
 "use client";
 
 import { ArrowUpRight, ArrowDownRight } from "lucide-react";
-import { ACTIVE_FLAGS, ENROLLED_PCT, HERO_TREND, numberFmt } from "./data";
+import { ACTIVE_FLAGS, ELIGIBLE_ACTIVE_TOTAL, ENROLLED_ACTIVE_TOTAL, ENROLLED_PCT, HERO_TREND, numberFmt } from "./data";
 import { Card, DISPLAY_FACE, NUM, Sparkline } from "./ui";
 
 /**
@@ -48,8 +48,7 @@ export function Hero() {
       </p>
 
       <p className="mt-2 text-xs text-zinc-500">
-        {numberFmt.format(Math.round(ACTIVE_FLAGS.reduce((sum, f) => sum + f.enrolledUsers, 0)))} of{" "}
-        {numberFmt.format(ACTIVE_FLAGS.reduce((sum, f) => sum + f.eligibleUsers, 0))} eligible users
+        {numberFmt.format(ENROLLED_ACTIVE_TOTAL)} of {numberFmt.format(ELIGIBLE_ACTIVE_TOTAL)} eligible users
       </p>
     </Card>
   );

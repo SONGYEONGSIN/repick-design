@@ -57,7 +57,7 @@ export function Topbar({
           </div>
 
           <div className="relative shrink-0">
-            <IconButton aria-label="Notifications" aria-haspopup="menu" aria-expanded={notifOpen} onClick={() => setNotifOpen((v) => !v)}>
+            <IconButton type="button" aria-label="Notifications" aria-haspopup="menu" aria-expanded={notifOpen} onClick={() => setNotifOpen((v) => !v)}>
               <Bell className="h-[18px] w-[18px]" aria-hidden="true" />
             </IconButton>
             {notifOpen ? (
