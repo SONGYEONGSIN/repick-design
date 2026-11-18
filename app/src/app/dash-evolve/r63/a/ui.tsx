@@ -1,6 +1,6 @@
 "use client";
 
-import type { ButtonHTMLAttributes, ReactNode } from "react";
+import { forwardRef, type ButtonHTMLAttributes, type ReactNode } from "react";
 import Image from "next/image";
 import type { LucideIcon } from "lucide-react";
 
@@ -88,20 +88,20 @@ export function IconButton({
   );
 }
 
-export function PrimaryButton({
-  children,
-  className = "",
-  ...rest
-}: ButtonHTMLAttributes<HTMLButtonElement> & { children: ReactNode }) {
+export const PrimaryButton = forwardRef<
+  HTMLButtonElement,
+  ButtonHTMLAttributes<HTMLButtonElement> & { children: ReactNode }
+>(function PrimaryButton({ children, className = "", ...rest }, ref) {
   return (
     <button
+      ref={ref}
       {...rest}
       className={`flex h-11 min-w-0 shrink-0 items-center gap-2 rounded-lg bg-orange-700 px-4 text-sm font-medium text-white transition-colors hover:bg-orange-800 active:bg-orange-900 motion-reduce:transition-none ${FOCUS_RING} ${className}`}
     >
       {children}
     </button>
   );
-}
+});
 
 export function SegmentedControl<T extends string>({
   options,
