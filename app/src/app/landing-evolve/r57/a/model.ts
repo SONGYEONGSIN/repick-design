@@ -11,15 +11,16 @@ export type CriterionId = "budget" | "condition" | "verified" | "ship";
 export interface Criterion {
   id: CriterionId;
   label: string;
+  shortLabel: string;
   passVerb: string;
   failVerb: string;
 }
 
 export const CRITERIA: Criterion[] = [
-  { id: "budget", label: "Within budget", passVerb: "In range", failVerb: "Out of range" },
-  { id: "condition", label: "Condition ≥ Good", passVerb: "Pass", failVerb: "Fail" },
-  { id: "verified", label: "Verified seller", passVerb: "Pass", failVerb: "Fail" },
-  { id: "ship", label: "Ships in 3 days", passVerb: "Pass", failVerb: "Fail" },
+  { id: "budget", label: "Within budget", shortLabel: "Budget", passVerb: "In range", failVerb: "Out of range" },
+  { id: "condition", label: "Condition ≥ Good", shortLabel: "Condition", passVerb: "Pass", failVerb: "Fail" },
+  { id: "verified", label: "Verified seller", shortLabel: "Verified", passVerb: "Pass", failVerb: "Fail" },
+  { id: "ship", label: "Ships in 3 days", shortLabel: "Shipping", passVerb: "Pass", failVerb: "Fail" },
 ];
 
 export function checkBudget(listing: Listing, min: number, max: number): boolean {

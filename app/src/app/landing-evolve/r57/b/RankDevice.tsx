@@ -125,13 +125,13 @@ export default function RankDevice({ order, onReorder }: RankDeviceProps) {
               <span className="shrink-0 text-[11px] font-semibold tracking-[0.12em] tabular-nums text-zinc-400">
                 Weight {weight.toFixed(1)}
               </span>
-              <span className="flex shrink-0 flex-col">
+              <span className="flex shrink-0 flex-col gap-0.5">
                 <button
                   type="button"
                   onClick={() => move(index, -1)}
                   disabled={index === 0}
                   aria-label={`Move ${meta.label} up to rank ${index}`}
-                  className={`rounded p-0.5 text-zinc-400 hover:text-white disabled:opacity-30 disabled:hover:text-zinc-400 ${FOCUS_RING}`}
+                  className={`flex h-7 w-7 items-center justify-center rounded text-zinc-400 hover:text-white disabled:opacity-30 disabled:hover:text-zinc-400 ${FOCUS_RING}`}
                 >
                   <ChevronUp className="h-3.5 w-3.5" aria-hidden="true" />
                 </button>
@@ -140,7 +140,7 @@ export default function RankDevice({ order, onReorder }: RankDeviceProps) {
                   onClick={() => move(index, 1)}
                   disabled={index === order.length - 1}
                   aria-label={`Move ${meta.label} down to rank ${index + 2}`}
-                  className={`rounded p-0.5 text-zinc-400 hover:text-white disabled:opacity-30 disabled:hover:text-zinc-400 ${FOCUS_RING}`}
+                  className={`flex h-7 w-7 items-center justify-center rounded text-zinc-400 hover:text-white disabled:opacity-30 disabled:hover:text-zinc-400 ${FOCUS_RING}`}
                 >
                   <ChevronDown className="h-3.5 w-3.5" aria-hidden="true" />
                 </button>

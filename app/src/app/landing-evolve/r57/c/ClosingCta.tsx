@@ -28,7 +28,7 @@ export default function ClosingCta({ personaId }: { personaId: PersonaId }) {
               <span className="tabular-nums">{payout.toLowerCase()}</span>.
             </h2>
             <p className="mt-5 max-w-[492px] text-[16px] font-normal leading-[1.6] text-zinc-300">
-              That's the real timeline for a {persona.label.toLowerCase()} on repick right now —
+              That&rsquo;s the real timeline for a {persona.label.toLowerCase()} on repick right now —
               listing through payout, not a marketing estimate. Switch the persona at the top of
               the page any time to see your own path recompute.
             </p>

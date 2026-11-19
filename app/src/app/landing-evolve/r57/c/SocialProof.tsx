@@ -11,7 +11,7 @@ export default function SocialProof() {
             <div className="min-w-0">
               <Eyebrow>Across every persona</Eyebrow>
               <h2 className="mt-3 text-[clamp(1.6rem,3vw,2.3rem)] font-bold tracking-[-0.02em] text-zinc-50">
-                Sellers who've watched their own bar move.
+                Sellers who&rsquo;ve watched their own bar move.
               </h2>
             </div>
             <SectionFolio n="04" />

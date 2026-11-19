@@ -75,10 +75,11 @@ export function EligibilityTable({ listings, min, max }: EligibilityTableProps) 
                 <th
                   key={c.id}
                   scope="col"
-                  className="px-2 py-3 text-[11px] font-semibold uppercase leading-[1.3] tracking-[0.04em]"
+                  abbr={c.label}
+                  className="whitespace-normal break-words px-2 py-3 text-[11px] font-semibold uppercase leading-[1.3] tracking-[0.04em]"
                   style={{ color: MUTED }}
                 >
-                  {c.label}
+                  {c.shortLabel}
                 </th>
               ))}
               <th scope="col" className="px-2 py-3 text-[11px] font-semibold uppercase tracking-[0.08em]" style={{ color: MUTED }}>
