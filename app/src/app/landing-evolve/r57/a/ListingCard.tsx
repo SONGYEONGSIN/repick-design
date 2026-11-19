@@ -28,20 +28,23 @@ export function ListingCard({ listing, min, max, compact = false }: ListingCardP
 
   return (
     <div
-      className="flex min-w-0 flex-col overflow-hidden rounded-2xl"
+      className={compact ? "flex min-w-0 items-start gap-3 overflow-hidden rounded-2xl p-3" : "flex min-w-0 flex-col overflow-hidden rounded-2xl"}
       style={{ border: `1px solid ${BORDER}`, backgroundColor: SURFACE }}
     >
-      <div className="relative aspect-[4/3] w-full" style={{ backgroundColor: SURFACE_RAISED }}>
+      <div
+        className={compact ? "relative aspect-square w-20 shrink-0 overflow-hidden rounded-xl" : "relative aspect-[4/3] w-full"}
+        style={{ backgroundColor: SURFACE_RAISED }}
+      >
         <Image
           src={`https://images.unsplash.com/photo-${listing.photoId}?auto=format&fit=crop&w=640&q=80`}
           alt={listing.alt}
           fill
-          sizes="(max-width: 768px) 90vw, 320px"
+          sizes={compact ? "80px" : "(max-width: 768px) 90vw, 320px"}
           className="object-cover"
         />
       </div>
 
-      <div className="flex min-w-0 flex-col gap-2 p-4">
+      <div className={compact ? "flex min-w-0 flex-1 flex-col gap-1.5" : "flex min-w-0 flex-col gap-2 p-4"}>
         <div className="flex items-start justify-between gap-2">
           <p className="truncate text-[15px] font-extrabold" style={{ color: FG }}>
             {listing.title}
