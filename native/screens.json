@@ -379,5 +379,14 @@
   },
   "evolve-r58-c": {
     "check": "Select a Pickup Locker"
+  },
+  "evolve-r59-a": {
+    "check": "Bulk Discount Campaign"
+  },
+  "evolve-r59-b": {
+    "check": "Warehouse Intake Scan"
+  },
+  "evolve-r59-c": {
+    "check": "Compare Seller Plans"
   }
 }
