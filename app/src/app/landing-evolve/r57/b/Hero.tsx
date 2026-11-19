@@ -5,7 +5,7 @@ import RankDevice from "./RankDevice";
 import TopPickCard from "./TopPickCard";
 import NarrativeOutput from "./NarrativeOutput";
 import { getRankResult, type CriterionId } from "./lib";
-import { FOCUS_RING, DISPLAY_FONT_STYLE, ACCENT } from "./ui";
+import { FOCUS_RING, DISPLAY_FONT_STYLE, ACCENT, ACCENT_TINT } from "./ui";
 
 interface HeroProps {
   order: CriterionId[];
@@ -30,7 +30,7 @@ export default function Hero({ order, onReorder }: HeroProps) {
         <div className="grid grid-cols-1 gap-10 lg:grid-cols-12 lg:gap-12">
           {/* Left: headline, subhead, single primary CTA — asymmetric, left-aligned. */}
           <div className="min-w-0 lg:col-span-5">
-            <p className="text-[11px] font-semibold uppercase tracking-[0.28em]" style={{ color: ACCENT }}>
+            <p className="text-[11px] font-semibold uppercase tracking-[0.28em]" style={{ color: ACCENT_TINT }}>
               Verified camera resale
             </p>
             <h1

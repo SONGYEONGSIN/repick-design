@@ -32,6 +32,7 @@ const TESTIMONIALS = [
 export function SocialProof() {
   return (
     <section id="proof" className="px-4 py-14 sm:px-8 lg:px-12 lg:py-20">
+      <div className="max-w-[1180px]">
       <div className="flex flex-wrap items-baseline justify-between gap-3">
         <div>
           <p className={CAPTION} style={{ color: MUTED }}>
@@ -71,6 +72,7 @@ export function SocialProof() {
             </figcaption>
           </figure>
         ))}
+      </div>
       </div>
     </section>
   );

@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, type KeyboardEvent } from "react";
 import {
   GripVertical,
   ChevronUp,
@@ -55,7 +55,7 @@ export default function RankDevice({ order, onReorder }: RankDeviceProps) {
     onReorder(next);
   }
 
-  function handleKeyDown(event: React.KeyboardEvent<HTMLLIElement>, index: number) {
+  function handleKeyDown(event: KeyboardEvent<HTMLLIElement>, index: number) {
     if (event.key === "ArrowUp" || event.key === "ArrowLeft") {
       event.preventDefault();
       move(index, -1);
@@ -122,7 +122,7 @@ export default function RankDevice({ order, onReorder }: RankDeviceProps) {
               <span className="min-w-0 flex-1 truncate text-sm font-semibold text-white">
                 {meta.label}
               </span>
-              <span className="shrink-0 text-[11px] font-semibold tabular-nums text-zinc-400">
+              <span className="shrink-0 text-[11px] font-semibold tracking-[0.12em] tabular-nums text-zinc-400">
                 Weight {weight.toFixed(1)}
               </span>
               <span className="flex shrink-0 flex-col">

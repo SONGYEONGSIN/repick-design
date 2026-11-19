@@ -4,11 +4,7 @@
  * typed at generation time, so a caption can never silently drift from the control it describes.
  */
 
-import {
-  CONDITION_PASS_RANK,
-  LISTINGS,
-  type Listing,
-} from "./data";
+import { CONDITION_PASS_RANK, type Listing } from "./data";
 
 export type CriterionId = "budget" | "condition" | "verified" | "ship";
 
@@ -100,5 +96,3 @@ export function discountPct(listing: Listing): number {
 export function formatUsd(n: number): string {
   return `$${n.toLocaleString("en-US")}`;
 }
-
-export { LISTINGS };

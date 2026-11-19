@@ -46,6 +46,7 @@ export function ValueSplit({ min, max, onChangeMin, onChangeMax }: ValueSplitPro
 
   return (
     <section id="checklist" className="px-4 py-14 sm:px-8 lg:px-12 lg:py-20">
+      <div className="max-w-[1180px]">
       <p className={CAPTION} style={{ color: MUTED }}>
         Chapter 03 — The checklist
       </p>
@@ -129,6 +130,7 @@ export function ValueSplit({ min, max, onChangeMin, onChangeMax }: ValueSplitPro
 
       <div className="mt-10">
         <EligibilityTable listings={LISTINGS} min={min} max={max} />
+      </div>
       </div>
     </section>
   );

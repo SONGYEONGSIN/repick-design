@@ -30,7 +30,7 @@ export function Hero({ min, max, onChangeMin, onChangeMax }: HeroProps) {
 
   return (
     <section id="hero" className="px-4 pb-10 pt-8 sm:px-8 sm:pb-16 sm:pt-10 lg:px-12 lg:pb-20 lg:pt-14">
-      <div className="mx-auto grid max-w-[1180px] gap-10 lg:grid-cols-[1.1fr_1fr] lg:gap-12">
+      <div className="grid max-w-[1180px] gap-10 lg:grid-cols-[1.1fr_1fr] lg:gap-12">
         {/* Left: headline, subhead, single CTA */}
         <div className="min-w-0">
           <p className={EYEBROW} style={{ color: ACCENT }}>
