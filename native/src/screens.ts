@@ -1,4 +1,7 @@
 import type { ComponentType } from "react";
+import EvolveR60A from "./evolve/r60/a/CustomsDeclarationScreen";
+import { AgeVerificationGateScreen as EvolveR60B } from "./evolve/r60/b/AgeVerificationGateScreen";
+import EvolveR60C from "./evolve/r60/c/DisputeEvidenceChecklistScreen";
 import EvolveR59A from "./evolve/r59/a/BulkDiscountCampaignScreen";
 import EvolveR59B from "./evolve/r59/b/WarehouseIntakeScanScreen";
 import EvolveR59C from "./evolve/r59/c/SellerPlanComparisonScreen";
@@ -258,6 +261,9 @@ const COMPONENTS = {
   "evolve-r58-a": EvolveR58A,
   "evolve-r58-b": EvolveR58B,
   "evolve-r58-c": EvolveR58C,
+  "evolve-r60-a": EvolveR60A,
+  "evolve-r60-b": EvolveR60B,
+  "evolve-r60-c": EvolveR60C,
   "evolve-r59-a": EvolveR59A,
   "evolve-r59-b": EvolveR59B,
   "evolve-r59-c": EvolveR59C,

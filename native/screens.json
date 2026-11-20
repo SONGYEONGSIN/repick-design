@@ -388,5 +388,14 @@
   },
   "evolve-r59-c": {
     "check": "Compare Seller Plans"
+  },
+  "evolve-r60-a": {
+    "check": "Customs Declaration"
+  },
+  "evolve-r60-b": {
+    "check": "Verify Your Age"
+  },
+  "evolve-r60-c": {
+    "check": "Dispute Evidence Checklist"
   }
 }
