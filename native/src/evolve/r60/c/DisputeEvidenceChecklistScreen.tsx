@@ -90,11 +90,7 @@ export function DisputeEvidenceChecklistScreen() {
       />
 
       {bandVisible ? (
-        <View
-          style={styles.band}
-          accessibilityLiveRegion="polite"
-          accessibilityRole="alert"
-        >
+        <View style={styles.band} accessibilityLiveRegion="polite">
           <View style={styles.bandTextBlock}>
             <Text style={styles.bandCount} accessibilityRole="alert">
               {bandSentence}
