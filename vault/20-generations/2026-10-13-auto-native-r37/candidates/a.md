@@ -1,0 +1,17 @@
+# Candidate a — Referral Rewards
+
+One-line concept: a bandless, share-first screen — a non-flood invite card with a real OS share-sheet action up top, three store-credit stat tiles, a status filter row, and a scrollable list of referred friends whose per-row "Resend invite" / "Send a reminder" action is the only interactive surface, with no fixed bottom band because nothing on this screen blocks progress or needs destructive confirmation.
+
+## Brief gaps
+
+1. ① What currency/notation to use for store-credit amounts, since the token set has no currency guidance beyond the ₩-glyph note. ② Decided: `KRW` Latin notation (e.g. "KRW 15,000"), never the ₩ glyph. ③ Why: this is one of the brief's three explicitly sanctioned deliberate choices, and it matches the existing r36 payout-hold reference screen's own choice, keeping numeric-amount rendering consistent across the app without reopening the falsified "fix" question.
+
+2. ① Whether "store credit" implies a two-sided reward (referrer AND the invited friend both get something) or one-sided. ② Decided: two-sided — friend gets a smaller fixed "welcome credit" (KRW 10,000), referrer gets the larger reward (KRW 15,000) on the friend's first purchase. ③ Why: two-sided referral rewards are the near-universal real-world convention (it's what makes a friend actually redeem the code), and the brief's instruction to keep this domain distinct from Wallet/Payout gave no shape for this, so I picked the realistic default rather than inventing a one-sided mechanic that would feel thin.
+
+3. ① Whether to implement "copy code" via a clipboard API. ② Decided: omitted entirely — only a real `Share.share()` (core React Native API, no extra dependency) button is offered. ③ Why: the repo's `package.json` has no clipboard package installed (`@react-native-clipboard/clipboard` / `expo-clipboard` absent), and the brief explicitly forbids an `accessibilityHint` promising something that won't happen — rather than add an unverified dependency or a non-functional "Copy code" button, I kept the one action that is both real and dependency-free.
+
+4. ① Whether any interaction on this screen needs the mandatory blocked→possible `alert`/live-region transition (brief section 4). ② Decided: no such transition exists on this screen — there is no action here that flips a blocked state to unblocked (friends' statuses are read-only facts set elsewhere, not changed by anything the user presses here). ③ Why: the brief says the rule applies "wherever such a transition exists," implying it's conditional, not universal; I still reused the *clearing-timer* pattern (identical to the reference screen's `raiseCue`) for the share-sheet result and resend/reminder confirmations, since those are "just happened" transient messages the brief's clearing rule explicitly covers, without inventing a fake progress-gate to force the alert-role rule to apply.
+
+5. ① Whether the per-row secondary action ("Resend invite" / "Send a reminder") counts as a destructive/irreversible action needing the Cancel/Confirm inline-row pattern. ② Decided: no — treated as a lightweight, reversible, repeatable nudge, not destructive. ③ Why: resending a reminder has no state-changing or irreversible consequence (unlike closing an account or revoking a code), so the Cancel/Confirm contract doesn't apply; this also matches the band-mechanic assignment's framing that this screen has "nothing destructive to confirm."
+
+CHECK_STRING: Referral Rewards

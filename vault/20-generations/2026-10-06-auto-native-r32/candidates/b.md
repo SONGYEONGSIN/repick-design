@@ -1,0 +1,14 @@
+## Concept
+A flat list of linked social/storefront accounts where each row is its own tiny state machine (normal → confirming → locked-if-primary), with no bottom bar at all and a single screen-level polite live region narrating every unlink/cancel/make-primary transition.
+
+## 브리프에 없던 것
+
+1. ① How many accounts to show and which platforms. ② Three: Instagram (primary), TikTok Shop, and a generic "Creator Storefront" (linktr.ee-style) link, with realistic handles/follower counts/linked-since dates. ③ The brief only gave Instagram and "a creator/storefront link" as examples and said 2-4 accounts is likely; three lets me demonstrate all three row states (locked, normal, and — transiently — confirming) at once without padding the list.
+
+2. ① Whether "Make Primary" should be visible while another row is mid-confirm. ② Hidden: a row only ever shows one action cluster at a time (normal → Make primary + Unlink; confirming → Cancel + Confirm unlink; locked → badge + note, no buttons). ③ Arbitrary simplification to keep each row's own local state unambiguous and to sidestep an edge case the brief didn't address (what happens if you promote a row while a different row is mid-unlink) — my handlers leave the other row's confirm step untouched in that case, since promotion is non-destructive and doesn't need to cancel it.
+
+3. ① What happens when a second row's Unlink is pressed while another row is already confirming. ② I resolve it as "cancel the first silently" (revert it to normal) rather than "finalize" it, then start confirming on the new row, and the single live region announces both the cancellation and the new confirmation prompt in one sentence. ③ The brief explicitly allowed either finalize-or-cancel; I chose cancel because auto-finalizing a destructive unlink the user never explicitly confirmed would risk an accidental removal, which conflicts with the destructive-action safeguard the brief is asking for in the first place.
+
+4. ① Exact wording/vocabulary for the per-row actions and the locked-row explanation, since I was told not to borrow from any hypothetical "sessions" or "account" screen precedent. ② Invented fresh copy: "Unlink" / "Make primary" / "Confirm unlink" / "This is your primary storefront link, so it can't be unlinked directly. Use 'Make primary' on another account to replace it first." ③ Arbitrary but deliberately specific and side-effect-accurate (no promised unlink action exists on the locked row, so no hint or button implies one).
+
+5. ① How to format "linked since" dates without `new Date()`. ② Wrote a tiny manual formatter in `data.ts` that splits the fixed ISO string and maps the month number to a name array, never instantiating a Date object. ③ Determinism requirement in the brief; safest interpretation of "no bare new Date()" was to avoid the Date API entirely for this screen rather than argue that a Date built from a fixed string literal is "safe."
