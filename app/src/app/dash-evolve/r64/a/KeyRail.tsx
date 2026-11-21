@@ -106,7 +106,7 @@ export function KeyRail({
       </div>
 
       <ul aria-label="API key list" className="min-w-0 flex-1 space-y-1 overflow-y-auto p-2">
-        {rows.map(({ key, pct, status }) => {
+        {rows.map(({ key, status }) => {
           const pinned = key.id === pinnedId;
           return (
             <li key={key.id}>

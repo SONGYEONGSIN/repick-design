@@ -39,7 +39,7 @@ function JobCard({ job }: { job: Job }) {
       onBlur={() => setExpanded(false)}
       onClick={() => setExpanded((v) => !v)}
       className={`flex w-full min-w-0 flex-col gap-1.5 rounded-lg border p-2.5 text-left transition-colors motion-reduce:transition-none ${FOCUS_RING} ${
-        cancelled ? "border-dashed border-zinc-200 bg-zinc-50 opacity-70" : "border-zinc-200 bg-white hover:border-green-200 hover:bg-green-50/40"
+        cancelled ? "border-dashed border-zinc-200 bg-zinc-50" : "border-zinc-200 bg-white hover:border-green-200 hover:bg-green-50/40"
       }`}
     >
       <div className="flex min-w-0 items-center justify-between gap-2">
