@@ -1,4 +1,13 @@
 {
+  "evolve-r61-a": {
+    "check": "Identity Re-verification"
+  },
+  "evolve-r61-b": {
+    "check": "Saved Payment Methods"
+  },
+  "evolve-r61-c": {
+    "check": "Dispute Resolution Outcome"
+  },
   "watchlist": {
     "check": "Watchlist"
   },
