@@ -16,8 +16,8 @@ type HeroProps = {
  */
 export function Hero({ result, onChange }: HeroProps) {
   return (
-    <section className="relative border-b border-white/10 bg-[#0b0b0f] px-4 pt-7 pb-10 sm:px-6 sm:pt-10 sm:pb-16 lg:px-8">
-      <div className="mx-auto grid w-full max-w-6xl grid-cols-1 gap-8 lg:grid-cols-[1.1fr_1fr] lg:items-start lg:gap-10">
+    <section className="relative border-b border-white/10 bg-[#0b0b0f] px-4 pt-6 pb-8 sm:px-6 sm:pt-10 sm:pb-16 lg:px-8">
+      <div className="mx-auto grid w-full max-w-6xl grid-cols-1 gap-6 lg:grid-cols-[1.1fr_1fr] lg:items-start lg:gap-10">
         <div className="min-w-0">
           <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-green-400">
             Repick · bulk resale
@@ -36,21 +36,21 @@ export function Hero({ result, onChange }: HeroProps) {
           </p>
           <a
             href="#closing-cta"
-            className={`mt-6 inline-flex items-center gap-2 rounded-full bg-green-700 px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-green-800 ${FOCUS_RING}`}
+            className={`mt-5 inline-flex items-center gap-2 rounded-full bg-green-700 px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-green-800 ${FOCUS_RING}`}
           >
             Start bulk trade-in
             <ArrowRight aria-hidden="true" size={16} />
           </a>
         </div>
 
-        <div className="flex min-w-0 flex-col gap-4">
+        <div className="flex min-w-0 flex-col gap-3">
           <TradeInCounter result={result} onChange={onChange} />
 
           <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-4 sm:p-5">
             <p className="text-[11px] font-semibold uppercase tracking-[0.12em] text-zinc-400">
               Live match example — Canon EOS R6
             </p>
-            <dl className="mt-3 grid grid-cols-2 gap-x-3 gap-y-3">
+            <dl className="mt-2 grid grid-cols-2 gap-x-3 gap-y-2">
               <div className="min-w-0">
                 <dt className="flex items-center gap-1.5 text-xs text-zinc-400">
                   <Sparkles aria-hidden="true" size={13} className="text-green-400" />

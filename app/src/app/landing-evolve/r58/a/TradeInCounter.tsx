@@ -81,7 +81,7 @@ export function TradeInCounter({ result, onChange }: TradeInCounterProps) {
         </button>
       </div>
 
-      <div className="mt-3">
+      <div className="mt-3 hidden sm:block">
         <div className="h-1.5 w-full overflow-hidden rounded-full bg-white/10">
           <div
             className="h-full origin-left rounded-full bg-green-500 transition-transform duration-300 motion-reduce:transition-none"
@@ -95,12 +95,12 @@ export function TradeInCounter({ result, onChange }: TradeInCounterProps) {
         </p>
       </div>
 
-      <div className="mt-4 grid grid-cols-2 gap-2.5">
-        <div className="rounded-lg border border-white/10 bg-white/[0.03] px-3 py-2">
+      <div className="mt-3 grid grid-cols-2 gap-2.5">
+        <div className="rounded-lg border border-white/10 bg-white/[0.03] px-3 py-1.5">
           <p className="text-[11px] text-zinc-400">Avg. payout / item</p>
           <p className="text-lg font-extrabold tracking-[-0.02em] text-white tabular-nums">${avgPayout}</p>
         </div>
-        <div className="rounded-lg border border-white/10 bg-white/[0.03] px-3 py-2">
+        <div className="rounded-lg border border-white/10 bg-white/[0.03] px-3 py-1.5">
           <p className="text-[11px] text-zinc-400">Total payout</p>
           <p className="text-lg font-extrabold tracking-[-0.02em] text-green-400 tabular-nums">
             ${totalPayout.toLocaleString("en-US")}

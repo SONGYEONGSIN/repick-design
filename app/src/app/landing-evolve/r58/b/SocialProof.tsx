@@ -1,5 +1,5 @@
 import { Star } from "lucide-react";
-import { BORDER, FG, MUTED, PROSE_WIDTH_QUOTE } from "./tokens";
+import { ACCENT, BORDER, FG, MUTED, PROSE_WIDTH_QUOTE } from "./tokens";
 
 interface Testimonial {
   quote: string;
@@ -68,7 +68,7 @@ export function SocialProof() {
             >
               <div className="flex items-center gap-0.5" aria-hidden="true">
                 {Array.from({ length: 5 }).map((_, index) => (
-                  <Star key={index} className="h-3.5 w-3.5" fill="#0369A1" style={{ color: "#0369A1" }} />
+                  <Star key={index} className="h-3.5 w-3.5" fill={ACCENT} style={{ color: ACCENT }} />
                 ))}
               </div>
               <span className="sr-only">Rated 5 out of 5 stars</span>
