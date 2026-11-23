@@ -406,5 +406,14 @@
   },
   "evolve-r60-c": {
     "check": "Dispute Evidence Checklist"
+  },
+  "evolve-r62-a": {
+    "check": "Insure This Shipment"
+  },
+  "evolve-r62-b": {
+    "check": "Cross-List to Meridian Marketplace"
+  },
+  "evolve-r62-c": {
+    "check": "Seller Monthly Performance Digest"
   }
 }

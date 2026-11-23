@@ -1,4 +1,7 @@
 import type { ComponentType } from "react";
+import EvolveR62A from "./evolve/r62/a/CoverageEnrollmentScreen";
+import EvolveR62B from "./evolve/r62/b/CrossListPartnerSyncScreen";
+import EvolveR62C from "./evolve/r62/c/SellerMonthlyPerformanceDigestScreen";
 import SellerIdentityRecheckScreen from "./evolve/r61/a/SellerIdentityRecheckScreen";
 import ManageSavedPaymentMethodsScreen from "./evolve/r61/b/ManageSavedPaymentMethodsScreen";
 import DisputeResolutionOutcomeScreen from "./evolve/r61/c/DisputeResolutionOutcomeScreen";
@@ -264,6 +267,9 @@ const COMPONENTS = {
   "evolve-r61-a": SellerIdentityRecheckScreen,
   "evolve-r61-b": ManageSavedPaymentMethodsScreen,
   "evolve-r61-c": DisputeResolutionOutcomeScreen,
+  "evolve-r62-a": EvolveR62A,
+  "evolve-r62-b": EvolveR62B,
+  "evolve-r62-c": EvolveR62C,
   "evolve-r58-a": EvolveR58A,
   "evolve-r58-b": EvolveR58B,
   "evolve-r58-c": EvolveR58C,

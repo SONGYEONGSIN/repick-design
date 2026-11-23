@@ -127,7 +127,6 @@ export default function CrossListPartnerSyncScreen() {
 
   const sendSelectionToPartner = useCallback(() => {
     if (selectedCount === 0) return;
-    const idsInBatch = Array.from(selectedIds);
     let postedCount = 0;
     let errorCount = 0;
 
@@ -141,7 +140,7 @@ export default function CrossListPartnerSyncScreen() {
       }),
     );
 
-    setLastBatch({ attempted: idsInBatch.length, postedCount, errorCount });
+    setLastBatch({ attempted: selectedCount, postedCount, errorCount });
     setSelectedIds(new Set());
   }, [selectedIds, selectedCount]);
 
