@@ -1,0 +1,49 @@
+# Candidate A — Shipping Insurance Add-on Enrollment
+
+One-line concept: before a shipment goes out, the seller works through three linked steps — declare the item's value, pick a coverage tier whose eligibility and premium are both computed live from that declared value, then review and accept the resulting add-on cost — with a bottom band that behaves as a blocked-workflow state machine: it names the one step still blocking enrollment, jumps to it on tap, and only becomes a real enabled "Confirm & Add Insurance" action once every step is genuinely resolved, live-recomputed on every render so that lowering the declared value after a tier is already picked can revert the band straight back to naming that tier invalid.
+
+- Component: `CoverageEnrollmentScreen` (both default export and named export `CoverageEnrollmentScreen`)
+- Files:
+  - `native/src/evolve/r62/a/CoverageEnrollmentScreen.tsx`
+  - `native/src/evolve/r62/a/data.ts`
+- Suggested import for `native/src/screens.ts`: `import CoverageEnrollmentScreen from "./evolve/r62/a/CoverageEnrollmentScreen";`, registered as `"evolve-r62-a": CoverageEnrollmentScreen`.
+- Render-check string (exact, literal, always rendered regardless of state): `"Insure This Shipment"` — the screen's `accessibilityRole="header"` title text.
+
+## Implementation notes for the orchestrator / judges
+
+- Only plain `react-native` core components are used (`View`, `Text`, `Pressable`, `FlatList`, `SafeAreaView`, `StyleSheet`) — no Expo-specific or navigation APIs, since this screen renders standalone outside any navigator.
+- The value → tier → cost chain is a real dependency, not three independent fields: `tierQualifies(tier, declaredValue)` (`data.ts`) gates which of the three coverage tiers can be picked (each has a `minValue` floor), and `premiumForTier(tier, declaredValue)` prices whichever tier is eligible — both pure functions of `declaredValue`, called fresh wherever they're needed rather than stored. All three tiers and their live premiums are visible on first render (default declared value $150) without any interaction, per the judging note about not hiding the core proof behind a reveal.
+- Live re-blocking: `findOpenRequirement()` is a plain function called directly in the render body (not `useMemo`/`useEffect`, not stored in state) that reads `declaredValue`, `selectedTier`, `tierStillQualifies` and `accepted` as of *this* render and returns which single step is still open. Picking a tier (e.g. Priority Cover, which needs ≥$500 declared) and then lowering the declared value below that tier's floor makes `tierQualifies` return `false` on the very next render, so `findOpenRequirement` reverts to naming that exact tier invalid for the new value — nothing caches the old "resolved" verdict.
+- Both `pickTier` and the value setter also reset `accepted` to `false`, because the accepted premium is itself a function of `(value, tier)`: changing either input without clearing acceptance would let a stale premium silently "stay accepted." This is a deliberate extra tightening beyond the minimum ask.
+- Reachability of every branch was traced by hand: the "declare a value" block (start the stepper below $10), the "above the insurable limit" block (tap the $2,200 preset), the "tier no longer qualifies" re-block (pick Priority Cover at $600, then tap the $150 preset), the "accept the premium" block, and the terminal "Insurance added" band are all reachable through real `Pressable onPress` handlers with no hardcoded constant shortcutting any of them.
+- Accessibility: the band's outer `View` carries `accessibilityLiveRegion="polite"` and is permanently mounted — only the inner blocked/ready/sealed content swaps, per the r58/b delta. Exactly one `accessibilityRole="alert"` text is ever present at a time (the band's own headline), so no two live regions fire together. No wrapper `View`/`Pressable` sets `accessible={true}`; every `Pressable` here is a leaf control with only `Text`/`View` children, never another `Pressable`. Every `accessibilityHint` states only what its handler does ("Scrolls to the declared value step", etc.); the ineligible tier rows get `disabled={true}` (not just a styling trick) so there is no touch-feedback on a control that does nothing.
+- Touch targets: the value stepper's `–`/`+` buttons are explicit `44×44`; preset-value chips and coverage-tier rows carry `minHeight: 44`/`64` plus a `10pt` `hitSlop` on the chips; the review step's "Edit value" / "Change tier" step-jump links and the accept-premium row are all `minHeight: 44` with `hitSlop` as well — none of these rely on eyeballed padding.
+- Determinism: `data.ts` holds only fixed literals and pure functions — no `Math.random`, `Date.now`, or bare `new Date()`.
+- Tokens only: every color is `tokens.color.*`, spacing is `tokens.space(n)`, radii are `tokens.radius.*`. No hardcoded hex.
+- Code-surface originality: style keys (`coverageBand`, `coverageBandPending`/`Ready`/`Sealed`, `pendingHeadline`/`pendingCue`, `tierRow`/`tierRowOn`/`tierRowOff`, `acceptBox`/`acceptRow`) and control-flow names (`findOpenRequirement`, `jumpToRow`, `tierStillQualifies`, `pickTier`) were written fresh for this domain and deliberately avoid the `bandBlocked`/`bandBlockedTitle`/`bandBlockedHint` family and the `jumpToDraft`/`Blocking` naming used by this catalog's other blocked-workflow screens (e.g. `disputes/DisputeCenterScreen`, `evolve/r61/a`). The per-step row shape (declare a number → gated tier picker → accept-cost checkbox) is also structurally distinct from the existing 4-field-checklist shape used by seller-identity re-verification.
+
+## Brief gaps
+
+1. **What had to be decided**: exact number and pricing logic of coverage tiers (the brief only says tiers/premiums must be "a deterministic function of the declared value").
+   **What I decided**: three tiers — Standard Cover (always eligible above the $10 minimum, 2.5% rate, $3 minimum premium), Extended Cover (needs ≥$200 declared, 3.5% rate, $8 minimum, adds accidental-damage protection), Priority Cover (needs ≥$500 declared, 5% rate, $18 minimum, no deductible + 48-hour claims). Premium = `max(minPremium, round(value × rate, 2))`.
+   **Why**: a rising minimum-value floor per tier (rather than a cap-based "declared value must fit under the tier's ceiling") is the only shape where *lowering* the declared value can invalidate an already-picked tier, which is exactly the re-blocking scenario the brief calls out by example. Three tiers (not two or four) mirrors the good/better/best pattern used elsewhere in the brief's own "legal name / ID photo / selfie / bank account"-style four-step examples being simplified down to this domain's natural three decision points.
+
+2. **What had to be decided**: the declared-value input mechanism (brief doesn't specify stepper vs. text field vs. slider).
+   **What I decided**: a large tabular-nums readout plus ±$10 stepper buttons and a row of seven quick-select preset chips ($35 up to $2,200, the last deliberately above the $2,000 insurable cap).
+   **Why**: a numeric `TextInput` would need its own parsing/validation logic for a secondary concern (keyboard input correctness) that isn't the focus of this brief's band mechanism; presets + a stepper keep every required state (under-minimum, over-cap, mid-range) reachable in one or a few taps for a reviewer, which matters for the "every branch must be reachable" rule, while still reading as a real control a seller would actually use.
+
+3. **What had to be decided**: the $2,000 max-insurable value and $10 minimum (brief gives no numbers).
+   **What I decided**: `MIN_INSURABLE_VALUE = 10`, `MAX_INSURABLE_VALUE = 2000`.
+   **Why**: arbitrary but realistic bounds for a peer-to-peer resale shipment; the exact numbers don't matter mechanically, only that a lower and an upper bound both exist so both the "declare something" and "too high to insure" blocking branches are real, distinct, reachable states.
+
+4. **What had to be decided**: visual treatment of a tier that no longer qualifies after a re-block (brief doesn't specify).
+   **What I decided**: the row stays visible (not removed) at 55% opacity with its name/premium greyed and a "Needs $X+ declared to qualify" caption replacing its perk list; it is `disabled` so no press feedback implies it still works.
+   **Why**: removing the row entirely would hide *why* the band just re-blocked; keeping it visible-but-disabled, with the same copy pattern as the band's own re-block sentence, keeps the state change legible without requiring the user to scroll back up to decode it.
+
+5. **What had to be decided**: whether accepting the premium should "stick" if the user edits an earlier step afterward (brief doesn't specify).
+   **What I decided**: any change to the declared value or the selected tier resets `accepted` back to `false`, so the review step must be re-confirmed whenever the number it's confirming could have changed.
+   **Why**: the premium shown next to the accept control is itself `premiumForTier(tier, value)` — letting an old acceptance survive an input change would mean the band could go "ready" while displaying a premium the user never actually agreed to, which is a subtler version of the same staleness bug the re-blocking requirement is about.
+
+6. **What had to be decided**: what "Confirm & Add Insurance" actually does with no backend (brief doesn't specify).
+   **What I decided**: it flips local `enrolled` state to `true`, replacing the band with a third, terminal, non-pressable "Insurance added — {tier name}" state naming the exact premium that will be charged.
+   **Why**: matches the "don't promise what the handler doesn't do" accessibility rule — the only truthful action available without a real backend is a genuine local state transition, confirmed with the same live-region alert pattern used for every other band transition.
