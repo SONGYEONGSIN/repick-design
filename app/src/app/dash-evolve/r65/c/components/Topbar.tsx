@@ -92,7 +92,7 @@ export function Topbar({
             }}
             aria-haspopup="true"
             aria-expanded={avatarOpen}
-            aria-label="Account menu"
+            aria-label={`${CURRENT_USER.initials} — Account menu`}
             className={`inline-flex h-11 w-11 items-center justify-center rounded-lg ${FOCUS_RING}`}
           >
             <InitialsAvatar initials={CURRENT_USER.initials} name={CURRENT_USER.name} />
