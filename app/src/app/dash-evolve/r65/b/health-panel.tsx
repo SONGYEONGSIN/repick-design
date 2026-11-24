@@ -125,7 +125,7 @@ export function HealthPanel({ items, headingId }: HealthPanelProps) {
         </div>
         <div className="mt-1 flex gap-2 text-[10px] leading-tight text-zinc-500" aria-hidden="true">
           {CATEGORY_ORDER.map((cat) => (
-            <span key={cat} className="flex-1 truncate text-center">
+            <span key={cat} className="flex-1 break-words text-center">
               {CATEGORY_SHORT[cat]}
             </span>
           ))}

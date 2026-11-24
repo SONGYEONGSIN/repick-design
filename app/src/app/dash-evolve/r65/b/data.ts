@@ -52,9 +52,9 @@ export const CATEGORY_LABEL: Record<Category, string> = {
 
 /** Short axis labels for the category distribution chart, where space is tight. */
 export const CATEGORY_SHORT: Record<Category, string> = {
-  counterfeit: "Counft.",
-  harassment: "Harass.",
-  prohibited: "Prohib.",
+  counterfeit: "Counterfeit",
+  harassment: "Harassment",
+  prohibited: "Prohibited",
   fraud: "Fraud",
   hate: "Hate",
   scam: "Scam",
