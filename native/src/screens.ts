@@ -1,4 +1,7 @@
 import type { ComponentType } from "react";
+import SavedAddressesScreen from "./evolve/r63/a/SavedAddressesScreen";
+import RequestDataExportScreen from "./evolve/r63/b/RequestDataExportScreen";
+import { ReferralProgramScreen } from "./evolve/r63/c/ReferralProgramScreen";
 import EvolveR62A from "./evolve/r62/a/CoverageEnrollmentScreen";
 import EvolveR62B from "./evolve/r62/b/CrossListPartnerSyncScreen";
 import EvolveR62C from "./evolve/r62/c/SellerMonthlyPerformanceDigestScreen";
@@ -140,6 +143,9 @@ import EvolveR43B from "./evolve/r43/b/ReturnWindowExtensionScreen";
 import EvolveR43C from "./evolve/r43/c/CollectionShareScreen";
 
 const COMPONENTS = {
+  "evolve-r63-a": SavedAddressesScreen,
+  "evolve-r63-b": RequestDataExportScreen,
+  "evolve-r63-c": ReferralProgramScreen,
   watchlist: WatchList,
   match: MatchList,
   detail: PriceDetail,

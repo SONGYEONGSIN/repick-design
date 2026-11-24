@@ -1,4 +1,13 @@
 {
+  "evolve-r63-a": {
+    "check": "Saved Shipping Addresses"
+  },
+  "evolve-r63-b": {
+    "check": "Request My Data Export"
+  },
+  "evolve-r63-c": {
+    "check": "Referral Program"
+  },
   "evolve-r61-a": {
     "check": "Identity Re-verification"
   },
