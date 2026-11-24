@@ -48,3 +48,47 @@ orchestrator (saved to scratch, not part of the committed catalog since the skil
 budget is default-render only per screen, 2 widths).
 
 All three candidates survive to §4 JUDGE with 3 live survivors.
+
+## JUDGE panel results
+
+| lens | 1st | 2nd | 3rd |
+|---|---|---|---|
+| lens1 (DNA/a11y) | c | b | a |
+| lens2 (mobile completeness) | c | b | a |
+| lens3 (screen-type differentiation) | b | a | c |
+
+**Ordinary 2:1 majority for c** (lens1+lens2; lens3 dissented) — not a complete 3-way tie (c=2 votes,
+b=1 vote), so the tie-break rule does not apply; this is a plain majority.
+
+**Critical finding (lens3, independently re-verified by the orchestrator)**: candidate c
+("Referral Program") is a confirmed, severe duplication of an existing catalog screen,
+`native/src/evolve/r37/a/ReferralRewardsScreen.tsx` ("Referral Program & Rewards") — same domain
+(referral program: invite code/link, `Share.share()`, referred-friends list with credit amounts,
+running balance) AND literal style-key overlap, independently confirmed by direct grep:
+`listContent`, `headerBlock`, `inviteCodeLabel`, `inviteCodeValue`, `shareButton`,
+`shareButtonPressed`, `shareButtonLabel`, `statTile` — 8 identical key names, plus near-identical
+copy ("Share your invite" vs "Share Invite Link"; "Your referral code" vs "Your invite link").
+**This is the orchestrator's own RETRIEVE-stage dedup-survey failure** — the dedup list given to
+designer c only covered the last ~6 evolve rounds (r56-r62) plus production screens, not the full
+`native/src/evolve/` archive, so `r37/a` (existing since well before this session) was never
+surfaced. This is the exact, previously-named failure pattern (`questions-queue` Q63/Q78: "RETRIEVE가
+전체 아카이브를 못 따라간다") recurring a further time, this time with a materially worse
+consequence than prior occurrences — the duplicate candidate did not merely get reassigned or
+contribute a non-winning data point, it won the round's ordinary majority, because only lens3
+(differentiation) checks for cross-round code-surface duplication; lens1 and lens2 independently
+ranked c 1st purely on DNA/a11y-compliance and mobile-completeness grounds, neither of which
+includes a duplication check in its own rubric, and neither lens was told about `r37/a` any more
+than the designer was.
+
+**Disposition (consistent with this catalog's established precedent for confirmed-duplication
+findings against a winning candidate, e.g. `auto-native-r61`'s b/`r23-b` case)**: the panel's
+aggregation rule is applied mechanically — c is recorded as this round's winner via a genuine,
+non-tie, 2-of-3 majority, not a forced/invented one. The duplication finding is not grounds for an
+ad-hoc override under this skill's documented rules (no existing rule lets a dissenting lens veto an
+ordinary majority), so the round is NOT recorded as no-winner. However, **this DECISION explicitly
+recommends against promoting candidate c in the next `/dash-falsify` review** given the severity and
+directness of the evidence — this is a stronger, more directly-confirmed case than the tie-break
+scenario Q78 already flagged for human judgment, and a new `questions-queue` entry (Q81) is filed
+extending Q78's question to ordinary (non-tie) majorities, since this round shows the same structural
+gap (only one of three lenses checks for duplication, so a confirmed duplicate can still win a plain
+majority) can bite even without a tie-break involved.
