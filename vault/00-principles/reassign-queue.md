@@ -14,14 +14,24 @@
 
 ## 대기 중
 
-(24번은 2026-11-21 `auto-dash-r64/a`로 소진되어 아래 아카이브로 이동했다(재배정 사유는 완전히 해소됐으나 그 수정이 다른 완성도 원칙을 희생시켜 판정 3위/차하위로 승격 실패 — 상세는 [[questions-queue]] Q77). 23번은 2026-11-18 `auto-dash-r63/a`로 소진되어 아래 아카이브로 이동했다(재배정 사유는 완전히 해소됐으나 판정 2:1 no-winner로 승격 실패). 22번[목록상 "21. auto-dash-r56/b"]은 2026-11-11 `auto-dash-r57/a`로 소진되어 아래 아카이브로 이동했다. 20번은 2026-11-07 `auto-dash-r56/a`로 소진되어 아래 아카이브로 이동했다. 21번은 2026-11-05 `auto-landing-r48/a`로 소진되어 아래 아카이브로 이동했다. 19번은 2026-11-01 `auto-dash-r54/a`로 소진되어 아래 아카이브로 이동했다. 18번은 2026-10-30 `auto-landing-r44/a`로 소진되어 아래 아카이브로 이동했다. 17번은 2026-10-28 `auto-dash-r51/a`로 소진되어 아래 아카이브로 이동했다. 16번은 2026-10-25 `auto-landing-r41/a`로 소진되어 아래 아카이브로 이동했다. 15번은 2026-10-17 `auto-dash-r42/a`로 소진되어 아래 아카이브로 이동했다.)
+(25번은 2026-11-26 `auto-dash-r67/a`로 소진되어 아래 아카이브로 이동했다(재배정 사유 완전히 해소 — 재게이트 10/10 클린. 아래 참조). 24번은 2026-11-21 `auto-dash-r64/a`로 소진되어 아래 아카이브로 이동했다(재배정 사유는 완전히 해소됐으나 그 수정이 다른 완성도 원칙을 희생시켜 판정 3위/차하위로 승격 실패 — 상세는 [[questions-queue]] Q77). 23번은 2026-11-18 `auto-dash-r63/a`로 소진되어 아래 아카이브로 이동했다(재배정 사유는 완전히 해소됐으나 판정 2:1 no-winner로 승격 실패). 22번[목록상 "21. auto-dash-r56/b"]은 2026-11-11 `auto-dash-r57/a`로 소진되어 아래 아카이브로 이동했다. 20번은 2026-11-07 `auto-dash-r56/a`로 소진되어 아래 아카이브로 이동했다. 21번은 2026-11-05 `auto-landing-r48/a`로 소진되어 아래 아카이브로 이동했다. 19번은 2026-11-01 `auto-dash-r54/a`로 소진되어 아래 아카이브로 이동했다. 18번은 2026-10-30 `auto-landing-r44/a`로 소진되어 아래 아카이브로 이동했다. 17번은 2026-10-28 `auto-dash-r51/a`로 소진되어 아래 아카이브로 이동했다. 16번은 2026-10-25 `auto-landing-r41/a`로 소진되어 아래 아카이브로 이동했다. 15번은 2026-10-17 `auto-dash-r42/a`로 소진되어 아래 아카이브로 이동했다.)
 
-### 25. `auto-dash-r66/b` — "Siteframe" clinical-trial site-visit scheduling console, calendar/board-centric (heatmap calendar + visit board), light/lime/`--font-display-grotesk` (target: dash)
+### 26. `auto-dash-r67/b` — "Tendril" vendor dependency/concentration-risk network console, 3-ring radial node-link graph + adjacency-table fallback, dark/violet/`--font-display-mono` (target: dash)
 
-- **탈락 사유**: 1차 하드게이트 복합 실패 — `sweep` `cell-overlap` ×43(1264~1440px + 390px, VisitBoard 테이블 "Time" 열 텍스트가 "Patient" 열로 흘러넘침) + `a11y` 95 `button-name`("New visit" 버튼 라벨이 `hidden sm:inline`이라 그 아래 폭에서 `aria-hidden` 아이콘만 남아 접근 이름이 빔 — `page-brief-core` §1이 5건 선례로 적어 둔 바로 그 패턴). 1-fix로 (1) `formatRange`에 AM/PM 중복 생략 (2) Time 열 폭 12%→19%로 확대 + 전 셀에 `pr-3` 수평 패딩 추가(기존에 전무했음) (3) 버튼 라벨 `hidden sm:inline`→`sr-only sm:not-sr-only` 적용. 재게이트: a11y 100 클린, `cell-overlap`은 43건→**1건**(AM→PM을 가로지르는 유일한 행 "11:30 AM–12:15 PM", 중복 메리디엠 생략으로는 줄일 수 없는 케이스)으로 급감했으나 **잔여 1건**이 있어 스킬 §3의 "1회 수정, 재실패 시 탈락" 규칙상 2차 탈락 — 판정 패널 미진입.
-- **재배정 시 반드시 명시할 지시**: Time 열 폭을 한 단계 더 넓히거나(예: 19%→23~24%, Visit type/Site에서 추가로 1~2%p씩 차용), 또는 폭에 무관하게 안전한 시간 표기로 전환할 것 — 구체적으로는 ① 24시간 표기("08:30–09:00", "11:30–12:15")로 바꿔 AM/PM 접미사 자체를 없애거나 ② 소문자 압축 표기("8:30–9:00a", "11:30a–12:15p")를 쓸 것. 어느 쪽이든 "두 끝점이 같은 meridiem을 공유하지 않는 행"(이번 라운드의 유일한 실패 케이스)에서도 폭이 변하지 않는다는 성질을 반드시 확인한다. 나머지 두 수정(열 패딩 추가, 버튼 라벨 `sr-only sm:not-sr-only`)은 완전히, 재현 가능하게 해소됐으므로 그대로 유지한다.
-- **형태가 왜 살아 있나**: 탈락 사유는 전부 규칙 위반(테이블 폭 예산 + a11y 라벨 배선)이지 형태 판정이 아니다 — calendar/board 매크로버킷 자체, 임상시험 방문 스케줄링이라는 도메인, 히트맵 캘린더+방문 보드 조합, 독립 스코프 선택 파급(요일 선택→보드만 갱신, 사이트별 on-time 호버→완전 별개 축)은 전부 무위반이었다(a11y 100 확인, `cell-overlap` 외 9개 관문 전부 클린).
-- 등재: 2026-11-25 · 출처 `vault/20-generations/2026-11-25-auto-dash-r66/SCORES.md`(candidate b 절)·`DECISION.md`·`candidates/b.md`
+- **탈락 사유**: 1차 하드게이트 `types` TS2304(`useEffect` 참조 but 미import) + `lint` `react-hooks/refs` ×2(`GraphView.tsx:67-73`, `ref.current`를 렌더 중 읽고/쓰는 방식으로 `rovingId`를 `pinnedId`에 동기화). 1-fix로 깨진 `useEffect` 참조를 제거하고 **같은 동기화를 `useRef` 기반 렌더-중-비교 패턴으로 재구현**했으나, 그 패턴 자체가 정확히 `react-hooks/refs`가 금지하는 것이었다("Cannot access/update ref value during render") — 재게이트에서 동일 룰로 2차 탈락. a11y 100/perf 88/sweep/static/console은 1·2차 모두 클린 — 순수 구현 실수, 폼 자체의 결함 아님.
+- **재배정 시 반드시 명시할 지시**: 이 레포 카탈로그에 이미 있는 **린트 통과 패턴**을 그대로 쓸 것 — `useRef`가 아니라 **`useState`로 이전 prop 값을 미러링**하고 렌더 중 비교한다(`app/src/app/dash/d37/CommandPalette.tsx:39-43`가 실제로 통과하는 예):
+  ```tsx
+  const [prevPinnedId, setPrevPinnedId] = useState(pinnedId);
+  if (prevPinnedId !== pinnedId) {
+    setPrevPinnedId(pinnedId);
+    setRovingId(pinnedId);
+  }
+  ```
+  `ref.current`를 렌더 바디 안에서 읽거나 쓰지 않는다(이펙트·이벤트 핸들러 밖에서는 전부 금지) — `useEffect`로 되돌리지도 않는다(그쪽은 처음에 `react-hooks/set-state-in-effect`로 걸렸던 자리다).
+- **형태가 왜 살아 있나**: 3-링 방사형 노드-링크 그래프 + 완전 동등한 adjacency-table 폴백(정렬/필터/"concentration risk만" 토글 포함), 38노드(≤100 SVG 임계 내), risk를 색+모양+보더스타일+상시텍스트 4중 인코딩, 두 독립 스코프 선택(pin→Inspector만 / 카테고리 스트립 hover→로컬상태만)은 전부 무위반이었다 — 벤더 종속성/집중위험 그래프라는 도메인과 매크로버킷(이 카탈로그에 오랫동안 없던 네트워크-그래프 중심) 자체는 하드게이트를 한 번도 어기지 않았다.
+- 등재: 2026-11-26 · 출처 `vault/20-generations/2026-11-26-auto-dash-r67/SCORES.md`(candidate b 절)·`candidates/b.md`·소스 `app/src/app/dash-evolve/r67/b/`
+
+> **같은 라운드에서 candidate c("Ledgerflow", 구독 빌링/매출 콘솔, hero+인라인스탯)도 동시에 탈락했으나 큐에 등재하지 않았다** — 사유가 1-fix로 완전히 해소되지 않은 **미확정 수화(hydration) 불일치**(13건 동일 에러, 원인 미특정)라 "가장 단일하게 진단되는" 기준(위 `auto-dash-r55` 선례와 동일 처리)에 못 미친다. 1-fix에서 `react-hooks/immutability` 위반(러닝토탈 누적 변수의 렌더 중 재할당)은 확실히 해소됐으나 그것이 수화 불일치의 원인인지는 확인되지 않았다 — 재게이트에서 13건 그대로 재현. 소스·컨셉은 `app/src/app/dash-evolve/r67/c/`·`candidates/c.md`에 보존되어 있어 이후 Bash/게이트 접근이 있는 라운드가 실제 바이섹션으로 재진단할 수 있다.
 
 > **`auto-dash-r55` 에서도 3개가 동시에 들어왔다** — a("Portlane", 히어로+간트 도크타임라인, 유동화 수정의 부작용으로 모바일 전용 신규 `target-size`(시간별 버킷 13×33px) 재실패)·b("Latch", 마스터-디테일+박스플롯, 10th/median/SLA-타깃 핸들 간 간격 부족 + 다른 행에서 신규 6px `sweep` 오버플로 동시 재실패)도 동일하게 탈락 사유가 규칙 위반이라 등재 자격이 있으나, 큐는 **한 라운드에 1개만** 배정하므로 가장 단일하게 진단되는 c만 등재했다(a는 결함이 2종 겹쳐 있고 원인도 사이드이펙트라 단일 지시로 압축하기 어려움, b는 간격 부족 + 신규 오버플로 2건이 동시에 걸려 더 복잡함). a·b 소스·컨셉 모두 각자 폴더/`candidates/*.md`에 보존되어 있어 다음에 등재할 수 있다.
 
@@ -30,6 +40,13 @@
 > **한 라운드에 2개가 동시에 들어왔다** (11번은 2026-10-15 `auto-dash-r40/a`로 소진 — 아래 아카이브 #14 참조) — 다음 라운드는 이 중 **하나만** 배정한다(큐 규약). 어느 쪽을 먼저 돌릴지는 다음 라운드의 판단에 맡긴다. 나머지 탈락분은 넣지 않았다 — `dash r22/b`·`r22/c`·`r23/c`·`r25/b`·`landing r17/c`·`dash r28/c`(Trestle, 고정레일+간트 — 상시마운트 툴팁 div 가 화면 우측 바 근처에서 뷰포트를 넘는 page-overflow 로 1-fix 재실패)는 사유가 규칙 위반이라 등재 자격은 있으나, 큐는 **한 라운드에 1개만** 배정하므로 전부 넣으면 7라운드+치 백로그가 된다. `dash r28/b`(Ridgeline)는 2026-09-26 `auto-dash-r30/a`로 재배정 완료, 아래 5번 항목으로 소진됐다. 이전에 먼저 돌리기로 한 다른 항목들도 소진되어 아래 아카이브에 있다 — 다음 배정은 남은 백로그 중에서 판단한다. (전부 `candidates/<v>.md` 에 컨셉이 남아 있어 언제든 등재할 수 있다.)
 
 ## 아카이브
+
+### 25. `auto-dash-r66/b` — "Siteframe" clinical-trial site-visit scheduling console, calendar/board-centric (heatmap calendar + visit board), light/lime/`--font-display-grotesk` (target: dash)
+
+- **탈락 사유(원 등재)**: 1차 하드게이트 복합 실패 — `sweep` `cell-overlap` ×43(1264~1440px + 390px, VisitBoard 테이블 "Time" 열 텍스트가 "Patient" 열로 흘러넘침) + `a11y` 95 `button-name`("New visit" 버튼 라벨이 `hidden sm:inline`이라 그 아래 폭에서 `aria-hidden` 아이콘만 남아 접근 이름이 빔). 1-fix로 (1) `formatRange`에 AM/PM 중복 생략 (2) Time 열 폭 12%→19%로 확대 + 전 셀에 `pr-3` 패딩 추가 (3) 버튼 라벨 `hidden sm:inline`→`sr-only sm:not-sr-only`. 재게이트: a11y 100 클린, `cell-overlap`은 43건→**1건**(AM→PM 크로싱 행)으로 급감했으나 잔여 1건으로 2차 탈락 — 판정 패널 미진입.
+- **재배정 결과 (2026-11-26, `auto-dash-r67/a`, 동일명 "Siteframe")**: 배정문의 지시 중 ①(24시간 표기로 전환, AM/PM 비대칭 자체를 제거)을 채택 — `formatClock`/`formatRange`를 12시간+메리디엠 생략 방식에서 고정폭 24시간("HH:MM–HH:MM", 모든 행 정확히 11자)으로 교체해 "두 끝점이 다른 meridiem을 공유하는 행만 넓다"는 실패축 자체를 없앴다. 1차 재게이트에서 **새 변종**(Time 열 폭을 19%→14%로 과도하게 줄여 테이블 `min-w-[600px]`에서 전 행 ×8 `cell-overlap` 재발)이 났으나 이는 이번 라운드 **자체의** 1-fix(660px+18%로 재조정, 레포 기존 패턴과 산술로 검증)로 해소 — **최종 재게이트 10/10 클린, 0 violations.** 판정: 생존 후보 1개뿐이라 단독 심사(§4) 진행. 상세: `vault/20-generations/2026-11-26-auto-dash-r67/SCORES.md`(candidate a 절).
+- **처리**: 소진 — 원 재배정 사유(AM/PM 크로싱 `cell-overlap`)는 완전히, 재현 가능하게 해소됐다. 큐에서 제거.
+- 등재: 2026-11-25 · 출처 `vault/20-generations/2026-11-25-auto-dash-r66/SCORES.md`(candidate b 절)·`DECISION.md`·`candidates/b.md` · 소진: 2026-11-26 · 출처 `vault/20-generations/2026-11-26-auto-dash-r67/SCORES.md`
 
 ### 24. `auto-dash-r63/c` — "Weir" API 게이트웨이 레이트리밋/쿼터 콘솔, 2페인 마스터-디테일 + hour×endpoint 히트맵, light/emerald-700 (target: dash)
 
